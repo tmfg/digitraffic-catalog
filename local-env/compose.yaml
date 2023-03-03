@@ -1,0 +1,43 @@
+services:
+  ckan:
+    image: local_ckan:latest
+    ports:
+      - "5000:5000"
+    depends_on:
+      - postgresql
+      - solr
+    configs:
+      - source: ckan_conf
+        target: /etc/ckan/default/ckan.ini
+  postgresql:
+    image: postgres:15.1
+    ports:
+      - "5432:5432"
+    env_file:
+      - postgresql/env_db
+    configs:
+      - source: postgres_conf
+        target: /etc/postgresql/postgresql.conf
+      - source: db_user_creation
+        target: /docker-entrypoint-initdb.d/db_user_setup.sh
+        mode: 0500
+    command: ["postgres", "-c", "config_file=/etc/postgresql/postgresql.conf"]
+  solr:
+    image: solr:8.11.2
+    ports:
+      - "8983:8983"
+    configs:
+      - source: solr_ckan_schema
+        target: /var/solr/data/ckan/conf/managed-schema
+    command: ["solr-precreate", "ckan"]
+configs:
+  #ckan_css:
+  #  file:
+  ckan_conf:
+    file: ./ckan/ckan.ini
+  postgres_conf:
+    file: ./postgresql/my-postgres.conf
+  db_user_creation:
+    file: ./postgresql/db_users_setup.sh
+  solr_ckan_schema:
+    file: ./solr/solr_ckan_schema.xml
