@@ -1,0 +1,14 @@
+# digitraffic_theme-js:
+#   filter: rjsmin
+#   output: ckanext-digitraffic_theme/%(version)s-digitraffic_theme.js
+#   contents:
+#     - js/digitraffic_theme.js
+#   extra:
+#     preload:
+#       - base/main
+
+# digitraffic_theme-css:
+#   filter: cssrewrite
+#   output: ckanext-digitraffic_theme/%(version)s-digitraffic_theme.css
+#   contents:
+#     - css/digitraffic_theme.css
