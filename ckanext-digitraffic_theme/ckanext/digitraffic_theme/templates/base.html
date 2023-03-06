@@ -1,0 +1,12 @@
+{% ckan_extends %}
+
+{% block styles %}
+  {{ super() }}
+  {# Import digitraffic_theme.css using Webassets. 'digitraffic_theme/' is
+    the name that the digitraffic_theme/fanstatic directory was registered
+    with when the toolkit.add_resource() function was called.
+    'digitraffic_theme' is the name to the Webassets bundle file,
+    registered inside webassets.yml file. #}
+  {% asset 'digitraffic_theme/digitraffic_theme-css' %}
+
+{% endblock %}

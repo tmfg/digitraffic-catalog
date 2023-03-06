@@ -7,8 +7,8 @@
 #     preload:
 #       - base/main
 
-# digitraffic_theme-css:
-#   filter: cssrewrite
-#   output: ckanext-digitraffic_theme/%(version)s-digitraffic_theme.css
-#   contents:
-#     - css/digitraffic_theme.css
+digitraffic_theme-css:
+  filter: cssrewrite
+  output: ckanext-digitraffic_theme/%(version)s-digitraffic_theme.css
+  contents:
+    - css/digitraffic_theme.css

@@ -20,3 +20,11 @@ Koska niiden repoissa ei ole mitään lisenssiä, joten en uskaltanut
 
 - Redistä ei ole laitettu kuntoon
 - Kohta "8. Set up the DataStore"
+
+# Mites kehitys?
+
+1. Aja `start_local_ckan.sh`
+2. Yhdistä [http://localhost:5000/](http://localhost:5000/)
+3. Aloita .scss filujen tarkkailu vaikkapa ajamalla `../start-sass-watch.sh` filu
+4. Muokkaa .scss filuja haluamasi mukaan.
+5. Refreshaa selain, muutosten pitäisi tulla näkyviin (Hot reload ominaisuutta ei valitettavasti taida olla)
