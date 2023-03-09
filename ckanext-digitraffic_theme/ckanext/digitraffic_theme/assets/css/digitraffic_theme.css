@@ -1,4 +1,9 @@
 .account-masthead {
-  background-color: cyan; }
+  background-color: var(--fds-heading-color);
+}
+
+:root {
+  --fds-heading-color: green;
+}
 
 /*# sourceMappingURL=digitraffic_theme.css.map */

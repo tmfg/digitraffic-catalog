@@ -1,0 +1,9 @@
+@use '../utils/colors';
+
+.account-masthead {
+    background-color: var(--fds-heading-color);
+}
+
+:root {
+    --fds-heading-color: green;
+}
