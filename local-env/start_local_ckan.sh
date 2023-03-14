@@ -30,6 +30,14 @@ then
   cd ..
 fi
 
+if [[ $(docker image ls local_solr:latest -q | wc -l) -eq 0 ]] ||
+   ([[ $# -eq 2 ]] && [[ "$2" = 'build_image' ]])
+then
+  cd solr
+  docker image build -t local_solr:latest .
+  cd ..
+fi
+
 if [ "$1" == "up" ]; then
   docker compose --project-name datakatalogi-local up
 elif [ "$1" == "down" ]; then

@@ -25,7 +25,7 @@ sed -i -E 's|^(ckan.plugins =.*)|\1 digitraffic_theme|' "$DK_CKAN_INI_PATH"
 
 # Create admin user
 
-#printf 'y\nadmin\nadminadmin\nadminadmin\n' | ckan -c $DK_CKAN_INI_PATH sysadmin add admin email=admin@localhost name=admin
+printf 'y\nadminadmin\nadminadmin\n' | ckan -c $DK_CKAN_INI_PATH sysadmin add admin email=admin@localhost name=admin
 
 # Tarkastele assetteja, niin muokkaukset .css filuihin tulee heti käännettyä
 ckan -c $DK_CKAN_INI_PATH asset watch &
