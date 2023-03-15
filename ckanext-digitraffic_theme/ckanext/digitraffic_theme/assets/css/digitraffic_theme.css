@@ -1,9 +1,12 @@
-.account-masthead {
-  background-color: var(--fds-heading-color);
+@font-face {
+  font-family: "Public Sans";
+  src: url("/fonts/PublicSans-VariableFont_wght.ttf"), url("../assets/fonts/PublicSans-VariableFont_wght.ttf");
+  font-weight: 100 1000;
 }
-
-:root {
-  --fds-heading-color: green;
+@font-face {
+  font-family: "Public Sans Italic";
+  src: url("/fonts/PublicSans-Italic-VariableFont_wght.ttf"), url("../assets/fonts/PublicSans-Italic-VariableFont_wght.ttf");
+  font-weight: 100 1000;
 }
 
 /*# sourceMappingURL=digitraffic_theme.css.map */

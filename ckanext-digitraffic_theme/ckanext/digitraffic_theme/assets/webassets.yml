@@ -12,12 +12,12 @@ digitraffic_theme-css:
   output: ckanext-digitraffic_theme/%(version)s-digitraffic_theme.css
   contents:
     - css/digitraffic_theme.css
-fintraffic_ds:
-  filter: cssrewrite
-  output: ckanext-digitraffic_theme/%(version)s-ft_ds.css
-  contents:
-    - css/tokens.css
-    - css/ft_ds.css
+#fintraffic_ds:
+#  filter: cssrewrite
+#  output: ckanext-digitraffic_theme/%(version)s-ft_ds.css
+#  contents:
+#    - css/tokens.css
+#    - css/ft_ds.css
 ckan_base_style:
   filter: cssrewrite
   output: ckanext-digitraffic_theme/%(version)s-ft_ds.css
