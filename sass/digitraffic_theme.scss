@@ -1,4 +1,3 @@
 @use 'fonts';
 
-@debug mix(white, #000000, 50%);
-@debug mix(green, #000000, 50%);
+@use 'components/navigation';
