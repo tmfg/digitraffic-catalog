@@ -15,3 +15,13 @@ Kuiteskin halutaan tunkata tyylejä käyttäen Sassia. Tämä seuraavien syiden 
 - Fintrafficin DS tarjoaa Sass toteutuksen.
 - CKAN 2.10 käyttää Sassia
  
+ # Skriptit
+
+ - `bundle-css.sh`
+   - Kasaa kaikki .css filut yhteen
+   - Jos menet muuttamaan filua taikka tulee erroria tai muuten vain tuntuu siltä, että nyt on useampi background prosessi päällä koska tapahtuu outoja
+     voit tarkastella tilannetta ajamalla
+     ```bash
+     ps -eF | grep `whoami` | grep bundle-css
+     ```
+     - Jos löytyy ylimääräisiä prosesseja, tapa ne ajamalla `kill -9 <pid>`

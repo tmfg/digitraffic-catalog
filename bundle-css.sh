@@ -45,28 +45,44 @@ fi
 CKAN_CSS_FILE=./ckanext-digitraffic_theme/ckanext/digitraffic_theme/assets/css/digitraffic_theme.css
 SOURCE_CKAN_DEFAULT=./less/override_less/main.less
 SOURCE_DIGITRAFFIC_THEME=./sass/digitraffic_theme.scss
-TARGET_CKAN_DEFAULT=./target/ckan_default.css
-TARGET_DIGITRAFFIC_THEME=./target/digitraffic_theme.css
-TARGET_BUNDLE=./target/bundled.css
+SOURCE_FINTRAFFIC_DS=./Fintraffic-ds/coreui.min.css
+SOURCE_FINTRAFFIC_DS_TOKENS=./Fintraffic-ds/tokens.css
 TARGET_DIR=./target
+TARGET_TMP_DIR="${TARGET_DIR}/.tmp"
+TARGET_CKAN_DEFAULT="${TARGET_DIR}/ckan_default.css"
+TARGET_DIGITRAFFIC_THEME="${TARGET_DIR}/digitraffic_theme.css"
+TARGET_FINTRAFFIC_DS="${TARGET_DIR}/coreui.min.css"
+TARGET_FINTRAFFIC_DS_TOKENS="${TARGET_DIR}/tokens.css"
+TARGET_BUNDLE="${TARGET_DIR}/bundled.css"
+TARGET_BUNDLE_TMP="${TARGET_TMP_DIR}/bundled.css"
+TARGET_POLL_OUTPUT="${TARGET_TMP_DIR}/ls_output.txt"
 
 bundle_theme() {
-    touch $TARGET_BUNDLE;
-    cat $TARGET_CKAN_DEFAULT > $TARGET_BUNDLE;
-    cat $TARGET_DIGITRAFFIC_THEME >> $TARGET_BUNDLE;
+    echo " * BUNDLE START"
+    touch $TARGET_BUNDLE_TMP;
+    cat $TARGET_CKAN_DEFAULT > $TARGET_BUNDLE_TMP;
+    cat $TARGET_FINTRAFFIC_DS_TOKENS >> $TARGET_BUNDLE_TMP;
+    cat $TARGET_FINTRAFFIC_DS >> $TARGET_BUNDLE_TMP;
+    cat $TARGET_DIGITRAFFIC_THEME >> $TARGET_BUNDLE_TMP;
+    cp -f $TARGET_BUNDLE_TMP $TARGET_BUNDLE
+    echo " * BUNDLE END"
 }
 
 watch_bundle() {
-    PREVIOUS_TARGET_DIR_CONTENT=
-    while true
-    do
-      if [ "$PREVIOUS_TARGET_DIR_CONTENT" != "$(ls -l $TARGET_DIR)" ]
-      then
-        bundle_theme
-      fi
-      PREVIOUS_TARGET_DIR_CONTENT=$(ls -l $TARGET_DIR)
-      sleep 1
-    done
+    touch "$TARGET_POLL_OUTPUT"
+    (
+        flock -x -w 10 100 || exit 1
+        while true
+        do
+          PREVIOUS_TARGET_DIR_CONTENT="$(cat "$TARGET_POLL_OUTPUT")"
+          if [ "$PREVIOUS_TARGET_DIR_CONTENT" != "$(ls -l $TARGET_DIR)" ]
+          then
+            bundle_theme
+            ls -l $TARGET_DIR > "$TARGET_POLL_OUTPUT"
+          fi
+          sleep 1
+        done
+    ) 100< "$TARGET_POLL_OUTPUT"
 }
 
 shut_background_processes() {
@@ -81,10 +97,23 @@ shut_background_processes() {
     fi
 }
 
-mkdir -p $TARGET_DIR
+clean_tmp_dir() {
+    rm -f $TARGET_BUNDLE_TMP
+    rm -f $TARGET_POLL_OUTPUT
+}
+
+shut_down() {
+    shut_background_processes
+    clean_tmp_dir
+}
+
+mkdir -p $TARGET_TMP_DIR
 
 echo " * Build Less files..."
 lessc $SOURCE_CKAN_DEFAULT $TARGET_CKAN_DEFAULT 
+echo " * Copy Fintraffic css files..."
+cp $SOURCE_FINTRAFFIC_DS $TARGET_FINTRAFFIC_DS
+cp $SOURCE_FINTRAFFIC_DS_TOKENS $TARGET_FINTRAFFIC_DS_TOKENS
 
 if (( $START_IN_WATCH_MODE == 0))
 then
@@ -92,7 +121,7 @@ then
   sass --no-source-map --watch $SOURCE_DIGITRAFFIC_THEME $TARGET_DIGITRAFFIC_THEME &
   echo " * Start watching bundle..."
   watch_bundle &
-  trap 'shut_background_processes' SIGINT;
+  trap 'shut_down' SIGINT;
   npx postcss $TARGET_BUNDLE -m --watch --output $CKAN_CSS_FILE --use autoprefixer --use cssnano;
 else
   echo " * Build Sass files..."
@@ -100,4 +129,5 @@ else
   echo " * Bundle css files..."
   bundle_theme;
   npx postcss $TARGET_BUNDLE --no-map --output $CKAN_CSS_FILE --use autoprefixer --use cssnano;
+  clean_tmp_dir
 fi  
