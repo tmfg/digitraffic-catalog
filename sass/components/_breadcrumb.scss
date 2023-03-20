@@ -1,0 +1,38 @@
+@use '../utils/variables';
+@use '../utils/bootstrap_brakepoints' as bp;
+
+$toolbar-padding: 10px;
+
+.main {
+    position: relative;
+}
+
+.debug {
+    display: none;
+}
+
+.toolbar {
+    & .breadcrumb {
+        a {
+            text-decoration: none;
+        }
+    }
+    @media (min-width: bp.$grid-float-breakpoint) {
+        // Tästä voi aiheutua jossain ongelmia?
+        position: static;
+
+        padding: $toolbar-padding 0;
+        background-color: var(--fds-color-brand-white);
+        min-height: calc(#{variables.$font-size-base * variables.$line-height-base} + #{$toolbar-padding * 2});
+
+        & .breadcrumb {
+            padding: $toolbar-padding;
+            padding-left: calc($toolbar-padding * 2);
+            position: absolute;
+            left: 0px;
+            top: 0px;
+            background-color: var(--fds-color-brand-white);
+            width: 100vw;
+        }
+    }
+}

@@ -1,0 +1,12 @@
+@use './utils/bootstrap_brakepoints' as bp;
+
+.main {
+    padding-top: 0px;
+}
+
+@media (max-width: bp.$grid-float-breakpoint-max) {
+    #content {
+        // Tällä korjataan toolbaarin väärä väri kun näyttö on pieni
+        background-color: var(--fds-color-brand-black);
+    }
+}

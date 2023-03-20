@@ -1,0 +1,15 @@
+@use '../utils/variables' as v;
+
+.btn-success,.btn-primary {
+    background-color: var(--fds-color-brand-black);
+    color: var(--fds-color-text-1);
+    border: none;
+    text-decoration: none;
+
+    &:hover,:focus,:active {
+        background-color: var(--fds-color-interactive-200);
+    }
+    & [disabled] {
+        background-color: var(--fds-color-neutral-200);
+    }
+}
