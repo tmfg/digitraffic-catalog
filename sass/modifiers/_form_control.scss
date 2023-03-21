@@ -1,0 +1,8 @@
+.form-control {
+    border: 1px solid var(--fds-color-neutral-200);
+
+    &:focus {
+        box-shadow: none;
+        border: 1px solid var(--fds-color-neutral-200);
+    }
+}

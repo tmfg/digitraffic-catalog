@@ -1,0 +1,11 @@
+input:not([type="checkbox"]):not([type="radio"]):not([type="button"]):not([type="range"]) {
+    border: 1px solid var(--fds-color-neutral-200);
+    border-radius: 4px;
+    color: var(--fds-color-text-1000);
+    padding: 0px 16px;
+    height: 46px;
+
+    &:focus {
+        box-shadow: none;
+    }
+}

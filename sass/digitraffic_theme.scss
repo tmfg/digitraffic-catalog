@@ -8,5 +8,8 @@
 @use 'components/button';
 @use 'components/error_block';
 @use 'components/module';
+@use 'components/input';
+@use 'components/textarea';
 
 @use 'modifiers/errors';
+@use 'modifiers/form_control';
