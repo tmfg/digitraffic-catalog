@@ -2,3 +2,4 @@
 .idea
 node_modules
 target
+ckanext-digitraffic_theme/**/*.css.map
