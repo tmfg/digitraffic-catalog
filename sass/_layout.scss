@@ -1,7 +1,27 @@
 @use './utils/bootstrap_brakepoints' as bp;
 
-.main {
+@mixin page-main-section {
     padding-top: 0px;
+    background-color: var(--fds-color-brand-white);
+    background-image: none;
+    @media (min-width: bp.$grid-float-breakpoint) {
+        // Sitä varten, että footeri on keskellä näyttöä isolla näytöllä
+        min-height: calc(100vh - 81px - 187px);
+    }
+}
+
+.homepage > [role=main] {
+    @include page-main-section;
+
+    .main {
+        background-color: var(--fds-color-brand-white);
+        background-image: none;
+    }
+}
+
+body > .main {
+    @include page-main-section;
+    // Jotain
 }
 
 @media (max-width: bp.$grid-float-breakpoint-max) {
