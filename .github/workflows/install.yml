@@ -1,0 +1,48 @@
+name: Build and install Docker images
+
+on:
+  workflow_dispatch:
+    inputs:
+      env:
+        description: "Environment"
+        required: true
+        type: environment
+        default: "test"
+      
+jobs: 
+  build:  
+    runs-on: ubuntu-20.04
+    steps: 
+    - uses: actions/checkout@v3
+
+    - name: Configure AWS credentials for ${{ matrix.app }}
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        role-to-assume: ${{ secrets.AWS_ROLE }}
+        role-session-name: gh-actions-install-image-${{ github.event.inputs.env }}
+        aws-region: ${{ secrets.AWS_REGION }}
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+      
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v1
+
+    - name: Solr build
+      uses: docker/build-push-action@v4
+      with:
+        context: ./docker/solr
+        file: ./docker/solr/Dockerfile
+        push: true
+        platforms: linux/arm64
+        tags: ${{ secrets.ECR_URL }}/dt-solr-repository:${{ github.sha }}
+
+    - name: CKAN build
+      uses: docker/build-push-action@v4
+      with:
+        context: ./docker/ckan
+        file: ./docker/ckan/Dockerfile
+        push: true
+        platforms: linux/arm64
+        tags: ${{ secrets.ECR_URL }}/dt-ckan-repository:${{ github.sha }}
+      
