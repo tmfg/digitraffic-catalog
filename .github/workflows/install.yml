@@ -17,7 +17,7 @@ jobs:
       contents: read
       actions: read
     environment: ${{ github.event.inputs.env }}
-    
+
     steps: 
     - uses: actions/checkout@v3
 
@@ -34,6 +34,12 @@ jobs:
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v1
 
+    - name: login to AWS ECR
+      id: login-ecr
+      uses: docker/login-action@v2
+      with:
+        registry: ${{ secrets.ECR_URL }}
+        
     - name: Solr build
       uses: docker/build-push-action@v4
       with:
