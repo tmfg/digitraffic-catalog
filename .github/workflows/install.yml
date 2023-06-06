@@ -57,4 +57,14 @@ jobs:
         push: true
         platforms: linux/amd64
         tags: ${{ secrets.ECR_URL }}/dt-ckan-repository:${{ github.sha }}
+
+    - name: Nginx build
+      uses: docker/build-push-action@v4
+      with:
+        context: ./docker/nginx
+        file: ./docker/nginx/Dockerfile
+        push: true
+        platforms: linux/arm64
+        tags: ${{ secrets.ECR_URL }}/dt-nginx-repository:${{ github.sha }}
+      
       
