@@ -41,9 +41,9 @@ jobs:
         registry: ${{ secrets.ECR_URL }}
 
     - name: Use Node.js 16
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16
 
     - name: create digitraffic-theme
       run: |
