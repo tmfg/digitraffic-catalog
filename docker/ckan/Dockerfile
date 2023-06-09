@@ -1,5 +1,5 @@
-FROM alpine:3.18
-ARG CKAN_VERSION=ckan-2.9.9
+FROM alpine:3.17
+ARG CKAN_VERSION=ckan-2.10.1
 
 # Internals, you probably don't need to change these
 ENV APP_DIR=/srv/app
@@ -36,7 +36,8 @@ RUN apk add --no-cache tzdata \
         uwsgi-gevent \
         libmagic \
         curl \
-        patch && \
+        patch \
+        bash && \
     # Packages to build CKAN requirements and plugins
     apk add --no-cache --virtual .build-deps \
         postgresql-dev \
@@ -58,18 +59,16 @@ RUN apk add --no-cache tzdata \
     # Install pip, supervisord and uwsgi
     curl -o ${SRC_DIR}/get-pip.py https://bootstrap.pypa.io/get-pip.py && \
     python3 ${SRC_DIR}/get-pip.py && \
-    #pip3 install supervisor && \
-    #mkdir /etc/supervisord.d && \
-    #pip wheel --wheel-dir=/wheels uwsgi gevent && \
+#    pip3 install supervisor && \
+#    mkdir /etc/supervisord.d && \
     rm -rf ${SRC_DIR}/get-pip.py
 
-#COPY setup/supervisord.conf /etc
+# COPY setup/supervisord.conf /etc
 
 # Install CKAN
 RUN pip3 install -e git+${GIT_URL}@${GIT_BRANCH}#egg=ckan && \
     cd ${SRC_DIR}/ckan && \
     cp who.ini ${APP_DIR} && \
-    pip3 install -r requirement-setuptools.txt && \
     pip3 install --no-binary markdown -r requirements.txt && \
     # Install CKAN envvars to support loading config from environment variables
     pip3 install -e git+https://github.com/okfn/ckanext-envvars.git#egg=ckanext-envvars && \
