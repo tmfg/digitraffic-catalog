@@ -12,6 +12,7 @@ When running in watch mode, includes source map file
 You need to have the following installed on your computer:
 - lessc (the Less compiler)
 - sass (the SASS compiler)
+- Node (npx)
 
 Flags:
 -w Start in watch mode. Note, Less files are not watched because the lessc compiler does not support the feature.
