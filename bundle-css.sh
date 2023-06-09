@@ -3,7 +3,7 @@ set -euo pipefail
 
 USAGE=$(cat << EOM
 
-usage: bunde-css.sh [-w]
+usage: bundle-css.sh [-w]
 
 Bundles the Less and SASS files together and runs PostCSS to add vendor prefixes and do minification.
 
