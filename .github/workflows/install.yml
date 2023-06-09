@@ -42,8 +42,7 @@ jobs:
 
     - name: create digitraffic-theme
       run: |
-        npm install -g sass
-        sudo snap install lessc
+        npm install -g sass less
 
         ./bundle-css.sh
 
