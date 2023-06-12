@@ -47,7 +47,7 @@ jobs:
 
     - name: create digitraffic-theme
       run: |
-        npm install -g sass less postcss
+        npm ci  
 
         ./bundle-css.sh
 
