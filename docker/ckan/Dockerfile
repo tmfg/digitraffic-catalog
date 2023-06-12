@@ -91,7 +91,7 @@ ADD https://raw.githubusercontent.com/ckan/ckan/${GIT_BRANCH}/wsgi.py ${APP_DIR}
 RUN chmod 644 ${APP_DIR}/wsgi.py
 
 # install digitraffic theme
-COPY ../../ckanext-digitraffic_theme /usr/lib/ckan/default/src/ckan/contrib/cookiecutter/ckan_extension/ckanext-digitraffic_theme/
+COPY ../../ext/ckanext-digitraffic_theme /usr/lib/ckan/default/src/ckan/contrib/cookiecutter/ckan_extension/ckanext-digitraffic_theme/
 
 # Create entrypoint directory for children image scripts
 ONBUILD RUN mkdir /docker-entrypoint.d
