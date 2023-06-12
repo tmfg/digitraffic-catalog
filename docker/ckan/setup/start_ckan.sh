@@ -26,6 +26,7 @@ cd ~/default/src/ckan
 pip install -r dev-requirements.txt
 cd /usr/lib/ckan/default/src/ckan/contrib/cookiecutter/ckan_extension/ckanext-digitraffic_theme/
 python setup.py develop
+cd
 
 # Run any startup scripts provided by images extending this one
 if [[ -d "/docker-entrypoint.d" ]]
