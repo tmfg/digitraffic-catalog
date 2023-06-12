@@ -52,9 +52,8 @@ jobs:
 
         ./bundle-css.sh
 
-        # link directory
-        cd docker/ckan
-        ln -s ../../ext/ckanext-digitraffic_theme ckanext-digitraffic_theme
+        # copy directory
+        cp -R ext/ckanext-digitraffic_theme docker/ckan/ckanext-digitraffic_theme
 
     - name: CKAN build
       uses: docker/build-push-action@v4
