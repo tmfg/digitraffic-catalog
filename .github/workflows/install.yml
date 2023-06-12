@@ -47,9 +47,13 @@ jobs:
 
     - name: create digitraffic-theme
       run: |
-        npm install -g sass less postcss
+        npm install -g less sass
+        npm ci  
 
         ./bundle-css.sh
+
+        # copy directory
+        cp -R ext/ckanext-digitraffic_theme docker/ckan/ckanext-digitraffic_theme
 
     - name: CKAN build
       uses: docker/build-push-action@v4
