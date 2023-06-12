@@ -17,7 +17,6 @@ RUN python3 -m venv /usr/lib/ckan/default
 RUN source /usr/lib/ckan/default/bin/activate && \
     pip install setuptools==44.1.0 && \
     pip install flask_debugtoolbar==0.10.1 && \
-    pip install --upgrade pip && \
     pip install -e 'git+https://github.com/ckan/ckan.git@ckan-2.9.8#egg=ckan[requirements]' && \
     deactivate
 
