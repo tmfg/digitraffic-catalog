@@ -3,7 +3,7 @@ set -euo pipefail
 
 USAGE=$(cat << EOM
 
-usage: bunde-css.sh [-w]
+usage: bundle-css.sh [-w]
 
 Bundles the Less and SASS files together and runs PostCSS to add vendor prefixes and do minification.
 
@@ -12,6 +12,7 @@ When running in watch mode, includes source map file
 You need to have the following installed on your computer:
 - lessc (the Less compiler)
 - sass (the SASS compiler)
+- Node (npx)
 
 Flags:
 -w Start in watch mode. Note, Less files are not watched because the lessc compiler does not support the feature.
