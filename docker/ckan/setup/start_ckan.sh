@@ -40,6 +40,10 @@ then
     done
 fi
 
+# fix permissions
+sudo chown -R ckan '/srv/app/src/ckan/ckan/public/base/i18n/'
+sudo chmod -R u+rwx '/srv/app/src/ckan/ckan/public/base/i18n/'
+
 # Set the common uwsgi options
 UWSGI_OPTS="--plugins http,python \
             --socket /tmp/uwsgi.sock \
