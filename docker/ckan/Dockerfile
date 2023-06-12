@@ -12,7 +12,8 @@ ENV GIT_URL=https://github.com/ckan/ckan.git
 ENV GIT_BRANCH=${CKAN_VERSION}
 # Customize these on the .env file if needed
 ENV CKAN_SITE_URL=http://localhost:5000
-ENV CKAN__PLUGINS image_view text_view recline_view datastore envvars digitraffic_theme
+ENV CKAN__PLUGINS image_view text_view recline_view datastore envvars 
+#digitraffic_theme
 
 # UWSGI options
 ENV UWSGI_HARAKIRI=50
@@ -59,11 +60,11 @@ RUN apk add --no-cache tzdata \
     # Install pip, supervisord and uwsgi
     curl -o ${SRC_DIR}/get-pip.py https://bootstrap.pypa.io/get-pip.py && \
     python3 ${SRC_DIR}/get-pip.py && \
-#    pip3 install supervisor && \
-#    mkdir /etc/supervisord.d && \
+    pip3 install supervisor && \
+    mkdir /etc/supervisord.d && \
     rm -rf ${SRC_DIR}/get-pip.py
 
-# COPY setup/supervisord.conf /etc
+COPY setup/supervisord.conf /etc
 
 # Install CKAN
 RUN pip3 install -e git+${GIT_URL}@${GIT_BRANCH}#egg=ckan && \
@@ -91,7 +92,7 @@ ADD https://raw.githubusercontent.com/ckan/ckan/${GIT_BRANCH}/wsgi.py ${APP_DIR}
 RUN chmod 644 ${APP_DIR}/wsgi.py
 
 # install digitraffic theme
-COPY ../../ckanext-digitraffic_theme /usr/lib/ckan/default/src/ckan/contrib/cookiecutter/ckan_extension/ckanext-digitraffic_theme/
+COPY ./ckanext-digitraffic_theme /usr/lib/ckan/default/src/ckan/contrib/cookiecutter/ckan_extension/ckanext-digitraffic_theme/
 
 # Create entrypoint directory for children image scripts
 ONBUILD RUN mkdir /docker-entrypoint.d
