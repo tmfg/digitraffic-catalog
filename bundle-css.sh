@@ -44,11 +44,11 @@ else
 fi
 
 CKAN_CSS_FILE=./ckanext-digitraffic_theme/ckanext/digitraffic_theme/assets/css/digitraffic_theme.css
-SOURCE_CKAN_DEFAULT=./less/override_less/main.less
-SOURCE_DIGITRAFFIC_THEME=./sass/digitraffic_theme.scss
-SOURCE_FINTRAFFIC_DS=./ext/fintraffic-theme/coreui.min.css
-SOURCE_FINTRAFFIC_DS_TOKENS=./ext/fintraffic-theme/tokens.css
-TARGET_DIR=./target
+SOURCE_CKAN_DEFAULT=./ext/ckanext-digitraffic_theme/ckanext/digitraffic_theme/resources/less/override_less/main.less
+SOURCE_DIGITRAFFIC_THEME=./ext/ckanext-digitraffic_theme/ckanext/digitraffic_theme/resources/sass/digitraffic_theme.scss
+SOURCE_FINTRAFFIC_DS=./ext/ckanext-digitraffic_theme/ckanext/digitraffic_theme/resources/fintraffic-ds/coreui.min.css
+SOURCE_FINTRAFFIC_DS_TOKENS=./ext/ckanext-digitraffic_theme/ckanext/digitraffic_theme/resources/fintraffic-ds/tokens.css
+TARGET_DIR=./ext/ckanext-digitraffic_theme/ckanext/digitraffic_theme/target
 TARGET_TMP_DIR="${TARGET_DIR}/.tmp"
 TARGET_CKAN_DEFAULT="${TARGET_DIR}/ckan_default.css"
 TARGET_DIGITRAFFIC_THEME="${TARGET_DIR}/digitraffic_theme.css"
