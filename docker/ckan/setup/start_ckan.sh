@@ -21,6 +21,12 @@ python3 prerun.py
 echo "Set up ckan.datapusher.api_token in the CKAN config file"
 ckan config-tool $CKAN_INI "ckan.datapusher.api_token=$(ckan -c $CKAN_INI user token add ckan_admin datapusher | tail -n 1 | tr -d '\t')"
 
+# Digitraffic theme
+cd /usr/lib/ckan/default/src/ckan/contrib/cookiecutter/ckan_extension/ckanext-digitraffic_theme/
+pip install -r dev-requirements.txt
+cd $DK_THEME_HOME
+python setup.py develop
+
 # Run any startup scripts provided by images extending this one
 if [[ -d "/docker-entrypoint.d" ]]
 then
