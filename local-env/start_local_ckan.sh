@@ -22,11 +22,24 @@ fi;
 
 cd "$(dirname "${BASH_SOURCE[0]}")"
 
+remove_tmp_dir() {
+  if [ -d tmp ]; then
+    rm -rf tmp
+  fi
+}
+
+copy_extension_to_tmp() {
+  mkdir -p tmp
+  cp -r $1 tmp/
+}
+
 if [[ $(docker image ls local_ckan:latest -q | wc -l) -eq 0 ]] ||
    ([[ $# -eq 2 ]] && [[ "$2" = 'build_image' ]])
 then
   cd ckan
+  copy_extension_to_tmp ../../ext/ckanext-digitraffic_theme
   docker image build -t local_ckan:latest .
+  remove_tmp_dir
   cd ..
 fi
 
@@ -36,6 +49,10 @@ then
   cd solr
   docker image build -t local_solr:latest .
   cd ..
+fi
+
+if [ -d tmp ]; then
+  rm -rf tmp
 fi
 
 if [ "$1" == "up" ]; then

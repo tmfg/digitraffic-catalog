@@ -8,14 +8,9 @@ services:
       - solr
     configs:
       - source: ckan_conf
-        target: /etc/ckan/default/ckan.ini.template
+        target: /etc/ckan/default/ckan.ini
     environment:
-      - DK_THEME_HOME=/usr/lib/ckan/default/src/ckan/contrib/cookiecutter/ckan_extension/ckanext-digitraffic_theme/ckanext-digitraffic_theme
       - DK_CKAN_INI_PATH=/etc/ckan/default/ckan.ini
-    volumes:
-      - type: bind
-        source: ../ext/ckanext-digitraffic_theme
-        target: /usr/lib/ckan/default/src/ckan/contrib/cookiecutter/ckan_extension/ckanext-digitraffic_theme/ckanext-digitraffic_theme
   postgresql:
     image: postgres:15.1
     ports:
