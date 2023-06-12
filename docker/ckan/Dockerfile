@@ -59,11 +59,11 @@ RUN apk add --no-cache tzdata \
     # Install pip, supervisord and uwsgi
     curl -o ${SRC_DIR}/get-pip.py https://bootstrap.pypa.io/get-pip.py && \
     python3 ${SRC_DIR}/get-pip.py && \
-#    pip3 install supervisor && \
-#    mkdir /etc/supervisord.d && \
+    pip3 install supervisor && \
+    mkdir /etc/supervisord.d && \
     rm -rf ${SRC_DIR}/get-pip.py
 
-# COPY setup/supervisord.conf /etc
+COPY setup/supervisord.conf /etc
 
 # Install CKAN
 RUN pip3 install -e git+${GIT_URL}@${GIT_BRANCH}#egg=ckan && \
