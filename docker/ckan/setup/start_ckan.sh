@@ -22,7 +22,7 @@ echo "Set up ckan.datapusher.api_token in the CKAN config file"
 ckan config-tool $CKAN_INI "ckan.datapusher.api_token=$(ckan -c $CKAN_INI user token add ckan_admin datapusher | tail -n 1 | tr -d '\t')"
 
 # Digitraffic theme
-RUN source /usr/lib/ckan/default/bin/activate && \
+source /usr/lib/ckan/default/bin/activate && \
     cd ~/default/src/ckan && \
     pip install -r dev-requirements.txt && \
     cd "$DT_THEME_HOME" && \
@@ -41,10 +41,6 @@ then
         echo
     done
 fi
-
-# fix permissions
-sudo chown -R ckan '/srv/app/src/ckan/ckan/public/base/i18n/'
-sudo chmod -R u+rwx '/srv/app/src/ckan/ckan/public/base/i18n/'
 
 # Set the common uwsgi options
 UWSGI_OPTS="--plugins http,python \
