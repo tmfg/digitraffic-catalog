@@ -12,7 +12,7 @@ ENV GIT_URL=https://github.com/ckan/ckan.git
 ENV GIT_BRANCH=${CKAN_VERSION}
 # Customize these on the .env file if needed
 ENV CKAN_SITE_URL=http://localhost:5000
-ENV CKAN__PLUGINS image_view text_view recline_view datastore envvars 
+ENV CKAN__PLUGINS image_view text_view recline_view datastore envvars digitraffic_theme
 #digitraffic_theme
 
 # UWSGI options
@@ -92,7 +92,9 @@ ADD https://raw.githubusercontent.com/ckan/ckan/${GIT_BRANCH}/wsgi.py ${APP_DIR}
 RUN chmod 644 ${APP_DIR}/wsgi.py
 
 # install digitraffic theme
-COPY ./ckanext-digitraffic_theme /usr/lib/ckan/default/src/ckan/contrib/cookiecutter/ckan_extension/ckanext-digitraffic_theme/
+ENV DT_THEME_HOME = /usr/lib/ckan/default/src/ckan/contrib/cookiecutter/ckan_extension/ckanext-digitraffic_theme/
+COPY ./ckanext-digitraffic_theme "$DT_THEME_HOME"
+RUN chown -R ckan:ckan "$DT_THEME_HOME"
 
 # Create entrypoint directory for children image scripts
 ONBUILD RUN mkdir /docker-entrypoint.d
