@@ -4,6 +4,8 @@ ARG CKAN_VERSION=ckan-2.10.1
 # Internals, you probably don't need to change these
 ENV APP_DIR=/srv/app
 ENV SRC_DIR=/srv/app/src
+ENV EXT_DIR=${APP_DIR}/ckanext
+
 ENV CKAN_INI=${APP_DIR}/ckan.ini
 ENV PIP_SRC=${SRC_DIR}
 ENV CKAN_STORAGE_PATH=/var/lib/ckan
@@ -13,7 +15,6 @@ ENV GIT_BRANCH=${CKAN_VERSION}
 # Customize these on the .env file if needed
 ENV CKAN_SITE_URL=http://localhost:5000
 ENV CKAN__PLUGINS image_view text_view recline_view datastore envvars digitraffic_theme
-#digitraffic_theme
 
 # UWSGI options
 ENV UWSGI_HARAKIRI=50
@@ -88,13 +89,17 @@ RUN mkdir -p ${CKAN_STORAGE_PATH} && \
 
 COPY setup/prerun.py ${APP_DIR}
 COPY setup/start_ckan.sh ${APP_DIR}
+
 ADD https://raw.githubusercontent.com/ckan/ckan/${GIT_BRANCH}/wsgi.py ${APP_DIR}
 RUN chmod 644 ${APP_DIR}/wsgi.py
 
-# install digitraffic theme
-ENV DT_THEME_HOME = /usr/lib/ckan/default/src/ckan/contrib/cookiecutter/ckan_extension/ckanext-digitraffic_theme/
-COPY ./ckanext-digitraffic_theme "$DT_THEME_HOME"
-RUN chown -R ckan:ckan "$DT_THEME_HOME"
+# copy extensions
+RUN mkdir -p ${EXT_DIR}
+COPY ckanext/ckanext-digitraffic_theme "${EXT_DIR}/ckanext-digitraffic_theme"
+RUN chown -R ckan:ckan "${EXT_DIR}"
+
+# install extensions
+RUN setup/install_extensions.sh
 
 # Create entrypoint directory for children image scripts
 ONBUILD RUN mkdir /docker-entrypoint.d
