@@ -1,7 +1,7 @@
 #!/bin/sh
 set -e
 
-RUN echo "Installing extensions..."
+echo "Installing extensions..."
 
 pip_install() {
   if [[ ! -f "$1" ]]; then
