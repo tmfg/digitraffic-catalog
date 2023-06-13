@@ -89,7 +89,7 @@ RUN mkdir -p ${CKAN_STORAGE_PATH} && \
 
 COPY setup/prerun.py ${APP_DIR}
 COPY setup/start_ckan.sh ${APP_DIR}
-COPY setup/install_extensions.sh ${APP_DIR}}
+COPY setup/install_extensions.sh ${APP_DIR}
 
 ADD https://raw.githubusercontent.com/ckan/ckan/${GIT_BRANCH}/wsgi.py ${APP_DIR}
 RUN chmod 644 ${APP_DIR}/wsgi.py
