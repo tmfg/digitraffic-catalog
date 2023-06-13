@@ -89,6 +89,7 @@ RUN mkdir -p ${CKAN_STORAGE_PATH} && \
 
 COPY setup/prerun.py ${APP_DIR}
 COPY setup/start_ckan.sh ${APP_DIR}
+COPY setup/install_extensions.sh ${APP_DIR}}
 
 ADD https://raw.githubusercontent.com/ckan/ckan/${GIT_BRANCH}/wsgi.py ${APP_DIR}
 RUN chmod 644 ${APP_DIR}/wsgi.py
@@ -99,7 +100,7 @@ COPY ckanext/ckanext-digitraffic_theme "${EXT_DIR}/ckanext-digitraffic_theme"
 RUN chown -R ckan:ckan "${EXT_DIR}"
 
 # install extensions
-RUN setup/install_extensions.sh
+RUN ${APP_DIR}/install_extensions.sh
 
 # Create entrypoint directory for children image scripts
 ONBUILD RUN mkdir /docker-entrypoint.d
