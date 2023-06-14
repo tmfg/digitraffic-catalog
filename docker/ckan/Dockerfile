@@ -90,6 +90,7 @@ RUN mkdir -p ${CKAN_STORAGE_PATH} && \
 COPY setup/prerun.py ${APP_DIR}
 COPY setup/start_ckan.sh ${APP_DIR}
 COPY setup/install_extensions.sh ${APP_DIR}
+COPY setup/setup_extensions.sh ${APP_DIR}
 
 ADD https://raw.githubusercontent.com/ckan/ckan/${GIT_BRANCH}/wsgi.py ${APP_DIR}
 RUN chmod 644 ${APP_DIR}/wsgi.py
@@ -101,6 +102,9 @@ RUN chown -R ckan:ckan "${EXT_DIR}"
 
 # install extensions
 RUN ${APP_DIR}/install_extensions.sh
+
+# extension settings
+RUN ${APP_DIR}/setup_extensions.sh
 
 # Create entrypoint directory for children image scripts
 ONBUILD RUN mkdir /docker-entrypoint.d
