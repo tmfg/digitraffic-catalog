@@ -8,6 +8,18 @@ on:
         required: true
         type: environment
         default: "test"
+      install_ckan:
+        required: true
+        type: boolean
+        default: true
+      install_solr:
+        required: true
+        type: boolean
+        default: true
+      install_nginx:
+        required: true
+        type: boolean
+        default: true
       
 jobs: 
   build:  
@@ -46,6 +58,7 @@ jobs:
         node-version: 16
 
     - name: create digitraffic-theme
+      if: github.event.inputs.install_ckan == 'true'
       run: |
         npm install -g less sass
         npm ci  
@@ -57,6 +70,7 @@ jobs:
         cp -R ext/ckanext-digitraffic_theme docker/ckan/ckanext/ckanext-digitraffic_theme
 
     - name: CKAN build
+      if: github.event.inputs.install_ckan == 'true'
       uses: docker/build-push-action@v4
       with:
         context: ./docker/ckan
@@ -66,6 +80,7 @@ jobs:
         tags: ${{ secrets.ECR_URL }}/dt-ckan-repository:${{ github.sha }}
 
     - name: Solr build
+      if: github.event.inputs.install_solr == 'true'
       uses: docker/build-push-action@v4
       with:
         context: ./docker/solr
@@ -75,6 +90,7 @@ jobs:
         tags: ${{ secrets.ECR_URL }}/dt-solr-repository:${{ github.sha }}
 
     - name: Nginx build
+      if: github.event.inputs.install_nginx == 'true'
       uses: docker/build-push-action@v4
       with:
         context: ./docker/nginx
