@@ -56,7 +56,7 @@ if [ -d tmp ]; then
 fi
 
 if [ "$1" == "up" ]; then
-  docker compose --project-name datakatalogi-local up
+  docker-compose --project-name datakatalogi-local up
 elif [ "$1" == "down" ]; then
-  docker compose --project-name datakatalogi-local down --remove-orphans
+  docker-compose --project-name datakatalogi-local down --remove-orphans
 fi
