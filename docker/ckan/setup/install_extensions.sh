@@ -17,7 +17,7 @@ pip_install() {
 
 # install extensions
 pip install -e "${EXT_DIR}/ckanext-digitraffic_theme"
-pip install -e "git+https://github.com/ckan/ckanext-dcat.git@v1.5.0#egg=ckanext-dcat"
+pip install -e "git+https://github.com/ckan/ckanext-dcat.git@v1.5.1#egg=ckanext-dcat"
 pip install -e "git+https://github.com/ckan/ckanext-scheming.git@release-3.0.0#egg=ckanext-scheming"
 
 # install requirements

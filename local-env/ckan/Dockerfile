@@ -1,4 +1,4 @@
-FROM rockylinux/rockylinux:9.1
+FROM rockylinux/rockylinux:9.3
 
 ENV DK_THEME_HOME=/usr/lib/ckan/default/src/ckan/contrib/cookiecutter/ckan_extension/ckanext-digitraffic_theme/ckanext-digitraffic_theme
 
@@ -22,7 +22,7 @@ RUN python3 -m venv /usr/lib/ckan/default
 RUN source /usr/lib/ckan/default/bin/activate && \
     pip install setuptools==44.1.0 && \
     pip install flask_debugtoolbar==0.10.1 && \
-    pip install -e 'git+https://github.com/ckan/ckan.git@ckan-2.9.8#egg=ckan[requirements]' && \
+    pip install -e 'git+https://github.com/ckan/ckan.git@ckan-2.10.3#egg=ckan[requirements]' && \
     deactivate
 
 # Kopioi ckanext-digitaraffic_theme oikeaan kansioon

@@ -1,16 +1,21 @@
-FROM solr:8.11.2
+FROM solr:8
+
+EXPOSE 8983
+
+ARG CKAN_BRANCH="2.10"
+
+ENV SOLR_CONFIG_DIR="/opt/solr/server/solr/configsets"
+ENV SOLR_SCHEMA_FILE="$SOLR_CONFIG_DIR/ckan/conf/managed-schema"
 
 USER root
 
-RUN head -n -1 /opt/docker-solr/scripts/solr-precreate > /opt/docker-solr/scripts/solr-precreate-no-start && \
-    chmod a+x /opt/docker-solr/scripts/solr-precreate-no-start
+# Create a CKAN configset by copying the default one
+RUN cp -R $SOLR_CONFIG_DIR/_default $SOLR_CONFIG_DIR/ckan
 
-USER $SOLR_UID
+# Update the schema
+ADD https://raw.githubusercontent.com/ckan/ckan/$CKAN_BRANCH/ckan/config/solr/schema.xml $SOLR_SCHEMA_FILE
+RUN chmod 644 $SOLR_SCHEMA_FILE 
 
-WORKDIR $SOLR_HOME
+USER solr
 
-COPY init.sh .
-
-ENTRYPOINT [ "./init.sh" ]
-
-CMD []
+CMD ["sh", "-c", "solr-precreate ckan $SOLR_CONFIG_DIR/ckan"]

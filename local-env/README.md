@@ -24,7 +24,7 @@ Koska niiden repoissa ei ole mitään lisenssiä, joten en uskaltanut
 # Mites kehitys?
 
 1. Aja `start_local_ckan.sh`
-2. Yhdistä [http://localhost:5000/](http://localhost:5000/)
+2. Yhdistä [http://localhost:5001/](http://localhost:5001/) (Mac on varannut portin 5000, siksi 5001)
 3. Aloita .scss filujen tarkkailu vaikkapa ajamalla `../bundle-css.sh -w`
 4. Muokkaa .scss filuja haluamasi mukaan.
 5. Refreshaa selain, muutosten pitäisi tulla näkyviin (Hot reload ominaisuutta ei valitettavasti taida olla)
