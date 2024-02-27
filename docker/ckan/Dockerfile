@@ -16,6 +16,8 @@ ENV GIT_BRANCH=${CKAN_VERSION}
 ENV CKAN_SITE_URL=http://localhost:5000
 ENV CKAN__PLUGINS image_view text_view recline_view datastore envvars digitraffic_theme
 
+ENV PIP_BREAK_SYSTEM_PACKAGES 1
+
 # UWSGI options
 ENV UWSGI_HARAKIRI=50
 
