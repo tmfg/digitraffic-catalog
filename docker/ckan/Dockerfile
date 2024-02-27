@@ -63,7 +63,7 @@ RUN  mkdir -p ${SRC_DIR} && \
     # Install pip, supervisord and uwsgi
     curl -o ${SRC_DIR}/get-pip.py https://bootstrap.pypa.io/get-pip.py && \
     python3 ${SRC_DIR}/get-pip.py && \
-    pip3 install supervisor && \
+    pip3 install supervisor --break-system-packages && \
     mkdir /etc/supervisord.d && \
     rm -rf ${SRC_DIR}/get-pip.py
 
