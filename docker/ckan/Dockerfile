@@ -39,9 +39,10 @@ RUN apk add --no-cache tzdata \
         libmagic \
         curl \
         patch \
-        bash && \
-    # Packages to build CKAN requirements and plugins
-    apk add --no-cache --virtual .build-deps \
+        bash
+
+# Packages to build CKAN requirements and plugins
+RUN apk add --no-cache --virtual .build-deps \
         postgresql-dev \
         gcc \
         make \
@@ -55,9 +56,10 @@ RUN apk add --no-cache tzdata \
         linux-headers \
         openssl-dev \
         libffi-dev \
-        cargo && \
-    # Create SRC_DIR
-    mkdir -p ${SRC_DIR} && \
+        cargo
+
+# Create SRC_DIR
+RUN  mkdir -p ${SRC_DIR} && \
     # Install pip, supervisord and uwsgi
     curl -o ${SRC_DIR}/get-pip.py https://bootstrap.pypa.io/get-pip.py && \
     python3 ${SRC_DIR}/get-pip.py && \
