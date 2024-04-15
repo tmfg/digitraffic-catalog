@@ -41,6 +41,7 @@ def check_datastore_db_connection(retry=None):
     conn_str = os.environ.get("CKAN_DATASTORE_WRITE_URL")
     if not conn_str:
         print("[prerun] CKAN_DATASTORE_WRITE_URL not defined, not checking db")
+        return
     return check_db_connection(conn_str, retry)
 
 
@@ -49,7 +50,7 @@ def check_db_connection(conn_str, retry=None):
     if retry is None:
         retry = RETRY
     elif retry == 0:
-        print("[prerun] Giving up after 5 tries...")
+        print(f"[prerun] Giving up after {retry} tries...")
         sys.exit(1)
 
     try:
@@ -156,6 +157,18 @@ def init_datastore_db():
         cursor.close()
         connection.close()
 
+def setup_conf():
+    print("[prerun] Setup configuration")
+    setup_conf_command = [
+        "ckan",
+        "config-tool",
+        ckan_ini,
+        "ckan.datastore.write_url = ${CKAN_DATASTORE_WRITE_URL}",
+        "ckan.datastore.read.url = ${CKAN_DATASTORE_READ_URL}",
+        "sqlalchemy.url = ${CKAN_SQLALCHEMY_URL}"
+    ]
+    subprocess.call(setup_conf_command)
+    print("[prerun] Configuration set")
 
 def create_sysadmin():
 
@@ -209,6 +222,7 @@ if __name__ == "__main__":
     if maintenance:
         print("[prerun] Maintenance mode, skipping setup...")
     else:
+        setup_conf()
         check_main_db_connection()
         init_db()
         update_plugins()

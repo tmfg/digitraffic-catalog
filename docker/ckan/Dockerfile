@@ -69,7 +69,7 @@ RUN  mkdir -p ${SRC_DIR} && \
     mkdir /etc/supervisord.d && \
     rm -rf ${SRC_DIR}/get-pip.py
 
-COPY setup/supervisord.conf /etc
+COPY setup/supervisord.conf /etc/supervisord.d/
 
 # Install CKAN
 RUN pip3 install -e git+${GIT_URL}@${GIT_BRANCH}#egg=ckan && \
@@ -101,7 +101,7 @@ RUN chmod 644 ${APP_DIR}/wsgi.py
 
 # copy extensions
 RUN mkdir -p ${EXT_DIR}
-COPY ckanext/ckanext-digitraffic_theme "${EXT_DIR}/ckanext-digitraffic_theme"
+COPY ckanext/ckanext-digitraffic_theme/ "${EXT_DIR}/ckanext-digitraffic_theme/"
 RUN chown -R ckan:ckan "${EXT_DIR}"
 
 # install extensions
