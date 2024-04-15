@@ -1,37 +1,35 @@
 services:
   ckan:
-    image: local_ckan:latest
+    image: local_catalog_ckan:latest
     ports:
-      - "5001:5000"
+      - "${CKAN_PORT}:${CKAN_PORT}"
+      - "${CKAN_DATAPUSHER_PORT}:${CKAN_DATAPUSHER_PORT}"
     depends_on:
       - postgresql
       - solr
-    configs:
-      - source: ckan_conf
-        target: /etc/ckan/default/ckan.ini
-    environment:
-      - DK_CKAN_INI_PATH=/etc/ckan/default/ckan.ini
+    env_file:
+      - .env_postgresql_common
+      - .env_solr_common
+      - .env_ckan_common
+      - .env_ckan
   postgresql:
-    image: postgres:15.6
+    image: local_catalog_postgresql:latest
     ports:
       - "5432:5432"
     env_file:
-      - postgresql/env_db
-    configs:
-      - source: postgres_conf
-        target: /etc/postgresql/postgresql.conf
-      - source: db_user_creation
-        target: /docker-entrypoint-initdb.d/db_user_setup.sh
-        mode: 0500
+      - .env_postgresql_common
+      - .env_postgresql
     command: ["postgres", "-c", "config_file=/etc/postgresql/postgresql.conf"]
   solr:
-    image: local_solr:latest
+    image: local_catalog_solr:latest
     ports:
-      - "8983:8983"
-configs:
-  ckan_conf:
-    file: ./ckan/ckan.ini
-  postgres_conf:
-    file: ./postgresql/my-postgres.conf
-  db_user_creation:
-    file: ./postgresql/db_users_setup.sh
+      - "${SOLR_PORT}:${SOLR_PORT}"
+    env_file:
+      - .env_solr_common
+  nginx:
+    image: local_catalog_nginx:latest
+    ports:
+      - "8080:80"
+    env_file:
+      - .env_ckan_common
+      - .env_nginx
