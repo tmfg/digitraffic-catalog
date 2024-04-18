@@ -1,17 +1,35 @@
 services:
+  # This init service is needed in order to change the localy bind volume's ownership to ckan user
+  ckan-init:
+    image: local_catalog_ckan_dev:latest
+    user: root
+    group_add:
+      - '92'
+    volumes:
+      - ckanext:/srv/app/ckanext
+    command: |
+      chown -R 92:92 /srv/app/ckanext;
+      pip install -e "/srv/app/ckanext/ckanext-digitraffic_theme";
+      pip_install "/srv/app/ckanext/ckanext-digitraffic_theme/dev-requirements.txt";
   ckan:
     image: local_catalog_ckan_dev:latest
     ports:
       - "${CKAN_PORT}:${CKAN_PORT}"
       - "${CKAN_DATAPUSHER_PORT}:${CKAN_DATAPUSHER_PORT}"
     depends_on:
-      - postgresql
-      - solr
+      postgresql:
+        condition: service_started
+      solr:
+        condition: service_started
+      ckan-init:
+          condition: service_completed_successfully
     env_file:
       - .env_postgresql_common
       - .env_solr_common
       - .env_ckan_common
       - .env_ckan
+    volumes:
+      - ckanext:/srv/app/ckanext
   postgresql:
     image: local_catalog_postgresql:latest
     ports:
@@ -33,3 +51,10 @@ services:
     env_file:
       - .env_ckan_common
       - .env_nginx
+volumes:
+  ckanext:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: ../ext
