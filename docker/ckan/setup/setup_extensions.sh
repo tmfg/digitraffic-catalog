@@ -16,3 +16,5 @@ ckan config-tool $CKAN_INI "ckan.datapusher.api_token=$(ckan -c $CKAN_INI user t
 #ckan config-tool $CKAN_INI "ckan.matomo.token_auth=jepjep"
 #ckan config-tool $CKAN_INI "ckan.matomo.ignored_user_agents = docker-healthcheck"
 
+# scheming
+ckan config-tool $CKAN_INI "scheming.dataset_schemas = ckanext.scheming:camel_photos.yaml"
