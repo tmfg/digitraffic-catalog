@@ -1,6 +1,6 @@
 services:
   ckan:
-    image: local_catalog_ckan:latest
+    image: local_catalog_ckan_dev:latest
     ports:
       - "${CKAN_PORT}:${CKAN_PORT}"
       - "${CKAN_DATAPUSHER_PORT}:${CKAN_DATAPUSHER_PORT}"

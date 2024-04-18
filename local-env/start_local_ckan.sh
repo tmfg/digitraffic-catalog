@@ -46,6 +46,7 @@ build_image_conditionally() {
 }
 
 build_image_conditionally ../docker/ckan local_catalog_ckan:latest
+build_image_conditionally ./ckan local_catalog_ckan_dev:latest
 build_image_conditionally ../docker/solr local_catalog_solr:latest
 build_image_conditionally ../docker/nginx local_catalog_nginx:latest ENVIRONMENT=local
 build_image_conditionally ./postgresql local_catalog_postgresql:latest
