@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "dcat-schema-transpiler"
+version = "0.1.0"
+description = ""
+authors = ["Joonas-M-S <joonas.mikkonen@solita.fi>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+rdflib = "^7.0.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
