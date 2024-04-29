@@ -50,7 +50,7 @@ def check_db_connection(conn_str, retry=None):
     if retry is None:
         retry = RETRY
     elif retry == 0:
-        print(f"[prerun] Giving up after {retry} tries...")
+        print("[prerun] Giving up after 5 tries...")
         sys.exit(1)
 
     try:
