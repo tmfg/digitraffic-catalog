@@ -1,4 +1,8 @@
-from rdflib import Graph, Namespace
+from rdflib import Graph, Namespace, URIRef, Literal, BNode
+from rdflib.namespace import RDF, RDFS, DCTERMS, XSD, DCAM, DCAT, FOAF, VANN, OWL, QB, SKOS
+from rdflib.plugins import sparql
+import httpx
+import re
 
 mobility_dcat_v_1_0_1_url = 'https://mobilitydcat-ap.github.io/mobilityDCAT-AP/releases/1.0.1/mobilitydcat-ap.ttl'
 dcat_ap_v_2_0_1_url = 'https://joinup.ec.europa.eu/sites/default/files/distribution/access_url/2020-06/e7febda4-1604-4e01-802f-53f0fd2f690c/dcat-ap_2.0.1.rdf'
@@ -14,8 +18,38 @@ g_dcat_ap.parse(dcat_ap_v_2_0_1_url)
 g_dcat = Graph()
 g_dcat.parse(dcat_url)
 
+ADMS = Namespace('http://www.w3.org/ns/adms#')
 LOCN = Namespace('http://www.w3.org/ns/locn#')
-g_mobility_dcat.bind('locn', LOCN)
+DCELEM = Namespace('http://purl.org/dc/elements/1.1/')
+DCT = Namespace('http://purl.org/dc/terms/')
+XHV = Namespace('http://www.w3.org/1999/xhtml/vocab#')
+CC = Namespace('http://creativecommons.org/ns#')
+VCARD = Namespace('http://www.w3.org/2006/vcard/ns#')
+SDMX = Namespace('http://purl.org/linked-data/sdmx#')
+WDRS = Namespace('http://www.w3.org/2007/05/powder-s#')
+VOAF = Namespace('http://purl.org/vocommons/voaf#')
+SKOS_DOC = Namespace('http://www.w3.org/TR/skos-primer/')
+SPDX = Namespace('http://spdx.org/rdf/terms#')
+
+namespaces = {
+    "adms": ADMS,
+    "locn": LOCN,
+    "dcelem": DCELEM,
+    "dct": DCT,
+    "xhv": XHV,
+    "cc": CC,
+    "vcard": VCARD,
+    "sdmx": SDMX,
+    "wdrs": WDRS,
+    "voaf": VOAF,
+    "skosDoc": SKOS_DOC,
+    "spdx": SPDX
+}
+
+for ns_name, ns in namespaces.items():
+    g_mobility_dcat.bind(ns_name, ns)
+    g_dcat_ap.bind(ns_name, ns)
+    g_dcat.bind(ns_name, ns)
 
 ### MOBILITY DCAT QUERIES ###
 
@@ -102,6 +136,19 @@ dcat_ap_properties_q = """
     }
 """
 
+# dcat_ap_unique_classes_with_properties_q = """
+#     PREFIX dcam: <http://purl.org/dc/dcam/>
+#     PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+#     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+#
+#     SELECT DISTINCT ?class
+#     WHERE {
+#         ?property rdfs:label ?label .
+#         ?property rdf:type rdf:Property .
+#         ?property dcam:domainIncludes ?class
+#     }
+# """
+
 ### PRINTING ###
 
 ### MOBILITY PRINTING
@@ -111,10 +158,165 @@ mobility_dcat_calsses = [clazz for (clazz,) in g_mobility_dcat.query(mobility_dc
 
 #for stmt in mobility_dcat_calsses:
 #    pprint.pprint(stmt)
-for (predicate, object) in g_mobility_dcat.predicate_objects(LOCN.Address):
-    pprint.pprint(f'{predicate} {object}')
+#for (predicate, object) in g_mobility_dcat.predicate_objects(LOCN.Address):
+#    pprint.pprint(f'{predicate} {object}')
 
 ### DCAT AP PRINTING
+some_ref = URIRef('http://www.w3.org/ns/dcat#record')
+some_ref_def_by = g_dcat_ap[some_ref: RDFS.isDefinedBy]
+some_ref_identifier = g_dcat_ap[some_ref: DCTERMS.identifier]
 
-#for stmt in g_dcat_ap.query(dcat_ap_properties_q):
-#    pprint.pprint(stmt)
+dcat_ap_namespaces = {
+    "dct": DCT,
+    "foaf": FOAF,
+    "dcat": DCAT,
+    "adms": ADMS,
+    "vann": VANN,
+    "xhv": XHV,
+    "cc": CC,
+    "owl": OWL,
+    "vcard": VCARD,
+    "sdmx": SDMX,
+    "wdrs": WDRS,
+    "voaf": VOAF,
+    "skosDoc": SKOS_DOC,
+    "spdx": SPDX,
+    "xsd": XSD,
+    "qb": QB,
+    "skos": SKOS,
+    "dcam": DCAM,
+    "dcelem": DCELEM,
+    "rdf": RDF,
+    "rdfs": RDFS,
+}
+
+dcat_ap_voc_q = sparql.prepareQuery("""
+    SELECT ?s ?predicate ?object
+    WHERE {
+    ?s ?predicate ?object .
+    BIND( IRI(?identifier) AS ?s ).
+    }
+""",
+    initNs = dcat_ap_namespaces)
+dcat_ap_unique_subject = sparql.prepareQuery("""
+    SELECT DISTINCT ?subject
+    WHERE {
+        ?subject ?p ?o .
+    }
+""",
+    initNs = dcat_ap_namespaces)
+# for stmt in g_dcat_ap.predicate_objects(some_ref):
+#     pprint.pprint(stmt)
+# pprint.pprint("   -----------   ")
+# for stmt in g_dcat.predicate_objects(some_ref):
+#     pprint.pprint(stmt)
+# pprint.pprint("   -----------   ")
+# pprint.pprint(some_ref_def_by)
+# for stmtt in some_ref_def_by:
+#     pprint.pprint(stmtt)
+# pprint.pprint("   -----------   ")
+# for stmtt in some_ref_identifier:
+#     pprint.pprint(stmtt.value)
+#     for stmt in g_dcat.query(q, initBindings={'identifier': URIRef(stmtt.value)}):
+#         pprint.pprint(stmt)
+
+dcat_ap_words = {}
+
+def blank_node_values(dcat_words, subject_dcat_triples, dcat_predicate, dcat_object):
+    if type(dcat_object) is BNode:
+        new_dic = {}
+        dcat_words[dcat_predicate] = new_dic
+        node_predicate_objects = []
+        for (s, p, o) in subject_dcat_triples:
+            if s == dcat_object:
+                node_predicate_objects.append((p, o))
+
+        for (node_predicate, node_object) in node_predicate_objects:
+            blank_node_values(new_dic, subject_dcat_triples, node_predicate, node_object)
+    else:
+        dcat_words[dcat_predicate] = dcat_object
+
+def download_graph(ns: URIRef) -> Graph:
+    headers = {'Accept': 'application/rdf+xml, text/turtle'}
+    r = httpx.get(str(ns), headers=headers, follow_redirects=True)
+    graph_url = str(r.url)
+    pprint.pprint(f'download_graph: graph_url {graph_url}')
+    g = Graph()
+    g.parse(graph_url)
+    return g
+
+#pprint.pprint("ASFASF")
+#test_graph = Graph()
+#test_graph.parse('https://sparontologies.github.io/frbr/current/frbr.xml', format='application/rdf+xml')
+#for foo in g_dcat_ap.query('SELECT ?s ?p ?o WHERE { ?s ?p ?o . FILTER regex(str(?s), "http://purl.org/dc/terms/") }'):
+#    pprint.pprint(foo)
+#for foo in test_graph:
+#    pprint.pprint(foo)
+#pprint.pprint("ASFASF")
+
+shortened_identifier_p = re.compile('[a-zA-Z]+:[a-zA-Z]+')
+local_identifier_p = re.compile('[a-zA-Z]+')
+
+for (dcat_ap_subject,) in g_dcat_ap.query(dcat_ap_unique_subject):
+    if type(dcat_ap_subject) is not BNode:
+        try:
+            pprint.pprint(f'subject is {dcat_ap_subject}')
+            ref_identifier = next(g_dcat_ap[dcat_ap_subject: DCTERMS.identifier])
+            pprint.pprint(f'identifier is {ref_identifier}')
+            if shortened_identifier_p.match(ref_identifier.value.strip()):
+                full_identifier_uri = g_dcat_ap.namespace_manager.expand_curie(ref_identifier.value.strip())
+            elif local_identifier_p.match(ref_identifier):
+                full_identifier_uri = dcat_ap_subject
+            else:
+                full_identifier_uri = ref_identifier
+            pprint.pprint(f'full identifier is {full_identifier_uri}')
+            #pprint.pprint(ref_identifier)
+            #identifier_uri,badsf,asdfa = next(iter(g_dcat.query(sparql.prepareQuery("SELECT ?s ?predicate ?object WHERE { ?s ?predicate ?object . BIND( IRI(?identifier) AS ?s ). }",initNs = dcat_ap_namespaces), initBindings={'identifier': ref_identifier})))
+            #pprint.pprint(identifier_uri)
+            #pprint.pprint()
+            #pprint.pprint(badsf)
+            #pprint.pprint(asdfa)
+            #pprint.pprint(URIRef(full_identifier_uri))
+            #pprint.pprint(URIRef('http://purl.org/dc/terms/Location') in DCT)
+            #pprint.pprint(type(DCT))
+            #pprint.pprint(URIRef('http://purl.org/dc/terms/Location') in g_dcat_ap.namespace_manager)
+            #pprint.pprint(list(g_dcat_ap.namespace_manager.namespaces()))
+            #pprint.pprint([(ns_prefix, ns) for (ns_prefix, ns) in g_dcat_ap.namespaces() if URIRef(full_identifier_uri).startswith(ns)])
+            ns_prefix, ns = [(ns_prefix, ns) for (ns_prefix, ns) in g_dcat_ap.namespaces() if URIRef(full_identifier_uri).startswith(ns)][0]
+
+            pprint.pprint(f'ns prefix is {ns_prefix} and ns is {ns}')
+
+            #pprint.pprint("NAMESPACE TYPE")
+            #pprint.pprint(type(ns))
+            #subject_dcat_triples = g_dcat.query(dcat_ap_voc_q, initBindings={'identifier': ref_identifier})
+            #pprint.pprint(ns)
+            #pprint.pprint(ns["Graph"])
+
+            if (str(ns) == 'http://data.europa.eu/r5r/'):
+                ns_graph = g_dcat_ap
+            # spdx needs some special handling as the content negotiation does not work
+            elif str(ns_prefix) == 'spdx':
+                g_spdx = Graph()
+                g_spdx.parse('https://raw.githubusercontent.com/spdx/spdx-spec/development/v2.3/ontology/spdx-ontology.owl.xml', format='application/rdf+xml')
+                ns_graph = g_spdx
+            else:
+                ns_graph = download_graph(ns)
+            subject_dcat_triples = ns_graph.query(dcat_ap_voc_q, initBindings={'identifier': ref_identifier})
+            dcat_words = {}
+            for (dcat_subject, dcat_predicate, dcat_object) in subject_dcat_triples:
+                blank_node_values(dcat_words, subject_dcat_triples, dcat_predicate, dcat_object)
+#                 if type(dcat_object) is BNode:
+#                     foo()
+#                 else:
+#                     dcat_words[dcat_predicate] = dcat_object
+            dcat_ap_words[dcat_ap_subject] = {
+                'dcat_ap': {dcat_ap_predicate: dcat_ap_object for (dcat_ap_predicate, dcat_ap_object) in g_dcat_ap.predicate_objects(dcat_ap_subject)},
+                ns_prefix: dcat_words #{dcat_predicate: dcat_object for (_, dcat_predicate, dcat_object) in subject_dcat_triples}
+            }
+        except StopIteration:
+            pprint.pprint(f'Could not find identifier for {dcat_ap_subject}')
+pprint.pprint(dcat_ap_words)
+
+
+#for ns in g_dcat_ap.namespaces():
+#    pprint.pprint(ns)
