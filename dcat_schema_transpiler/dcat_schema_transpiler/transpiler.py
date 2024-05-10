@@ -226,10 +226,13 @@ def blank_node_values(dcat_words, ns_graph, subject_dcat_p_o):
     for (dcat_predicate, dcat_object) in subject_dcat_p_o:
         if type(dcat_object) is BNode:
             new_dic = {}
-            dcat_words[dcat_predicate] = new_dic
+            dcat_words[dcat_predicate] = [new_dic]
             blank_node_values(new_dic, ns_graph, ns_graph.predicate_objects(dcat_object))
         else:
-            dcat_words[dcat_predicate] = dcat_object
+            if dcat_predicate in dcat_words:
+                dcat_words.get(dcat_predicate).append(dcat_object)
+            else:
+                dcat_words[dcat_predicate] = [dcat_object]
 
 def download_graph(ns: URIRef) -> Graph:
     headers = {'Accept': 'application/rdf+xml, text/turtle'}
@@ -276,14 +279,25 @@ def get_graph(ns_prefix: str, ns: URIRef, g_dcat_ap) -> Graph:
     downloaded_graphs[ns_prefix] = ns_graph
     return ns_graph
 
+def is_property(po_dict):
+    return (URIRef('http://www.w3.org/2000/01/rdf-schema#subPropertyOf') in po_dict or
+            URIRef('http://www.w3.org/2000/01/rdf-schema#domain') in po_dict or
+            URIRef('http://www.w3.org/2002/07/owl#DatatypeProperty') in po_dict[URIRef('http://www.w3.org/1999/02/22-rdf-syntax-ns#type')] or
+            URIRef('http://www.w3.org/1999/02/22-rdf-syntax-ns#Property') in po_dict[URIRef('http://www.w3.org/1999/02/22-rdf-syntax-ns#type')])
+
+
+def is_class(po_dict):
+    return (URIRef('http://www.w3.org/2002/07/owl#Class') in po_dict[URIRef('http://www.w3.org/1999/02/22-rdf-syntax-ns#type')] or
+            URIRef('http://www.w3.org/2000/01/rdf-schema#Class') in po_dict[URIRef('http://www.w3.org/1999/02/22-rdf-syntax-ns#type')])
+
+
 for (dcat_ap_subject,) in g_dcat_ap.query(dcat_ap_unique_subject):
     if type(dcat_ap_subject) is not BNode:
         try:
             #pprint.pprint(f'subject is {dcat_ap_subject}')
             ref_identifier_node = next(g_dcat_ap[dcat_ap_subject: DCTERMS.identifier])
             if type(ref_identifier_node) is BNode:
-                #pprint.pprint(ref_identifier_node.n3)
-                if dcat_ap_subject == 'http://www.w3.org/ns/dcat#Role':
+                if str(dcat_ap_subject) == 'http://www.w3.org/ns/dcat#Role':
                     ref_identifier = 'dcat:Role'
             else:
                 ref_identifier = ref_identifier_node.value.strip()
@@ -322,11 +336,7 @@ for (dcat_ap_subject,) in g_dcat_ap.query(dcat_ap_unique_subject):
             subject_dcat_p_o = ns_graph.predicate_objects(URIRef(full_identifier_uri))
             #ns_graph.query(sparql.prepareQuery("SELECT ?subject ?predicate ?object WHERE { BIND( IRI(?identifier) AS ?s ). ?subject ?predicate ?object . FILTER(?s = ?subject).  }",initNs = dcat_ap_namespaces), initBindings={'identifier': ref_identifier})
             #ns_graph.query(dcat_ap_voc_q, initBindings={'identifier': ref_identifier_node})
-            if str(ns_prefix) == 'spdx':
-                pprint.pprint("SPDX RESULTS")
-                pprint.pprint(f'identifier: {ref_identifier}')
-                for foo in subject_dcat_p_o:
-                    pprint.pprint(foo)
+
             dcat_words = {}
             blank_node_values(dcat_words, ns_graph, subject_dcat_p_o)
             #for (dcat_predicate, dcat_object) in subject_dcat_p_o:
@@ -337,11 +347,16 @@ for (dcat_ap_subject,) in g_dcat_ap.query(dcat_ap_unique_subject):
 #                     dcat_words[dcat_predicate] = dcat_object
             dcat_ap_words[dcat_ap_subject] = {
                 'dcat_ap': {dcat_ap_predicate: dcat_ap_object for (dcat_ap_predicate, dcat_ap_object) in g_dcat_ap.predicate_objects(dcat_ap_subject)},
-                ns_prefix: dcat_words #{dcat_predicate: dcat_object for (_, dcat_predicate, dcat_object) in subject_dcat_triples}
+                ns_prefix: dcat_words, #{dcat_predicate: dcat_object for (_, dcat_predicate, dcat_object) in subject_dcat_triples}
+                'type': 'property' if is_property(dcat_words) else ('class' if is_class(dcat_words) else 'other')
             }
         except StopIteration:
             pprint.pprint(f'Could not find identifier for {dcat_ap_subject}')
 pprint.pprint(dcat_ap_words)
+
+pprint.pprint("###### CLASSES ######")
+pprint.pprint([k for k,v in dcat_ap_words.items() if v['type'] == 'class'])
+
 
 
 #for ns in g_dcat_ap.namespaces():
