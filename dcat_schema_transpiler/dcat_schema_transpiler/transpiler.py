@@ -222,25 +222,20 @@ dcat_ap_unique_subject = sparql.prepareQuery("""
 
 dcat_ap_words = {}
 
-def blank_node_values(dcat_words, subject_dcat_triples, dcat_predicate, dcat_object):
-    if type(dcat_object) is BNode:
-        new_dic = {}
-        dcat_words[dcat_predicate] = new_dic
-        node_predicate_objects = []
-        for (s, p, o) in subject_dcat_triples:
-            if s == dcat_object:
-                node_predicate_objects.append((p, o))
-
-        for (node_predicate, node_object) in node_predicate_objects:
-            blank_node_values(new_dic, subject_dcat_triples, node_predicate, node_object)
-    else:
-        dcat_words[dcat_predicate] = dcat_object
+def blank_node_values(dcat_words, ns_graph, subject_dcat_p_o):
+    for (dcat_predicate, dcat_object) in subject_dcat_p_o:
+        if type(dcat_object) is BNode:
+            new_dic = {}
+            dcat_words[dcat_predicate] = new_dic
+            blank_node_values(new_dic, ns_graph, ns_graph.predicate_objects(dcat_object))
+        else:
+            dcat_words[dcat_predicate] = dcat_object
 
 def download_graph(ns: URIRef) -> Graph:
     headers = {'Accept': 'application/rdf+xml, text/turtle'}
     r = httpx.get(str(ns), headers=headers, follow_redirects=True)
     graph_url = str(r.url)
-    pprint.pprint(f'download_graph: graph_url {graph_url}')
+    #pprint.pprint(f'download_graph: graph_url {graph_url}')
     g = Graph()
     g.parse(graph_url)
     return g
@@ -256,20 +251,50 @@ def download_graph(ns: URIRef) -> Graph:
 
 shortened_identifier_p = re.compile('[a-zA-Z]+:[a-zA-Z]+')
 local_identifier_p = re.compile('[a-zA-Z]+')
+downloaded_graphs = {}
+
+def get_graph(ns_prefix: str, ns: URIRef, g_dcat_ap) -> Graph:
+    #pprint.pprint(f'get_graph: ns_prefix {ns_prefix}')
+    #pprint.pprint(downloaded_graphs.keys())
+    if ns_prefix in downloaded_graphs:
+        #pprint.pprint('Access from the dict')
+        return downloaded_graphs[ns_prefix]
+    if (str(ns) == 'http://data.europa.eu/r5r/'):
+        ns_graph = g_dcat_ap
+    # spdx and locn need some special handling as the content negotiation does not work
+    elif str(ns_prefix) == 'spdx':
+        g_spdx = Graph()
+        g_spdx.parse('https://raw.githubusercontent.com/spdx/spdx-spec/development/v2.3/ontology/spdx-ontology.owl.xml', format='application/rdf+xml')
+        ns_graph = g_spdx
+    elif str(ns_prefix) == 'locn':
+       g_locn = Graph()
+       g_locn.parse('https://semiceu.github.io/Core-Location-Vocabulary/releases/w3c/locn.rdf', format='application/rdf+xml')
+       ns_graph = g_locn
+    else:
+        ns_graph = download_graph(ns)
+    ns_graph.bind(ns_prefix, ns)
+    downloaded_graphs[ns_prefix] = ns_graph
+    return ns_graph
 
 for (dcat_ap_subject,) in g_dcat_ap.query(dcat_ap_unique_subject):
     if type(dcat_ap_subject) is not BNode:
         try:
-            pprint.pprint(f'subject is {dcat_ap_subject}')
-            ref_identifier = next(g_dcat_ap[dcat_ap_subject: DCTERMS.identifier])
-            pprint.pprint(f'identifier is {ref_identifier}')
-            if shortened_identifier_p.match(ref_identifier.value.strip()):
-                full_identifier_uri = g_dcat_ap.namespace_manager.expand_curie(ref_identifier.value.strip())
+            #pprint.pprint(f'subject is {dcat_ap_subject}')
+            ref_identifier_node = next(g_dcat_ap[dcat_ap_subject: DCTERMS.identifier])
+            if type(ref_identifier_node) is BNode:
+                #pprint.pprint(ref_identifier_node.n3)
+                if dcat_ap_subject == 'http://www.w3.org/ns/dcat#Role':
+                    ref_identifier = 'dcat:Role'
+            else:
+                ref_identifier = ref_identifier_node.value.strip()
+            #pprint.pprint(f'identifier is {ref_identifier}')
+            if shortened_identifier_p.match(ref_identifier):
+                full_identifier_uri = g_dcat_ap.namespace_manager.expand_curie(ref_identifier)
             elif local_identifier_p.match(ref_identifier):
                 full_identifier_uri = dcat_ap_subject
             else:
                 full_identifier_uri = ref_identifier
-            pprint.pprint(f'full identifier is {full_identifier_uri}')
+            #pprint.pprint(f'full identifier is {full_identifier_uri}')
             #pprint.pprint(ref_identifier)
             #identifier_uri,badsf,asdfa = next(iter(g_dcat.query(sparql.prepareQuery("SELECT ?s ?predicate ?object WHERE { ?s ?predicate ?object . BIND( IRI(?identifier) AS ?s ). }",initNs = dcat_ap_namespaces), initBindings={'identifier': ref_identifier})))
             #pprint.pprint(identifier_uri)
@@ -284,7 +309,7 @@ for (dcat_ap_subject,) in g_dcat_ap.query(dcat_ap_unique_subject):
             #pprint.pprint([(ns_prefix, ns) for (ns_prefix, ns) in g_dcat_ap.namespaces() if URIRef(full_identifier_uri).startswith(ns)])
             ns_prefix, ns = [(ns_prefix, ns) for (ns_prefix, ns) in g_dcat_ap.namespaces() if URIRef(full_identifier_uri).startswith(ns)][0]
 
-            pprint.pprint(f'ns prefix is {ns_prefix} and ns is {ns}')
+            #pprint.pprint(f'ns prefix is {ns_prefix} and ns is {ns}')
 
             #pprint.pprint("NAMESPACE TYPE")
             #pprint.pprint(type(ns))
@@ -292,19 +317,20 @@ for (dcat_ap_subject,) in g_dcat_ap.query(dcat_ap_unique_subject):
             #pprint.pprint(ns)
             #pprint.pprint(ns["Graph"])
 
-            if (str(ns) == 'http://data.europa.eu/r5r/'):
-                ns_graph = g_dcat_ap
-            # spdx needs some special handling as the content negotiation does not work
-            elif str(ns_prefix) == 'spdx':
-                g_spdx = Graph()
-                g_spdx.parse('https://raw.githubusercontent.com/spdx/spdx-spec/development/v2.3/ontology/spdx-ontology.owl.xml', format='application/rdf+xml')
-                ns_graph = g_spdx
-            else:
-                ns_graph = download_graph(ns)
-            subject_dcat_triples = ns_graph.query(dcat_ap_voc_q, initBindings={'identifier': ref_identifier})
+            ns_graph = get_graph(ns_prefix, ns, g_dcat_ap)
+
+            subject_dcat_p_o = ns_graph.predicate_objects(URIRef(full_identifier_uri))
+            #ns_graph.query(sparql.prepareQuery("SELECT ?subject ?predicate ?object WHERE { BIND( IRI(?identifier) AS ?s ). ?subject ?predicate ?object . FILTER(?s = ?subject).  }",initNs = dcat_ap_namespaces), initBindings={'identifier': ref_identifier})
+            #ns_graph.query(dcat_ap_voc_q, initBindings={'identifier': ref_identifier_node})
+            if str(ns_prefix) == 'spdx':
+                pprint.pprint("SPDX RESULTS")
+                pprint.pprint(f'identifier: {ref_identifier}')
+                for foo in subject_dcat_p_o:
+                    pprint.pprint(foo)
             dcat_words = {}
-            for (dcat_subject, dcat_predicate, dcat_object) in subject_dcat_triples:
-                blank_node_values(dcat_words, subject_dcat_triples, dcat_predicate, dcat_object)
+            blank_node_values(dcat_words, ns_graph, subject_dcat_p_o)
+            #for (dcat_predicate, dcat_object) in subject_dcat_p_o:
+            #    blank_node_values(dcat_words, subject_dcat_p_o, dcat_predicate, dcat_object)
 #                 if type(dcat_object) is BNode:
 #                     foo()
 #                 else:
