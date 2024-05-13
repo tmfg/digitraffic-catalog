@@ -198,7 +198,7 @@ dcat_ap_voc_q = sparql.prepareQuery("""
     }
 """,
     initNs = dcat_ap_namespaces)
-dcat_ap_unique_subject = sparql.prepareQuery("""
+unique_subject = sparql.prepareQuery("""
     SELECT DISTINCT ?subject
     WHERE {
         ?subject ?p ?o .
@@ -220,19 +220,23 @@ dcat_ap_unique_subject = sparql.prepareQuery("""
 #     for stmt in g_dcat.query(q, initBindings={'identifier': URIRef(stmtt.value)}):
 #         pprint.pprint(stmt)
 
-dcat_ap_words = {}
 
-def blank_node_values(dcat_words, ns_graph, subject_dcat_p_o):
-    for (dcat_predicate, dcat_object) in subject_dcat_p_o:
+def po_tuples_to_po_dict(ns_graph, subject_p_o, dcat_wordss=None):
+    if dcat_wordss is None:
+        dcat_words = {}
+    else:
+        dcat_words = dcat_wordss
+    for (dcat_predicate, dcat_object) in subject_p_o:
         if type(dcat_object) is BNode:
-            new_dic = {}
-            dcat_words[dcat_predicate] = [new_dic]
-            blank_node_values(new_dic, ns_graph, ns_graph.predicate_objects(dcat_object))
+            new_dict = {}
+            dcat_words[dcat_predicate] = [new_dict]
+            po_tuples_to_po_dict(ns_graph, ns_graph.predicate_objects(dcat_object), new_dict)
         else:
             if dcat_predicate in dcat_words:
                 dcat_words.get(dcat_predicate).append(dcat_object)
             else:
                 dcat_words[dcat_predicate] = [dcat_object]
+    return dcat_words
 
 def download_graph(ns: URIRef) -> Graph:
     headers = {'Accept': 'application/rdf+xml, text/turtle'}
@@ -290,72 +294,104 @@ def is_class(po_dict):
     return (URIRef('http://www.w3.org/2002/07/owl#Class') in po_dict[URIRef('http://www.w3.org/1999/02/22-rdf-syntax-ns#type')] or
             URIRef('http://www.w3.org/2000/01/rdf-schema#Class') in po_dict[URIRef('http://www.w3.org/1999/02/22-rdf-syntax-ns#type')])
 
+def get_domain(po_dict):
+    return (po_dict.get(URIRef('http://www.w3.org/2000/01/rdf-schema#domain')) or
+            po_dict.get(URIRef('http://purl.org/dc/dcam/domainIncludes')))
 
-for (dcat_ap_subject,) in g_dcat_ap.query(dcat_ap_unique_subject):
-    if type(dcat_ap_subject) is not BNode:
-        try:
-            #pprint.pprint(f'subject is {dcat_ap_subject}')
-            ref_identifier_node = next(g_dcat_ap[dcat_ap_subject: DCTERMS.identifier])
-            if type(ref_identifier_node) is BNode:
-                if str(dcat_ap_subject) == 'http://www.w3.org/ns/dcat#Role':
-                    ref_identifier = 'dcat:Role'
-            else:
-                ref_identifier = ref_identifier_node.value.strip()
-            #pprint.pprint(f'identifier is {ref_identifier}')
-            if shortened_identifier_p.match(ref_identifier):
-                full_identifier_uri = g_dcat_ap.namespace_manager.expand_curie(ref_identifier)
-            elif local_identifier_p.match(ref_identifier):
-                full_identifier_uri = dcat_ap_subject
-            else:
-                full_identifier_uri = ref_identifier
-            #pprint.pprint(f'full identifier is {full_identifier_uri}')
-            #pprint.pprint(ref_identifier)
-            #identifier_uri,badsf,asdfa = next(iter(g_dcat.query(sparql.prepareQuery("SELECT ?s ?predicate ?object WHERE { ?s ?predicate ?object . BIND( IRI(?identifier) AS ?s ). }",initNs = dcat_ap_namespaces), initBindings={'identifier': ref_identifier})))
-            #pprint.pprint(identifier_uri)
-            #pprint.pprint()
-            #pprint.pprint(badsf)
-            #pprint.pprint(asdfa)
-            #pprint.pprint(URIRef(full_identifier_uri))
-            #pprint.pprint(URIRef('http://purl.org/dc/terms/Location') in DCT)
-            #pprint.pprint(type(DCT))
-            #pprint.pprint(URIRef('http://purl.org/dc/terms/Location') in g_dcat_ap.namespace_manager)
-            #pprint.pprint(list(g_dcat_ap.namespace_manager.namespaces()))
-            #pprint.pprint([(ns_prefix, ns) for (ns_prefix, ns) in g_dcat_ap.namespaces() if URIRef(full_identifier_uri).startswith(ns)])
-            ns_prefix, ns = [(ns_prefix, ns) for (ns_prefix, ns) in g_dcat_ap.namespaces() if URIRef(full_identifier_uri).startswith(ns)][0]
+def get_subject_iri_from_graph(graph: Graph, subject: URIRef) -> URIRef:
+    shortened_identifier_p = re.compile('[a-zA-Z]+:[a-zA-Z]+')
+    local_identifier_p = re.compile('[a-zA-Z]+')
+    try:
+        ref_identifier_node = next(graph[subject: DCTERMS.identifier])
+        ## Special handling for some known cases
+        if type(ref_identifier_node) is BNode:
+            if str(subject) == 'http://www.w3.org/ns/dcat#Role':
+                ref_identifier = 'dcat:Role'
+        else:
+            ref_identifier = ref_identifier_node.value.strip()
+        if shortened_identifier_p.match(ref_identifier):
+            full_identifier_iri = graph.namespace_manager.expand_curie(ref_identifier)
+        elif local_identifier_p.match(ref_identifier):
+            full_identifier_iri = subject
+        else:
+            full_identifier_iri = ref_identifier
+        return full_identifier_iri
+    except StopIteration:
+        # There was no identifier property so return the 'subject' itself
+        return subject
 
-            #pprint.pprint(f'ns prefix is {ns_prefix} and ns is {ns}')
+def get_graph_for_iri(iri_referencing_graph: Graph, iri: URIRef) -> Graph:
+    try:
+        ns_prefix, ns = [(ns_prefix, ns) for (ns_prefix, ns) in iri_referencing_graph.namespaces() if URIRef(iri).startswith(ns)][0]
+    except IndexError:
+        return (None, None)
+    if ns_prefix in downloaded_graphs:
+        return (ns_prefix, downloaded_graphs[ns_prefix])
+    # Special handling for dcat ap
+    if (str(ns) == 'http://data.europa.eu/r5r/'):
+        ns_graph = g_dcat_ap
+    # spdx and locn need some special handling as the content negotiation does not work
+    elif str(ns_prefix) == 'spdx':
+        g_spdx = Graph()
+        g_spdx.parse('https://raw.githubusercontent.com/spdx/spdx-spec/development/v2.3/ontology/spdx-ontology.owl.xml', format='application/rdf+xml')
+        ns_graph = g_spdx
+    elif str(ns_prefix) == 'locn':
+       g_locn = Graph()
+       g_locn.parse('https://semiceu.github.io/Core-Location-Vocabulary/releases/w3c/locn.rdf', format='application/rdf+xml')
+       ns_graph = g_locn
+    else:
+        ns_graph = download_graph(ns)
+    ns_graph.bind(ns_prefix, ns)
+    downloaded_graphs[ns_prefix] = ns_graph
+    return (ns_prefix, ns_graph)
 
-            #pprint.pprint("NAMESPACE TYPE")
-            #pprint.pprint(type(ns))
-            #subject_dcat_triples = g_dcat.query(dcat_ap_voc_q, initBindings={'identifier': ref_identifier})
-            #pprint.pprint(ns)
-            #pprint.pprint(ns["Graph"])
+def enrich_po_dict(po_dict, graph, subject, ns_prefix):
+    return {
+        'dcat_ap': {dcat_ap_predicate: dcat_ap_object for (dcat_ap_predicate, dcat_ap_object) in graph.predicate_objects(subject)},
+        ns_prefix: po_dict, #{dcat_predicate: dcat_object for (_, dcat_predicate, dcat_object) in subject_dcat_triples}
+        'type': 'property' if is_property(po_dict) else ('class' if is_class(po_dict) else 'other'),
+        'domain': get_domain(po_dict) if is_property(po_dict) else None
+    }
 
-            ns_graph = get_graph(ns_prefix, ns, g_dcat_ap)
+def classes_properties(graph):
+    enriched_dict = {}
+    for (subject,) in graph.query(unique_subject):
+        if type(subject) is not BNode:
+            full_identifier_iri = get_subject_iri_from_graph(graph, subject)
+            ns_prefix, ns_graph = get_graph_for_iri(graph, full_identifier_iri)
+            if ns_graph is not None:
+                subject_p_o = ns_graph.predicate_objects(URIRef(full_identifier_iri))
+                po_dict = po_tuples_to_po_dict(ns_graph, subject_p_o)
+                enriched_dict[subject] = enrich_po_dict(po_dict, graph, subject, ns_prefix)
+    return enriched_dict
 
-            subject_dcat_p_o = ns_graph.predicate_objects(URIRef(full_identifier_uri))
-            #ns_graph.query(sparql.prepareQuery("SELECT ?subject ?predicate ?object WHERE { BIND( IRI(?identifier) AS ?s ). ?subject ?predicate ?object . FILTER(?s = ?subject).  }",initNs = dcat_ap_namespaces), initBindings={'identifier': ref_identifier})
-            #ns_graph.query(dcat_ap_voc_q, initBindings={'identifier': ref_identifier_node})
+dcat_ap_words = classes_properties(g_dcat_ap)
 
-            dcat_words = {}
-            blank_node_values(dcat_words, ns_graph, subject_dcat_p_o)
-            #for (dcat_predicate, dcat_object) in subject_dcat_p_o:
-            #    blank_node_values(dcat_words, subject_dcat_p_o, dcat_predicate, dcat_object)
-#                 if type(dcat_object) is BNode:
-#                     foo()
-#                 else:
-#                     dcat_words[dcat_predicate] = dcat_object
-            dcat_ap_words[dcat_ap_subject] = {
-                'dcat_ap': {dcat_ap_predicate: dcat_ap_object for (dcat_ap_predicate, dcat_ap_object) in g_dcat_ap.predicate_objects(dcat_ap_subject)},
-                ns_prefix: dcat_words, #{dcat_predicate: dcat_object for (_, dcat_predicate, dcat_object) in subject_dcat_triples}
-                'type': 'property' if is_property(dcat_words) else ('class' if is_class(dcat_words) else 'other')
-            }
-        except StopIteration:
-            pprint.pprint(f'Could not find identifier for {dcat_ap_subject}')
-pprint.pprint(dcat_ap_words)
+classes_with_properties = {}
+
+#pprint.pprint([v['domain'] for k,v in dcat_ap_words.items() if v['domain']])
+
+for k,v in dcat_ap_words.items():
+    if v['type'] == 'class':
+        classes_with_properties[k] = {}
+for k,v in dcat_ap_words.items():
+    if v['domain']:
+        clazz = v['domain'][0]
+        classes_with_properties.update({(clazz if type(clazz) is URIRef else 'node'): {k: v}})
 
 pprint.pprint("###### CLASSES ######")
 pprint.pprint([k for k,v in dcat_ap_words.items() if v['type'] == 'class'])
+#pprint.pprint('')
+#pprint.pprint("###### CLASSES WITH PROPERTIES ######")
+for k,v in classes_with_properties.items():
+    pass
+#    pprint.pprint(k)
+    for kk,vv in v.items():
+        pass
+#        pprint.pprint(f'-- {kk}')
+#pprint.pprint(classes_with_properties)
+
+
 
 
 
