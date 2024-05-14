@@ -3,6 +3,7 @@ from rdflib.namespace import RDF, RDFS, DCTERMS, XSD, DCAM, DCAT, FOAF, VANN, OW
 from rdflib.plugins import sparql
 import httpx
 import re
+import hashlib
 
 mobility_dcat_v_1_0_1_url = 'https://mobilitydcat-ap.github.io/mobilityDCAT-AP/releases/1.0.1/mobilitydcat-ap.ttl'
 dcat_ap_v_2_0_1_url = 'https://joinup.ec.europa.eu/sites/default/files/distribution/access_url/2020-06/e7febda4-1604-4e01-802f-53f0fd2f690c/dcat-ap_2.0.1.rdf'
@@ -229,7 +230,10 @@ def po_tuples_to_po_dict(ns_graph, subject_p_o, dcat_wordss=None):
     for (dcat_predicate, dcat_object) in subject_p_o:
         if type(dcat_object) is BNode:
             new_dict = {}
-            dcat_words[dcat_predicate] = [new_dict]
+            if dcat_predicate in dcat_words:
+                dcat_words.get(dcat_predicate).append(new_dict)
+            else:
+                dcat_words[dcat_predicate] = [new_dict]
             po_tuples_to_po_dict(ns_graph, ns_graph.predicate_objects(dcat_object), new_dict)
         else:
             if dcat_predicate in dcat_words:
@@ -260,43 +264,24 @@ shortened_identifier_p = re.compile('[a-zA-Z]+:[a-zA-Z]+')
 local_identifier_p = re.compile('[a-zA-Z]+')
 downloaded_graphs = {}
 
-def get_graph(ns_prefix: str, ns: URIRef, g_dcat_ap) -> Graph:
-    #pprint.pprint(f'get_graph: ns_prefix {ns_prefix}')
-    #pprint.pprint(downloaded_graphs.keys())
-    if ns_prefix in downloaded_graphs:
-        #pprint.pprint('Access from the dict')
-        return downloaded_graphs[ns_prefix]
-    if (str(ns) == 'http://data.europa.eu/r5r/'):
-        ns_graph = g_dcat_ap
-    # spdx and locn need some special handling as the content negotiation does not work
-    elif str(ns_prefix) == 'spdx':
-        g_spdx = Graph()
-        g_spdx.parse('https://raw.githubusercontent.com/spdx/spdx-spec/development/v2.3/ontology/spdx-ontology.owl.xml', format='application/rdf+xml')
-        ns_graph = g_spdx
-    elif str(ns_prefix) == 'locn':
-       g_locn = Graph()
-       g_locn.parse('https://semiceu.github.io/Core-Location-Vocabulary/releases/w3c/locn.rdf', format='application/rdf+xml')
-       ns_graph = g_locn
-    else:
-        ns_graph = download_graph(ns)
-    ns_graph.bind(ns_prefix, ns)
-    downloaded_graphs[ns_prefix] = ns_graph
-    return ns_graph
-
 def is_property(po_dict):
     return (URIRef('http://www.w3.org/2000/01/rdf-schema#subPropertyOf') in po_dict or
             URIRef('http://www.w3.org/2000/01/rdf-schema#domain') in po_dict or
-            URIRef('http://www.w3.org/2002/07/owl#DatatypeProperty') in po_dict[URIRef('http://www.w3.org/1999/02/22-rdf-syntax-ns#type')] or
-            URIRef('http://www.w3.org/1999/02/22-rdf-syntax-ns#Property') in po_dict[URIRef('http://www.w3.org/1999/02/22-rdf-syntax-ns#type')])
+            URIRef('http://www.w3.org/2002/07/owl#DatatypeProperty') in po_dict.get(URIRef('http://www.w3.org/1999/02/22-rdf-syntax-ns#type'), {}) or
+            URIRef('http://www.w3.org/1999/02/22-rdf-syntax-ns#Property') in po_dict.get(URIRef('http://www.w3.org/1999/02/22-rdf-syntax-ns#type'), {}))
 
 
 def is_class(po_dict):
-    return (URIRef('http://www.w3.org/2002/07/owl#Class') in po_dict[URIRef('http://www.w3.org/1999/02/22-rdf-syntax-ns#type')] or
-            URIRef('http://www.w3.org/2000/01/rdf-schema#Class') in po_dict[URIRef('http://www.w3.org/1999/02/22-rdf-syntax-ns#type')])
+    return (URIRef('http://www.w3.org/2002/07/owl#Class') in po_dict.get(URIRef('http://www.w3.org/1999/02/22-rdf-syntax-ns#type'), {}) or
+            URIRef('http://www.w3.org/2000/01/rdf-schema#Class') in po_dict.get(URIRef('http://www.w3.org/1999/02/22-rdf-syntax-ns#type'), {}))
 
-def get_domain(po_dict):
-    return (po_dict.get(URIRef('http://www.w3.org/2000/01/rdf-schema#domain')) or
-            po_dict.get(URIRef('http://purl.org/dc/dcam/domainIncludes')))
+def get_is_defined_by(po_dict):
+    return po_dict.get(URIRef('http://www.w3.org/2000/01/rdf-schema#isDefinedBy'), [None])[0]
+
+def get_domains(po_dict):
+    rdfs_domains = (po_dict.get(URIRef('http://www.w3.org/2000/01/rdf-schema#domain')) or [])
+    dcam_domains = (po_dict.get(URIRef('http://purl.org/dc/dcam/domainIncludes')) or [])
+    return rdfs_domains + dcam_domains
 
 def get_subject_iri_from_graph(graph: Graph, subject: URIRef) -> URIRef:
     shortened_identifier_p = re.compile('[a-zA-Z]+:[a-zA-Z]+')
@@ -330,65 +315,128 @@ def get_graph_for_iri(iri_referencing_graph: Graph, iri: URIRef) -> Graph:
     # Special handling for dcat ap
     if (str(ns) == 'http://data.europa.eu/r5r/'):
         ns_graph = g_dcat_ap
-    # spdx and locn need some special handling as the content negotiation does not work
+    # The namespaces in elif -clauses need some special handling as the content negotiation does not work
     elif str(ns_prefix) == 'spdx':
         g_spdx = Graph()
         g_spdx.parse('https://raw.githubusercontent.com/spdx/spdx-spec/development/v2.3/ontology/spdx-ontology.owl.xml', format='application/rdf+xml')
         ns_graph = g_spdx
     elif str(ns_prefix) == 'locn':
-       g_locn = Graph()
-       g_locn.parse('https://semiceu.github.io/Core-Location-Vocabulary/releases/w3c/locn.rdf', format='application/rdf+xml')
-       ns_graph = g_locn
+        g_locn = Graph()
+        g_locn.parse('https://semiceu.github.io/Core-Location-Vocabulary/releases/w3c/locn.rdf', format='application/rdf+xml')
+        ns_graph = g_locn
+    elif str(ns_prefix) == 'vann':
+        g_vann = Graph()
+        g_vann.parse('https://vocab.org/vann/vann-vocab-20100607.rdf', format='application/rdf+xml')
+        ns_graph = g_vann
     else:
         ns_graph = download_graph(ns)
     ns_graph.bind(ns_prefix, ns)
     downloaded_graphs[ns_prefix] = ns_graph
     return (ns_prefix, ns_graph)
 
-def enrich_po_dict(po_dict, graph, subject, ns_prefix):
+def enrich_po_dict(po_dict, graph):
+    try:
+        ns_prefix_list = [ns_prefix for (ns_prefix, ns) in graph.namespaces() if (get_is_defined_by(po_dict) or "").startswith(ns)]
+        if len(ns_prefix_list) == 0:
+            ns_prefix = None
+        else:
+            ns_prefix = ns_prefix_list[0]
+    except IndexError:
+        return (None, None)
     return {
-        'dcat_ap': {dcat_ap_predicate: dcat_ap_object for (dcat_ap_predicate, dcat_ap_object) in graph.predicate_objects(subject)},
-        ns_prefix: po_dict, #{dcat_predicate: dcat_object for (_, dcat_predicate, dcat_object) in subject_dcat_triples}
+        'po_dict': po_dict,
         'type': 'property' if is_property(po_dict) else ('class' if is_class(po_dict) else 'other'),
-        'domain': get_domain(po_dict) if is_property(po_dict) else None
+        'domain': get_domains(po_dict) if is_property(po_dict) else None,
+        'ns_prefix': ns_prefix
     }
 
-def classes_properties(graph):
+def classes_properties(graph, ns_prefix):
     enriched_dict = {}
     for (subject,) in graph.query(unique_subject):
         if type(subject) is not BNode:
             full_identifier_iri = get_subject_iri_from_graph(graph, subject)
-            ns_prefix, ns_graph = get_graph_for_iri(graph, full_identifier_iri)
-            if ns_graph is not None:
-                subject_p_o = ns_graph.predicate_objects(URIRef(full_identifier_iri))
-                po_dict = po_tuples_to_po_dict(ns_graph, subject_p_o)
-                enriched_dict[subject] = enrich_po_dict(po_dict, graph, subject, ns_prefix)
+            origin_ns_prefix, origin_ns_graph = get_graph_for_iri(graph, full_identifier_iri)
+            if origin_ns_graph is not None:
+                origin_graph_subject_p_o = origin_ns_graph.predicate_objects(URIRef(full_identifier_iri))
+                origin_graph_po_dict = po_tuples_to_po_dict(origin_ns_graph, origin_graph_subject_p_o)
+            graph_subject_p_o = graph.predicate_objects(subject)
+            graph_po_dict = po_tuples_to_po_dict(graph, graph_subject_p_o, origin_graph_po_dict)
+            enriched_dict[subject] = enrich_po_dict(graph_po_dict, graph)
     return enriched_dict
 
-dcat_ap_words = classes_properties(g_dcat_ap)
-
-classes_with_properties = {}
+dcat_ap_words = classes_properties(g_dcat_ap, 'dcatap')
+mobility_dcat_words = classes_properties(g_mobility_dcat, 'mobilitydcatap')
 
 #pprint.pprint([v['domain'] for k,v in dcat_ap_words.items() if v['domain']])
 
-for k,v in dcat_ap_words.items():
-    if v['type'] == 'class':
-        classes_with_properties[k] = {}
-for k,v in dcat_ap_words.items():
-    if v['domain']:
-        clazz = v['domain'][0]
-        classes_with_properties.update({(clazz if type(clazz) is URIRef else 'node'): {k: v}})
+def combine_mobility_and_dcat_ap(mobility_dcat_words, dcat_ap_words):
+    classes_with_properties = {}
+    h = hashlib.new('sha256')
+    for k,v in mobility_dcat_words.items():
+        if v['type'] == 'class':
+            classes_with_properties[k] = {}
+    for k,v in dcat_ap_words.items():
+        if v['type'] == 'class':
+            classes_with_properties[k] = {}
+    for k,v in mobility_dcat_words.items():
+        if v['domain']:
+            for clazz in v.get('domain', []):
+                if type(clazz) is URIRef:
+                    clazz_key = clazz
+                else:
+                    h.update(str(clazz).encode())
+                    clazz_key = h.hexdigest()
+                classes_with_properties[clazz_key] = classes_with_properties.get(clazz_key, {}) | {k: v}
+                #classes_with_properties.update({clazz_key: {k: v}})
+    for k,v in dcat_ap_words.items():
+        if v['domain']:
+            for clazz in v.get('domain', []):
+                if type(clazz) is URIRef:
+                    clazz_key = clazz
+                else:
+                    h.update(str(clazz).encode())
+                    clazz_key = h.hexdigest()
+                if classes_with_properties.get(clazz_key):
+                    classes_with_properties[clazz_key]['dcat_original'] = classes_with_properties[clazz_key].get('dcat_original', {}) | {k: v}
+                else:
+                    classes_with_properties[clazz_key] = {'dcat_original': {k: v}}
+    return classes_with_properties
+
+def print_ns_classes_with_properties(classes_with_properties, ns_prefix):
+    for k,v in classes_with_properties.items():
+        if any(vv.get('ns_prefix') == ns_prefix for vv in v.values()):
+            pprint.pprint(k)
+            for kk,vv in v.items():
+                pprint.pprint(f'-- {kk}')
+
+classes_with_properties = combine_mobility_and_dcat_ap(mobility_dcat_words, dcat_ap_words)
+
+dcat_ap_words_classes = {k for k,v in dcat_ap_words.items() if v['type'] == 'class'}
+mobility_dcat_words_classes = {k for k,v in mobility_dcat_words.items() if v['type'] == 'class'}
 
 pprint.pprint("###### CLASSES ######")
-pprint.pprint([k for k,v in dcat_ap_words.items() if v['type'] == 'class'])
-#pprint.pprint('')
-#pprint.pprint("###### CLASSES WITH PROPERTIES ######")
-for k,v in classes_with_properties.items():
-    pass
+pprint.pprint(dcat_ap_words_classes)
+pprint.pprint("###### MOBILITY CLASSES ######")
+pprint.pprint(mobility_dcat_words_classes)
+pprint.pprint("###### COMMON CLASSES #######")
+pprint.pprint(dcat_ap_words_classes.intersection(mobility_dcat_words_classes))
+pprint.pprint("###### DCAT AP UNIQUE CLASSES #####")
+pprint.pprint(dcat_ap_words_classes.difference(mobility_dcat_words_classes))
+pprint.pprint("###### MOBILITY DCAT AP UNIQUE CLASSES #####")
+pprint.pprint(mobility_dcat_words_classes.difference(dcat_ap_words_classes))
+pprint.pprint("###### CLASSES WITH PROPERTIES ######")
+print_ns_classes_with_properties(classes_with_properties, 'mobilitydcatap')
+#for k,v in classes_with_properties.items():
 #    pprint.pprint(k)
-    for kk,vv in v.items():
-        pass
+#    for kk,vv in v.items():
 #        pprint.pprint(f'-- {kk}')
+        #pprint.pprint(vv)
+pprint.pprint("###### STATS ######")
+pprint.pprint(f'dcat ap classes count: {len(dcat_ap_words_classes)}')
+pprint.pprint(f'mobility classes count: {len(mobility_dcat_words_classes)}')
+pprint.pprint(f'common classes count: {len(dcat_ap_words_classes.intersection(mobility_dcat_words_classes))}')
+pprint.pprint(f'classes with properties count: {len(classes_with_properties.keys())}')
+
 #pprint.pprint(classes_with_properties)
 
 
