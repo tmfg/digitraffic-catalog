@@ -1,5 +1,5 @@
 from rdflib import Graph, Namespace, URIRef, Literal, BNode
-from rdflib.namespace import RDF, RDFS, DCTERMS, XSD, DCAM, DCAT, FOAF, VANN, OWL, QB, SKOS
+from rdflib.namespace import DefinedNamespace, RDF, RDFS, DCTERMS, XSD, DCAM, DCAT, FOAF, VANN, OWL, QB, SKOS
 from rdflib.plugins import sparql
 import httpx
 import re
@@ -31,6 +31,27 @@ WDRS = Namespace('http://www.w3.org/2007/05/powder-s#')
 VOAF = Namespace('http://purl.org/vocommons/voaf#')
 SKOS_DOC = Namespace('http://www.w3.org/TR/skos-primer/')
 SPDX = Namespace('http://spdx.org/rdf/terms#')
+
+class MOBILITYDCATAP(DefinedNamespace):
+    _NS = Namespace('http://w3id.org/mobilitydcat-ap#')
+
+    # Classes
+    MobilityDataStandard: URIRef
+    Assessment: URIRef
+
+    # Properties
+    mobilityTheme: URIRef
+    georeferencingMethod: URIRef
+    networkCoverage: URIRef
+    transportMode: URIRef
+    assessmentResult: URIRef
+    intendedInformationService: URIRef
+    mobilityDataStandard: URIRef
+    applicationLayerProtocol: URIRef
+    communicationMethod: URIRef
+    grammar: URIRef
+    schema: URIRef
+    dataFormatNotes: URIRef
 
 namespaces = {
     "adms": ADMS,
@@ -157,11 +178,6 @@ import pprint
 
 mobility_dcat_calsses = [clazz for (clazz,) in g_mobility_dcat.query(mobility_dcat_unique_classes_with_properties_q)]
 
-#for stmt in mobility_dcat_calsses:
-#    pprint.pprint(stmt)
-#for (predicate, object) in g_mobility_dcat.predicate_objects(LOCN.Address):
-#    pprint.pprint(f'{predicate} {object}')
-
 ### DCAT AP PRINTING
 some_ref = URIRef('http://www.w3.org/ns/dcat#record')
 some_ref_def_by = g_dcat_ap[some_ref: RDFS.isDefinedBy]
@@ -221,6 +237,10 @@ unique_subject = sparql.prepareQuery("""
 #     for stmt in g_dcat.query(q, initBindings={'identifier': URIRef(stmtt.value)}):
 #         pprint.pprint(stmt)
 
+def mobilitydcatap_fixes(graph):
+    # There is probably a typo in the .ttl file. Should be capital 'M' as per https://mobilitydcat-ap.github.io/mobilityDCAT-AP/releases/index.html#properties-for-mobility-data-standard
+    graph.remove((OWL.versionInfo, DCAM.domainIncludes, MOBILITYDCATAP.mobilityDataStandard))
+    graph.add((OWL.versionInfo, DCAM.domainIncludes, MOBILITYDCATAP.MobilityDataStandard))
 
 def po_tuples_to_po_dict(ns_graph, subject_p_o, dcat_wordss=None):
     if dcat_wordss is None:
@@ -246,19 +266,9 @@ def download_graph(ns: URIRef) -> Graph:
     headers = {'Accept': 'application/rdf+xml, text/turtle'}
     r = httpx.get(str(ns), headers=headers, follow_redirects=True)
     graph_url = str(r.url)
-    #pprint.pprint(f'download_graph: graph_url {graph_url}')
     g = Graph()
     g.parse(graph_url)
     return g
-
-#pprint.pprint("ASFASF")
-#test_graph = Graph()
-#test_graph.parse('https://sparontologies.github.io/frbr/current/frbr.xml', format='application/rdf+xml')
-#for foo in g_dcat_ap.query('SELECT ?s ?p ?o WHERE { ?s ?p ?o . FILTER regex(str(?s), "http://purl.org/dc/terms/") }'):
-#    pprint.pprint(foo)
-#for foo in test_graph:
-#    pprint.pprint(foo)
-#pprint.pprint("ASFASF")
 
 shortened_identifier_p = re.compile('[a-zA-Z]+:[a-zA-Z]+')
 local_identifier_p = re.compile('[a-zA-Z]+')
@@ -334,20 +344,22 @@ def get_graph_for_iri(iri_referencing_graph: Graph, iri: URIRef) -> Graph:
     downloaded_graphs[ns_prefix] = ns_graph
     return (ns_prefix, ns_graph)
 
-def enrich_po_dict(po_dict, graph):
+def enrich_po_dict(subject, po_dict, graph, ns_prefix):
     try:
-        ns_prefix_list = [ns_prefix for (ns_prefix, ns) in graph.namespaces() if (get_is_defined_by(po_dict) or "").startswith(ns)]
-        if len(ns_prefix_list) == 0:
-            ns_prefix = None
+        defined_by_ns_prefix_list = [ns_prefix for (ns_prefix, ns) in graph.namespaces() if (get_is_defined_by(po_dict) or "").startswith(ns)]
+        if len(defined_by_ns_prefix_list) == 0:
+            defined_by_ns_prefix = None
         else:
-            ns_prefix = ns_prefix_list[0]
+            defined_by_ns_prefix = defined_by_ns_prefix_list[0]
     except IndexError:
         return (None, None)
     return {
         'po_dict': po_dict,
         'type': 'property' if is_property(po_dict) else ('class' if is_class(po_dict) else 'other'),
         'domain': get_domains(po_dict) if is_property(po_dict) else None,
-        'ns_prefix': ns_prefix
+        'ns_prefix': defined_by_ns_prefix,
+        'used_by': ns_prefix,
+        'directly_used_by': graph[subject] is not None
     }
 
 def classes_properties(graph, ns_prefix):
@@ -359,15 +371,17 @@ def classes_properties(graph, ns_prefix):
             if origin_ns_graph is not None:
                 origin_graph_subject_p_o = origin_ns_graph.predicate_objects(URIRef(full_identifier_iri))
                 origin_graph_po_dict = po_tuples_to_po_dict(origin_ns_graph, origin_graph_subject_p_o)
+            else:
+                origin_graph_po_dict = {}
             graph_subject_p_o = graph.predicate_objects(subject)
             graph_po_dict = po_tuples_to_po_dict(graph, graph_subject_p_o, origin_graph_po_dict)
-            enriched_dict[subject] = enrich_po_dict(graph_po_dict, graph)
+            enriched_dict[subject] = enrich_po_dict(subject, graph_po_dict, graph, ns_prefix)
     return enriched_dict
+
+mobilitydcatap_fixes(g_mobility_dcat)
 
 dcat_ap_words = classes_properties(g_dcat_ap, 'dcatap')
 mobility_dcat_words = classes_properties(g_mobility_dcat, 'mobilitydcatap')
-
-#pprint.pprint([v['domain'] for k,v in dcat_ap_words.items() if v['domain']])
 
 def combine_mobility_and_dcat_ap(mobility_dcat_words, dcat_ap_words):
     classes_with_properties = {}
@@ -382,29 +396,40 @@ def combine_mobility_and_dcat_ap(mobility_dcat_words, dcat_ap_words):
         if v['domain']:
             for clazz in v.get('domain', []):
                 if type(clazz) is URIRef:
-                    clazz_key = clazz
+                    # We are not interested in classes that are defined in different namespaces and are not used by mobility dcat or dcat-ap
+                    if clazz in mobility_dcat_words:
+                        clazz_key = clazz
+                    else:
+                        clazz_key = None
                 else:
-                    h.update(str(clazz).encode())
-                    clazz_key = h.hexdigest()
-                classes_with_properties[clazz_key] = classes_with_properties.get(clazz_key, {}) | {k: v}
+                    #h.update(str(clazz).encode())
+                    #clazz_key = h.hexdigest()
+                    clazz_key = None
+                if clazz_key is not None:
+                    classes_with_properties[clazz_key] = classes_with_properties.get(clazz_key, {}) | {k: v}
                 #classes_with_properties.update({clazz_key: {k: v}})
     for k,v in dcat_ap_words.items():
         if v['domain']:
             for clazz in v.get('domain', []):
                 if type(clazz) is URIRef:
-                    clazz_key = clazz
+                    if clazz in dcat_ap_words:
+                        clazz_key = clazz
+                    else:
+                        clazz_key = None
                 else:
-                    h.update(str(clazz).encode())
-                    clazz_key = h.hexdigest()
-                if classes_with_properties.get(clazz_key):
-                    classes_with_properties[clazz_key]['dcat_original'] = classes_with_properties[clazz_key].get('dcat_original', {}) | {k: v}
-                else:
-                    classes_with_properties[clazz_key] = {'dcat_original': {k: v}}
+                    #h.update(str(clazz).encode())
+                    #clazz_key = h.hexdigest()
+                    clazz_key = None
+                if clazz_key is not None:
+                    if classes_with_properties.get(clazz_key):
+                        classes_with_properties[clazz_key]['dcat_original'] = classes_with_properties[clazz_key].get('dcat_original', {}) | {k: v}
+                    else:
+                        classes_with_properties[clazz_key] = {'dcat_original': {k: v}}
     return classes_with_properties
 
-def print_ns_classes_with_properties(classes_with_properties, ns_prefix):
+def print_ns_classes_with_properties(classes_with_properties, ns_prefix=None):
     for k,v in classes_with_properties.items():
-        if any(vv.get('ns_prefix') == ns_prefix for vv in v.values()):
+        if ns_prefix is None or any(vv.get('used_by') == ns_prefix for vv in v.values()):
             pprint.pprint(k)
             for kk,vv in v.items():
                 pprint.pprint(f'-- {kk}')
@@ -425,23 +450,11 @@ pprint.pprint(dcat_ap_words_classes.difference(mobility_dcat_words_classes))
 pprint.pprint("###### MOBILITY DCAT AP UNIQUE CLASSES #####")
 pprint.pprint(mobility_dcat_words_classes.difference(dcat_ap_words_classes))
 pprint.pprint("###### CLASSES WITH PROPERTIES ######")
-print_ns_classes_with_properties(classes_with_properties, 'mobilitydcatap')
-#for k,v in classes_with_properties.items():
-#    pprint.pprint(k)
-#    for kk,vv in v.items():
-#        pprint.pprint(f'-- {kk}')
-        #pprint.pprint(vv)
+#print_ns_classes_with_properties(classes_with_properties, 'mobilitydcatap')
+print_ns_classes_with_properties(classes_with_properties)
+
 pprint.pprint("###### STATS ######")
 pprint.pprint(f'dcat ap classes count: {len(dcat_ap_words_classes)}')
 pprint.pprint(f'mobility classes count: {len(mobility_dcat_words_classes)}')
 pprint.pprint(f'common classes count: {len(dcat_ap_words_classes.intersection(mobility_dcat_words_classes))}')
 pprint.pprint(f'classes with properties count: {len(classes_with_properties.keys())}')
-
-#pprint.pprint(classes_with_properties)
-
-
-
-
-
-#for ns in g_dcat_ap.namespaces():
-#    pprint.pprint(ns)
