@@ -151,6 +151,19 @@ files = [
 six = "*"
 
 [[package]]
+name = "owlready2"
+version = "0.46"
+description = "A package for ontology-oriented programming in Python: load OWL 2.0 ontologies as Python objects, modify them, save them, and perform reasoning via HermiT. Includes an optimized RDF quadstore."
+optional = false
+python-versions = ">=3.6"
+files = [
+    {file = "owlready2-0.46.tar.gz", hash = "sha256:3c1b06dbe85df77dfa2de5a13ba1d11b4b8543c1c0ccdc5be252a81e3c0de55a"},
+]
+
+[package.extras]
+test = ["flask", "gevent", "rdflib"]
+
+[[package]]
 name = "pyparsing"
 version = "3.1.2"
 description = "pyparsing module - Classes and methods to define and execute parsing grammars"
@@ -210,4 +223,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12"
-content-hash = "eb8719e11c20896a6a7052b54ef9053de62ea1b836f930fa89fb3534bfd9a671"
+content-hash = "4f10e52e9aac8c3ca75f4ba996409ef93e47074c74d8d3613b50cbb01c614305"
