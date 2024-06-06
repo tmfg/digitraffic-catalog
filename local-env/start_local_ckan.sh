@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-USAGE=$(cat <<-EOM
+USAGE=$(
+  cat <<-EOM
 
 usage: start_local_ckan.sh { up | down } [ build_image ]
 
@@ -12,13 +13,16 @@ Also, builds a CKAN docker image if one does not exists or build_image argument 
 EOM
 )
 
-if ! ([[ $# -eq 1 ]] || [[ $# -eq 2 ]]) ; then echo "$USAGE"; exit 1; fi;
+if ! ([[ $# -eq 1 ]] || [[ $# -eq 2 ]]); then
+  echo "$USAGE"
+  exit 1
+fi
 
-if ! [[ "$1" = 'up'  ||
-    "$1" = 'down' ]];
-then echo "$USAGE";
-     exit 1;
-fi;
+if ! [[ "$1" = 'up' ||
+  "$1" = 'down' ]]; then
+  echo "$USAGE"
+  exit 1
+fi
 
 cd "$(dirname "${BASH_SOURCE[0]}")"
 
@@ -28,24 +32,24 @@ remove_tmp_dir() {
   fi
 }
 
-copy_extension_to_tmp() {
+copy_extensions_to_tmp() {
   mkdir -p tmp
-  cp -r $1 tmp/
+  for extension in "$@"; do
+    cp -r "$extension" tmp/
+  done
 }
 
 if [[ $(docker image ls local_ckan:latest -q | wc -l) -eq 0 ]] ||
-   ([[ $# -eq 2 ]] && [[ "$2" = 'build_image' ]])
-then
+  ([[ $# -eq 2 ]] && [[ "$2" = 'build_image' ]]); then
   cd ckan
-  copy_extension_to_tmp ../../ext/ckanext-digitraffic_theme
+  copy_extensions_to_tmp ../../ext/ckanext-digitraffic_theme ../../ext/ckanext-entraid_oidc
   docker image build -t local_ckan:latest .
   remove_tmp_dir
   cd ..
 fi
 
 if [[ $(docker image ls local_solr:latest -q | wc -l) -eq 0 ]] ||
-   ([[ $# -eq 2 ]] && [[ "$2" = 'build_image' ]])
-then
+  ([[ $# -eq 2 ]] && [[ "$2" = 'build_image' ]]); then
   cd solr
   docker image build -t local_solr:latest .
   cd ..
