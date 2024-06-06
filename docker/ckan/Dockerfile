@@ -1,4 +1,4 @@
-FROM alpine:3.20
+FROM alpine:3.19
 ARG CKAN_VERSION=ckan-2.10.4
 
 # Internals, you probably don't need to change these
