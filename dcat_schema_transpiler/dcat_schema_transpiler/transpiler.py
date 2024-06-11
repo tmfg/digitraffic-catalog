@@ -1,12 +1,10 @@
 from __future__ import annotations
 from rdflib import Dataset, Graph, Namespace, URIRef, Literal, BNode
 from rdflib.namespace import DefinedNamespace, RDF, RDFS, DCTERMS, XSD, DCAM, DCAT, FOAF, VANN, OWL, QB, SKOS, ORG, PROV
-from rdflib.plugins import sparql
-from typing import List, Type, TypeVar, Any, Dict, Tuple
+from typing import List, Any, Dict, Tuple, Set
+from abc import ABC, abstractmethod
 import httpx
-import re
 import hashlib
-import owlready2
 import glob
 import base64
 import pprint
@@ -71,21 +69,6 @@ class MOBILITYDCATAP(DefinedNamespace):
     dataFormatNotes: URIRef
 
 
-namespaces = {
-    "adms": ADMS,
-    "locn": LOCN,
-    "dcelem": DCELEM,
-    "dct": DCT,
-    "xhv": XHV,
-    "cc": CC,
-    "vcard": VCARD,
-    "sdmx": SDMX,
-    "wdrs": WDRS,
-    "voaf": VOAF,
-    "skosDoc": SKOS_DOC,
-    "spdx": SPDX
-}
-
 mobility_dcat_namespaces = {
     "adms": ADMS,
     "bibo": BIBO,
@@ -113,139 +96,10 @@ mobility_dcat_namespaces = {
     "xsd": XSD
 }
 
-# for ns_name, ns in namespaces.items():
-#    g_mobility_dcat.bind(ns_name, ns)
-#    g_dcat_ap.bind(ns_name, ns)
-
-### MOBILITY DCAT QUERIES ###
-
-mobility_dcat_classes_q = """
-    PREFIX owl: <http://www.w3.org/2002/07/owl#>
-    PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-
-    SELECT ?class ?label
-    WHERE {
-        ?class rdf:type owl:Class .
-        ?class rdfs:label ?label .
-    }
-"""
-
-# Result of this query should be empty
-mobility_dcat_properties_without_class_q = """
-    PREFIX dcam: <http://purl.org/dc/dcam/>
-    PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-
-    SELECT ?label
-    WHERE {
-        ?s rdfs:label ?label .
-        ?s rdf:type rdf:Property .
-        FILTER NOT EXISTS {
-            ?s dcam:domainIncludes ?class
-        }
-    }
-"""
-
-mobility_dcat_properties_q = """
-    PREFIX dcam: <http://purl.org/dc/dcam/>
-    PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-
-    SELECT ?property ?label ?class
-    WHERE {
-        ?property rdfs:label ?label .
-        ?property rdf:type rdf:Property .
-        ?property dcam:domainIncludes ?class
-    }
-"""
-
-mobility_dcat_unique_classes_with_properties_q = """
-    PREFIX dcam: <http://purl.org/dc/dcam/>
-    PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-
-    SELECT DISTINCT ?class
-    WHERE {
-        ?property rdfs:label ?label .
-        ?property rdf:type rdf:Property .
-        ?property dcam:domainIncludes ?class
-    }
-"""
-
-### PRINTING ###
-
-### MOBILITY PRINTING
-
-
-mobility_dcat_calsses = [clazz for (clazz,) in g_mobility_dcat.query(mobility_dcat_unique_classes_with_properties_q)]
-
-dcat_ap_namespaces = {
-    "dct": DCT,
-    "foaf": FOAF,
-    "dcat": DCAT,
-    "adms": ADMS,
-    "vann": VANN,
-    "xhv": XHV,
-    "cc": CC,
-    "owl": OWL,
-    "vcard": VCARD,
-    "sdmx": SDMX,
-    "wdrs": WDRS,
-    "voaf": VOAF,
-    "skosDoc": SKOS_DOC,
-    "spdx": SPDX,
-    "xsd": XSD,
-    "qb": QB,
-    "skos": SKOS,
-    "dcam": DCAM,
-    "dcelem": DCELEM,
-    "rdf": RDF,
-    "rdfs": RDFS,
-}
-
-dcat_ap_voc_q = sparql.prepareQuery("""
-    SELECT ?s ?predicate ?object
-    WHERE {
-    ?s ?predicate ?object .
-    BIND( IRI(?identifier) AS ?s ).
-    }
-""",
-                                    initNs=dcat_ap_namespaces)
-unique_subject = sparql.prepareQuery("""
-    SELECT DISTINCT ?subject
-    WHERE {
-        ?subject ?p ?o .
-    }
-""",
-                                     initNs=dcat_ap_namespaces)
-
-
 def mobilitydcatap_fixes(graph):
     # There is probably a typo in the .ttl file. Should be capital 'M' as per https://mobilitydcat-ap.github.io/mobilityDCAT-AP/releases/index.html#properties-for-mobility-data-standard
     graph.remove((OWL.versionInfo, DCAM.domainIncludes, MOBILITYDCATAP.mobilityDataStandard))
     graph.add((OWL.versionInfo, DCAM.domainIncludes, MOBILITYDCATAP.MobilityDataStandard))
-
-
-def po_tuples_to_po_dict(ns_graph, subject_p_o, dcat_wordss=None):
-    if dcat_wordss is None:
-        dcat_words = {}
-    else:
-        dcat_words = dcat_wordss
-    for (dcat_predicate, dcat_object) in subject_p_o:
-        if type(dcat_object) is BNode:
-            new_dict = {}
-            if dcat_predicate in dcat_words:
-                dcat_words.get(dcat_predicate).append(new_dict)
-            else:
-                dcat_words[dcat_predicate] = [new_dict]
-            po_tuples_to_po_dict(ns_graph, ns_graph.predicate_objects(dcat_object), new_dict)
-        else:
-            if dcat_predicate in dcat_words:
-                dcat_words.get(dcat_predicate).append(dcat_object)
-            else:
-                dcat_words[dcat_predicate] = [dcat_object]
-    return dcat_words
 
 
 def get_graph_url(ns: URIRef, mime_types: str = 'application/rdf+xml, text/turtle') -> (str, str):
@@ -254,100 +108,6 @@ def get_graph_url(ns: URIRef, mime_types: str = 'application/rdf+xml, text/turtl
     # Some servers do not write content-type with capital letters
     content_type = r.headers['Content-Type'] or r.headers['content-type']
     return str(r.url), content_type
-
-
-def download_graph(ns: URIRef) -> Graph:
-    graph_url, _ = get_graph_url(ns)
-    g = Graph()
-    g.parse(graph_url)
-    return g
-
-
-shortened_identifier_p = re.compile('[a-zA-Z]+:[a-zA-Z]+')
-local_identifier_p = re.compile('[a-zA-Z]+')
-downloaded_graphs = {}
-
-
-def is_property(po_dict):
-    return (URIRef('http://www.w3.org/2000/01/rdf-schema#subPropertyOf') in po_dict or
-            URIRef('http://www.w3.org/2000/01/rdf-schema#domain') in po_dict or
-            URIRef('http://www.w3.org/2002/07/owl#DatatypeProperty') in po_dict.get(
-                URIRef('http://www.w3.org/1999/02/22-rdf-syntax-ns#type'), {}) or
-            URIRef('http://www.w3.org/1999/02/22-rdf-syntax-ns#Property') in po_dict.get(
-                URIRef('http://www.w3.org/1999/02/22-rdf-syntax-ns#type'), {}))
-
-
-def is_class(po_dict):
-    return (URIRef('http://www.w3.org/2002/07/owl#Class') in po_dict.get(
-        URIRef('http://www.w3.org/1999/02/22-rdf-syntax-ns#type'), {}) or
-            URIRef('http://www.w3.org/2000/01/rdf-schema#Class') in po_dict.get(
-                URIRef('http://www.w3.org/1999/02/22-rdf-syntax-ns#type'), {}))
-
-
-def get_is_defined_by(po_dict):
-    return po_dict.get(URIRef('http://www.w3.org/2000/01/rdf-schema#isDefinedBy'), [None])[0]
-
-
-def get_domains(po_dict):
-    rdfs_domains = (po_dict.get(URIRef('http://www.w3.org/2000/01/rdf-schema#domain')) or [])
-    dcam_domains = (po_dict.get(URIRef('http://purl.org/dc/dcam/domainIncludes')) or [])
-    return rdfs_domains + dcam_domains
-
-
-def get_subject_iri_from_graph(graph: Graph, subject: URIRef) -> URIRef:
-    shortened_identifier_p = re.compile('[a-zA-Z]+:[a-zA-Z]+')
-    local_identifier_p = re.compile('[a-zA-Z]+')
-    try:
-        ref_identifier_node = next(graph[subject: DCTERMS.identifier])
-        ## Special handling for some known cases
-        if type(ref_identifier_node) is BNode:
-            if str(subject) == 'http://www.w3.org/ns/dcat#Role':
-                ref_identifier = 'dcat:Role'
-        else:
-            ref_identifier = ref_identifier_node.value.strip()
-        if shortened_identifier_p.match(ref_identifier):
-            full_identifier_iri = graph.namespace_manager.expand_curie(ref_identifier)
-        elif local_identifier_p.match(ref_identifier):
-            full_identifier_iri = subject
-        else:
-            full_identifier_iri = ref_identifier
-        return full_identifier_iri
-    except StopIteration:
-        # There was no identifier property so return the 'subject' itself
-        return subject
-
-
-def get_graph_for_iri(iri_referencing_graph: Graph, iri: URIRef) -> (str, Graph):
-    try:
-        ns_prefix, ns = \
-            [(ns_prefix, ns) for (ns_prefix, ns) in iri_referencing_graph.namespaces() if URIRef(iri).startswith(ns)][0]
-    except IndexError:
-        return (None, None)
-    if ns_prefix in downloaded_graphs:
-        return (ns_prefix, downloaded_graphs[ns_prefix])
-    # Special handling for dcat ap
-    if (str(ns) == 'http://data.europa.eu/r5r/'):
-        ns_graph = g_dcat_ap
-    # The namespaces in elif -clauses need some special handling as the content negotiation does not work
-    elif str(ns_prefix) == 'spdx':
-        g_spdx = Graph()
-        g_spdx.parse('https://raw.githubusercontent.com/spdx/spdx-spec/development/v2.3/ontology/spdx-ontology.owl.xml',
-                     format='application/rdf+xml')
-        ns_graph = g_spdx
-    elif str(ns_prefix) == 'locn':
-        g_locn = Graph()
-        g_locn.parse('https://semiceu.github.io/Core-Location-Vocabulary/releases/w3c/locn.rdf',
-                     format='application/rdf+xml')
-        ns_graph = g_locn
-    elif str(ns_prefix) == 'vann':
-        g_vann = Graph()
-        g_vann.parse('https://vocab.org/vann/vann-vocab-20100607.rdf', format='application/rdf+xml')
-        ns_graph = g_vann
-    else:
-        ns_graph = download_graph(ns)
-    ns_graph.bind(ns_prefix, ns)
-    downloaded_graphs[ns_prefix] = ns_graph
-    return (ns_prefix, ns_graph)
 
 
 def ns_to_encoded(ns: str) -> str:
@@ -417,9 +177,6 @@ def set_content_for_graph(graph: Graph) -> None:
         graph_url = 'https://vocab.org/vann/vann-vocab-20100607.rdf'
         serialization_format = 'rdf'
         graph.parse(graph_url, format='application/rdf+xml')
-    elif str(ns) == 'http://www.w3.org/ns/adms#':
-        # Links are broken atm
-        return
     elif str(ns) == 'http://www.w3.org/1999/xhtml/vocab#':
         return
     elif str(ns) == 'http://creativecommons.org/ns#':
@@ -460,80 +217,12 @@ def set_content_for_graph(graph: Graph) -> None:
         file.write(r.text)
 
 
-def enrich_po_dict(subject, po_dict, graph, ns_prefix):
-    try:
-        defined_by_ns_prefix_list = [ns_prefix for (ns_prefix, ns) in graph.namespaces() if
-                                     (get_is_defined_by(po_dict) or "").startswith(ns)]
-        if len(defined_by_ns_prefix_list) == 0:
-            defined_by_ns_prefix = None
-        else:
-            defined_by_ns_prefix = defined_by_ns_prefix_list[0]
-    except IndexError:
-        return (None, None)
-    return {
-        'po_dict': po_dict,
-        'type': 'property' if is_property(po_dict) else ('class' if is_class(po_dict) else 'other'),
-        'domain': get_domains(po_dict) if is_property(po_dict) else None,
-        'ns_prefix': defined_by_ns_prefix,
-        'used_by': ns_prefix,
-        'directly_used_by': graph[subject] is not None
-    }
-
-
-def classes_properties(graph, ns_prefix):
-    enriched_dict = {}
-    for (subject,) in graph.query(unique_subject):
-        if type(subject) is not BNode:
-            full_identifier_iri = get_subject_iri_from_graph(graph, subject)
-            origin_ns_prefix, origin_ns_graph = get_graph_for_iri(graph, full_identifier_iri)
-            if origin_ns_graph is not None:
-                origin_graph_subject_p_o = origin_ns_graph.predicate_objects(URIRef(full_identifier_iri))
-                origin_graph_po_dict = po_tuples_to_po_dict(origin_ns_graph, origin_graph_subject_p_o)
-            else:
-                origin_graph_po_dict = {}
-            graph_subject_p_o = graph.predicate_objects(subject)
-            graph_po_dict = po_tuples_to_po_dict(graph, graph_subject_p_o, origin_graph_po_dict)
-            enriched_dict[subject] = enrich_po_dict(subject, graph_po_dict, graph, ns_prefix)
-    return enriched_dict
-
-
 mobilitydcatap_fixes(g_mobility_dcat)
-
-
-# dcat_ap_words = classes_properties(g_dcat_ap, 'dcatap')
-# mobility_dcat_words = classes_properties(g_mobility_dcat, 'mobilitydcatap')
-
-# dcat_ap_words_classes = {k for k,v in dcat_ap_words.items() if v['type'] == 'class'}
-# mobility_dcat_words_classes = {k for k,v in mobility_dcat_words.items() if v['type'] == 'class'}
-
-# def mobilitydcatap_classes():
-#    {k for k,v in mobility_dcat_words.items() if v['type'] == 'class'}
 
 def populate_dataset(ds: Dataset, namespace: Namespace) -> None:
     if not [context for context in ds.contexts() if context.identifier == URIRef(namespace)]:
         g = ds.graph(namespace)
         set_content_for_graph(g)
-
-
-def populate_mobility_graph():
-    # Add dcat-ap triples that are defined in the mobilityDCAT-AP document in order to conform to DCAT-AP
-    # _, g_foaf = get_graph_for_iri(g_mobility_dcat, FOAF.Agent)
-    #    _, g_rdfs = get_graph_for_iri(g_mobility_dcat, RDFS.Class)
-    #   ds.add_graph(g_rdfs)
-    # ds.add_graph(g_foaf)
-    g_foaf = ds.graph(FOAF._NS)
-    set_content_for_graph(g_foaf)
-    # for triple in g_rdfs.triples((RDFS.label, None, None)):
-    populate_dataset(ds, RDF._NS)
-    populate_dataset(ds, RDFS._NS)
-    populate_dataset(ds, SKOS._NS)
-
-
-#            ds.add(triple)
-# ds.add((FOAF.Agent, FOAF.name, RDFS.Literal))
-
-
-# populate_mobility_graph()
 
 for _, namespace in mobility_dcat_namespaces.items():
     if isinstance(namespace, Namespace):
@@ -544,11 +233,7 @@ for _, namespace in mobility_dcat_namespaces.items():
         raise ValueError('Foo')
     populate_dataset(ds, ns)
 
-clazz_pred = {}
 
-default_graph = ''
-
-from abc import ABC, abstractmethod
 
 
 class Resource(ABC):
@@ -588,7 +273,9 @@ class Resource(ABC):
         TODO: Have a more sensible way to get the namespace than checking some random list.
               Should probably find a better place for this method anyway
         """
-        for known_namespace in mobility_dcat_namespaces.values():
+        known_namespaces = set(mobility_dcat_namespaces.values())
+        known_namespaces.add(MOBILITYDCATAP)
+        for known_namespace in known_namespaces:
             if isinstance(known_namespace, Namespace):
                 ns = known_namespace
             else:
@@ -806,59 +493,51 @@ class RDFSProperty(RDFSResource):
 
 
 class ClassPropertiesAggregator:
-    def __init__(self, clazz: RDFSClass, property_objects: Dict[RDFSProperty, List[Tuple[Resource, Namespace]]]):
+    def __init__(self, clazz: RDFSClass, properties: Set[RDFSProperty], properties_includes: Set[RDFSProperty]):
         self.clazz = clazz
-        self.property_objects = property_objects
+        self.properties = properties
+        self.properties_includes = properties_includes
 
     @classmethod
-    def from_ds(cls, clazz: RDFSClass, ds: Dataset) -> ClassPropertiesAggregator:
-        class_properties: Dict[URIRef, List[Tuple[str, Namespace]]] = {}
-        for _, p, o, g_identifier in ds.quads((clazz.iri, None, None, None)):
-            if isinstance(p, URIRef):
-                existing_property = class_properties.get(p)
-                new_object = (o, Namespace(g_identifier) if g_identifier is not None else None)
-                if existing_property is not None:
-                    existing_property.append(new_object)
-                else:
-                    class_properties[property] = [new_object]
-
-                #property = RDFSProperty.from_ds(p, ds)
-                #existing_property = class_properties.get(property)
-                #if p == RDFS.isDefinedBy:
-                #    # For some reason, isDefinedBy has a wrong value when read by rdflib
-                #    obj = Literal(str(o))
-                #else:
-                #    obj = o
-                #new_object = (ClassPropertiesAggregator.create_resource_(obj, ds), Namespace(g_identifier) if g_identifier is not None else None)
-                #if existing_property is not None:
-                #    existing_property.append(new_object)
-                #else:
-                #    class_properties[property] = [new_object]
+    def from_ds_with_graph(cls, clazz: RDFSClass, ds: Dataset, graph_namespace: URIRef) -> ClassPropertiesAggregator:
+        properties: Set[RDFSProperty] = set()
+        properties_includes: Set[RDFSProperty] = set()
+        g = ds.get_graph(graph_namespace)
+        for s, _, _ in g.triples((None, RDFS.range, clazz.iri)):
+            if (s, RDF.type, RDF.Property) in g:
+                properties.add(RDFSProperty.from_ds(s, ds))
+            elif (s, RDF.type, OWL.DatatypeProperty) in g:
+                # Not exactly correct, ubt OWL.DatatypeProperty is a subclass of RDF Property
+                properties_includes.add(RDFSProperty.from_ds(s, ds))
             else:
                 raise ValueError('''
-                Predicate was not a URIRef. Instead;
+                Subject was not a Property. Instead;
                 type={type}
                 value={value}\
-                '''.format(type=type(p), value=p))
-        return cls(clazz, class_properties)
-
-    @staticmethod
-    def create_resource_(resource_ref: URIRef | Literal, ds: Dataset) -> Resource:
-        if isinstance(resource_ref, Literal):
-            return RDFSLiteral(resource_ref)
-        namespace, iri, types = IRIResource.resource_args_from_ds(resource_ref, ds)
-        if RDFS.Class in types:
-            return RDFSResource.from_ds(iri, ds)
-        elif RDF.Property in types:
-            return RDFSProperty.from_ds(iri, ds)
-        else:
-            raise ValueError(f'Could not create a resource from iri {iri}')
+                '''.format(type=type(s), value=s))
+        for s, _, _ in g.triples((None, DCAM.domainIncludes, clazz.iri)):
+            if (s, RDF.type, RDF.Property) in g:
+                properties_includes.add(RDFSProperty.from_ds(s, ds))
+            elif (s, RDF.type, OWL.DatatypeProperty) in g:
+                # Not exactly correct, ubt OWL.DatatypeProperty is a subclass of RDF Property
+                properties_includes.add(RDFSProperty.from_ds(s, ds))
+            else:
+                raise ValueError('''
+                Subject was not a Property. Instead;
+                type={type}
+                value={value}\
+                '''.format(type=type(s), value=s))
+        return cls(clazz, properties, properties_includes)
 
     def __str__(self):
         spaces = '    '
         return '''<{class_iri}>
-{spaces}{properties}'''.format(class_iri=self.clazz.iri,
-                               properties=(os.linesep + spaces).join(set(map(lambda p_os: "<" +  str(p_os[0].iri) + ">" + (os.linesep + spaces * 2).join(map(lambda r_n: str(r_n[0].value()) + " (" + r_n[1] + ")", p_os[1])), self.property_objects.items()))),
+{spaces}PROPERTIES:
+{spaces}{spaces}{properties}
+{spaces}PROPERTIES INCLUDES:
+{spaces}{spaces}{properties_includes}'''.format(class_iri=self.clazz.iri,
+                               properties=(os.linesep + spaces*2).join(map(lambda p: "<" + str(p.iri) + ">", self.properties)),
+                               properties_includes=(os.linesep + spaces*2).join(map(lambda p: "<" + str(p.iri) + ">", self.properties_includes)),
                                spaces=spaces)
 
     def get_property_objects(self):
@@ -889,19 +568,6 @@ def iri_resource_factory(cls, iri, ds: Dataset, **kwargs):
                     existing_property.append(new_object)
                 else:
                     additional_properties[p] = [new_object]
-
-                # property = RDFSProperty.from_ds(p, ds)
-                # existing_property = additional_properties.get(property)
-                # if p == RDFS.isDefinedBy:
-                #     # For some reason, isDefinedBy has a wrong value when read by rdflib
-                #     obj = Literal(str(o))
-                # else:
-                #     obj = o
-                # new_object = (IRIResource.create_resource_(obj, ds), Namespace(g_identifier) if g_identifier is not None else None)
-                # if existing_property is not None:
-                #     existing_property.append(new_object)
-                # else:
-                #     additional_properties[property] = [new_object]
         else:
             raise ValueError('''
                 Predicate was not a URIRef. Instead;
@@ -911,83 +577,14 @@ def iri_resource_factory(cls, iri, ds: Dataset, **kwargs):
 
     return cls(namespace, iri, types, additional_properties=(None if not additional_properties else {k: tuple(v) for k, v in additional_properties.items()}), **defined_constructor_arguments)
 
-# foobar = RDFSResource.from_ds(FOAF.Agent, ds)
-# clazz=RDFSClass.from_ds(FOAF.Agent, ds)
 clazz = RDFSClass.from_ds(DCAT.Distribution, ds)
 
 print("ADSF")
 
-# for triple in ds.get_graph(URIRef(DCT)).triples((DCT.identifier, None, None)):
-#    print(triple)
 
-#foobar = ClassPropertiesAggregator.from_ds(clazz, ds)
-# pprint.pprint(type(ds.get_graph(URIRef(FOAF._NS))))
-# pprint.pprint(URIRef(FOAF._NS))
+foobar = ClassPropertiesAggregator.from_ds_with_graph(clazz, ds, URIRef(MOBILITYDCATAP._NS))
+
 print("clazz #########")
 print(clazz)
 print("SDPOFH ###########")
-#print(str(foobar))
-# for x in ds.contexts():
-#    pprint.pprint(x.identifier)
-
-# for s, p, o, gra in ds.quads((None, None, None, None)):
-#     if URIRef(MOBILITYDCATAP_NS_URL) == gra:
-#         if (p == RDF.type and
-#            (o == RDFS.Class or o == OWL.Class)):
-#             pprint.pprint(f'{s} {p} {o} {gra}')
-#     if URIRef(FOAF._NS) == gra:
-#         for triple in g_foaf.triples((FOAF.Agent, None, None)):
-#                 g_mobility_dcat.add(triple)
-#             for triple in g_foaf.triples((FOAF.name, None, None)):
-#                 g_mobility_dcat.add(triple)
-
-# for q in ds.quads((None, None, None, ds.default_context)):
-#    pprint.pprint(q)
-
-# mdcatap_file_name = os.path.abspath("./tmp/mdcatap.rdf")
-#
-# if not os.path.exists(mdcatap_file_name):
-#     pprint.pprint(f'Creating file {mdcatap_file_name}')
-#     mdcatap_file_dirname = os.path.dirname(mdcatap_file_name)
-#     if not os.path.isdir(mdcatap_file_dirname):
-#         os.makedirs(mdcatap_file_dirname)
-#     with open(mdcatap_file_name, 'w'): pass
-
-# foobaz = os.path.abspath("./vocabularies") + '/'
-# owlready2.onto_path.append(foobaz)
-# owlready2.PREDEFINED_ONTOLOGIES["http://www.w3.org/2000/01/rdf-schema#"]=foobaz + 'rdf-schema.rdf'
-
-# ds.default_context.serialize(destination=mdcatap_file_name, format="xml")
-# onto = owlready2.get_ontology(f'file://{mdcatap_file_name}').load()
-#
-# for clazz in onto.classes():
-#     pprint.pprint(clazz)
-# for clazz in onto.classes():
-#     if clazz.iri == str(FOAF.Agent):
-#         pprint.pprint("###### FOAF AGENT ######")
-#         pprint.pprint(clazz)
-#         pprint.pprint(clazz.get_class_properties())
-#         pprint.pprint(clazz.get_name(clazz))
-#         pprint.pprint(onto["0.1.Agent"])
-#         pprint.pprint(onto["Agent"])
-#         pprint.pprint(onto[clazz])
-#         pprint.pprint(onto.world[str(FOAF.Agent)])
-#         pprint.pprint(onto.world[str(FOAF.Agent)].get_class_properties())
-#         pprint.pprint(vars(list(onto.world[str(FOAF.Agent)].get_class_properties())[0]))
-#         for prop in onto.world[str(FOAF.Agent)].get_class_properties():
-#             pprint.pprint(prop)
-#             pprint.pprint(prop.get_domain())
-#             pprint.pprint(vars(prop))
-# foobar = 'file://' + os.path.abspath("./vocabularies") + '/rdf-schema.rdf'
-# pprint.pprint("RDF SCHEMA")
-# pprint.pprint(os.path.isabs(foobaz))
-# pprint.pprint(owlready2.onto_path)
-# pprint.pprint(foobar)
-# rdf_s_onto = owlready2.get_ontology(foobar).load()
-#
-# #rdf_s_onto = owlready2.get_ontology(foobar).load()
-# pprint.pprint(rdf_s_onto)
-# pprint.pprint(type(rdf_s_onto))
-
-# for clazz in rdf_s_onto.world.as_rdflib_graph().triples((RDFS.Class, None, None)):
-#    pprint.pprint(clazz)
+print(str(foobar))
