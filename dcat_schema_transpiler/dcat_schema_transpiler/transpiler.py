@@ -46,6 +46,15 @@ SKOS_DOC = Namespace('http://www.w3.org/TR/skos-primer/')
 SPDX = Namespace('http://spdx.org/rdf/terms#')
 XML = Namespace('http://www.w3.org/XML/1998/namespace')
 
+CVOCAB_MOBILITY_THEME = Namespace('https://w3id.org/mobilitydcat-ap/mobility-theme/')
+CVOCAB_THEME = Namespace('http://publications.europa.eu/resource/authority/data-theme/')
+
+CVOCAB_FORMAT = Namespace('http://publications.europa.eu/resource/authority/file-type/')
+CVOCAB_MOBILITY_DATA_STANDARD = Namespace('https://w3id.org/mobilitydcat-ap/mobility-data-standard/')
+CVOCAB_GRAMMAR = Namespace('https://w3id.org/mobilitydcat-ap/grammar/')
+CVOCAB_APPLICATION_LAYER_PROTOCOL = Namespace('https://w3id.org/mobilitydcat-ap/application-layer-protocol/')
+CVOCAB_COMMUNICATION_METHOD = Namespace('https://w3id.org/mobilitydcat-ap/communication-method/')
+
 
 class MOBILITYDCATAP(DefinedNamespace):
     _NS = Namespace(MOBILITYDCATAP_NS_URL)
@@ -100,6 +109,31 @@ def mobilitydcatap_fixes(graph):
     # There is probably a typo in the .ttl file. Should be capital 'M' as per https://mobilitydcat-ap.github.io/mobilityDCAT-AP/releases/index.html#properties-for-mobility-data-standard
     graph.remove((OWL.versionInfo, DCAM.domainIncludes, MOBILITYDCATAP.mobilityDataStandard))
     graph.add((OWL.versionInfo, DCAM.domainIncludes, MOBILITYDCATAP.MobilityDataStandard))
+
+    # DCAT or DCAT-AP has in comments that the following properties are part of some class. Here we add a property that states the fact
+    graph.add((DCTERMS.format, DCAM.domainIncludes, DCAT.Distribution))
+    graph.add((DCT.rights, DCAM.domainIncludes, DCAT.Distribution))
+    graph.add((DCT.description, DCAM.domainIncludes, DCAT.Distribution))
+    graph.add((DCT.license, DCAM.domainIncludes, DCAT.Distribution))
+    graph.add((DCAT.accessService, DCAM.domainIncludes, DCAT.Distribution))
+
+    # Range chanages stated in the document
+    graph.add((DCTERMS.format, DCAM.rangeIncludes, DCTERMS.MediaTypeOrExtent))
+
+def add_property(ds: Dataset, graph_namespace: URIRef, property: URIRef):
+    g = ds.get_graph(graph_namespace)
+    propertys_graph = next(ds_g for ds_g in ds.graphs() if property.startswith(ds_g.identifier))
+
+    for triple in propertys_graph.triples((property, None, None)):
+        g.add(triple)
+
+
+def fill_mobilitydcatap_graph(ds: Dataset):
+    ## Distribution
+    distribution_property_iris = {DCAT.accessURL, DCTERMS.format, DCT.rights, DCT.description, DCT.license,
+                                  DCAT.accessService, DCAT.downloadURL}
+    for property_iri in distribution_property_iris:
+        add_property(ds, URIRef(MOBILITYDCATAP._NS), property_iri)
 
 
 def get_graph_url(ns: URIRef, mime_types: str = 'application/rdf+xml, text/turtle') -> (str, str):
@@ -204,6 +238,28 @@ def set_content_for_graph(graph: Graph) -> None:
         graph_url, _ = get_graph_url(ns)
         serialization_format = 'rdf'
         graph.parse(graph_url, format='application/rdf+xml')
+
+    # VOCABS
+    elif str(ns) == 'http://publications.europa.eu/resource/authority/file-type/':
+        graph_url = 'http://publications.europa.eu/resource/authority/file-type'
+        serialization_format = 'rdf'
+        graph.parse(graph_url, format='application/rdf+xml')
+    elif str(ns) == 'https://w3id.org/mobilitydcat-ap/mobility-data-standard/':
+        graph_url, _ = get_graph_url(ns)
+        serialization_format = 'ttl'
+        graph.parse(graph_url, format='text/turtle')
+    elif str(ns) == 'https://w3id.org/mobilitydcat-ap/grammar/':
+        graph_url, _ = get_graph_url(ns)
+        serialization_format = 'ttl'
+        graph.parse(graph_url, format='text/turtle')
+    elif str(ns) == 'https://w3id.org/mobilitydcat-ap/application-layer-protocol/':
+        graph_url, _ = get_graph_url(ns)
+        serialization_format = 'ttl'
+        graph.parse(graph_url, format='text/turtle')
+    elif str(ns) == 'https://w3id.org/mobilitydcat-ap/communication-method/':
+        graph_url, _ = get_graph_url(ns)
+        serialization_format = 'ttl'
+        graph.parse(graph_url, format='text/turtle')
     else:
         graph_url, mime_format = get_graph_url(ns)
         serialization_format = 'ttl' if mime_format == 'text/turtle' else 'rdf'
@@ -219,12 +275,20 @@ def set_content_for_graph(graph: Graph) -> None:
 
 mobilitydcatap_fixes(g_mobility_dcat)
 
+controlled_vocabularies = [
+    CVOCAB_FORMAT,
+    CVOCAB_MOBILITY_DATA_STANDARD,
+    CVOCAB_GRAMMAR,
+    CVOCAB_APPLICATION_LAYER_PROTOCOL,
+    CVOCAB_COMMUNICATION_METHOD
+]
+
 def populate_dataset(ds: Dataset, namespace: Namespace) -> None:
     if not [context for context in ds.contexts() if context.identifier == URIRef(namespace)]:
         g = ds.graph(namespace)
         set_content_for_graph(g)
 
-for _, namespace in mobility_dcat_namespaces.items():
+for namespace in list(mobility_dcat_namespaces.values()) + controlled_vocabularies:
     if isinstance(namespace, Namespace):
         ns = namespace
     else:
@@ -237,19 +301,6 @@ for _, namespace in mobility_dcat_namespaces.items():
 
 
 class Resource(ABC):
-    def __eq__(self, other):
-        if other is None:
-            return False
-        if not isinstance(other, RDFSProperty):
-            return False
-        if str(self.iri) == str(other.iri):
-            return True
-        else:
-            return False
-
-    def __hash__(self):
-        return hash(str(self.iri))
-
     @property
     @abstractmethod
     def type(self):
@@ -292,14 +343,30 @@ class IRIResource(Resource):
                 iri is None):
             raise ValueError('Cannot create a resource without namespace or iri')
         if not types:
-            raise ValueError(f'Minimum of one type must be provided for {iri}')
+            raise ValueError('Minimum of one type must be provided for ' + iri)
         self.namespace = namespace
         self.iri = iri
         self.types = types
         self.additional_properties = additional_properties
 
+    def __eq__(self, other):
+        if other is None:
+            return False
+        if not isinstance(other, IRIResource):
+            return False
+        if self.is_iri(other.iri):
+            return True
+        else:
+            return False
+
+    def __hash__(self):
+        return hash(str(self.iri))
+
     def value(self):
         return self.iri
+
+    def is_iri(self, iri: URIRef) -> bool:
+        return str(self.iri) == str(iri)
 
     @property
     def type(self):
@@ -375,6 +442,12 @@ class RDFSLiteral(Resource):
     def from_ds(cls, iri: URIRef, ds: Dataset) -> Resource:
         pass
 
+    def is_language_string(self) -> bool:
+        return self.literal.language is not None
+
+    def language(self) -> str:
+        return self.literal.language
+
 
 class BlankNode(Resource):
     def __init__(self):
@@ -387,9 +460,10 @@ class BlankNode(Resource):
 
 class RDFSResource(IRIResource):
     def __init__(self, namespace: Namespace, iri: URIRef, types: Tuple[URIRef, ...],
-                 additional_properties: Dict[URIRef, List[Tuple[str, Namespace]]] = None,
-                 label: Tuple[RDFSLiteral, ...] = None, comment: Tuple[RDFSLiteral, ...] = None,
-                 see_also: Tuple[Resource, ...] = None, is_defined_by: Tuple[Resource, ...] = None, member: Tuple[Resource, ...] = None):
+                 additional_properties: Dict[URIRef, List[Tuple[URIRef|Literal, Namespace]]] = None,
+                 label: Tuple[Literal, ...] = None, comment: Tuple[Literal, ...] = None,
+                 see_also: Tuple[URIRef|Literal, ...] = None, is_defined_by: Tuple[URIRef|Literal, ...] = None,
+                 member: Tuple[URIRef|Literal, ...] = None):
         super().__init__(namespace, iri, types, additional_properties = additional_properties)
         self.label = label
         self.comment = comment
@@ -406,6 +480,62 @@ class RDFSResource(IRIResource):
             (RDFS.member, self.member)
         ))
 
+    def get_rdf_object(self, iri: URIRef, ds: Dataset) -> Tuple|None:
+        if not isinstance(iri, URIRef):
+            return None
+        match iri:
+            case RDF.type:
+                return rdfs_class_tuple(self.types, ds)
+            case RDFS.label:
+                return rdfs_literal_tuple(self.label)
+            case RDFS.comment:
+                return rdfs_literal_tuple(self.comment)
+            case RDFS.member:
+                if self.member and isinstance(self.member[0], URIRef):
+                    return rdfs_resource_tuple(self.member, ds)
+                elif self.member and isinstance(self.member[0], Literal):
+                    return rdfs_literal_tuple(self.member)
+                else:
+                    return ()
+            case RDFS.seeAlso:
+                if self.see_also and isinstance(self.see_also[0], URIRef):
+                    return rdfs_resource_tuple(self.see_also, ds)
+                elif self.see_also and isinstance(self.see_also[0], Literal):
+                    return rdfs_literal_tuple(self.see_also)
+                else:
+                    return ()
+            case RDFS.isDefinedBy:
+                if self.is_defined_by and isinstance(self.is_defined_by[0], URIRef):
+                    return rdfs_resource_tuple(self.is_defined_by, ds)
+                elif self.is_defined_by and isinstance(self.is_defined_by[0], Literal):
+                    return rdfs_literal_tuple(self.is_defined_by)
+                else:
+                    return ()
+        additional_property = self.additional_properties.get(iri)
+        if additional_property is None:
+            return None
+        if not additional_property:
+            return ()
+        ap = tuple(map(lambda v: v[0], additional_property))
+        if isinstance(ap[0], URIRef):
+            return rdfs_resource_tuple(ap, ds)
+        elif isinstance(ap[0], Literal):
+            return rdfs_literal_tuple(ap)
+        return None
+
+    def get_rdf_object_ns(self, resource: RDFSResource) -> Namespace|None:
+        iri = resource.iri
+        additional_property = self.additional_properties.get(iri)
+        if additional_property is not None:
+            resource_value = resource.value()
+            return [namespace for v, namespace in additional_property if (v.value if isinstance(v, Literal) else v) == resource_value][0]
+        for v in self.__dict__.values():
+            if isinstance(v, tuple) and iri in v:
+                return self.namespace
+        return None
+
+
+
     @classmethod
     def from_ds(cls, iri, ds: Dataset) -> RDFSResource:
         return iri_resource_factory(cls, iri, ds,
@@ -418,14 +548,16 @@ class RDFSResource(IRIResource):
 
 class RDFSClass(RDFSResource):
     def __init__(self, namespace: Namespace, iri: URIRef, types: Tuple[URIRef, ...],
-                 additional_properties: Dict[URIRef, List[Tuple[str, Namespace]]] = None,
-                 label: Tuple[RDFSLiteral, ...] = None, comment: Tuple[RDFSLiteral, ...] = None,
-                 see_also: Tuple[Resource, ...] = None, is_defined_by: Tuple[Resource, ...] = None, member: Tuple[Resource, ...] = None,
-                 sub_class_of: Tuple[IRIResource, ...] = None):
+                 additional_properties: Dict[URIRef, List[Tuple[URIRef|Literal, Namespace]]] = None,
+                 label: Tuple[Literal, ...] = None, comment: Tuple[Literal, ...] = None,
+                 see_also: Tuple[URIRef|Literal, ...] = None, is_defined_by: Tuple[URIRef|Literal, ...] = None,
+                 member: Tuple[URIRef|Literal, ...] = None,
+                 sub_class_of: Tuple[URIRef, ...] = None):
         super().__init__(namespace, iri, types, additional_properties=additional_properties,
                          label=label, comment=comment, see_also=see_also, is_defined_by=is_defined_by,
                          member=member)
-        if RDFS.Class not in types:
+        # OWL.Class is a subclass of RDFS.Class
+        if RDFS.Class not in types and OWL.Class not in types:
             raise ValueError(f'Trying to create an RDFSClass without specifying it as a Class type')
         self.sub_class_of = sub_class_of
 
@@ -439,6 +571,13 @@ class RDFSClass(RDFSResource):
             (RDFS.subClassOf, self.sub_class_of)
         ))
 
+    def get_rdf_object(self, iri: URIRef, ds: Dataset):
+        match iri:
+            case RDFS.subClassOf:
+                return rdfs_class_tuple(self.sub_class_of, ds)
+            case _:
+                return super().get_rdf_object(iri, ds)
+
     @classmethod
     def from_ds(cls, iri, ds: Dataset) -> RDFSClass:
         return iri_resource_factory(cls, iri, ds,
@@ -450,13 +589,27 @@ class RDFSClass(RDFSResource):
                                                 sub_class_of=RDFS.subClassOf)
 
 
+def rdfs_property_tuple(urirefs: Tuple[URIRef, ...], ds: Dataset) -> Tuple[RDFSProperty, ...]:
+    return tuple(map(lambda p: RDFSProperty.from_ds(p, ds), urirefs))
+
+def rdfs_class_tuple(urirefs: Tuple[URIRef, ...], ds: Dataset) -> Tuple[RDFSClass, ...]:
+    return tuple(map(lambda c: RDFSClass.from_ds(c, ds), urirefs))
+
+def rdfs_literal_tuple(literals: Tuple[Literal, ...]) -> Tuple[RDFSLiteral, ...]:
+    return tuple(map(lambda l: RDFSLiteral(l), literals))
+
+def rdfs_resource_tuple(urirefs: Tuple[URIRef, ...], ds: Dataset) -> Tuple[RDFSResource, ...]:
+    return tuple(map(lambda r: RDFSResource.from_ds(r, ds), urirefs))
+
+
 class RDFSProperty(RDFSResource):
     def __init__(self, namespace: Namespace, iri: URIRef, types: Tuple[URIRef, ...],
-                 additional_properties: Dict[URIRef, List[Tuple[str, Namespace]]] = None,
-                 label: Tuple[RDFSLiteral, ...] = None, comment: Tuple[RDFSLiteral, ...] = None,
-                 see_also: Tuple[Resource, ...] = None, is_defined_by: Tuple[Resource, ...] = None, member: Tuple[Resource, ...] = None,
-                 domain: Tuple[Resource, ...] = None, range: Tuple[Resource, ...] = None,
-                 sub_property_of: Tuple[RDFSProperty, ...] = None):
+                 additional_properties: Dict[URIRef, List[Tuple[URIRef|Literal, Namespace]]] = None,
+                 label: Tuple[Literal, ...] = None, comment: Tuple[Literal, ...] = None,
+                 see_also: Tuple[URIRef|Literal, ...] = None, is_defined_by: Tuple[URIRef|Literal, ...] = None,
+                 member: Tuple[URIRef|Literal, ...] = None,
+                 domain: Tuple[URIRef, ...] = None, range: Tuple[URIRef, ...] = None,
+                 sub_property_of: Tuple[URIRef, ...] = None):
         super().__init__(namespace, iri, types, additional_properties=additional_properties,
                          label=label, comment=comment, see_also=see_also, is_defined_by=is_defined_by,
                          member=member)
@@ -478,6 +631,17 @@ class RDFSProperty(RDFSResource):
             (RDFS.range, self.range),
             (RDFS.subPropertyOf, self.sub_property_of)
         ))
+
+    def get_rdf_object(self, iri: URIRef, ds: Dataset):
+        match iri:
+            case RDFS.domain:
+                return rdfs_class_tuple(self.domain, ds)
+            case RDFS.range:
+                return rdfs_class_tuple(self.range, ds)
+            case RDFS.subPropertyOf:
+                return rdfs_property_tuple(self.sub_property_of, ds)
+            case _:
+                return super().get_rdf_object(iri, ds)
 
     @classmethod
     def from_ds(cls, iri, ds: Dataset) -> RDFSProperty:
@@ -503,12 +667,15 @@ class ClassPropertiesAggregator:
         properties: Set[RDFSProperty] = set()
         properties_includes: Set[RDFSProperty] = set()
         g = ds.get_graph(graph_namespace)
-        for s, _, _ in g.triples((None, RDFS.range, clazz.iri)):
+        for s, _, _ in g.triples((None, RDFS.domain, clazz.iri)):
             if (s, RDF.type, RDF.Property) in g:
                 properties.add(RDFSProperty.from_ds(s, ds))
             elif (s, RDF.type, OWL.DatatypeProperty) in g:
                 # Not exactly correct, ubt OWL.DatatypeProperty is a subclass of RDF Property
-                properties_includes.add(RDFSProperty.from_ds(s, ds))
+                properties.add(RDFSProperty.from_ds(s, ds))
+            elif (s, RDF.type, OWL.ObjectProperty) in g:
+                # Not exactly correct, ubt OWL.ObjectProperty is a subclass of RDF Property
+                properties.add(RDFSProperty.from_ds(s, ds))
             else:
                 raise ValueError('''
                 Subject was not a Property. Instead;
@@ -520,6 +687,9 @@ class ClassPropertiesAggregator:
                 properties_includes.add(RDFSProperty.from_ds(s, ds))
             elif (s, RDF.type, OWL.DatatypeProperty) in g:
                 # Not exactly correct, ubt OWL.DatatypeProperty is a subclass of RDF Property
+                properties_includes.add(RDFSProperty.from_ds(s, ds))
+            elif (s, RDF.type, OWL.ObjectProperty) in g:
+                # Not exactly correct, ubt OWL.ObjectProperty is a subclass of RDF Property
                 properties_includes.add(RDFSProperty.from_ds(s, ds))
             else:
                 raise ValueError('''
@@ -543,6 +713,105 @@ class ClassPropertiesAggregator:
     def get_property_objects(self):
         pass
 
+class MobilityDCATAPToSchema:
+    @staticmethod
+    def fields_from_aggregator(cps: ClassPropertiesAggregator, ds: Dataset, graph_namespace: URIRef) -> List:
+        if MobilityDCATAPToSchema.is_resource_class(cps.clazz):
+            schema_fields = []
+            for p in cps.properties | cps.properties_includes:
+                print("PROPERTY")
+                print(p)
+                # TODO: Warn if more than one range
+                r = p.get_rdf_object(RDFS.range, ds) or ()
+                if p.is_iri(DCTERMS.format):
+                    # Check comments from https://mobilitydcat-ap.github.io/mobilityDCAT-AP/releases/index.html#distribution-format
+                    r_includes = (RDFSClass.from_ds(DCTERMS.MediaTypeOrExtent, ds),)
+                else:
+                    r_includes = p.get_rdf_object(DCAM.rangeIncludes, ds) or ()
+                obj = r + r_includes
+                       #[resource for resource in r_includes if p.get_rdf_object_ns(resource) == MOBILITYDCATAP._NS] or r_includes[0])
+                #if len(obj) > 1:
+                #    pprint.pprint(f"More than one range object {obj}")
+                if not obj:
+                    print("#### Could not find an object for")
+                    print(str(p))
+                    continue
+                rdf_range = obj[0]
+                pprint.pprint(type(rdf_range))
+                print(str(rdf_range))
+                if isinstance(rdf_range, RDFSLiteral):
+                    label = [label for label in p.get_rdf_object(RDFS.label, ds) if label.is_language_string() and label.language() == 'en'][0]
+                    label_value = label.value()
+                    schema_fields.append({
+                        "field_name": MobilityDCATAPToSchema.ckan_field(label_value),
+                        "label": label_value,
+                        "help_text": 'The value should be URL'
+                    })
+                elif isinstance(rdf_range, RDFSClass) and rdf_range.iri == RDFS.Resource:
+                    # Resurssi tyyppiset näyttää olevan URLeja
+                    label = [label for label in p.get_rdf_object(RDFS.label, ds) if label.is_language_string() and (label.language() == 'en')]
+                    if not label:
+                        print("LABEL NOT KNOWN")
+                        print(str(p.get_rdf_object(RDFS.label, ds)))
+                        label_value = 'not known'
+                    else:
+                        label_value = label[0].value()
+                    schema_fields.append({
+                        "field_name": MobilityDCATAPToSchema.ckan_field(label_value),
+                        "label": label_value,
+                        "help_text": 'The value should be URL'
+                    })
+                elif isinstance(rdf_range, RDFSClass) and rdf_range.iri == SKOS.Concept:
+                    # SKOS.Concept tyyppiset on kontrolloituja sanastoja. RDF:llä ei saane tarkemmin tuota määritettyä.
+                    # OWL:illa ehkä saisi
+                    print("###F#F####F #F#FF#F###FF#F#F")
+                    pprint.pprint(MobilityDCATAPToSchema.controlled_vocab_field(p, ds))
+                    schema_fields.append(MobilityDCATAPToSchema.controlled_vocab_field(p, ds))
+                else:
+                    objects_aggregate = ClassPropertiesAggregator.from_ds_with_graph(rdf_range, ds, graph_namespace)
+                    print(str(objects_aggregate))
+                    schema_fields + MobilityDCATAPToSchema.fields_from_aggregator(objects_aggregate, ds, graph_namespace)
+            return schema_fields
+        else:
+            return []
+
+    @staticmethod
+    def is_resource_class(clazz: RDFSClass) -> bool:
+        if clazz.is_iri(DCAT.Distribution):
+            return True
+        return True
+
+    @staticmethod
+    def ckan_field(label: str) -> str:
+        # TODO: overrides
+        return label
+    @staticmethod
+    def controlled_vocab_field(p: RDFSProperty, ds: Dataset):
+        label = [label for label in p.get_rdf_object(RDFS.label, ds) if label.is_language_string() and (label.language() == 'en')]
+        if not label:
+            print("LABEL NOT KNOWN")
+            print(str(p.get_rdf_object(RDFS.label, ds)))
+            label_value = 'not known'
+        else:
+            label_value = label[0].value()
+        match p.iri:
+            case MOBILITYDCATAP.communicationMethod:
+                g = ds.get_graph(URIRef(CVOCAB_COMMUNICATION_METHOD))
+                return {
+                    "field_name": MobilityDCATAPToSchema.ckan_field(label_value),
+                    "label": label_value,
+                    "choices": list([{"value": s, "label": RDFSLiteral(next(g.objects(s, SKOS.prefLabel))).value()} for s, _, _ in g.triples((None, RDF.type, SKOS.Concept))])
+                }
+
+class CKANExtSchemingSchema:
+    def __init__(self, dataset_fields, resource_fields):
+        self.dataset_fields = dataset_fields
+        self.resource_fields = resource_fields
+
+    def add_fields(self, cpa: ClassPropertiesAggregator):
+        pass
+
+
 
 def iri_resource_factory(cls, iri, ds: Dataset, **kwargs):
     """
@@ -551,8 +820,8 @@ def iri_resource_factory(cls, iri, ds: Dataset, **kwargs):
     namespace, iri, types = IRIResource.resource_args_from_ds(iri, ds)
     g = ds.get_graph(URIRef(namespace))
 
-    defined_constructor_arguments = {}
-    additional_properties: Dict[RDFSProperty, List[Tuple[URIRef, Namespace]]] = {}
+    defined_constructor_arguments: Dict[str, Tuple[URIRef|Literal, ...]] = {}
+    additional_properties: Dict[URIRef, List[Tuple[URIRef|Literal, Namespace]]] = {}
 
     for arument_label, predicate in kwargs.items():
         defined_constructor_arguments[arument_label] = tuple(v for v in g.objects(iri, predicate))
@@ -577,6 +846,8 @@ def iri_resource_factory(cls, iri, ds: Dataset, **kwargs):
 
     return cls(namespace, iri, types, additional_properties=(None if not additional_properties else {k: tuple(v) for k, v in additional_properties.items()}), **defined_constructor_arguments)
 
+fill_mobilitydcatap_graph(ds)
+
 clazz = RDFSClass.from_ds(DCAT.Distribution, ds)
 
 print("ADSF")
@@ -588,3 +859,7 @@ print("clazz #########")
 print(clazz)
 print("SDPOFH ###########")
 print(str(foobar))
+print(f'''properties_count: {len(foobar.properties)}
+properties_includes_count: {len(foobar.properties_includes)}''')
+
+pprint.pprint(MobilityDCATAPToSchema.fields_from_aggregator(foobar, ds, URIRef(MOBILITYDCATAP._NS)))
