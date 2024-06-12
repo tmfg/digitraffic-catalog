@@ -9,7 +9,7 @@ import glob
 import base64
 import pprint
 import os
-import copy
+import yaml
 
 MOBILITYDCATAP_NS_URL = 'http://w3id.org/mobilitydcat-ap#'
 DCATAP_NS_URL = 'http://data.europa.eu/r5r/'
@@ -736,8 +736,6 @@ class MobilityDCATAPToSchema:
         if MobilityDCATAPToSchema.is_resource_class(cps.clazz):
             schema_fields = []
             for p in cps.properties | cps.properties_includes:
-                print("PROPERTY")
-                print(p)
                 # TODO: Warn if more than one range
                 r = p.get_rdf_object(RDFS.range, ds) or ()
                 if p.is_iri(DCTERMS.format):
@@ -746,9 +744,6 @@ class MobilityDCATAPToSchema:
                 else:
                     r_includes = p.get_rdf_object(DCAM.rangeIncludes, ds) or ()
                 obj = r + r_includes
-                       #[resource for resource in r_includes if p.get_rdf_object_ns(resource) == MOBILITYDCATAP._NS] or r_includes[0])
-                #if len(obj) > 1:
-                #    pprint.pprint(f"More than one range object {obj}")
                 if not obj:
                     print("#### COULD NOT FIND AN OBJECT")
                     continue
@@ -759,10 +754,7 @@ class MobilityDCATAPToSchema:
                     rdf_range = [o for o in obj if o.is_iri(RDFS.Resource)][0]
                 else:
                     rdf_range = obj[0]
-                pprint.pprint(type(rdf_range))
-                print(str(rdf_range))
                 if isinstance(rdf_range, RDFSResource) and rdf_range.iri == RDFS.Literal:
-                    print("######### 1")
                     if cps.clazz.is_iri(DCTERMS.RightsStatement):
                         label_value = 'Additional information for access and usage'
                         field_name = 'rights_statement_label'
@@ -774,7 +766,6 @@ class MobilityDCATAPToSchema:
                         "label": label_value
                     })
                 elif isinstance(rdf_range, RDFSResource) and rdf_range.iri == RDFS.Resource:
-                    print("######### 2")
                     # Resurssi tyyppiset näyttää olevan URLeja
                     label_value = MobilityDCATAPToSchema.get_label(p)
                     schema_fields.append({
@@ -783,14 +774,10 @@ class MobilityDCATAPToSchema:
                         "help_text": 'The value should be URL'
                     })
                 elif isinstance(rdf_range, RDFSResource) and rdf_range.iri == SKOS.Concept:
-                    print("######### 3")
                     # SKOS.Concept tyyppiset on kontrolloituja sanastoja. RDF:llä ei saane tarkemmin tuota määritettyä.
                     # OWL:illa ehkä saisi
-                    print("###F#F####F #F#FF#F###FF#F#F")
-                    pprint.pprint(MobilityDCATAPToSchema.controlled_vocab_field(p, cps.clazz, ds))
                     schema_fields.append(MobilityDCATAPToSchema.controlled_vocab_field(p, cps.clazz, ds))
                 elif isinstance(rdf_range, RDFSResource) and rdf_range.iri == MOBILITYDCATAP.MobilityDataStandard:
-                    print("######### 5")
                     # MobilityDataStandard has some special rules. It has a controlled vocabulary as an option
                     # but a custom schema should also be supported
                     label_value = MobilityDCATAPToSchema.get_label(p)
@@ -799,6 +786,7 @@ class MobilityDCATAPToSchema:
                     schema_fields.append({
                         "field_name": MobilityDCATAPToSchema.ckan_field(label_value),
                         "label": label_value,
+                        "preset": "select",
                         "choices": MobilityDCATAPToSchema.vocab_choices(g_cvocab_mobility_data_standard)
                     })
                     version_resource = RDFSProperty.from_ds(OWL.versionInfo, ds)
@@ -809,16 +797,14 @@ class MobilityDCATAPToSchema:
                         "help_text": 'Version of the mobility data standard. Use only short version identifiers, e.g., only  "3.2", without redundant acronyms such as "v", underscores etc.'
                     })
                 elif isinstance(rdf_range, RDFSResource) and rdf_range.iri == DCTERMS.MediaTypeOrExtent:
-                    print("######### 6")
                     schema_fields.append({
                         "field_name": "format",
                         "label": "Format",
+                        "preset": "select",
                         "choices": MobilityDCATAPToSchema.vocab_choices(ds.get_graph(URIRef(CVOCAB_FORMAT)))
                     })
                 else:
-                    print("######### 4")
                     objects_aggregate = ClassPropertiesAggregator.from_ds_with_graph(rdf_range, ds, graph_namespace)
-                    print(str(objects_aggregate))
                     for field in MobilityDCATAPToSchema.fields_from_aggregator(objects_aggregate, ds, graph_namespace):
                         schema_fields.append(field)
             return schema_fields
@@ -846,7 +832,7 @@ class MobilityDCATAPToSchema:
         return label
     @staticmethod
     def vocab_choices(g: Graph):
-        return list([{"value": s, "label": RDFSLiteral(
+        return list([{"value": str(s), "label": RDFSLiteral(
             [pl for pl in g.objects(s, SKOS.prefLabel) if pl.language is None or pl.language == 'en'][0]).value()} for
                      s, _, _ in g.triples((None, RDF.type, SKOS.Concept))])
     @staticmethod
@@ -859,6 +845,7 @@ class MobilityDCATAPToSchema:
                 return {
                     "field_name": MobilityDCATAPToSchema.ckan_field(label_value),
                     "label": label_value,
+                    "preset": "select",
                     "choices": MobilityDCATAPToSchema.vocab_choices(g)
                 }
             case DCTERMS.type:
@@ -867,6 +854,7 @@ class MobilityDCATAPToSchema:
                     return {
                         "field_name": MobilityDCATAPToSchema.ckan_field('rights_statement_type'),
                         "label": 'Conditions for access and usage',
+                        "preset": "select",
                         "choices": MobilityDCATAPToSchema.vocab_choices(g)
                     }
             case DCTERMS.identifier:
@@ -875,6 +863,7 @@ class MobilityDCATAPToSchema:
                     return {
                         "field_name": MobilityDCATAPToSchema.ckan_field('standard_license'),
                         "label": 'Standard license',
+                        "preset": "select",
                         "choices": MobilityDCATAPToSchema.vocab_choices(g)
                     }
             case MOBILITYDCATAP.applicationLayerProtocol:
@@ -882,6 +871,7 @@ class MobilityDCATAPToSchema:
                 return {
                     "field_name": MobilityDCATAPToSchema.ckan_field(label_value),
                     "label": label_value,
+                    "preset": "select",
                     "choices": MobilityDCATAPToSchema.vocab_choices(g)
                 }
             case MOBILITYDCATAP.grammar:
@@ -889,6 +879,7 @@ class MobilityDCATAPToSchema:
                 return {
                     "field_name": MobilityDCATAPToSchema.ckan_field(label_value),
                     "label": label_value,
+                    "preset": "select",
                     "choices": MobilityDCATAPToSchema.vocab_choices(g)
                 }
 
@@ -935,6 +926,89 @@ def iri_resource_factory(cls, iri, ds: Dataset, **kwargs):
 
     return cls(namespace, iri, types, additional_properties=(None if not additional_properties else {k: tuple(v) for k, v in additional_properties.items()}), **defined_constructor_arguments)
 
+def rdf_to_yaml(cp: ClassPropertiesAggregator, ds: Dataset):
+    resource_fields_schema_map = MobilityDCATAPToSchema.fields_from_aggregator(cp, ds, URIRef(MOBILITYDCATAP._NS))
+    dataset_fields_schema_map = [
+        {"field_name": "title",
+         "label": "Title",
+         "preset": "title",
+         "form_placeholder": "eg. A descriptive title"},
+
+        {"field_name": "name",
+         "label": "URL",
+         "preset": "dataset_slug",
+         "form_placeholder": "eg. my-dataset"},
+
+        {"field_name": "notes",
+         "label": "Description",
+         "form_snippet": "markdown.html",
+         "form_placeholder": "eg. Some useful notes about the data"},
+
+        {"field_name": "tag_string",
+         "label": "Tags",
+         "preset": "tag_string_autocomplete",
+         "form_placeholder": "eg. economy, mental health, government"},
+
+        {"field_name": "license_id",
+         "label": "License",
+         "form_snippet": "license.html",
+         "help_text": "License definitions and additional information can be found at http://opendefinition.org/"},
+
+        {"field_name": "owner_org",
+         "label": "Organization",
+         "preset": "dataset_organization"},
+
+        {"field_name": "url",
+         "label": "Source",
+         "form_placeholder": "http://example.com/dataset.json",
+         "display_property": "foaf:homepage",
+         "display_snippet": "link.html"},
+
+        {"field_name": "version",
+         "label": "Version",
+         "validators": "ignore_missing unicode_safe package_version_validator",
+         "form_placeholder": "1.0"},
+
+        {"field_name": "author",
+         "label": "Author",
+         "form_placeholder": "Joe Bloggs",
+         "display_property": "dc:creator"},
+
+        {"field_name": "author_email",
+         "label": "Author Email",
+         "form_placeholder": "joe@example.com",
+         "display_property": "dc:creator",
+         "display_snippet": "email.html",
+         "display_email_name_field": "author"},
+
+        {"field_name": "maintainer",
+         "label": "Maintainer",
+         "form_placeholder": "Joe Bloggs",
+         "display_property": "dc:contributor"},
+
+        {"field_name": "maintainer_email",
+         "label": "Maintainer Email",
+         "form_placeholder": "joe@example.com",
+         "display_property": "dc:contributor",
+         "display_snippet": "email.html",
+         "display_email_name_field": "maintainer"}
+    ]
+    schema_map = {
+        "scheming_version": 2,
+        "dataset_type": "dataset",
+        "dataset_fields": dataset_fields_schema_map,
+        "resource_fields": resource_fields_schema_map
+    }
+
+    file_abspath = os.path.abspath("./output/schema.yaml")
+    pprint.pprint(f'Creating file {file_abspath}')
+    file_dirname = os.path.dirname(file_abspath)
+    if not os.path.isdir(file_dirname):
+        os.makedirs(file_dirname)
+    with open(file_abspath, 'w') as schema_file:
+        yaml.dump(schema_map, schema_file, encoding='utf-8', allow_unicode=True)
+    return file_abspath
+
 fill_mobilitydcatap_graph(ds)
 
 clazz = RDFSClass.from_ds(DCAT.Distribution, ds)
@@ -948,8 +1022,10 @@ print("clazz #########")
 print(clazz)
 
 pprint.pprint(MobilityDCATAPToSchema.fields_from_aggregator(foobar, ds, URIRef(MOBILITYDCATAP._NS)))
+rdf_to_yaml(foobar, ds)
 
 print("SDPOFH ###########")
 print(str(foobar))
 print(f'''properties_count: {len(foobar.properties)}
 properties_includes_count: {len(foobar.properties_includes)}''')
+
