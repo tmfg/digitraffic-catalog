@@ -9,6 +9,7 @@ import glob
 import base64
 import pprint
 import os
+import copy
 
 MOBILITYDCATAP_NS_URL = 'http://w3id.org/mobilitydcat-ap#'
 DCATAP_NS_URL = 'http://data.europa.eu/r5r/'
@@ -54,6 +55,8 @@ CVOCAB_MOBILITY_DATA_STANDARD = Namespace('https://w3id.org/mobilitydcat-ap/mobi
 CVOCAB_GRAMMAR = Namespace('https://w3id.org/mobilitydcat-ap/grammar/')
 CVOCAB_APPLICATION_LAYER_PROTOCOL = Namespace('https://w3id.org/mobilitydcat-ap/application-layer-protocol/')
 CVOCAB_COMMUNICATION_METHOD = Namespace('https://w3id.org/mobilitydcat-ap/communication-method/')
+CVOCAB_RIGHTS_STATEMENT_TYPE = Namespace('https://w3id.org/mobilitydcat-ap/conditions-for-access-and-usage/')
+CVOCAB_LICENSE_IDENTIFIER = Namespace('http://publications.europa.eu/resource/authority/licence/')
 
 
 class MOBILITYDCATAP(DefinedNamespace):
@@ -117,8 +120,9 @@ def mobilitydcatap_fixes(graph):
     graph.add((DCT.license, DCAM.domainIncludes, DCAT.Distribution))
     graph.add((DCAT.accessService, DCAM.domainIncludes, DCAT.Distribution))
 
-    # Range chanages stated in the document
+    # Range chanages stated in the document but not visible in the serialized format
     graph.add((DCTERMS.format, DCAM.rangeIncludes, DCTERMS.MediaTypeOrExtent))
+    graph.add((DCTERMS.description, DCAM.rangeIncludes, RDFS.Literal))
 
 def add_property(ds: Dataset, graph_namespace: URIRef, property: URIRef):
     g = ds.get_graph(graph_namespace)
@@ -132,7 +136,10 @@ def fill_mobilitydcatap_graph(ds: Dataset):
     ## Distribution
     distribution_property_iris = {DCAT.accessURL, DCTERMS.format, DCT.rights, DCT.description, DCT.license,
                                   DCAT.accessService, DCAT.downloadURL}
+    period_of_time_property_iris = {DCAT.startDate, DCAT.endDate}
     for property_iri in distribution_property_iris:
+        add_property(ds, URIRef(MOBILITYDCATAP._NS), property_iri)
+    for property_iri in period_of_time_property_iris:
         add_property(ds, URIRef(MOBILITYDCATAP._NS), property_iri)
 
 
@@ -241,7 +248,11 @@ def set_content_for_graph(graph: Graph) -> None:
 
     # VOCABS
     elif str(ns) == 'http://publications.europa.eu/resource/authority/file-type/':
-        graph_url = 'http://publications.europa.eu/resource/authority/file-type'
+        graph_url = 'https://op.europa.eu/o/opportal-service/euvoc-download-handler?cellarURI=http%3A%2F%2Fpublications.europa.eu%2Fresource%2Fcellar%2Fa8fa2fcb-28d8-11ef-9290-01aa75ed71a1.0001.04%2FDOC_1&fileName=filetypes-skos.rdf'
+        serialization_format = 'rdf'
+        graph.parse(graph_url, format='application/rdf+xml')
+    elif str(ns) == 'http://publications.europa.eu/resource/authority/licence/':
+        graph_url = 'https://op.europa.eu/o/opportal-service/euvoc-download-handler?cellarURI=http%3A%2F%2Fpublications.europa.eu%2Fresource%2Fcellar%2Fab0e79f8-5c6c-11ee-9220-01aa75ed71a1.0001.03%2FDOC_1&fileName=licences-skos.rdf'
         serialization_format = 'rdf'
         graph.parse(graph_url, format='application/rdf+xml')
     elif str(ns) == 'https://w3id.org/mobilitydcat-ap/mobility-data-standard/':
@@ -257,6 +268,10 @@ def set_content_for_graph(graph: Graph) -> None:
         serialization_format = 'ttl'
         graph.parse(graph_url, format='text/turtle')
     elif str(ns) == 'https://w3id.org/mobilitydcat-ap/communication-method/':
+        graph_url, _ = get_graph_url(ns)
+        serialization_format = 'ttl'
+        graph.parse(graph_url, format='text/turtle')
+    elif str(ns) == 'https://w3id.org/mobilitydcat-ap/conditions-for-access-and-usage/':
         graph_url, _ = get_graph_url(ns)
         serialization_format = 'ttl'
         graph.parse(graph_url, format='text/turtle')
@@ -280,7 +295,9 @@ controlled_vocabularies = [
     CVOCAB_MOBILITY_DATA_STANDARD,
     CVOCAB_GRAMMAR,
     CVOCAB_APPLICATION_LAYER_PROTOCOL,
-    CVOCAB_COMMUNICATION_METHOD
+    CVOCAB_COMMUNICATION_METHOD,
+    CVOCAB_RIGHTS_STATEMENT_TYPE,
+    CVOCAB_LICENSE_IDENTIFIER
 ]
 
 def populate_dataset(ds: Dataset, namespace: Namespace) -> None:
@@ -733,48 +750,90 @@ class MobilityDCATAPToSchema:
                 #if len(obj) > 1:
                 #    pprint.pprint(f"More than one range object {obj}")
                 if not obj:
-                    print("#### Could not find an object for")
-                    print(str(p))
+                    print("#### COULD NOT FIND AN OBJECT")
                     continue
-                rdf_range = obj[0]
+                if p.is_iri(DCTERMS.identifier) and cps.clazz.is_iri(DCTERMS.LicenseDocument):
+                    ## TODO: Vapaateksti pitäisi olla myös mahdollinen listan sijasta
+                    rdf_range = [o for o in obj if o.is_iri(SKOS.Concept)][0]
+                elif p.is_iri(ADMS['sample']) and cps.clazz.is_iri(DCAT.Distribution):
+                    rdf_range = [o for o in obj if o.is_iri(RDFS.Resource)][0]
+                else:
+                    rdf_range = obj[0]
                 pprint.pprint(type(rdf_range))
                 print(str(rdf_range))
-                if isinstance(rdf_range, RDFSLiteral):
-                    label = [label for label in p.get_rdf_object(RDFS.label, ds) if label.is_language_string() and label.language() == 'en'][0]
-                    label_value = label.value()
-                    schema_fields.append({
-                        "field_name": MobilityDCATAPToSchema.ckan_field(label_value),
-                        "label": label_value,
-                        "help_text": 'The value should be URL'
-                    })
-                elif isinstance(rdf_range, RDFSClass) and rdf_range.iri == RDFS.Resource:
-                    # Resurssi tyyppiset näyttää olevan URLeja
-                    label = [label for label in p.get_rdf_object(RDFS.label, ds) if label.is_language_string() and (label.language() == 'en')]
-                    if not label:
-                        print("LABEL NOT KNOWN")
-                        print(str(p.get_rdf_object(RDFS.label, ds)))
-                        label_value = 'not known'
+                if isinstance(rdf_range, RDFSResource) and rdf_range.iri == RDFS.Literal:
+                    print("######### 1")
+                    if cps.clazz.is_iri(DCTERMS.RightsStatement):
+                        label_value = 'Additional information for access and usage'
+                        field_name = 'rights_statement_label'
                     else:
-                        label_value = label[0].value()
+                        label_value = MobilityDCATAPToSchema.get_label(p)
+                        field_name = MobilityDCATAPToSchema.ckan_field(label_value)
+                    schema_fields.append({
+                        "field_name": field_name,
+                        "label": label_value
+                    })
+                elif isinstance(rdf_range, RDFSResource) and rdf_range.iri == RDFS.Resource:
+                    print("######### 2")
+                    # Resurssi tyyppiset näyttää olevan URLeja
+                    label_value = MobilityDCATAPToSchema.get_label(p)
                     schema_fields.append({
                         "field_name": MobilityDCATAPToSchema.ckan_field(label_value),
                         "label": label_value,
                         "help_text": 'The value should be URL'
                     })
-                elif isinstance(rdf_range, RDFSClass) and rdf_range.iri == SKOS.Concept:
+                elif isinstance(rdf_range, RDFSResource) and rdf_range.iri == SKOS.Concept:
+                    print("######### 3")
                     # SKOS.Concept tyyppiset on kontrolloituja sanastoja. RDF:llä ei saane tarkemmin tuota määritettyä.
                     # OWL:illa ehkä saisi
                     print("###F#F####F #F#FF#F###FF#F#F")
-                    pprint.pprint(MobilityDCATAPToSchema.controlled_vocab_field(p, ds))
-                    schema_fields.append(MobilityDCATAPToSchema.controlled_vocab_field(p, ds))
+                    pprint.pprint(MobilityDCATAPToSchema.controlled_vocab_field(p, cps.clazz, ds))
+                    schema_fields.append(MobilityDCATAPToSchema.controlled_vocab_field(p, cps.clazz, ds))
+                elif isinstance(rdf_range, RDFSResource) and rdf_range.iri == MOBILITYDCATAP.MobilityDataStandard:
+                    print("######### 5")
+                    # MobilityDataStandard has some special rules. It has a controlled vocabulary as an option
+                    # but a custom schema should also be supported
+                    label_value = MobilityDCATAPToSchema.get_label(p)
+                    g_cvocab_mobility_data_standard = ds.get_graph(URIRef(CVOCAB_MOBILITY_DATA_STANDARD))
+                    # TODO: Option for a custom schema
+                    schema_fields.append({
+                        "field_name": MobilityDCATAPToSchema.ckan_field(label_value),
+                        "label": label_value,
+                        "choices": MobilityDCATAPToSchema.vocab_choices(g_cvocab_mobility_data_standard)
+                    })
+                    version_resource = RDFSProperty.from_ds(OWL.versionInfo, ds)
+                    label_value = MobilityDCATAPToSchema.get_label(version_resource)
+                    schema_fields.append({
+                        "field_name": MobilityDCATAPToSchema.ckan_field(label_value),
+                        "label": label_value,
+                        "help_text": 'Version of the mobility data standard. Use only short version identifiers, e.g., only  "3.2", without redundant acronyms such as "v", underscores etc.'
+                    })
+                elif isinstance(rdf_range, RDFSResource) and rdf_range.iri == DCTERMS.MediaTypeOrExtent:
+                    print("######### 6")
+                    schema_fields.append({
+                        "field_name": "format",
+                        "label": "Format",
+                        "choices": MobilityDCATAPToSchema.vocab_choices(ds.get_graph(URIRef(CVOCAB_FORMAT)))
+                    })
                 else:
+                    print("######### 4")
                     objects_aggregate = ClassPropertiesAggregator.from_ds_with_graph(rdf_range, ds, graph_namespace)
                     print(str(objects_aggregate))
-                    schema_fields + MobilityDCATAPToSchema.fields_from_aggregator(objects_aggregate, ds, graph_namespace)
+                    for field in MobilityDCATAPToSchema.fields_from_aggregator(objects_aggregate, ds, graph_namespace):
+                        schema_fields.append(field)
             return schema_fields
         else:
             return []
 
+    @staticmethod
+    def get_label(p: RDFSProperty):
+        label = [label for label in p.get_rdf_object(RDFS.label, ds) if (label.is_language_string() and (label.language() == 'en') or not label.is_language_string())]
+        if not label:
+            print("LABEL NOT KNOWN")
+            print(str(p.get_rdf_object(RDFS.label, ds)))
+            return 'not known'
+        else:
+            return label[0].value()
     @staticmethod
     def is_resource_class(clazz: RDFSClass) -> bool:
         if clazz.is_iri(DCAT.Distribution):
@@ -786,21 +845,51 @@ class MobilityDCATAPToSchema:
         # TODO: overrides
         return label
     @staticmethod
-    def controlled_vocab_field(p: RDFSProperty, ds: Dataset):
-        label = [label for label in p.get_rdf_object(RDFS.label, ds) if label.is_language_string() and (label.language() == 'en')]
-        if not label:
-            print("LABEL NOT KNOWN")
-            print(str(p.get_rdf_object(RDFS.label, ds)))
-            label_value = 'not known'
-        else:
-            label_value = label[0].value()
+    def vocab_choices(g: Graph):
+        return list([{"value": s, "label": RDFSLiteral(
+            [pl for pl in g.objects(s, SKOS.prefLabel) if pl.language is None or pl.language == 'en'][0]).value()} for
+                     s, _, _ in g.triples((None, RDF.type, SKOS.Concept))])
+    @staticmethod
+    def controlled_vocab_field(p: RDFSProperty, clazz: RDFSClass, ds: Dataset):
+        label_value = MobilityDCATAPToSchema.get_label(p)
+
         match p.iri:
             case MOBILITYDCATAP.communicationMethod:
                 g = ds.get_graph(URIRef(CVOCAB_COMMUNICATION_METHOD))
                 return {
                     "field_name": MobilityDCATAPToSchema.ckan_field(label_value),
                     "label": label_value,
-                    "choices": list([{"value": s, "label": RDFSLiteral(next(g.objects(s, SKOS.prefLabel))).value()} for s, _, _ in g.triples((None, RDF.type, SKOS.Concept))])
+                    "choices": MobilityDCATAPToSchema.vocab_choices(g)
+                }
+            case DCTERMS.type:
+                if clazz.is_iri(DCTERMS.RightsStatement):
+                    g = ds.get_graph(URIRef(CVOCAB_RIGHTS_STATEMENT_TYPE))
+                    return {
+                        "field_name": MobilityDCATAPToSchema.ckan_field('rights_statement_type'),
+                        "label": 'Conditions for access and usage',
+                        "choices": MobilityDCATAPToSchema.vocab_choices(g)
+                    }
+            case DCTERMS.identifier:
+                if clazz.is_iri(DCTERMS.LicenseDocument):
+                    g = ds.get_graph(URIRef(CVOCAB_LICENSE_IDENTIFIER))
+                    return {
+                        "field_name": MobilityDCATAPToSchema.ckan_field('standard_license'),
+                        "label": 'Standard license',
+                        "choices": MobilityDCATAPToSchema.vocab_choices(g)
+                    }
+            case MOBILITYDCATAP.applicationLayerProtocol:
+                g = ds.get_graph(URIRef(CVOCAB_APPLICATION_LAYER_PROTOCOL))
+                return {
+                    "field_name": MobilityDCATAPToSchema.ckan_field(label_value),
+                    "label": label_value,
+                    "choices": MobilityDCATAPToSchema.vocab_choices(g)
+                }
+            case MOBILITYDCATAP.grammar:
+                g = ds.get_graph(URIRef(CVOCAB_GRAMMAR))
+                return {
+                    "field_name": MobilityDCATAPToSchema.ckan_field(label_value),
+                    "label": label_value,
+                    "choices": MobilityDCATAPToSchema.vocab_choices(g)
                 }
 
 class CKANExtSchemingSchema:
@@ -857,9 +946,10 @@ foobar = ClassPropertiesAggregator.from_ds_with_graph(clazz, ds, URIRef(MOBILITY
 
 print("clazz #########")
 print(clazz)
+
+pprint.pprint(MobilityDCATAPToSchema.fields_from_aggregator(foobar, ds, URIRef(MOBILITYDCATAP._NS)))
+
 print("SDPOFH ###########")
 print(str(foobar))
 print(f'''properties_count: {len(foobar.properties)}
 properties_includes_count: {len(foobar.properties_includes)}''')
-
-pprint.pprint(MobilityDCATAPToSchema.fields_from_aggregator(foobar, ds, URIRef(MOBILITYDCATAP._NS)))
