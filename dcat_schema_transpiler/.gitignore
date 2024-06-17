@@ -1,5 +1,7 @@
 *
-!dcat_schema_transpiler
+!dcat_schema_transpiler/
+!dcat_schema_transpiler/**/
+!dcat_schema_transpiler/**/*.py
 !tests
 !poetry.lock
 !pyproject.toml
