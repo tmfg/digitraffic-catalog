@@ -39,7 +39,7 @@ class EntraIdAuthenticator(plugins.SingletonPlugin):
 
     def login(self):
         # auth flow object should be instantiated again for each login attempt
-        # store auth flow object in flask session (managed by ckan cookie - name is set in beaker.session.key in ckan.ini)
+        # store auth flow object in flask session (managed by ckan cookie - name is set in field beaker.session.key in ckan.ini)
         session["auth_flow"] = self.entraid_client.initiate_auth_code_flow(
             scopes=app_config.SCOPE,
             redirect_uri=f"{app_config.HOST}{app_config.REDIRECT_PATH}",
@@ -52,8 +52,12 @@ class EntraIdAuthenticator(plugins.SingletonPlugin):
         handle response containing ID token and access token granting
         read access (defined in app_config.SCOPE) to Microsoft Graph API.
         """
+        if "auth_flow" not in session:
+            return toolkit.redirect_to("home.index")
+
         token_response = self.entraid_client.acquire_token_by_auth_code_flow(
-            auth_code_flow=session["auth_flow"], auth_response=request.args
+            auth_code_flow=(session.pop("auth_flow", None)),
+            auth_response=request.args,
         )
 
         if "access_token" in token_response:
