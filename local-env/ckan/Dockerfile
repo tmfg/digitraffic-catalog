@@ -1,7 +1,7 @@
 FROM rockylinux/rockylinux:9.3
 
 ENV DK_THEME_HOME=/usr/lib/ckan/default/src/ckan/contrib/cookiecutter/ckan_extension/ckanext-digitraffic_theme/ckanext-digitraffic_theme
-ENV ENTRAID_OIDC_PLUGIN_HOME=/usr/lib/ckan/default/src/ckan/contrib/cookiecutter/ckan_extension/ckanext-entraid_oidc/ckanext-entraid_oidc
+ENV ENTRAID_AUTHENTICATOR_PLUGIN_HOME=/usr/lib/ckan/default/src/ckan/contrib/cookiecutter/ckan_extension/ckanext-entraid_authenticator/ckanext-entraid_authenticator
 
 # Install required packages
 RUN dnf install -y epel-release && \
@@ -28,12 +28,12 @@ RUN source /usr/lib/ckan/default/bin/activate && \
 
 # Copy extensions to the required location
 COPY ./tmp/ckanext-digitraffic_theme "$DK_THEME_HOME"
-COPY ./tmp/ckanext-entraid_oidc "$ENTRAID_OIDC_PLUGIN_HOME"
+COPY ./tmp/ckanext-entraid_authenticator "$ENTRAID_AUTHENTICATOR_PLUGIN_HOME"
 
 # Give permissions to user ckan
 USER root
 RUN chown -R ckan:ckan "$DK_THEME_HOME"
-RUN chown -R ckan:ckan "${ENTRAID_OIDC_PLUGIN_HOME}"
+RUN chown -R ckan:ckan "${ENTRAID_AUTHENTICATOR_PLUGIN_HOME}"
 USER ckan
 
 # Install extensions
@@ -42,7 +42,8 @@ RUN source /usr/lib/ckan/default/bin/activate && \
     pip install -r dev-requirements.txt && \
     cd "$DK_THEME_HOME" && \
     python setup.py develop && \
-    cd "$ENTRAID_OIDC_PLUGIN_HOME" && \
+    cd "$ENTRAID_AUTHENTICATOR_PLUGIN_HOME" && \
+    pip install -r requirements.txt && \
     python setup.py develop && \
     deactivate
 

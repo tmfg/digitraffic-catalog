@@ -42,7 +42,7 @@ copy_extensions_to_tmp() {
 if [[ $(docker image ls local_ckan:latest -q | wc -l) -eq 0 ]] ||
   ([[ $# -eq 2 ]] && [[ "$2" = 'build_image' ]]); then
   cd ckan
-  copy_extensions_to_tmp ../../ext/ckanext-digitraffic_theme ../../ext/ckanext-entraid_oidc
+  copy_extensions_to_tmp ../../ext/ckanext-digitraffic_theme ../../ext/ckanext-entraid_authenticator
   docker image build -t local_ckan:latest .
   remove_tmp_dir
   cd ..

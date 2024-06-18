@@ -1,4 +1,4 @@
-# ckanext-entraid_oidc
+# ckanext-entraid_authenticator
 
 **TODO:** Put a description of your extension here: What does it do? What features does it have? Consider including some screenshots or embedding a video!
 
@@ -78,7 +78,7 @@ To run the tests, do:
 
     pytest --ckan-ini=test.ini
 
-## Releasing a new version of ckanext-entraid_oidc
+## Releasing a new version of ckanext-entraid_authenticator
 
 If ckanext-digitraffic_theme should be available on PyPI you can follow these steps to publish a new version:
 
