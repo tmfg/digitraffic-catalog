@@ -92,6 +92,15 @@ def mobilitydcatap_fixes(graph):
     graph.add((DCTERMS.format, DCAM.rangeIncludes, DCTERMS.MediaTypeOrExtent))
     graph.add((DCTERMS.description, DCAM.rangeIncludes, RDFS.Literal))
 
+
+def other_fixes(ds: Dataset):
+    g_dcterms = ds.get_graph(URIRef(DCTERMS._NS))
+
+    # Cannot find anything about class DCTERMS.Extent but it is still used
+    # here https://www.dublincore.org/specifications/dublin-core/dcmi-terms/terms/format/
+    g_dcterms.remove((DCTERMS.format, DCAM.rangeIncludes, DCTERMS._NS.Extent))
+
+
 def add_property(ds: Dataset, graph_namespace: URIRef, property: URIRef):
     g = ds.get_graph(graph_namespace)
     propertys_graph = next(ds_g for ds_g in ds.graphs() if property.startswith(ds_g.identifier))
@@ -235,6 +244,8 @@ def create_dataset() -> Dataset:
         if not isinstance(ns, Namespace):
             raise ValueError('Foo')
         populate_dataset(ds, ns)
+
+    other_fixes(ds)
 
     fill_mobilitydcatap_graph(ds)
 
