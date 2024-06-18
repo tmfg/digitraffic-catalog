@@ -11,7 +11,7 @@ with open(path.join(here, "README.md"), encoding="utf-8") as f:
     long_description = f.read()
 
 setup(
-    name="""ckanext-entraid_oidc""",
+    name="""ckanext-entraid_authenticator""",
     # Versions should comply with PEP440.  For a discussion on single-sourcing
     # the version across setup.py and the project code, see
     # http://packaging.python.org/en/latest/tutorial.html#version
@@ -68,7 +68,7 @@ setup(
     # pip to create the appropriate form of executable for the target platform.
     entry_points="""
         [ckan.plugins]
-        entraid_oidc=ckanext.entraid_oidc.plugin:EntraIdOidcPlugin
+        entraid_authenticator=ckanext.entraid_authenticator.plugin:EntraIdAuthenticator
     """,
     # If you are changing from the default layout of your extension, you may
     # have to change the message extractors, you can read more about babel
