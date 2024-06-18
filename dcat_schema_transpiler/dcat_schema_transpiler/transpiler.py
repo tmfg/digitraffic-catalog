@@ -10,7 +10,6 @@ from mobility_dcat_ap_to_schema import MobilityDCATAPToSchema
 from rdfs.rdfs_class import RDFSClass
 from rdfs.util import ClassPropertiesAggregator
 
-# class Distritubion(RDFSClass):
 #
 # def range_property_value(p: RDFSProperty, cps: ClassPropertiesAggregator, ds: Dataset) -> RDFSClass|None:
 #     r = p.get_rdf_object(RDFS.range, ds) or ()
@@ -45,13 +44,9 @@ ds = create_dataset()
 
 clazz = RDFSClass.from_ds(DCAT.Distribution, ds)
 
-print("ADSF")
 
 
 foobar = ClassPropertiesAggregator.from_ds_with_graph(clazz, ds, URIRef(MOBILITYDCATAP._NS))
-
-print("clazz #########")
-print(clazz)
 
 pprint.pprint(MobilityDCATAPToSchema.fields_from_aggregator(foobar, ds, URIRef(MOBILITYDCATAP._NS)))
 rdf_to_yaml(foobar, ds)
