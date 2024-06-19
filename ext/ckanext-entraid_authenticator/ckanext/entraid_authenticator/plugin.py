@@ -23,6 +23,12 @@ custom_blueprint = Blueprint("custom", __name__, template_folder="templates")
 
 
 class EntraIdAuthenticator(plugins.SingletonPlugin):
+    """
+    Replaces CKAN's default login functionality with Microsoft Entra ID authentication
+    using OAuth 2.0 authorization code flow.
+    https://learn.microsoft.com/en-us/entra/identity-platform/v2-oauth2-auth-code-flow
+    """
+
     plugins.implements(plugins.IAuthenticator, inherit=True)
     plugins.implements(plugins.IBlueprint)
 
