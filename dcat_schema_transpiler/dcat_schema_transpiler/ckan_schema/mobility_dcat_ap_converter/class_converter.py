@@ -25,12 +25,18 @@ class ClassConverter:
         #print('-------------')
         #print(f'converter: {converter.__class__.__name__}')
         #print(f'converting class: {clazz.iri}')
+        def append_schema(schema):
+            if isinstance(schema, list):
+                for field in schema:
+                    schema_fields.append(field)
+            else:
+                schema_fields.append(schema)
         if not class_properties:
             schema = converter.get_schema(ds, clazz, None)
             if schema is None:
                 print('WARNING: Schema is None when converting a class')
             else:
-                schema_fields.append(schema)
+                append_schema(schema)
         for p in class_properties:
             #print(f'--> property: {p.iri}')
             schema = converter.get_schema(ds, clazz, p)
@@ -42,12 +48,11 @@ class ClassConverter:
                 rdf_range = converter.get_range_value(ds, clazz, p)
                 #print(f'rdf_range: {rdf_range}')
                 schema = ClassConverter.convert(rdf_range, ds)
-                for field in schema:
-                    schema_fields.append(field)
+                append_schema(schema)
             elif schema is None:
                 continue
             else:
-                schema_fields.append(schema)
+                append_schema(schema)
         return schema_fields
 
     @staticmethod
