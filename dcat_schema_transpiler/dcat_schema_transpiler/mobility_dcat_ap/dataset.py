@@ -40,6 +40,7 @@ CVOCAB_LICENSE_IDENTIFIER = Namespace('http://publications.europa.eu/resource/au
 
 CVOCAB_EUV_FREQUENCY = Namespace('http://publications.europa.eu/resource/authority/frequency')
 CVOCAB_MOBILITY_DCAT_AP_FREQUENCY = Namespace('https://w3id.org/mobilitydcat-ap/update-frequency')
+CVOCAB_LANGUAGE = Namespace('http://publications.europa.eu/resource/authority/language')
 
 
 
@@ -81,7 +82,8 @@ controlled_vocabularies = [
     CVOCAB_LICENSE_IDENTIFIER,
     CVOCAB_EUV_FREQUENCY,
     CVOCAB_MOBILITY_DCAT_AP_FREQUENCY,
-    CVOCAB_MOBILITY_THEME
+    CVOCAB_MOBILITY_THEME,
+    CVOCAB_LANGUAGE
 ]
 
 def mobilitydcatap_fixes(graph):
@@ -104,6 +106,11 @@ def mobilitydcatap_fixes(graph):
     graph.add((DCTERMS.accrualPeriodicity, DCAM.domainIncludes, DCAT.Dataset))
     graph.add((DCTERMS.spatial, DCAM.domainIncludes, DCAT.Dataset))
     graph.add((DCTERMS.publisher, DCAM.domainIncludes, DCAT.Dataset))
+
+    graph.add((DCTERMS.created, DCAM.domainIncludes, DCAT.CatalogRecord))
+    graph.add((DCTERMS.language, DCAM.domainIncludes, DCAT.CatalogRecord))
+    graph.add((FOAF.primaryTopic, DCAM.domainIncludes, DCAT.CatalogRecord))
+    graph.add((DCTERMS.modified, DCAM.domainIncludes, DCAT.CatalogRecord))
 
     # Range chanages stated in the document but not visible in the serialized format
     graph.add((DCTERMS.format, DCAM.rangeIncludes, DCTERMS.MediaTypeOrExtent))
@@ -141,9 +148,10 @@ def fill_mobilitydcatap_graph(ds: Dataset):
     distribution_property_iris = {DCAT.accessURL, DCTERMS.format, DCTERMS.rights, DCTERMS.description, DCTERMS.license,
                                   DCAT.accessService, DCAT.downloadURL}
     period_of_time_property_iris = {DCAT.startDate, DCAT.endDate}
+    catalogue_record_iris = {DCTERMS.created, DCTERMS.language, FOAF.primaryTopic, DCTERMS.modified}
     other_property_iris = {FOAF.name}
 
-    property_union = dataset_property_iris | distribution_property_iris | period_of_time_property_iris | other_property_iris
+    property_union = dataset_property_iris | distribution_property_iris | period_of_time_property_iris | other_property_iris | catalogue_record_iris
     for property_iri in property_union:
         add_property(ds, URIRef(MOBILITYDCATAP._NS), property_iri)
 
@@ -216,6 +224,10 @@ def set_content_for_graph(graph: Graph) -> None:
         graph.parse(graph_url, format='application/rdf+xml')
     elif str(ns) == 'http://publications.europa.eu/resource/authority/frequency':
         graph_url = 'https://op.europa.eu/o/opportal-service/euvoc-download-handler?cellarURI=http%3A%2F%2Fpublications.europa.eu%2Fresource%2Fcellar%2Fcc196da1-28d8-11ef-9290-01aa75ed71a1.0001.03%2FDOC_1&fileName=frequencies-skos.rdf'
+        serialization_format = 'rdf'
+        graph.parse(graph_url, format='application/rdf+xml')
+    elif str(ns) == 'http://publications.europa.eu/resource/authority/language':
+        graph_url = 'https://op.europa.eu/o/opportal-service/euvoc-download-handler?cellarURI=http%3A%2F%2Fpublications.europa.eu%2Fresource%2Fcellar%2F3f407e57-28d9-11ef-9290-01aa75ed71a1.0001.05%2FDOC_1&fileName=languages-skos.rdf'
         serialization_format = 'rdf'
         graph.parse(graph_url, format='application/rdf+xml')
     elif str(ns) == 'https://w3id.org/mobilitydcat-ap/mobility-data-standard/':

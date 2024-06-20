@@ -8,7 +8,7 @@ from rdflib.namespace import RDF, RDFS, DCTERMS, DCAM, SKOS
 
 from mobility_dcat_ap.dataset import CVOCAB_COMMUNICATION_METHOD, CVOCAB_RIGHTS_STATEMENT_TYPE, \
     CVOCAB_LICENSE_IDENTIFIER, CVOCAB_APPLICATION_LAYER_PROTOCOL, CVOCAB_GRAMMAR, CVOCAB_MOBILITY_DCAT_AP_FREQUENCY, \
-    CVOCAB_EUV_FREQUENCY, CVOCAB_MOBILITY_DATA_STANDARD, CVOCAB_FORMAT, CVOCAB_MOBILITY_THEME
+    CVOCAB_EUV_FREQUENCY, CVOCAB_MOBILITY_DATA_STANDARD, CVOCAB_FORMAT, CVOCAB_MOBILITY_THEME, CVOCAB_LANGUAGE
 from mobility_dcat_ap.namespace import MOBILITYDCATAP
 from rdfs.rdfs_class import RDFSClass
 from rdfs.rdfs_literal import RDFSLiteral
@@ -79,8 +79,18 @@ class RangeValueConverter:
         return label
     @staticmethod
     def vocab_choices(g: Graph, filter: Callable[[URIRef], bool] = lambda s: True):
-        return list([{"value": str(s), "label": RDFSLiteral(
-            [pl for pl in g.objects(s, SKOS.prefLabel) if pl.language is None or pl.language == 'en'][0]).value()} for
+        def get_label(s):
+            labels = [pl for pl in g.objects(s, SKOS.prefLabel)]
+            if labels:
+                english = [pl for pl in labels if pl.language is None or pl.language == 'en']
+                if english:
+                    picked_label = english[0]
+                else:
+                    picked_label = labels[0]
+                return RDFSLiteral(picked_label).value()
+            print(f'Could not find label for {s}')
+            return None
+        return list([{"value": str(s), "label": get_label(s)} for
                      s, _, _ in g.triples((None, RDF.type, SKOS.Concept))
                      if filter(URIRef(s))])
     @staticmethod
@@ -105,7 +115,14 @@ class RangeValueConverter:
                     "preset": "select",
                     "choices": RangeValueConverter.vocab_choices(g)
                 }
-
+            case DCTERMS.LinguisticSystem:
+                g = ds.get_graph(URIRef(CVOCAB_LANGUAGE))
+                return {
+                    "field_name": "metadata_language",
+                    "label": "Metadata Language",
+                    "preset": "select",
+                    "choices": RangeValueConverter.vocab_choices(g)
+                }
         label_value = RangeValueConverter.get_label(p, ds)
 
         match p.iri:
