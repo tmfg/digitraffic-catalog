@@ -3,6 +3,7 @@ from rdflib import DCTERMS, Dataset, DCAT, FOAF
 from ckan_schema.mobility_dcat_ap_converter.range_value_converter import RangeValueConverter
 from rdfs.rdfs_class import RDFSClass
 from rdfs.rdfs_property import RDFSProperty
+from rdfs.rdfs_resource import RDFSResource
 
 
 class CatalogueRecord(RangeValueConverter):
@@ -10,8 +11,11 @@ class CatalogueRecord(RangeValueConverter):
         super().__init__(iri_to_convert=DCAT.CatalogRecord)
 
     def get_range_value(self, ds: Dataset, clazz: RDFSClass, clazz_p: RDFSProperty) -> RDFSClass | None:
-        return super().get_range_value(ds, clazz, clazz_p)
-
+        if clazz_p.is_iri(FOAF.primaryTopic) and self.is_class_specific_converter(clazz):
+            r_value = RDFSResource.from_ds(DCAT.Dataset, ds)
+        else:
+            r_value = super().get_range_value(ds, clazz, clazz_p)
+        return r_value
 
     def get_schema(self, ds: Dataset, clazz: RDFSClass, clazz_p: RDFSProperty):
         mandatory_properties = {#DCTERMS.created, <--- Generoidaan

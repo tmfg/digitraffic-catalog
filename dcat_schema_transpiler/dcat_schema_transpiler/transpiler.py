@@ -22,10 +22,10 @@ from rdfs.util import ClassPropertiesAggregator
 
 ds = create_dataset()
 
-clazz = RDFSClass.from_ds(DCAT.CatalogRecord, ds)
+catalog_record = RDFSClass.from_ds(DCAT.CatalogRecord, ds)
 
 # print("######## CLASSS ##########")
-# print(clazz)
+# print(catalog_record)
 #
 #print("---> Domain")
 #for quad in ds.quads((None, RDFS.domain, FOAF.Agent)):
@@ -44,15 +44,15 @@ clazz = RDFSClass.from_ds(DCAT.CatalogRecord, ds)
 # for quad in ds.quads((DCAT_AP.applicableLegislation, None, None)):
 #     print(quad)
 
-foobar = ClassPropertiesAggregator.from_ds_with_graph(clazz, ds, URIRef(MOBILITYDCATAP._NS))
+catalog_record_aggregate = ClassPropertiesAggregator.from_ds_with_graph(catalog_record, ds, URIRef(MOBILITYDCATAP._NS))
 
 #print("SDPOFH ###########")
-#print(str(foobar))
+#print(str(catalog_record_aggregate))
 
-pprint.pprint(MobilityDCATAPToSchema.fields_from_aggregator(foobar, ds, URIRef(MOBILITYDCATAP._NS)))
-rdf_to_yaml(foobar, ds)
+#pprint.pprint(MobilityDCATAPToSchema.fields_from_aggregator(catalog_record_aggregate, ds, URIRef(MOBILITYDCATAP._NS)))
+rdf_to_yaml(ds)
 
 
-print(f'''properties_count: {len(foobar.properties)}
-properties_includes_count: {len(foobar.properties_includes)}''')
+print(f'''properties_count: {len(catalog_record_aggregate.properties)}
+properties_includes_count: {len(catalog_record_aggregate.properties_includes)}''')
 
