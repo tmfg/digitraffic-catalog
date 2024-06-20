@@ -8,11 +8,13 @@ from rdflib.namespace import RDF, RDFS, DCTERMS, DCAM, SKOS
 
 from mobility_dcat_ap.dataset import CVOCAB_COMMUNICATION_METHOD, CVOCAB_RIGHTS_STATEMENT_TYPE, \
     CVOCAB_LICENSE_IDENTIFIER, CVOCAB_APPLICATION_LAYER_PROTOCOL, CVOCAB_GRAMMAR, CVOCAB_MOBILITY_DCAT_AP_FREQUENCY, \
-    CVOCAB_EUV_FREQUENCY, CVOCAB_MOBILITY_DATA_STANDARD, CVOCAB_FORMAT
+    CVOCAB_EUV_FREQUENCY, CVOCAB_MOBILITY_DATA_STANDARD, CVOCAB_FORMAT, CVOCAB_MOBILITY_THEME
 from mobility_dcat_ap.namespace import MOBILITYDCATAP
 from rdfs.rdfs_class import RDFSClass
 from rdfs.rdfs_literal import RDFSLiteral
 from rdfs.rdfs_property import RDFSProperty
+
+from typing import Callable, List, Dict
 
 class RangeValueConverter:
 
@@ -76,12 +78,13 @@ class RangeValueConverter:
         # TODO: overrides
         return label
     @staticmethod
-    def vocab_choices(g: Graph):
+    def vocab_choices(g: Graph, filter: Callable[[URIRef], bool] = lambda s: True):
         return list([{"value": str(s), "label": RDFSLiteral(
             [pl for pl in g.objects(s, SKOS.prefLabel) if pl.language is None or pl.language == 'en'][0]).value()} for
-                     s, _, _ in g.triples((None, RDF.type, SKOS.Concept))])
+                     s, _, _ in g.triples((None, RDF.type, SKOS.Concept))
+                     if filter(URIRef(s))])
     @staticmethod
-    def controlled_vocab_field(p: RDFSProperty, clazz: RDFSClass, ds: Dataset):
+    def controlled_vocab_field(p: RDFSProperty, clazz: RDFSClass, ds: Dataset) -> List | Dict:
         # Some classes do not have properties
         match clazz.iri:
             case DCTERMS.MediaTypeOrExtent:
@@ -156,3 +159,18 @@ class RangeValueConverter:
                     "preset": "select",
                     "choices": RangeValueConverter.vocab_choices(g)
                 }
+            case MOBILITYDCATAP.mobilityTheme:
+                g = ds.get_graph(URIRef(CVOCAB_MOBILITY_THEME))
+                return [{
+                    "field_name": RangeValueConverter.ckan_field("data_content_category"),
+                    "label": "Data content category",
+                    "preset": "select",
+                    "choices": RangeValueConverter.vocab_choices(g, lambda s: (s, SKOS.broader, URIRef('https://w3id.org/mobilitydcat-ap/mobility-theme/data-content-category')) in g)
+                },
+                    {
+                        "field_name": RangeValueConverter.ckan_field("data_content_sub_category"),
+                        "label": "Data content sub category",
+                        "preset": "select",
+                        "choices": RangeValueConverter.vocab_choices(g, lambda s: (s, SKOS.broader, URIRef('https://w3id.org/mobilitydcat-ap/mobility-theme/data-content-sub-category')) in g)
+                    }
+                ]

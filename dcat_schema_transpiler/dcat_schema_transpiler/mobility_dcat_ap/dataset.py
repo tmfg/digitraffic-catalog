@@ -80,7 +80,8 @@ controlled_vocabularies = [
     CVOCAB_RIGHTS_STATEMENT_TYPE,
     CVOCAB_LICENSE_IDENTIFIER,
     CVOCAB_EUV_FREQUENCY,
-    CVOCAB_MOBILITY_DCAT_AP_FREQUENCY
+    CVOCAB_MOBILITY_DCAT_AP_FREQUENCY,
+    CVOCAB_MOBILITY_THEME
 ]
 
 def mobilitydcatap_fixes(graph):
@@ -213,6 +214,10 @@ def set_content_for_graph(graph: Graph) -> None:
         graph_url = 'https://op.europa.eu/o/opportal-service/euvoc-download-handler?cellarURI=http%3A%2F%2Fpublications.europa.eu%2Fresource%2Fcellar%2Fab0e79f8-5c6c-11ee-9220-01aa75ed71a1.0001.03%2FDOC_1&fileName=licences-skos.rdf'
         serialization_format = 'rdf'
         graph.parse(graph_url, format='application/rdf+xml')
+    elif str(ns) == 'http://publications.europa.eu/resource/authority/frequency':
+        graph_url = 'https://op.europa.eu/o/opportal-service/euvoc-download-handler?cellarURI=http%3A%2F%2Fpublications.europa.eu%2Fresource%2Fcellar%2Fcc196da1-28d8-11ef-9290-01aa75ed71a1.0001.03%2FDOC_1&fileName=frequencies-skos.rdf'
+        serialization_format = 'rdf'
+        graph.parse(graph_url, format='application/rdf+xml')
     elif str(ns) == 'https://w3id.org/mobilitydcat-ap/mobility-data-standard/':
         graph_url, _ = get_graph_url(ns)
         serialization_format = 'ttl'
@@ -233,11 +238,11 @@ def set_content_for_graph(graph: Graph) -> None:
         graph_url, _ = get_graph_url(ns)
         serialization_format = 'ttl'
         graph.parse(graph_url, format='text/turtle')
-    elif str(ns) == 'http://publications.europa.eu/resource/authority/frequency':
-        graph_url, _ = get_graph_url(ns)
-        serialization_format = 'rdf'
-        graph.parse(graph_url, format='application/rdf+xml')
     elif str(ns) == 'https://w3id.org/mobilitydcat-ap/update-frequency':
+        graph_url, _ = get_graph_url(ns)
+        serialization_format = 'ttl'
+        graph.parse(graph_url, format='text/turtle')
+    elif str(ns) == 'https://w3id.org/mobilitydcat-ap/mobility-theme/':
         graph_url, _ = get_graph_url(ns)
         serialization_format = 'ttl'
         graph.parse(graph_url, format='text/turtle')
