@@ -6,9 +6,9 @@ from rdfs.rdfs_class import RDFSClass
 from rdfs.rdfs_property import RDFSProperty
 
 
-class MediaTypeOrExtent(RangeValueConverter):
+class Frequency(RangeValueConverter):
     def __init__(self):
-        super().__init__(DCTERMS.MediaTypeOrExtent)
+        super().__init__(DCTERMS.Frequency)
 
     def get_range_value(self, ds: Dataset, clazz: RDFSClass, clazz_p: RDFSProperty) -> RDFSClass | None:
         return super().get_range_value(ds, clazz, clazz_p)

@@ -2,10 +2,11 @@ from __future__ import annotations
 from rdflib import Dataset, Namespace, URIRef, Literal
 from typing import List, Dict, Tuple
 
+from mobility_dcat_ap.namespace import MOBILITYDCATAP_NS_URL
 from rdfs.rdf_iri_resource import IRIResource
 
 
-def iri_resource_factory(cls, iri, ds: Dataset, **kwargs):
+def iri_resource_factory(cls, iri, ds: Dataset, properties_from_graph=URIRef(MOBILITYDCATAP_NS_URL), **kwargs):
     """
     TODO: Kato tälle funkkarille parempi paikka
     """
@@ -18,9 +19,21 @@ def iri_resource_factory(cls, iri, ds: Dataset, **kwargs):
     for arument_label, predicate in kwargs.items():
         defined_constructor_arguments[arument_label] = tuple(v for v in g.objects(iri, predicate))
 
+    if properties_from_graph:
+        g_from_graph = ds.get_graph(properties_from_graph)
+        _, _, types_g = IRIResource.resource_args_from_graph(iri, g_from_graph)
+
+        types = types + types_g
+
+        for arument_label, predicate in kwargs.items():
+            defined_constructor_arguments[arument_label] = (defined_constructor_arguments.get(arument_label, {}) +
+                                                            tuple(v for v in g_from_graph.objects(iri, predicate)))
+
+
     for _, p, o, g_identifier in ds.quads((iri, None, None, None)):
         if isinstance(p, URIRef):
-            is_in_defined_constructor_arguments = (str(g_identifier) == str(namespace) and
+            is_in_defined_constructor_arguments = ((str(g_identifier) == str(namespace) or
+                                                    str(g_identifier) == str(properties_from_graph)) and
                                                    p in kwargs.values())
             if not is_in_defined_constructor_arguments:
                 existing_property = additional_properties.get(p)

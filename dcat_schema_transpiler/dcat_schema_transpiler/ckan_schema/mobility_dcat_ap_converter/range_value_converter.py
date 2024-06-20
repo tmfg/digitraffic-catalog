@@ -6,7 +6,9 @@ from rdflib import Dataset, URIRef, Graph
 
 from rdflib.namespace import RDF, RDFS, DCTERMS, DCAM, SKOS
 
-from mobility_dcat_ap.dataset import CVOCAB_COMMUNICATION_METHOD, CVOCAB_RIGHTS_STATEMENT_TYPE, CVOCAB_LICENSE_IDENTIFIER, CVOCAB_APPLICATION_LAYER_PROTOCOL, CVOCAB_GRAMMAR
+from mobility_dcat_ap.dataset import CVOCAB_COMMUNICATION_METHOD, CVOCAB_RIGHTS_STATEMENT_TYPE, \
+    CVOCAB_LICENSE_IDENTIFIER, CVOCAB_APPLICATION_LAYER_PROTOCOL, CVOCAB_GRAMMAR, CVOCAB_MOBILITY_DCAT_AP_FREQUENCY, \
+    CVOCAB_EUV_FREQUENCY, CVOCAB_MOBILITY_DATA_STANDARD, CVOCAB_FORMAT
 from mobility_dcat_ap.namespace import MOBILITYDCATAP
 from rdfs.rdfs_class import RDFSClass
 from rdfs.rdfs_literal import RDFSLiteral
@@ -54,7 +56,7 @@ class RangeValueConverter:
             # OWL:illa ehkä saisi
             return RangeValueConverter.controlled_vocab_field(clazz_p, clazz, ds)
         else:
-            return None
+            return {}
 
     def is_class_specific_converter(self, clazz: RDFSClass):
         return clazz.is_iri(self.iri_to_convert)
@@ -80,6 +82,27 @@ class RangeValueConverter:
                      s, _, _ in g.triples((None, RDF.type, SKOS.Concept))])
     @staticmethod
     def controlled_vocab_field(p: RDFSProperty, clazz: RDFSClass, ds: Dataset):
+        # Some classes do not have properties
+        match clazz.iri:
+            case DCTERMS.MediaTypeOrExtent:
+                g = ds.get_graph(URIRef(CVOCAB_FORMAT))
+                return {
+                    "field_name": "format",
+                    "label": "Format",
+                    "preset": "select",
+                    "choices": RangeValueConverter.vocab_choices(g)
+                }
+            case DCTERMS.Frequency:
+                g_mobility_dcat_ap_frequency = ds.get_graph(URIRef(CVOCAB_MOBILITY_DCAT_AP_FREQUENCY))
+                g_euv_frequency = ds.get_graph(URIRef(CVOCAB_EUV_FREQUENCY))
+                g = g_mobility_dcat_ap_frequency + g_euv_frequency
+                return {
+                    "field_name": "frequency",
+                    "label": "Frequency",
+                    "preset": "select",
+                    "choices": RangeValueConverter.vocab_choices(g)
+                }
+
         label_value = RangeValueConverter.get_label(p, ds)
 
         match p.iri:
@@ -122,6 +145,14 @@ class RangeValueConverter:
                 return {
                     "field_name": RangeValueConverter.ckan_field(label_value),
                     "label": label_value,
+                    "preset": "select",
+                    "choices": RangeValueConverter.vocab_choices(g)
+                }
+            case MOBILITYDCATAP.schema:
+                g = ds.get_graph(URIRef(CVOCAB_MOBILITY_DATA_STANDARD))
+                return {
+                    "field_name": RangeValueConverter.ckan_field(label_value),
+                    "label": "Mobility data standard",
                     "preset": "select",
                     "choices": RangeValueConverter.vocab_choices(g)
                 }
