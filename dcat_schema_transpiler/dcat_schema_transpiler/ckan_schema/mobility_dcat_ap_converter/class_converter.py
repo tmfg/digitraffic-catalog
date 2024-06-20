@@ -1,9 +1,11 @@
 from rdflib import Dataset, URIRef
 
+from ckan_schema.mobility_dcat_ap_converter.classes.catalogue_record import CatalogueRecord
 from ckan_schema.mobility_dcat_ap_converter.classes.dataset import DCATDataset
 from ckan_schema.mobility_dcat_ap_converter.classes.distribution import Distribution
 from ckan_schema.mobility_dcat_ap_converter.classes.frequency import Frequency
 from ckan_schema.mobility_dcat_ap_converter.classes.license_document import LicenseDocument
+from ckan_schema.mobility_dcat_ap_converter.classes.linguistic_system import LinguisticSystem
 from ckan_schema.mobility_dcat_ap_converter.classes.media_type_or_extent import MediaTypeOrExtent
 from ckan_schema.mobility_dcat_ap_converter.classes.mobility_data_standard import MobilityDataStandard
 from ckan_schema.mobility_dcat_ap_converter.classes.rights_statement import RightsStatement
@@ -22,9 +24,9 @@ class ClassConverter:
         schema_fields = []
         converter = ClassConverter.get_converter(clazz)
         class_properties = clazz_aggregate.properties | clazz_aggregate.properties_includes
-        #print('-------------')
-        #print(f'converter: {converter.__class__.__name__}')
-        #print(f'converting class: {clazz.iri}')
+        print('------------->>')
+        print(f'converter: {converter.__class__.__name__}')
+        print(f'converting class: {clazz.iri}')
         def append_schema(schema):
             if isinstance(schema, list):
                 for field in schema:
@@ -38,12 +40,12 @@ class ClassConverter:
             else:
                 append_schema(schema)
         for p in class_properties:
-            #print(f'--> property: {p.iri}')
+            print(f'--> property: {p.iri}')
             schema = converter.get_schema(ds, clazz, p)
             #print(schema)
             is_range_value_class = schema == {}
-            #print(f'is_range_value_class: {is_range_value_class}')
-            #print(f'schema is None: {schema is None}')
+            print(f'is_range_value_class: {is_range_value_class}')
+            print(f'schema is None: {schema is None}')
             if is_range_value_class:
                 rdf_range = converter.get_range_value(ds, clazz, p)
                 #print(f'rdf_range: {rdf_range}')
@@ -53,12 +55,13 @@ class ClassConverter:
                 continue
             else:
                 append_schema(schema)
+        print('<<-------------')
         return schema_fields
 
     @staticmethod
     def get_converter(clazz: RDFSClass):
         specific_converters = [LicenseDocument(), MediaTypeOrExtent(), MobilityDataStandard(), RightsStatement(),
-                               Distribution(), Frequency(), DCATDataset()]
+                               Distribution(), Frequency(), DCATDataset(), CatalogueRecord(), LinguisticSystem()]
         for converter in specific_converters:
             if converter.is_class_specific_converter(clazz):
                 return converter

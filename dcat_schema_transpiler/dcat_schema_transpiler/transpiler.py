@@ -1,5 +1,5 @@
 from __future__ import annotations
-from rdflib import URIRef, RDFS, FOAF
+from rdflib import URIRef, RDFS, FOAF, DCTERMS, RDF
 from rdflib.namespace import DCAT, DCAM
 import pprint
 
@@ -22,7 +22,7 @@ from rdfs.util import ClassPropertiesAggregator
 
 ds = create_dataset()
 
-clazz = RDFSClass.from_ds(DCAT.Dataset, ds)
+clazz = RDFSClass.from_ds(DCAT.CatalogRecord, ds)
 
 # print("######## CLASSS ##########")
 # print(clazz)
