@@ -27,12 +27,6 @@ class MobilityDataStandard(RangeValueConverter):
                     "help_text": 'Version of the mobility data standard. Use only short version identifiers, e.g., only  "3.2", without redundant acronyms such as "v", underscores etc.'
                 }
             if clazz_p.is_iri(MOBILITYDCATAP.schema):
-                g_cvocab_mobility_data_standard = ds.get_graph(URIRef(CVOCAB_MOBILITY_DATA_STANDARD))
-                return {
-                    "field_name": RangeValueConverter.ckan_field(label_value),
-                    "label": "Mobility data standard",
-                    "preset": "select",
-                    "choices": RangeValueConverter.vocab_choices(g_cvocab_mobility_data_standard)
-                }
+                return RangeValueConverter.controlled_vocab_field(clazz_p, clazz, ds)
             raise Exception('Should not get to this point')
         return super().get_schema(ds, clazz, clazz_p)

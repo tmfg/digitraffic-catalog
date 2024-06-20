@@ -1,4 +1,4 @@
-from rdflib import Dataset, Graph, Namespace, URIRef
+from rdflib import Dataset, Graph, Namespace, URIRef, Literal
 from rdflib.namespace import RDF, RDFS, DCTERMS, XSD, DCAM, DCAT, FOAF, VANN, OWL, SKOS, ORG, PROV
 
 from cache.vocabularies import is_local_file_created, get_cached_file_path, cache_vocabulary
@@ -13,7 +13,6 @@ CC = Namespace('http://creativecommons.org/ns#')
 CNT = Namespace('http://www.w3.org/2011/content#')
 DCAT_AP = Namespace('http://data.europa.eu/r5r/')
 DCELEM = Namespace('http://purl.org/dc/elements/1.1/')
-DCT = Namespace('http://purl.org/dc/terms/')
 DQV = Namespace('http://www.w3.org/ns/dqv#')
 LOCN = Namespace('http://www.w3.org/ns/locn#')
 OA = Namespace('http://www.w3.org/ns/oa#')
@@ -26,6 +25,7 @@ VS = Namespace('http://www.w3.org/2003/06/sw-vocab-status/ns#')
 SKOS_DOC = Namespace('http://www.w3.org/TR/skos-primer/')
 SPDX = Namespace('http://spdx.org/rdf/terms#')
 XML = Namespace('http://www.w3.org/XML/1998/namespace')
+ELI = Namespace('http://data.europa.eu/eli/ontology')
 
 CVOCAB_MOBILITY_THEME = Namespace('https://w3id.org/mobilitydcat-ap/mobility-theme/')
 CVOCAB_THEME = Namespace('http://publications.europa.eu/resource/authority/data-theme/')
@@ -38,6 +38,10 @@ CVOCAB_COMMUNICATION_METHOD = Namespace('https://w3id.org/mobilitydcat-ap/commun
 CVOCAB_RIGHTS_STATEMENT_TYPE = Namespace('https://w3id.org/mobilitydcat-ap/conditions-for-access-and-usage/')
 CVOCAB_LICENSE_IDENTIFIER = Namespace('http://publications.europa.eu/resource/authority/licence/')
 
+CVOCAB_EUV_FREQUENCY = Namespace('http://publications.europa.eu/resource/authority/frequency')
+CVOCAB_MOBILITY_DCAT_AP_FREQUENCY = Namespace('https://w3id.org/mobilitydcat-ap/update-frequency')
+
+
 
 mobility_dcat_namespaces = {
     "adms": ADMS,
@@ -45,7 +49,7 @@ mobility_dcat_namespaces = {
     "cnt": CNT,
     "dcat": DCAT,
     "dcatap": DCAT_AP,
-    "dct": DCT,
+    "dct": DCTERMS,
     "dcam": DCAM,
     "dqv": DQV,
     "foaf": FOAF,
@@ -64,6 +68,7 @@ mobility_dcat_namespaces = {
     "vs": VS,
     "xml": XML,
     "xsd": XSD
+    #"eli": ELI
 }
 
 controlled_vocabularies = [
@@ -73,7 +78,9 @@ controlled_vocabularies = [
     CVOCAB_APPLICATION_LAYER_PROTOCOL,
     CVOCAB_COMMUNICATION_METHOD,
     CVOCAB_RIGHTS_STATEMENT_TYPE,
-    CVOCAB_LICENSE_IDENTIFIER
+    CVOCAB_LICENSE_IDENTIFIER,
+    CVOCAB_EUV_FREQUENCY,
+    CVOCAB_MOBILITY_DCAT_AP_FREQUENCY
 ]
 
 def mobilitydcatap_fixes(graph):
@@ -83,14 +90,32 @@ def mobilitydcatap_fixes(graph):
 
     # DCAT or DCAT-AP has in comments that the following properties are part of some class. Here we add a property that states the fact
     graph.add((DCTERMS.format, DCAM.domainIncludes, DCAT.Distribution))
-    graph.add((DCT.rights, DCAM.domainIncludes, DCAT.Distribution))
-    graph.add((DCT.description, DCAM.domainIncludes, DCAT.Distribution))
-    graph.add((DCT.license, DCAM.domainIncludes, DCAT.Distribution))
+    graph.add((DCTERMS.rights, DCAM.domainIncludes, DCAT.Distribution))
+    graph.add((DCTERMS.description, DCAM.domainIncludes, DCAT.Distribution))
+    graph.add((DCTERMS.license, DCAM.domainIncludes, DCAT.Distribution))
     graph.add((DCAT.accessService, DCAM.domainIncludes, DCAT.Distribution))
+
+    graph.add((DCTERMS.description, DCAM.domainIncludes, DCAT.Dataset))
+    graph.add((DCTERMS.title, DCAM.domainIncludes, DCAT.Dataset))
+    graph.add((DCAT.contactPoint, DCAM.domainIncludes, DCAT.Dataset))
+    graph.add((DCAT.distribution, DCAM.domainIncludes, DCAT.Dataset))
+    graph.add((DCAT.keyword, DCAM.domainIncludes, DCAT.Dataset))
+    graph.add((DCTERMS.accrualPeriodicity, DCAM.domainIncludes, DCAT.Dataset))
+    graph.add((DCTERMS.spatial, DCAM.domainIncludes, DCAT.Dataset))
+    graph.add((DCTERMS.publisher, DCAM.domainIncludes, DCAT.Dataset))
 
     # Range chanages stated in the document but not visible in the serialized format
     graph.add((DCTERMS.format, DCAM.rangeIncludes, DCTERMS.MediaTypeOrExtent))
     graph.add((DCTERMS.description, DCAM.rangeIncludes, RDFS.Literal))
+
+    # Resources taken from DCAT-AP version 3
+    #graph.add((DCAT_AP.applicableLegislation, RDFS.label, Literal("applicable legislation", lang="en")))
+    #graph.add((DCAT_AP.applicableLegislation, SKOS.definition, Literal("the legislation that is applicable to this resource.", lang="en")))
+    #graph.add((DCAT_AP.applicableLegislation, RDFS.domain, RDFS.Resource))
+    #graph.add((DCAT_AP.applicableLegislation, RDFS.range, ELI.LegalResource))
+
+    # Agent
+    graph.add((FOAF.name, DCAM.domainIncludes, FOAF.Agent))
 
 
 def other_fixes(ds: Dataset):
@@ -110,12 +135,15 @@ def add_property(ds: Dataset, graph_namespace: URIRef, property: URIRef):
 
 def fill_mobilitydcatap_graph(ds: Dataset):
     ## Distribution
-    distribution_property_iris = {DCAT.accessURL, DCTERMS.format, DCT.rights, DCT.description, DCT.license,
+    dataset_property_iris = {DCTERMS.description, DCTERMS.title, DCAT.contactPoint, DCAT.distribution, DCAT.keyword,
+                             DCTERMS.accrualPeriodicity, DCTERMS.spatial, DCTERMS.publisher}
+    distribution_property_iris = {DCAT.accessURL, DCTERMS.format, DCTERMS.rights, DCTERMS.description, DCTERMS.license,
                                   DCAT.accessService, DCAT.downloadURL}
     period_of_time_property_iris = {DCAT.startDate, DCAT.endDate}
-    for property_iri in distribution_property_iris:
-        add_property(ds, URIRef(MOBILITYDCATAP._NS), property_iri)
-    for property_iri in period_of_time_property_iris:
+    other_property_iris = {FOAF.name}
+
+    property_union = dataset_property_iris | distribution_property_iris | period_of_time_property_iris | other_property_iris
+    for property_iri in property_union:
         add_property(ds, URIRef(MOBILITYDCATAP._NS), property_iri)
 
 def set_content_for_graph(graph: Graph) -> None:
@@ -202,6 +230,14 @@ def set_content_for_graph(graph: Graph) -> None:
         serialization_format = 'ttl'
         graph.parse(graph_url, format='text/turtle')
     elif str(ns) == 'https://w3id.org/mobilitydcat-ap/conditions-for-access-and-usage/':
+        graph_url, _ = get_graph_url(ns)
+        serialization_format = 'ttl'
+        graph.parse(graph_url, format='text/turtle')
+    elif str(ns) == 'http://publications.europa.eu/resource/authority/frequency':
+        graph_url, _ = get_graph_url(ns)
+        serialization_format = 'rdf'
+        graph.parse(graph_url, format='application/rdf+xml')
+    elif str(ns) == 'https://w3id.org/mobilitydcat-ap/update-frequency':
         graph_url, _ = get_graph_url(ns)
         serialization_format = 'ttl'
         graph.parse(graph_url, format='text/turtle')

@@ -1,5 +1,5 @@
 from __future__ import annotations
-from rdflib import Dataset, Namespace, URIRef
+from rdflib import Dataset, Namespace, URIRef, Graph
 from rdflib.namespace import RDF
 from typing import Any, Dict, Tuple
 import os
@@ -52,6 +52,11 @@ class IRIResource(Resource):
     def resource_args_from_ds(iri: URIRef, ds: Dataset) -> (Namespace, URIRef, Tuple[URIRef]):
         namespace = Resource.ns_from_iri(iri)
         g = ds.get_graph(URIRef(namespace))
+        return namespace, iri, tuple(URIRef(node) for node in g.objects(iri, RDF.type))
+
+    @staticmethod
+    def resource_args_from_graph(iri: URIRef, g: Graph) -> (Namespace, URIRef, Tuple[URIRef]):
+        namespace = Resource.ns_from_iri(iri)
         return namespace, iri, tuple(URIRef(node) for node in g.objects(iri, RDF.type))
 
     def turtle_format(self, p_o_tuples: Tuple[(URIRef, Tuple[Any, ...]), ...]):
