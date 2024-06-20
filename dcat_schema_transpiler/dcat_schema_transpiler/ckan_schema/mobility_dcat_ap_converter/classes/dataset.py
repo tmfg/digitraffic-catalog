@@ -20,7 +20,7 @@ class DCATDataset(RangeValueConverter):
 
 
     def get_schema(self, ds: Dataset, clazz: RDFSClass, clazz_p: RDFSProperty):
-        mandatory_properties = [DCTERMS.description, DCAT.Distribution, DCTERMS.accrualPeriodicity,
+        mandatory_properties = [DCTERMS.description, DCAT.distribution, DCTERMS.accrualPeriodicity,
                                 MOBILITYDCATAP.mobilityTheme,
                                 #DCTERMS.spatial,
                                 DCTERMS.title,

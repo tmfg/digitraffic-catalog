@@ -27,12 +27,12 @@ clazz = RDFSClass.from_ds(DCAT.Dataset, ds)
 # print("######## CLASSS ##########")
 # print(clazz)
 #
-print("---> Domain")
-for quad in ds.quads((None, RDFS.domain, FOAF.Agent)):
-    print(quad)
-print("---> Domain includes")
-for quad in ds.quads((None, DCAM.domainIncludes, FOAF.Agent)):
-    print(quad)
+#print("---> Domain")
+#for quad in ds.quads((None, RDFS.domain, FOAF.Agent)):
+#    print(quad)
+#print("---> Domain includes")
+#for quad in ds.quads((None, DCAM.domainIncludes, FOAF.Agent)):
+#    print(quad)
 # print("---> Range")
 # for quad in ds.quads((None, RDFS.range, DCAT.Dataset)):
 #     print(quad)
