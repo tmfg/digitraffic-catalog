@@ -112,6 +112,14 @@ def mobilitydcatap_fixes(graph):
     graph.add((FOAF.primaryTopic, DCAM.domainIncludes, DCAT.CatalogRecord))
     graph.add((DCTERMS.modified, DCAM.domainIncludes, DCAT.CatalogRecord))
 
+    graph.add((DCAT.dataset, DCAM.domainIncludes, DCAT.Catalog))
+    graph.add((DCTERMS.description, DCAM.domainIncludes, DCAT.Catalog))
+    graph.add((FOAF.homepage, DCAM.domainIncludes, DCAT.Catalog))
+    graph.add((DCTERMS.publisher, DCAM.domainIncludes, DCAT.Catalog))
+    graph.add((DCAT.record, DCAM.domainIncludes, DCAT.Catalog))
+    graph.add((DCTERMS.spatial, DCAM.domainIncludes, DCAT.Catalog))
+    graph.add((DCTERMS.title, DCAM.domainIncludes, DCAT.Catalog))
+
     # Range chanages stated in the document but not visible in the serialized format
     graph.add((DCTERMS.format, DCAM.rangeIncludes, DCTERMS.MediaTypeOrExtent))
     graph.add((DCTERMS.description, DCAM.rangeIncludes, RDFS.Literal))
