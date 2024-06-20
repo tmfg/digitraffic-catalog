@@ -39,6 +39,7 @@ class EntraIdAuthenticator(plugins.SingletonPlugin):
             authority=app_config.AUTHORITY,
             client_credential=app_config.CLIENT_SECRET,
         )
+        self.AUTH_FLOW_SESSION_KEY = "auth_flow"
 
     def get_blueprint(self):
         # add route to application for handling Entra ID auth redirects
@@ -52,11 +53,13 @@ class EntraIdAuthenticator(plugins.SingletonPlugin):
     def login(self):
         # auth flow object should be instantiated again for each login attempt
         # store auth flow object in Flask session (managed by CKAN cookie - name is set in field beaker.session.key in ckan.ini)
-        session["auth_flow"] = self.entraid_client.initiate_auth_code_flow(
-            scopes=app_config.SCOPE,
-            redirect_uri=f"{app_config.HOST}{app_config.REDIRECT_PATH}",
+        session[self.AUTH_FLOW_SESSION_KEY] = (
+            self.entraid_client.initiate_auth_code_flow(
+                scopes=app_config.SCOPE,
+                redirect_uri=f"{app_config.HOST}{app_config.REDIRECT_PATH}",
+            )
         )
-        return toolkit.redirect_to(session["auth_flow"]["auth_uri"])
+        return toolkit.redirect_to(session[self.AUTH_FLOW_SESSION_KEY]["auth_uri"])
 
     def handle_auth_redirect(self):
         """
@@ -65,11 +68,11 @@ class EntraIdAuthenticator(plugins.SingletonPlugin):
         read access (defined in app_config.SCOPE) to Microsoft Graph API.
         """
 
-        if "auth_flow" not in session:
+        if self.AUTH_FLOW_SESSION_KEY not in session:
             return toolkit.redirect_to("home.index")
 
         token_response = self.entraid_client.acquire_token_by_auth_code_flow(
-            auth_code_flow=(session.pop("auth_flow", None)),
+            auth_code_flow=(session.pop(self.AUTH_FLOW_SESSION_KEY, None)),
             auth_response=request.args,
         )
 
