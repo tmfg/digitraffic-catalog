@@ -2,7 +2,7 @@ from mobility_dcat_ap.namespace import MOBILITYDCATAP_NS_URL
 from rdfs.rdfs_resource import RDFSResource
 from rdfs.util import get_rdf_object
 
-from rdflib import Dataset, URIRef, Graph
+from rdflib import Dataset, URIRef, Graph, FOAF, OWL, DCAT
 
 from rdflib.namespace import RDF, RDFS, DCTERMS, DCAM, SKOS
 
@@ -40,7 +40,7 @@ class RangeValueConverter:
         rdf_range = self.get_range_value(ds, clazz, clazz_p)
         if isinstance(rdf_range, RDFSResource) and rdf_range.iri == RDFS.Literal:
             label_value = RangeValueConverter.get_label(clazz_p, ds)
-            field_name = RangeValueConverter.ckan_field(label_value)
+            field_name = RangeValueConverter.ckan_field(clazz.iri, clazz_p)
             return {
                 "field_name": field_name,
                 "label": label_value
@@ -49,7 +49,7 @@ class RangeValueConverter:
             # Resurssi tyyppiset näyttää olevan URLeja
             label_value = RangeValueConverter.get_label(clazz_p, ds)
             return {
-                "field_name": RangeValueConverter.ckan_field(label_value),
+                "field_name": RangeValueConverter.ckan_field(clazz.iri, clazz_p),
                 "label": label_value,
                 "help_text": 'The value should be URL'
             }
@@ -74,9 +74,40 @@ class RangeValueConverter:
             return label[0].value()
 
     @staticmethod
-    def ckan_field(label: str) -> str:
-        # TODO: overrides
-        return label
+    def ckan_field(class_iri: URIRef, p: RDFSProperty) -> str:
+        mappings: Dict[URIRef, Dict[URIRef, str]] = {
+            FOAF.Agent: {
+                FOAF.name: 'publisher_name'
+            },
+            MOBILITYDCATAP.MobilityDataStandard: {
+                MOBILITYDCATAP.schema: 'mobility_data_standard_schema',
+                OWL.versionInfo: 'mobility_data_standard_version'
+            },
+            DCTERMS.Location: {
+                SKOS.inScheme: 'gazetteer',
+                DCTERMS.identifier: 'geographic_identifier'
+            },
+            DCAT.Distribution: {
+                DCAT.accessURL: 'url',
+                DCTERMS.format: 'format'
+            },
+            DCTERMS.RightsStatement: {
+                DCTERMS.type: 'rights_type'
+            },
+            DCAT.Dataset: {
+                DCTERMS.description: 'notes',
+                DCTERMS.accrualPeriodicity: 'frequency',
+                MOBILITYDCATAP.mobilityTheme: 'mobility_theme',
+                DCTERMS.title: 'name'
+            },
+            DCAT.CatalogRecord: {
+                DCTERMS.language: 'metadata_language'
+            }
+        }
+        field_name = mappings.get(class_iri, {}).get(p.iri)
+        if field_name:
+            return field_name
+        raise Exception(f'A mapping was not found between the class {class_iri} property {p.iri} and CKAN datamodel')
     @staticmethod
     def vocab_choices(g: Graph, filter: Callable[[URIRef], bool] = lambda s: True):
         def get_label(s):
@@ -117,11 +148,19 @@ class RangeValueConverter:
                 }
             case DCTERMS.LinguisticSystem:
                 g = ds.get_graph(URIRef(CVOCAB_LANGUAGE))
+
+                def is_supported_language(s: URIRef) -> bool:
+                    def language_uri(ending):
+                        return f'{str(CVOCAB_LANGUAGE)}/{ending}'
+                    supported_languages = {language_uri('FIN'), language_uri('SWE'), language_uri('ENG')}
+                    if str(s) in supported_languages:
+                        return True
+                    return False
                 return {
                     "field_name": "metadata_language",
                     "label": "Metadata Language",
                     "preset": "select",
-                    "choices": RangeValueConverter.vocab_choices(g)
+                    "choices": RangeValueConverter.vocab_choices(g, lambda s: is_supported_language(s))
                 }
         label_value = RangeValueConverter.get_label(p, ds)
 
@@ -129,7 +168,7 @@ class RangeValueConverter:
             case MOBILITYDCATAP.communicationMethod:
                 g = ds.get_graph(URIRef(CVOCAB_COMMUNICATION_METHOD))
                 return {
-                    "field_name": RangeValueConverter.ckan_field(label_value),
+                    "field_name": RangeValueConverter.ckan_field(clazz.iri, p),
                     "label": label_value,
                     "preset": "select",
                     "choices": RangeValueConverter.vocab_choices(g)
@@ -138,7 +177,7 @@ class RangeValueConverter:
                 if clazz.is_iri(DCTERMS.RightsStatement):
                     g = ds.get_graph(URIRef(CVOCAB_RIGHTS_STATEMENT_TYPE))
                     return {
-                        "field_name": RangeValueConverter.ckan_field('rights_statement_type'),
+                        "field_name": RangeValueConverter.ckan_field(clazz.iri, p),
                         "label": 'Conditions for access and usage',
                         "preset": "select",
                         "choices": RangeValueConverter.vocab_choices(g)
@@ -147,7 +186,7 @@ class RangeValueConverter:
                 if clazz.is_iri(DCTERMS.LicenseDocument):
                     g = ds.get_graph(URIRef(CVOCAB_LICENSE_IDENTIFIER))
                     return {
-                        "field_name": RangeValueConverter.ckan_field('standard_license'),
+                        "field_name": RangeValueConverter.ckan_field(clazz.iri, p),
                         "label": 'Standard license',
                         "preset": "select",
                         "choices": RangeValueConverter.vocab_choices(g)
@@ -155,7 +194,7 @@ class RangeValueConverter:
             case MOBILITYDCATAP.applicationLayerProtocol:
                 g = ds.get_graph(URIRef(CVOCAB_APPLICATION_LAYER_PROTOCOL))
                 return {
-                    "field_name": RangeValueConverter.ckan_field(label_value),
+                    "field_name": RangeValueConverter.ckan_field(clazz.iri, p),
                     "label": label_value,
                     "preset": "select",
                     "choices": RangeValueConverter.vocab_choices(g)
@@ -163,7 +202,7 @@ class RangeValueConverter:
             case MOBILITYDCATAP.grammar:
                 g = ds.get_graph(URIRef(CVOCAB_GRAMMAR))
                 return {
-                    "field_name": RangeValueConverter.ckan_field(label_value),
+                    "field_name": RangeValueConverter.ckan_field(clazz.iri, p),
                     "label": label_value,
                     "preset": "select",
                     "choices": RangeValueConverter.vocab_choices(g)
@@ -171,7 +210,7 @@ class RangeValueConverter:
             case MOBILITYDCATAP.schema:
                 g = ds.get_graph(URIRef(CVOCAB_MOBILITY_DATA_STANDARD))
                 return {
-                    "field_name": RangeValueConverter.ckan_field(label_value),
+                    "field_name": RangeValueConverter.ckan_field(clazz.iri, p),
                     "label": "Mobility data standard",
                     "preset": "select",
                     "choices": RangeValueConverter.vocab_choices(g)
@@ -179,13 +218,13 @@ class RangeValueConverter:
             case MOBILITYDCATAP.mobilityTheme:
                 g = ds.get_graph(URIRef(CVOCAB_MOBILITY_THEME))
                 return [{
-                    "field_name": RangeValueConverter.ckan_field("data_content_category"),
+                    "field_name": RangeValueConverter.ckan_field(clazz.iri, p),
                     "label": "Data content category",
                     "preset": "select",
                     "choices": RangeValueConverter.vocab_choices(g, lambda s: (s, SKOS.broader, URIRef('https://w3id.org/mobilitydcat-ap/mobility-theme/data-content-category')) in g)
                 },
                     {
-                        "field_name": RangeValueConverter.ckan_field("data_content_sub_category"),
+                        "field_name": RangeValueConverter.ckan_field(clazz.iri, p),
                         "label": "Data content sub category",
                         "preset": "select",
                         "choices": RangeValueConverter.vocab_choices(g, lambda s: (s, SKOS.broader, URIRef('https://w3id.org/mobilitydcat-ap/mobility-theme/data-content-sub-category')) in g)
