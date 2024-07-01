@@ -22,7 +22,7 @@ class MobilityDataStandard(RangeValueConverter):
 
             if clazz_p.is_iri(OWL.versionInfo):
                 return {
-                    "field_name": RangeValueConverter.ckan_field(label_value),
+                    "field_name": RangeValueConverter.ckan_field(clazz.iri, clazz_p),
                     "label": label_value,
                     "help_text": 'Version of the mobility data standard. Use only short version identifiers, e.g., only  "3.2", without redundant acronyms such as "v", underscores etc.'
                 }

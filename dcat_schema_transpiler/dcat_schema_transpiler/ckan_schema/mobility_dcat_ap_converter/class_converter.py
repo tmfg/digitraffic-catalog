@@ -21,7 +21,6 @@ class ClassConverter:
 
     @staticmethod
     def convert(clazz: RDFSClass, ds: Dataset, omit: Dict[URIRef, Set[URIRef] | Literal['all']] = {}):
-        # print(f'##### {clazz.iri} #####')
         if clazz.iri in omit and omit[clazz.iri] == 'all':
             return []
         graph_namespace = URIRef(MOBILITYDCATAP_NS_URL)
@@ -29,9 +28,6 @@ class ClassConverter:
         schema_fields = []
         converter = ClassConverter.get_converter(clazz)
         class_properties = clazz_aggregate.properties | clazz_aggregate.properties_includes
-        # print('------------->>')
-        # print(f'converter: {converter.__class__.__name__}')
-        # print(f'converting class: {clazz.iri}')
 
         def append_schema(schema):
             if isinstance(schema, list):
@@ -49,22 +45,16 @@ class ClassConverter:
         for p in class_properties:
             if clazz.iri in omit and p.iri in omit[clazz.iri]:
                 continue
-            # print(f'--> property: {p.iri}')
             schema = converter.get_schema(ds, clazz, p)
-            # print(schema)
             is_range_value_class = schema == {}
-            # print(f'is_range_value_class: {is_range_value_class}')
-            # print(f'schema is None: {schema is None}')
             if is_range_value_class:
                 rdf_range = converter.get_range_value(ds, clazz, p)
-                # print(f'rdf_range: {rdf_range}')
                 schema = ClassConverter.convert(rdf_range, ds, omit=omit)
                 append_schema(schema)
             elif schema is None:
                 continue
             else:
                 append_schema(schema)
-        # print('<<-------------')
         return schema_fields
 
     @staticmethod

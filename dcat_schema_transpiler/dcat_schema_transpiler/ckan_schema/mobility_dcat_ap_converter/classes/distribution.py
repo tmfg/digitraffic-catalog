@@ -9,6 +9,13 @@ from rdfs.rdfs_resource import RDFSResource
 
 
 class Distribution(RangeValueConverter):
+    mandatory_properties = {DCAT.accessURL, MOBILITYDCATAP.mobilityDataStandard, DCTERMS.format, DCTERMS.rights}
+    recommended_properties = {MOBILITYDCATAP.applicationLayerProtocol, DCTERMS.description, DCTERMS.license}
+    optional_properties = {#DCAT.accessService,
+        CNT.characterEncoding, MOBILITYDCATAP.communicationMethod,
+        MOBILITYDCATAP.dataFormatNotes, DCAT.downloadURL, MOBILITYDCATAP.grammar,
+        ADMS.sample, DCTERMS.temporal, DCTERMS.title}
+
     def __init__(self):
         super().__init__(iri_to_convert=DCAT.Distribution)
 
@@ -17,13 +24,7 @@ class Distribution(RangeValueConverter):
 
 
     def get_schema(self, ds: Dataset, clazz: RDFSClass, clazz_p: RDFSProperty):
-        mandatory_properties = {DCAT.accessURL, MOBILITYDCATAP.mobilityDataStandard, DCTERMS.format, DCTERMS.rights}
-        recommended_properties = {MOBILITYDCATAP.applicationLayerProtocol, DCTERMS.description, DCTERMS.license}
-        optional_properties = {#DCAT.accessService,
-                               CNT.characterEncoding, MOBILITYDCATAP.communicationMethod,
-                               MOBILITYDCATAP.dataFormatNotes, DCAT.downloadURL, MOBILITYDCATAP.grammar,
-                               ADMS.sample, DCTERMS.temporal, DCTERMS.title}
-        properties_union = mandatory_properties | recommended_properties | optional_properties
+        properties_union = Distribution.mandatory_properties | Distribution.recommended_properties | Distribution.optional_properties
         if self.is_class_specific_converter(clazz) and clazz_p.iri in properties_union:
             return super().get_schema(ds, clazz, clazz_p)
         return None
