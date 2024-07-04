@@ -74,8 +74,8 @@ class RangeValueConverter:
             return label[0].value()
 
     @staticmethod
-    def ckan_field(class_iri: URIRef, p: RDFSProperty) -> str:
-        mappings: Dict[URIRef, Dict[URIRef, str]] = {
+    def ckan_field(class_iri: URIRef, p: RDFSProperty, pointer: str=None) -> str:
+        mappings: Dict[URIRef, Dict[URIRef, str | Dict[str, str]]] = {
             FOAF.Agent: {
                 FOAF.name: 'publisher_name'
             },
@@ -97,14 +97,21 @@ class RangeValueConverter:
             DCAT.Dataset: {
                 DCTERMS.description: 'notes',
                 DCTERMS.accrualPeriodicity: 'frequency',
-                MOBILITYDCATAP.mobilityTheme: 'mobility_theme',
+                MOBILITYDCATAP.mobilityTheme: {
+                    'main': 'mobility_theme',
+                    'sub': 'mobility_theme_sub'
+                },
                 DCTERMS.title: 'name'
             },
             DCAT.CatalogRecord: {
                 DCTERMS.language: 'metadata_language'
             }
         }
-        field_name = mappings.get(class_iri, {}).get(p.iri)
+        field_value = mappings.get(class_iri, {}).get(p.iri)
+        if isinstance(field_value, dict):
+            field_name = field_value.get(pointer)
+        else:
+            field_name = field_value
         if field_name:
             return field_name
         raise Exception(f'A mapping was not found between the class {class_iri} property {p.iri} and CKAN datamodel')
@@ -218,13 +225,13 @@ class RangeValueConverter:
             case MOBILITYDCATAP.mobilityTheme:
                 g = ds.get_graph(URIRef(CVOCAB_MOBILITY_THEME))
                 return [{
-                    "field_name": RangeValueConverter.ckan_field(clazz.iri, p),
+                    "field_name": RangeValueConverter.ckan_field(clazz.iri, p, 'main'),
                     "label": "Data content category",
                     "preset": "select",
                     "choices": RangeValueConverter.vocab_choices(g, lambda s: (s, SKOS.broader, URIRef('https://w3id.org/mobilitydcat-ap/mobility-theme/data-content-category')) in g)
                 },
                     {
-                        "field_name": RangeValueConverter.ckan_field(clazz.iri, p),
+                        "field_name": RangeValueConverter.ckan_field(clazz.iri, p, 'sub'),
                         "label": "Data content sub category",
                         "preset": "select",
                         "choices": RangeValueConverter.vocab_choices(g, lambda s: (s, SKOS.broader, URIRef('https://w3id.org/mobilitydcat-ap/mobility-theme/data-content-sub-category')) in g)
