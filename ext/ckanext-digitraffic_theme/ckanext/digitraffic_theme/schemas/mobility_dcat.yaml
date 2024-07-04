@@ -1,91 +1,858 @@
 scheming_version: 2
 dataset_type: dataset
-#about: Mobility dcat dataset
-#about_url:
-
-
 dataset_fields:
-  - field_name: title
-    label: Title
-    preset: title
-    form_placeholder: eg. A descriptive title
-
-  - field_name: name
-    label: URL
-    preset: dataset_slug
-    form_placeholder: eg. my-dataset
-
-  - field_name: notes
-    label: Description
-    form_snippet: markdown.html
-    form_placeholder: eg. Some useful notes about the data
-
-  - field_name: tag_string
-    label: Tags
-    preset: tag_string_autocomplete
-    form_placeholder: eg. economy, mental health, government
-
-  - field_name: license_id
-    label: License
-    form_snippet: license.html
-    help_text: License definitions and additional information can be found at http://opendefinition.org/
-
-  - field_name: owner_org
-    label: Organization
-    preset: dataset_organization
-
-  - field_name: url
-    label: Source
-    form_placeholder: http://example.com/dataset.json
-    display_property: foaf:homepage
-    display_snippet: link.html
-
-  - field_name: version
-    label: Version
-    validators: ignore_missing unicode_safe package_version_validator
-    form_placeholder: '1.0'
-
-  - field_name: author
-    label: Author
-    form_placeholder: Joe Bloggs
-    display_property: dc:creator
-
-  - field_name: author_email
-    label: Author Email
-    form_placeholder: joe@example.com
-    display_property: dc:creator
-    display_snippet: email.html
-    display_email_name_field: author
-
-  - field_name: maintainer
-    label: Maintainer
-    form_placeholder: Joe Bloggs
-    display_property: dc:contributor
-
-  - field_name: maintainer_email
-    label: Maintainer Email
-    form_placeholder: joe@example.com
-    display_property: dc:contributor
-    display_snippet: email.html
-    display_email_name_field: maintainer
-  - field_name: jotain
-    label: Jotain
-    form_placeholder: jotain
-
+- field_name: owner_org
+  label: Organization
+  preset: dataset_organization
+- field_name: name
+  label: Title
+- field_name: notes
+  label: Description
+- field_name: metadata_language
+  label: Metadata Language
+  preset: select
+  choices:
+  - value: http://publications.europa.eu/resource/authority/language/ENG
+    label: English
+  - value: http://publications.europa.eu/resource/authority/language/FIN
+    label: Finnish
+  - value: http://publications.europa.eu/resource/authority/language/SWE
+    label: Swedish
+- field_name: publisher_name
+  label: name
+- field_name: mobility_theme
+  label: Data content category
+  preset: select
+  choices:
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/air-and-space-travel
+    label: Air and space travel
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/cycle-network-data
+    label: Cycle network data
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/dynamic-traffic-signs-and-regulations
+    label: Dynamic traffic signs and regulations
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/filling-and-charging-stations
+    label: Filling and charging stations
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/freight-and-logistics
+    label: Freight and logistics
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/general-information-for-trip-planning-
+    label: General information for trip-planning
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/other
+    label: Other
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/parking-service-and-rest-area-information
+    label: Parking, service and rest area information
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/pedestrian-network-data
+    label: Pedestrian network data
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/public-transport-non-scheduled-transport
+    label: Public transport non-scheduled transport
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/public-transport-scheduled-transport
+    label: Public transport scheduled transport
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/real-time-traffic-data
+    label: Real-time traffic data
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/road-events-and-conditions
+    label: Road events and conditions
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/road-work-information
+    label: Road work information
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/sharing-and-hiring-services
+    label: Sharing and Hiring Services
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/static-road-network-data
+    label: Static road network data
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/static-traffic-signs-and-regulations
+    label: Static traffic signs and regulations
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/toll-information
+    label: Toll information
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/waterways-and-water-bodies
+    label: Waterways and water bodies
+- field_name: mobility_theme_sub
+  label: Data content sub category
+  preset: select
+  choices:
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/accesibility-information-for-vehicles
+    label: Accesibility information for vehicles
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/accidents-and-incidents
+    label: Accidents and incidents
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/address-identifiers
+    label: Address identifiers
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/applicable-road-user-charges-and-payment-methods
+    label: Applicable road user charges and payment methods
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/availability-of-charging-points-for-electric-vehicles
+    label: Availability of charging points for electric vehicles
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/availability-of-delivery-areas
+    label: Availability of delivery areas
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/availability-of-filling-stations
+    label: Availability of filling stations
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/basic-commercial-conditions
+    label: Basic commercial conditions
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/basic-common-standard-fares
+    label: Basic common standard fares
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/bike-hiring-availability
+    label: Bike-hiring Availability
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/bike-hiring-stations
+    label: Bike-hiring Stations
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/bike-parking-locations
+    label: Bike-parking locations
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/bike-sharing-availability
+    label: Bike sharing Availability
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/bike-sharing-locations-and-stations
+    label: Bike-sharing Locations and stations
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/bridge-access-conditions
+    label: Bridge access conditions
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/bridge-closures-and-access-conditions
+    label: Bridge closures and access conditions
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/car-hiring-availability
+    label: Car-hiring Availability
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/car-hiring-stations
+    label: Car-hiring Stations
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/car-parking-availability
+    label: Car parking availability
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/car-parking-locations-and-conditions
+    label: Car parking locations and conditions
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/car-sharing-availability
+    label: Car-sharing Availability
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/car-sharing-locations-and-stations
+    label: Car-sharing Locations and stations
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/common-fare-products
+    label: Common fare products
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/connection-links
+    label: Connection links
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/current-travel-times
+    label: Current travel times
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/direction-of-travel-on-reversible-lanes
+    label: Direction of travel on reversible lanes
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/disruptions-delays-cancellations
+    label: Disruptions, delays, cancellations
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/dynamic-overtaking-bans-on-heavy-goods-vehicles
+    label: Dynamic overtaking bans on heavy goods vehicles
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/dynamic-speed-limits
+    label: Dynamic speed limits
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/e-scooter-sharing-availability
+    label: E-scooter-sharing Availability
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/e-scooter-sharing-locations-and-stations
+    label: E-scooter-sharing Locations and stations
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/environmental-standards-for-vehicles
+    label: Environmental standards for vehicles
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/expected-delays
+    label: Expected delays
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/fares
+    label: Fares
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/freight-delivery-regulations
+    label: Freight delivery regulations
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/geometry
+    label: Geometry
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/gradients
+    label: Gradients
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/hours-of-operation
+    label: Hours of operation
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/identification-of-tolled-roads
+    label: Identification of tolled roads
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/junctions
+    label: Junctions
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/lane-closures-and-access-conditions
+    label: Lane closures and access conditions
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/location-and-conditions-of-charging-points
+    label: Location and conditions of charging points
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/location-and-conditions-of-filling-stations
+    label: Location and conditions of filling stations
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/location-and-length-of-queues
+    label: Location and length of queues
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/location-of-delivery-areas
+    label: Location of delivery areas
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/location-of-tolling-stations
+    label: Location of tolling stations
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/locations-and-stations
+    label: Locations and stations
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/long-term-road-works
+    label: Long-term road works
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/network-closures-diversions
+    label: Network closures/diversions
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/network-detailed-attributes
+    label: Network detailed attributes
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/network-geometry-and-lane-character
+    label: Network geometry and lane character
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/network-topology-and-routes-lines
+    label: Network topology and routes/lines
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/number-of-lanes
+    label: Number of lanes
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/operational-calendar
+    label: Operational Calendar
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/other-access-restrictions-and-traffic-regulations
+    label: Other access restrictions and traffic regulations
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/other-static-traffic-signs
+    label: Other static traffic signs
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/other-temporary-traffic-management-measures-or-plans
+    label: Other temporary traffic management measures or plans
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/other-traffic-regulations
+    label: Other traffic regulations
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/parameters-needed-to-calculate-costs
+    label: Parameters needed to calculate costs
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/parameters-needed-to-calculate-environmental-factors
+    label: Parameters needed to calculate environmental factors
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/park-and-ride-stops
+    label: Park and Ride stops
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/passenger-classes
+    label: Passenger classes
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/payment-methods
+    label: Payment methods
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/payment-methods-for-tolls
+    label: Payment methods for tolls
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/pedestrian-accessibility-facilities
+    label: Pedestrian accessibility facilities
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/pedestrian-network-geometry
+    label: Pedestrian network geometry
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/permanent-access-restrictions
+    label: Permanent access restrictions
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/planned-interchanges-between-scheduled-services
+    label: Planned interchanges between scheduled services
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/points-of-interest
+    label: Points of interest
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/poor-road-conditions
+    label: Poor road conditions
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/predicted-travel-times
+    label: Predicted travel times
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/provider-data
+    label: Provider data
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/purchase-information
+    label: Purchase information
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/real-time-estimated-departure-and-arrival-times
+    label: Real-time estimated departure and arrival times
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/reservation-and-purchase-options
+    label: Reservation and purchase options
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/road-classification
+    label: Road classification
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/road-closures-and-access-conditions
+    label: Road closures and access conditions
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/road-weather-conditions
+    label: Road weather conditions
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/road-width
+    label: Road width
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/service-and-rest-area-availability
+    label: Service and rest area availability
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/service-and-rest-area-locations-and-conditions
+    label: Service and rest area locations and conditions
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/service-areas-and-service-times
+    label: Service areas and service times
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/short-term-road-works
+    label: Short-term road works
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/special-fare-products
+    label: Special Fare Products
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/speed
+    label: Speed
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/speed-limits
+    label: Speed limits
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/stop-facilities-accessibility-and-paths-within-facility
+    label: Stop facilities accessibility and paths within facility
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/stop-facilities-geometry-and-map-layout
+    label: Stop facilities geometry and map layout
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/stop-facilities-location-and-features
+    label: Stop facilities location and features
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/stop-facilities-status-of-features
+    label: Stop facilities status of features
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/timetables-static
+    label: Timetables static
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/topographic-places
+    label: Topographic places
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/traffic-circulation-plans
+    label: Traffic circulation plans
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/traffic-data-at-border-crossings-to-third-countries
+    label: Traffic data at border crossings to third countries
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/traffic-volume
+    label: Traffic volume
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/transport-operators
+    label: Transport operators
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/truck-parking-availability
+    label: Truck parking availability
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/truck-parking-locations-and-conditions
+    label: Truck parking locations and conditions
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/tunnel-access-conditions
+    label: Tunnel access conditions
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/tunnel-closures-and-access-conditions
+    label: Tunnel closures and access conditions
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/vehicle-details
+    label: Vehicle details
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/waiting-time-at-border-crossings-to-non-eu-member-states
+    label: Waiting time at border crossings to non-EU Member States
+- field_name: frequency
+  label: Frequency
+  preset: select
+  choices:
+  - value: https://w3id.org/mobilitydcat-ap/update-frequency/6-months
+    label: 6 months
+  - value: https://w3id.org/mobilitydcat-ap/update-frequency/12h
+    label: 12h
+  - value: https://w3id.org/mobilitydcat-ap/update-frequency/3-months
+    label: 3 months
+  - value: https://w3id.org/mobilitydcat-ap/update-frequency/1min
+    label: 1min
+  - value: https://w3id.org/mobilitydcat-ap/update-frequency/5min
+    label: 5min
+  - value: https://w3id.org/mobilitydcat-ap/update-frequency/2h
+    label: 2h
+  - value: https://w3id.org/mobilitydcat-ap/update-frequency/less-than-yearly
+    label: Less than yearly
+  - value: https://w3id.org/mobilitydcat-ap/update-frequency/10min
+    label: 10min
+  - value: https://w3id.org/mobilitydcat-ap/update-frequency/15min
+    label: 15min
+  - value: https://w3id.org/mobilitydcat-ap/update-frequency/30min
+    label: 30min
+  - value: https://w3id.org/mobilitydcat-ap/update-frequency/3h
+    label: 3h
+  - value: https://w3id.org/mobilitydcat-ap/update-frequency/1h
+    label: 1h
+  - value: https://w3id.org/mobilitydcat-ap/update-frequency/24h
+    label: 24h
+  - value: http://publications.europa.eu/resource/authority/frequency/BIHOURLY
+    label: bihourly
+  - value: http://publications.europa.eu/resource/authority/frequency/NEVER
+    label: never
+  - value: http://publications.europa.eu/resource/authority/frequency/IRREG
+    label: irregular
+  - value: http://publications.europa.eu/resource/authority/frequency/BIWEEKLY
+    label: biweekly
+  - value: http://publications.europa.eu/resource/authority/frequency/TRIENNIAL
+    label: triennial
+  - value: http://publications.europa.eu/resource/authority/frequency/ANNUAL
+    label: annual
+  - value: http://publications.europa.eu/resource/authority/frequency/WEEKLY
+    label: weekly
+  - value: http://publications.europa.eu/resource/authority/frequency/ANNUAL_3
+    label: three times a year
+  - value: http://publications.europa.eu/resource/authority/frequency/QUINQUENNIAL
+    label: quinquennial
+  - value: http://publications.europa.eu/resource/authority/frequency/WEEKLY_3
+    label: three times a week
+  - value: http://publications.europa.eu/resource/authority/frequency/ANNUAL_2
+    label: semiannual
+  - value: http://publications.europa.eu/resource/authority/frequency/DAILY
+    label: daily
+  - value: http://publications.europa.eu/resource/authority/frequency/DECENNIAL
+    label: decennial
+  - value: http://publications.europa.eu/resource/authority/frequency/DAILY_2
+    label: twice a day
+  - value: http://publications.europa.eu/resource/authority/frequency/AS_NEEDED
+    label: as needed
+  - value: http://publications.europa.eu/resource/authority/frequency/OTHER
+    label: other
+  - value: http://publications.europa.eu/resource/authority/frequency/QUARTERLY
+    label: quarterly
+  - value: http://publications.europa.eu/resource/authority/frequency/BIENNIAL
+    label: biennial
+  - value: http://publications.europa.eu/resource/authority/frequency/UPDATE_CONT
+    label: continuously updated
+  - value: http://publications.europa.eu/resource/authority/frequency/UNKNOWN
+    label: unknown
+  - value: http://publications.europa.eu/resource/authority/frequency/TRIHOURLY
+    label: trihourly
+  - value: http://publications.europa.eu/resource/authority/frequency/WEEKLY_2
+    label: semiweekly
+  - value: http://publications.europa.eu/resource/authority/frequency/BIDECENNIAL
+    label: bidecennial
+  - value: http://publications.europa.eu/resource/authority/frequency/HOURLY
+    label: hourly
+  - value: http://publications.europa.eu/resource/authority/frequency/OP_DATPRO
+    label: Provisional data
+  - value: http://publications.europa.eu/resource/authority/frequency/MONTHLY
+    label: monthly
+  - value: http://publications.europa.eu/resource/authority/frequency/BIMONTHLY
+    label: bimonthly
+  - value: http://publications.europa.eu/resource/authority/frequency/MONTHLY_2
+    label: semimonthly
+  - value: http://publications.europa.eu/resource/authority/frequency/TRIDECENNIAL
+    label: tridecennial
+  - value: http://publications.europa.eu/resource/authority/frequency/CONT
+    label: continuous
+  - value: http://publications.europa.eu/resource/authority/frequency/NOT_PLANNED
+    label: not planned
+  - value: http://publications.europa.eu/resource/authority/frequency/MONTHLY_3
+    label: three times a month
+  - value: http://publications.europa.eu/resource/authority/frequency/QUADRENNIAL
+    label: quadrennial
 resource_fields:
-  - field_name: url
-    label: URL
-    preset: resource_url_upload
-
-  - field_name: name
-    label: Name
-    form_placeholder: eg. January 2011 Gold Prices
-
-  - field_name: description
-    label: Description
-    form_snippet: markdown.html
-    form_placeholder: Some useful notes about the data
-
-  - field_name: format
-    label: Format
-    preset: resource_format_autocomplete
+- field_name: url
+  label: access address
+  help_text: The value should be URL
+- field_name: format
+  label: Format
+  preset: select
+  choices:
+  - value: http://publications.europa.eu/resource/authority/file-type/TAR
+    label: TAR
+  - value: http://publications.europa.eu/resource/authority/file-type/GZIP
+    label: GNU zip
+  - value: http://publications.europa.eu/resource/authority/file-type/ZIP
+    label: ZIP
+  - value: http://publications.europa.eu/resource/authority/file-type/AZW
+    label: Amazon Kindle eBook
+  - value: http://publications.europa.eu/resource/authority/file-type/EPUB
+    label: EPUB
+  - value: http://publications.europa.eu/resource/authority/file-type/MOBI
+    label: Mobipocket eBook
+  - value: http://publications.europa.eu/resource/authority/file-type/GIF
+    label: GIF
+  - value: http://publications.europa.eu/resource/authority/file-type/JPEG
+    label: JPEG
+  - value: http://publications.europa.eu/resource/authority/file-type/TIFF
+    label: TIFF
+  - value: http://publications.europa.eu/resource/authority/file-type/PNG
+    label: PNG
+  - value: http://publications.europa.eu/resource/authority/file-type/EPS
+    label: Encapsulated Postscript
+  - value: http://publications.europa.eu/resource/authority/file-type/CSS
+    label: CSS
+  - value: http://publications.europa.eu/resource/authority/file-type/PDF
+    label: PDF
+  - value: http://publications.europa.eu/resource/authority/file-type/PDFA1A
+    label: PDF/A-1a
+  - value: http://publications.europa.eu/resource/authority/file-type/PDFA1B
+    label: PDF/A-1b
+  - value: http://publications.europa.eu/resource/authority/file-type/PDFX
+    label: PDF/X
+  - value: http://publications.europa.eu/resource/authority/file-type/METS
+    label: METS XML
+  - value: http://publications.europa.eu/resource/authority/file-type/METS_ZIP
+    label: METS package
+  - value: http://publications.europa.eu/resource/authority/file-type/PPSX
+    label: PowerPoint PPSX
+  - value: http://publications.europa.eu/resource/authority/file-type/PPS
+    label: PowerPoint Slide Show
+  - value: http://publications.europa.eu/resource/authority/file-type/PPT
+    label: PowerPoint PPT
+  - value: http://publications.europa.eu/resource/authority/file-type/PPTX
+    label: PowerPoint PPTX
+  - value: http://publications.europa.eu/resource/authority/file-type/XLS
+    label: Excel XLS
+  - value: http://publications.europa.eu/resource/authority/file-type/XLSX
+    label: Excel XLSX
+  - value: http://publications.europa.eu/resource/authority/file-type/XSLFO
+    label: XSL-FO
+  - value: http://publications.europa.eu/resource/authority/file-type/XSLT
+    label: XSLT
+  - value: http://publications.europa.eu/resource/authority/file-type/DTD_SGML
+    label: SGML DTD
+  - value: http://publications.europa.eu/resource/authority/file-type/DTD_XML
+    label: XML DTD
+  - value: http://publications.europa.eu/resource/authority/file-type/SCHEMA_XML
+    label: XML schema
+  - value: http://publications.europa.eu/resource/authority/file-type/FMX2
+    label: Formex 2
+  - value: http://publications.europa.eu/resource/authority/file-type/FMX3
+    label: Formex 3
+  - value: http://publications.europa.eu/resource/authority/file-type/FMX4
+    label: Formex 4
+  - value: http://publications.europa.eu/resource/authority/file-type/RDF_XML
+    label: RDF XML
+  - value: http://publications.europa.eu/resource/authority/file-type/RDF_TURTLE
+    label: RDF Turtle
+  - value: http://publications.europa.eu/resource/authority/file-type/SGML
+    label: SGML
+  - value: http://publications.europa.eu/resource/authority/file-type/SKOS_XML
+    label: SKOS
+  - value: http://publications.europa.eu/resource/authority/file-type/OWL
+    label: OWL
+  - value: http://publications.europa.eu/resource/authority/file-type/XML
+    label: XML
+  - value: http://publications.europa.eu/resource/authority/file-type/SPARQLQ
+    label: SPARQL
+  - value: http://publications.europa.eu/resource/authority/file-type/SPARQLQRES
+    label: SPARQL results
+  - value: http://publications.europa.eu/resource/authority/file-type/DOC
+    label: Word DOC
+  - value: http://publications.europa.eu/resource/authority/file-type/DOCX
+    label: Word DOCX
+  - value: http://publications.europa.eu/resource/authority/file-type/ODT
+    label: ODT
+  - value: http://publications.europa.eu/resource/authority/file-type/TXT
+    label: Plain text
+  - value: http://publications.europa.eu/resource/authority/file-type/RTF
+    label: RTF
+  - value: http://publications.europa.eu/resource/authority/file-type/HTML
+    label: HTML
+  - value: http://publications.europa.eu/resource/authority/file-type/XHTML
+    label: XHTML
+  - value: http://publications.europa.eu/resource/authority/file-type/CSV
+    label: CSV
+  - value: http://publications.europa.eu/resource/authority/file-type/MDB
+    label: MDB
+  - value: http://publications.europa.eu/resource/authority/file-type/DBF
+    label: DBF
+  - value: http://publications.europa.eu/resource/authority/file-type/MOP
+    label: MOP
+  - value: http://publications.europa.eu/resource/authority/file-type/E00
+    label: E00
+  - value: http://publications.europa.eu/resource/authority/file-type/MXD
+    label: MXD
+  - value: http://publications.europa.eu/resource/authority/file-type/KML
+    label: KML
+  - value: http://publications.europa.eu/resource/authority/file-type/TSV
+    label: TSV
+  - value: http://publications.europa.eu/resource/authority/file-type/JSON
+    label: JSON
+  - value: http://publications.europa.eu/resource/authority/file-type/KMZ
+    label: KMZ
+  - value: http://publications.europa.eu/resource/authority/file-type/GML
+    label: GML
+  - value: http://publications.europa.eu/resource/authority/file-type/RSS
+    label: RSS feed
+  - value: http://publications.europa.eu/resource/authority/file-type/ODS
+    label: ODS
+  - value: http://publications.europa.eu/resource/authority/file-type/INDD
+    label: INDD
+  - value: http://publications.europa.eu/resource/authority/file-type/PSD
+    label: PSD
+  - value: http://publications.europa.eu/resource/authority/file-type/PS
+    label: PS
+  - value: http://publications.europa.eu/resource/authority/file-type/ODF
+    label: ODF
+  - value: http://publications.europa.eu/resource/authority/file-type/TAR_XZ
+    label: TAR XZ
+  - value: http://publications.europa.eu/resource/authority/file-type/TAR_GZ
+    label: TAR GZ
+  - value: http://publications.europa.eu/resource/authority/file-type/RDF
+    label: RDF
+  - value: http://publications.europa.eu/resource/authority/file-type/XLIFF
+    label: XLIFF
+  - value: http://publications.europa.eu/resource/authority/file-type/OVF
+    label: OVF
+  - value: http://publications.europa.eu/resource/authority/file-type/JSON_LD
+    label: JSON-LD
+  - value: http://publications.europa.eu/resource/authority/file-type/RDF_N_TRIPLES
+    label: RDF N-Triples
+  - value: http://publications.europa.eu/resource/authority/file-type/HDF
+    label: HDF
+  - value: http://publications.europa.eu/resource/authority/file-type/NETCDF
+    label: NetCDF
+  - value: http://publications.europa.eu/resource/authority/file-type/SDMX
+    label: SDMX
+  - value: http://publications.europa.eu/resource/authority/file-type/JPEG2000
+    label: JPEG 2000
+  - value: http://publications.europa.eu/resource/authority/file-type/SHP
+    label: Esri Shape
+  - value: http://publications.europa.eu/resource/authority/file-type/GDB
+    label: Esri File Geodatabase
+  - value: http://publications.europa.eu/resource/authority/file-type/GMZ
+    label: Zipped GML
+  - value: http://publications.europa.eu/resource/authority/file-type/ECW
+    label: ECW
+  - value: http://publications.europa.eu/resource/authority/file-type/GRID_ASCII
+    label: Esri ASCII grid
+  - value: http://publications.europa.eu/resource/authority/file-type/DMP
+    label: Oracle Dump
+  - value: http://publications.europa.eu/resource/authority/file-type/LAS
+    label: LASer file
+  - value: http://publications.europa.eu/resource/authority/file-type/LAZ
+    label: Compressed LAS file
+  - value: http://publications.europa.eu/resource/authority/file-type/TAB
+    label: MapInfo TAB file
+  - value: http://publications.europa.eu/resource/authority/file-type/TAB_RSTR
+    label: MapInfo TAB raster file
+  - value: http://publications.europa.eu/resource/authority/file-type/WORLD
+    label: World file
+  - value: http://publications.europa.eu/resource/authority/file-type/TMX
+    label: TMX
+  - value: http://publications.europa.eu/resource/authority/file-type/ATOM
+    label: Atom Feed
+  - value: http://publications.europa.eu/resource/authority/file-type/OCTET
+    label: Octet Stream
+  - value: http://publications.europa.eu/resource/authority/file-type/BIN
+    label: Binary Data
+  - value: http://publications.europa.eu/resource/authority/file-type/ODC
+    label: OpenDocument Chart
+  - value: http://publications.europa.eu/resource/authority/file-type/ODB
+    label: OpenDocument Database
+  - value: http://publications.europa.eu/resource/authority/file-type/ODG
+    label: OpenDocument Image
+  - value: http://publications.europa.eu/resource/authority/file-type/BMP
+    label: Bitmap Image File
+  - value: http://publications.europa.eu/resource/authority/file-type/DCR
+    label: DCR File
+  - value: http://publications.europa.eu/resource/authority/file-type/XYZ
+    label: XYZ Chemical File
+  - value: http://publications.europa.eu/resource/authority/file-type/MAP_PRVW
+    label: ArcGIS Map Preview
+  - value: http://publications.europa.eu/resource/authority/file-type/MAP_SRVC
+    label: ArcGIS Map Service
+  - value: http://publications.europa.eu/resource/authority/file-type/REST
+    label: Esri REST
+  - value: http://publications.europa.eu/resource/authority/file-type/MSG_HTTP
+    label: HTTP Message
+  - value: http://publications.europa.eu/resource/authority/file-type/TIFF_FX
+    label: TIFF FX
+  - value: http://publications.europa.eu/resource/authority/file-type/PDF1X
+    label: PDF1X
+  - value: http://publications.europa.eu/resource/authority/file-type/WARC_GZ
+    label: WARC GZ
+  - value: http://publications.europa.eu/resource/authority/file-type/RDF_N_QUADS
+    label: RDF N-Quads
+  - value: http://publications.europa.eu/resource/authority/file-type/RDF_TRIG
+    label: RDF TriG
+  - value: http://publications.europa.eu/resource/authority/file-type/RDFA
+    label: RDFa
+  - value: http://publications.europa.eu/resource/authority/file-type/ARC
+    label: ARC
+  - value: http://publications.europa.eu/resource/authority/file-type/HTML_SIMPL
+    label: HTML simplified
+  - value: http://publications.europa.eu/resource/authority/file-type/XHTML_SIMPL
+    label: XHTML simplified
+  - value: http://publications.europa.eu/resource/authority/file-type/SQL
+    label: SQL
+  - value: http://publications.europa.eu/resource/authority/file-type/PDFA2A
+    label: PDF/A-2a
+  - value: http://publications.europa.eu/resource/authority/file-type/PDFA2B
+    label: PDF/A-2b
+  - value: http://publications.europa.eu/resource/authority/file-type/PDFA3
+    label: PDFA-3
+  - value: http://publications.europa.eu/resource/authority/file-type/MBOX
+    label: MBOX
+  - value: http://publications.europa.eu/resource/authority/file-type/MPEG2
+    label: MPEG-2
+  - value: http://publications.europa.eu/resource/authority/file-type/MPEG4
+    label: MPEG-4
+  - value: http://publications.europa.eu/resource/authority/file-type/MPEG4_AVC
+    label: MPEG-4 AVC
+  - value: http://publications.europa.eu/resource/authority/file-type/BWF
+    label: BWF
+  - value: http://publications.europa.eu/resource/authority/file-type/MHTML
+    label: MHTML
+  - value: http://publications.europa.eu/resource/authority/file-type/ARC_GZ
+    label: ARC GZ
+  - value: http://publications.europa.eu/resource/authority/file-type/WARC
+    label: WARC
+  - value: http://publications.europa.eu/resource/authority/file-type/PDFX1A
+    label: PDF/X-1a
+  - value: http://publications.europa.eu/resource/authority/file-type/PDFX2A
+    label: PDF/X-2a
+  - value: http://publications.europa.eu/resource/authority/file-type/PDFX4
+    label: PDF/X-4
+  - value: http://publications.europa.eu/resource/authority/file-type/GEOJSON
+    label: GeoJSON
+  - value: http://publications.europa.eu/resource/authority/file-type/GRID
+    label: Esri binary grid
+  - value: http://publications.europa.eu/resource/authority/file-type/JATS
+    label: JATS XML
+  - value: http://publications.europa.eu/resource/authority/file-type/BITS
+    label: BITS XML
+  - value: http://publications.europa.eu/resource/authority/file-type/PWP
+    label: PWP
+  - value: http://publications.europa.eu/resource/authority/file-type/ISO
+    label: ISO image
+  - value: http://publications.europa.eu/resource/authority/file-type/ISO_ZIP
+    label: Zipped ISO image
+  - value: http://publications.europa.eu/resource/authority/file-type/RAR
+    label: RAR
+  - value: http://publications.europa.eu/resource/authority/file-type/SVG
+    label: SVG
+  - value: http://publications.europa.eu/resource/authority/file-type/QGS
+    label: QGS
+  - value: http://publications.europa.eu/resource/authority/file-type/N3
+    label: N3
+  - value: http://publications.europa.eu/resource/authority/file-type/MRSID
+    label: MrSID
+  - value: http://publications.europa.eu/resource/authority/file-type/EXE
+    label: EXE
+  - value: http://publications.europa.eu/resource/authority/file-type/JS
+    label: JavaScript
+  - value: http://publications.europa.eu/resource/authority/file-type/ICS
+    label: ICalendar
+  - value: http://publications.europa.eu/resource/authority/file-type/PL
+    label: Perl script
+  - value: http://publications.europa.eu/resource/authority/file-type/WFS_SRVC
+    label: WFS
+  - value: http://publications.europa.eu/resource/authority/file-type/WMS_SRVC
+    label: WMS
+  - value: http://publications.europa.eu/resource/authority/file-type/HDT
+    label: HDT
+  - value: http://publications.europa.eu/resource/authority/file-type/LEG
+    label: LEG
+  - value: http://publications.europa.eu/resource/authority/file-type/IMMC_XML
+    label: IMMC XML message
+  - value: http://publications.europa.eu/resource/authority/file-type/XLSB
+    label: XLSB
+  - value: http://publications.europa.eu/resource/authority/file-type/XLSM
+    label: XLSM
+  - value: http://publications.europa.eu/resource/authority/file-type/ODP
+    label: ODP
+  - value: http://publications.europa.eu/resource/authority/file-type/RDF_TRIX
+    label: RDF TriX
+  - value: http://publications.europa.eu/resource/authority/file-type/7Z
+    label: 7z
+  - value: http://publications.europa.eu/resource/authority/file-type/AAC
+    label: AAC
+  - value: http://publications.europa.eu/resource/authority/file-type/APK
+    label: APK
+  - value: http://publications.europa.eu/resource/authority/file-type/APPX
+    label: AppX
+  - value: http://publications.europa.eu/resource/authority/file-type/ARJ
+    label: ARJ
+  - value: http://publications.europa.eu/resource/authority/file-type/BZIP2
+    label: bzip2
+  - value: http://publications.europa.eu/resource/authority/file-type/DEB
+    label: deb
+  - value: http://publications.europa.eu/resource/authority/file-type/DMG
+    label: DMG
+  - value: http://publications.europa.eu/resource/authority/file-type/JAR
+    label: JAR
+  - value: http://publications.europa.eu/resource/authority/file-type/LHA
+    label: LHA
+  - value: http://publications.europa.eu/resource/authority/file-type/LZIP
+    label: lzip
+  - value: http://publications.europa.eu/resource/authority/file-type/LZO
+    label: lzo
+  - value: http://publications.europa.eu/resource/authority/file-type/LZMA
+    label: lzma
+  - value: http://publications.europa.eu/resource/authority/file-type/RPM
+    label: RPM
+  - value: http://publications.europa.eu/resource/authority/file-type/SB3
+    label: sb3
+  - value: http://publications.europa.eu/resource/authority/file-type/SWM
+    label: SWM
+  - value: http://publications.europa.eu/resource/authority/file-type/WIM
+    label: WIM
+  - value: http://publications.europa.eu/resource/authority/file-type/XZ
+    label: xz
+  - value: http://publications.europa.eu/resource/authority/file-type/Z
+    label: Z
+  - value: http://publications.europa.eu/resource/authority/file-type/MSI
+    label: MSI
+  - value: http://publications.europa.eu/resource/authority/file-type/WAR
+    label: WAR
+  - value: http://publications.europa.eu/resource/authority/file-type/EAR
+    label: EAR
+  - value: http://publications.europa.eu/resource/authority/file-type/FMX4_ZIP
+    label: FMX4 ZIP
+  - value: http://publications.europa.eu/resource/authority/file-type/AKN4EU
+    label: AKN4EU file
+  - value: http://publications.europa.eu/resource/authority/file-type/AKN4EU_ZIP
+    label: AKN4EU ZIP
+  - value: http://publications.europa.eu/resource/authority/file-type/ETSI_XML
+    label: ETSI signature validation report
+  - value: http://publications.europa.eu/resource/authority/file-type/GPKG
+    label: GeoPackage
+  - value: http://publications.europa.eu/resource/authority/file-type/DGN
+    label: DGN
+  - value: http://publications.europa.eu/resource/authority/file-type/DXF
+    label: DXF
+  - value: http://publications.europa.eu/resource/authority/file-type/DWG
+    label: DWG
+  - value: http://publications.europa.eu/resource/authority/file-type/IPA
+    label: IPA
+  - value: http://publications.europa.eu/resource/authority/file-type/WCS_SRVC
+    label: WCS
+  - value: http://publications.europa.eu/resource/authority/file-type/PDFUA
+    label: PDF/UA
+  - value: http://publications.europa.eu/resource/authority/file-type/HTML5
+    label: HTML5
+  - value: http://publications.europa.eu/resource/authority/file-type/STL
+    label: StL
+  - value: http://publications.europa.eu/resource/authority/file-type/AAB
+    label: AAB
+  - value: http://publications.europa.eu/resource/authority/file-type/ARCINFO_COV
+    label: ArcInfo coverage
+  - value: http://publications.europa.eu/resource/authority/file-type/GEOTIFF
+    label: GeoTIFF
+  - value: http://publications.europa.eu/resource/authority/file-type/LPK
+    label: Layer package
+  - value: http://publications.europa.eu/resource/authority/file-type/MIF_MID
+    label: MIF/MID
+  - value: http://publications.europa.eu/resource/authority/file-type/UNGEN
+    label: Ungen
+  - value: http://publications.europa.eu/resource/authority/file-type/OAPK
+    label: OAPK
+  - value: http://publications.europa.eu/resource/authority/file-type/DAPK
+    label: DAPK
+  - value: http://publications.europa.eu/resource/authority/file-type/MP3
+    label: MP3
+  - value: http://publications.europa.eu/resource/authority/file-type/WAV
+    label: WAV
+  - value: http://publications.europa.eu/resource/authority/file-type/RDF_THRIFT
+    label: RDF Thrift
+  - value: http://publications.europa.eu/resource/authority/file-type/XHTML5
+    label: XHTML5
+  - value: http://publications.europa.eu/resource/authority/file-type/GTFS
+    label: GTFS
+  - value: http://publications.europa.eu/resource/authority/file-type/YAML
+    label: YAML
+  - value: http://publications.europa.eu/resource/authority/file-type/EFORMS_XML
+    label: eForms XML
+  - value: http://publications.europa.eu/resource/authority/file-type/WEBP
+    label: WebP
+  - value: http://publications.europa.eu/resource/authority/file-type/WMTS_SRVC
+    label: WMTS
+  - value: http://publications.europa.eu/resource/authority/file-type/MOV
+    label: MOV
+  - value: http://publications.europa.eu/resource/authority/file-type/MATHML
+    label: MathML
+  - value: http://publications.europa.eu/resource/authority/file-type/DWCA
+    label: DwC-A
+  - value: http://publications.europa.eu/resource/authority/file-type/GPX
+    label: GPX
+  - value: http://publications.europa.eu/resource/authority/file-type/ETSI_TSL
+    label: ETSI TSL
+  - value: http://publications.europa.eu/resource/authority/file-type/LEGALHTML
+    label: LegalHTML
+  - value: http://publications.europa.eu/resource/authority/file-type/MARKDOWN
+    label: Markdown
+  - value: http://publications.europa.eu/resource/authority/file-type/PARQUET
+    label: Parquet
+  - value: http://publications.europa.eu/resource/authority/file-type/THRIFT_BINARY
+    label: Thrift binary
+  - value: http://publications.europa.eu/resource/authority/file-type/THRIFT_COMPACT
+    label: Thrift compact
+  - value: http://publications.europa.eu/resource/authority/file-type/THRIFT_JSON
+    label: Thrift JSON
+  - value: http://publications.europa.eu/resource/authority/file-type/ARROW_FILE
+    label: Arrow file
+  - value: http://publications.europa.eu/resource/authority/file-type/ARROW_STREAM
+    label: Arrow stream
+  - value: http://publications.europa.eu/resource/authority/file-type/OP_DATPRO
+    label: Provisional data
+- field_name: mobility_data_standard_schema
+  label: Mobility data standard
+  preset: select
+  choices:
+  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/c-its
+    label: C-ITS
+  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/datex-II
+    label: DATEX II
+  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/dino
+    label: DINO
+  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/gbfs
+    label: GBFS
+  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/gml
+    label: GML
+  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/gtfs
+    label: GTFS
+  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/gtfs-rt
+    label: GTFS-RT
+  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/inspire
+    label: INSPIRE
+  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/netex
+    label: NeTEx
+  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/ocit-c
+    label: OCIT-C
+  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/other
+    label: Other
+  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/siri
+    label: SIRI
+  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/tn-its
+    label: TN-ITS
+  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/tpegml
+    label: tpegML
+- field_name: mobility_data_standard_version
+  label: versionInfo
+  help_text: Version of the mobility data standard. Use only short version identifiers,
+    e.g., only  "3.2", without redundant acronyms such as "v", underscores etc.
+- field_name: rights_type
+  label: Conditions for access and usage
+  preset: select
+  choices:
+  - value: https://w3id.org/mobilitydcat-ap/conditions-for-access-and-usage/contractual-arrangement
+    label: Contractual arrangement
+  - value: https://w3id.org/mobilitydcat-ap/conditions-for-access-and-usage/fee-required
+    label: Fee required
+  - value: https://w3id.org/mobilitydcat-ap/conditions-for-access-and-usage/free-of-charge
+    label: Free of charge
+  - value: https://w3id.org/mobilitydcat-ap/conditions-for-access-and-usage/licence-provided
+    label: Licence provided
+  - value: https://w3id.org/mobilitydcat-ap/conditions-for-access-and-usage/other
+    label: Other
+  - value: https://w3id.org/mobilitydcat-ap/conditions-for-access-and-usage/royalty-free
+    label: Royalty-free
