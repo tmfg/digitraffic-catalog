@@ -18,3 +18,6 @@ ckan config-tool $CKAN_INI "ckan.datapusher.api_token=$(ckan -c $CKAN_INI user t
 
 # scheming
 ckan config-tool $CKAN_INI "scheming.dataset_schemas = ckanext.digitraffic_theme.schemas:mobility_dcat.yaml"
+
+# DCAT
+ckan config-tool $CKAN_INI "ckanext.dcat.enable_content_negotiation = True"
