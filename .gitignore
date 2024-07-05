@@ -1,5 +1,26 @@
-.sass-cache
-.idea
-node_modules
+*
+
+!dcat_schema_transpiler
+!docker
+!docker/**
+!ext
+!ext/ckanext-digitraffic_theme
+!ext/ckanext-digitraffic_theme/*/
+
+!local-env
+!local-env/**
+
+!.gitignore
+!bundle-css.sh
+!package.json
+!package-lock.json
+!README.md
+
+# Github
+!.github/
+!.github/**/
+!.github/workflows/**/**.yml
+!.github/CODEOWNERS
+!/.github/dependabot.yml
 
 docker/ckan/ckanext
