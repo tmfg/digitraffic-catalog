@@ -1,4 +1,4 @@
-FROM nginx:1.25.4-alpine-slim
+FROM nginx:1.27-alpine-slim
 
 ENV NGINX_DIR=/etc/nginx
 
