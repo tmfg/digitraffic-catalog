@@ -21,7 +21,8 @@ USER ckan
 # Install CKAN
 RUN python3 -m venv /usr/lib/ckan/default
 RUN source /usr/lib/ckan/default/bin/activate && \
-    pip install setuptools==44.1.0 && \
+    pip install pip==20.2.4 && \
+    pip install setuptools==61.0.0 && \
     pip install flask_debugtoolbar==0.10.1 && \
     pip install -e 'git+https://github.com/ckan/ckan.git@ckan-2.10.3#egg=ckan[requirements]' && \
     deactivate
