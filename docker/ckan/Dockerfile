@@ -25,40 +25,40 @@ WORKDIR ${APP_DIR}
 
 # Install necessary packages to run CKAN
 RUN apk add --no-cache tzdata \
-        git \
-        gettext \
-        postgresql-client \
-        python3 \
-        libxml2 \
-        libxslt \
-        musl-dev \
-        uwsgi \
-        uwsgi-http \
-        uwsgi-corerouter \
-        uwsgi-python \
-        py3-gevent \
-        uwsgi-gevent \
-        libmagic \
-        curl \
-        patch \
-        bash
+    git \
+    gettext \
+    postgresql-client \
+    python3 \
+    libxml2 \
+    libxslt \
+    musl-dev \
+    uwsgi \
+    uwsgi-http \
+    uwsgi-corerouter \
+    uwsgi-python \
+    py3-gevent \
+    uwsgi-gevent \
+    libmagic \
+    curl \
+    patch \
+    bash
 
 # Packages to build CKAN requirements and plugins
 RUN apk add --no-cache --virtual .build-deps \
-        postgresql-dev \
-        gcc \
-        make \
-        g++ \
-        autoconf \
-        automake \
-    	libtool \
-        python3-dev \
-        libxml2-dev \
-        libxslt-dev \
-        linux-headers \
-        openssl-dev \
-        libffi-dev \
-        cargo
+    postgresql-dev \
+    gcc \
+    make \
+    g++ \
+    autoconf \
+    automake \
+    libtool \
+    python3-dev \
+    libxml2-dev \
+    libxslt-dev \
+    linux-headers \
+    openssl-dev \
+    libffi-dev \
+    cargo
 
 # Create SRC_DIR
 RUN  mkdir -p ${SRC_DIR} && \
@@ -102,6 +102,7 @@ RUN chmod 644 ${APP_DIR}/wsgi.py
 # copy extensions
 RUN mkdir -p ${EXT_DIR}
 COPY ckanext/ckanext-digitraffic_theme "${EXT_DIR}/ckanext-digitraffic_theme"
+COPY ckanext/ckanext-entraid_authenticator "${EXT_DIR}/ckanext-entraid_authenticator"
 RUN chown -R ckan:ckan "${EXT_DIR}"
 
 # install extensions
