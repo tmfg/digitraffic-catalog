@@ -23,4 +23,5 @@ pip install -e "git+https://github.com/ckan/ckanext-scheming.git@release-3.0.0#e
 
 # install requirements
 pip_install "${EXT_DIR}/ckanext-digitraffic_theme/dev-requirements.txt"
+pip_install "${EXT_DIR}/ckanext-entraid_authenticator/requirements.txt"
 pip install -r src/ckanext-dcat/requirements.txt
