@@ -40,7 +40,7 @@ class EntraIdAuthenticator(plugins.SingletonPlugin):
             client_credential=app_config.CLIENT_SECRET,
         )
         self.AUTH_FLOW_SESSION_KEY = "auth_flow"
-        print(f"Redirect URI: {app_config.HOST}{app_config.REDIRECT_PATH}")
+        logger.info(f"Redirect URI: {app_config.HOST}{app_config.REDIRECT_PATH}")
 
     def get_blueprint(self):
         # add route to application for handling Entra ID auth redirects
