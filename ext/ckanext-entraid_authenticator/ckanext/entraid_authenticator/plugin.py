@@ -40,6 +40,7 @@ class EntraIdAuthenticator(plugins.SingletonPlugin):
             client_credential=app_config.CLIENT_SECRET,
         )
         self.AUTH_FLOW_SESSION_KEY = "auth_flow"
+        print(f"Redirect URI: {app_config.HOST}{app_config.REDIRECT_PATH}")
 
     def get_blueprint(self):
         # add route to application for handling Entra ID auth redirects
@@ -53,6 +54,7 @@ class EntraIdAuthenticator(plugins.SingletonPlugin):
     def login(self):
         # auth flow object should be instantiated again for each login attempt
         # store auth flow object in Flask session (managed by CKAN cookie - name is set in field beaker.session.key in ckan.ini)
+
         session[self.AUTH_FLOW_SESSION_KEY] = (
             self.entraid_client.initiate_auth_code_flow(
                 scopes=app_config.SCOPE,
