@@ -5,16 +5,12 @@ ARG CKAN_VERSION=ckan-2.10.4
 ENV APP_DIR=/srv/app
 ENV SRC_DIR=/srv/app/src
 ENV EXT_DIR=${APP_DIR}/ckanext
-
 ENV CKAN_INI=${APP_DIR}/ckan.ini
 ENV PIP_SRC=${SRC_DIR}
 ENV CKAN_STORAGE_PATH=/var/lib/ckan
 ENV GIT_URL=https://github.com/ckan/ckan.git
 # CKAN version to build
 ENV GIT_BRANCH=${CKAN_VERSION}
-# Customize these on the .env file if needed
-ENV CKAN_SITE_URL=http://localhost:5000
-ENV CKAN__PLUGINS image_view text_view recline_view datastore envvars digitraffic_theme entraid_authenticator
 
 ENV PIP_BREAK_SYSTEM_PACKAGES 1
 
