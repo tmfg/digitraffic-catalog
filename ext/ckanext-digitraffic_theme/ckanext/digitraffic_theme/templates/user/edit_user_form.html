@@ -1,6 +1,7 @@
 <!-- https://github.com/ckan/ckan/blob/master/ckan/templates/user/edit_user_form.html -->
 
 <!-- Removes password change form visible in default template when editing user information -->
+<!-- Makes email field readonly (should be updated via Graph API) -->
 
 {% import 'macros/form.html' as form %} {% block form %}
 <form
@@ -13,24 +14,26 @@
   endblock %} {% block core_fields %}
   <fieldset>
     <legend>{{ _('Change details') }}</legend>
-    {% if g.userobj.sysadmin %} {{ form.input('name', label=_('Username'),
-    id='field-username', value=data.name, error=errors.name,
-    classes=['control-medium'], is_required=true) }} {% else %} {{
-    form.input('name', label=_('Username'), id='field-username',
+    {{ form.input('name', label=_('Username'), id='field-username',
     value=data.name, error=errors.name, classes=['control-medium'],
-    attrs={'readonly': '', 'class': 'form-control'}) }} {% endif %} {{
+    attrs={'readonly': '', 'class': 'form-control'}) }} {{
     form.input('fullname', label=_('Full name'), id='field-fullname',
     value=data.fullname, error=errors.fullname, placeholder=_('eg. Joe Bloggs'),
     classes=['control-medium']) }} {{ form.input('email', label=_('Email'),
     id='field-email', type='email', value=data.email, error=errors.email,
     placeholder=_('eg. joe@example.com'), classes=['control-medium'],
-    is_required=true) }} {{ form.markdown('about', label=_('About'),
-    id='field-about', value=data.about, error=errors.about, placeholder=_('A
-    little information about yourself')) }} {% set is_upload = data.image_url
-    and not data.image_url.startswith('http') %} {% set is_url = data.image_url
-    and data.image_url.startswith('http') %} {{ form.image_upload(data, errors,
-    is_upload_enabled=h.uploads_enabled(), is_url=is_url, is_upload=is_upload,
-    upload_label=_('Profile picture'), url_label=_('Profile picture URL') ) }}
+    attrs={'readonly': '', 'class': 'form-control'}) }} {{
+    form.markdown('about', label=_('About'), id='field-about', value=data.about,
+    error=errors.about, placeholder=_('A little information about yourself')) }}
+    {% set is_upload = data.image_url and not data.image_url.startswith('http')
+    %} {% set is_url = data.image_url and data.image_url.startswith('http') %}
+    {{ form.image_upload(data, errors, is_upload_enabled=h.uploads_enabled(),
+    is_url=is_url, is_upload=is_upload, upload_label=_('Profile picture'),
+    url_label=_('Profile picture URL') ) }}
+    <!-- Send empty values to backend, missing keys in request produce a KeyError after password change form has been removed -->
+    <input type="hidden" name="password1" value="" />
+    <input type="hidden" name="password2" value="" />
+    <input type="hidden" name="old_password" value="" />
   </fieldset>
   {% endblock %} {% block extra_fields %} {% if g.userobj.sysadmin and
   data.state == 'deleted' %} {% call form.checkbox('activate_user',

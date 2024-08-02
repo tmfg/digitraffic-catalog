@@ -108,6 +108,14 @@ class EntraIdAuthenticator(plugins.SingletonPlugin):
                 logger.error("Failed to retrieve user info from Microsoft Graph API")
 
         if user is not None:
+            # update changed email address
+            if (
+                user_info.get("mail") is not None
+                and user_info.get("mail") != user.email
+            ):
+                user.email = user_info["mail"]  # type: ignore
+                model.Session.add(user)
+                model.Session.commit()
             toolkit.login_user(user)
 
         return toolkit.redirect_to("home.index")
