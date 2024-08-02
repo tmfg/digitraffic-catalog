@@ -86,26 +86,27 @@ class EntraIdAuthenticator(plugins.SingletonPlugin):
 
         id_token_claims: IdTokenClaims = token_response["id_token_claims"]
 
+        # get user info via Microsoft Graph API
+        access_token = token_response["access_token"]
+        headers = {
+            "Authorization": f"Bearer {access_token}",
+            "Content-Type": "application/json",
+        }
+        graph_response = requests.get(app_config.GRAPH_ENDPOINT, headers=headers)
+        if graph_response.status_code == 200:
+            user_info: GraphApiUserInfo = graph_response.json()
+        else:
+            logger.error("Failed to retrieve user info from Microsoft Graph API")
+
         # the ID of a CKAN user in the database should be the user's Entra ID object ID
         user = model.User.get(id_token_claims["oid"])
 
-        # if user was not found, get user info via Microsoft Graph API and create new CKAN user
+        # create new CKAN user if one does not exist for this id
         if user is None:
-            access_token = token_response["access_token"]
-            headers = {
-                "Authorization": f"Bearer {access_token}",
-                "Content-Type": "application/json",
-            }
-            graph_response = requests.get(app_config.GRAPH_ENDPOINT, headers=headers)
-
-            if graph_response.status_code == 200:
-                user_info: GraphApiUserInfo = graph_response.json()
-                user = create_user_from_graph_api_info(user_info)
-                logger.info(f"Creating new CKAN user: {user}")
-                model.Session.add(user)
-                model.Session.commit()
-            else:
-                logger.error("Failed to retrieve user info from Microsoft Graph API")
+            user = create_user_from_graph_api_info(user_info)
+            logger.info(f"Creating new CKAN user: {user}")
+            model.Session.add(user)
+            model.Session.commit()
 
         if user is not None:
             # update changed email address
