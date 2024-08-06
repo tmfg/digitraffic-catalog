@@ -49,6 +49,21 @@ class EntraIdAuthenticator(plugins.SingletonPlugin):
             view_func=self.handle_auth_redirect,
             methods=["GET"],
         )
+
+        # override path for registering an account
+        custom_blueprint.add_url_rule(
+            "/user/register",
+            view_func=self.redirect_to_home,
+            methods=["GET"],
+        )
+
+        # override path for resetting a password
+        custom_blueprint.add_url_rule(
+            "/user/reset",
+            view_func=self.redirect_to_home,
+            methods=["GET"],
+        )
+
         return [custom_blueprint]
 
     def login(self):
@@ -63,6 +78,9 @@ class EntraIdAuthenticator(plugins.SingletonPlugin):
         )
         return toolkit.redirect_to(session[self.AUTH_FLOW_SESSION_KEY]["auth_uri"])
 
+    def redirect_to_home(self):
+        return toolkit.redirect_to("home.index")
+
     def handle_auth_redirect(self):
         """
         After being redirected from Entra ID authentication,
@@ -71,7 +89,7 @@ class EntraIdAuthenticator(plugins.SingletonPlugin):
         """
 
         if self.AUTH_FLOW_SESSION_KEY not in session:
-            return toolkit.redirect_to("home.index")
+            return self.redirect_to_home()
 
         token_response = self.entraid_client.acquire_token_by_auth_code_flow(
             auth_code_flow=(session.pop(self.AUTH_FLOW_SESSION_KEY, None)),
@@ -82,7 +100,7 @@ class EntraIdAuthenticator(plugins.SingletonPlugin):
             logger.error(
                 f"Required fields missing from token response: {token_response}"
             )
-            return toolkit.redirect_to("home.index")
+            return self.redirect_to_home()
 
         id_token_claims: IdTokenClaims = token_response["id_token_claims"]
 
@@ -119,4 +137,4 @@ class EntraIdAuthenticator(plugins.SingletonPlugin):
                 model.Session.commit()
             toolkit.login_user(user)
 
-        return toolkit.redirect_to("home.index")
+        return self.redirect_to_home()
