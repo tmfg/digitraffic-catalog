@@ -11,6 +11,7 @@ from ckan import plugins
 import ckan.model as model
 from flask import Blueprint, request, session
 from msal import ConfidentialClientApplication
+from ckan.lib.helpers import flash_error
 import requests
 
 logger = logging.getLogger(__name__)
@@ -121,8 +122,15 @@ class EntraIdAuthenticator(plugins.SingletonPlugin):
 
         # create new CKAN user if one does not exist for this id
         if user is None:
+            # email address is a required field
+            if user_info.get("mail") is None:
+                logger.error(f"No email address found when trying to create user {user_info.get("id")}")
+                flash_error(
+                    "No email address found. Please make sure your Entra ID login account has an email address."
+                )
+                return self.redirect_to_home()
             user = create_user_from_graph_api_info(user_info)
-            logger.info(f"Creating new CKAN user: {user}")
+            logger.info(f"Creating new CKAN user {user.id}")
             model.Session.add(user)
             model.Session.commit()
 
