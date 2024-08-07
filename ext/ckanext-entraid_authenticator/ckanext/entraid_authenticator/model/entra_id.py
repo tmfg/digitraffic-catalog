@@ -33,6 +33,11 @@ class GraphApiUserInfo(RequiredGraphApiUserInfoFields, total=False):
     surname: Optional[str]
     mail: Optional[str]
     userPrincipalName: Optional[str]
+    preferredLanguage: Optional[str]
+    officeLocation: Optional[str]
+    mobilePhone: Optional[str]
+    jobTitle: Optional[str]
+    businessPhones: Optional[str]
 
 
 class AuthCodeFlowTokenResponse(TypedDict, total=True):
