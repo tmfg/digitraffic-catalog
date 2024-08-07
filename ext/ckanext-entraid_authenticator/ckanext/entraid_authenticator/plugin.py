@@ -112,6 +112,7 @@ class EntraIdAuthenticator(plugins.SingletonPlugin):
             "Content-Type": "application/json",
         }
         graph_response = requests.get(app_config.GRAPH_ENDPOINT, headers=headers)
+
         if graph_response.status_code == 200:
             user_info: GraphApiUserInfo = graph_response.json()
         else:
@@ -124,7 +125,9 @@ class EntraIdAuthenticator(plugins.SingletonPlugin):
         if user is None:
             # email address is a required field
             if user_info.get("mail") is None:
-                logger.error(f"No email address found when trying to create user {user_info.get("id")}")
+                logger.error(
+                    f"No email address found when trying to create user {user_info.get('id')}"
+                )
                 flash_error(
                     "No email address found. Please make sure your Entra ID login account has an email address."
                 )
