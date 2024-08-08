@@ -1,0 +1,7 @@
+<!-- https://github.com/ckan/ckan/blob/master/ckan/templates/header.html -->
+
+<!-- Removes 'Register' link visible in default template when not logged in -->
+
+{% ckan_extends %} {% block header_account_notlogged %}
+<li>{% link_for _('Log in'), named_route='user.login' %}</li>
+{% endblock %}
