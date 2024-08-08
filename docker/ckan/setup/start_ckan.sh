@@ -13,7 +13,7 @@ then
     ckan config-tool $CKAN_INI "api_token.jwt.decode.secret=${JWT_SECRET}"
 fi
 
-# Run the prerun script to init CKAN and create the default admin user
+# Run the prerun script to init CKAN
 python3 prerun.py
 
 # Run any startup scripts provided by images extending this one
