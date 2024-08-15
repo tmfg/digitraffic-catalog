@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-USAGE=$(cat <<-EOM
+USAGE=$(
+  cat <<-EOM
 
 usage: start_local_ckan.sh { up | down } [ build_image ]
 
@@ -12,13 +13,16 @@ Also, builds a CKAN docker image if one does not exists or build_image argument 
 EOM
 )
 
-if ! ([[ $# -eq 1 ]] || [[ $# -eq 2 ]]) ; then echo "$USAGE"; exit 1; fi;
+if ! ([[ $# -eq 1 ]] || [[ $# -eq 2 ]]); then
+  echo "$USAGE"
+  exit 1
+fi
 
-if ! [[ "$1" = 'up'  ||
-    "$1" = 'down' ]];
-then echo "$USAGE";
-     exit 1;
-fi;
+if ! [[ "$1" = 'up' ||
+  "$1" = 'down' ]]; then
+  echo "$USAGE"
+  exit 1
+fi
 
 COMPOSE_COMMAND="$1"
 BUILD_IMAGE="${2:-}"
@@ -50,9 +54,6 @@ build_image_conditionally ./ckan local_catalog_ckan_dev:latest
 build_image_conditionally ../docker/solr local_catalog_solr:latest
 build_image_conditionally ../docker/nginx local_catalog_nginx:latest ENVIRONMENT=local
 build_image_conditionally ./postgresql local_catalog_postgresql:latest
-
-# We must define the resolver for Nginx to use explicitly as 'resolver' is used in the configuration
-
 
 
 if [ "$COMPOSE_COMMAND" == "up" ]; then
