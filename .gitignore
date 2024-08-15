@@ -26,3 +26,4 @@
 !/.github/dependabot.yml
 
 docker/ckan/ckanext
+local-env/.env_entra
