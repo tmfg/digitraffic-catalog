@@ -88,6 +88,9 @@ setup(
 
         [babel.extractors]
         ckan = ckan.lib.extract:extract_ckan
+
+        [ckan.rdf.profiles]
+        mobility_dcat_ap=ckanext.digitraffic_theme.profiles.mobility_profile:MobilityDCATAPProfile
     ''',
 
     # If you are changing from the default layout of your extension, you may

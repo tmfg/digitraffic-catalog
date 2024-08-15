@@ -21,3 +21,4 @@ ckan config-tool $CKAN_INI "scheming.dataset_schemas = ckanext.digitraffic_theme
 
 # DCAT
 ckan config-tool $CKAN_INI "ckanext.dcat.enable_content_negotiation = True"
+ckan config-tool $CKAN_INI "ckanext.dcat.rdf.profiles = euro_dcat_ap mobility_dcat_ap"
