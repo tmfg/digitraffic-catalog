@@ -31,6 +31,7 @@ services:
       - .env_solr_common
       - .env_ckan_common
       - .env_ckan
+      - .env_entra
     volumes:
       - ckanext:/srv/app/ckanext
   postgresql:
