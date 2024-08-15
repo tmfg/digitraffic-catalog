@@ -6,6 +6,8 @@
 !ext
 !ext/ckanext-digitraffic_theme
 !ext/ckanext-digitraffic_theme/*/
+!ext/ckanext-entraid_authenticator
+!ext/ckanext-entraid_authenticator/*/
 
 !local-env
 !local-env/**
