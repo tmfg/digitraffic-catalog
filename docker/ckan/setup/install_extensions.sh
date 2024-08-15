@@ -17,9 +17,11 @@ pip_install() {
 
 # install extensions
 pip install -e "${EXT_DIR}/ckanext-digitraffic_theme"
+pip install -e "${EXT_DIR}/ckanext-entraid_authenticator"
 pip install -e "git+https://github.com/ckan/ckanext-dcat.git@v1.7.0#egg=ckanext-dcat"
 pip install -e "git+https://github.com/ckan/ckanext-scheming.git@release-3.0.0#egg=ckanext-scheming"
 
 # install requirements
 pip_install "${EXT_DIR}/ckanext-digitraffic_theme/dev-requirements.txt"
+pip_install "${EXT_DIR}/ckanext-entraid_authenticator/requirements.txt"
 pip install -r src/ckanext-dcat/requirements.txt

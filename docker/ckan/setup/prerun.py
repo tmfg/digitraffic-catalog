@@ -2,6 +2,7 @@ import os
 import sys
 import subprocess
 import psycopg2
+
 try:
     from urllib.request import urlopen
     from urllib.error import URLError
@@ -74,7 +75,7 @@ def check_solr_connection(retry=None):
         sys.exit(1)
 
     url = os.environ.get("CKAN_SOLR_URL", "")
-    search_url = '{url}/schema/name?wt=json'.format(url=url)
+    search_url = "{url}/schema/name?wt=json".format(url=url)
 
     try:
         connection = urlopen(search_url)
@@ -84,13 +85,14 @@ def check_solr_connection(retry=None):
         time.sleep(10)
         check_solr_connection(retry=retry - 1)
     else:
-        import re                                                                                                                                                      
-        conn_info = connection.read()                                                                                                                                  
-        schema_name = json.loads(conn_info)                                                                                                                            
-        if 'ckan' in schema_name['name']:                                                                                                                              
-            print('[prerun] Succesfully connected to solr and CKAN schema loaded')                                                                                     
-        else:                                                                                                                                                          
-            print('[prerun] Succesfully connected to solr, but CKAN schema not found')
+        import re
+
+        conn_info = connection.read()
+        schema_name = json.loads(conn_info)
+        if "ckan" in schema_name["name"]:
+            print("[prerun] Succesfully connected to solr and CKAN schema loaded")
+        else:
+            print("[prerun] Succesfully connected to solr, but CKAN schema not found")
 
 
 def init_db():
@@ -170,51 +172,6 @@ def setup_conf():
     subprocess.call(setup_conf_command)
     print("[prerun] Configuration set")
 
-def create_sysadmin():
-
-    name = os.environ.get("CKAN_SYSADMIN_NAME")
-    password = os.environ.get("CKAN_SYSADMIN_PASSWORD")
-    email = os.environ.get("CKAN_SYSADMIN_EMAIL")
-
-    if name and password and email:
-
-        # Check if user exists
-        command = ["ckan", "-c", ckan_ini, "user", "show", name]
-
-        out = subprocess.check_output(command)
-        if b"User:None" not in re.sub(b"\s", b"", out):
-            print("[prerun] Sysadmin user exists, skipping creation")
-            return
-
-        # Create user
-        command = [
-            "ckan",
-            "-c",
-            ckan_ini,
-            "user",
-            "add",
-            name,
-            "password=" + password,
-            "email=" + email,
-        ]
-
-        subprocess.call(command)
-        print("[prerun] Created user {0}".format(name))
-
-        # Make it sysadmin
-        command = ["ckan", "-c", ckan_ini, "sysadmin", "add", name]
-
-        subprocess.call(command)
-        print("[prerun] Made user {0} a sysadmin".format(name))
-
-        # cleanup permissions
-        # We're running as root before pivoting to uwsgi and dropping privs
-        data_dir = "%s/storage" % os.environ['CKAN_STORAGE_PATH']
-
-        command = ["chown", "-R", "ckan:ckan", data_dir]
-        subprocess.call(command)
-        print("[prerun] Ensured storage directory is owned by ckan")
-
 if __name__ == "__main__":
 
     maintenance = os.environ.get("MAINTENANCE_MODE", "").lower() == "true"
@@ -229,5 +186,3 @@ if __name__ == "__main__":
         check_datastore_db_connection()
         init_datastore_db()
         check_solr_connection()
-        create_sysadmin()
-        
