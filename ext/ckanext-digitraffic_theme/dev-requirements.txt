@@ -1,1 +1,2 @@
 pytest-ckan
+rdflib>=6.1.1,<7.1.0
