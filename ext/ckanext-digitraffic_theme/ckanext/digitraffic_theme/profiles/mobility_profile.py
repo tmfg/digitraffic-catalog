@@ -15,5 +15,6 @@ class MobilityDCATAPProfile(EuropeanDCATAP2Profile):
         pprint.pprint(dataset_dict)
         mobility_data: MobilityData = MobilityData(dataset_dict)
         g:Graph = self.g
+        g.bind("mobilitydcatap", MOBILITYDCATAP)
         g.add((dataset_ref, MOBILITYDCATAP.mobilityTheme, mobility_data.mobility_theme))
         super().graph_from_dataset(dataset_dict, dataset_ref)
