@@ -1,8 +1,10 @@
 from typing import Any, List
-from rdflib import URIRef
+from rdflib import URIRef, Literal
 
+from ckanext.digitraffic_theme.profiles.model.agent import Agent
 from ckanext.digitraffic_theme.profiles.model.distribution import Distribution
-from ckanext.digitraffic_theme.profiles.rdf.mobility_dcat_ap import MOBILITYDCATAP
+from ckanext.digitraffic_theme.profiles.model.mobility_theme import MobilityTheme
+from ckanext.digitraffic_theme.profiles.model.mobility_theme_sub import MobilityThemeSub
 
 
 class MobilityData:
@@ -10,13 +12,23 @@ class MobilityData:
     author_email: str
 
     # Dataset
-    description: str
+    description: Literal
     distribution: List[Distribution]
-    mobility_theme: MOBILITYDCATAP.mobilityTheme
+    accrualPeriodicity: Literal
+    mobility_theme: MobilityTheme
+    mobility_theme_sub: MobilityThemeSub
+    #spatial: Location
+    title: Literal
+    publisher: Agent
 
     def __init__(self, dataset_dict: dict[str, Any]):
         self.author = dataset_dict["author"]
-        self.description = dataset_dict["notes"]
+        self.description = Literal(dataset_dict["notes"])
         self.distribution = [Distribution(dist) for dist in dataset_dict["resources"]]
-        self.mobility_theme = URIRef(dataset_dict["mobility_theme"])
+        self.accrualPeriodicity = Literal(dataset_dict["frequency"])
+        self.mobility_theme = MobilityTheme(dataset_dict["mobility_theme"])
+        self.mobility_theme_sub = MobilityThemeSub(dataset_dict["mobility_theme_sub"])
+        #self.spatial = Location(dataset_dict["gazetteer"], dataset_dict["geographic_identifier"])
+        self.title = Literal(dataset_dict["name"])
+        self.publisher = Agent("TODO_foo", dataset_dict["publisher_name"])
 
