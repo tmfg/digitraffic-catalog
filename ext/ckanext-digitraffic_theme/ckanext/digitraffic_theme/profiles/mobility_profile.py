@@ -18,9 +18,13 @@ class MobilityDCATAPProfile(RDFProfile):
 
     def graph_from_dataset(self, dataset_dict, dataset_ref):
         pprint.pprint(dataset_dict)
-        mobility_data: MobilityData = MobilityData(dataset_dict)
+        mobility_data: MobilityData = MobilityData(dataset_dict, dataset_ref)
         g: Graph = self.g
         g.bind("mobilitydcatap", MOBILITYDCATAP)
+
+        ## Remove some values that we are going to put in ourselves
+        for obj in g.objects(dataset_ref, DCTERMS.publisher):
+            g.remove((dataset_ref, DCTERMS.publisher, obj))
 
         # DATASET
         ## required
