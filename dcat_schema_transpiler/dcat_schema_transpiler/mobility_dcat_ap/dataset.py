@@ -41,6 +41,10 @@ CVOCAB_LICENSE_IDENTIFIER = Namespace('http://publications.europa.eu/resource/au
 CVOCAB_EUV_FREQUENCY = Namespace('http://publications.europa.eu/resource/authority/frequency')
 CVOCAB_MOBILITY_DCAT_AP_FREQUENCY = Namespace('https://w3id.org/mobilitydcat-ap/update-frequency')
 CVOCAB_LANGUAGE = Namespace('http://publications.europa.eu/resource/authority/language')
+# About NUTS: https://ec.europa.eu/eurostat/web/gisco/geodata/statistical-units/territorial-units-statistics
+CVOCAB_NUTS = Namespace('http://data.europa.eu/nuts/')
+# About LAU: https://ec.europa.eu/eurostat/web/gisco/geodata/statistical-units/local-administrative-units
+CVOCAB_LAU = Namespace('https://w3id.org/stirdata/resource/lau/item/')
 
 
 
@@ -83,7 +87,9 @@ controlled_vocabularies = [
     CVOCAB_EUV_FREQUENCY,
     CVOCAB_MOBILITY_DCAT_AP_FREQUENCY,
     CVOCAB_MOBILITY_THEME,
-    CVOCAB_LANGUAGE
+    CVOCAB_LANGUAGE,
+    CVOCAB_NUTS,
+    CVOCAB_LAU
 ]
 
 def mobilitydcatap_fixes(graph):
@@ -263,6 +269,14 @@ def set_content_for_graph(graph: Graph) -> None:
         serialization_format = 'ttl'
         graph.parse(graph_url, format='text/turtle')
     elif str(ns) == 'https://w3id.org/mobilitydcat-ap/mobility-theme/':
+        graph_url, _ = get_graph_url(ns)
+        serialization_format = 'ttl'
+        graph.parse(graph_url, format='text/turtle')
+    elif str(ns) == 'http://data.europa.eu/nuts/':
+        graph_url = 'https://op.europa.eu/o/opportal-service/euvoc-download-handler?cellarURI=http://publications.europa.eu/resource/distribution/nuts/20240425-0/rdf/skos_ap_eu/NUTS-skos-ap-eu.rdf&fileName=NUTS-skos-ap-eu.rdf'
+        serialization_format = 'rdf'
+        graph.parse(graph_url, format='application/rdf+xml')
+    elif str(ns) == 'https://w3id.org/stirdata/resource/lau/item/':
         graph_url, _ = get_graph_url(ns)
         serialization_format = 'ttl'
         graph.parse(graph_url, format='text/turtle')

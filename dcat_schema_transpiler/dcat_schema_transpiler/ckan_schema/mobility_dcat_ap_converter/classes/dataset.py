@@ -22,10 +22,12 @@ class DCATDataset(RangeValueConverter):
     def get_schema(self, ds: Dataset, clazz: RDFSClass, clazz_p: RDFSProperty):
         mandatory_properties = [DCTERMS.description, DCAT.distribution, DCTERMS.accrualPeriodicity,
                                 MOBILITYDCATAP.mobilityTheme,
-                                #DCTERMS.spatial,
+                                DCTERMS.spatial,
                                 DCTERMS.title,
                                 DCTERMS.publisher]
         if self.is_class_specific_converter(clazz) and clazz_p.iri in MOBILITYDCATAP.mobilityTheme:
+            return RangeValueConverter.controlled_vocab_field(clazz_p, clazz, ds)
+        if self.is_class_specific_converter(clazz) and clazz_p.iri in DCTERMS.spatial:
             return RangeValueConverter.controlled_vocab_field(clazz_p, clazz, ds)
         if self.is_class_specific_converter(clazz) and clazz_p.iri in mandatory_properties:
             return super().get_schema(ds, clazz, clazz_p)
