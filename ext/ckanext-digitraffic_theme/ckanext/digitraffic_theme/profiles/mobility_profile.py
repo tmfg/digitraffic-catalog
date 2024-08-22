@@ -1,16 +1,14 @@
-import pprint
-from rdflib import Graph, DCTERMS, URIRef, Literal, DCAT, RDF, FOAF
+from rdflib import Graph, DCTERMS, URIRef, Literal, DCAT, RDF
 
 from ckanext.dcat.profiles import RDFProfile
-from ckanext.digitraffic_theme.profiles.graph_modifiers.adder_util import add_class_instance_with_children, get_adder
+from ckanext.digitraffic_theme.profiles.graph_modifiers.adder_util import add_class_instance_with_children, \
+    add_class_instance_values
 from ckanext.digitraffic_theme.profiles.graph_modifiers.class_instance_adder import ClassInstanceAdder
 from ckanext.digitraffic_theme.profiles.graph_modifiers.literal_adder import LiteralAdder
 from ckanext.digitraffic_theme.profiles.graph_modifiers.uriref_adder import URIRefAdder
 from ckanext.digitraffic_theme.profiles.graph_modifiers.vocabulary_adder import VocabularyAdder
 from ckanext.digitraffic_theme.profiles.model.agent import Agent
-from ckanext.digitraffic_theme.profiles.model.catalog_record import CatalogRecord
 from ckanext.digitraffic_theme.profiles.model.class_instance import ClassInstance
-from ckanext.digitraffic_theme.profiles.model.distribution import Distribution
 from ckanext.digitraffic_theme.profiles.model.location import Location
 from ckanext.digitraffic_theme.profiles.model.mobility_data import MobilityData
 from ckanext.digitraffic_theme.profiles.model.vocabulary import Vocabulary
@@ -21,26 +19,29 @@ class MobilityDCATAPProfile(RDFProfile):
 
     def __init__(self, graph: Graph, compatibility_mode=False):
         super().__init__(graph, compatibility_mode)
-        add_old = graph.add
-        catalog_ref: URIRef = self._get_root_catalog_ref()
+        try:
+            add_old = graph.add
+            catalog_ref: URIRef = self._get_root_catalog_ref()
 
-        # By default, catalog_ref points directly to datasets. We do not want that as it should poit to catalog records.
-        # Unfortunately, ckanext-dcat sets the datasets to catalog metadata after calling profile methods so
-        # there is no sensible way to remove the references. Therefore, we use monkey patching
-        # to prevent catalog having a reference to datasets
-        def new_add(triple):
-            if (triple[0] == catalog_ref and
-                    triple[1] == DCAT.dataset):
-                return graph
-            add_old(triple)
+            # By default, catalog_ref points directly to datasets. We do not want that as it should poit to catalog
+            # records. Unfortunately, ckanext-dcat sets the datasets to catalog metadata after calling profile
+            # methods so there is no sensible way to remove the references. Therefore, we use monkey patching to
+            # prevent catalog having a reference to datasets
+            def new_add(triple):
+                if (triple[0] == catalog_ref and
+                        triple[1] == DCAT.dataset):
+                    return graph
+                add_old(triple)
 
-        graph.add = new_add
+            graph.add = new_add
+        # We might get exception for calling self._get_root_catalog_ref() when accessing Dataset metadata directly
+        except Exception:
+            pass
 
     def parse_dataset(self, dataset_dict, dataset_ref):
         return super().parse_dataset(dataset_dict, dataset_ref)
 
     def graph_from_dataset(self, dataset_dict, dataset_ref):
-        pprint.pprint(dataset_dict)
         mobility_data: MobilityData = MobilityData(dataset_dict, dataset_ref)
         g: Graph = self.g
         g.bind("mobilitydcatap", MOBILITYDCATAP)
@@ -58,7 +59,6 @@ class MobilityDCATAPProfile(RDFProfile):
                         p == RDF.type or
                         p == DCAT.accessURL):
                     g.remove((dist, p, o))
-
         # We'll end up adding Dataset metadata when injecting record
         self.inject_record(mobility_data, dataset_ref)
 
@@ -68,9 +68,6 @@ class MobilityDCATAPProfile(RDFProfile):
                 g.remove((s, p, o))
 
     def graph_from_catalog(self, catalog_dict, catalog_ref):
-
-        print("graph_from_catalog")
-        pprint.pprint(catalog_dict)
         g: Graph = self.g
         # Remove data that we are going to add ourselves
         for obj in g.objects(catalog_ref, DCTERMS.title):
@@ -90,9 +87,14 @@ class MobilityDCATAPProfile(RDFProfile):
            Inject the metadata here."""
 
         g: Graph = self.g
-        catalog_ref: URIRef = self._get_root_catalog_ref()
-        MobilityDCATAPProfile.add_class_instance_with_children(g, catalog_ref, DCAT.record,
-                                                               mobility_data.catalog_record)
+        try:
+            catalog_ref: URIRef = self._get_root_catalog_ref()
+            MobilityDCATAPProfile.add_class_instance_with_children(g, catalog_ref, DCAT.record,
+                                                                   mobility_data.catalog_record)
+        # We end up with an exception when metadata is asked only for a Dataset. In that situation, there is no catalog_ref
+        except Exception:
+            add_class_instance_values(g, mobility_data.catalog_record.primary_topic)
+
 
     @staticmethod
     def add_vocabulary(g: Graph, subject: URIRef, predicate: URIRef, obj: Vocabulary):
