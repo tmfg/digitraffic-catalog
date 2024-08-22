@@ -1,10 +1,10 @@
-from typing import List
+from typing import List, ClassVar
 from rdflib import URIRef
 
 
 class Vocabulary:
     # List of valid IRIs
-    iris: List[str] = []
+    iris: ClassVar[List[str]] = []
     # IRI
     iri: URIRef
 

@@ -9,6 +9,3 @@ class ClassInstanceAdder(Adder):
     def add_to_graph(g: Graph, subject: URIRef, predicate: URIRef, data: ClassInstance):
         instance_iri = data.iri
         g.add((subject, predicate, instance_iri))
-
-        for p, o in data.predicate_objects():
-            g.add((instance_iri, p, o))
