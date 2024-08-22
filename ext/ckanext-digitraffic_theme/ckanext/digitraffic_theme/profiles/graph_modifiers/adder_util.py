@@ -23,15 +23,18 @@ def get_adder(resource: Vocabulary | ClassInstance | Literal | URIRef) -> type[A
     raise ValueError(f'There is no adder for type {type(resource)}')
 
 
+def add_class_instance_values(g: Graph, resource: ClassInstance):
+    instance_iri = resource.iri
+
+    for p, o in resource.predicate_objects():
+        o_adder = get_adder(o)
+        o_adder.add_to_graph(g, instance_iri, p, o)
+        if isinstance(o, ClassInstance):
+            add_class_instance_values(g, o)
+
+
 def add_class_instance_with_children(g: Graph, subject: URIRef, predicate: URIRef, obj: ClassInstance):
     adder = get_adder(obj)
-    instance_iri = obj.iri
-
     adder.add_to_graph(g, subject, predicate, obj)
 
-    for p, o in obj.predicate_objects():
-        if isinstance(o, ClassInstance):
-            add_class_instance_with_children(g, instance_iri, p, o)
-        else:
-            o_adder = get_adder(o)
-            o_adder.add_to_graph(g, instance_iri, p, o)
+    add_class_instance_values(g, obj)

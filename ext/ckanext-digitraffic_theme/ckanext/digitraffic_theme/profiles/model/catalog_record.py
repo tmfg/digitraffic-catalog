@@ -5,7 +5,6 @@ from rdflib import Literal, DCAT, DCTERMS, RDF, FOAF
 from ckanext.digitraffic_theme.profiles.model.class_instance import ClassInstance
 from ckanext.digitraffic_theme.profiles.model.dataset import Dataset
 from ckanext.digitraffic_theme.profiles.model.language import Language
-from ckanext.digitraffic_theme.profiles.model.vocabulary import Vocabulary
 
 
 class CatalogRecordInput(TypedDict):
