@@ -1,25 +1,32 @@
-from typing import Any
+from typing import TypedDict
 
 from rdflib import Literal, DCAT, DCTERMS, RDF, FOAF
 
 from ckanext.digitraffic_theme.profiles.model.class_instance import ClassInstance
-from ckanext.digitraffic_theme.profiles.model.distribution import Distribution
+from ckanext.digitraffic_theme.profiles.model.dataset import Dataset
 from ckanext.digitraffic_theme.profiles.model.language import Language
 from ckanext.digitraffic_theme.profiles.model.vocabulary import Vocabulary
 
 
-class CatalogRecord(ClassInstance):
+class CatalogRecordInput(TypedDict):
     created: Literal
-    language: Vocabulary
-    primary_topic: Distribution
+    language: Language
+    primary_topic: Dataset
     modified: Literal
 
-    def __init__(self, iri: str, dataset_dict: dict[str, Any], distribution: Distribution):
+
+class CatalogRecord(ClassInstance):
+    created: Literal
+    language: Language
+    primary_topic: Dataset
+    modified: Literal
+
+    def __init__(self, iri: str, input: CatalogRecordInput):
         super().__init__(iri, DCAT.CatalogRecord)
-        self.created = Literal(dataset_dict["metadata_created"])
-        self.language = Language(dataset_dict["metadata_language"])
-        self.primary_topic = distribution
-        self.modified = Literal(dataset_dict["metadata_modified"])
+        self.created = input["created"]
+        self.language = input["language"]
+        self.primary_topic = input["primary_topic"]
+        self.modified = input["modified"]
 
     def predicate_objects(self):
         return [
