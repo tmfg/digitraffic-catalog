@@ -1,4 +1,3 @@
-import pytest
 from rdflib import Graph, URIRef, FOAF, Literal
 
 from ckanext.digitraffic_theme.profiles.graph_modifiers.literal_adder import LiteralAdder
