@@ -1,8 +1,9 @@
-from typing import Any, List
+from typing import Any
 from rdflib import URIRef, Literal
 
 from ckanext.digitraffic_theme.profiles.model.agent import Agent
 from ckanext.digitraffic_theme.profiles.model.catalog_record import CatalogRecord
+from ckanext.digitraffic_theme.profiles.model.dataset import Dataset
 from ckanext.digitraffic_theme.profiles.model.distribution import Distribution
 from ckanext.digitraffic_theme.profiles.model.language import Language
 from ckanext.digitraffic_theme.profiles.model.location import Location
@@ -11,30 +12,23 @@ from ckanext.digitraffic_theme.profiles.model.mobility_theme_sub import Mobility
 
 
 class MobilityData:
-    author: str
-    author_email: str
-
-    # Dataset
-    description: Literal
-    distribution: List[Distribution]
     catalog_record: CatalogRecord
-    accrualPeriodicity: Literal
-    mobility_theme: MobilityTheme
-    mobility_theme_sub: MobilityThemeSub
-    spatial: Location
-    title: Literal
-    publisher: Agent
 
     def __init__(self, dataset_dict: dict[str, Any], dataset_ref: URIRef):
-        self.author = dataset_dict["author"]
-        self.description = Literal(dataset_dict["notes"])
-        # TODO Dataset
-        self.distribution = [Distribution(str(dataset_ref) + '/resource/' + dist['id'], dist) for dist in dataset_dict["resources"]]
-        self.catalog_record = CatalogRecord(str(dataset_ref).replace("/dataset/", "/catalog-record/"), dataset_dict, self.distribution[0])
-        self.accrualPeriodicity = Literal(dataset_dict["frequency"])
-        self.mobility_theme = MobilityTheme(dataset_dict["mobility_theme"])
-        self.mobility_theme_sub = MobilityThemeSub(dataset_dict["mobility_theme_sub"])
-        self.spatial = Location(dataset_dict["spatial"])
-        self.title = Literal(dataset_dict["name"])
-        self.publisher = Agent(str(dataset_ref) + '/publisher', dataset_dict["publisher_name"])
-
+        dataset = Dataset(dataset_ref, {
+            "description": Literal(dataset_dict["notes"]),
+            "distribution": [Distribution(str(dataset_ref) + '/resource/' + dist['id'], dist) for dist in dataset_dict["resources"]],
+            "accrualPeriodicity": URIRef(dataset_dict["frequency"]),
+            "mobility_theme": MobilityTheme(dataset_dict["mobility_theme"]),
+            "mobility_theme_sub": MobilityThemeSub(dataset_dict["mobility_theme_sub"]),
+            "spatial": Location(dataset_dict["spatial"]),
+            "title": Literal(dataset_dict["name"]),
+            "publisher": Agent(str(dataset_ref) + '/publisher', dataset_dict["publisher_name"])
+        })
+        # Catalog Record
+        self.catalog_record = CatalogRecord(str(dataset_ref).replace("/dataset/", "/catalog-record/"), {
+            "created": Literal(dataset_dict["metadata_created"]),
+            "language": Language(dataset_dict["metadata_language"]),
+            "primary_topic": dataset,
+            "modified": Literal(dataset_dict["metadata_modified"]),
+        })

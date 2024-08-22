@@ -19,6 +19,23 @@ from ckanext.digitraffic_theme.profiles.rdf.mobility_dcat_ap import MOBILITYDCAT
 
 class MobilityDCATAPProfile(RDFProfile):
 
+    def __init__(self, graph: Graph, compatibility_mode=False):
+        super().__init__(graph, compatibility_mode)
+        add_old = graph.add
+        catalog_ref: URIRef = self._get_root_catalog_ref()
+
+        # By default, catalog_ref points directly to datasets. We do not want that as it should poit to catalog records.
+        # Unfortunately, ckanext-dcat sets the datasets to catalog metadata after calling profile methods so
+        # there is no sensible way to remove the references. Therefore, we use monkey patching
+        # to prevent catalog having a reference to datasets
+        def new_add(triple):
+            if (triple[0] == catalog_ref and
+                    triple[1] == DCAT.dataset):
+                return graph
+            add_old(triple)
+
+        graph.add = new_add
+
     def parse_dataset(self, dataset_dict, dataset_ref):
         return super().parse_dataset(dataset_dict, dataset_ref)
 
@@ -33,6 +50,8 @@ class MobilityDCATAPProfile(RDFProfile):
             g.remove((dataset_ref, DCTERMS.publisher, obj))
         for obj in g.objects(dataset_ref, DCTERMS.spatial):
             g.remove((dataset_ref, DCTERMS.spatial, obj))
+        for obj in g.objects(dataset_ref, DCTERMS.accrualPeriodicity):
+            g.remove((dataset_ref, DCTERMS.accrualPeriodicity, obj))
         for dist in g.objects(dataset_ref, DCAT.distribution):
             for p, o in g.predicate_objects(dist):
                 if (p == DCTERMS.format or
@@ -40,31 +59,13 @@ class MobilityDCATAPProfile(RDFProfile):
                         p == DCAT.accessURL):
                     g.remove((dist, p, o))
 
-        # DATASET
-        ## required
-        # g.add((dataset_ref, DCTERMS.description, mobility_data.description))
-
-        # g.add((dataset_ref, MOBILITYDCATAP.mobilityTheme, mobility_data.mobility_theme.iri))
-        # g.add((dataset_ref, MOBILITYDCATAP.mobilityThemeSub, mobility_data.mobility_theme_sub.iri))
-        # super().graph_from_dataset(dataset_dict, dataset_ref)
-
-        MobilityDCATAPProfile.add_literal(g, dataset_ref, DCTERMS.description, mobility_data.description)
-        MobilityDCATAPProfile.add_vocabulary(g, dataset_ref, MOBILITYDCATAP.mobilityTheme, mobility_data.mobility_theme)
-        MobilityDCATAPProfile.add_vocabulary(g, dataset_ref, MOBILITYDCATAP.mobilityTheme, mobility_data.mobility_theme_sub)
-        MobilityDCATAPProfile.add_vocabulary(g, dataset_ref, DCTERMS.spatial, mobility_data.spatial)
-        MobilityDCATAPProfile.add_literal(g, dataset_ref, DCTERMS.title, mobility_data.title)
-        MobilityDCATAPProfile.add_class_instance_with_children(g, dataset_ref, DCTERMS.publisher, mobility_data.publisher)
-
-        # Dist
-        for dist in mobility_data.distribution:
-            MobilityDCATAPProfile.add_class_instance_with_children(g, dataset_ref, DCAT.distribution, dist)
+        # We'll end up adding Dataset metadata when injecting record
+        self.inject_record(mobility_data, dataset_ref)
 
         # Remove leftovers
         for s, p, o in g:
             if not isinstance(s, URIRef):
                 g.remove((s, p, o))
-
-        self.inject_record(mobility_data, dataset_ref)
 
     def graph_from_catalog(self, catalog_dict, catalog_ref):
 
@@ -76,9 +77,12 @@ class MobilityDCATAPProfile(RDFProfile):
             g.remove((catalog_ref, DCTERMS.title, obj))
 
         # Add the metadata
-        MobilityDCATAPProfile.add_literal(g, catalog_ref, DCTERMS.description, Literal("Digitraffic Catalog description"))
-        MobilityDCATAPProfile.add_class_instance_with_children(g, catalog_ref, DCTERMS.publisher, Agent(catalog_ref + "/publisher", "Digitraffic"))
-        MobilityDCATAPProfile.add_vocabulary(g, catalog_ref, DCTERMS.spatial, Location('http://data.europa.eu/nuts/code/FI'))
+        MobilityDCATAPProfile.add_literal(g, catalog_ref, DCTERMS.description,
+                                          Literal("Digitraffic Catalog description"))
+        MobilityDCATAPProfile.add_class_instance_with_children(g, catalog_ref, DCTERMS.publisher,
+                                                               Agent(catalog_ref + "/publisher", "Digitraffic"))
+        MobilityDCATAPProfile.add_vocabulary(g, catalog_ref, DCTERMS.spatial,
+                                             Location('http://data.europa.eu/nuts/code/FI'))
         MobilityDCATAPProfile.add_literal(g, catalog_ref, DCTERMS.title, Literal("Digitraffic Catalog"))
 
     def inject_record(self, mobility_data: MobilityData, dataset_ref: URIRef):
@@ -87,28 +91,8 @@ class MobilityDCATAPProfile(RDFProfile):
 
         g: Graph = self.g
         catalog_ref: URIRef = self._get_root_catalog_ref()
-        # Catalog_ref points directly to datasets. We do not want that as it should poit to catalog records
-        print("FOOOOOO")
-
-        # CATALOG RECORD
-        catalog_record_ref = mobility_data.catalog_record.iri
-
-        for p, o in mobility_data.catalog_record.predicate_objects():
-            if isinstance(o, Distribution):
-                MobilityDCATAPProfile.add_class_instance(g, catalog_record_ref, FOAF.primaryTopic, o)
-                continue
-            adder = get_adder(o)
-            adder.add_to_graph(g, catalog_record_ref, p, o)
-
-        # CATALOG
-
-        MobilityDCATAPProfile.add_class_instance(g, catalog_ref, DCAT.record, mobility_data.catalog_record)
-
-        g.remove((catalog_ref, DCAT.dataset, dataset_ref))
-
-        #    MobilityDCATAPProfile.add_uriref(g, dataset_ref, DCAT.record, dataset_ref)
-
-
+        MobilityDCATAPProfile.add_class_instance_with_children(g, catalog_ref, DCAT.record,
+                                                               mobility_data.catalog_record)
 
     @staticmethod
     def add_vocabulary(g: Graph, subject: URIRef, predicate: URIRef, obj: Vocabulary):
