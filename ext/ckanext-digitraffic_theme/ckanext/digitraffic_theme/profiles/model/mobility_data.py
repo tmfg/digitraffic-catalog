@@ -2,7 +2,9 @@ from typing import Any, List
 from rdflib import URIRef, Literal
 
 from ckanext.digitraffic_theme.profiles.model.agent import Agent
+from ckanext.digitraffic_theme.profiles.model.catalog_record import CatalogRecord
 from ckanext.digitraffic_theme.profiles.model.distribution import Distribution
+from ckanext.digitraffic_theme.profiles.model.language import Language
 from ckanext.digitraffic_theme.profiles.model.location import Location
 from ckanext.digitraffic_theme.profiles.model.mobility_theme import MobilityTheme
 from ckanext.digitraffic_theme.profiles.model.mobility_theme_sub import MobilityThemeSub
@@ -15,6 +17,7 @@ class MobilityData:
     # Dataset
     description: Literal
     distribution: List[Distribution]
+    catalog_record: CatalogRecord
     accrualPeriodicity: Literal
     mobility_theme: MobilityTheme
     mobility_theme_sub: MobilityThemeSub
@@ -25,7 +28,9 @@ class MobilityData:
     def __init__(self, dataset_dict: dict[str, Any], dataset_ref: URIRef):
         self.author = dataset_dict["author"]
         self.description = Literal(dataset_dict["notes"])
+        # TODO Dataset
         self.distribution = [Distribution(str(dataset_ref) + '/resource/' + dist['id'], dist) for dist in dataset_dict["resources"]]
+        self.catalog_record = CatalogRecord(str(dataset_ref).replace("/dataset/", "/catalog-record/"), dataset_dict, self.distribution[0])
         self.accrualPeriodicity = Literal(dataset_dict["frequency"])
         self.mobility_theme = MobilityTheme(dataset_dict["mobility_theme"])
         self.mobility_theme_sub = MobilityThemeSub(dataset_dict["mobility_theme_sub"])
