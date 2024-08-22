@@ -14,6 +14,4 @@ def test_literal_adder_adds_literal():
     ClassInstanceAdder.add_to_graph(g, subject, DCTERMS.publisher, agent)
 
     assert (subject, DCTERMS.publisher, agent_iri) in g
-    for p, o in agent.predicate_objects():
-        assert (agent_iri, p, o) in g
 

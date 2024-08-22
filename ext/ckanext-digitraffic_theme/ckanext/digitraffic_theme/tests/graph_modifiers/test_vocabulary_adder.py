@@ -1,4 +1,3 @@
-import pytest
 from rdflib import Graph, URIRef
 
 from ckanext.digitraffic_theme.profiles.graph_modifiers.vocabulary_adder import VocabularyAdder
