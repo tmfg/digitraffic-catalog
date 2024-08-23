@@ -20,7 +20,7 @@ class CatalogRecord(ClassInstance):
     primary_topic: Dataset
     modified: Literal
 
-    def __init__(self, iri: str, input: CatalogRecordInput):
+    def __init__(self, iri: str|None, input: CatalogRecordInput):
         super().__init__(iri, DCAT.CatalogRecord)
         self.created = input["created"]
         self.language = input["language"]

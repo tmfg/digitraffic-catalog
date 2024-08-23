@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from rdflib import Literal, Graph, URIRef
+from rdflib import Literal, Graph, URIRef, BNode
 
 from ckanext.digitraffic_theme.profiles.graph_modifiers.adder import Adder
 from ckanext.digitraffic_theme.profiles.graph_modifiers.class_instance_adder import ClassInstanceAdder
@@ -29,6 +29,14 @@ def add_class_instance_values(g: Graph, resource: ClassInstance):
     for p, o in resource.predicate_objects():
         o_adder = get_adder(o)
         o_adder.add_to_graph(g, instance_iri, p, o)
+        if isinstance(instance_iri, BNode):
+            print("ADD BNODE VALUES")
+            print(p)
+            print(o)
+            for pp, oo in g.predicate_objects(instance_iri):
+                print("ÅÅÅ")
+                print(pp)
+                print(oo)
         if isinstance(o, ClassInstance):
             add_class_instance_values(g, o)
 

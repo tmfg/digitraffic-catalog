@@ -18,8 +18,8 @@ class Distribution(ClassInstance):
         super().__init__(iri, DCAT.Distribution)
         self.accessURL = Literal(data["url"])
         self.format = URIRef(data["format"])
-        self.mobilityDataStandard = MobilityDataStandard(iri + '/mobility-data-standard', data["mobility_data_standard_version"], data["mobility_data_standard_schema"])
-        self.rights = RightsStatement(iri + '/rights-statement', data["rights_type"])
+        self.mobilityDataStandard = MobilityDataStandard(None, data["mobility_data_standard_version"], data["mobility_data_standard_schema"])
+        self.rights = RightsStatement(None, data["rights_type"])
 
     def predicate_objects(self):
         return [

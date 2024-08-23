@@ -9,7 +9,7 @@ class MobilityDataStandard(ClassInstance):
     version: Literal
     schema: Literal
 
-    def __init__(self, iri:str, version: str, schema: str):
+    def __init__(self, iri:str|None, version: str, schema: str):
         super().__init__(iri, MOBILITYDCATAP.MobilityDataStandard)
         self.version = Literal(version)
         self.schema = Literal(schema)

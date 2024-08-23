@@ -23,10 +23,10 @@ class MobilityData:
             "mobility_theme_sub": MobilityThemeSub(dataset_dict["mobility_theme_sub"]),
             "spatial": Location(dataset_dict["spatial"]),
             "title": Literal(dataset_dict["name"]),
-            "publisher": Agent(str(dataset_ref) + '/publisher', dataset_dict["publisher_name"])
+            "publisher": Agent(None, dataset_dict["publisher_name"])
         })
         # Catalog Record
-        self.catalog_record = CatalogRecord(str(dataset_ref).replace("/dataset/", "/catalog-record/"), {
+        self.catalog_record = CatalogRecord(None, {
             "created": Literal(dataset_dict["metadata_created"]),
             "language": Language(dataset_dict["metadata_language"]),
             "primary_topic": dataset,
