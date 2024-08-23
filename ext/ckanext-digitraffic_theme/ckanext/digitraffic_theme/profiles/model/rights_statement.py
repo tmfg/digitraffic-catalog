@@ -5,7 +5,7 @@ from ckanext.digitraffic_theme.profiles.model.class_instance import ClassInstanc
 class RightsStatement(ClassInstance):
     rights_type: Literal
 
-    def __init__(self, iri: str, rights_type: str):
+    def __init__(self, iri: str|None, rights_type: str):
         super().__init__(iri, DCTERMS.RightsStatement)
         self.rights_type = Literal(rights_type)
 

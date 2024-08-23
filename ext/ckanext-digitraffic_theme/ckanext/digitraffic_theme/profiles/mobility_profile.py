@@ -1,4 +1,4 @@
-from rdflib import Graph, DCTERMS, URIRef, Literal, DCAT, RDF
+from rdflib import Graph, DCTERMS, URIRef, Literal, DCAT, RDF, BNode
 
 from ckanext.dcat.profiles import RDFProfile
 from ckanext.digitraffic_theme.profiles.graph_modifiers.adder_util import add_class_instance_with_children, \
@@ -59,13 +59,13 @@ class MobilityDCATAPProfile(RDFProfile):
                         p == RDF.type or
                         p == DCAT.accessURL):
                     g.remove((dist, p, o))
-        # We'll end up adding Dataset metadata when injecting record
-        self.inject_record(mobility_data, dataset_ref)
-
         # Remove leftovers
         for s, p, o in g:
-            if not isinstance(s, URIRef):
+            if (isinstance(s, BNode) and
+                    (None, None, s) not in g):
                 g.remove((s, p, o))
+        # We'll end up adding Dataset metadata when injecting record
+        self.inject_record(mobility_data, dataset_ref)
 
     def graph_from_catalog(self, catalog_dict, catalog_ref):
         g: Graph = self.g
@@ -77,7 +77,7 @@ class MobilityDCATAPProfile(RDFProfile):
         MobilityDCATAPProfile.add_literal(g, catalog_ref, DCTERMS.description,
                                           Literal("Digitraffic Catalog description"))
         MobilityDCATAPProfile.add_class_instance_with_children(g, catalog_ref, DCTERMS.publisher,
-                                                               Agent(catalog_ref + "/publisher", "Digitraffic"))
+                                                               Agent(None, "Digitraffic"))
         MobilityDCATAPProfile.add_vocabulary(g, catalog_ref, DCTERMS.spatial,
                                              Location('http://data.europa.eu/nuts/code/FI'))
         MobilityDCATAPProfile.add_literal(g, catalog_ref, DCTERMS.title, Literal("Digitraffic Catalog"))
@@ -94,7 +94,6 @@ class MobilityDCATAPProfile(RDFProfile):
         # We end up with an exception when metadata is asked only for a Dataset. In that situation, there is no catalog_ref
         except Exception:
             add_class_instance_values(g, mobility_data.catalog_record.primary_topic)
-
 
     @staticmethod
     def add_vocabulary(g: Graph, subject: URIRef, predicate: URIRef, obj: Vocabulary):

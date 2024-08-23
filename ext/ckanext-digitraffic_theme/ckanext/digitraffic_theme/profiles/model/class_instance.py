@@ -3,15 +3,15 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from typing import List, Any
 
-from rdflib import URIRef, RDF
+from rdflib import URIRef, RDF, BNode
 
 
 class ClassInstance(ABC):
-    iri: URIRef
+    iri: URIRef|BNode
     type: RDF.type
 
-    def __init__(self, iri: str, type: RDF.type):
-        self.iri = URIRef(iri)
+    def __init__(self, iri: str | None, type: RDF.type):
+        self.iri = URIRef(iri) if iri is not None else BNode()
         self.type = type
 
     @abstractmethod
