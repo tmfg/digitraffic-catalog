@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from rdflib import Literal, DCTERMS, RDF
 from ckanext.digitraffic_theme.profiles.model.class_instance import ClassInstance
 

@@ -24,6 +24,8 @@ services:
         condition: service_started
       solr:
         condition: service_started
+      redis:
+        condition: service_started
       ckan-init:
           condition: service_completed_successfully
     env_file:
@@ -55,6 +57,8 @@ services:
     env_file:
       - .env_ckan_common
       - .env_nginx
+  redis:
+    image: redis:7.4.0
 volumes:
   ckanext:
     driver: local

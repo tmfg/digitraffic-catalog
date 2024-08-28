@@ -5,6 +5,7 @@ from rdflib import Literal, DCAT, DCTERMS, RDF, URIRef
 from ckanext.digitraffic_theme.profiles.model.agent import Agent
 from ckanext.digitraffic_theme.profiles.model.class_instance import ClassInstance
 from ckanext.digitraffic_theme.profiles.model.distribution import Distribution
+from ckanext.digitraffic_theme.profiles.model.frequency import Frequency
 from ckanext.digitraffic_theme.profiles.model.location import Location
 from ckanext.digitraffic_theme.profiles.model.mobility_theme import MobilityTheme
 from ckanext.digitraffic_theme.profiles.model.mobility_theme_sub import MobilityThemeSub
@@ -14,7 +15,7 @@ from ckanext.digitraffic_theme.profiles.rdf.mobility_dcat_ap import MOBILITYDCAT
 class DatasetInput(TypedDict):
     description: Literal
     distribution: List[Distribution]
-    accrualPeriodicity: URIRef
+    accrualPeriodicity: Frequency
     mobility_theme: MobilityTheme
     mobility_theme_sub: MobilityThemeSub
     spatial: Location
@@ -25,7 +26,7 @@ class DatasetInput(TypedDict):
 class Dataset(ClassInstance):
     description: Literal
     distribution: List[Distribution]
-    accrualPeriodicity: URIRef
+    accrualPeriodicity: Frequency
     mobility_theme: MobilityTheme
     mobility_theme_sub: MobilityThemeSub
     spatial: Location

@@ -1,3 +1,4 @@
+from __future__ import annotations
 from rdflib import Graph, URIRef, BNode
 
 from ckanext.digitraffic_theme.profiles.graph_modifiers.adder import Adder
