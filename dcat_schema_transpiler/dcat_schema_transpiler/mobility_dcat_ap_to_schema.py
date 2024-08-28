@@ -24,4 +24,6 @@ class MobilityDCATAPToSchema:
     def dataset_fields(ds: Dataset) -> List:
         catalog_record = RDFSClass.from_ds(DCAT.CatalogRecord, ds)
 
-        return ClassConverter.convert(catalog_record, ds, omit={DCAT.Distribution: 'all'})
+        return ClassConverter.convert(catalog_record, ds, omit={DCAT.Distribution: 'all',
+                                                                # Dataset publisher is set to the organization
+                                                                DCAT.Dataset: {DCTERMS.publisher}})

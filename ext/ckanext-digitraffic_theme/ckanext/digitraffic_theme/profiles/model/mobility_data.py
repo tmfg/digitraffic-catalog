@@ -5,6 +5,7 @@ from ckanext.digitraffic_theme.profiles.model.agent import Agent
 from ckanext.digitraffic_theme.profiles.model.catalog_record import CatalogRecord
 from ckanext.digitraffic_theme.profiles.model.dataset import Dataset
 from ckanext.digitraffic_theme.profiles.model.distribution import Distribution
+from ckanext.digitraffic_theme.profiles.model.frequency import Frequency
 from ckanext.digitraffic_theme.profiles.model.language import Language
 from ckanext.digitraffic_theme.profiles.model.location import Location
 from ckanext.digitraffic_theme.profiles.model.mobility_theme import MobilityTheme
@@ -18,12 +19,12 @@ class MobilityData:
         dataset = Dataset(dataset_ref, {
             "description": Literal(dataset_dict["notes"]),
             "distribution": [Distribution(str(dataset_ref) + '/resource/' + dist['id'], dist) for dist in dataset_dict["resources"]],
-            "accrualPeriodicity": URIRef(dataset_dict["frequency"]),
+            "accrualPeriodicity": Frequency(dataset_dict["frequency"]),
             "mobility_theme": MobilityTheme(dataset_dict["mobility_theme"]),
             "mobility_theme_sub": MobilityThemeSub(dataset_dict["mobility_theme_sub"]),
             "spatial": Location(dataset_dict["spatial"]),
             "title": Literal(dataset_dict["name"]),
-            "publisher": Agent(None, dataset_dict["publisher_name"])
+            "publisher": Agent(None, dataset_dict["organization"]["name"])
         })
         # Catalog Record
         self.catalog_record = CatalogRecord(None, {

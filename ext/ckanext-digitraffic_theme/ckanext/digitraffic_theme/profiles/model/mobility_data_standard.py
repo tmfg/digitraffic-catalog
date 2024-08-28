@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from rdflib import Literal, RDF
 
 from ckanext.dcat.profiles import OWL

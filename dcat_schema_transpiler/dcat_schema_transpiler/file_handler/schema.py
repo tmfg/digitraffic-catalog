@@ -19,7 +19,7 @@ def sort_by_field_name(order_list: List[str], field: Dict[str, Any]):
 
 
 def sort_dataset_fields(dataset_fields: List[Dict[str, Any]]):
-    order = ['owner_org', 'name', 'notes', 'metadata_language', 'publisher_name', 'mobility_theme',
+    order = ['owner_org', 'name', 'notes', 'metadata_language', 'mobility_theme',
              'mobility_theme_sub', 'frequency']
     dataset_fields.sort(key=partial(sort_by_field_name, order))
 

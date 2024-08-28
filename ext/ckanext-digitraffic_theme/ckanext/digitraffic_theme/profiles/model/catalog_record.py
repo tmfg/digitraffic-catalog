@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import TypedDict
 
 from rdflib import Literal, DCAT, DCTERMS, RDF, FOAF
