@@ -23,7 +23,7 @@ class MobilityDCATAPProfile(RDFProfile):
             add_old = graph.add
             catalog_ref: URIRef = self._get_root_catalog_ref()
 
-            # By default, catalog_ref points directly to datasets. We do not want that as it should poit to catalog
+            # By default, catalog_ref points directly to datasets. We do not want that as it should point to catalog
             # records. Unfortunately, ckanext-dcat sets the datasets to catalog metadata after calling profile
             # methods so there is no sensible way to remove the references. Therefore, we use monkey patching to
             # prevent catalog having a reference to datasets
@@ -53,6 +53,8 @@ class MobilityDCATAPProfile(RDFProfile):
             g.remove((dataset_ref, DCTERMS.spatial, obj))
         for obj in g.objects(dataset_ref, DCTERMS.accrualPeriodicity):
             g.remove((dataset_ref, DCTERMS.accrualPeriodicity, obj))
+        for obj in g.objects(dataset_ref, DCTERMS.title):
+            g.remove((dataset_ref, DCTERMS.title, obj))
         for dist in g.objects(dataset_ref, DCAT.distribution):
             for p, o in g.predicate_objects(dist):
                 if (p == DCTERMS.format or
