@@ -15,3 +15,10 @@ echo "Configuring extensions..."
 #ckan config-tool $CKAN_INI "ckan.matomo.script_domain=jepjep"
 #ckan config-tool $CKAN_INI "ckan.matomo.token_auth=jepjep"
 #ckan config-tool $CKAN_INI "ckan.matomo.ignored_user_agents = docker-healthcheck"
+
+# scheming
+ckan config-tool $CKAN_INI "scheming.dataset_schemas = ckanext.digitraffic_theme.schemas:mobility_dcat.yaml"
+
+# DCAT
+ckan config-tool $CKAN_INI "ckanext.dcat.enable_content_negotiation = True"
+ckan config-tool $CKAN_INI "ckanext.dcat.rdf.profiles = euro_dcat_ap mobility_dcat_ap"

@@ -65,7 +65,7 @@ RUN  mkdir -p ${SRC_DIR} && \
     mkdir /etc/supervisord.d && \
     rm -rf ${SRC_DIR}/get-pip.py
 
-COPY setup/supervisord.conf /etc
+COPY setup/supervisord.conf /etc/supervisord.d/
 
 # Install CKAN
 RUN pip3 install -e git+${GIT_URL}@${GIT_BRANCH}#egg=ckan && \

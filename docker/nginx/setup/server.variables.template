@@ -1,0 +1,1 @@
+set ${DOLLAR}ckan_target ${NGINX_CKAN_TARGET};
