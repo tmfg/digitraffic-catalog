@@ -16,10 +16,8 @@ class RightsStatement(RangeValueConverter):
 
     def get_schema(self, ds: Dataset, clazz: RDFSClass, clazz_p: RDFSProperty):
         if self.is_class_specific_converter(clazz) and clazz_p.is_iri(RDFS.label):
-            label_value = 'Additional information for access and usage'
-            field_name = RangeValueConverter.ckan_field(clazz.iri, clazz_p)
-            return {
-                "field_name": field_name,
-                "label": label_value
-            }
+            return dict(
+                field_name=RangeValueConverter.ckan_field(clazz.iri, clazz_p),
+                label='Additional information for access and usage'
+            )
         return super().get_schema(ds, clazz, clazz_p)
