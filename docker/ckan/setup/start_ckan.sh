@@ -15,7 +15,7 @@ fi
 
 # Change default locale
 ckan config-tool $CKAN_INI "ckan.locale_default=fi"
-ckan config-tool $CKAN_INI "ckan.locale_default=fi en sv"
+ckan config-tool $CKAN_INI "ckan.locales_offered=fi en sv"
 
 # Run the prerun script to init CKAN
 python3 prerun.py
