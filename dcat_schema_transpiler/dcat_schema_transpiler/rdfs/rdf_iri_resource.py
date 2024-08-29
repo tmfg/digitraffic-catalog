@@ -60,7 +60,7 @@ class IRIResource(Resource):
         return namespace, iri, tuple(URIRef(node) for node in g.objects(iri, RDF.type))
 
     def turtle_format(self, p_o_tuples: Tuple[(URIRef, Tuple[Any, ...]), ...]):
-        spaces_s = "   " + " " * len(str(self.iri))
+        spaces_s = " " * (3 + len(str(self.iri)))
         linesep = ";" + os.linesep + spaces_s
         types_str = ("," + os.linesep + spaces_s + "  ").join(self.types) + linesep
 
