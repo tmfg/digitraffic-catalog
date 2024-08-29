@@ -1,9 +1,29 @@
-.sass-cache
-.idea
-*.iml
-node_modules
-.env
+*
 
-**/tmp
-**/venv
-**/__pycache__
+!dcat_schema_transpiler
+!docker
+!docker/**
+!ext
+!ext/ckanext-digitraffic_theme
+!ext/ckanext-digitraffic_theme/*/
+!ext/ckanext-entraid_authenticator
+!ext/ckanext-entraid_authenticator/*/
+
+!local-env
+!local-env/**
+
+!.gitignore
+!bundle-css.sh
+!package.json
+!package-lock.json
+!README.md
+
+# Github
+!.github/
+!.github/**/
+!.github/workflows/**/**.yml
+!.github/CODEOWNERS
+!/.github/dependabot.yml
+
+docker/ckan/ckanext
+local-env/.env_entra

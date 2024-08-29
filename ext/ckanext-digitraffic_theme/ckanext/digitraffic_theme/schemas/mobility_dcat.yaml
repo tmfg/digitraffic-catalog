@@ -1,0 +1,1540 @@
+scheming_version: 2
+dataset_type: dataset
+dataset_fields:
+- field_name: owner_org
+  label: Organization
+  preset: dataset_organization
+- field_name: name
+  label: Title
+- field_name: notes
+  label: Description
+- field_name: metadata_language
+  label: Metadata Language
+  preset: select
+  choices:
+  - value: http://publications.europa.eu/resource/authority/language/ENG
+    label: English
+  - value: http://publications.europa.eu/resource/authority/language/FIN
+    label: Finnish
+  - value: http://publications.europa.eu/resource/authority/language/SWE
+    label: Swedish
+- field_name: mobility_theme
+  label: Data content category
+  preset: select
+  choices:
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/air-and-space-travel
+    label: Air and space travel
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/cycle-network-data
+    label: Cycle network data
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/dynamic-traffic-signs-and-regulations
+    label: Dynamic traffic signs and regulations
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/filling-and-charging-stations
+    label: Filling and charging stations
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/freight-and-logistics
+    label: Freight and logistics
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/general-information-for-trip-planning-
+    label: General information for trip-planning
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/other
+    label: Other
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/parking-service-and-rest-area-information
+    label: Parking, service and rest area information
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/pedestrian-network-data
+    label: Pedestrian network data
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/public-transport-non-scheduled-transport
+    label: Public transport non-scheduled transport
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/public-transport-scheduled-transport
+    label: Public transport scheduled transport
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/real-time-traffic-data
+    label: Real-time traffic data
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/road-events-and-conditions
+    label: Road events and conditions
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/road-work-information
+    label: Road work information
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/sharing-and-hiring-services
+    label: Sharing and Hiring Services
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/static-road-network-data
+    label: Static road network data
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/static-traffic-signs-and-regulations
+    label: Static traffic signs and regulations
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/toll-information
+    label: Toll information
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/waterways-and-water-bodies
+    label: Waterways and water bodies
+- field_name: mobility_theme_sub
+  label: Data content sub category
+  preset: select
+  choices:
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/accesibility-information-for-vehicles
+    label: Accesibility information for vehicles
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/accidents-and-incidents
+    label: Accidents and incidents
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/address-identifiers
+    label: Address identifiers
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/applicable-road-user-charges-and-payment-methods
+    label: Applicable road user charges and payment methods
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/availability-of-charging-points-for-electric-vehicles
+    label: Availability of charging points for electric vehicles
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/availability-of-delivery-areas
+    label: Availability of delivery areas
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/availability-of-filling-stations
+    label: Availability of filling stations
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/basic-commercial-conditions
+    label: Basic commercial conditions
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/basic-common-standard-fares
+    label: Basic common standard fares
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/bike-hiring-availability
+    label: Bike-hiring Availability
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/bike-hiring-stations
+    label: Bike-hiring Stations
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/bike-parking-locations
+    label: Bike-parking locations
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/bike-sharing-availability
+    label: Bike sharing Availability
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/bike-sharing-locations-and-stations
+    label: Bike-sharing Locations and stations
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/bridge-access-conditions
+    label: Bridge access conditions
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/bridge-closures-and-access-conditions
+    label: Bridge closures and access conditions
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/car-hiring-availability
+    label: Car-hiring Availability
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/car-hiring-stations
+    label: Car-hiring Stations
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/car-parking-availability
+    label: Car parking availability
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/car-parking-locations-and-conditions
+    label: Car parking locations and conditions
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/car-sharing-availability
+    label: Car-sharing Availability
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/car-sharing-locations-and-stations
+    label: Car-sharing Locations and stations
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/common-fare-products
+    label: Common fare products
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/connection-links
+    label: Connection links
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/current-travel-times
+    label: Current travel times
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/direction-of-travel-on-reversible-lanes
+    label: Direction of travel on reversible lanes
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/disruptions-delays-cancellations
+    label: Disruptions, delays, cancellations
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/dynamic-overtaking-bans-on-heavy-goods-vehicles
+    label: Dynamic overtaking bans on heavy goods vehicles
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/dynamic-speed-limits
+    label: Dynamic speed limits
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/e-scooter-sharing-availability
+    label: E-scooter-sharing Availability
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/e-scooter-sharing-locations-and-stations
+    label: E-scooter-sharing Locations and stations
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/environmental-standards-for-vehicles
+    label: Environmental standards for vehicles
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/expected-delays
+    label: Expected delays
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/fares
+    label: Fares
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/freight-delivery-regulations
+    label: Freight delivery regulations
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/geometry
+    label: Geometry
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/gradients
+    label: Gradients
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/hours-of-operation
+    label: Hours of operation
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/identification-of-tolled-roads
+    label: Identification of tolled roads
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/junctions
+    label: Junctions
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/lane-closures-and-access-conditions
+    label: Lane closures and access conditions
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/location-and-conditions-of-charging-points
+    label: Location and conditions of charging points
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/location-and-conditions-of-filling-stations
+    label: Location and conditions of filling stations
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/location-and-length-of-queues
+    label: Location and length of queues
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/location-of-delivery-areas
+    label: Location of delivery areas
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/location-of-tolling-stations
+    label: Location of tolling stations
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/locations-and-stations
+    label: Locations and stations
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/long-term-road-works
+    label: Long-term road works
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/network-closures-diversions
+    label: Network closures/diversions
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/network-detailed-attributes
+    label: Network detailed attributes
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/network-geometry-and-lane-character
+    label: Network geometry and lane character
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/network-topology-and-routes-lines
+    label: Network topology and routes/lines
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/number-of-lanes
+    label: Number of lanes
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/operational-calendar
+    label: Operational Calendar
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/other-access-restrictions-and-traffic-regulations
+    label: Other access restrictions and traffic regulations
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/other-static-traffic-signs
+    label: Other static traffic signs
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/other-temporary-traffic-management-measures-or-plans
+    label: Other temporary traffic management measures or plans
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/other-traffic-regulations
+    label: Other traffic regulations
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/parameters-needed-to-calculate-costs
+    label: Parameters needed to calculate costs
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/parameters-needed-to-calculate-environmental-factors
+    label: Parameters needed to calculate environmental factors
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/park-and-ride-stops
+    label: Park and Ride stops
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/passenger-classes
+    label: Passenger classes
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/payment-methods
+    label: Payment methods
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/payment-methods-for-tolls
+    label: Payment methods for tolls
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/pedestrian-accessibility-facilities
+    label: Pedestrian accessibility facilities
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/pedestrian-network-geometry
+    label: Pedestrian network geometry
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/permanent-access-restrictions
+    label: Permanent access restrictions
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/planned-interchanges-between-scheduled-services
+    label: Planned interchanges between scheduled services
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/points-of-interest
+    label: Points of interest
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/poor-road-conditions
+    label: Poor road conditions
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/predicted-travel-times
+    label: Predicted travel times
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/provider-data
+    label: Provider data
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/purchase-information
+    label: Purchase information
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/real-time-estimated-departure-and-arrival-times
+    label: Real-time estimated departure and arrival times
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/reservation-and-purchase-options
+    label: Reservation and purchase options
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/road-classification
+    label: Road classification
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/road-closures-and-access-conditions
+    label: Road closures and access conditions
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/road-weather-conditions
+    label: Road weather conditions
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/road-width
+    label: Road width
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/service-and-rest-area-availability
+    label: Service and rest area availability
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/service-and-rest-area-locations-and-conditions
+    label: Service and rest area locations and conditions
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/service-areas-and-service-times
+    label: Service areas and service times
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/short-term-road-works
+    label: Short-term road works
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/special-fare-products
+    label: Special Fare Products
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/speed
+    label: Speed
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/speed-limits
+    label: Speed limits
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/stop-facilities-accessibility-and-paths-within-facility
+    label: Stop facilities accessibility and paths within facility
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/stop-facilities-geometry-and-map-layout
+    label: Stop facilities geometry and map layout
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/stop-facilities-location-and-features
+    label: Stop facilities location and features
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/stop-facilities-status-of-features
+    label: Stop facilities status of features
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/timetables-static
+    label: Timetables static
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/topographic-places
+    label: Topographic places
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/traffic-circulation-plans
+    label: Traffic circulation plans
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/traffic-data-at-border-crossings-to-third-countries
+    label: Traffic data at border crossings to third countries
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/traffic-volume
+    label: Traffic volume
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/transport-operators
+    label: Transport operators
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/truck-parking-availability
+    label: Truck parking availability
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/truck-parking-locations-and-conditions
+    label: Truck parking locations and conditions
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/tunnel-access-conditions
+    label: Tunnel access conditions
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/tunnel-closures-and-access-conditions
+    label: Tunnel closures and access conditions
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/vehicle-details
+    label: Vehicle details
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/waiting-time-at-border-crossings-to-non-eu-member-states
+    label: Waiting time at border crossings to non-EU Member States
+- field_name: frequency
+  label: Frequency
+  preset: select
+  choices:
+  - value: https://w3id.org/mobilitydcat-ap/update-frequency/30min
+    label: 30min
+  - value: https://w3id.org/mobilitydcat-ap/update-frequency/5min
+    label: 5min
+  - value: https://w3id.org/mobilitydcat-ap/update-frequency/12h
+    label: 12h
+  - value: https://w3id.org/mobilitydcat-ap/update-frequency/24h
+    label: 24h
+  - value: https://w3id.org/mobilitydcat-ap/update-frequency/3h
+    label: 3h
+  - value: https://w3id.org/mobilitydcat-ap/update-frequency/6-months
+    label: 6 months
+  - value: https://w3id.org/mobilitydcat-ap/update-frequency/1min
+    label: 1min
+  - value: https://w3id.org/mobilitydcat-ap/update-frequency/3-months
+    label: 3 months
+  - value: https://w3id.org/mobilitydcat-ap/update-frequency/less-than-yearly
+    label: Less than yearly
+  - value: https://w3id.org/mobilitydcat-ap/update-frequency/1h
+    label: 1h
+  - value: https://w3id.org/mobilitydcat-ap/update-frequency/15min
+    label: 15min
+  - value: https://w3id.org/mobilitydcat-ap/update-frequency/10min
+    label: 10min
+  - value: https://w3id.org/mobilitydcat-ap/update-frequency/2h
+    label: 2h
+  - value: http://publications.europa.eu/resource/authority/frequency/OTHER
+    label: other
+  - value: http://publications.europa.eu/resource/authority/frequency/BIWEEKLY
+    label: biweekly
+  - value: http://publications.europa.eu/resource/authority/frequency/UNKNOWN
+    label: unknown
+  - value: http://publications.europa.eu/resource/authority/frequency/CONT
+    label: continuous
+  - value: http://publications.europa.eu/resource/authority/frequency/ANNUAL_2
+    label: semiannual
+  - value: http://publications.europa.eu/resource/authority/frequency/IRREG
+    label: irregular
+  - value: http://publications.europa.eu/resource/authority/frequency/MONTHLY_2
+    label: semimonthly
+  - value: http://publications.europa.eu/resource/authority/frequency/WEEKLY
+    label: weekly
+  - value: http://publications.europa.eu/resource/authority/frequency/HOURLY
+    label: hourly
+  - value: http://publications.europa.eu/resource/authority/frequency/QUADRENNIAL
+    label: quadrennial
+  - value: http://publications.europa.eu/resource/authority/frequency/UPDATE_CONT
+    label: continuously updated
+  - value: http://publications.europa.eu/resource/authority/frequency/BIDECENNIAL
+    label: bidecennial
+  - value: http://publications.europa.eu/resource/authority/frequency/TRIENNIAL
+    label: triennial
+  - value: http://publications.europa.eu/resource/authority/frequency/DAILY
+    label: daily
+  - value: http://publications.europa.eu/resource/authority/frequency/TRIHOURLY
+    label: trihourly
+  - value: http://publications.europa.eu/resource/authority/frequency/AS_NEEDED
+    label: as needed
+  - value: http://publications.europa.eu/resource/authority/frequency/MONTHLY
+    label: monthly
+  - value: http://publications.europa.eu/resource/authority/frequency/WEEKLY_3
+    label: three times a week
+  - value: http://publications.europa.eu/resource/authority/frequency/DECENNIAL
+    label: decennial
+  - value: http://publications.europa.eu/resource/authority/frequency/BIMONTHLY
+    label: bimonthly
+  - value: http://publications.europa.eu/resource/authority/frequency/TRIDECENNIAL
+    label: tridecennial
+  - value: http://publications.europa.eu/resource/authority/frequency/ANNUAL
+    label: annual
+  - value: http://publications.europa.eu/resource/authority/frequency/NOT_PLANNED
+    label: not planned
+  - value: http://publications.europa.eu/resource/authority/frequency/WEEKLY_2
+    label: semiweekly
+  - value: http://publications.europa.eu/resource/authority/frequency/BIENNIAL
+    label: biennial
+  - value: http://publications.europa.eu/resource/authority/frequency/BIHOURLY
+    label: bihourly
+  - value: http://publications.europa.eu/resource/authority/frequency/ANNUAL_3
+    label: three times a year
+  - value: http://publications.europa.eu/resource/authority/frequency/QUARTERLY
+    label: quarterly
+  - value: http://publications.europa.eu/resource/authority/frequency/MONTHLY_3
+    label: three times a month
+  - value: http://publications.europa.eu/resource/authority/frequency/DAILY_2
+    label: twice a day
+  - value: http://publications.europa.eu/resource/authority/frequency/NEVER
+    label: never
+  - value: http://publications.europa.eu/resource/authority/frequency/OP_DATPRO
+    label: Provisional data
+  - value: http://publications.europa.eu/resource/authority/frequency/QUINQUENNIAL
+    label: quinquennial
+- field_name: spatial
+  label: Location
+  preset: select
+  choices:
+  - value: http://data.europa.eu/nuts/code/FIZZ
+    label: FIZZ Extra-Regio NUTS 2
+  - value: http://data.europa.eu/nuts/code/FI1DB
+    label: FI1DB Pohjois-Savo
+  - value: http://data.europa.eu/nuts/code/FIZ
+    label: FIZ Extra-Regio NUTS 1
+  - value: http://data.europa.eu/nuts/code/FI196
+    label: FI196 Satakunta
+  - value: http://data.europa.eu/nuts/code/FI1C2
+    label: FI1C2 Kanta-Häme
+  - value: http://data.europa.eu/nuts/code/FI19B
+    label: FI19B Pirkanmaa
+  - value: http://data.europa.eu/nuts/code/FI1D8
+    label: FI1D8 Kainuu
+  - value: http://data.europa.eu/nuts/code/FI1D5
+    label: FI1D5 Keski-Pohjanmaa
+  - value: http://data.europa.eu/nuts/code/FI1DC
+    label: FI1DC Pohjois-Karjala
+  - value: http://data.europa.eu/nuts/code/FI199
+    label: FI199 Etelä-Pohjanmaa
+  - value: http://data.europa.eu/nuts/code/FI1D7
+    label: FI1D7 Lappi
+  - value: http://data.europa.eu/nuts/code/FI
+    label: FI Suomi/Finland
+  - value: http://data.europa.eu/nuts/code/FIZZZ
+    label: FIZZZ Extra-Regio NUTS 3
+  - value: http://data.europa.eu/nuts/code/FI20
+    label: FI20 Åland
+  - value: http://data.europa.eu/nuts/code/FI1C1
+    label: FI1C1 Varsinais-Suomi
+  - value: http://data.europa.eu/nuts/code/FI1B1
+    label: FI1B1 Helsinki-Uusimaa
+  - value: http://data.europa.eu/nuts/code/FI1B
+    label: FI1B Helsinki-Uusimaa
+  - value: http://data.europa.eu/nuts/code/FI2
+    label: FI2 Åland
+  - value: http://data.europa.eu/nuts/code/FI1C6
+    label: FI1C6 Päijät-Häme
+  - value: http://data.europa.eu/nuts/code/FI1C5
+    label: FI1C5 Etelä-Karjala
+  - value: http://data.europa.eu/nuts/code/FI19A
+    label: FI19A Pohjanmaa
+  - value: http://data.europa.eu/nuts/code/FI1C
+    label: FI1C Etelä-Suomi
+  - value: http://data.europa.eu/nuts/code/FI1D
+    label: FI1D Pohjois- ja Itä-Suomi
+  - value: http://data.europa.eu/nuts/code/FI1DA
+    label: FI1DA Etelä-Savo
+  - value: http://data.europa.eu/nuts/code/FI1C7
+    label: FI1C7 Kymenlaakso
+  - value: http://data.europa.eu/nuts/code/FI198
+    label: FI198 Keski-Suomi
+  - value: http://data.europa.eu/nuts/code/FI200
+    label: FI200 Åland
+  - value: http://data.europa.eu/nuts/code/FI1D9
+    label: FI1D9 Pohjois-Pohjanmaa
+  - value: http://data.europa.eu/nuts/code/FI1
+    label: FI1 Manner-Suomi
+  - value: http://data.europa.eu/nuts/code/FI19
+    label: FI19 Länsi-Suomi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_285
+    label: Kotka
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_859
+    label: Tyrnävä
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_146
+    label: Ilomantsi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_563
+    label: Oulainen
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_535
+    label: Nivala
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_635
+    label: Pälkäne
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_921
+    label: Vesanto
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_892
+    label: Uurainen
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_272
+    label: Kokkola
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_010
+    label: Alavus
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_260
+    label: Kitee
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_275
+    label: Konnevesi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_318
+    label: Kökar
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_151
+    label: Isojoki
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_261
+    label: Kittilä
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_140
+    label: Iisalmi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_630
+    label: Pyhäntä
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_050
+    label: Eura
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_236
+    label: Kaustinen
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_179
+    label: Jyväskylä
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_499
+    label: Mustasaari
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_739
+    label: Savitaipale
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_071
+    label: Haapavesi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_747
+    label: Siikainen
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_683
+    label: Ranua
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_778
+    label: Suonenjoki
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_832
+    label: Taivalkoski
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_484
+    label: Merikarvia
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_624
+    label: Pyhtää
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_935
+    label: Virolahti
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_851
+    label: Tornio
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_976
+    label: Ylitornio
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_108
+    label: Hämeenkyrö
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_922
+    label: Vesilahti
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_936
+    label: Virrat
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_176
+    label: Juuka
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_702
+    label: Ruovesi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_686
+    label: Rautalampi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_440
+    label: Luoto
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_301
+    label: Kurikka
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_441
+    label: Luumäki
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_895
+    label: Uusikaupunki
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_581
+    label: Parkano
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_398
+    label: Lahti
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_893
+    label: Uusikaarlepyy
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_077
+    label: Hankasalmi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_291
+    label: Kuhmoinen
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_142
+    label: Iitti
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_538
+    label: Nousiainen
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_777
+    label: Suomussalmi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_079
+    label: Harjavalta
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_850
+    label: Toivakka
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_691
+    label: Reisjärvi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_623
+    label: Puumala
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_286
+    label: Kouvola
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_992
+    label: Äänekoski
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_240
+    label: Kemi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_098
+    label: Hollola
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_529
+    label: Naantali
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_694
+    label: Riihimäki
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_436
+    label: Lumijoki
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_434
+    label: Loviisa
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_908
+    label: Valkeakoski
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_541
+    label: Nurmes
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_181
+    label: Jämijärvi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_698
+    label: Rovaniemi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_020
+    label: Akaa
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_060
+    label: Finström
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_086
+    label: Hausjärvi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_689
+    label: Rautjärvi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_213
+    label: Kangasniemi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_508
+    label: Mänttä-Vilppula
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_738
+    label: Sauvo
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_854
+    label: Pello
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_543
+    label: Nurmijärvi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_407
+    label: Lapinjärvi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_475
+    label: Maalahti
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_886
+    label: Ulvila
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_766
+    label: Sottunga
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_740
+    label: Savonlinna
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_322
+    label: Kemiönsaari
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_619
+    label: Punkalaidun
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_743
+    label: Seinäjoki
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_890
+    label: Utsjoki
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_172
+    label: Joutsa
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_500
+    label: Muurame
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_208
+    label: Kalajoki
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_420
+    label: Leppävirta
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_167
+    label: Joensuu
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_480
+    label: Marttila
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_598
+    label: Pietarsaari
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_074
+    label: Halsua
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_435
+    label: Luhanka
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_489
+    label: Miehikkälä
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_217
+    label: Kannus
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_046
+    label: Enonkoski
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_478
+    label: Maarianhamina - Mariehamn
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_402
+    label: Lapinlahti
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_009
+    label: Alavieska
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_607
+    label: Polvijärvi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_849
+    label: Toholampi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_103
+    label: Humppila
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_736
+    label: Saltvik
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_233
+    label: Kauhava
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_177
+    label: Juupajoki
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_280
+    label: Korsnäs
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_078
+    label: Hanko
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_601
+    label: Pihtipudas
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_111
+    label: Heinola
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_980
+    label: Ylöjärvi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_317
+    label: Kärsämäki
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_408
+    label: Lapua
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_149
+    label: Inkoo
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_052
+    label: Evijärvi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_845
+    label: Tervola
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_235
+    label: Kauniainen
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_580
+    label: Parikkala
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_905
+    label: Vaasa
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_732
+    label: Salla
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_755
+    label: Siuntio
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_576
+    label: Padasjoki
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_562
+    label: Orivesi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_257
+    label: Kirkkonummi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_687
+    label: Rautavaara
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_425
+    label: Liminka
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_205
+    label: Kajaani
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_681
+    label: Rantasalmi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_638
+    label: Porvoo
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_109
+    label: Hämeenlinna
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_047
+    label: Enontekiö
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_295
+    label: Kumlinge
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_625
+    label: Pyhäjoki
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_182
+    label: Jämsä
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_844
+    label: Tervo
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_069
+    label: Haapajärvi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_075
+    label: Hamina
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_245
+    label: Kerava
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_410
+    label: Laukaa
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_043
+    label: Eckerö
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_072
+    label: Hailuoto
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_700
+    label: Ruokolahti
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_578
+    label: Paltamo
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_232
+    label: Kauhajoki
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_790
+    label: Sastamala
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_169
+    label: Jokioinen
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_680
+    label: Raisio
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_697
+    label: Ristijärvi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_186
+    label: Järvenpää
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_090
+    label: Heinävesi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_097
+    label: Hirvensalmi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_438
+    label: Lumparland
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_748
+    label: Siikajoki
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_781
+    label: Sysmä
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_239
+    label: Keitele
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_430
+    label: Loimaa
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_143
+    label: Ikaalinen
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_545
+    label: Närpiö
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_751
+    label: Simo
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_608
+    label: Pomarkku
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_620
+    label: Puolanka
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_494
+    label: Muhos
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_284
+    label: Koski Tl
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_771
+    label: Sund
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_504
+    label: Myrskylä
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_931
+    label: Viitasaari
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_422
+    label: Lieksa
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_564
+    label: Oulu
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_887
+    label: Urjala
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_592
+    label: Petäjävesi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_421
+    label: Lestijärvi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_749
+    label: Siilinjärvi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_202
+    label: Kaarina
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_218
+    label: Karijoki
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_271
+    label: Kokemäki
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_145
+    label: Ilmajoki
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_091
+    label: Helsinki
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_507
+    label: Mäntyharju
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_924
+    label: Veteli
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_230
+    label: Karvia
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_946
+    label: Vöyri
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_584
+    label: Perho
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_759
+    label: Soini
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_889
+    label: Utajärvi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_762
+    label: Sonkajärvi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_614
+    label: Posio
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_631
+    label: Pyhäranta
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_178
+    label: Juva
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_977
+    label: Ylivieska
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_857
+    label: Tuusniemi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_256
+    label: Kinnula
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_049
+    label: Espoo
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_171
+    label: Joroinen
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_211
+    label: Kangasala
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_405
+    label: Lappeenranta
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_062
+    label: Föglö
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_615
+    label: Pudasjärvi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_742
+    label: Savukoski
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_593
+    label: Pieksämäki
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_927
+    label: Vihti
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_216
+    label: Kannonkoski
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_609
+    label: Pori
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_707
+    label: Rääkkylä
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_491
+    label: Mikkeli
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_918
+    label: Vehmaa
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_758
+    label: Sodankylä
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_018
+    label: Askola
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_561
+    label: Oripää
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_152
+    label: Isokyrö
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_035
+    label: Brändö
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_300
+    label: Kuortane
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_599
+    label: Pedersören kunta
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_416
+    label: Lemi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_595
+    label: Pielavesi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_445
+    label: Parainen
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_915
+    label: Varkaus
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_399
+    label: Laihia
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_105
+    label: Hyrynsalmi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_304
+    label: Kustavi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_288
+    label: Kruunupyy
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_263
+    label: Kiuruvesi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_204
+    label: Kaavi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_005
+    label: Alajärvi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_426
+    label: Liperi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_065
+    label: Geta
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_989
+    label: Ähtäri
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_265
+    label: Kivijärvi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_734
+    label: Salo
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_312
+    label: Kyyjärvi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_753
+    label: Sipoo
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_076
+    label: Hammarland
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_320
+    label: Kemijärvi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_505
+    label: Mäntsälä
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_102
+    label: Huittinen
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_834
+    label: Tammela
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_483
+    label: Merijärvi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_503
+    label: Mynämäki
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_290
+    label: Kuhmo
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_081
+    label: Hartola
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_250
+    label: Kihniö
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_616
+    label: Pukkila
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_941
+    label: Vårdö
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_403
+    label: Lappajärvi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_785
+    label: Vaala
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_604
+    label: Pirkkala
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_316
+    label: Kärkölä
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_934
+    label: Vimpeli
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_746
+    label: Sievi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_418
+    label: Lempäälä
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_241
+    label: Keminmaa
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_224
+    label: Karkkila
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_148
+    label: Inari
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_444
+    label: Lohja
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_481
+    label: Masku
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_495
+    label: Multia
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_577
+    label: Paimio
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_846
+    label: Teuva
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_297
+    label: Kuopio
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_423
+    label: Lieto
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_729
+    label: Saarijärvi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_082
+    label: Hattula
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_417
+    label: Lemland
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_853
+    label: Turku
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_791
+    label: Siikalatva
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_783
+    label: Säkylä
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_560
+    label: Orimattila
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_433
+    label: Loppi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_636
+    label: Pöytyä
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_925
+    label: Vieremä
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_139
+    label: Ii
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_858
+    label: Tuusula
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_249
+    label: Keuruu
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_051
+    label: Eurajoki
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_287
+    label: Kristiinankaupunki
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_092
+    label: Vantaa
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_309
+    label: Outokumpu
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_768
+    label: Sulkava
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_588
+    label: Pertunmaa
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_214
+    label: Kankaanpää
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_684
+    label: Rauma
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_536
+    label: Nokia
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_761
+    label: Somero
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_226
+    label: Karstula
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_273
+    label: Kolari
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_016
+    label: Asikkala
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_061
+    label: Forssa
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_305
+    label: Kuusamo
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_833
+    label: Taivassalo
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_611
+    label: Pornainen
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_165
+    label: Janakkala
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_498
+    label: Muonio
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_019
+    label: Aura
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_765
+    label: Sotkamo
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_231
+    label: Kaskinen
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_153
+    label: Imatra
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_710
+    label: Raasepori
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_678
+    label: Raahe
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_837
+    label: Tampere
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_276
+    label: Kontiolahti
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_626
+    label: Pyhäjärvi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_831
+    label: Taipalsaari
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_400
+    label: Laitila
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_583
+    label: Pelkosenniemi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_099
+    label: Honkajoki
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_531
+    label: Nakkila
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_848
+    label: Tohmajärvi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_170
+    label: Jomala
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_704
+    label: Rusko
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_244
+    label: Kempele
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_981
+    label: Ypäjä
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_106
+    label: Hyvinkää
+resource_fields:
+- field_name: url
+  label: access address
+  help_text: The value should be URL
+- field_name: format
+  label: Format
+  preset: select
+  choices:
+  - value: http://publications.europa.eu/resource/authority/file-type/TAR
+    label: TAR
+  - value: http://publications.europa.eu/resource/authority/file-type/GZIP
+    label: GNU zip
+  - value: http://publications.europa.eu/resource/authority/file-type/ZIP
+    label: ZIP
+  - value: http://publications.europa.eu/resource/authority/file-type/AZW
+    label: Amazon Kindle eBook
+  - value: http://publications.europa.eu/resource/authority/file-type/EPUB
+    label: EPUB
+  - value: http://publications.europa.eu/resource/authority/file-type/MOBI
+    label: Mobipocket eBook
+  - value: http://publications.europa.eu/resource/authority/file-type/GIF
+    label: GIF
+  - value: http://publications.europa.eu/resource/authority/file-type/JPEG
+    label: JPEG
+  - value: http://publications.europa.eu/resource/authority/file-type/TIFF
+    label: TIFF
+  - value: http://publications.europa.eu/resource/authority/file-type/PNG
+    label: PNG
+  - value: http://publications.europa.eu/resource/authority/file-type/EPS
+    label: Encapsulated Postscript
+  - value: http://publications.europa.eu/resource/authority/file-type/CSS
+    label: CSS
+  - value: http://publications.europa.eu/resource/authority/file-type/PDF
+    label: PDF
+  - value: http://publications.europa.eu/resource/authority/file-type/PDFA1A
+    label: PDF/A-1a
+  - value: http://publications.europa.eu/resource/authority/file-type/PDFA1B
+    label: PDF/A-1b
+  - value: http://publications.europa.eu/resource/authority/file-type/PDFX
+    label: PDF/X
+  - value: http://publications.europa.eu/resource/authority/file-type/METS
+    label: METS XML
+  - value: http://publications.europa.eu/resource/authority/file-type/METS_ZIP
+    label: METS package
+  - value: http://publications.europa.eu/resource/authority/file-type/PPSX
+    label: PowerPoint PPSX
+  - value: http://publications.europa.eu/resource/authority/file-type/PPS
+    label: PowerPoint Slide Show
+  - value: http://publications.europa.eu/resource/authority/file-type/PPT
+    label: PowerPoint PPT
+  - value: http://publications.europa.eu/resource/authority/file-type/PPTX
+    label: PowerPoint PPTX
+  - value: http://publications.europa.eu/resource/authority/file-type/XLS
+    label: Excel XLS
+  - value: http://publications.europa.eu/resource/authority/file-type/XLSX
+    label: Excel XLSX
+  - value: http://publications.europa.eu/resource/authority/file-type/XSLFO
+    label: XSL-FO
+  - value: http://publications.europa.eu/resource/authority/file-type/XSLT
+    label: XSLT
+  - value: http://publications.europa.eu/resource/authority/file-type/DTD_SGML
+    label: SGML DTD
+  - value: http://publications.europa.eu/resource/authority/file-type/DTD_XML
+    label: XML DTD
+  - value: http://publications.europa.eu/resource/authority/file-type/SCHEMA_XML
+    label: XML schema
+  - value: http://publications.europa.eu/resource/authority/file-type/FMX2
+    label: Formex 2
+  - value: http://publications.europa.eu/resource/authority/file-type/FMX3
+    label: Formex 3
+  - value: http://publications.europa.eu/resource/authority/file-type/FMX4
+    label: Formex 4
+  - value: http://publications.europa.eu/resource/authority/file-type/RDF_XML
+    label: RDF XML
+  - value: http://publications.europa.eu/resource/authority/file-type/RDF_TURTLE
+    label: RDF Turtle
+  - value: http://publications.europa.eu/resource/authority/file-type/SGML
+    label: SGML
+  - value: http://publications.europa.eu/resource/authority/file-type/SKOS_XML
+    label: SKOS
+  - value: http://publications.europa.eu/resource/authority/file-type/OWL
+    label: OWL
+  - value: http://publications.europa.eu/resource/authority/file-type/XML
+    label: XML
+  - value: http://publications.europa.eu/resource/authority/file-type/SPARQLQ
+    label: SPARQL
+  - value: http://publications.europa.eu/resource/authority/file-type/SPARQLQRES
+    label: SPARQL results
+  - value: http://publications.europa.eu/resource/authority/file-type/DOC
+    label: Word DOC
+  - value: http://publications.europa.eu/resource/authority/file-type/DOCX
+    label: Word DOCX
+  - value: http://publications.europa.eu/resource/authority/file-type/ODT
+    label: ODT
+  - value: http://publications.europa.eu/resource/authority/file-type/TXT
+    label: Plain text
+  - value: http://publications.europa.eu/resource/authority/file-type/RTF
+    label: RTF
+  - value: http://publications.europa.eu/resource/authority/file-type/HTML
+    label: HTML
+  - value: http://publications.europa.eu/resource/authority/file-type/XHTML
+    label: XHTML
+  - value: http://publications.europa.eu/resource/authority/file-type/CSV
+    label: CSV
+  - value: http://publications.europa.eu/resource/authority/file-type/MDB
+    label: MDB
+  - value: http://publications.europa.eu/resource/authority/file-type/DBF
+    label: DBF
+  - value: http://publications.europa.eu/resource/authority/file-type/MOP
+    label: MOP
+  - value: http://publications.europa.eu/resource/authority/file-type/E00
+    label: E00
+  - value: http://publications.europa.eu/resource/authority/file-type/MXD
+    label: MXD
+  - value: http://publications.europa.eu/resource/authority/file-type/KML
+    label: KML
+  - value: http://publications.europa.eu/resource/authority/file-type/TSV
+    label: TSV
+  - value: http://publications.europa.eu/resource/authority/file-type/JSON
+    label: JSON
+  - value: http://publications.europa.eu/resource/authority/file-type/KMZ
+    label: KMZ
+  - value: http://publications.europa.eu/resource/authority/file-type/GML
+    label: GML
+  - value: http://publications.europa.eu/resource/authority/file-type/RSS
+    label: RSS feed
+  - value: http://publications.europa.eu/resource/authority/file-type/ODS
+    label: ODS
+  - value: http://publications.europa.eu/resource/authority/file-type/INDD
+    label: INDD
+  - value: http://publications.europa.eu/resource/authority/file-type/PSD
+    label: PSD
+  - value: http://publications.europa.eu/resource/authority/file-type/PS
+    label: PS
+  - value: http://publications.europa.eu/resource/authority/file-type/ODF
+    label: ODF
+  - value: http://publications.europa.eu/resource/authority/file-type/TAR_XZ
+    label: TAR XZ
+  - value: http://publications.europa.eu/resource/authority/file-type/TAR_GZ
+    label: TAR GZ
+  - value: http://publications.europa.eu/resource/authority/file-type/RDF
+    label: RDF
+  - value: http://publications.europa.eu/resource/authority/file-type/XLIFF
+    label: XLIFF
+  - value: http://publications.europa.eu/resource/authority/file-type/OVF
+    label: OVF
+  - value: http://publications.europa.eu/resource/authority/file-type/JSON_LD
+    label: JSON-LD
+  - value: http://publications.europa.eu/resource/authority/file-type/RDF_N_TRIPLES
+    label: RDF N-Triples
+  - value: http://publications.europa.eu/resource/authority/file-type/HDF
+    label: HDF
+  - value: http://publications.europa.eu/resource/authority/file-type/NETCDF
+    label: NetCDF
+  - value: http://publications.europa.eu/resource/authority/file-type/SDMX
+    label: SDMX
+  - value: http://publications.europa.eu/resource/authority/file-type/JPEG2000
+    label: JPEG 2000
+  - value: http://publications.europa.eu/resource/authority/file-type/SHP
+    label: Esri Shape
+  - value: http://publications.europa.eu/resource/authority/file-type/GDB
+    label: Esri File Geodatabase
+  - value: http://publications.europa.eu/resource/authority/file-type/GMZ
+    label: Zipped GML
+  - value: http://publications.europa.eu/resource/authority/file-type/ECW
+    label: ECW
+  - value: http://publications.europa.eu/resource/authority/file-type/GRID_ASCII
+    label: Esri ASCII grid
+  - value: http://publications.europa.eu/resource/authority/file-type/DMP
+    label: Oracle Dump
+  - value: http://publications.europa.eu/resource/authority/file-type/LAS
+    label: LASer file
+  - value: http://publications.europa.eu/resource/authority/file-type/LAZ
+    label: Compressed LAS file
+  - value: http://publications.europa.eu/resource/authority/file-type/TAB
+    label: MapInfo TAB file
+  - value: http://publications.europa.eu/resource/authority/file-type/TAB_RSTR
+    label: MapInfo TAB raster file
+  - value: http://publications.europa.eu/resource/authority/file-type/WORLD
+    label: World file
+  - value: http://publications.europa.eu/resource/authority/file-type/TMX
+    label: TMX
+  - value: http://publications.europa.eu/resource/authority/file-type/ATOM
+    label: Atom Feed
+  - value: http://publications.europa.eu/resource/authority/file-type/OCTET
+    label: Octet Stream
+  - value: http://publications.europa.eu/resource/authority/file-type/BIN
+    label: Binary Data
+  - value: http://publications.europa.eu/resource/authority/file-type/ODC
+    label: OpenDocument Chart
+  - value: http://publications.europa.eu/resource/authority/file-type/ODB
+    label: OpenDocument Database
+  - value: http://publications.europa.eu/resource/authority/file-type/ODG
+    label: OpenDocument Image
+  - value: http://publications.europa.eu/resource/authority/file-type/BMP
+    label: Bitmap Image File
+  - value: http://publications.europa.eu/resource/authority/file-type/DCR
+    label: DCR File
+  - value: http://publications.europa.eu/resource/authority/file-type/XYZ
+    label: XYZ Chemical File
+  - value: http://publications.europa.eu/resource/authority/file-type/MAP_PRVW
+    label: ArcGIS Map Preview
+  - value: http://publications.europa.eu/resource/authority/file-type/MAP_SRVC
+    label: ArcGIS Map Service
+  - value: http://publications.europa.eu/resource/authority/file-type/REST
+    label: Esri REST
+  - value: http://publications.europa.eu/resource/authority/file-type/MSG_HTTP
+    label: HTTP Message
+  - value: http://publications.europa.eu/resource/authority/file-type/TIFF_FX
+    label: TIFF FX
+  - value: http://publications.europa.eu/resource/authority/file-type/PDF1X
+    label: PDF1X
+  - value: http://publications.europa.eu/resource/authority/file-type/WARC_GZ
+    label: WARC GZ
+  - value: http://publications.europa.eu/resource/authority/file-type/RDF_N_QUADS
+    label: RDF N-Quads
+  - value: http://publications.europa.eu/resource/authority/file-type/RDF_TRIG
+    label: RDF TriG
+  - value: http://publications.europa.eu/resource/authority/file-type/RDFA
+    label: RDFa
+  - value: http://publications.europa.eu/resource/authority/file-type/ARC
+    label: ARC
+  - value: http://publications.europa.eu/resource/authority/file-type/HTML_SIMPL
+    label: HTML simplified
+  - value: http://publications.europa.eu/resource/authority/file-type/XHTML_SIMPL
+    label: XHTML simplified
+  - value: http://publications.europa.eu/resource/authority/file-type/SQL
+    label: SQL
+  - value: http://publications.europa.eu/resource/authority/file-type/PDFA2A
+    label: PDF/A-2a
+  - value: http://publications.europa.eu/resource/authority/file-type/PDFA2B
+    label: PDF/A-2b
+  - value: http://publications.europa.eu/resource/authority/file-type/PDFA3
+    label: PDFA-3
+  - value: http://publications.europa.eu/resource/authority/file-type/MBOX
+    label: MBOX
+  - value: http://publications.europa.eu/resource/authority/file-type/MPEG2
+    label: MPEG-2
+  - value: http://publications.europa.eu/resource/authority/file-type/MPEG4
+    label: MPEG-4
+  - value: http://publications.europa.eu/resource/authority/file-type/MPEG4_AVC
+    label: MPEG-4 AVC
+  - value: http://publications.europa.eu/resource/authority/file-type/BWF
+    label: BWF
+  - value: http://publications.europa.eu/resource/authority/file-type/MHTML
+    label: MHTML
+  - value: http://publications.europa.eu/resource/authority/file-type/ARC_GZ
+    label: ARC GZ
+  - value: http://publications.europa.eu/resource/authority/file-type/WARC
+    label: WARC
+  - value: http://publications.europa.eu/resource/authority/file-type/PDFX1A
+    label: PDF/X-1a
+  - value: http://publications.europa.eu/resource/authority/file-type/PDFX2A
+    label: PDF/X-2a
+  - value: http://publications.europa.eu/resource/authority/file-type/PDFX4
+    label: PDF/X-4
+  - value: http://publications.europa.eu/resource/authority/file-type/GEOJSON
+    label: GeoJSON
+  - value: http://publications.europa.eu/resource/authority/file-type/GRID
+    label: Esri binary grid
+  - value: http://publications.europa.eu/resource/authority/file-type/JATS
+    label: JATS XML
+  - value: http://publications.europa.eu/resource/authority/file-type/BITS
+    label: BITS XML
+  - value: http://publications.europa.eu/resource/authority/file-type/PWP
+    label: PWP
+  - value: http://publications.europa.eu/resource/authority/file-type/ISO
+    label: ISO image
+  - value: http://publications.europa.eu/resource/authority/file-type/ISO_ZIP
+    label: Zipped ISO image
+  - value: http://publications.europa.eu/resource/authority/file-type/RAR
+    label: RAR
+  - value: http://publications.europa.eu/resource/authority/file-type/SVG
+    label: SVG
+  - value: http://publications.europa.eu/resource/authority/file-type/QGS
+    label: QGS
+  - value: http://publications.europa.eu/resource/authority/file-type/N3
+    label: N3
+  - value: http://publications.europa.eu/resource/authority/file-type/MRSID
+    label: MrSID
+  - value: http://publications.europa.eu/resource/authority/file-type/EXE
+    label: EXE
+  - value: http://publications.europa.eu/resource/authority/file-type/JS
+    label: JavaScript
+  - value: http://publications.europa.eu/resource/authority/file-type/ICS
+    label: ICalendar
+  - value: http://publications.europa.eu/resource/authority/file-type/PL
+    label: Perl script
+  - value: http://publications.europa.eu/resource/authority/file-type/WFS_SRVC
+    label: WFS
+  - value: http://publications.europa.eu/resource/authority/file-type/WMS_SRVC
+    label: WMS
+  - value: http://publications.europa.eu/resource/authority/file-type/HDT
+    label: HDT
+  - value: http://publications.europa.eu/resource/authority/file-type/LEG
+    label: LEG
+  - value: http://publications.europa.eu/resource/authority/file-type/IMMC_XML
+    label: IMMC XML message
+  - value: http://publications.europa.eu/resource/authority/file-type/XLSB
+    label: XLSB
+  - value: http://publications.europa.eu/resource/authority/file-type/XLSM
+    label: XLSM
+  - value: http://publications.europa.eu/resource/authority/file-type/ODP
+    label: ODP
+  - value: http://publications.europa.eu/resource/authority/file-type/RDF_TRIX
+    label: RDF TriX
+  - value: http://publications.europa.eu/resource/authority/file-type/7Z
+    label: 7z
+  - value: http://publications.europa.eu/resource/authority/file-type/AAC
+    label: AAC
+  - value: http://publications.europa.eu/resource/authority/file-type/APK
+    label: APK
+  - value: http://publications.europa.eu/resource/authority/file-type/APPX
+    label: AppX
+  - value: http://publications.europa.eu/resource/authority/file-type/ARJ
+    label: ARJ
+  - value: http://publications.europa.eu/resource/authority/file-type/BZIP2
+    label: bzip2
+  - value: http://publications.europa.eu/resource/authority/file-type/DEB
+    label: deb
+  - value: http://publications.europa.eu/resource/authority/file-type/DMG
+    label: DMG
+  - value: http://publications.europa.eu/resource/authority/file-type/JAR
+    label: JAR
+  - value: http://publications.europa.eu/resource/authority/file-type/LHA
+    label: LHA
+  - value: http://publications.europa.eu/resource/authority/file-type/LZIP
+    label: lzip
+  - value: http://publications.europa.eu/resource/authority/file-type/LZO
+    label: lzo
+  - value: http://publications.europa.eu/resource/authority/file-type/LZMA
+    label: lzma
+  - value: http://publications.europa.eu/resource/authority/file-type/RPM
+    label: RPM
+  - value: http://publications.europa.eu/resource/authority/file-type/SB3
+    label: sb3
+  - value: http://publications.europa.eu/resource/authority/file-type/SWM
+    label: SWM
+  - value: http://publications.europa.eu/resource/authority/file-type/WIM
+    label: WIM
+  - value: http://publications.europa.eu/resource/authority/file-type/XZ
+    label: xz
+  - value: http://publications.europa.eu/resource/authority/file-type/Z
+    label: Z
+  - value: http://publications.europa.eu/resource/authority/file-type/MSI
+    label: MSI
+  - value: http://publications.europa.eu/resource/authority/file-type/WAR
+    label: WAR
+  - value: http://publications.europa.eu/resource/authority/file-type/EAR
+    label: EAR
+  - value: http://publications.europa.eu/resource/authority/file-type/FMX4_ZIP
+    label: FMX4 ZIP
+  - value: http://publications.europa.eu/resource/authority/file-type/AKN4EU
+    label: AKN4EU file
+  - value: http://publications.europa.eu/resource/authority/file-type/AKN4EU_ZIP
+    label: AKN4EU ZIP
+  - value: http://publications.europa.eu/resource/authority/file-type/ETSI_XML
+    label: ETSI signature validation report
+  - value: http://publications.europa.eu/resource/authority/file-type/GPKG
+    label: GeoPackage
+  - value: http://publications.europa.eu/resource/authority/file-type/DGN
+    label: DGN
+  - value: http://publications.europa.eu/resource/authority/file-type/DXF
+    label: DXF
+  - value: http://publications.europa.eu/resource/authority/file-type/DWG
+    label: DWG
+  - value: http://publications.europa.eu/resource/authority/file-type/IPA
+    label: IPA
+  - value: http://publications.europa.eu/resource/authority/file-type/WCS_SRVC
+    label: WCS
+  - value: http://publications.europa.eu/resource/authority/file-type/PDFUA
+    label: PDF/UA
+  - value: http://publications.europa.eu/resource/authority/file-type/HTML5
+    label: HTML5
+  - value: http://publications.europa.eu/resource/authority/file-type/STL
+    label: StL
+  - value: http://publications.europa.eu/resource/authority/file-type/AAB
+    label: AAB
+  - value: http://publications.europa.eu/resource/authority/file-type/ARCINFO_COV
+    label: ArcInfo coverage
+  - value: http://publications.europa.eu/resource/authority/file-type/GEOTIFF
+    label: GeoTIFF
+  - value: http://publications.europa.eu/resource/authority/file-type/LPK
+    label: Layer package
+  - value: http://publications.europa.eu/resource/authority/file-type/MIF_MID
+    label: MIF/MID
+  - value: http://publications.europa.eu/resource/authority/file-type/UNGEN
+    label: Ungen
+  - value: http://publications.europa.eu/resource/authority/file-type/OAPK
+    label: OAPK
+  - value: http://publications.europa.eu/resource/authority/file-type/DAPK
+    label: DAPK
+  - value: http://publications.europa.eu/resource/authority/file-type/MP3
+    label: MP3
+  - value: http://publications.europa.eu/resource/authority/file-type/WAV
+    label: WAV
+  - value: http://publications.europa.eu/resource/authority/file-type/RDF_THRIFT
+    label: RDF Thrift
+  - value: http://publications.europa.eu/resource/authority/file-type/XHTML5
+    label: XHTML5
+  - value: http://publications.europa.eu/resource/authority/file-type/GTFS
+    label: GTFS
+  - value: http://publications.europa.eu/resource/authority/file-type/YAML
+    label: YAML
+  - value: http://publications.europa.eu/resource/authority/file-type/EFORMS_XML
+    label: eForms XML
+  - value: http://publications.europa.eu/resource/authority/file-type/WEBP
+    label: WebP
+  - value: http://publications.europa.eu/resource/authority/file-type/WMTS_SRVC
+    label: WMTS
+  - value: http://publications.europa.eu/resource/authority/file-type/MOV
+    label: MOV
+  - value: http://publications.europa.eu/resource/authority/file-type/MATHML
+    label: MathML
+  - value: http://publications.europa.eu/resource/authority/file-type/DWCA
+    label: DwC-A
+  - value: http://publications.europa.eu/resource/authority/file-type/GPX
+    label: GPX
+  - value: http://publications.europa.eu/resource/authority/file-type/ETSI_TSL
+    label: ETSI TSL
+  - value: http://publications.europa.eu/resource/authority/file-type/LEGALHTML
+    label: LegalHTML
+  - value: http://publications.europa.eu/resource/authority/file-type/MARKDOWN
+    label: Markdown
+  - value: http://publications.europa.eu/resource/authority/file-type/PARQUET
+    label: Parquet
+  - value: http://publications.europa.eu/resource/authority/file-type/THRIFT_BINARY
+    label: Thrift binary
+  - value: http://publications.europa.eu/resource/authority/file-type/THRIFT_COMPACT
+    label: Thrift compact
+  - value: http://publications.europa.eu/resource/authority/file-type/THRIFT_JSON
+    label: Thrift JSON
+  - value: http://publications.europa.eu/resource/authority/file-type/ARROW_FILE
+    label: Arrow file
+  - value: http://publications.europa.eu/resource/authority/file-type/ARROW_STREAM
+    label: Arrow stream
+  - value: http://publications.europa.eu/resource/authority/file-type/OP_DATPRO
+    label: Provisional data
+- field_name: mobility_data_standard_schema
+  label: Mobility data standard
+  preset: select
+  choices:
+  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/c-its
+    label: C-ITS
+  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/datex-II
+    label: DATEX II
+  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/dino
+    label: DINO
+  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/gbfs
+    label: GBFS
+  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/gml
+    label: GML
+  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/gtfs
+    label: GTFS
+  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/gtfs-rt
+    label: GTFS-RT
+  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/inspire
+    label: INSPIRE
+  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/netex
+    label: NeTEx
+  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/ocit-c
+    label: OCIT-C
+  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/other
+    label: Other
+  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/siri
+    label: SIRI
+  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/tn-its
+    label: TN-ITS
+  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/tpegml
+    label: tpegML
+- field_name: mobility_data_standard_version
+  label: versionInfo
+  help_text: Version of the mobility data standard. Use only short version identifiers,
+    e.g., only  "3.2", without redundant acronyms such as "v", underscores etc.
+- field_name: rights_type
+  label: Conditions for access and usage
+  preset: select
+  choices:
+  - value: https://w3id.org/mobilitydcat-ap/conditions-for-access-and-usage/contractual-arrangement
+    label: Contractual arrangement
+  - value: https://w3id.org/mobilitydcat-ap/conditions-for-access-and-usage/fee-required
+    label: Fee required
+  - value: https://w3id.org/mobilitydcat-ap/conditions-for-access-and-usage/free-of-charge
+    label: Free of charge
+  - value: https://w3id.org/mobilitydcat-ap/conditions-for-access-and-usage/licence-provided
+    label: Licence provided
+  - value: https://w3id.org/mobilitydcat-ap/conditions-for-access-and-usage/other
+    label: Other
+  - value: https://w3id.org/mobilitydcat-ap/conditions-for-access-and-usage/royalty-free
+    label: Royalty-free

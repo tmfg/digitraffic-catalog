@@ -24,43 +24,40 @@ if ! [[ "$1" = 'up' ||
   exit 1
 fi
 
+COMPOSE_COMMAND="$1"
+BUILD_IMAGE="${2:-}"
+
 cd "$(dirname "${BASH_SOURCE[0]}")"
 
-remove_tmp_dir() {
-  if [ -d tmp ]; then
-    rm -rf tmp
+build_image_conditionally() {
+  PATH_TO_DOCKERFILE="$1"
+  shift;
+  IMAGE_NAME="$1"
+  shift;
+  DOCKERFILE_ARGS="$@"
+  if [[ $(docker image ls "$IMAGE_NAME" -q | wc -l) -eq 0 ]] ||
+     [[ "$BUILD_IMAGE" = 'build_image' ]]
+  then
+    pushd "$PATH_TO_DOCKERFILE"
+    if [[ -z "$DOCKERFILE_ARGS" ]]
+    then
+        docker image build -t "$IMAGE_NAME" .
+    else
+        docker image build -t "$IMAGE_NAME" --build-arg "$DOCKERFILE_ARGS" .
+    fi
+    popd
   fi
 }
 
-copy_extensions_to_tmp() {
-  mkdir -p tmp
-  for extension in "$@"; do
-    cp -r "$extension" tmp/
-  done
-}
+build_image_conditionally ../docker/ckan local_catalog_ckan:latest
+build_image_conditionally ./ckan local_catalog_ckan_dev:latest
+build_image_conditionally ../docker/solr local_catalog_solr:latest
+build_image_conditionally ../docker/nginx local_catalog_nginx:latest ENVIRONMENT=local
+build_image_conditionally ./postgresql local_catalog_postgresql:latest
 
-if [[ $(docker image ls local_ckan:latest -q | wc -l) -eq 0 ]] ||
-  ([[ $# -eq 2 ]] && [[ "$2" = 'build_image' ]]); then
-  cd ckan
-  copy_extensions_to_tmp ../../ext/ckanext-digitraffic_theme ../../ext/ckanext-entraid_authenticator
-  docker image build -t local_ckan:latest .
-  remove_tmp_dir
-  cd ..
-fi
 
-if [[ $(docker image ls local_solr:latest -q | wc -l) -eq 0 ]] ||
-  ([[ $# -eq 2 ]] && [[ "$2" = 'build_image' ]]); then
-  cd solr
-  docker image build -t local_solr:latest .
-  cd ..
-fi
-
-if [ -d tmp ]; then
-  rm -rf tmp
-fi
-
-if [ "$1" == "up" ]; then
-  docker-compose --project-name datakatalogi-local up
-elif [ "$1" == "down" ]; then
+if [ "$COMPOSE_COMMAND" == "up" ]; then
+  docker-compose --project-name datakatalogi-local --env-file ".env_ckan_common" --env-file ".env_solr_common" up
+elif [ "$COMPOSE_COMMAND" == "down" ]; then
   docker-compose --project-name datakatalogi-local down --remove-orphans
 fi

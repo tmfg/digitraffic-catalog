@@ -1,0 +1,15 @@
+*
+
+!.gitignore
+!README.md
+!requirements.txt
+!setup.py
+!.env.example
+
+!/ckanext/
+!/ckanext/entraid_authenticator/
+!/ckanext/entraid_authenticator/**/
+!/ckanext/entraid_authenticator/**/*.*
+!/ckanext/__init__.py
+
+__pycache__

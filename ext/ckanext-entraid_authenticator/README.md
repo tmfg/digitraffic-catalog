@@ -10,5 +10,5 @@ You need to set the appropriate values for your Python application either via `d
 ENTRA_CLIENT_ID=<client-id>
 ENTRA_CLIENT_SECRET=<client-secret>
 ENTRA_AUTHORITY=https://login.microsoftonline.com/<tenant-id>
-CKAN_SITE_URL=http://localhost:5001
+CKAN_SITE_URL=http://localhost:8080
 ```

@@ -1,0 +1,11 @@
+*
+!dcat_schema_transpiler/
+!dcat_schema_transpiler/**/
+!dcat_schema_transpiler/**/*.py
+!tests
+!tests/**/
+!tests/**/*.py
+!poetry.lock
+!pyproject.toml
+!README.md
+!.gitignore
