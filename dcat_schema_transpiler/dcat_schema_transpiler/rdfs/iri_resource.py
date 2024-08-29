@@ -7,17 +7,14 @@ from rdfs.rdf_iri_resource import IRIResource
 
 
 def iri_resource_factory(cls, iri, ds: Dataset, properties_from_graph=URIRef(MOBILITYDCATAP_NS_URL), **kwargs):
-    """
-    TODO: Kato tälle funkkarille parempi paikka
-    """
     namespace, iri, types = IRIResource.resource_args_from_ds(iri, ds)
     g = ds.get_graph(URIRef(namespace))
 
     defined_constructor_arguments: Dict[str, Tuple[URIRef|Literal, ...]] = {}
     additional_properties: Dict[URIRef, List[Tuple[URIRef|Literal, Namespace]]] = {}
 
-    for arument_label, predicate in kwargs.items():
-        defined_constructor_arguments[arument_label] = tuple(v for v in g.objects(iri, predicate))
+    for argument_label, predicate in kwargs.items():
+        defined_constructor_arguments[argument_label] = tuple(v for v in g.objects(iri, predicate))
 
     if properties_from_graph:
         g_from_graph = ds.get_graph(properties_from_graph)
@@ -25,8 +22,8 @@ def iri_resource_factory(cls, iri, ds: Dataset, properties_from_graph=URIRef(MOB
 
         types = types + types_g
 
-        for arument_label, predicate in kwargs.items():
-            defined_constructor_arguments[arument_label] = (defined_constructor_arguments.get(arument_label, {}) +
+        for argument_label, predicate in kwargs.items():
+            defined_constructor_arguments[argument_label] = (defined_constructor_arguments.get(argument_label, {}) +
                                                             tuple(v for v in g_from_graph.objects(iri, predicate)))
 
 
