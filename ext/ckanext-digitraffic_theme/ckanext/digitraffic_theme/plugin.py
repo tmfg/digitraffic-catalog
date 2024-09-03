@@ -1,9 +1,13 @@
 # encoding: utf-8
 import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
-class DigitrafficThemePlugin(plugins.SingletonPlugin):
+from ckan.lib.plugins import DefaultTranslation
+
+class DigitrafficThemePlugin(plugins.SingletonPlugin, DefaultTranslation):
     '''Digitraffic theme plugin.
     '''
+
+    plugins.implements(plugins.ITranslation)
     
     # Declare that this class implements IConfigurer.
     plugins.implements(plugins.IConfigurer)
