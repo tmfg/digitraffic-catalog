@@ -1,0 +1,46 @@
+# Translations template for ckanext-digitraffic_theme.
+# Copyright (C) 2024 ORGANIZATION
+# This file is distributed under the same license as the
+# ckanext-digitraffic_theme project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ckanext-digitraffic_theme 0.0.1\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2024-08-29 06:12+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.10.3\n"
+
+msgid "Data content category"
+msgstr ""
+
+msgid "Data content sub category"
+msgstr ""
+
+msgid "Metadata Language"
+msgstr ""
+
+msgid "Frequency"
+msgstr ""
+
+msgid "Location"
+msgstr ""
+
+msgid "access address"
+msgstr ""
+
+msgid "Mobility data standard"
+msgstr ""
+
+msgid "versionInfo"
+msgstr ""
+
+msgid "Conditions for access and usage"
+msgstr ""
