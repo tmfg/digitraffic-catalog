@@ -5,13 +5,15 @@ from typing import List, Any
 
 from rdflib import URIRef, RDF, BNode
 
+from ckanext.dcat.profiles import CleanedURIRef
+
 
 class ClassInstance(ABC):
     iri: URIRef|BNode
     type: RDF.type
 
     def __init__(self, iri: str | None, type: RDF.type):
-        self.iri = URIRef(iri) if iri is not None else BNode()
+        self.iri = CleanedURIRef(iri) if iri is not None else BNode()
         self.type = type
 
     @abstractmethod
