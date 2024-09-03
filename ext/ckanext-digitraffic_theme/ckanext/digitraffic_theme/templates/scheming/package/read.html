@@ -1,0 +1,13 @@
+{% ckan_extends %}
+
+{% block package_additional_info %}
+    <section class="rdf-links">
+        <h3>RDF links</h3>
+        <a href="{{ h.full_current_url() }}.xml" type="application/rdf+xml" target="_blank">{% trans %}XML format{% endtrans %}</a>
+        <a href="{{ h.full_current_url() }}.n3" type="text/n3" target="_blank">{% trans %}N3 format{% endtrans %}</a>
+        <a href="{{ h.full_current_url() }}.ttl" type="text/ttl" target="_blank">{% trans %}TTL format{% endtrans %}</a>
+        <a href="{{ h.full_current_url() }}.jsonld" type="application/ld+json" target="_blank">{% trans %}JSON format{% endtrans %}</a>
+    </section>
+    {{ super() }}
+
+{% endblock %}
