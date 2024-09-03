@@ -17,27 +17,6 @@ from ckanext.digitraffic_theme.profiles.rdf.mobility_dcat_ap import MOBILITYDCAT
 
 class MobilityDCATAPProfile(RDFProfile):
 
-    def __init__(self, graph: Graph, compatibility_mode=False):
-        super().__init__(graph, compatibility_mode)
-        try:
-            add_old = graph.add
-            catalog_ref: URIRef = self._get_root_catalog_ref()
-
-            # By default, catalog_ref points directly to datasets. We do not want that as it should point to catalog
-            # records. Unfortunately, ckanext-dcat sets the datasets to catalog metadata after calling profile
-            # methods so there is no sensible way to remove the references. Therefore, we use monkey patching to
-            # prevent catalog having a reference to datasets
-            def new_add(triple):
-                if (triple[0] == catalog_ref and
-                        triple[1] == DCAT.dataset):
-                    return graph
-                add_old(triple)
-
-            graph.add = new_add
-        # We might get exception for calling self._get_root_catalog_ref() when accessing Dataset metadata directly
-        except Exception:
-            pass
-
     def parse_dataset(self, dataset_dict, dataset_ref):
         return super().parse_dataset(dataset_dict, dataset_ref)
 
