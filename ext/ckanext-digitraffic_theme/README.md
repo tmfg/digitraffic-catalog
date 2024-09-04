@@ -121,3 +121,9 @@ If ckanext-digitraffic_theme should be available on PyPI you can follow these st
 ## License
 
 [AGPL](https://www.gnu.org/licenses/agpl-3.0.en.html)
+
+
+# package.json
+
+CKAN dependencyn takia pitää käyttää `--ignore-scripts`
+`npm install --ignore-scripts`
