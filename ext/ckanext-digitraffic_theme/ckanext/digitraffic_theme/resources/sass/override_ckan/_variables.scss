@@ -1,111 +1,112 @@
+@use '~@fintraffic/fds-coreui-css/src/scss/tokens';
+
 // Base variables
 $imagePath: "../../../base/images";
 $bgPath: "#{$imagePath}/bg.png";
 
 // Layout Variables
-$layoutFontFamily: $font-family-sans-serif;
-$layoutTextColor: #444;
-$layoutBoldColor: #000;
-$layoutLinkColor: #187794;
-$layoutBackgroundColor: #eee;
-$layoutTrimBackgroundColor: #fff;
-$layoutTrimBorderColor: #ccc;
+$layoutFontFamily: tokens.$typography-body-default-font-family;
+$layoutTextColor: tokens.$color-text-1000;
+$layoutBoldColor: tokens.$color-text-1000;
+$layoutLinkColor: tokens.$color-text-1000;
+$layoutBackgroundColor: tokens.$color-neutral-200;
+$layoutTrimBackgroundColor: tokens.$color-neutral-200;
+$layoutTrimBorderColor: tokens.$color-neutral-300;
 $logoMaxHeight: 60px;
 
-$navLinkColor: #333;
-$navActiveBackgroundColor: #f6f6f6;
+$navLinkColor: tokens.$color-text-1000;
+$navActiveBackgroundColor: tokens.$color-brand-white;
 
 // Module Variables
-$moduleBackgroundColor: #fff;
-$moduleHeadingBorderColor: #ddd;
-$moduleHeadingBackgroundColor: #f6f6f6;
-$moduleHeadingActionTextColor: #888;
+$moduleBackgroundColor: tokens.$color-neutral-200;
+$moduleHeadingBorderColor: tokens.$color-neutral-300;
+$moduleHeadingBackgroundColor: tokens.$color-neutral-100;
+$moduleHeadingActionTextColor: tokens.$color-neutral-400;
 $moduleExpandedBackgroundColor: rgba(255, 255, 255, 0.9);
 
-$tabTextColor: #111;
-$tagBackgroundColor: #f6f6f6;
+$tabTextColor: tokens.$color-brand-white;
+$tagBackgroundColor: tokens.$color-brand-black;
 
-$gutterX: 25px;
-$gutterY: 20px;
-$gutterSmallX: 15px;
+$gutterX: 1rem;
+$gutterY: 1rem;
+$gutterSmallX: $gutterX;
 $gutterSmallY: $gutterY;
 
-$emptyTextColor: #6e6e6e;
-$genericBorderColor: #ddd;
+$emptyTextColor: tokens.$color-text-300;
+$genericBorderColor: tokens.$color-neutral-300;
 
-//$breadcrumbTextColor: #505050;
-$breadcrumbTextColor: #ff0000;
+$breadcrumbTextColor: tokens.$color-text-1000;
 
-$mastheadTextColor: #fff;
+$mastheadTextColor: tokens.$color-text-1;
 $mastheadLinkColor: $mastheadTextColor;
-$mastheadBackgroundColor: #005d7a;
-$mastheadBackgroundColorStart: #005d7a;
-$mastheadBackgroundColorEnd: #00536b;
+$mastheadBackgroundColor: tokens.$color-brand-black;
+$mastheadBackgroundColorStart: tokens.$color-brand-black;
+$mastheadBackgroundColorEnd: tokens.$color-brand-black;
 
-$navItemActiveTextColor: #FFF;
-$navItemActiveBackgroundColor: #647A82;
+$navItemActiveTextColor: $layoutTextColor;
+$navItemActiveBackgroundColor: $layoutBackgroundColor;
 $navItemActiveArrowSize: 6px;
 
 $pillTextColor: $navItemActiveTextColor;
 $pillBackgroundColor: darken($navItemActiveBackgroundColor, 10%);
 
-$footerTextColor: #CCDEE3;
+$footerTextColor: tokens.$color-text-300;
 $footerLinkColor: $footerTextColor;
 
-$inputColor: $black;
-$inputBackground: $body-bg;
-$inputBorder: #ccc;
-$inputBorderRadius: 3px;
-$disabledCustomInputTextColor: #aaa;
-$disabledCustomInputBackground: #f3f3f3;
+$inputColor: tokens.$color-text-1000;
+$inputBackground: tokens.$color-brand-white;
+$inputBorder: tokens.$color-neutral-200;
+$inputBorderRadius: 4px;
+$disabledCustomInputTextColor: tokens.$color-text-300;
+$disabledCustomInputBackground: tokens.$color-neutral-50;
 
-$highlightBackground: #fdf7e9;
-$highlightHoverBackground: #fdf3d9;
+$highlightBackground: grey;
+$highlightHoverBackground: grey;
 
 // Forms
 
-$errorText: #b55457;
-$errorBackground: lighten(#c6898b, 30%);
-$errorBorder: #c6898b;
+$errorText: tokens.$color-danger-400;
+$errorBackground: tokens.$color-danger-100;
+$errorBorder: tokens.$color-danger-200;
 
-$formInfoText: #707070;
+$formInfoText: tokens.$color-interactive-400;
 
-$stagesTextColor: #aeaeae;
-$stagesBackground: #EDEDED;
-$stagesTransparentBackground: rgba(237, 237, 237, 0); // Used for arrows.
-$stagesActiveTextColor: #fff;
-$stagesActiveBackground: #8cc68a;
+$stagesTextColor: tokens.$color-text-1;
+$stagesBackground: tokens.$color-brand-black;
+$stagesTransparentBackground: rgba(237, 237, 237, 0);
+$stagesActiveTextColor: $stagesTextColor;
+$stagesActiveBackground: tokens.$color-interactive-200;
 $stagesActiveTransparentBackground: rgba(140, 198, 138, 0);
-$stagesCompleteTextColor: #eef6ed;
-$stagesCompleteBackground: #c5e2c4;
+$stagesCompleteTextColor: tokens.$color-interactive-400;
+$stagesCompleteBackground: tokens.$color-interactive-100;
 $stagesCompleteTransparentBackground: rgba(197, 226, 196, 0);
-$stagesCounterTextColor: #fff;
-$stagesCounterBackground: #aeaeae;
-$stagesCounterActiveTextColor: #8cc68a;
-$stagesCounterActiveBackground: #fff;
-$stagesCounterCompleteTextColor: #c5e2c4;
-$stagesCounterCompleteBackground: #eef6ed;
+$stagesCounterTextColor: $stagesTextColor;
+$stagesCounterBackground: $stagesBackground;
+$stagesCounterActiveTextColor: $stagesTextColor;
+$stagesCounterActiveBackground: $stagesActiveBackground;
+$stagesCounterCompleteTextColor: $stagesTextColor;
+$stagesCounterCompleteBackground: $stagesCompleteBackground;
 
-$codeTextColor: #000;
+$codeTextColor: tokens.$color-text-1000;
 
 
 // Datasets
 
-$listingHeadingTextColor: #333;
-$resourceFormatBackground: #6e6e6e;
+$listingHeadingTextColor: $layoutTextColor;
+$resourceFormatBackground: $layoutBackgroundColor;
 
 // Table
 
-$chunkyTableHeaderTextColor: #fff;
-$chunkyTableHeaderBackgroundColor: #aaa;
-$chunkyTableStripeBackgroundColor: #f2f2f2;
+$chunkyTableHeaderTextColor: tokens.$color-text-1;
+$chunkyTableHeaderBackgroundColor: tokens.$color-brand-black;
+$chunkyTableStripeBackgroundColor: rgba(tokens.$color-brand-black, 0.05);
 
 // Twitter Bootstrap Overrides
 $bodyBackground: $layoutBackgroundColor;
-$btnBackground: #ffffff;
-$btnBackgroundHighlight: #eaeaea;
-$btnPrimaryBackground: #30778d;
-$btnPrimaryBackgroundHighlight: #085871;
+$btnBackground: tokens.$color-brand-black;
+$btnBackgroundHighlight: tokens.$color-brand-white;
+$btnPrimaryBackground: $btnBackground;
+$btnPrimaryBackgroundHighlight: $btnBackgroundHighlight;
 $baseFontFamily: $layoutFontFamily;
 $textColor: $layoutTextColor;
 $linkColor: $layoutLinkColor;
