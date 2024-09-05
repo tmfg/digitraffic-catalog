@@ -1,5 +1,5 @@
-@use '../utils/variables';
-@use '../utils/bootstrap_brakepoints' as bp;
+@import '~@fintraffic/fds-coreui-css/src/scss/variables';
+@import '~ckan/ckan/public/base/scss/bootstrap-variables';
 
 .masthead {
 
@@ -7,14 +7,14 @@
         text-decoration: none;
     }
 
-    @media (min-width: bp.$grid-float-breakpoint) {
+    @media (min-width: map-get($grid-breakpoints, md)) {
         padding: 0px;
     
         .navigation .nav-pills li a {
 
             padding-bottom: 0px;
 
-            --fds-typography-body-default-font-weight: variables.$font-weight-medium;
+            --fds-typography-body-default-font-weight: $font-weight-medium;
         //--fds-typography-body-default-line-height:
 
             &:hover::after {
@@ -35,7 +35,7 @@
 .navbar {
     border: 0px;
 
-    @media (min-width: bp.$grid-float-breakpoint) {
+    @media (min-width: map-get($grid-breakpoints, md)) {
         .container {
             margin: 0px;
             display: flex;

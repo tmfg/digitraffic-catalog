@@ -1,15 +1,25 @@
-@use 'fonts';
+@import '../../../../tmp/ckan_base/scss/main';
 
-@use 'layout';
+@import '~@fintraffic/fds-coreui-css/dist/tokens';
+@import '~@fintraffic/fds-coreui-css/dist/coreui';
+@import '~@fintraffic/fds-coreui-css/dist/fonts-public-sans';
+@import '~@fintraffic/fds-coreui-css/dist/fonts-public-sans-italic';
 
-@use 'components/navigation';
-@use 'components/breadcrumb';
-@use 'components/account_masthead';
-@use 'components/button';
-@use 'components/error_block';
-@use 'components/module';
-@use 'components/input';
-@use 'components/textarea';
+@import '~@fintraffic/fds-coreui-css/src/scss/tokens';
+@import '~@fintraffic/fds-coreui-css/src/scss/variables';
 
-@use 'modifiers/errors';
-@use 'modifiers/form_control';
+@import 'tokens.css';
+
+@import 'layout';
+
+@import 'components/navigation';
+@import 'components/breadcrumb';
+@import 'components/account_masthead';
+@import 'components/button';
+@import 'components/error_block';
+@import 'components/module';
+@import 'components/input';
+@import 'components/textarea';
+
+@import 'modifiers/errors';
+@import 'modifiers/form_control';
