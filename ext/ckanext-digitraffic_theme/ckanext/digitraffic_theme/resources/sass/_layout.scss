@@ -1,10 +1,10 @@
-@use './utils/bootstrap_brakepoints' as bp;
+@import '~ckan/ckan/public/base/scss/bootstrap-variables';
 
 @mixin page-main-section {
     padding-top: 0px;
     background-color: var(--fds-color-brand-white);
     background-image: none;
-    @media (min-width: bp.$grid-float-breakpoint) {
+    @media (min-width: map-get($grid-breakpoints, md)) {
         // Sitä varten, että footeri on keskellä näyttöä isolla näytöllä
         min-height: calc(100vh - 81px - 187px);
     }
@@ -24,7 +24,7 @@ body > .main {
     // Jotain
 }
 
-@media (max-width: bp.$grid-float-breakpoint-max) {
+@media (max-width: map-get($grid-breakpoints, md) - 1) {
     #content {
         // Tällä korjataan toolbaarin väärä väri kun näyttö on pieni
         background-color: var(--fds-color-brand-black);

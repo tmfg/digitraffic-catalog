@@ -1,1 +1,1 @@
-import './tmp/ckan_base/scss/main.scss'
+import './ckanext/digitraffic_theme/resources/sass/digitraffic_theme.scss'
