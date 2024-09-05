@@ -10,12 +10,14 @@
     "ckan": "github:ckan/ckan#ckan-2.10.5"
   },
   "devDependencies": {
-    "rollup-plugin-styler": "^1.8.0",
+    "@rollup/plugin-node-resolve": "^15.2.3",
     "autoprefixer": "^10.4.20",
     "cssnano": "^7.0.5",
     "postcss": "^8.4.44",
     "postcss-cli": "^11.0.0",
     "rollup": "^4.21.2",
-    "sass": "^1.77.8"
+    "sass": "^1.78.0",
+    "rollup-plugin-copy": "^3.5.0",
+    "rollup-plugin-styler": "^1.8.0"
   }
 }
