@@ -1,0 +1,15 @@
+// scheming plugin
+.controls:has(> select) {
+    position: relative;
+    display: flex;
+    align-items: center;
+
+    &::after {
+        content: url("../../../../../node_modules/lucide-static/icons/chevron-down.svg");
+        width: 22px;
+        height: 22px;
+        position: absolute;
+        right: .75rem;
+        pointer-events: none;
+    }
+}

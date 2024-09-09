@@ -25,3 +25,4 @@ class DigitrafficThemePlugin(plugins.SingletonPlugin, DefaultTranslation):
         # that we'll use to refer to this assets directory from CKAN
         # templates.
         toolkit.add_resource('assets', 'digitraffic_theme')
+        toolkit.add_resource('assets', 'digitraffic_web_component')

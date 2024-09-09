@@ -1,0 +1,1 @@
+import '@fintraffic/fds-coreui-components/dist/define/all.js';
