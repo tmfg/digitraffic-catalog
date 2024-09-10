@@ -66,10 +66,7 @@ jobs:
       - name: create extensions
         if: github.event.inputs.install_ckan == 'true'
         run: |
-          npm install -g less sass
           npm ci  
-
-          ./bundle-css.sh
 
           mkdir docker/ckan/ckanext
           # copy directory
