@@ -1,5 +1,10 @@
 digitraffic_theme-css:
   filter: cssrewrite
-  output: ckanext-digitraffic_theme/%(version)s-digitraffic_theme.css
+  output: ckanext-digitraffic_theme/%(version)s-digitraffic-theme.css
   contents:
-    - css/digitraffic_theme.css
+    - css/digitraffic-theme.css
+digitraffic_web_component-js:
+  filter: rjsmin
+  output: ckanext-digitraffic_theme/%(version)s-digitrafficWebComponents.js
+  contents:
+    - js/digitrafficWebComponents.js

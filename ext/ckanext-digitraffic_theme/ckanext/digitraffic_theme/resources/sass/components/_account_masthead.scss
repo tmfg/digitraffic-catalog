@@ -1,7 +1,7 @@
-@use '../utils/bootstrap_brakepoints' as bp;
+@import '~ckan/ckan/public/base/scss/bootstrap-variables';
 
 .account-masthead {
-    @media (min-width: bp.$grid-float-breakpoint) {
+    @media (min-width: map-get($grid-breakpoints, md)) {
         .container {
             min-width: 100%;
             padding: 0px;
