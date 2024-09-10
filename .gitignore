@@ -13,7 +13,6 @@
 !local-env/**
 
 !.gitignore
-!bundle-css.sh
 !package.json
 !package-lock.json
 !README.md

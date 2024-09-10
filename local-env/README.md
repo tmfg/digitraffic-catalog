@@ -9,6 +9,3 @@
 1. Kopioi `/ext` kansio `docker/ckan/ckanext` kansioksi. Dockerfile haluaa sisällön tuohon. 
 2. Aja `start_local_ckan.sh`
 3. Yhdistä [http://localhost:8080/](http://localhost:8080/)
-4. Aloita .scss filujen tarkkailu vaikkapa ajamalla `../bundle-css.sh -w`
-5. Muokkaa .scss filuja haluamasi mukaan.
-6. Refreshaa selain, muutosten pitäisi tulla näkyviin (Hot reload ominaisuutta ei valitettavasti taida olla)

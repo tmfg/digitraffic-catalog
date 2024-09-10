@@ -8,6 +8,16 @@ Because of CKAN dependency `--ignore-scripts` must be used.
 
 `npm install --ignore-scripts`
 
+## Developing
+
+You should star local development environment by running `./start-local-ckan.sh up build_image` inside `local-env` folder.
+
+### CSS
+
+1. Modify the Sass files to your liking
+2. Compile the stylings by running `npm run bundle`
+3. Run `./reload-ckan.sh` inside `local-env` folder.
+4. Refresh the browser.
 
 ## Installation
 
