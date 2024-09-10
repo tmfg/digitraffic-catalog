@@ -1,9 +1,7 @@
 {
   "type": "module",
   "scripts": {
-    "build_sass": "sass --no-source-map ./ckanext/digitraffic_theme/resources/sass/digitraffic_theme.scss ./ckanext/digitraffic_theme/target/digitraffic_theme.css",
-    "bundle": "rollup -c",
-    "postcss": "postcss $TARGET_BUNDLE --no-map --output $CKAN_CSS_FILE --use autoprefixer --use cssnano;"
+    "bundle": "rollup -c"
   },
   "dependencies": {
     "@fintraffic/fds-coreui-components": "^0.1.1",
@@ -12,9 +10,6 @@
     "lucide-static": "^0.439.0"
   },
   "devDependencies": {
-    "@rollup/plugin-commonjs": "^26.0.1",
-    "@rollup/plugin-image": "^3.0.3",
-    "@rollup/plugin-json": "~6.1.0",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-terser": "~0.4.4",
     "autoprefixer": "^10.4.20",
