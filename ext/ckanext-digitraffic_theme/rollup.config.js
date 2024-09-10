@@ -2,7 +2,6 @@ import styles from "rollup-plugin-styler";
 import copy from 'rollup-plugin-copy'
 import { nodeResolve } from "@rollup/plugin-node-resolve";
 import terser from "@rollup/plugin-terser";
-import image from '@rollup/plugin-image';
 import cssnano from "cssnano";
 import autoprefixer from "autoprefixer";
 
@@ -23,7 +22,6 @@ export default Object.entries(inputs).map(([name, file]) => {
             ],
             hook: 'buildStart'
         }),
-        //image(),
         styles({
             mode: "extract",
             url: {

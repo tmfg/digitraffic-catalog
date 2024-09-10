@@ -12,7 +12,6 @@
 !test.ini
 !package.json
 !package-lock.json
-!bundleCSS.js
 !rollup.config.js
 
 
