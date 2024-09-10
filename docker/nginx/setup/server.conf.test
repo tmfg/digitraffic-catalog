@@ -13,7 +13,7 @@ server {
     # use route53 resolver
     resolver 10.208.240.2;
 
-    set $ckan_target "http://ckan.status-test-catalog-ns:5000";
+    set $ckan_target "http://ckan.catalog-test-catalog-ns:5000";
 
     # health check
     location ^~ /health {
