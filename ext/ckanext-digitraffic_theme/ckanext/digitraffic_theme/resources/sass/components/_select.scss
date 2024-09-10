@@ -1,8 +1,12 @@
-// scheming plugin
+// scheming plugin and CKAN’s development primer page
 .controls:has(> select) {
     position: relative;
     display: flex;
     align-items: center;
+
+    select {
+        padding: var(--fds-select-padding-top) var(--fds-select-padding-right) var(--fds-select-padding-bottom) var(--fds-select-padding-left)
+    }
 
     &::after {
         content: url("../../../../../node_modules/lucide-static/icons/chevron-down.svg");
@@ -10,6 +14,37 @@
         height: 22px;
         position: absolute;
         right: .75rem;
+        pointer-events: none;
+    }
+}
+
+//  Snippet snippets/search_form.html start
+.form-group:has(label:first-child):has(> select) {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+
+    label {
+        // Label might be on top of the select element or to its left. We want to center it with select when it
+        // is to the left.
+        align-self: unset;
+        padding: var(--fds-select-padding-top) var(--fds-select-padding-top) var(--fds-select-padding-bottom) 0;
+    }
+
+    select {
+        background-image: none;
+        width: 100%;
+        appearance: none;
+        padding: var(--fds-select-padding-top) var(--fds-select-padding-right) var(--fds-select-padding-bottom) var(--fds-select-padding-left)
+    }
+
+    &::after {
+        content: url("../../../../../node_modules/lucide-static/icons/chevron-down.svg");
+        width: 22px;
+        height: 22px;
+        position: absolute;
+        right: .75rem;
+        bottom: .5rem;
         pointer-events: none;
     }
 }
