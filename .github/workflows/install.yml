@@ -42,7 +42,7 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: ${{ secrets.AWS_ROLE_TEST }}
+          role-to-assume: ${{ secrets.AWS_ROLE }}
           role-session-name: gh-actions-install-images-${{ github.event.inputs.env }}
           aws-region: ${{ secrets.AWS_REGION }}
 
@@ -57,7 +57,7 @@ jobs:
         uses: docker/login-action@v3
         with:
           # <aws-account-number>.dkr.ecr.<region>.amazonaws.com
-          registry: ${{ secrets.ECR_URL_TEST }}
+          registry: ${{ secrets.ECR_URL }}
 
       - name: Use Node.js 16
         uses: actions/setup-node@v4
@@ -85,7 +85,7 @@ jobs:
           file: ./docker/ckan/Dockerfile
           push: true
           platforms: linux/amd64
-          tags: ${{ secrets.ECR_URL_TEST }}/dt-ckan-repository:${{ github.sha }}
+          tags: ${{ secrets.ECR_URL }}/dt-ckan-repository:${{ github.sha }}
 
       - name: Solr build
         if: github.event.inputs.install_solr == 'true'
@@ -95,7 +95,7 @@ jobs:
           file: ./docker/solr/Dockerfile
           push: true
           platforms: linux/arm64
-          tags: ${{ secrets.ECR_URL_TEST }}/dt-solr-repository:${{ github.sha }}
+          tags: ${{ secrets.ECR_URL }}/dt-solr-repository:${{ github.sha }}
 
       - name: Nginx build
         if: github.event.inputs.install_nginx == 'true'
@@ -105,6 +105,6 @@ jobs:
           file: ./docker/nginx/Dockerfile
           push: true
           platforms: linux/arm64
-          tags: ${{ secrets.ECR_URL_TEST }}/dt-nginx-repository:${{ github.sha }}
+          tags: ${{ secrets.ECR_URL }}/dt-nginx-repository:${{ github.sha }}
           build-args: |
             ENVIRONMENT=${{ github.event.inputs.env }}
