@@ -56,6 +56,7 @@ jobs:
         id: login-ecr
         uses: docker/login-action@v3
         with:
+          # <aws-account-number>.dkr.ecr.<region>.amazonaws.com
           registry: ${{ secrets.ECR_URL }}
 
       - name: Use Node.js 16
@@ -102,3 +103,5 @@ jobs:
           push: true
           platforms: linux/arm64
           tags: ${{ secrets.ECR_URL }}/dt-nginx-repository:${{ github.sha }}
+          build-args: |
+            ENVIRONMENT=${{ github.event.inputs.env }}
