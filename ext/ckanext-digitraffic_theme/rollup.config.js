@@ -7,7 +7,7 @@ import autoprefixer from "autoprefixer";
 
 const inputs = {
     'css/digitraffic-theme': "ckanext/digitraffic_theme/resources/js/digitrafficTheme.js",
-    'js/digitrafficWebComponents': "ckanext/digitraffic_theme/resources/js/digitrafficWebComponents.js"
+    'js/digitrafficMain': "ckanext/digitraffic_theme/resources/js/main.js"
 }
 export default Object.entries(inputs).map(([name, file]) => {
     const isOutputJs = name.startsWith('js/')

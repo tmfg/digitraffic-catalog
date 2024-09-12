@@ -2,6 +2,8 @@
 
 <!-- Removes 'Register' link visible in default template when not logged in -->
 
-{% ckan_extends %} {% block header_account_notlogged %}
-<li>{% link_for _('Log in'), named_route='user.login' %}</li>
+{% ckan_extends %} {% block header_wrapper %}
+<header>
+    <fds-navigation id="top-navigation" vertical-menu-threshold="1150"/>
+</header>
 {% endblock %}
