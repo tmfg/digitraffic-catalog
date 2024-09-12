@@ -3,8 +3,8 @@ digitraffic_theme-css:
   output: ckanext-digitraffic_theme/%(version)s-digitraffic-theme.css
   contents:
     - css/digitraffic-theme.css
-digitraffic_web_component-js:
+digitraffic_main-js:
   filter: rjsmin
-  output: ckanext-digitraffic_theme/%(version)s-digitrafficWebComponents.js
+  output: ckanext-digitraffic_theme/%(version)sDigitrafficMain.js
   contents:
-    - js/digitrafficWebComponents.js
+    - js/digitrafficMain.js
