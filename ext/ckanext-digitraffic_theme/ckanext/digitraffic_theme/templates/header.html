@@ -4,6 +4,15 @@
 
 {% ckan_extends %} {% block header_wrapper %}
 <header>
-    <fds-navigation id="top-navigation" vertical-menu-threshold="1150"/>
+    <fds-navigation id="top-navigation" vertical-menu-threshold="1150">
+        <a href="https://www.fintraffic.fi/fi">
+            <svg viewBox="0 0 253 42" style="height: 18px">
+                <use href="/assets/fintraffic_horizontal_white.svg#fintraffic_horizontal_white"></use>
+            </svg>
+        </a>
+    </fds-navigation>
+    <fds-navigation id="app-navigation" vertical-menu-threshold="1150">
+        <span class="digitraffic-header">Datakatalogi</span>
+    </fds-navigation>
 </header>
 {% endblock %}

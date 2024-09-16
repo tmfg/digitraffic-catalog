@@ -35,3 +35,14 @@
         }
     }
 }
+
+.digitraffic-header {
+    font-weight: 800;
+    font-size: 1.25rem;
+    width: 50%;
+    min-height: var(--digitraffic-nav-min-height);
+
+    display: flex;
+    align-items: center;
+    padding-left: 24px;
+}

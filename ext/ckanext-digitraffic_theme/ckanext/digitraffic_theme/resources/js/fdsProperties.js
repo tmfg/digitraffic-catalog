@@ -15,7 +15,26 @@ const FT_SERVICES = [
     { label: "NAP", value: "nap", url: "https://finap.fi/#/" }
 ];
 
-export const setPropertiesAfterInitialDownload = () => {
+
+const CATALOG_SERVICE = {
+    label: "Datakatalogi",
+    value: "datacatalog",
+    url: "/",
+    items: [
+        {
+            label: "Datasets",
+            value: "datasets",
+            url: "/dataset"
+        }
+    ]
+}
+
+
+const DATACATALOG_NAVIGATION = [
+    { label: "Datasets", value: "datasets", url: }
+];
+
+const setTopNavigationProperties = () => {
     const handleSelection = (event) => {
         const item = event.detail;
         if (item.value === DIGITRAFFIC_SERVICE.value) {
@@ -33,5 +52,24 @@ export const setPropertiesAfterInitialDownload = () => {
     topNavigation.verticalMenuNavText = "Services";
 
     topNavigation.addEventListener('select', handleSelection);
+}
 
+const setAppNavigationProperties = () => {
+    const handleSelection = (event) => {
+        const item = event.detail;
+
+    };
+
+    const topNavigation = document.getElementById("app-navigation");
+
+    topNavigation.variant = FdsNavigationVariant.secondary;
+    topNavigation.items = CATALOG_NAVIGATION;
+    topNavigation.verticalMenuNavText = "Nav";
+
+    topNavigation.addEventListener('select', handleSelection);
+}
+
+export const setPropertiesAfterInitialDownload = () => {
+    setTopNavigationProperties()
+    setAppNavigationProperties()
 }
