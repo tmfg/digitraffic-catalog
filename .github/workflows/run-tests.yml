@@ -18,16 +18,11 @@ jobs:
 
       - name: Start CKAN
         working-directory: local-env
-        run: ./start-local-ckan.sh up build_image detached
+        run: ./start-local-ckan.sh up build_image ci
 
       - name: Wait for containers
         run: sleep 10
-
-      - name: Install extensions
-        run: |
-          docker exec datakatalogi-local-ckan-1 pip install -e "/srv/app/ckanext/ckanext-digitraffic_theme"
-          docker exec datakatalogi-local-ckan-1 pip install -e "/srv/app/ckanext/ckanext-entraid_authenticator"
-
+        
       - name: Run tests
         working-directory: local-env
         run: ./run-digitraffic-theme-tests-on-docker.sh

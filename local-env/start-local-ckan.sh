@@ -4,7 +4,7 @@ set -euo pipefail
 USAGE=$(
   cat <<-EOM
 
-usage: start_local_ckan.sh { up | down } [ build_image ] [ detached ]
+usage: start_local_ckan.sh { up | down } [ build_image ] [ ci ]
 
 Starts or stops a local CKAN server inside docker compose.
 
@@ -25,7 +25,7 @@ fi
 
 COMPOSE_COMMAND="$1"
 BUILD_IMAGE="${2:-}"
-DETACHED="${3:-}"
+CI="${3:-}"
 
 cd "$(dirname "${BASH_SOURCE[0]}")"
 
@@ -56,8 +56,8 @@ build_image_conditionally ../docker/nginx local_catalog_nginx:latest ENVIRONMENT
 build_image_conditionally ./postgresql local_catalog_postgresql:latest
 
 if [ "$COMPOSE_COMMAND" == "up" ]; then
-  if [ "$DETACHED" == "detached" ]; then
-    docker compose --project-name datakatalogi-local --env-file ".env_ckan_common" --env-file ".env_solr_common" up -d
+  if [ "$CI" == "ci" ]; then
+    INCLUDE_VOLUMES="" docker compose --project-name datakatalogi-local --env-file ".env_ckan_common" --env-file ".env_solr_common" up -d
   else
     docker compose --project-name datakatalogi-local --env-file ".env_ckan_common" --env-file ".env_solr_common" up
   fi
