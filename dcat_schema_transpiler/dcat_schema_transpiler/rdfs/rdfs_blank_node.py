@@ -1,4 +1,4 @@
-from rdfs.resource import Resource
+from dcat_schema_transpiler.rdfs.resource import Resource
 
 
 class BlankNode(Resource):
