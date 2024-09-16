@@ -6,7 +6,7 @@ services:
     group_add:
       - '92'
     volumes:
-      - ckanext:/srv/app/ckanext
+      - ${INCLUDE_VOLUMES:-ckanext:/srv/app/ckanext}
     command: |
       chown -R 92:92 /srv/app/ckanext;
       echo "foo";
@@ -35,7 +35,7 @@ services:
       - .env_ckan
       - .env_entra
     volumes:
-      - ckanext:/srv/app/ckanext
+      - ${INCLUDE_VOLUMES:-ckanext:/srv/app/ckanext}
   postgresql:
     image: local_catalog_postgresql:latest
     ports:
