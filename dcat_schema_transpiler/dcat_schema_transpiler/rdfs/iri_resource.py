@@ -2,8 +2,8 @@ from __future__ import annotations
 from rdflib import Dataset, Namespace, URIRef, Literal
 from typing import List, Dict, Tuple
 
-from mobility_dcat_ap.namespace import MOBILITYDCATAP_NS_URL
-from rdfs.rdf_iri_resource import IRIResource
+from dcat_schema_transpiler.mobility_dcat_ap.namespace import MOBILITYDCATAP_NS_URL
+from dcat_schema_transpiler.rdfs.rdf_iri_resource import IRIResource
 
 
 def iri_resource_factory(cls, iri, ds: Dataset, properties_from_graph=URIRef(MOBILITYDCATAP_NS_URL), **kwargs):

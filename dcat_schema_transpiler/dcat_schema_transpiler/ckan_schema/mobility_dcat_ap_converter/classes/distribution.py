@@ -3,9 +3,9 @@ from rdflib import DCTERMS, Dataset, SKOS, RDFS, DCAT, FOAF
 from ckan_schema.mobility_dcat_ap_converter.range_value_converter import RangeValueConverter
 from mobility_dcat_ap.dataset import CNT, ADMS
 from mobility_dcat_ap.namespace import MOBILITYDCATAP
-from rdfs.rdfs_class import RDFSClass
-from rdfs.rdfs_property import RDFSProperty
-from rdfs.rdfs_resource import RDFSResource
+from dcat_schema_transpiler.rdfs.rdfs_class import RDFSClass
+from dcat_schema_transpiler.rdfs.rdfs_property import RDFSProperty
+from dcat_schema_transpiler.rdfs.rdfs_resource import RDFSResource
 
 
 class Distribution(RangeValueConverter):

@@ -2,8 +2,8 @@ from rdflib import DCTERMS, Dataset, URIRef
 
 from ckan_schema.mobility_dcat_ap_converter.range_value_converter import RangeValueConverter
 from mobility_dcat_ap.dataset import CVOCAB_FORMAT
-from rdfs.rdfs_class import RDFSClass
-from rdfs.rdfs_property import RDFSProperty
+from dcat_schema_transpiler.rdfs.rdfs_class import RDFSClass
+from dcat_schema_transpiler.rdfs.rdfs_property import RDFSProperty
 
 
 class Frequency(RangeValueConverter):

@@ -1,6 +1,6 @@
 from mobility_dcat_ap.namespace import MOBILITYDCATAP_NS_URL
-from rdfs.rdfs_resource import RDFSResource
-from rdfs.util import get_rdf_object
+from dcat_schema_transpiler.rdfs.rdfs_resource import RDFSResource
+from dcat_schema_transpiler.rdfs.util import get_rdf_object
 
 from rdflib import Dataset, URIRef, Graph, FOAF, OWL, DCAT
 
@@ -12,9 +12,9 @@ from mobility_dcat_ap.dataset import CVOCAB_COMMUNICATION_METHOD, CVOCAB_RIGHTS_
     CVOCAB_EUV_FREQUENCY, CVOCAB_MOBILITY_DATA_STANDARD, CVOCAB_FORMAT, CVOCAB_MOBILITY_THEME, CVOCAB_LANGUAGE, \
     CVOCAB_NUTS, CVOCAB_LAU
 from mobility_dcat_ap.namespace import MOBILITYDCATAP
-from rdfs.rdfs_class import RDFSClass
-from rdfs.rdfs_literal import RDFSLiteral
-from rdfs.rdfs_property import RDFSProperty
+from dcat_schema_transpiler.rdfs.rdfs_class import RDFSClass
+from dcat_schema_transpiler.rdfs.rdfs_literal import RDFSLiteral
+from dcat_schema_transpiler.rdfs.rdfs_property import RDFSProperty
 
 from typing import Callable, List, Dict
 

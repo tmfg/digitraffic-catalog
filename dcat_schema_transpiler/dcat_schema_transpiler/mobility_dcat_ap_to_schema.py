@@ -4,8 +4,8 @@ from typing import List
 from ckan_schema.mobility_dcat_ap_converter.class_converter import ClassConverter
 from ckan_schema.mobility_dcat_ap_converter.classes.distribution import Distribution
 from ckan_schema.mobility_dcat_ap_converter.classes.rights_statement import RightsStatement
-from rdfs.rdfs_class import RDFSClass
-from rdfs.util import ClassPropertiesAggregator
+from dcat_schema_transpiler.rdfs.rdfs_class import RDFSClass
+from dcat_schema_transpiler.rdfs.util import ClassPropertiesAggregator
 
 
 class MobilityDCATAPToSchema:
