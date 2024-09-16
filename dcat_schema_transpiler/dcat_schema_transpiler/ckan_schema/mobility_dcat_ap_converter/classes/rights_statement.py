@@ -14,10 +14,11 @@ class RightsStatement(RangeValueConverter):
     def get_range_value(self, ds: Dataset, clazz: RDFSClass, clazz_p: RDFSProperty) -> RDFSClass | None:
         return super().get_range_value(ds, clazz, clazz_p)
 
-    def get_schema(self, ds: Dataset, clazz: RDFSClass, clazz_p: RDFSProperty):
+    def get_schema(self, ds: Dataset, clazz: RDFSClass, clazz_p: RDFSProperty, is_required: bool = False):
         if self.is_class_specific_converter(clazz) and clazz_p.is_iri(RDFS.label):
             return dict(
                 field_name=RangeValueConverter.ckan_field(clazz.iri, clazz_p),
+                required=is_required,
                 label='Additional information for access and usage'
             )
-        return super().get_schema(ds, clazz, clazz_p)
+        return super().get_schema(ds, clazz, clazz_p, is_required)

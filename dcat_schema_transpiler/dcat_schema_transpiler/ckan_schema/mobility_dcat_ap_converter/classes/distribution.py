@@ -23,8 +23,9 @@ class Distribution(RangeValueConverter):
         return super().get_range_value(ds, clazz, clazz_p)
 
 
-    def get_schema(self, ds: Dataset, clazz: RDFSClass, clazz_p: RDFSProperty):
+    def get_schema(self, ds: Dataset, clazz: RDFSClass, clazz_p: RDFSProperty, is_required: bool = None):
         properties_union = Distribution.mandatory_properties | Distribution.recommended_properties | Distribution.optional_properties
+        is_required_ = is_required if is_required is not None else clazz_p.iri in Distribution.mandatory_properties
         if self.is_class_specific_converter(clazz) and clazz_p.iri in properties_union:
-            return super().get_schema(ds, clazz, clazz_p)
+            return super().get_schema(ds, clazz, clazz_p, is_required_)
         return None

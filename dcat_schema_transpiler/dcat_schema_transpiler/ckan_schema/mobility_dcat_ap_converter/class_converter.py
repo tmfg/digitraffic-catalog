@@ -20,7 +20,7 @@ from dcat_schema_transpiler.rdfs.util import ClassPropertiesAggregator
 class ClassConverter:
 
     @staticmethod
-    def convert(clazz: RDFSClass, ds: Dataset, omit: Dict[URIRef, Set[URIRef] | Literal['all']] = {}):
+    def convert(clazz: RDFSClass, ds: Dataset, omit: Dict[URIRef, Set[URIRef] | Literal['all']] = {}, is_required: bool = None):
         if clazz.iri in omit and omit[clazz.iri] == 'all':
             return []
         graph_namespace = URIRef(MOBILITYDCATAP_NS_URL)
@@ -37,7 +37,7 @@ class ClassConverter:
                 schema_fields.append(schema)
 
         if not class_properties:
-            schema = converter.get_schema(ds, clazz, None)
+            schema = converter.get_schema(ds, clazz, None, is_required)
             if schema is None:
                 print('WARNING: Schema is None when converting a class')
             else:
@@ -45,14 +45,14 @@ class ClassConverter:
         for p in class_properties:
             if clazz.iri in omit and p.iri in omit[clazz.iri]:
                 continue
-            schema = converter.get_schema(ds, clazz, p)
-            is_range_value_class = schema == {}
+            schema = converter.get_schema(ds, clazz, p, is_required)
+            if schema is None:
+                continue
+            is_range_value_class = isinstance(schema, Dict) and set(schema.keys()) == {'required'}
             if is_range_value_class:
                 rdf_range = converter.get_range_value(ds, clazz, p)
-                schema = ClassConverter.convert(rdf_range, ds, omit=omit)
+                schema = ClassConverter.convert(rdf_range, ds, omit=omit, is_required=schema.get('required'))
                 append_schema(schema)
-            elif schema is None:
-                continue
             else:
                 append_schema(schema)
         return schema_fields

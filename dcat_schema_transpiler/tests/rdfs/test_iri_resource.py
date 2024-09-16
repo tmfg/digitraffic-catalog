@@ -15,28 +15,13 @@ def test_iri_resource_factory():
     class DOG(DefinedNamespace):
         _NS = Namespace('http://dog.example.com#')
 
-        # Classes
-        Breed: URIRef
-
-        # Properties
-        breed: URIRef
-        age: Literal
-
     class CAT(DefinedNamespace):
         _NS = Namespace('http://cat.example.com#')
-
-        # Properties
-        is_plotting_to_subjugate_all_humans: Literal
 
     class Neocortex:
         def __init__(self, namespace: Namespace, iri: URIRef, types: Tuple[URIRef, ...],
                      additional_properties: Dict[URIRef, List[Tuple[URIRef | Literal, Namespace]]] = None,
                      comment: Tuple[Literal, ...] = None):
-            print(f'namespace {namespace}')
-            print(f'iri {iri}')
-            print(f'types {types}')
-            print(f'additional_properties {additional_properties}')
-            print(f'comment {comment}')
             self.namespace = namespace
             self.iri = iri
             self.types = types
