@@ -17,10 +17,10 @@ class CatalogueRecord(RangeValueConverter):
             r_value = super().get_range_value(ds, clazz, clazz_p)
         return r_value
 
-    def get_schema(self, ds: Dataset, clazz: RDFSClass, clazz_p: RDFSProperty):
+    def get_schema(self, ds: Dataset, clazz: RDFSClass, clazz_p: RDFSProperty, is_required: bool = None):
         mandatory_properties = {#DCTERMS.created, <--- Generoidaan
                                 #DCTERMS.modified, <--- Generoidaan
                                 DCTERMS.language, FOAF.primaryTopic}
         if self.is_class_specific_converter(clazz) and clazz_p.iri in mandatory_properties:
-            return super().get_schema(ds, clazz, clazz_p)
+            return super().get_schema(ds, clazz, clazz_p, is_required if is_required is not None else clazz_p.iri in mandatory_properties)
         return None

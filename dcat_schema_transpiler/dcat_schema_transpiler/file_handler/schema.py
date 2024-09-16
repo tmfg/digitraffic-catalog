@@ -35,7 +35,8 @@ def rdf_to_yaml(ds: Dataset):
     dataset_fields_required_by_ckan = [
         {"field_name": "owner_org",
          "label": "Organization",
-         "preset": "dataset_organization"}
+         "preset": "dataset_organization",
+         "required": True}
     ]
     dataset_fields = dataset_fields_required_by_ckan + dataset_fields_schema_map
     sort_dataset_fields(dataset_fields)

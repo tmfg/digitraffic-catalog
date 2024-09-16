@@ -18,5 +18,5 @@ class LicenseDocument(RangeValueConverter):
             r_value = super().get_range_value(ds, clazz, clazz_p)
         return r_value
 
-    def get_schema(self, ds: Dataset, clazz: RDFSClass, clazz_p: RDFSProperty):
-        return super().get_schema(ds, clazz, clazz_p)
+    def get_schema(self, ds: Dataset, clazz: RDFSClass, clazz_p: RDFSProperty, is_required: bool = False):
+        return super().get_schema(ds, clazz, clazz_p, is_required)
