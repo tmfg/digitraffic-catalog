@@ -27,7 +27,7 @@ services:
       redis:
         condition: service_started
       ckan-init:
-          condition: service_completed_successfully
+        condition: service_completed_successfully
     env_file:
       - .env_postgresql_common
       - .env_solr_common
@@ -43,7 +43,7 @@ services:
     env_file:
       - .env_postgresql_common
       - .env_postgresql
-    command: ["postgres", "-c", "config_file=/etc/postgresql/postgresql.conf"]
+    command: [ "postgres", "-c", "config_file=/etc/postgresql/postgresql.conf" ]
   solr:
     image: local_catalog_solr:latest
     ports:
