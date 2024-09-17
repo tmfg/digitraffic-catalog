@@ -17,16 +17,31 @@ def sort_by_field_name(order_list: List[str], field: Dict[str, Any]):
     except:
         return 9999
 
+def sort_by_label(field: Dict[str, Any]):
+    return field["label"]
+
+def sort_location(field: Dict[str, Any]):
+    return (0 if 'http://data.europa.eu/nuts/code' in field["value"] else 1, field["label"])
+
+def sort_dropdowns(schemas: List[Dict[str, Any]]):
+    for schema in schemas:
+        if schema.get("preset", "") == "select":
+            if schema.get("field_name") == "spatial":
+                schema["choices"].sort(key=sort_location)
+            else:
+                schema["choices"].sort(key=sort_by_label)
 
 def sort_dataset_fields(dataset_fields: List[Dict[str, Any]]):
-    order = ['owner_org', 'name', 'notes', 'metadata_language', 'mobility_theme',
-             'mobility_theme_sub', 'frequency']
+    order = ['owner_org', 'name', 'notes', 'metadata_language',  'frequency', 'mobility_theme',
+             'mobility_theme_sub', 'spatial']
     dataset_fields.sort(key=partial(sort_by_field_name, order))
+    sort_dropdowns(dataset_fields)
 
 
 def sort_resource_fields(resource_fields: List[Dict[str, Any]]):
     order = ['url', 'format', 'mobility_data_standard_schema', 'mobility_data_standard_version', 'rights_type']
     resource_fields.sort(key=partial(sort_by_field_name, order))
+    sort_dropdowns(resource_fields)
 
 
 def rdf_to_yaml(ds: Dataset):
@@ -35,7 +50,8 @@ def rdf_to_yaml(ds: Dataset):
     dataset_fields_required_by_ckan = [
         {"field_name": "owner_org",
          "label": "Organization",
-         "preset": "dataset_organization"}
+         "preset": "dataset_organization",
+         "required": True}
     ]
     dataset_fields = dataset_fields_required_by_ckan + dataset_fields_schema_map
     sort_dataset_fields(dataset_fields)

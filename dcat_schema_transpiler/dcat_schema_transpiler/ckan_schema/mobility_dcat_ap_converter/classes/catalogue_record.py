@@ -1,9 +1,9 @@
 from rdflib import DCTERMS, Dataset, DCAT, FOAF
 
 from ckan_schema.mobility_dcat_ap_converter.range_value_converter import RangeValueConverter
-from rdfs.rdfs_class import RDFSClass
-from rdfs.rdfs_property import RDFSProperty
-from rdfs.rdfs_resource import RDFSResource
+from dcat_schema_transpiler.rdfs.rdfs_class import RDFSClass
+from dcat_schema_transpiler.rdfs.rdfs_property import RDFSProperty
+from dcat_schema_transpiler.rdfs.rdfs_resource import RDFSResource
 
 
 class CatalogueRecord(RangeValueConverter):
@@ -17,10 +17,10 @@ class CatalogueRecord(RangeValueConverter):
             r_value = super().get_range_value(ds, clazz, clazz_p)
         return r_value
 
-    def get_schema(self, ds: Dataset, clazz: RDFSClass, clazz_p: RDFSProperty):
+    def get_schema(self, ds: Dataset, clazz: RDFSClass, clazz_p: RDFSProperty, is_required: bool = None):
         mandatory_properties = {#DCTERMS.created, <--- Generoidaan
                                 #DCTERMS.modified, <--- Generoidaan
                                 DCTERMS.language, FOAF.primaryTopic}
         if self.is_class_specific_converter(clazz) and clazz_p.iri in mandatory_properties:
-            return super().get_schema(ds, clazz, clazz_p)
+            return super().get_schema(ds, clazz, clazz_p, is_required if is_required is not None else clazz_p.iri in mandatory_properties)
         return None

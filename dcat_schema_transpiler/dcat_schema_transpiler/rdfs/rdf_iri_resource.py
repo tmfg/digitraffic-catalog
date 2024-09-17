@@ -4,12 +4,12 @@ from rdflib.namespace import RDF
 from typing import Any, Dict, Tuple
 import os
 
-from rdfs.resource import Resource
+from dcat_schema_transpiler.rdfs.resource import Resource
 
 
 class IRIResource(Resource):
     def __init__(self, namespace: Namespace, iri: URIRef, types: Tuple[URIRef, ...],
-                 additional_properties: Dict[URIRef, Tuple[Tuple[str, Namespace]]] = None) -> None:
+                 additional_properties: Dict[URIRef, Tuple[Tuple[str, Namespace]], ...] = None) -> None:
         if (namespace is None or
                 iri is None):
             raise ValueError('Cannot create a resource without namespace or iri')
@@ -50,13 +50,13 @@ class IRIResource(Resource):
 
     @staticmethod
     def resource_args_from_ds(iri: URIRef, ds: Dataset) -> (Namespace, URIRef, Tuple[URIRef]):
-        namespace = Resource.ns_from_iri(iri)
+        namespace = [Namespace(str(g.identifier)) for g in ds.graphs() if iri in Namespace(str(g.identifier))][0]
         g = ds.get_graph(URIRef(namespace))
         return namespace, iri, tuple(URIRef(node) for node in g.objects(iri, RDF.type))
 
     @staticmethod
     def resource_args_from_graph(iri: URIRef, g: Graph) -> (Namespace, URIRef, Tuple[URIRef]):
-        namespace = Resource.ns_from_iri(iri)
+        namespace = Namespace(str(g.identifier))
         return namespace, iri, tuple(URIRef(node) for node in g.objects(iri, RDF.type))
 
     def turtle_format(self, p_o_tuples: Tuple[(URIRef, Tuple[Any, ...]), ...]):

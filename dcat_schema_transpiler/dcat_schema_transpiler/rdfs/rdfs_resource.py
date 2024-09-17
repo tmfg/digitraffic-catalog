@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-from rdfs.iri_resource import iri_resource_factory
-from rdfs.rdf_iri_resource import IRIResource
+from dcat_schema_transpiler.rdfs.iri_resource import iri_resource_factory
+from dcat_schema_transpiler.rdfs.rdf_iri_resource import IRIResource
 from rdflib import Dataset, Namespace, URIRef, Literal
 from rdflib.namespace import RDFS
 from typing import List, Dict, Tuple
