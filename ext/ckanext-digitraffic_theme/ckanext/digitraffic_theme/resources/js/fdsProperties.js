@@ -16,22 +16,9 @@ const FT_SERVICES = [
 ];
 
 
-const CATALOG_SERVICE = {
-    label: "Datakatalogi",
-    value: "datacatalog",
-    url: "/",
-    items: [
-        {
-            label: "Datasets",
-            value: "datasets",
-            url: "/dataset"
-        }
-    ]
-}
-
 
 const DATACATALOG_NAVIGATION = [
-    { label: "Datasets", value: "datasets", url: }
+    { label: "Datasets", value: "datasets", url: "/dataset"}
 ];
 
 const setTopNavigationProperties = () => {
@@ -63,7 +50,7 @@ const setAppNavigationProperties = () => {
     const topNavigation = document.getElementById("app-navigation");
 
     topNavigation.variant = FdsNavigationVariant.secondary;
-    topNavigation.items = CATALOG_NAVIGATION;
+    topNavigation.items = DATACATALOG_NAVIGATION;
     topNavigation.verticalMenuNavText = "Nav";
 
     topNavigation.addEventListener('select', handleSelection);
