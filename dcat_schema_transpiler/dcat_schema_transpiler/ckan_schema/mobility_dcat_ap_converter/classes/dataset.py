@@ -2,9 +2,9 @@ from rdflib import DCTERMS, Dataset, SKOS, RDFS, DCAT, FOAF
 
 from ckan_schema.mobility_dcat_ap_converter.range_value_converter import RangeValueConverter
 from mobility_dcat_ap.namespace import MOBILITYDCATAP
-from rdfs.rdfs_class import RDFSClass
-from rdfs.rdfs_property import RDFSProperty
-from rdfs.rdfs_resource import RDFSResource
+from dcat_schema_transpiler.rdfs.rdfs_class import RDFSClass
+from dcat_schema_transpiler.rdfs.rdfs_property import RDFSProperty
+from dcat_schema_transpiler.rdfs.rdfs_resource import RDFSResource
 
 
 class DCATDataset(RangeValueConverter):
@@ -19,16 +19,17 @@ class DCATDataset(RangeValueConverter):
         return r_value
 
 
-    def get_schema(self, ds: Dataset, clazz: RDFSClass, clazz_p: RDFSProperty):
+    def get_schema(self, ds: Dataset, clazz: RDFSClass, clazz_p: RDFSProperty, is_required: bool = None):
         mandatory_properties = [DCTERMS.description, DCAT.distribution, DCTERMS.accrualPeriodicity,
                                 MOBILITYDCATAP.mobilityTheme,
                                 DCTERMS.spatial,
                                 DCTERMS.title,
                                 DCTERMS.publisher]
+        is_required_ = is_required if is_required is not None else clazz_p.iri in mandatory_properties
         if self.is_class_specific_converter(clazz) and clazz_p.iri in MOBILITYDCATAP.mobilityTheme:
-            return RangeValueConverter.controlled_vocab_field(clazz_p, clazz, ds)
+            return RangeValueConverter.controlled_vocab_field(clazz_p, clazz, ds, is_required_)
         if self.is_class_specific_converter(clazz) and clazz_p.iri in DCTERMS.spatial:
-            return RangeValueConverter.controlled_vocab_field(clazz_p, clazz, ds)
+            return RangeValueConverter.controlled_vocab_field(clazz_p, clazz, ds, is_required_)
         if self.is_class_specific_converter(clazz) and clazz_p.iri in mandatory_properties:
-            return super().get_schema(ds, clazz, clazz_p)
+            return super().get_schema(ds, clazz, clazz_p, is_required_)
         return None

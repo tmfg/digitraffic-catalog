@@ -1,11 +1,22 @@
+$select-dropdown-area: dropdown;
+$select-error-area: error;
+
 // scheming plugin and CKAN’s development primer page
 .controls:has(> select) {
     position: relative;
-    display: flex;
+    display: grid;
+    grid-template-areas:
+        "#{$select-dropdown-area}"
+        "#{$select-error-area}";
     align-items: center;
 
     select {
+        grid-area: $select-dropdown-area;
         padding: var(--fds-select-padding-top) var(--fds-select-padding-right) var(--fds-select-padding-bottom) var(--fds-select-padding-left)
+    }
+
+    .error-block {
+        grid-area: $select-error-area;
     }
 
     &::after {
@@ -15,6 +26,7 @@
         position: absolute;
         right: .75rem;
         pointer-events: none;
+        grid-area: $select-dropdown-area;
     }
 }
 

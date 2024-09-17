@@ -1,11 +1,11 @@
 from __future__ import annotations
 
-from rdfs.iri_resource import iri_resource_factory
+from dcat_schema_transpiler.rdfs.iri_resource import iri_resource_factory
 from rdflib import Dataset, Namespace, URIRef, Literal
 from rdflib.namespace import RDF, RDFS
 from typing import List, Dict, Tuple
 
-from rdfs.rdfs_resource import RDFSResource
+from dcat_schema_transpiler.rdfs.rdfs_resource import RDFSResource
 
 
 class RDFSProperty(RDFSResource):

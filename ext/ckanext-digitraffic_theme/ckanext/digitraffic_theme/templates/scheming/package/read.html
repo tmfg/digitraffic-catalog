@@ -3,10 +3,12 @@
 {% block package_additional_info %}
     <section class="rdf-links">
         <h3>RDF links</h3>
-        <a href="{{ h.full_current_url() }}.xml" type="application/rdf+xml" target="_blank">{% trans %}XML format{% endtrans %}</a>
-        <a href="{{ h.full_current_url() }}.n3" type="text/n3" target="_blank">{% trans %}N3 format{% endtrans %}</a>
-        <a href="{{ h.full_current_url() }}.ttl" type="text/ttl" target="_blank">{% trans %}TTL format{% endtrans %}</a>
-        <a href="{{ h.full_current_url() }}.jsonld" type="application/ld+json" target="_blank">{% trans %}JSON format{% endtrans %}</a>
+        {% with endpoint=h.dcat_get_endpoint('dataset')  %}
+            <a href="{{ h.url_for(endpoint, _id=pkg.id, _format='xml', _external=True) }}" type="application/rdf+xml" target="_blank">{% trans %}XML format{% endtrans %}</a>
+            <a href="{{ h.url_for(endpoint, _id=pkg.id, _format='n3', _external=True) }}" type="text/n3" target="_blank">{% trans %}N3 format{% endtrans %}</a>
+            <a href="{{ h.url_for(endpoint, _id=pkg.id, _format='ttl', _external=True) }}" type="text/ttl" target="_blank">{% trans %}TTL format{% endtrans %}</a>
+            <a href="{{ h.url_for(endpoint, _id=pkg.id, _format='jsonld', _external=True) }}" type="application/ld+json" target="_blank">{% trans %}JSON format{% endtrans %}</a>
+        {% endwith %}
     </section>
     {{ super() }}
 
