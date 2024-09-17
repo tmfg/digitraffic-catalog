@@ -1,9 +1,9 @@
 from rdflib import DCTERMS, Dataset, SKOS
 
 from ckan_schema.mobility_dcat_ap_converter.range_value_converter import RangeValueConverter
-from rdfs.rdfs_class import RDFSClass
-from rdfs.rdfs_property import RDFSProperty
-from rdfs.rdfs_resource import RDFSResource
+from dcat_schema_transpiler.rdfs.rdfs_class import RDFSClass
+from dcat_schema_transpiler.rdfs.rdfs_property import RDFSProperty
+from dcat_schema_transpiler.rdfs.rdfs_resource import RDFSResource
 
 
 class LicenseDocument(RangeValueConverter):
@@ -18,5 +18,5 @@ class LicenseDocument(RangeValueConverter):
             r_value = super().get_range_value(ds, clazz, clazz_p)
         return r_value
 
-    def get_schema(self, ds: Dataset, clazz: RDFSClass, clazz_p: RDFSProperty):
-        return super().get_schema(ds, clazz, clazz_p)
+    def get_schema(self, ds: Dataset, clazz: RDFSClass, clazz_p: RDFSProperty, is_required: bool = False):
+        return super().get_schema(ds, clazz, clazz_p, is_required)
