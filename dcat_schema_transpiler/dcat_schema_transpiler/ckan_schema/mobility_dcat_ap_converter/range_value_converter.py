@@ -154,6 +154,7 @@ class RangeValueConverter:
                     "label": "Format",
                     "required": is_required,
                     "preset": "select",
+                    "form_include_blank_choice": True,
                     "choices": RangeValueConverter.vocab_choices(g)
                 }
             case DCTERMS.Frequency:
@@ -165,6 +166,7 @@ class RangeValueConverter:
                     "label": "Frequency",
                     "required": is_required,
                     "preset": "select",
+                    "form_include_blank_choice": True,
                     "choices": RangeValueConverter.vocab_choices(g)
                 }
             case DCTERMS.LinguisticSystem:
@@ -184,6 +186,7 @@ class RangeValueConverter:
                     "label": "Metadata Language",
                     "required": is_required,
                     "preset": "select",
+                    "form_include_blank_choice": True,
                     "choices": RangeValueConverter.vocab_choices(g, lambda s: is_supported_language(s))
                 }
         label_value = RangeValueConverter.get_label(p, ds)
@@ -196,6 +199,7 @@ class RangeValueConverter:
                     "label": label_value,
                     "required": is_required,
                     "preset": "select",
+                    "form_include_blank_choice": True,
                     "choices": RangeValueConverter.vocab_choices(g)
                 }
             case DCTERMS.type:
@@ -206,6 +210,7 @@ class RangeValueConverter:
                         "label": 'Conditions for access and usage',
                         "required": is_required,
                         "preset": "select",
+                        "form_include_blank_choice": True,
                         "choices": RangeValueConverter.vocab_choices(g)
                     }
             case DCTERMS.identifier:
@@ -216,6 +221,7 @@ class RangeValueConverter:
                         "label": 'Standard license',
                         "required": is_required,
                         "preset": "select",
+                        "form_include_blank_choice": True,
                         "choices": RangeValueConverter.vocab_choices(g)
                     }
             case MOBILITYDCATAP.applicationLayerProtocol:
@@ -225,6 +231,7 @@ class RangeValueConverter:
                     "label": label_value,
                     "required": is_required,
                     "preset": "select",
+                    "form_include_blank_choice": True,
                     "choices": RangeValueConverter.vocab_choices(g)
                 }
             case MOBILITYDCATAP.grammar:
@@ -234,6 +241,7 @@ class RangeValueConverter:
                     "label": label_value,
                     "required": is_required,
                     "preset": "select",
+                    "form_include_blank_choice": True,
                     "choices": RangeValueConverter.vocab_choices(g)
                 }
             case MOBILITYDCATAP.schema:
@@ -243,6 +251,7 @@ class RangeValueConverter:
                     "label": "Mobility data standard",
                     "required": is_required,
                     "preset": "select",
+                    "form_include_blank_choice": True,
                     "choices": RangeValueConverter.vocab_choices(g)
                 }
             case MOBILITYDCATAP.mobilityTheme:
@@ -252,6 +261,7 @@ class RangeValueConverter:
                     "label": "Data content category",
                     "required": is_required,
                     "preset": "select",
+                    "form_include_blank_choice": True,
                     "choices": RangeValueConverter.vocab_choices(g, lambda s: (s, SKOS.broader, URIRef(
                         'https://w3id.org/mobilitydcat-ap/mobility-theme/data-content-category')) in g)
                 },
@@ -260,6 +270,7 @@ class RangeValueConverter:
                         "label": "Data content sub category",
                         "required": is_required,
                         "preset": "select",
+                        "form_include_blank_choice": True,
                         "choices": RangeValueConverter.vocab_choices(g, lambda s: (s, SKOS.broader, URIRef(
                             'https://w3id.org/mobilitydcat-ap/mobility-theme/data-content-sub-category')) in g)
                     }
@@ -297,5 +308,6 @@ class RangeValueConverter:
                     "label": "Location",
                     "required": is_required,
                     "preset": "select",
+                    "form_include_blank_choice": True,
                     "choices": RangeValueConverter.vocab_choices(g_nuts + g_lau, is_finnish_place)
                 }

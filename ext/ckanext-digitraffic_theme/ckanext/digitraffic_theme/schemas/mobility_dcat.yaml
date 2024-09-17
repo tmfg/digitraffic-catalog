@@ -15,6 +15,7 @@ dataset_fields:
   label: Metadata Language
   required: true
   preset: select
+  form_include_blank_choice: true
   choices:
   - value: http://publications.europa.eu/resource/authority/language/ENG
     label: English
@@ -26,6 +27,7 @@ dataset_fields:
   label: Frequency
   required: true
   preset: select
+  form_include_blank_choice: true
   choices:
   - value: https://w3id.org/mobilitydcat-ap/update-frequency/10min
     label: 10min
@@ -123,6 +125,7 @@ dataset_fields:
   label: Data content category
   required: true
   preset: select
+  form_include_blank_choice: true
   choices:
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/air-and-space-travel
     label: Air and space travel
@@ -166,6 +169,7 @@ dataset_fields:
   label: Data content sub category
   required: true
   preset: select
+  form_include_blank_choice: true
   choices:
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/accesibility-information-for-vehicles
     label: Accesibility information for vehicles
@@ -375,6 +379,7 @@ dataset_fields:
   label: Location
   required: true
   preset: select
+  form_include_blank_choice: true
   choices:
   - value: http://data.europa.eu/nuts/code/FI
     label: FI Suomi/Finland
@@ -1065,6 +1070,7 @@ resource_fields:
   label: Format
   required: true
   preset: select
+  form_include_blank_choice: true
   choices:
   - value: http://publications.europa.eu/resource/authority/file-type/7Z
     label: 7z
@@ -1500,6 +1506,7 @@ resource_fields:
   label: Mobility data standard
   required: true
   preset: select
+  form_include_blank_choice: true
   choices:
   - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/c-its
     label: C-ITS
@@ -1538,6 +1545,7 @@ resource_fields:
   label: Conditions for access and usage
   required: true
   preset: select
+  form_include_blank_choice: true
   choices:
   - value: https://w3id.org/mobilitydcat-ap/conditions-for-access-and-usage/contractual-arrangement
     label: Contractual arrangement
