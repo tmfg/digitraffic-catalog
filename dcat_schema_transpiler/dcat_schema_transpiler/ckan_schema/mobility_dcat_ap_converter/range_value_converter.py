@@ -1,6 +1,6 @@
 from mobility_dcat_ap.namespace import MOBILITYDCATAP_NS_URL
-from rdfs.rdfs_resource import RDFSResource
-from rdfs.util import get_rdf_object
+from dcat_schema_transpiler.rdfs.rdfs_resource import RDFSResource
+from dcat_schema_transpiler.rdfs.util import get_rdf_object
 
 from rdflib import Dataset, URIRef, Graph, FOAF, OWL, DCAT
 
@@ -12,9 +12,9 @@ from mobility_dcat_ap.dataset import CVOCAB_COMMUNICATION_METHOD, CVOCAB_RIGHTS_
     CVOCAB_EUV_FREQUENCY, CVOCAB_MOBILITY_DATA_STANDARD, CVOCAB_FORMAT, CVOCAB_MOBILITY_THEME, CVOCAB_LANGUAGE, \
     CVOCAB_NUTS, CVOCAB_LAU
 from mobility_dcat_ap.namespace import MOBILITYDCATAP
-from rdfs.rdfs_class import RDFSClass
-from rdfs.rdfs_literal import RDFSLiteral
-from rdfs.rdfs_property import RDFSProperty
+from dcat_schema_transpiler.rdfs.rdfs_class import RDFSClass
+from dcat_schema_transpiler.rdfs.rdfs_literal import RDFSLiteral
+from dcat_schema_transpiler.rdfs.rdfs_property import RDFSProperty
 
 from typing import Callable, List, Dict
 
@@ -41,14 +41,15 @@ class RangeValueConverter:
         r_ordered = r_defined_by_mobility_dcat_ap + r_defined_by_original + r_defined_by_clazz_ns + obj
         return r_ordered[0] if len(r_ordered) > 0 else None
 
-    def get_schema(self, ds: Dataset, clazz: RDFSClass, clazz_p: RDFSProperty | None):
+    def get_schema(self, ds: Dataset, clazz: RDFSClass, clazz_p: RDFSProperty | None, is_required: bool=False):
         rdf_range = self.get_range_value(ds, clazz, clazz_p)
         if isinstance(rdf_range, RDFSResource) and rdf_range.iri == RDFS.Literal:
             label_value = RangeValueConverter.get_label(clazz_p, ds)
             field_name = RangeValueConverter.ckan_field(clazz.iri, clazz_p)
             return {
                 "field_name": field_name,
-                "label": label_value
+                "label": label_value,
+                "required": is_required
             }
         elif isinstance(rdf_range, RDFSResource) and rdf_range.iri == RDFS.Resource:
             # Resurssi tyyppiset näyttää olevan URLeja
@@ -56,14 +57,15 @@ class RangeValueConverter:
             return {
                 "field_name": RangeValueConverter.ckan_field(clazz.iri, clazz_p),
                 "label": label_value,
+                "required": is_required,
                 "help_text": 'The value should be URL'
             }
         elif isinstance(rdf_range, RDFSResource) and rdf_range.iri == SKOS.Concept:
             # SKOS.Concept tyyppiset on kontrolloituja sanastoja. RDF:llä ei saane tarkemmin tuota määritettyä.
             # OWL:illa ehkä saisi
-            return RangeValueConverter.controlled_vocab_field(clazz_p, clazz, ds)
+            return RangeValueConverter.controlled_vocab_field(clazz_p, clazz, ds, is_required)
         else:
-            return {}
+            return {"required": is_required}
 
     def is_class_specific_converter(self, clazz: RDFSClass):
         return clazz.is_iri(self.iri_to_convert)
@@ -142,7 +144,7 @@ class RangeValueConverter:
                      if filter(URIRef(s))])
 
     @staticmethod
-    def controlled_vocab_field(p: RDFSProperty, clazz: RDFSClass, ds: Dataset) -> List | Dict:
+    def controlled_vocab_field(p: RDFSProperty, clazz: RDFSClass, ds: Dataset, is_required: bool) -> List | Dict:
         # Some classes do not have properties
         match clazz.iri:
             case DCTERMS.MediaTypeOrExtent:
@@ -150,7 +152,9 @@ class RangeValueConverter:
                 return {
                     "field_name": "format",
                     "label": "Format",
+                    "required": is_required,
                     "preset": "select",
+                    "form_include_blank_choice": True,
                     "choices": RangeValueConverter.vocab_choices(g)
                 }
             case DCTERMS.Frequency:
@@ -160,7 +164,9 @@ class RangeValueConverter:
                 return {
                     "field_name": "frequency",
                     "label": "Frequency",
+                    "required": is_required,
                     "preset": "select",
+                    "form_include_blank_choice": True,
                     "choices": RangeValueConverter.vocab_choices(g)
                 }
             case DCTERMS.LinguisticSystem:
@@ -178,7 +184,9 @@ class RangeValueConverter:
                 return {
                     "field_name": "metadata_language",
                     "label": "Metadata Language",
+                    "required": is_required,
                     "preset": "select",
+                    "form_include_blank_choice": True,
                     "choices": RangeValueConverter.vocab_choices(g, lambda s: is_supported_language(s))
                 }
         label_value = RangeValueConverter.get_label(p, ds)
@@ -189,7 +197,9 @@ class RangeValueConverter:
                 return {
                     "field_name": RangeValueConverter.ckan_field(clazz.iri, p),
                     "label": label_value,
+                    "required": is_required,
                     "preset": "select",
+                    "form_include_blank_choice": True,
                     "choices": RangeValueConverter.vocab_choices(g)
                 }
             case DCTERMS.type:
@@ -198,7 +208,9 @@ class RangeValueConverter:
                     return {
                         "field_name": RangeValueConverter.ckan_field(clazz.iri, p),
                         "label": 'Conditions for access and usage',
+                        "required": is_required,
                         "preset": "select",
+                        "form_include_blank_choice": True,
                         "choices": RangeValueConverter.vocab_choices(g)
                     }
             case DCTERMS.identifier:
@@ -207,7 +219,9 @@ class RangeValueConverter:
                     return {
                         "field_name": RangeValueConverter.ckan_field(clazz.iri, p),
                         "label": 'Standard license',
+                        "required": is_required,
                         "preset": "select",
+                        "form_include_blank_choice": True,
                         "choices": RangeValueConverter.vocab_choices(g)
                     }
             case MOBILITYDCATAP.applicationLayerProtocol:
@@ -215,7 +229,9 @@ class RangeValueConverter:
                 return {
                     "field_name": RangeValueConverter.ckan_field(clazz.iri, p),
                     "label": label_value,
+                    "required": is_required,
                     "preset": "select",
+                    "form_include_blank_choice": True,
                     "choices": RangeValueConverter.vocab_choices(g)
                 }
             case MOBILITYDCATAP.grammar:
@@ -223,7 +239,9 @@ class RangeValueConverter:
                 return {
                     "field_name": RangeValueConverter.ckan_field(clazz.iri, p),
                     "label": label_value,
+                    "required": is_required,
                     "preset": "select",
+                    "form_include_blank_choice": True,
                     "choices": RangeValueConverter.vocab_choices(g)
                 }
             case MOBILITYDCATAP.schema:
@@ -231,7 +249,9 @@ class RangeValueConverter:
                 return {
                     "field_name": RangeValueConverter.ckan_field(clazz.iri, p),
                     "label": "Mobility data standard",
+                    "required": is_required,
                     "preset": "select",
+                    "form_include_blank_choice": True,
                     "choices": RangeValueConverter.vocab_choices(g)
                 }
             case MOBILITYDCATAP.mobilityTheme:
@@ -239,14 +259,18 @@ class RangeValueConverter:
                 return [{
                     "field_name": RangeValueConverter.ckan_field(clazz.iri, p, 'main'),
                     "label": "Data content category",
+                    "required": is_required,
                     "preset": "select",
+                    "form_include_blank_choice": True,
                     "choices": RangeValueConverter.vocab_choices(g, lambda s: (s, SKOS.broader, URIRef(
                         'https://w3id.org/mobilitydcat-ap/mobility-theme/data-content-category')) in g)
                 },
                     {
                         "field_name": RangeValueConverter.ckan_field(clazz.iri, p, 'sub'),
                         "label": "Data content sub category",
+                        "required": is_required,
                         "preset": "select",
+                        "form_include_blank_choice": True,
                         "choices": RangeValueConverter.vocab_choices(g, lambda s: (s, SKOS.broader, URIRef(
                             'https://w3id.org/mobilitydcat-ap/mobility-theme/data-content-sub-category')) in g)
                     }
@@ -282,6 +306,8 @@ class RangeValueConverter:
                 return {
                     "field_name": RangeValueConverter.ckan_field(clazz.iri, p),
                     "label": "Location",
+                    "required": is_required,
                     "preset": "select",
+                    "form_include_blank_choice": True,
                     "choices": RangeValueConverter.vocab_choices(g_nuts + g_lau, is_finnish_place)
                 }

@@ -67,7 +67,7 @@ jobs:
       - name: create extensions
         if: github.event.inputs.install_ckan == 'true'
         run: |
-          npm ci  
+          # npm ci  
 
           mkdir docker/ckan/ckanext
           # copy directory
