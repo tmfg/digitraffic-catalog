@@ -10,3 +10,19 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
+      - name: Setup environment
+        run: |
+          cp -r ext docker/ckan/ckanext
+          cp ext/ckanext-entraid_authenticator/.env.example local-env/.env_entra
+
+      - name: Start CKAN
+        working-directory: local-env
+        run: ./start-local-ckan.sh up build_image ci
+
+      - name: Wait for containers
+        run: sleep 10
+        
+      - name: Run tests
+        working-directory: local-env
+        run: ./run-digitraffic-theme-tests-on-docker.sh
