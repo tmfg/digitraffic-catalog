@@ -4,7 +4,7 @@ set -euo pipefail
 USAGE=$(
   cat <<-EOM
 
-usage: start_local_ckan.sh { up | down } [ build_image ]
+usage: start_local_ckan.sh { up | down } [ build_image ] [ ci ]
 
 Starts or stops a local CKAN server inside docker compose.
 
@@ -13,19 +13,19 @@ Also, builds a CKAN docker image if one does not exists or build_image argument 
 EOM
 )
 
-if ! ([[ $# -eq 1 ]] || [[ $# -eq 2 ]]); then
+if ! ([[ $# -ge 1 ]] && [[ $# -le 3 ]]); then
   echo "$USAGE"
   exit 1
 fi
 
-if ! [[ "$1" = 'up' ||
-  "$1" = 'down' ]]; then
+if ! [[ "$1" = 'up' || "$1" = 'down' ]]; then
   echo "$USAGE"
   exit 1
 fi
 
 COMPOSE_COMMAND="$1"
 BUILD_IMAGE="${2:-}"
+CI="${3:-}"
 
 cd "$(dirname "${BASH_SOURCE[0]}")"
 
@@ -55,9 +55,12 @@ build_image_conditionally ../docker/solr local_catalog_solr:latest
 build_image_conditionally ../docker/nginx local_catalog_nginx:latest ENVIRONMENT=local
 build_image_conditionally ./postgresql local_catalog_postgresql:latest
 
-
 if [ "$COMPOSE_COMMAND" == "up" ]; then
-  docker-compose --project-name datakatalogi-local --env-file ".env_ckan_common" --env-file ".env_solr_common" up
+  if [ "$CI" == "ci" ]; then
+    INCLUDE_VOLUMES="" docker compose --project-name datakatalogi-local --env-file ".env_ckan_common" --env-file ".env_solr_common" up -d
+  else
+    docker compose --project-name datakatalogi-local --env-file ".env_ckan_common" --env-file ".env_solr_common" up
+  fi
 elif [ "$COMPOSE_COMMAND" == "down" ]; then
-  docker-compose --project-name datakatalogi-local down --remove-orphans
+  docker compose --project-name datakatalogi-local down --remove-orphans
 fi
