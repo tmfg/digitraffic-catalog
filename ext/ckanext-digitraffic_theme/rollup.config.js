@@ -4,10 +4,11 @@ import { nodeResolve } from "@rollup/plugin-node-resolve";
 import terser from "@rollup/plugin-terser";
 import cssnano from "cssnano";
 import autoprefixer from "autoprefixer";
+import typescript from "@rollup/plugin-typescript";
 
 const inputs = {
     'css/digitraffic-theme': "ckanext/digitraffic_theme/resources/js/digitrafficTheme.js",
-    'js/digitrafficMain': "ckanext/digitraffic_theme/resources/js/main.js"
+    'js/digitrafficMain': "ckanext/digitraffic_theme/resources/ts/main.ts"
 }
 export default Object.entries(inputs).map(([name, file]) => {
     const isOutputJs = name.startsWith('js/')
@@ -43,7 +44,8 @@ export default Object.entries(inputs).map(([name, file]) => {
             exportConditions: ["node", "default", "module", "import", "require"],
             preferBuiltins: true
         }),
-        terser()
+        typescript(),
+        //terser()
     ]
     return {
         input: {
