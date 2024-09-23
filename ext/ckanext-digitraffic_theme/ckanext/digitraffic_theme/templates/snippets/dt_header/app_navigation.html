@@ -1,6 +1,6 @@
 <div id="app-nav-bar">
     <nav id="app-navigation" data-module="digitraffic_theme_app_navigation">
-        <ol>
+        <ul>
             {% set dataset_type = h.default_package_type() %}
             {% set org_type = h.default_group_type('organization') %}
             {% set group_type = h.default_group_type('group') %}
@@ -12,10 +12,11 @@
             (group_type ~ '.index',
             h.humanize_entity_type('group', group_type, 'main nav') or _('Groups'), ['group']),
             ('home.about', _('About')) ) }}
-        </ol>
+        </ul>
     </nav>
     <div id="nav-actions">
-        {% snippet 'snippets/dt_header/search_box.html' %}
+        {% snippet "snippets/dt_header/search_box.html" %}
+        {% snippet "snippets/dt_header/user_actions.html" %}
         {% snippet "snippets/language_selector_icon.html" %}
     </div>
 </div>
