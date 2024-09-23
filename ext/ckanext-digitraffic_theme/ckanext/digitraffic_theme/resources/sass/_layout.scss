@@ -19,9 +19,18 @@
     }
 }
 
-body > .main {
-    @include page-main-section;
-    // Jotain
+body {
+    header {
+        // Header dropdowns should go over main page
+        z-index: 100;
+        position: relative;
+    }
+    > .main {
+        @include page-main-section;
+
+        z-index: 10;
+        position: relative;
+    }
 }
 
 @media (max-width: map-get($grid-breakpoints, md) - 1) {
