@@ -1,17 +1,23 @@
-<div id="app-nav-bar">
-    <nav id="app-navigation" data-module="digitraffic_theme_app_navigation">
-        <ul>
-            {% set dataset_type = h.default_package_type() %}
-            {% set org_type = h.default_group_type('organization') %}
-            {% set group_type = h.default_group_type('group') %}
+{% set dataset_type = h.default_package_type() %}
+{% set org_type = h.default_group_type('organization') %}
+{% set group_type = h.default_group_type('group') %}
 
-            {{ h.build_nav_main(
-            (dataset_type ~ '.search', h.humanize_entity_type('package', dataset_type, 'main nav') or _('Datasets'), ["dataset", "resource"]),
-            (org_type ~ '.index',
-            h.humanize_entity_type('organization', org_type, 'main nav') or _('Organizations'), ['organization']),
-            (group_type ~ '.index',
-            h.humanize_entity_type('group', group_type, 'main nav') or _('Groups'), ['group']),
-            ('home.about', _('About')) ) }}
+{% with dataset=(dataset_type ~ '.search', h.humanize_entity_type('package', dataset_type, 'main nav') or _('Datasets'), ["dataset", "resource"]),
+        organization=(org_type ~ '.index', h.humanize_entity_type('organization', org_type, 'main nav') or _('Organizations'), ['organization']),
+        group=(group_type ~ '.index', h.humanize_entity_type('group', group_type, 'main nav') or _('Groups'), ['group']),
+        about=('home.about', _('About'))%}
+<div id="app-nav-bar" data-module="digitraffic_theme_app_navigation"
+                      data-module-dataset-label="{{ dataset[1] }}"
+                      data-module-dataset-url="{{ h.url_for(dataset[0]) }}"
+                      data-module-organization-label="{{ organization[1] }}"
+                      data-module-organization-url="{{ h.url_for(organization[0]) }}"
+                      data-module-group-label="{{ group[1] }}"
+                      data-module-group-url="{{ h.url_for(group[0]) }}"
+                      data-module-about-label="{{ about[1] }}"
+                      data-module-about-url="{{ h.url_for(about[0]) }}">
+    <nav id="app-navigation">
+        <ul>
+            {{ h.build_nav_main(dataset, organization, group, about) }}
         </ul>
     </nav>
     <div id="nav-actions">
@@ -20,3 +26,4 @@
         {% snippet "snippets/language_selector_icon.html" %}
     </div>
 </div>
+{% endwith %}
