@@ -41,11 +41,7 @@ ckan.module('digitraffic_theme_top_navigation', function ($) {
 
         const handleSelection = (event) => {
           const item = event.detail;
-          if (item.value === DIGITRAFFIC_SERVICE.value) {
-            window.location.href = window.location.origin;
-          } else {
-            window.open(item.url, "_blank");
-          }
+          window.open(item.url, "_blank");
           event.target.selected = DIGITRAFFIC_SERVICE;
         };
 

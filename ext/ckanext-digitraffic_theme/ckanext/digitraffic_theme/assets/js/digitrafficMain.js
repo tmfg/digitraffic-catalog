@@ -1500,18 +1500,55 @@ ckan.module('digitraffic_theme_top_navigation', function ($) {
           </a>`;
                 const handleSelection = (event) => {
                     const item = event.detail;
-                    if (item.value === DIGITRAFFIC_SERVICE.value) {
-                        window.location.href = window.location.origin;
-                    }
-                    else {
-                        window.open(item.url, "_blank");
-                    }
+                    window.open(item.url, "_blank");
                     event.target.selected = DIGITRAFFIC_SERVICE;
                 };
                 fdsNavigation.variant = FdsNavigationVariant.primary;
                 fdsNavigation.items = FT_SERVICES;
                 fdsNavigation.selected = DIGITRAFFIC_SERVICE;
                 fdsNavigation.verticalMenuNavText = "Services";
+                fdsNavigation.addEventListener('select', handleSelection);
+                this.el.replaceWith(fdsNavigation);
+            });
+        }
+    };
+});
+
+ckan.module('digitraffic_theme_app_navigation', function ($) {
+    return {
+        initialize: function () {
+            customElements.whenDefined("fds-navigation").then(() => {
+                console.log('fds-navigation DEFINED');
+                console.log(this.el);
+                console.log(this.options);
+                const fdsNavigation = document.createElement("fds-navigation");
+                fdsNavigation.setAttribute("vertical-menu-threshold", "1150");
+                fdsNavigation.innerHTML = `
+        <span>Datakatalogi</span>
+        `;
+                const handleSelection = (event) => {
+                    const item = event.detail;
+                    window.location.href = item.url;
+                    /*if (item.value === DIGITRAFFIC_SERVICE.value) {
+                      window.location.href = window.location.origin;
+                    } else {
+                      window.open(item.url, "_blank");
+                    }
+                    event.target.selected = DIGITRAFFIC_SERVICE;*/
+                };
+                const DATACATALOG_NAVIGATION = [
+                    { label: this.options["datasetLabel"], value: "dataset", url: this.options["datasetUrl"] },
+                    { label: this.options["organizationLabel"], value: "organization", url: this.options["organizationUrl"] },
+                    { label: this.options["groupLabel"], value: "group", url: this.options["groupUrl"] },
+                    { label: this.options["aboutLabel"], value: "about", url: this.options["aboutUrl"] },
+                ];
+                const currentNavigation = DATACATALOG_NAVIGATION.filter(({ url }) => {
+                    return window.location.pathname.includes(url);
+                })[0];
+                fdsNavigation.variant = FdsNavigationVariant.secondary;
+                fdsNavigation.items = DATACATALOG_NAVIGATION;
+                fdsNavigation.selected = currentNavigation;
+                fdsNavigation.verticalMenuNavText = "Nav";
                 fdsNavigation.addEventListener('select', handleSelection);
                 this.el.replaceWith(fdsNavigation);
             });
