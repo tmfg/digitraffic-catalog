@@ -6,24 +6,19 @@
         organization=(org_type ~ '.index', h.humanize_entity_type('organization', org_type, 'main nav') or _('Organizations'), ['organization']),
         group=(group_type ~ '.index', h.humanize_entity_type('group', group_type, 'main nav') or _('Groups'), ['group']),
         about=('home.about', _('About'))%}
-<div id="app-nav-bar" data-module="digitraffic_theme_app_navigation"
-                      data-module-dataset-label="{{ dataset[1] }}"
-                      data-module-dataset-url="{{ h.url_for(dataset[0]) }}"
-                      data-module-organization-label="{{ organization[1] }}"
-                      data-module-organization-url="{{ h.url_for(organization[0]) }}"
-                      data-module-group-label="{{ group[1] }}"
-                      data-module-group-url="{{ h.url_for(group[0]) }}"
-                      data-module-about-label="{{ about[1] }}"
-                      data-module-about-url="{{ h.url_for(about[0]) }}">
-    <nav id="app-navigation">
-        <ul>
-            {{ h.build_nav_main(dataset, organization, group, about) }}
-        </ul>
-    </nav>
-    <div id="nav-actions">
-        {% snippet "snippets/dt_header/search_box.html" %}
-        {% snippet "snippets/dt_header/user_actions.html" %}
-        {% snippet "snippets/language_selector_icon.html" %}
+<div id="app-nav-bar">
+    <span class="datacatalog-header">Datakatalogi</span>
+    <div id="nav-interactions-wrapper">
+        <nav id="app-navigation">
+            <ul>
+                {{ h.build_nav_main(dataset, organization, group, about) }}
+            </ul>
+        </nav>
+        <div id="nav-actions">
+            {% snippet "snippets/dt_header/search_box.html" %}
+            {% snippet "snippets/dt_header/user_actions.html" %}
+            {% snippet "snippets/language_selector_icon.html" %}
+        </div>
     </div>
 </div>
 {% endwith %}

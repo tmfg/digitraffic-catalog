@@ -1,32 +1,40 @@
 {% if c.userobj %}
-<nav class="account avatar authed user-action-wrapper" data-module="me" data-me="{{ c.userobj.id }}">
-    <div>
-        <a href="{{ h.url_for('user.read', id=c.userobj.name) }}" class="image" title="{{ _('View profile') }}">
-            <span class="username">{{ c.userobj.display_name }}</span>
-        </a>
-    </div>
-    <ul id="user-action-select">
+<nav class="account avatar authed user-action-wrapper js-disabled" data-module="digitraffic_theme_user_actions">
+    <label for="user-action-select" class="d-none">User actions</label>
+    <button id="user-action-select"
+            class="username"
+            role="combobox"
+            aria-controls="user-action-list"
+            aria-haspopup="listbox"
+            tabindex="0"
+            aria-expanded="false">{{ c.userobj.display_name }}</button>
+    <ul role="menu" id="user-action-list">
+        <li role="menuitem">
+            <a href="{{ h.url_for('user.read', id=c.userobj.name) }}" class="image" title="{{ _('View profile') }}">
+                <span class="text">{{ _('Profile') }}</span>
+            </a>
+        </li>
         {% if c.userobj.sysadmin %}
-        <li>
+        <li role="menuitem">
             <a href="{{ h.url_for('admin.index') }}" title="{{ _('Sysadmin settings') }}">
                 <i class="fa fa-gavel" aria-hidden="true"></i>
                 <span class="text">{{ _('Admin') }}</span>
             </a>
         </li>
         {% endif %}
-        <li>
+        <li role="menuitem">
             <a href="{{ h.url_for('dashboard.datasets') }}" title="{{ _("View dashboard") }}">
             <i class="fa fa-tachometer" aria-hidden="true"></i>
             <span class="text">{{ _('Dashboard') }}</span>
             </a>
         </li>
-        <li>
+        <li role="menuitem">
             <a href="{{ h.url_for('user.edit', id=c.userobj.name) }}" title="{{ _('Profile settings') }}">
                 <i class="fa fa-cog" aria-hidden="true"></i>
                 <span class="text">{{ _('Profile settings') }}</span>
             </a>
         </li>
-        <li>
+        <li role="menuitem">
             <a href="{{ h.url_for('user.logout') }}" title="{{ _('Log out') }}">
                 <i class="fa fa-sign-out" aria-hidden="true"></i>
                 <span class="text">{{ _('Log out') }}</span>

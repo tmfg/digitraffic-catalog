@@ -1,4 +1,4 @@
-@mixin reset-style-for-select {
+@mixin reset-style-for-select-and-button {
     appearance: none;
     background-color: transparent;
     border: none;
@@ -32,9 +32,30 @@ $icon-height: 24px;
 }
 
 #app-nav-bar {
+    --digitraffic-nav-min-height: 56px;
     display: flex;
     flex-wrap: nowrap;
-    justify-content: space-between;
+    align-items: center;
+    padding: 0 30px;
+
+    font-weight: 600;
+
+    border-bottom: 1px solid var(--fds-color-brand-black, #000);
+
+    .datacatalog-header {
+        font-weight: 800;
+        font-size: 1.25rem;
+        min-height: var(--digitraffic-nav-min-height);
+        display: flex;
+        align-items: center;
+    }
+
+    a {
+        text-decoration: none;
+        padding: 1rem 24px;
+        min-height: var(--digitraffic-nav-min-height);
+        display: inline-block;
+    }
 
     ul {
         list-style: none;
@@ -42,18 +63,19 @@ $icon-height: 24px;
         display: inline-block;
         li {
             display: inline-block;
-            margin-right: 24px;
             :last-child {
                 margin-right: 0;
-            }
-            a {
-                text-decoration: none;
             }
         }
     }
 }
+#nav-interactions-wrapper {
+    justify-content: space-between;
+    display: flex;
+    flex: 1;
+    align-items: center;
+}
 #app-navigation {
-    padding: 8px 30px;
     background-color: #ffffff;
     color: #000000;
 }
@@ -61,7 +83,7 @@ $icon-height: 24px;
     display: flex;
     gap: 10px;
     flex-wrap: nowrap;
-    padding: 8px 30px;
+    align-items: center;
     .search-form {
         margin: 0;
         padding: 0;
@@ -74,37 +96,68 @@ $icon-height: 24px;
         position: relative;
         display: flex;
         flex-direction: column;
-        > div:first-child {
+
+        #user-action-select {
+            @include reset-style-for-select-and-button;
             display: flex;
-            width: 100%;
+            align-items: center;
+            min-height: var(--digitraffic-nav-min-height);
+
             &::before {
                 content: url("../../../../../../node_modules/lucide-static/icons/user.svg");
                 height: $icon-height;
             }
 
             &::after {
-                content: url("../../../../../../node_modules/lucide-static/icons/chevron-down.svg");
                 width: $icon-height;
                 height: $icon-height;
             }
+
+            &[aria-expanded="true"]::after {
+                content: url("../../../../../../node_modules/lucide-static/icons/chevron-up.svg");
+            }
+            &[aria-expanded="false"]::after {
+                content: url("../../../../../../node_modules/lucide-static/icons/chevron-down.svg");
+            }
         }
-        &:hover {
-            ul {
-                li {
-                    height: auto;
+        &.js-disabled {
+            #user-action-list {
+                display: flex;
+            }
+            &:hover {
+                ul {
+                    li {
+                        height: auto;
+                    }
                 }
             }
         }
-        ul {
-            top: $icon-height + 2px;
+
+        #user-action-list {
+            top: var(--digitraffic-nav-min-height);
             padding-left: 0;
-            display: flex;
+            display: none;
             flex-direction: column;
             position: absolute;
+
+            background-color: var(--fds-color-brand-white, #ffffff);
+            border: 1px solid #f2f2f2;
+            border-bottom-left-radius: 3px;
+            border-bottom-right-radius: 3px;
+            border-top: 1px solid var(--fds-color-brand-black, #000000);
+
             li {
                 height: 0;
                 width: 100%;
                 overflow: hidden;
+            }
+
+            &.expanded {
+                display: flex;
+
+                li {
+                    height: auto;
+                }
             }
         }
     }
@@ -119,7 +172,7 @@ $icon-height: 24px;
             }
         }
         select {
-            @include reset-style-for-select;
+            @include reset-style-for-select-and-button;
             width: 24px;
             color: white;
         }
