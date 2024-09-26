@@ -1,41 +1,39 @@
 {% if c.userobj %}
 <nav class="account avatar authed user-action-wrapper js-disabled" data-module="digitraffic_theme_user_actions">
-    <label for="user-action-select" class="d-none">User actions</label>
     <button id="user-action-select"
             class="username"
-            role="combobox"
             aria-controls="user-action-list"
-            aria-haspopup="listbox"
+            aria-haspopup="menu"
             tabindex="0"
             aria-expanded="false">{{ c.userobj.display_name }}</button>
-    <ul role="menu" id="user-action-list">
-        <li role="menuitem">
-            <a href="{{ h.url_for('user.read', id=c.userobj.name) }}" class="image" title="{{ _('View profile') }}">
+    <ul role="menu" id="user-action-list" aria-labelledby="user-action-select">
+        <li role="presentation">
+            <a role="menuitem" id="user-action-view-profile" href="{{ h.url_for('user.read', id=c.userobj.name) }}" class="image" title="{{ _('View profile') }}" tabindex="-1">
                 <span class="text">{{ _('Profile') }}</span>
             </a>
         </li>
         {% if c.userobj.sysadmin %}
-        <li role="menuitem">
-            <a href="{{ h.url_for('admin.index') }}" title="{{ _('Sysadmin settings') }}">
+        <li role="presentation">
+            <a role="menuitem" id="user-action-sysadmin-settings" href="{{ h.url_for('admin.index') }}" title="{{ _('Sysadmin settings') }}" tabindex="-1">
                 <i class="fa fa-gavel" aria-hidden="true"></i>
                 <span class="text">{{ _('Admin') }}</span>
             </a>
         </li>
         {% endif %}
-        <li role="menuitem">
-            <a href="{{ h.url_for('dashboard.datasets') }}" title="{{ _("View dashboard") }}">
+        <li role="presentation">
+            <a role="menuitem" id="user-action-view-dashboard" href="{{ h.url_for('dashboard.datasets') }}" title="{{ _('View dashboard') }}" tabindex="-1">
             <i class="fa fa-tachometer" aria-hidden="true"></i>
             <span class="text">{{ _('Dashboard') }}</span>
             </a>
         </li>
-        <li role="menuitem">
-            <a href="{{ h.url_for('user.edit', id=c.userobj.name) }}" title="{{ _('Profile settings') }}">
+        <li role="presentation">
+            <a role="menuitem" id="user-action-profile-settings" href="{{ h.url_for('user.edit', id=c.userobj.name) }}" title="{{ _('Profile settings') }}" tabindex="-1">
                 <i class="fa fa-cog" aria-hidden="true"></i>
                 <span class="text">{{ _('Profile settings') }}</span>
             </a>
         </li>
-        <li role="menuitem">
-            <a href="{{ h.url_for('user.logout') }}" title="{{ _('Log out') }}">
+        <li role="presentation">
+            <a role="menuitem" id="user-action-log-out" href="{{ h.url_for('user.logout') }}" title="{{ _('Log out') }}" tabindex="-1">
                 <i class="fa fa-sign-out" aria-hidden="true"></i>
                 <span class="text">{{ _('Log out') }}</span>
             </a>

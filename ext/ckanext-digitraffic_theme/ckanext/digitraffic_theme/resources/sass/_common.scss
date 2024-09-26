@@ -1,3 +1,10 @@
 select, input {
   border-radius: var(--fds-border-radius) !important;
 }
+
+:root {
+  :focus {
+    outline: 6px solid var(--fds-color-interactive-100) !important;
+    outline-offset: 2px !important;
+  }
+}
