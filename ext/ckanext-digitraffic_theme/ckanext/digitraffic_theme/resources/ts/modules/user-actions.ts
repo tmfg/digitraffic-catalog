@@ -8,49 +8,53 @@ ckan.module('digitraffic_theme_user_actions', function ($) {
       this._getMenuController().on('keydown', this._onMenuControllerKeyDown);
       this._getMenu().on('keydown', this._onMenuKeyDown)
     },
-    _setActiveDescendant: function (el: JQuery<HTMLElement>) {
-      this._getMenu().attr("aria-activedescendant", el.attr('id'))
-    },
-    _removeActiveDescendant: function() {
-      this._getMenu().removeAttr("aria-activedescendant")
-    },
     _onMenuControllerClick: function(event) {
-      this._toggleList()
+      console.log(event.target)
+      console.log(this._getMenuController())
+      if (event.target === this._getMenuController()[0]) {
+        this._toggleList()
+      }
     },
     _onMenuControllerKeyDown: function (event) {
-      const { key } = event
-      switch (key) {
-        case ' ':
-        case 'Enter':
-          event.preventDefault()
-          this._toggleList()
-          break
-        case 'ArrowDown':
-          event.preventDefault()
-          this._focus('first')
-          break
+      console.log('_onMenuControllerKeyDown user action')
+      if (event.target === this._getMenuController()[0]) {
+        const {key} = event
+        switch (key) {
+          case ' ':
+          case 'Enter':
+            event.preventDefault()
+            this._toggleList()
+            break
+          case 'ArrowDown':
+            event.preventDefault()
+            this._focus('first')
+            break
+        }
       }
     },
     _onMenuKeyDown: function(event) {
-      const { key } = event
-      switch (key) {
-        case 'Escape':
-          event.preventDefault()
-          this._closeList()
-          this._focus('menuController')
-          break
-        case 'ArrowDown':
-          event.preventDefault()
-          this._focus('next')
-          break
-        case 'ArrowUp':
-          event.preventDefault()
-          this._focus('previous')
+      if (this._getMenuController().is(':visible') && this._getMenu().has(event.target)) {
+        const {key} = event
+        switch (key) {
+          case 'Escape':
+            event.preventDefault()
+            this._closeList()
+            this._focus('menuController')
+            break
+          case 'ArrowDown':
+            event.preventDefault()
+            this._focus('next')
+            break
+          case 'ArrowUp':
+            event.preventDefault()
+            this._focus('previous')
+        }
       }
 
     },
     _expandedClass: "expanded",
     _focus: function (elementKey: 'first'|'menuController'|'next'|'previous') {
+      console.log('_focus user actions')
       let el
       const currentlyFocusedElement = this.el.find(':focus')
       const isFocusOnMenu = !!this._getMenu().has(currentlyFocusedElement)
@@ -92,13 +96,9 @@ ckan.module('digitraffic_theme_user_actions', function ($) {
           break
       }
       el.trigger('focus')
-      if (elementKey === "menuController") {
-        this._removeActiveDescendant()
-      } else {
-        this._setActiveDescendant(el)
-      }
     },
     _toggleList: function() {
+      console.log('_toggleList user action')
       if (this._isListOpen()) {
         this._closeList()
         this._focus('menuController')

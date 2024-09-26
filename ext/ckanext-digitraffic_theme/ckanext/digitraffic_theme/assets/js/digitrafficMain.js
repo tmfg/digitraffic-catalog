@@ -1491,7 +1491,7 @@ ckan.module('digitraffic_theme_top_navigation', function ($) {
                 const fdsNavigation = document.createElement("fds-navigation");
                 /*const FdsNavigation = customElements.get("fds-navigation")
                 const fdsNavigation:FdsNavigation = new FdsNavigation()*/
-                fdsNavigation.setAttribute("vertical-menu-threshold", "1150");
+                fdsNavigation.setAttribute("vertical-menu-threshold", "1225");
                 fdsNavigation.innerHTML = `
       <a href="https://www.fintraffic.fi/fi">
               <svg viewBox="0 0 253 42" style="height: 18px">
@@ -1514,6 +1514,148 @@ ckan.module('digitraffic_theme_top_navigation', function ($) {
     };
 });
 
+ckan.module('digitraffic_theme_app_navigation', function ($) {
+    return {
+        initialize: function () {
+            $.proxyAll(this, /_on/);
+            this._getMenuController().on('click', this._onMenuControllerClick);
+            this._getMenuController().on('keydown', this._onMenuControllerKeyDown);
+            this._getMenu().on('keydown', this._onMenuKeyDown);
+        },
+        _onMenuControllerClick: function (event) {
+            if (event.target === this._getMenuController()[0]) {
+                this._toggleList();
+            }
+        },
+        _onMenuControllerKeyDown: function (event) {
+            if (event.target === this._getMenuController()[0]) {
+                const { key } = event;
+                switch (key) {
+                    case ' ':
+                    case 'Enter':
+                        event.preventDefault();
+                        this._toggleList();
+                        break;
+                    case 'ArrowDown':
+                        event.preventDefault();
+                        this._focus('first');
+                        break;
+                }
+            }
+        },
+        _onMenuKeyDown: function (event) {
+            console.log('_onMenuControllerKeyDown app navigation');
+            console.log(event.target);
+            console.log(this._getMenu());
+            console.log(this._getMenu().has(event.target));
+            if (this._getMenuController().is(':visible') && this._getMenu().has(event.target)) {
+                const { key } = event;
+                switch (key) {
+                    case 'Escape':
+                        event.preventDefault();
+                        this._closeList();
+                        this._focus('menuController');
+                        break;
+                    case 'ArrowDown':
+                        event.preventDefault();
+                        this._focus('next');
+                        break;
+                    case 'ArrowUp':
+                        event.preventDefault();
+                        this._focus('previous');
+                }
+            }
+        },
+        _expandedClass: "expanded",
+        _focus: function (elementKey) {
+            let el;
+            const currentlyFocusedElement = this.el.find(':focus');
+            const isFocusOnMenu = !!this._getMenu().has(currentlyFocusedElement);
+            const isFocusOnLastMenuItem = isFocusOnMenu && this._getMenu().find('a:last')[0] === currentlyFocusedElement[0];
+            const isFocusOnFirstMenuItem = isFocusOnMenu && this._getMenu().find('a:first')[0] === currentlyFocusedElement[0];
+            switch (elementKey) {
+                case "first":
+                    el = this._getMenu().find('a:first');
+                    break;
+                case "menuController":
+                    el = this._getMenuController();
+                    break;
+                case "next":
+                    if (isFocusOnMenu) {
+                        if (isFocusOnLastMenuItem) {
+                            return;
+                        }
+                        else {
+                            const menuElements = this._getMenu().find('a');
+                            console.log('next');
+                            console.log(menuElements);
+                            console.log(currentlyFocusedElement);
+                            const nextElement = menuElements.filter((index) => index > 0 && menuElements[index - 1] === currentlyFocusedElement[0]);
+                            el = nextElement;
+                        }
+                    }
+                    else {
+                        el = this._getMenu().find('a:first');
+                    }
+                    break;
+                case "previous":
+                    if (isFocusOnMenu) {
+                        if (isFocusOnFirstMenuItem) {
+                            return;
+                        }
+                        else {
+                            const menuElements = this._getMenu().find('a');
+                            console.log('prev');
+                            console.log(menuElements);
+                            console.log(currentlyFocusedElement);
+                            const previousElement = menuElements.filter((index) => index < (menuElements.length - 1) && menuElements[index + 1] === currentlyFocusedElement[0]);
+                            el = previousElement;
+                        }
+                    }
+                    else {
+                        el = this._getMenu().find('a:first');
+                    }
+                    break;
+            }
+            console.log('EL to focus');
+            console.log(el);
+            el.trigger('focus');
+        },
+        _toggleList: function () {
+            if (this._isMenuOpen()) {
+                this._closeList();
+                this._focus('menuController');
+            }
+            else {
+                this._openList();
+                this._focus('first');
+            }
+        },
+        _isMenuOpen: function () {
+            const menu = this._getMenu();
+            return menu.hasClass(this._expandedClass);
+        },
+        _closeList: function () {
+            const menuController = this._getMenuController();
+            const menu = this._getMenu();
+            menu.removeClass(this._expandedClass);
+            menuController.attr("aria-expanded", "false");
+        },
+        _openList: function () {
+            const menuController = this._getMenuController();
+            const menu = this._getMenu();
+            menu.addClass(this._expandedClass);
+            menuController.attr("aria-expanded", "true");
+        },
+        _getMenuController() {
+            return $("#app-nav-hamburger-button");
+        },
+        _getMenu() {
+            return $("#nav-interactions-wrapper");
+        }
+    };
+});
+
 ckan.module('digitraffic_theme_user_actions', function ($) {
     return {
         initialize: function () {
@@ -1522,48 +1664,57 @@ ckan.module('digitraffic_theme_user_actions', function ($) {
             this._getMenuController().on('keydown', this._onMenuControllerKeyDown);
             this._getMenu().on('keydown', this._onMenuKeyDown);
         },
-        _setActiveDescendant: function (el) {
-            this._getMenu().attr("aria-activedescendant", el.attr('id'));
-        },
-        _removeActiveDescendant: function () {
-            this._getMenu().removeAttr("aria-activedescendant");
-        },
         _onMenuControllerClick: function (event) {
-            this._toggleList();
+            console.log(event.target);
+            console.log(this._getMenuController());
+            if (event.target === this._getMenuController()[0]) {
+                this._toggleList();
+            }
         },
         _onMenuControllerKeyDown: function (event) {
-            const { key } = event;
-            switch (key) {
-                case ' ':
-                case 'Enter':
-                    event.preventDefault();
-                    this._toggleList();
-                    break;
-                case 'ArrowDown':
-                    event.preventDefault();
-                    this._focus('first');
-                    break;
+            console.log('_onMenuControllerKeyDown user action');
+            if (event.target === this._getMenuController()[0]) {
+                const { key } = event;
+                switch (key) {
+                    case ' ':
+                    case 'Enter':
+                        event.preventDefault();
+                        this._toggleList();
+                        break;
+                    case 'ArrowDown':
+                        event.preventDefault();
+                        this._focus('first');
+                        break;
+                }
             }
         },
         _onMenuKeyDown: function (event) {
-            const { key } = event;
-            switch (key) {
-                case 'Escape':
-                    event.preventDefault();
-                    this._closeList();
-                    this._focus('menuController');
-                    break;
-                case 'ArrowDown':
-                    event.preventDefault();
-                    this._focus('next');
-                    break;
-                case 'ArrowUp':
-                    event.preventDefault();
-                    this._focus('previous');
+            console.log('_onMenuKeyDown user action');
+            console.log(event.target);
+            console.log(this._getMenu());
+            console.log(this._getMenu().has(event.target));
+            console.log(this._getMenuController().is(':visible'));
+            if (this._getMenuController().is(':visible') && this._getMenu().has(event.target)) {
+                const { key } = event;
+                switch (key) {
+                    case 'Escape':
+                        event.preventDefault();
+                        this._closeList();
+                        this._focus('menuController');
+                        break;
+                    case 'ArrowDown':
+                        event.preventDefault();
+                        this._focus('next');
+                        break;
+                    case 'ArrowUp':
+                        event.preventDefault();
+                        this._focus('previous');
+                }
             }
         },
         _expandedClass: "expanded",
         _focus: function (elementKey) {
+            console.log('_focus user actions');
             let el;
             const currentlyFocusedElement = this.el.find(':focus');
             const isFocusOnMenu = !!this._getMenu().has(currentlyFocusedElement);
@@ -1608,14 +1759,9 @@ ckan.module('digitraffic_theme_user_actions', function ($) {
                     break;
             }
             el.trigger('focus');
-            if (elementKey === "menuController") {
-                this._removeActiveDescendant();
-            }
-            else {
-                this._setActiveDescendant(el);
-            }
         },
         _toggleList: function () {
+            console.log('_toggleList user action');
             if (this._isListOpen()) {
                 this._closeList();
                 this._focus('menuController');
