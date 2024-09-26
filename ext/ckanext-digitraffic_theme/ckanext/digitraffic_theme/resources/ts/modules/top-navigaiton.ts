@@ -31,7 +31,7 @@ ckan.module('digitraffic_theme_top_navigation', function ($) {
         const fdsNavigation = document.createElement("fds-navigation") as FdsNavigation
         /*const FdsNavigation = customElements.get("fds-navigation")
         const fdsNavigation:FdsNavigation = new FdsNavigation()*/
-        fdsNavigation.setAttribute("vertical-menu-threshold", "1150")
+        fdsNavigation.setAttribute("vertical-menu-threshold", "1225")
         fdsNavigation.innerHTML = `
       <a href="https://www.fintraffic.fi/fi">
               <svg viewBox="0 0 253 42" style="height: 18px">

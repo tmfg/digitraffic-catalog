@@ -31,18 +31,43 @@ $icon-height: 24px;
     }
 }
 
+$app-bar-header: app-bar-header;
+$app-bar-hamburger: app-bar-hamburger;
+$app-bar-nav: app-bar-nav;
+
+#app-nav-bar-wrapper {
+    container-type: inline-size;
+    container-name: app-nav-bar-wrapper;
+}
+
 #app-nav-bar {
+    >*:first-child {
+        padding-left: var(--digitraffic-nav-side-padding);
+    }
+
     --digitraffic-nav-min-height: 56px;
-    display: flex;
+    --digitraffic-nav-side-padding: 24px;
+    display: grid;
+    grid-template-areas:
+        "#{$app-bar-header} #{$app-bar-hamburger}"
+        "#{$app-bar-nav} #{$app-bar-nav}";
     flex-wrap: nowrap;
     align-items: center;
-    padding: 0 30px;
+    justify-content: space-between;
 
     font-weight: 600;
 
     border-bottom: 1px solid var(--fds-color-brand-black, #000);
 
+    #app-nav-hamburger-button[aria-expanded="true"]~#nav-interactions-wrapper {
+        display: flex;
+    }
+    #user-action-select[aria-expanded="true"]~#user-action-list {
+        display: flex;
+    }
+
     .datacatalog-header {
+        grid-area: $app-bar-header;
         font-weight: 800;
         font-size: 1.25rem;
         min-height: var(--digitraffic-nav-min-height);
@@ -52,29 +77,48 @@ $icon-height: 24px;
 
     a {
         text-decoration: none;
-        padding: 1rem 24px;
+        padding: 0 var(--digitraffic-nav-side-padding);
         min-height: var(--digitraffic-nav-min-height);
-        display: inline-block;
-        width:100%
+        width:100%;
+
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        border-bottom: 1px solid var(--fds-color-neutral-100);
     }
+}
+#app-nav-hamburger-button {
+    @include reset-style-for-select-and-button;
+    grid-area: $app-bar-hamburger;
+    justify-self: end;
+    width: auto;
+    display: flex;
+    align-items: center;
+    padding-right: var(--digitraffic-nav-side-padding);
+    i {
+        content: url("../../../../../../node_modules/lucide-static/icons/menu.svg");
+    }
+}
+#nav-interactions-wrapper {
+    grid-area: $app-bar-nav;
+    display: none;
+    flex-direction: column;
+    align-items: stretch;
+
+    border-top: 1px solid var(--fds-color-neutral-100);
 
     ul {
         list-style: none;
         margin: 0;
-        display: inline-block;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
         li {
-            display: inline-block;
-            :last-child {
-                margin-right: 0;
-            }
+            flex: 1;
         }
     }
-}
-#nav-interactions-wrapper {
-    justify-content: space-between;
-    display: flex;
-    flex: 1;
-    align-items: center;
 }
 #app-navigation {
     background-color: #ffffff;
@@ -82,85 +126,23 @@ $icon-height: 24px;
 }
 #nav-actions {
     display: flex;
-    gap: 10px;
-    flex-wrap: nowrap;
-    align-items: center;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: stretch;
     .search-form {
         margin: 0;
         padding: 0;
+        min-height: var(--digitraffic-nav-min-height);
         border: none;
-        @media (min-width: map-get($grid-breakpoints, md)) {
-            max-width: 300px;
-        }
     }
     .user-action-wrapper {
         position: relative;
         display: flex;
         flex-direction: column;
 
-        #user-action-select {
-            @include reset-style-for-select-and-button;
-            display: flex;
-            align-items: center;
-            min-height: var(--digitraffic-nav-min-height);
-
-            &::before {
-                content: url("../../../../../../node_modules/lucide-static/icons/user.svg");
-                height: $icon-height;
-            }
-
-            &::after {
-                width: $icon-height;
-                height: $icon-height;
-            }
-
-            &[aria-expanded="true"]::after {
-                content: url("../../../../../../node_modules/lucide-static/icons/chevron-up.svg");
-            }
-            &[aria-expanded="false"]::after {
-                content: url("../../../../../../node_modules/lucide-static/icons/chevron-down.svg");
-            }
-        }
-        &.js-disabled {
-            #user-action-list {
-                display: flex;
-            }
-            &:hover {
-                ul {
-                    li {
-                        height: auto;
-                    }
-                }
-            }
-        }
-
         #user-action-list {
-            top: var(--digitraffic-nav-min-height);
             padding-left: 0;
-            display: none;
             flex-direction: column;
-            position: absolute;
-
-            background-color: var(--fds-color-brand-white, #ffffff);
-            border: 1px solid #f2f2f2;
-            border-bottom-left-radius: 3px;
-            border-bottom-right-radius: 3px;
-            border-top: 1px solid var(--fds-color-brand-black, #000000);
-
-            li {
-                height: 0;
-                width: 100%;
-                overflow: hidden;
-            }
-
-            &.expanded {
-                display: flex;
-
-                li {
-                    height: auto;
-                    overflow: visible;
-                }
-            }
         }
     }
     .lang-icon {
@@ -177,6 +159,110 @@ $icon-height: 24px;
             @include reset-style-for-select-and-button;
             width: 24px;
             color: white;
+        }
+    }
+}
+
+#user-action-select {
+    display: none;
+}
+
+
+@container app-nav-bar-wrapper (min-width: 1225px) {
+    #app-nav-bar {
+        >*:last-child {
+            padding-right: var(--digitraffic-nav-side-padding);
+        }
+        a {
+            padding: 1rem 24px;
+            border-bottom: none;
+        }
+        display: flex !important;
+    }
+    #app-nav-hamburger-button {
+        display: none;
+    }
+
+    #nav-interactions-wrapper {
+        display: flex;
+        justify-content: space-between;
+        flex-direction: row;
+        flex: 1;
+        align-items: center;
+
+        border-top: none;
+
+        ul {
+            flex-direction: row;
+            align-items: center;
+        }
+    }
+    #nav-actions {
+        gap: 10px;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        align-items: center;
+        .search-form {
+            @media (min-width: map-get($grid-breakpoints, md)) {
+                max-width: 300px;
+            }
+        }
+        .user-action-wrapper {
+            #user-action-select {
+                @include reset-style-for-select-and-button;
+                display: flex;
+                align-items: center;
+                min-height: var(--digitraffic-nav-min-height);
+
+                &::before {
+                    content: url("../../../../../../node_modules/lucide-static/icons/user.svg");
+                    height: $icon-height;
+                }
+
+                &::after {
+                    width: $icon-height;
+                    height: $icon-height;
+                }
+
+                &[aria-expanded="true"]::after {
+                    content: url("../../../../../../node_modules/lucide-static/icons/chevron-up.svg");
+                }
+                &[aria-expanded="false"]::after {
+                    content: url("../../../../../../node_modules/lucide-static/icons/chevron-down.svg");
+                }
+            }
+            &.js-disabled {
+                #user-action-list {
+                    display: flex;
+                }
+                &:hover {
+                    ul {
+                        li {
+                            height: auto;
+                        }
+                    }
+                }
+            }
+
+            #user-action-list {
+                top: var(--digitraffic-nav-min-height);
+                display: none;
+                position: absolute;
+
+                background-color: var(--fds-color-brand-white, #ffffff);
+                border: 1px solid #f2f2f2;
+                border-bottom-left-radius: 3px;
+                border-bottom-right-radius: 3px;
+                border-top: 1px solid var(--fds-color-brand-black, #000000);
+
+                li {
+                    width: 100%;
+                }
+
+                &.expanded {
+                    display: flex;
+                }
+            }
         }
     }
 }
