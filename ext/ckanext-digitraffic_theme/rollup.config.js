@@ -7,8 +7,8 @@ import autoprefixer from "autoprefixer";
 import typescript from "@rollup/plugin-typescript";
 
 const inputs = {
-    'css/digitraffic-theme': "ckanext/digitraffic_theme/resources/js/digitrafficTheme.js",
-    'js/digitrafficMain': "ckanext/digitraffic_theme/resources/ts/main.ts"
+    'css/digitraffic-theme': "ckanext/digitraffic_theme/src/js/digitrafficTheme.js",
+    'js/digitrafficMain': "ckanext/digitraffic_theme/src/ts/main.ts"
 }
 export default Object.entries(inputs).map(([name, file]) => {
     const isOutputJs = name.startsWith('js/')
@@ -17,7 +17,7 @@ export default Object.entries(inputs).map(([name, file]) => {
             targets: [
                 {src: './node_modules/ckan/ckan/public/base/*', dest: './tmp/ckan_base'},
                 {
-                    src: './ckanext/digitraffic_theme/resources/sass/override_ckan/_variables.scss',
+                    src: './ckanext/digitraffic_theme/src/sass/override_ckan/_variables.scss',
                     dest: './tmp/ckan_base/scss'
                 }
             ],
@@ -35,7 +35,7 @@ export default Object.entries(inputs).map(([name, file]) => {
                 cssnano
             ],
             exclude: [
-                "ckanext/digitraffic_theme/resources/js/digitrafficWebComponents.js"
+                "ckanext/digitraffic_theme/src/js/digitrafficWebComponents.js"
             ]
         }),
     ]
