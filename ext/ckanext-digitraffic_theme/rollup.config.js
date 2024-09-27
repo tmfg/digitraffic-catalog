@@ -1,18 +1,26 @@
 import styles from "rollup-plugin-styler";
 import copy from 'rollup-plugin-copy'
-import { nodeResolve } from "@rollup/plugin-node-resolve";
+import {nodeResolve} from "@rollup/plugin-node-resolve";
 import terser from "@rollup/plugin-terser";
 import cssnano from "cssnano";
 import autoprefixer from "autoprefixer";
 import typescript from "@rollup/plugin-typescript";
 
 const inputs = {
-    'css/digitraffic-theme': "ckanext/digitraffic_theme/src/js/digitrafficTheme.js",
+    'css/digitraffic-theme': "ckanext/digitraffic_theme/src/ts/main-digitraffic-theme.ts",
     'js/digitrafficMain': "ckanext/digitraffic_theme/src/ts/main.ts"
 }
 export default Object.entries(inputs).map(([name, file]) => {
     const isOutputJs = name.startsWith('js/')
+    const tsCompilePlugins = [
+        nodeResolve({
+            exportConditions: ["node", "default", "module", "import", "require"],
+            preferBuiltins: true
+        }),
+        typescript(),
+    ]
     const cssThemePlugins = [
+        ...tsCompilePlugins,
         copy({
             targets: [
                 {src: './node_modules/ckan/ckan/public/base/*', dest: './tmp/ckan_base'},
@@ -33,18 +41,11 @@ export default Object.entries(inputs).map(([name, file]) => {
             plugins: [
                 autoprefixer,
                 cssnano
-            ],
-            exclude: [
-                "ckanext/digitraffic_theme/src/js/digitrafficWebComponents.js"
             ]
         }),
     ]
     const jsPlugins = [
-        nodeResolve({
-            exportConditions: ["node", "default", "module", "import", "require"],
-            preferBuiltins: true
-        }),
-        typescript(),
+        ...tsCompilePlugins
         //terser()
     ]
     return {
