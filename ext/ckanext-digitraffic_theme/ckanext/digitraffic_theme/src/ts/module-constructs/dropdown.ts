@@ -42,12 +42,17 @@ export const Dropdown = {
           this._focus('menuController')
           break
         case 'ArrowDown':
-          event.preventDefault()
-          this._focus('next')
+          if (!$(event.target).is('select')) {
+            event.preventDefault()
+            this._focus('next')
+          }
           break
         case 'ArrowUp':
-          event.preventDefault()
-          this._focus('previous')
+          if (!$(event.target).is('select')) {
+            event.preventDefault()
+            this._focus('previous')
+          }
+          break
       }
     }
 
