@@ -1,0 +1,111 @@
+<div id="footer-wrapper">
+  <footer id="footer">
+    <div id="footer-branding">
+      <a href="https://www.fintraffic.fi/fi">
+        <svg viewBox="0 0 253 42" style="height: 18px">
+          <use href="/assets/fintraffic_horizontal_white.svg#fintraffic_horizontal_white"></use>
+        </svg>
+      </a>
+      <a href="https://www.fintraffic.fi/fi">
+        fintraffic.fi
+      </a>
+    </div>
+    <div id="footer-divider"></div>
+    {% with first_column_links=[
+    {
+    "title": "Liikennetilanne",
+    "url": "https://liikennetilanne.fintraffic.fi"
+    },
+    {
+    "title": "Palauteväylä",
+    "url": "https://palautevayla.fi/aspa"
+    },
+    {
+    "title": "Junalähdöt",
+    "url": "https://junalahdot.fi/"
+    },
+    {
+    "title": "Drone-palvelut",
+    "url": "https://skynavx.fi/#/drone"
+    }
+    ],
+    second_column_links=[
+    {
+    "title": "Digitraffic",
+    "url": "https://www.digitraffic.fi/"
+    },
+    {
+    "title": "Digitransit",
+    "url": "https://digitransit.fi/"
+    },
+    {
+    "title": "NAP",
+    "url": "https://www.finap.fi"
+    }
+    ],
+    third_column_links=[
+    {
+    "title": "Tietosuoja",
+    "url": "https://www.fintraffic.fi/fi/fintraffic/tietosuoja"
+    },
+    {
+    "title": "Palaute",
+    "url": "https://www.fintraffic.fi/fi/palaute"
+    },
+    {
+    "title": "Yhteystiedot",
+    "url": "https://www.fintraffic.fi/fi/yhteystiedot"
+    },
+    {
+    "title": "Saavutettavuus",
+    "url": "https://www.fintraffic.fi/fi/saavutettavuusseloste"
+    }
+    ] %}
+    <nav class="navigation"
+         id="block-traffic-footer"
+    >
+      {% snippet "snippets/dt_footer/link_column.html", links=first_column_links %}
+      {% snippet "snippets/dt_footer/link_column.html", links=second_column_links %}
+      {% snippet "snippets/dt_footer/link_column.html", links=third_column_links %}
+    </nav>
+    {% endwith %}
+    <div class="social-media-items">
+      <a
+              href="https://www.facebook.com/FintrafficFI/"
+              class="footer__some-icon-link"
+              rel="noreferrer"
+      >
+        <span class="visually-hidden">Follow us on Facebook</span>
+        <i data-lucide="facebook"></i>
+      </a>
+      <a href="https://twitter.com/Fintraffic_fi" class="footer__some-icon-link" rel="noreferrer">
+        <span class="visually-hidden">Follow us on Twitter</span>
+        <i data-lucide="twitter"></i>
+      </a>
+      <a
+              href="https://www.instagram.com/fintraffic_stories_fi"
+              class="footer__some-icon-link"
+              rel="noreferrer"
+      >
+        <span class="visually-hidden">Follow us on Instagram</span>
+        <i data-lucide="instagram"></i>
+      </a>
+      <a
+              href="https://www.youtube.com/channel/UCpnhwBRjt58yUu_Oky7vyxQ"
+              class="footer__some-icon-link"
+              rel="noreferrer"
+      >
+        <span class="visually-hidden">Follow us on Youtube</span>
+        <i data-lucide="youtube"></i>
+      </a>
+      <a
+              href="https://www.linkedin.com/company/fintraffic"
+              class="footer__some-icon-link"
+              rel="noreferrer"
+      >
+        <span class="visually-hidden">Follow us on LinkedIn</span>
+        <i data-lucide="linkedin"></i>
+      </a>
+    </div>
+  </footer>
+</div>
