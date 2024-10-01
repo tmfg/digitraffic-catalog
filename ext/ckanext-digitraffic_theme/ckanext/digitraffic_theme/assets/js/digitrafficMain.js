@@ -1382,6 +1382,26 @@ const Facebook = [
  */
 
 
+const Globe = [
+  "svg",
+  defaultAttributes,
+  [
+    ["circle", { cx: "12", cy: "12", r: "10" }],
+    ["line", { x1: "2", x2: "22", y1: "12", y2: "12" }],
+    [
+      "path",
+      {
+        d: "M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"
+      }
+    ]
+  ]
+];
+
+/**
+ * lucide v0.265.0 - ISC
+ */
+
+
 const Instagram = [
   "svg",
   defaultAttributes,
@@ -1521,6 +1541,20 @@ const Twitter = [
         d: "M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"
       }
     ]
+  ]
+];
+
+/**
+ * lucide v0.265.0 - ISC
+ */
+
+
+const User = [
+  "svg",
+  defaultAttributes,
+  [
+    ["path", { d: "M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" }],
+    ["circle", { cx: "12", cy: "7", r: "4" }]
   ]
 ];
 
@@ -1870,7 +1904,7 @@ jQuery(function () {
     $(".js-disabled").removeClass("js-disabled");
     createIcons({
         icons: {
-            ExternalLink, Facebook, Twitter, Instagram, Youtube, Linkedin
+            ExternalLink, User, Menu, Globe, ChevronDown, ChevronUp, Facebook, Twitter, Instagram, Youtube, Linkedin
         }
     });
 });
