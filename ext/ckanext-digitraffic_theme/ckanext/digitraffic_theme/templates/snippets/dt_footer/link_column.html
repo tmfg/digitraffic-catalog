@@ -1,0 +1,12 @@
+<div class="footer-menu">
+    <ul class="footer-menu-link-list">
+        {% for link in links %}
+        <li>
+            <a href="{{ link.url }}" class="link" target="_blank" rel="noopener noreferrer">
+                <span>{{ link.title }}</span>
+                <i data-lucide="external-link"></i>
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
