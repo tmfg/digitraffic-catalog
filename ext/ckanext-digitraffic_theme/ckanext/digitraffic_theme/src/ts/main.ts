@@ -1,13 +1,13 @@
 import './modules/top-navigaiton'
 import './modules/app-navigation'
 import './modules/user-actions'
-import { createIcons, ExternalLink, Facebook, Twitter, Instagram, Youtube, Linkedin } from 'lucide'
+import { createIcons, ExternalLink, User, Menu, Globe, ChevronDown, ChevronUp, Facebook, Twitter, Instagram, Youtube, Linkedin } from 'lucide'
 
 jQuery( function() {
   $(".js-disabled").removeClass("js-disabled")
   createIcons({
     icons: {
-      ExternalLink, Facebook, Twitter, Instagram, Youtube, Linkedin
+      ExternalLink, User, Menu, Globe, ChevronDown, ChevronUp, Facebook, Twitter, Instagram, Youtube, Linkedin
     }
   })
 })

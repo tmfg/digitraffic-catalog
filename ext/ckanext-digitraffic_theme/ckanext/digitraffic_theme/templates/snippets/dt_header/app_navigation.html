@@ -12,7 +12,10 @@ about=('home.about', _('About'))%}
         <button id="app-nav-hamburger-button"
                 aria-controls="nav-interactions-wrapper"
                 aria-label="Show navigation menu"
-                aria-expanded="false"><span>{% trans %}Menu{% endtrans %}</span><i aria-hidden="true"></i></button>
+                aria-expanded="false">
+            <span>{% trans %}Menu{% endtrans %}</span>
+            <i aria-hidden="true" data-lucide="menu"></i>
+        </button>
         <div id="nav-interactions-wrapper" aria-labelledby="app-nav-hamburger-button">
             <nav id="app-navigation">
                 <ul>
