@@ -1,918 +1,347 @@
-const FdsTokenSize3 = { name: "fds-size-3", value: "24px" };
-
+const t={name:"fds-size-3",value:"24px"},e=class{get shadowRoot(){return this.__host.__shadowRoot}constructor(t){this.ariaAtomic="",this.ariaAutoComplete="",this.ariaBrailleLabel="",this.ariaBrailleRoleDescription="",this.ariaBusy="",this.ariaChecked="",this.ariaColCount="",this.ariaColIndex="",this.ariaColSpan="",this.ariaCurrent="",this.ariaDescription="",this.ariaDisabled="",this.ariaExpanded="",this.ariaHasPopup="",this.ariaHidden="",this.ariaInvalid="",this.ariaKeyShortcuts="",this.ariaLabel="",this.ariaLevel="",this.ariaLive="",this.ariaModal="",this.ariaMultiLine="",this.ariaMultiSelectable="",this.ariaOrientation="",this.ariaPlaceholder="",this.ariaPosInSet="",this.ariaPressed="",this.ariaReadOnly="",this.ariaRequired="",this.ariaRoleDescription="",this.ariaRowCount="",this.ariaRowIndex="",this.ariaRowSpan="",this.ariaSelected="",this.ariaSetSize="",this.ariaSort="",this.ariaValueMax="",this.ariaValueMin="",this.ariaValueNow="",this.ariaValueText="",this.role="",this.form=null,this.labels=[],this.states=new Set,this.validationMessage="",this.validity={},this.willValidate=!0,this.__host=t}checkValidity(){return console.warn("`ElementInternals.checkValidity()` was called on the server.This method always returns true."),!0}reportValidity(){return!0}setFormValue(){}setValidity(){}},i=new WeakMap,a=t=>{let e=i.get(t);return void 0===e&&i.set(t,e=new Map),e},n=class{constructor(){this.__shadowRootMode=null,this.__shadowRoot=null,this.__internals=null}get attributes(){return Array.from(a(this)).map((([t,e])=>({name:t,value:e})))}get shadowRoot(){return"closed"===this.__shadowRootMode?null:this.__shadowRoot}get localName(){return this.constructor.__localName}get tagName(){return this.localName?.toUpperCase()}setAttribute(t,e){a(this).set(t,String(e))}removeAttribute(t){a(this).delete(t)}toggleAttribute(t,e){return this.hasAttribute(t)?!(void 0===e||!e)||(this.removeAttribute(t),!1):!(void 0!==e&&!e)&&(this.setAttribute(t,""),!0)}hasAttribute(t){return a(this).has(t)}attachShadow(t){const e={host:this};return this.__shadowRootMode=t.mode,t&&"open"===t.mode&&(this.__shadowRoot=e),e}attachInternals(){if(null!==this.__internals)throw new Error("Failed to execute 'attachInternals' on 'HTMLElement': ElementInternals for the specified element was already attached.");const t=new e(this);return this.__internals=t,t}getAttribute(t){return a(this).get(t)??null}},s=class extends n{},r=new class{constructor(){this.__definitions=new Map}define(t,e){if(this.__definitions.has(t)){if("development"!==process.env.NODE_ENV)throw new Error(`Failed to execute 'define' on 'CustomElementRegistry': the name "${t}" has already been used with this registry`);console.warn(`'CustomElementRegistry' already has "${t}" defined. This may have been caused by live reload or hot module replacement in which case it can be safely ignored.\nMake sure to test your application with a production build as repeat registrations will throw in production.`)}e.__localName=t,this.__definitions.set(t,{ctor:e,observedAttributes:e.observedAttributes??[]})}get(t){const e=this.__definitions.get(t);return e?.ctor}},o=globalThis,l=o.ShadowRoot&&(void 0===o.ShadyCSS||o.ShadyCSS.nativeShadow)&&"adoptedStyleSheets"in Document.prototype&&"replace"in CSSStyleSheet.prototype,h=Symbol(),d=new WeakMap;
 /**
  * @license
  * Copyright 2023 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
- */
-/**
- * Map of ARIAMixin properties to attributes
- */
-// Shim the global element internals object
-// Methods should be fine as noops and properties can generally
-// be while on the server.
-const ElementInternalsShim = class ElementInternals {
-    get shadowRoot() {
-        // Grab the shadow root instance from the Element shim
-        // to ensure that the shadow root is always available
-        // to the internals instance even if the mode is 'closed'
-        return this.__host
-            .__shadowRoot;
-    }
-    constructor(_host) {
-        this.ariaAtomic = '';
-        this.ariaAutoComplete = '';
-        this.ariaBrailleLabel = '';
-        this.ariaBrailleRoleDescription = '';
-        this.ariaBusy = '';
-        this.ariaChecked = '';
-        this.ariaColCount = '';
-        this.ariaColIndex = '';
-        this.ariaColSpan = '';
-        this.ariaCurrent = '';
-        this.ariaDescription = '';
-        this.ariaDisabled = '';
-        this.ariaExpanded = '';
-        this.ariaHasPopup = '';
-        this.ariaHidden = '';
-        this.ariaInvalid = '';
-        this.ariaKeyShortcuts = '';
-        this.ariaLabel = '';
-        this.ariaLevel = '';
-        this.ariaLive = '';
-        this.ariaModal = '';
-        this.ariaMultiLine = '';
-        this.ariaMultiSelectable = '';
-        this.ariaOrientation = '';
-        this.ariaPlaceholder = '';
-        this.ariaPosInSet = '';
-        this.ariaPressed = '';
-        this.ariaReadOnly = '';
-        this.ariaRequired = '';
-        this.ariaRoleDescription = '';
-        this.ariaRowCount = '';
-        this.ariaRowIndex = '';
-        this.ariaRowSpan = '';
-        this.ariaSelected = '';
-        this.ariaSetSize = '';
-        this.ariaSort = '';
-        this.ariaValueMax = '';
-        this.ariaValueMin = '';
-        this.ariaValueNow = '';
-        this.ariaValueText = '';
-        this.role = '';
-        this.form = null;
-        this.labels = [];
-        this.states = new Set();
-        this.validationMessage = '';
-        this.validity = {};
-        this.willValidate = true;
-        this.__host = _host;
-    }
-    checkValidity() {
-        // TODO(augustjk) Consider actually implementing logic.
-        // See https://github.com/lit/lit/issues/3740
-        console.warn('`ElementInternals.checkValidity()` was called on the server.' +
-            'This method always returns true.');
-        return true;
-    }
-    reportValidity() {
-        return true;
-    }
-    setFormValue() { }
-    setValidity() { }
-};
-
-/**
- * @license
- * Copyright 2019 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */
-const attributes = new WeakMap();
-const attributesForElement = (element) => {
-    let attrs = attributes.get(element);
-    if (attrs === undefined) {
-        attributes.set(element, (attrs = new Map()));
-    }
-    return attrs;
-};
-// The typings around the exports below are a little funky:
-//
-// 1. We want the `name` of the shim classes to match the real ones at runtime,
-//    hence e.g. `class Element`.
-// 2. We can't shadow the global types with a simple class declaration, because
-//    then we can't reference the global types for casting, hence e.g.
-//    `const ElementShim = class Element`.
-// 3. We want to export the classes typed as the real ones, hence e.g.
-//    `const ElementShimWithRealType = ElementShim as object as typeof Element;`.
-// 4. We want the exported names to match the real ones, hence e.g.
-//    `export {ElementShimWithRealType as Element}`.
-const ElementShim = class Element {
-    constructor() {
-        this.__shadowRootMode = null;
-        this.__shadowRoot = null;
-        this.__internals = null;
-    }
-    get attributes() {
-        return Array.from(attributesForElement(this)).map(([name, value]) => ({
-            name,
-            value,
-        }));
-    }
-    get shadowRoot() {
-        if (this.__shadowRootMode === 'closed') {
-            return null;
-        }
-        return this.__shadowRoot;
-    }
-    get localName() {
-        return this.constructor.__localName;
-    }
-    get tagName() {
-        return this.localName?.toUpperCase();
-    }
-    setAttribute(name, value) {
-        // Emulate browser behavior that silently casts all values to string. E.g.
-        // `42` becomes `"42"` and `{}` becomes `"[object Object]""`.
-        attributesForElement(this).set(name, String(value));
-    }
-    removeAttribute(name) {
-        attributesForElement(this).delete(name);
-    }
-    toggleAttribute(name, force) {
-        // Steps reference https://dom.spec.whatwg.org/#dom-element-toggleattribute
-        if (this.hasAttribute(name)) {
-            // Step 5
-            if (force === undefined || !force) {
-                this.removeAttribute(name);
-                return false;
-            }
-        }
-        else {
-            // Step 4
-            if (force === undefined || force) {
-                // Step 4.1
-                this.setAttribute(name, '');
-                return true;
-            }
-            else {
-                // Step 4.2
-                return false;
-            }
-        }
-        // Step 6
-        return true;
-    }
-    hasAttribute(name) {
-        return attributesForElement(this).has(name);
-    }
-    attachShadow(init) {
-        const shadowRoot = { host: this };
-        this.__shadowRootMode = init.mode;
-        if (init && init.mode === 'open') {
-            this.__shadowRoot = shadowRoot;
-        }
-        return shadowRoot;
-    }
-    attachInternals() {
-        if (this.__internals !== null) {
-            throw new Error(`Failed to execute 'attachInternals' on 'HTMLElement': ` +
-                `ElementInternals for the specified element was already attached.`);
-        }
-        const internals = new ElementInternalsShim(this);
-        this.__internals = internals;
-        return internals;
-    }
-    getAttribute(name) {
-        const value = attributesForElement(this).get(name);
-        return value ?? null;
-    }
-};
-const HTMLElementShim = class HTMLElement extends ElementShim {
-};
-const HTMLElementShimWithRealType = HTMLElementShim;
-const CustomElementRegistryShim = class CustomElementRegistry {
-    constructor() {
-        this.__definitions = new Map();
-    }
-    define(name, ctor) {
-        if (this.__definitions.has(name)) {
-            if (process.env.NODE_ENV === 'development') {
-                console.warn(`'CustomElementRegistry' already has "${name}" defined. ` +
-                    `This may have been caused by live reload or hot module ` +
-                    `replacement in which case it can be safely ignored.\n` +
-                    `Make sure to test your application with a production build as ` +
-                    `repeat registrations will throw in production.`);
-            }
-            else {
-                throw new Error(`Failed to execute 'define' on 'CustomElementRegistry': ` +
-                    `the name "${name}" has already been used with this registry`);
-            }
-        }
-        // Provide tagName and localName for the component.
-        ctor.__localName = name;
-        this.__definitions.set(name, {
-            ctor,
-            // Note it's important we read `observedAttributes` in case it is a getter
-            // with side-effects, as is the case in Lit, where it triggers class
-            // finalization.
-            //
-            // TODO(aomarks) To be spec compliant, we should also capture the
-            // registration-time lifecycle methods like `connectedCallback`. For them
-            // to be actually accessible to e.g. the Lit SSR element renderer, though,
-            // we'd need to introduce a new API for accessing them (since `get` only
-            // returns the constructor).
-            observedAttributes: ctor.observedAttributes ?? [],
-        });
-    }
-    get(name) {
-        const definition = this.__definitions.get(name);
-        return definition?.ctor;
-    }
-};
-const CustomElementRegistryShimWithRealType = CustomElementRegistryShim;
-const customElements$1 = new CustomElementRegistryShimWithRealType();
-
-/**
- * @license
- * Copyright 2019 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */
-const t$3=globalThis,e$3=t$3.ShadowRoot&&(void 0===t$3.ShadyCSS||t$3.ShadyCSS.nativeShadow)&&"adoptedStyleSheets"in Document.prototype&&"replace"in CSSStyleSheet.prototype,s$2=Symbol(),n$5=new WeakMap;let o$4 = class o{constructor(t,e,n){if(this._$cssResult$=!0,n!==s$2)throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");this.cssText=t,this.t=e;}get styleSheet(){let t=this.o;const s=this.t;if(e$3&&void 0===t){const e=void 0!==s&&1===s.length;e&&(t=n$5.get(s)),void 0===t&&((this.o=t=new CSSStyleSheet).replaceSync(this.cssText),e&&n$5.set(s,t));}return t}toString(){return this.cssText}};const r$2=t=>new o$4("string"==typeof t?t:t+"",void 0,s$2),i$4=(t,...e)=>{const n=1===t.length?t[0]:e.reduce(((e,s,n)=>e+(t=>{if(!0===t._$cssResult$)return t.cssText;if("number"==typeof t)return t;throw Error("Value passed to 'css' function must be a 'css' function result: "+t+". Use 'unsafeCSS' to pass non-literal values, but take care to ensure page security.")})(s)+t[n+1]),t[0]);return new o$4(n,t,s$2)},S$1=(s,n)=>{e$3?s.adoptedStyleSheets=n.map((t=>t instanceof CSSStyleSheet?t:t.styleSheet)):n.forEach((e=>{const n=document.createElement("style"),o=t$3.litNonce;void 0!==o&&n.setAttribute("nonce",o),n.textContent=e.cssText,s.appendChild(n);}));},c$2=e$3||void 0===t$3.CSSStyleSheet?t=>t:t=>t instanceof CSSStyleSheet?(t=>{let e="";for(const s of t.cssRules)e+=s.cssText;return r$2(e)})(t):t;
-
+ */let p=class{constructor(t,e,i){if(this._$cssResult$=!0,i!==h)throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");this.cssText=t,this.t=e}get styleSheet(){let t=this.o;const e=this.t;if(l&&void 0===t){const i=void 0!==e&&1===e.length;i&&(t=d.get(e)),void 0===t&&((this.o=t=new CSSStyleSheet).replaceSync(this.cssText),i&&d.set(e,t))}return t}toString(){return this.cssText}};const c=t=>new p("string"==typeof t?t:t+"",void 0,h),g=(t,...e)=>{const i=1===t.length?t[0]:e.reduce(((e,i,a)=>e+(t=>{if(!0===t._$cssResult$)return t.cssText;if("number"==typeof t)return t;throw Error("Value passed to 'css' function must be a 'css' function result: "+t+". Use 'unsafeCSS' to pass non-literal values, but take care to ensure page security.")})(i)+t[a+1]),t[0]);return new p(i,t,h)},y=(t,e)=>{l?t.adoptedStyleSheets=e.map((t=>t instanceof CSSStyleSheet?t:t.styleSheet)):e.forEach((e=>{const i=document.createElement("style"),a=o.litNonce;void 0!==a&&i.setAttribute("nonce",a),i.textContent=e.cssText,t.appendChild(i)}))},f=l||void 0===o.CSSStyleSheet?t=>t:t=>t instanceof CSSStyleSheet?(t=>{let e="";for(const i of t.cssRules)e+=i.cssText;return c(e)})(t):t
 /**
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
- */var r$1,h$1;const o$3=globalThis;null!==(r$1=o$3.customElements)&&void 0!==r$1||(o$3.customElements=customElements$1);const n$4=o$3.trustedTypes,l$3=n$4?n$4.emptyScript:"",a$1=o$3.reactiveElementPolyfillSupport,d$1={toAttribute(t,i){switch(i){case Boolean:t=t?l$3:null;break;case Object:case Array:t=null==t?t:JSON.stringify(t);}return t},fromAttribute(t,i){let s=t;switch(i){case Boolean:s=null!==t;break;case Number:s=null===t?null:Number(t);break;case Object:case Array:try{s=JSON.parse(t);}catch(t){s=null;}}return s}},u$1=(t,i)=>i!==t&&(i==i||t==t),c$1={attribute:!0,type:String,converter:d$1,reflect:!1,hasChanged:u$1},v$1="finalized";let p$1 = class p extends(globalThis.HTMLElement??HTMLElementShimWithRealType){constructor(){super(),this._$Ei=new Map,this.isUpdatePending=!1,this.hasUpdated=!1,this._$El=null,this._$Eu();}static addInitializer(t){var i;this.finalize(),(null!==(i=this.h)&&void 0!==i?i:this.h=[]).push(t);}static get observedAttributes(){this.finalize();const t=[];return this.elementProperties.forEach(((i,s)=>{const e=this._$Ep(s,i);void 0!==e&&(this._$Ev.set(e,s),t.push(e));})),t}static createProperty(t,i=c$1){if(i.state&&(i.attribute=!1),this.finalize(),this.elementProperties.set(t,i),!i.noAccessor&&!this.prototype.hasOwnProperty(t)){const s="symbol"==typeof t?Symbol():"__"+t,e=this.getPropertyDescriptor(t,s,i);void 0!==e&&Object.defineProperty(this.prototype,t,e);}}static getPropertyDescriptor(t,i,s){return {get(){return this[i]},set(e){const r=this[t];this[i]=e,this.requestUpdate(t,r,s);},configurable:!0,enumerable:!0}}static getPropertyOptions(t){return this.elementProperties.get(t)||c$1}static finalize(){if(this.hasOwnProperty(v$1))return !1;this[v$1]=!0;const t=Object.getPrototypeOf(this);if(t.finalize(),void 0!==t.h&&(this.h=[...t.h]),this.elementProperties=new Map(t.elementProperties),this._$Ev=new Map,this.hasOwnProperty("properties")){const t=this.properties,i=[...Object.getOwnPropertyNames(t),...Object.getOwnPropertySymbols(t)];for(const s of i)this.createProperty(s,t[s]);}return this.elementStyles=this.finalizeStyles(this.styles),!0}static finalizeStyles(t){const i=[];if(Array.isArray(t)){const e=new Set(t.flat(1/0).reverse());for(const t of e)i.unshift(c$2(t));}else void 0!==t&&i.push(c$2(t));return i}static _$Ep(t,i){const s=i.attribute;return !1===s?void 0:"string"==typeof s?s:"string"==typeof t?t.toLowerCase():void 0}_$Eu(){var t;this._$E_=new Promise((t=>this.enableUpdating=t)),this._$AL=new Map,this._$Eg(),this.requestUpdate(),null===(t=this.constructor.h)||void 0===t||t.forEach((t=>t(this)));}addController(t){var i,s;(null!==(i=this._$ES)&&void 0!==i?i:this._$ES=[]).push(t),void 0!==this.renderRoot&&this.isConnected&&(null===(s=t.hostConnected)||void 0===s||s.call(t));}removeController(t){var i;null===(i=this._$ES)||void 0===i||i.splice(this._$ES.indexOf(t)>>>0,1);}_$Eg(){this.constructor.elementProperties.forEach(((t,i)=>{this.hasOwnProperty(i)&&(this._$Ei.set(i,this[i]),delete this[i]);}));}createRenderRoot(){var t;const i=null!==(t=this.shadowRoot)&&void 0!==t?t:this.attachShadow(this.constructor.shadowRootOptions);return S$1(i,this.constructor.elementStyles),i}connectedCallback(){var t;void 0===this.renderRoot&&(this.renderRoot=this.createRenderRoot()),this.enableUpdating(!0),null===(t=this._$ES)||void 0===t||t.forEach((t=>{var i;return null===(i=t.hostConnected)||void 0===i?void 0:i.call(t)}));}enableUpdating(t){}disconnectedCallback(){var t;null===(t=this._$ES)||void 0===t||t.forEach((t=>{var i;return null===(i=t.hostDisconnected)||void 0===i?void 0:i.call(t)}));}attributeChangedCallback(t,i,s){this._$AK(t,s);}_$EO(t,i,s=c$1){var e;const r=this.constructor._$Ep(t,s);if(void 0!==r&&!0===s.reflect){const h=(void 0!==(null===(e=s.converter)||void 0===e?void 0:e.toAttribute)?s.converter:d$1).toAttribute(i,s.type);this._$El=t,null==h?this.removeAttribute(r):this.setAttribute(r,h),this._$El=null;}}_$AK(t,i){var s;const e=this.constructor,r=e._$Ev.get(t);if(void 0!==r&&this._$El!==r){const t=e.getPropertyOptions(r),h="function"==typeof t.converter?{fromAttribute:t.converter}:void 0!==(null===(s=t.converter)||void 0===s?void 0:s.fromAttribute)?t.converter:d$1;this._$El=r,this[r]=h.fromAttribute(i,t.type),this._$El=null;}}requestUpdate(t,i,s){let e=!0;void 0!==t&&(((s=s||this.constructor.getPropertyOptions(t)).hasChanged||u$1)(this[t],i)?(this._$AL.has(t)||this._$AL.set(t,i),!0===s.reflect&&this._$El!==t&&(void 0===this._$EC&&(this._$EC=new Map),this._$EC.set(t,s))):e=!1),!this.isUpdatePending&&e&&(this._$E_=this._$Ej());}async _$Ej(){this.isUpdatePending=!0;try{await this._$E_;}catch(t){Promise.reject(t);}const t=this.scheduleUpdate();return null!=t&&await t,!this.isUpdatePending}scheduleUpdate(){return this.performUpdate()}performUpdate(){var t;if(!this.isUpdatePending)return;this.hasUpdated,this._$Ei&&(this._$Ei.forEach(((t,i)=>this[i]=t)),this._$Ei=void 0);let i=!1;const s=this._$AL;try{i=this.shouldUpdate(s),i?(this.willUpdate(s),null===(t=this._$ES)||void 0===t||t.forEach((t=>{var i;return null===(i=t.hostUpdate)||void 0===i?void 0:i.call(t)})),this.update(s)):this._$Ek();}catch(t){throw i=!1,this._$Ek(),t}i&&this._$AE(s);}willUpdate(t){}_$AE(t){var i;null===(i=this._$ES)||void 0===i||i.forEach((t=>{var i;return null===(i=t.hostUpdated)||void 0===i?void 0:i.call(t)})),this.hasUpdated||(this.hasUpdated=!0,this.firstUpdated(t)),this.updated(t);}_$Ek(){this._$AL=new Map,this.isUpdatePending=!1;}get updateComplete(){return this.getUpdateComplete()}getUpdateComplete(){return this._$E_}shouldUpdate(t){return !0}update(t){void 0!==this._$EC&&(this._$EC.forEach(((t,i)=>this._$EO(i,this[i],t))),this._$EC=void 0),this._$Ek();}updated(t){}firstUpdated(t){}};p$1[v$1]=!0,p$1.elementProperties=new Map,p$1.elementStyles=[],p$1.shadowRootOptions={mode:"open"},null==a$1||a$1({ReactiveElement:p$1}),(null!==(h$1=o$3.reactiveElementVersions)&&void 0!==h$1?h$1:o$3.reactiveElementVersions=[]).push("1.6.3");
-
+ */;var u,v;const m=globalThis;null!==(u=m.customElements)&&void 0!==u||(m.customElements=r);const _=m.trustedTypes,b=_?_.emptyScript:"",w=m.reactiveElementPolyfillSupport,x={toAttribute(t,e){switch(e){case Boolean:t=t?b:null;break;case Object:case Array:t=null==t?t:JSON.stringify(t)}return t},fromAttribute(t,e){let i=t;switch(e){case Boolean:i=null!==t;break;case Number:i=null===t?null:Number(t);break;case Object:case Array:try{i=JSON.parse(t)}catch(t){i=null}}return i}},A=(t,e)=>e!==t&&(e==e||t==t),S={attribute:!0,type:String,converter:x,reflect:!1,hasChanged:A},k="finalized";let E=class extends(globalThis.HTMLElement??s){constructor(){super(),this._$Ei=new Map,this.isUpdatePending=!1,this.hasUpdated=!1,this._$El=null,this._$Eu()}static addInitializer(t){var e;this.finalize(),(null!==(e=this.h)&&void 0!==e?e:this.h=[]).push(t)}static get observedAttributes(){this.finalize();const t=[];return this.elementProperties.forEach(((e,i)=>{const a=this._$Ep(i,e);void 0!==a&&(this._$Ev.set(a,i),t.push(a))})),t}static createProperty(t,e=S){if(e.state&&(e.attribute=!1),this.finalize(),this.elementProperties.set(t,e),!e.noAccessor&&!this.prototype.hasOwnProperty(t)){const i="symbol"==typeof t?Symbol():"__"+t,a=this.getPropertyDescriptor(t,i,e);void 0!==a&&Object.defineProperty(this.prototype,t,a)}}static getPropertyDescriptor(t,e,i){return{get(){return this[e]},set(a){const n=this[t];this[e]=a,this.requestUpdate(t,n,i)},configurable:!0,enumerable:!0}}static getPropertyOptions(t){return this.elementProperties.get(t)||S}static finalize(){if(this.hasOwnProperty(k))return!1;this[k]=!0;const t=Object.getPrototypeOf(this);if(t.finalize(),void 0!==t.h&&(this.h=[...t.h]),this.elementProperties=new Map(t.elementProperties),this._$Ev=new Map,this.hasOwnProperty("properties")){const t=this.properties,e=[...Object.getOwnPropertyNames(t),...Object.getOwnPropertySymbols(t)];for(const i of e)this.createProperty(i,t[i])}return this.elementStyles=this.finalizeStyles(this.styles),!0}static finalizeStyles(t){const e=[];if(Array.isArray(t)){const i=new Set(t.flat(1/0).reverse());for(const t of i)e.unshift(f(t))}else void 0!==t&&e.push(f(t));return e}static _$Ep(t,e){const i=e.attribute;return!1===i?void 0:"string"==typeof i?i:"string"==typeof t?t.toLowerCase():void 0}_$Eu(){var t;this._$E_=new Promise((t=>this.enableUpdating=t)),this._$AL=new Map,this._$Eg(),this.requestUpdate(),null===(t=this.constructor.h)||void 0===t||t.forEach((t=>t(this)))}addController(t){var e,i;(null!==(e=this._$ES)&&void 0!==e?e:this._$ES=[]).push(t),void 0!==this.renderRoot&&this.isConnected&&(null===(i=t.hostConnected)||void 0===i||i.call(t))}removeController(t){var e;null===(e=this._$ES)||void 0===e||e.splice(this._$ES.indexOf(t)>>>0,1)}_$Eg(){this.constructor.elementProperties.forEach(((t,e)=>{this.hasOwnProperty(e)&&(this._$Ei.set(e,this[e]),delete this[e])}))}createRenderRoot(){var t;const e=null!==(t=this.shadowRoot)&&void 0!==t?t:this.attachShadow(this.constructor.shadowRootOptions);return y(e,this.constructor.elementStyles),e}connectedCallback(){var t;void 0===this.renderRoot&&(this.renderRoot=this.createRenderRoot()),this.enableUpdating(!0),null===(t=this._$ES)||void 0===t||t.forEach((t=>{var e;return null===(e=t.hostConnected)||void 0===e?void 0:e.call(t)}))}enableUpdating(t){}disconnectedCallback(){var t;null===(t=this._$ES)||void 0===t||t.forEach((t=>{var e;return null===(e=t.hostDisconnected)||void 0===e?void 0:e.call(t)}))}attributeChangedCallback(t,e,i){this._$AK(t,i)}_$EO(t,e,i=S){var a;const n=this.constructor._$Ep(t,i);if(void 0!==n&&!0===i.reflect){const s=(void 0!==(null===(a=i.converter)||void 0===a?void 0:a.toAttribute)?i.converter:x).toAttribute(e,i.type);this._$El=t,null==s?this.removeAttribute(n):this.setAttribute(n,s),this._$El=null}}_$AK(t,e){var i;const a=this.constructor,n=a._$Ev.get(t);if(void 0!==n&&this._$El!==n){const t=a.getPropertyOptions(n),s="function"==typeof t.converter?{fromAttribute:t.converter}:void 0!==(null===(i=t.converter)||void 0===i?void 0:i.fromAttribute)?t.converter:x;this._$El=n,this[n]=s.fromAttribute(e,t.type),this._$El=null}}requestUpdate(t,e,i){let a=!0;void 0!==t&&(((i=i||this.constructor.getPropertyOptions(t)).hasChanged||A)(this[t],e)?(this._$AL.has(t)||this._$AL.set(t,e),!0===i.reflect&&this._$El!==t&&(void 0===this._$EC&&(this._$EC=new Map),this._$EC.set(t,i))):a=!1),!this.isUpdatePending&&a&&(this._$E_=this._$Ej())}async _$Ej(){this.isUpdatePending=!0;try{await this._$E_}catch(t){Promise.reject(t)}const t=this.scheduleUpdate();return null!=t&&await t,!this.isUpdatePending}scheduleUpdate(){return this.performUpdate()}performUpdate(){var t;if(!this.isUpdatePending)return;this.hasUpdated,this._$Ei&&(this._$Ei.forEach(((t,e)=>this[e]=t)),this._$Ei=void 0);let e=!1;const i=this._$AL;try{e=this.shouldUpdate(i),e?(this.willUpdate(i),null===(t=this._$ES)||void 0===t||t.forEach((t=>{var e;return null===(e=t.hostUpdate)||void 0===e?void 0:e.call(t)})),this.update(i)):this._$Ek()}catch(t){throw e=!1,this._$Ek(),t}e&&this._$AE(i)}willUpdate(t){}_$AE(t){var e;null===(e=this._$ES)||void 0===e||e.forEach((t=>{var e;return null===(e=t.hostUpdated)||void 0===e?void 0:e.call(t)})),this.hasUpdated||(this.hasUpdated=!0,this.firstUpdated(t)),this.updated(t)}_$Ek(){this._$AL=new Map,this.isUpdatePending=!1}get updateComplete(){return this.getUpdateComplete()}getUpdateComplete(){return this._$E_}shouldUpdate(t){return!0}update(t){void 0!==this._$EC&&(this._$EC.forEach(((t,e)=>this._$EO(e,this[e],t))),this._$EC=void 0),this._$Ek()}updated(t){}firstUpdated(t){}};
 /**
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-var t$2;const i$3=globalThis,s$1=i$3.trustedTypes,e$2=s$1?s$1.createPolicy("lit-html",{createHTML:t=>t}):void 0,o$2="$lit$",n$3=`lit$${(Math.random()+"").slice(9)}$`,l$2="?"+n$3,h=`<${l$2}>`,r=void 0===i$3.document?{createTreeWalker:()=>({})}:document,u=()=>r.createComment(""),d=t=>null===t||"object"!=typeof t&&"function"!=typeof t,c=Array.isArray,v=t=>c(t)||"function"==typeof(null==t?void 0:t[Symbol.iterator]),a="[ \t\n\f\r]",f=/<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g,_=/-->/g,m=/>/g,p=RegExp(`>|${a}(?:([^\\s"'>=/]+)(${a}*=${a}*(?:[^ \t\n\f\r"'\`<>=]|("|')|))|$)`,"g"),g=/'/g,$$1=/"/g,y=/^(?:script|style|textarea|title)$/i,x=t=>(i,...s)=>({_$litType$:t,strings:i,values:s}),T=x(1),w=Symbol.for("lit-noChange"),A=Symbol.for("lit-nothing"),E=new WeakMap,C=r.createTreeWalker(r,129,null,!1);function P(t,i){if(!Array.isArray(t)||!t.hasOwnProperty("raw"))throw Error("invalid template strings array");return void 0!==e$2?e$2.createHTML(i):i}const V=(t,i)=>{const s=t.length-1,e=[];let l,r=2===i?"<svg>":"",u=f;for(let i=0;i<s;i++){const s=t[i];let d,c,v=-1,a=0;for(;a<s.length&&(u.lastIndex=a,c=u.exec(s),null!==c);)a=u.lastIndex,u===f?"!--"===c[1]?u=_:void 0!==c[1]?u=m:void 0!==c[2]?(y.test(c[2])&&(l=RegExp("</"+c[2],"g")),u=p):void 0!==c[3]&&(u=p):u===p?">"===c[0]?(u=null!=l?l:f,v=-1):void 0===c[1]?v=-2:(v=u.lastIndex-c[2].length,d=c[1],u=void 0===c[3]?p:'"'===c[3]?$$1:g):u===$$1||u===g?u=p:u===_||u===m?u=f:(u=p,l=void 0);const x=u===p&&t[i+1].startsWith("/>")?" ":"";r+=u===f?s+h:v>=0?(e.push(d),s.slice(0,v)+o$2+s.slice(v)+n$3+x):s+n$3+(-2===v?(e.push(void 0),i):x);}return [P(t,r+(t[s]||"<?>")+(2===i?"</svg>":"")),e]};class N{constructor({strings:t,_$litType$:i},e){let h;this.parts=[];let r=0,d=0;const c=t.length-1,v=this.parts,[a,f]=V(t,i);if(this.el=N.createElement(a,e),C.currentNode=this.el.content,2===i){const t=this.el.content,i=t.firstChild;i.remove(),t.append(...i.childNodes);}for(;null!==(h=C.nextNode())&&v.length<c;){if(1===h.nodeType){if(h.hasAttributes()){const t=[];for(const i of h.getAttributeNames())if(i.endsWith(o$2)||i.startsWith(n$3)){const s=f[d++];if(t.push(i),void 0!==s){const t=h.getAttribute(s.toLowerCase()+o$2).split(n$3),i=/([.?@])?(.*)/.exec(s);v.push({type:1,index:r,name:i[2],strings:t,ctor:"."===i[1]?H:"?"===i[1]?L:"@"===i[1]?z:R});}else v.push({type:6,index:r});}for(const i of t)h.removeAttribute(i);}if(y.test(h.tagName)){const t=h.textContent.split(n$3),i=t.length-1;if(i>0){h.textContent=s$1?s$1.emptyScript:"";for(let s=0;s<i;s++)h.append(t[s],u()),C.nextNode(),v.push({type:2,index:++r});h.append(t[i],u());}}}else if(8===h.nodeType)if(h.data===l$2)v.push({type:2,index:r});else {let t=-1;for(;-1!==(t=h.data.indexOf(n$3,t+1));)v.push({type:7,index:r}),t+=n$3.length-1;}r++;}}static createElement(t,i){const s=r.createElement("template");return s.innerHTML=t,s}}function S(t,i,s=t,e){var o,n,l,h;if(i===w)return i;let r=void 0!==e?null===(o=s._$Co)||void 0===o?void 0:o[e]:s._$Cl;const u=d(i)?void 0:i._$litDirective$;return (null==r?void 0:r.constructor)!==u&&(null===(n=null==r?void 0:r._$AO)||void 0===n||n.call(r,!1),void 0===u?r=void 0:(r=new u(t),r._$AT(t,s,e)),void 0!==e?(null!==(l=(h=s)._$Co)&&void 0!==l?l:h._$Co=[])[e]=r:s._$Cl=r),void 0!==r&&(i=S(t,r._$AS(t,i.values),r,e)),i}class M{constructor(t,i){this._$AV=[],this._$AN=void 0,this._$AD=t,this._$AM=i;}get parentNode(){return this._$AM.parentNode}get _$AU(){return this._$AM._$AU}u(t){var i;const{el:{content:s},parts:e}=this._$AD,o=(null!==(i=null==t?void 0:t.creationScope)&&void 0!==i?i:r).importNode(s,!0);C.currentNode=o;let n=C.nextNode(),l=0,h=0,u=e[0];for(;void 0!==u;){if(l===u.index){let i;2===u.type?i=new k(n,n.nextSibling,this,t):1===u.type?i=new u.ctor(n,u.name,u.strings,this,t):6===u.type&&(i=new W(n,this,t)),this._$AV.push(i),u=e[++h];}l!==(null==u?void 0:u.index)&&(n=C.nextNode(),l++);}return C.currentNode=r,o}v(t){let i=0;for(const s of this._$AV)void 0!==s&&(void 0!==s.strings?(s._$AI(t,s,i),i+=s.strings.length-2):s._$AI(t[i])),i++;}}class k{constructor(t,i,s,e){var o;this.type=2,this._$AH=A,this._$AN=void 0,this._$AA=t,this._$AB=i,this._$AM=s,this.options=e,this._$Cp=null===(o=null==e?void 0:e.isConnected)||void 0===o||o;}get _$AU(){var t,i;return null!==(i=null===(t=this._$AM)||void 0===t?void 0:t._$AU)&&void 0!==i?i:this._$Cp}get parentNode(){let t=this._$AA.parentNode;const i=this._$AM;return void 0!==i&&11===(null==t?void 0:t.nodeType)&&(t=i.parentNode),t}get startNode(){return this._$AA}get endNode(){return this._$AB}_$AI(t,i=this){t=S(this,t,i),d(t)?t===A||null==t||""===t?(this._$AH!==A&&this._$AR(),this._$AH=A):t!==this._$AH&&t!==w&&this._(t):void 0!==t._$litType$?this.g(t):void 0!==t.nodeType?this.$(t):v(t)?this.T(t):this._(t);}k(t){return this._$AA.parentNode.insertBefore(t,this._$AB)}$(t){this._$AH!==t&&(this._$AR(),this._$AH=this.k(t));}_(t){this._$AH!==A&&d(this._$AH)?this._$AA.nextSibling.data=t:this.$(r.createTextNode(t)),this._$AH=t;}g(t){var i;const{values:s,_$litType$:e}=t,o="number"==typeof e?this._$AC(t):(void 0===e.el&&(e.el=N.createElement(P(e.h,e.h[0]),this.options)),e);if((null===(i=this._$AH)||void 0===i?void 0:i._$AD)===o)this._$AH.v(s);else {const t=new M(o,this),i=t.u(this.options);t.v(s),this.$(i),this._$AH=t;}}_$AC(t){let i=E.get(t.strings);return void 0===i&&E.set(t.strings,i=new N(t)),i}T(t){c(this._$AH)||(this._$AH=[],this._$AR());const i=this._$AH;let s,e=0;for(const o of t)e===i.length?i.push(s=new k(this.k(u()),this.k(u()),this,this.options)):s=i[e],s._$AI(o),e++;e<i.length&&(this._$AR(s&&s._$AB.nextSibling,e),i.length=e);}_$AR(t=this._$AA.nextSibling,i){var s;for(null===(s=this._$AP)||void 0===s||s.call(this,!1,!0,i);t&&t!==this._$AB;){const i=t.nextSibling;t.remove(),t=i;}}setConnected(t){var i;void 0===this._$AM&&(this._$Cp=t,null===(i=this._$AP)||void 0===i||i.call(this,t));}}class R{constructor(t,i,s,e,o){this.type=1,this._$AH=A,this._$AN=void 0,this.element=t,this.name=i,this._$AM=e,this.options=o,s.length>2||""!==s[0]||""!==s[1]?(this._$AH=Array(s.length-1).fill(new String),this.strings=s):this._$AH=A;}get tagName(){return this.element.tagName}get _$AU(){return this._$AM._$AU}_$AI(t,i=this,s,e){const o=this.strings;let n=!1;if(void 0===o)t=S(this,t,i,0),n=!d(t)||t!==this._$AH&&t!==w,n&&(this._$AH=t);else {const e=t;let l,h;for(t=o[0],l=0;l<o.length-1;l++)h=S(this,e[s+l],i,l),h===w&&(h=this._$AH[l]),n||(n=!d(h)||h!==this._$AH[l]),h===A?t=A:t!==A&&(t+=(null!=h?h:"")+o[l+1]),this._$AH[l]=h;}n&&!e&&this.j(t);}j(t){t===A?this.element.removeAttribute(this.name):this.element.setAttribute(this.name,null!=t?t:"");}}class H extends R{constructor(){super(...arguments),this.type=3;}j(t){this.element[this.name]=t===A?void 0:t;}}const I=s$1?s$1.emptyScript:"";class L extends R{constructor(){super(...arguments),this.type=4;}j(t){t&&t!==A?this.element.setAttribute(this.name,I):this.element.removeAttribute(this.name);}}class z extends R{constructor(t,i,s,e,o){super(t,i,s,e,o),this.type=5;}_$AI(t,i=this){var s;if((t=null!==(s=S(this,t,i,0))&&void 0!==s?s:A)===w)return;const e=this._$AH,o=t===A&&e!==A||t.capture!==e.capture||t.once!==e.once||t.passive!==e.passive,n=t!==A&&(e===A||o);o&&this.element.removeEventListener(this.name,this,e),n&&this.element.addEventListener(this.name,this,t),this._$AH=t;}handleEvent(t){var i,s;"function"==typeof this._$AH?this._$AH.call(null!==(s=null===(i=this.options)||void 0===i?void 0:i.host)&&void 0!==s?s:this.element,t):this._$AH.handleEvent(t);}}class W{constructor(t,i,s){this.element=t,this.type=6,this._$AN=void 0,this._$AM=i,this.options=s;}get _$AU(){return this._$AM._$AU}_$AI(t){S(this,t);}}const j=i$3.litHtmlPolyfillSupport;null==j||j(N,k),(null!==(t$2=i$3.litHtmlVersions)&&void 0!==t$2?t$2:i$3.litHtmlVersions=[]).push("2.8.0");const B=(t,i,s)=>{var e,o;const n=null!==(e=null==s?void 0:s.renderBefore)&&void 0!==e?e:i;let l=n._$litPart$;if(void 0===l){const t=null!==(o=null==s?void 0:s.renderBefore)&&void 0!==o?o:null;n._$litPart$=l=new k(i.insertBefore(u(),t),t,void 0,null!=s?s:{});}return l._$AI(t),l};
-
+var C;E[k]=!0,E.elementProperties=new Map,E.elementStyles=[],E.shadowRootOptions={mode:"open"},null==w||w({ReactiveElement:E}),(null!==(v=m.reactiveElementVersions)&&void 0!==v?v:m.reactiveElementVersions=[]).push("1.6.3");const M=globalThis,P=M.trustedTypes,z=P?P.createPolicy("lit-html",{createHTML:t=>t}):void 0,N="$lit$",R=`lit$${(Math.random()+"").slice(9)}$`,T="?"+R,U=`<${T}>`,O=void 0===M.document?{createTreeWalker:()=>({})}:document,H=()=>O.createComment(""),L=t=>null===t||"object"!=typeof t&&"function"!=typeof t,D=Array.isArray,j="[ \t\n\f\r]",B=/<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g,V=/-->/g,I=/>/g,W=RegExp(`>|${j}(?:([^\\s"'>=/]+)(${j}*=${j}*(?:[^ \t\n\f\r"'\`<>=]|("|')|))|$)`,"g"),K=/'/g,q=/"/g,Z=/^(?:script|style|textarea|title)$/i,F=(t=>(e,...i)=>({_$litType$:t,strings:e,values:i}))(1),J=Symbol.for("lit-noChange"),G=Symbol.for("lit-nothing"),Q=new WeakMap,Y=O.createTreeWalker(O,129,null,!1);function X(t,e){if(!Array.isArray(t)||!t.hasOwnProperty("raw"))throw Error("invalid template strings array");return void 0!==z?z.createHTML(e):e}const tt=(t,e)=>{const i=t.length-1,a=[];let n,s=2===e?"<svg>":"",r=B;for(let e=0;e<i;e++){const i=t[e];let o,l,h=-1,d=0;for(;d<i.length&&(r.lastIndex=d,l=r.exec(i),null!==l);)d=r.lastIndex,r===B?"!--"===l[1]?r=V:void 0!==l[1]?r=I:void 0!==l[2]?(Z.test(l[2])&&(n=RegExp("</"+l[2],"g")),r=W):void 0!==l[3]&&(r=W):r===W?">"===l[0]?(r=null!=n?n:B,h=-1):void 0===l[1]?h=-2:(h=r.lastIndex-l[2].length,o=l[1],r=void 0===l[3]?W:'"'===l[3]?q:K):r===q||r===K?r=W:r===V||r===I?r=B:(r=W,n=void 0);const p=r===W&&t[e+1].startsWith("/>")?" ":"";s+=r===B?i+U:h>=0?(a.push(o),i.slice(0,h)+N+i.slice(h)+R+p):i+R+(-2===h?(a.push(void 0),e):p)}return[X(t,s+(t[i]||"<?>")+(2===e?"</svg>":"")),a]};class et{constructor({strings:t,_$litType$:e},i){let a;this.parts=[];let n=0,s=0;const r=t.length-1,o=this.parts,[l,h]=tt(t,e);if(this.el=et.createElement(l,i),Y.currentNode=this.el.content,2===e){const t=this.el.content,e=t.firstChild;e.remove(),t.append(...e.childNodes)}for(;null!==(a=Y.nextNode())&&o.length<r;){if(1===a.nodeType){if(a.hasAttributes()){const t=[];for(const e of a.getAttributeNames())if(e.endsWith(N)||e.startsWith(R)){const i=h[s++];if(t.push(e),void 0!==i){const t=a.getAttribute(i.toLowerCase()+N).split(R),e=/([.?@])?(.*)/.exec(i);o.push({type:1,index:n,name:e[2],strings:t,ctor:"."===e[1]?rt:"?"===e[1]?lt:"@"===e[1]?ht:st})}else o.push({type:6,index:n})}for(const e of t)a.removeAttribute(e)}if(Z.test(a.tagName)){const t=a.textContent.split(R),e=t.length-1;if(e>0){a.textContent=P?P.emptyScript:"";for(let i=0;i<e;i++)a.append(t[i],H()),Y.nextNode(),o.push({type:2,index:++n});a.append(t[e],H())}}}else if(8===a.nodeType)if(a.data===T)o.push({type:2,index:n});else{let t=-1;for(;-1!==(t=a.data.indexOf(R,t+1));)o.push({type:7,index:n}),t+=R.length-1}n++}}static createElement(t,e){const i=O.createElement("template");return i.innerHTML=t,i}}function it(t,e,i=t,a){var n,s,r,o;if(e===J)return e;let l=void 0!==a?null===(n=i._$Co)||void 0===n?void 0:n[a]:i._$Cl;const h=L(e)?void 0:e._$litDirective$;return(null==l?void 0:l.constructor)!==h&&(null===(s=null==l?void 0:l._$AO)||void 0===s||s.call(l,!1),void 0===h?l=void 0:(l=new h(t),l._$AT(t,i,a)),void 0!==a?(null!==(r=(o=i)._$Co)&&void 0!==r?r:o._$Co=[])[a]=l:i._$Cl=l),void 0!==l&&(e=it(t,l._$AS(t,e.values),l,a)),e}class at{constructor(t,e){this._$AV=[],this._$AN=void 0,this._$AD=t,this._$AM=e}get parentNode(){return this._$AM.parentNode}get _$AU(){return this._$AM._$AU}u(t){var e;const{el:{content:i},parts:a}=this._$AD,n=(null!==(e=null==t?void 0:t.creationScope)&&void 0!==e?e:O).importNode(i,!0);Y.currentNode=n;let s=Y.nextNode(),r=0,o=0,l=a[0];for(;void 0!==l;){if(r===l.index){let e;2===l.type?e=new nt(s,s.nextSibling,this,t):1===l.type?e=new l.ctor(s,l.name,l.strings,this,t):6===l.type&&(e=new dt(s,this,t)),this._$AV.push(e),l=a[++o]}r!==(null==l?void 0:l.index)&&(s=Y.nextNode(),r++)}return Y.currentNode=O,n}v(t){let e=0;for(const i of this._$AV)void 0!==i&&(void 0!==i.strings?(i._$AI(t,i,e),e+=i.strings.length-2):i._$AI(t[e])),e++}}class nt{constructor(t,e,i,a){var n;this.type=2,this._$AH=G,this._$AN=void 0,this._$AA=t,this._$AB=e,this._$AM=i,this.options=a,this._$Cp=null===(n=null==a?void 0:a.isConnected)||void 0===n||n}get _$AU(){var t,e;return null!==(e=null===(t=this._$AM)||void 0===t?void 0:t._$AU)&&void 0!==e?e:this._$Cp}get parentNode(){let t=this._$AA.parentNode;const e=this._$AM;return void 0!==e&&11===(null==t?void 0:t.nodeType)&&(t=e.parentNode),t}get startNode(){return this._$AA}get endNode(){return this._$AB}_$AI(t,e=this){t=it(this,t,e),L(t)?t===G||null==t||""===t?(this._$AH!==G&&this._$AR(),this._$AH=G):t!==this._$AH&&t!==J&&this._(t):void 0!==t._$litType$?this.g(t):void 0!==t.nodeType?this.$(t):(t=>D(t)||"function"==typeof(null==t?void 0:t[Symbol.iterator]))(t)?this.T(t):this._(t)}k(t){return this._$AA.parentNode.insertBefore(t,this._$AB)}$(t){this._$AH!==t&&(this._$AR(),this._$AH=this.k(t))}_(t){this._$AH!==G&&L(this._$AH)?this._$AA.nextSibling.data=t:this.$(O.createTextNode(t)),this._$AH=t}g(t){var e;const{values:i,_$litType$:a}=t,n="number"==typeof a?this._$AC(t):(void 0===a.el&&(a.el=et.createElement(X(a.h,a.h[0]),this.options)),a);if((null===(e=this._$AH)||void 0===e?void 0:e._$AD)===n)this._$AH.v(i);else{const t=new at(n,this),e=t.u(this.options);t.v(i),this.$(e),this._$AH=t}}_$AC(t){let e=Q.get(t.strings);return void 0===e&&Q.set(t.strings,e=new et(t)),e}T(t){D(this._$AH)||(this._$AH=[],this._$AR());const e=this._$AH;let i,a=0;for(const n of t)a===e.length?e.push(i=new nt(this.k(H()),this.k(H()),this,this.options)):i=e[a],i._$AI(n),a++;a<e.length&&(this._$AR(i&&i._$AB.nextSibling,a),e.length=a)}_$AR(t=this._$AA.nextSibling,e){var i;for(null===(i=this._$AP)||void 0===i||i.call(this,!1,!0,e);t&&t!==this._$AB;){const e=t.nextSibling;t.remove(),t=e}}setConnected(t){var e;void 0===this._$AM&&(this._$Cp=t,null===(e=this._$AP)||void 0===e||e.call(this,t))}}class st{constructor(t,e,i,a,n){this.type=1,this._$AH=G,this._$AN=void 0,this.element=t,this.name=e,this._$AM=a,this.options=n,i.length>2||""!==i[0]||""!==i[1]?(this._$AH=Array(i.length-1).fill(new String),this.strings=i):this._$AH=G}get tagName(){return this.element.tagName}get _$AU(){return this._$AM._$AU}_$AI(t,e=this,i,a){const n=this.strings;let s=!1;if(void 0===n)t=it(this,t,e,0),s=!L(t)||t!==this._$AH&&t!==J,s&&(this._$AH=t);else{const a=t;let r,o;for(t=n[0],r=0;r<n.length-1;r++)o=it(this,a[i+r],e,r),o===J&&(o=this._$AH[r]),s||(s=!L(o)||o!==this._$AH[r]),o===G?t=G:t!==G&&(t+=(null!=o?o:"")+n[r+1]),this._$AH[r]=o}s&&!a&&this.j(t)}j(t){t===G?this.element.removeAttribute(this.name):this.element.setAttribute(this.name,null!=t?t:"")}}class rt extends st{constructor(){super(...arguments),this.type=3}j(t){this.element[this.name]=t===G?void 0:t}}const ot=P?P.emptyScript:"";class lt extends st{constructor(){super(...arguments),this.type=4}j(t){t&&t!==G?this.element.setAttribute(this.name,ot):this.element.removeAttribute(this.name)}}class ht extends st{constructor(t,e,i,a,n){super(t,e,i,a,n),this.type=5}_$AI(t,e=this){var i;if((t=null!==(i=it(this,t,e,0))&&void 0!==i?i:G)===J)return;const a=this._$AH,n=t===G&&a!==G||t.capture!==a.capture||t.once!==a.once||t.passive!==a.passive,s=t!==G&&(a===G||n);n&&this.element.removeEventListener(this.name,this,a),s&&this.element.addEventListener(this.name,this,t),this._$AH=t}handleEvent(t){var e,i;"function"==typeof this._$AH?this._$AH.call(null!==(i=null===(e=this.options)||void 0===e?void 0:e.host)&&void 0!==i?i:this.element,t):this._$AH.handleEvent(t)}}class dt{constructor(t,e,i){this.element=t,this.type=6,this._$AN=void 0,this._$AM=e,this.options=i}get _$AU(){return this._$AM._$AU}_$AI(t){it(this,t)}}const pt=M.litHtmlPolyfillSupport;null==pt||pt(et,nt),(null!==(C=M.litHtmlVersions)&&void 0!==C?C:M.litHtmlVersions=[]).push("2.8.0");
 /**
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
- */var l$1,o$1;class s extends p$1{constructor(){super(...arguments),this.renderOptions={host:this},this._$Do=void 0;}createRenderRoot(){var t,e;const i=super.createRenderRoot();return null!==(t=(e=this.renderOptions).renderBefore)&&void 0!==t||(e.renderBefore=i.firstChild),i}update(t){const i=this.render();this.hasUpdated||(this.renderOptions.isConnected=this.isConnected),super.update(t),this._$Do=B(i,this.renderRoot,this.renderOptions);}connectedCallback(){var t;super.connectedCallback(),null===(t=this._$Do)||void 0===t||t.setConnected(!0);}disconnectedCallback(){var t;super.disconnectedCallback(),null===(t=this._$Do)||void 0===t||t.setConnected(!1);}render(){return w}}s.finalized=!0,s._$litElement$=!0,null===(l$1=globalThis.litElementHydrateSupport)||void 0===l$1||l$1.call(globalThis,{LitElement:s});const n$2=globalThis.litElementPolyfillSupport;null==n$2||n$2({LitElement:s});(null!==(o$1=globalThis.litElementVersions)&&void 0!==o$1?o$1:globalThis.litElementVersions=[]).push("3.3.3");
-
-const FdsTypographyBodyDefaultFontFamily = /*#__PURE__*/ r$2("var(--fds-typography-body-default-font-family, 'Public Sans')");
-const FdsTypographyBodyDefaultFontSize = /*#__PURE__*/ r$2("var(--fds-typography-body-default-font-size, 16px)");
-const FdsTypographyBodyDefaultLetterSpacing = /*#__PURE__*/ r$2("var(--fds-typography-body-default-letter-spacing, 0px)");
-const FdsTypographyBodyDefaultLineHeight = /*#__PURE__*/ r$2("var(--fds-typography-body-default-line-height, 150%)");
-const FdsTypographyBodyDefaultFontWeight = /*#__PURE__*/ r$2("var(--fds-typography-body-default-font-weight, 400)");
-const FdsTypographyBodyDefaultDisplay = /*#__PURE__*/ r$2("var(--fds-typography-body-default-display, inline-block)");
-const FdsTypographyBodyLargeFontFamily = /*#__PURE__*/ r$2("var(--fds-typography-body-large-font-family, 'Public Sans')");
-const FdsTypographyBodyLargeFontSize = /*#__PURE__*/ r$2("var(--fds-typography-body-large-font-size, 18px)");
-const FdsTypographyBodyLargeLetterSpacing = /*#__PURE__*/ r$2("var(--fds-typography-body-large-letter-spacing, 0px)");
-const FdsTypographyBodyLargeLineHeight = /*#__PURE__*/ r$2("var(--fds-typography-body-large-line-height, 150%)");
-const FdsTypographyBodyLargeFontWeight = /*#__PURE__*/ r$2("var(--fds-typography-body-large-font-weight, 400)");
-const FdsTypographyBodyLargeDisplay = /*#__PURE__*/ r$2("var(--fds-typography-body-large-display, inline-block)");
-const FdsTypographyBodyMicroFontFamily = /*#__PURE__*/ r$2("var(--fds-typography-body-micro-font-family, 'Public Sans')");
-const FdsTypographyBodyMicroFontSize = /*#__PURE__*/ r$2("var(--fds-typography-body-micro-font-size, 12px)");
-const FdsTypographyBodyMicroLetterSpacing = /*#__PURE__*/ r$2("var(--fds-typography-body-micro-letter-spacing, 0px)");
-const FdsTypographyBodyMicroLineHeight = /*#__PURE__*/ r$2("var(--fds-typography-body-micro-line-height, 150%)");
-const FdsTypographyBodyMicroFontWeight = /*#__PURE__*/ r$2("var(--fds-typography-body-micro-font-weight, 400)");
-const FdsTypographyBodyMicroDisplay = /*#__PURE__*/ r$2("var(--fds-typography-body-micro-display, inline-block)");
-const FdsTypographyBodySmallFontFamily = /*#__PURE__*/ r$2("var(--fds-typography-body-small-font-family, 'Public Sans')");
-const FdsTypographyBodySmallFontSize = /*#__PURE__*/ r$2("var(--fds-typography-body-small-font-size, 14px)");
-const FdsTypographyBodySmallLetterSpacing = /*#__PURE__*/ r$2("var(--fds-typography-body-small-letter-spacing, 0px)");
-const FdsTypographyBodySmallLineHeight = /*#__PURE__*/ r$2("var(--fds-typography-body-small-line-height, 150%)");
-const FdsTypographyBodySmallFontWeight = /*#__PURE__*/ r$2("var(--fds-typography-body-small-font-weight, 400)");
-const FdsTypographyBodySmallDisplay = /*#__PURE__*/ r$2("var(--fds-typography-body-small-display, inline-block)");
-const FdsTypographyEmphasisDefaultFontFamily = /*#__PURE__*/ r$2("var(--fds-typography-emphasis-default-font-family, 'Public Sans')");
-const FdsTypographyEmphasisDefaultFontSize = /*#__PURE__*/ r$2("var(--fds-typography-emphasis-default-font-size, 16px)");
-const FdsTypographyEmphasisDefaultLetterSpacing = /*#__PURE__*/ r$2("var(--fds-typography-emphasis-default-letter-spacing, 0px)");
-const FdsTypographyEmphasisDefaultLineHeight = /*#__PURE__*/ r$2("var(--fds-typography-emphasis-default-line-height, 150%)");
-const FdsTypographyEmphasisDefaultFontWeight = /*#__PURE__*/ r$2("var(--fds-typography-emphasis-default-font-weight, 700)");
-const FdsTypographyEmphasisDefaultDisplay = /*#__PURE__*/ r$2("var(--fds-typography-emphasis-default-display, inline-block)");
-const FdsTypographyEmphasisLargeFontFamily = /*#__PURE__*/ r$2("var(--fds-typography-emphasis-large-font-family, 'Public Sans')");
-const FdsTypographyEmphasisLargeFontSize = /*#__PURE__*/ r$2("var(--fds-typography-emphasis-large-font-size, 18px)");
-const FdsTypographyEmphasisLargeLetterSpacing = /*#__PURE__*/ r$2("var(--fds-typography-emphasis-large-letter-spacing, 0px)");
-const FdsTypographyEmphasisLargeLineHeight = /*#__PURE__*/ r$2("var(--fds-typography-emphasis-large-line-height, 150%)");
-const FdsTypographyEmphasisLargeFontWeight = /*#__PURE__*/ r$2("var(--fds-typography-emphasis-large-font-weight, 700)");
-const FdsTypographyEmphasisLargeDisplay = /*#__PURE__*/ r$2("var(--fds-typography-emphasis-large-display, inline-block)");
-const FdsTypographyEmphasisMicroFontFamily = /*#__PURE__*/ r$2("var(--fds-typography-emphasis-micro-font-family, 'Public Sans')");
-const FdsTypographyEmphasisMicroFontSize = /*#__PURE__*/ r$2("var(--fds-typography-emphasis-micro-font-size, 12px)");
-const FdsTypographyEmphasisMicroLetterSpacing = /*#__PURE__*/ r$2("var(--fds-typography-emphasis-micro-letter-spacing, 0px)");
-const FdsTypographyEmphasisMicroLineHeight = /*#__PURE__*/ r$2("var(--fds-typography-emphasis-micro-line-height, 150%)");
-const FdsTypographyEmphasisMicroFontWeight = /*#__PURE__*/ r$2("var(--fds-typography-emphasis-micro-font-weight, 700)");
-const FdsTypographyEmphasisMicroDisplay = /*#__PURE__*/ r$2("var(--fds-typography-emphasis-micro-display, inline-block)");
-const FdsTypographyEmphasisSmallFontFamily = /*#__PURE__*/ r$2("var(--fds-typography-emphasis-small-font-family, 'Public Sans')");
-const FdsTypographyEmphasisSmallFontSize = /*#__PURE__*/ r$2("var(--fds-typography-emphasis-small-font-size, 14px)");
-const FdsTypographyEmphasisSmallLetterSpacing = /*#__PURE__*/ r$2("var(--fds-typography-emphasis-small-letter-spacing, 0px)");
-const FdsTypographyEmphasisSmallLineHeight = /*#__PURE__*/ r$2("var(--fds-typography-emphasis-small-line-height, 150%)");
-const FdsTypographyEmphasisSmallFontWeight = /*#__PURE__*/ r$2("var(--fds-typography-emphasis-small-font-weight, 700)");
-const FdsTypographyEmphasisSmallDisplay = /*#__PURE__*/ r$2("var(--fds-typography-emphasis-small-display, inline-block)");
-const FdsTypographyHeadingLargeHeading3FontFamily = /*#__PURE__*/ r$2("var(--fds-typography-heading-large-heading-3-font-family, 'Public Sans', 'PublicSans-Bold')");
-const FdsTypographyHeadingLargeHeading3FontSize = /*#__PURE__*/ r$2("var(--fds-typography-heading-large-heading-3-font-size, 40px)");
-const FdsTypographyHeadingLargeHeading3LetterSpacing = /*#__PURE__*/ r$2("var(--fds-typography-heading-large-heading-3-letter-spacing, 0px)");
-const FdsTypographyHeadingLargeHeading3LineHeight = /*#__PURE__*/ r$2("var(--fds-typography-heading-large-heading-3-line-height, 110%)");
-const FdsTypographyHeadingLargeHeading3FontWeight = /*#__PURE__*/ r$2("var(--fds-typography-heading-large-heading-3-font-weight, 700)");
-const FdsTypographyHeadingLargeHeading3Display = /*#__PURE__*/ r$2("var(--fds-typography-heading-large-heading-3-display, inline-block)");
-const FdsTypographyHeadingLargeHeading4FontFamily = /*#__PURE__*/ r$2("var(--fds-typography-heading-large-heading-4-font-family, 'Public Sans', 'PublicSans-Bold')");
-const FdsTypographyHeadingLargeHeading4FontSize = /*#__PURE__*/ r$2("var(--fds-typography-heading-large-heading-4-font-size, 32px)");
-const FdsTypographyHeadingLargeHeading4LetterSpacing = /*#__PURE__*/ r$2("var(--fds-typography-heading-large-heading-4-letter-spacing, 0px)");
-const FdsTypographyHeadingLargeHeading4LineHeight = /*#__PURE__*/ r$2("var(--fds-typography-heading-large-heading-4-line-height, 110%)");
-const FdsTypographyHeadingLargeHeading4FontWeight = /*#__PURE__*/ r$2("var(--fds-typography-heading-large-heading-4-font-weight, 700)");
-const FdsTypographyHeadingLargeHeading4Display = /*#__PURE__*/ r$2("var(--fds-typography-heading-large-heading-4-display, inline-block)");
-const FdsTypographyHeadingLargeHeading5FontFamily = /*#__PURE__*/ r$2("var(--fds-typography-heading-large-heading-5-font-family, 'Public Sans', 'PublicSans-Bold')");
-const FdsTypographyHeadingLargeHeading5FontSize = /*#__PURE__*/ r$2("var(--fds-typography-heading-large-heading-5-font-size, 28px)");
-const FdsTypographyHeadingLargeHeading5LetterSpacing = /*#__PURE__*/ r$2("var(--fds-typography-heading-large-heading-5-letter-spacing, 0px)");
-const FdsTypographyHeadingLargeHeading5LineHeight = /*#__PURE__*/ r$2("var(--fds-typography-heading-large-heading-5-line-height, 110%)");
-const FdsTypographyHeadingLargeHeading5FontWeight = /*#__PURE__*/ r$2("var(--fds-typography-heading-large-heading-5-font-weight, 700)");
-const FdsTypographyHeadingLargeHeading5Display = /*#__PURE__*/ r$2("var(--fds-typography-heading-large-heading-5-display, inline-block)");
-const FdsTypographyHeadingLargeHeading6FontFamily = /*#__PURE__*/ r$2("var(--fds-typography-heading-large-heading-6-font-family, 'Public Sans', 'PublicSans-Bold')");
-const FdsTypographyHeadingLargeHeading6FontSize = /*#__PURE__*/ r$2("var(--fds-typography-heading-large-heading-6-font-size, 20px)");
-const FdsTypographyHeadingLargeHeading6LetterSpacing = /*#__PURE__*/ r$2("var(--fds-typography-heading-large-heading-6-letter-spacing, 0px)");
-const FdsTypographyHeadingLargeHeading6LineHeight = /*#__PURE__*/ r$2("var(--fds-typography-heading-large-heading-6-line-height, 110%)");
-const FdsTypographyHeadingLargeHeading6FontWeight = /*#__PURE__*/ r$2("var(--fds-typography-heading-large-heading-6-font-weight, 700)");
-const FdsTypographyHeadingLargeHeading6Display = /*#__PURE__*/ r$2("var(--fds-typography-heading-large-heading-6-display, inline-block)");
-const FdsTypographyHeadingLargeHeading1FontFamily = /*#__PURE__*/ r$2("var(--fds-typography-heading-large-heading-1-font-family, 'Public Sans', 'PublicSans-Bold')");
-const FdsTypographyHeadingLargeHeading1FontSize = /*#__PURE__*/ r$2("var(--fds-typography-heading-large-heading-1-font-size, 64px)");
-const FdsTypographyHeadingLargeHeading1LetterSpacing = /*#__PURE__*/ r$2("var(--fds-typography-heading-large-heading-1-letter-spacing, 0px)");
-const FdsTypographyHeadingLargeHeading1LineHeight = /*#__PURE__*/ r$2("var(--fds-typography-heading-large-heading-1-line-height, 110%)");
-const FdsTypographyHeadingLargeHeading1FontWeight = /*#__PURE__*/ r$2("var(--fds-typography-heading-large-heading-1-font-weight, 700)");
-const FdsTypographyHeadingLargeHeading1Display = /*#__PURE__*/ r$2("var(--fds-typography-heading-large-heading-1-display, inline-block)");
-const FdsTypographyHeadingLargeHeading2FontFamily = /*#__PURE__*/ r$2("var(--fds-typography-heading-large-heading-2-font-family, 'Public Sans', 'PublicSans-Bold')");
-const FdsTypographyHeadingLargeHeading2FontSize = /*#__PURE__*/ r$2("var(--fds-typography-heading-large-heading-2-font-size, 48px)");
-const FdsTypographyHeadingLargeHeading2LetterSpacing = /*#__PURE__*/ r$2("var(--fds-typography-heading-large-heading-2-letter-spacing, 0px)");
-const FdsTypographyHeadingLargeHeading2LineHeight = /*#__PURE__*/ r$2("var(--fds-typography-heading-large-heading-2-line-height, 110%)");
-const FdsTypographyHeadingLargeHeading2FontWeight = /*#__PURE__*/ r$2("var(--fds-typography-heading-large-heading-2-font-weight, 700)");
-const FdsTypographyHeadingLargeHeading2Display = /*#__PURE__*/ r$2("var(--fds-typography-heading-large-heading-2-display, inline-block)");
-const FdsTypographyHeadingSmallHeading1FontFamily = /*#__PURE__*/ r$2("var(--fds-typography-heading-small-heading-1-font-family, 'Public Sans', 'PublicSans-Bold')");
-const FdsTypographyHeadingSmallHeading1FontSize = /*#__PURE__*/ r$2("var(--fds-typography-heading-small-heading-1-font-size, 42px)");
-const FdsTypographyHeadingSmallHeading1LetterSpacing = /*#__PURE__*/ r$2("var(--fds-typography-heading-small-heading-1-letter-spacing, 0px)");
-const FdsTypographyHeadingSmallHeading1LineHeight = /*#__PURE__*/ r$2("var(--fds-typography-heading-small-heading-1-line-height, 110%)");
-const FdsTypographyHeadingSmallHeading1FontWeight = /*#__PURE__*/ r$2("var(--fds-typography-heading-small-heading-1-font-weight, 700)");
-const FdsTypographyHeadingSmallHeading1Display = /*#__PURE__*/ r$2("var(--fds-typography-heading-small-heading-1-display, inline-block)");
-const FdsTypographyHeadingSmallHeading2FontFamily = /*#__PURE__*/ r$2("var(--fds-typography-heading-small-heading-2-font-family, 'Public Sans', 'PublicSans-Bold')");
-const FdsTypographyHeadingSmallHeading2FontSize = /*#__PURE__*/ r$2("var(--fds-typography-heading-small-heading-2-font-size, 32px)");
-const FdsTypographyHeadingSmallHeading2LetterSpacing = /*#__PURE__*/ r$2("var(--fds-typography-heading-small-heading-2-letter-spacing, 0px)");
-const FdsTypographyHeadingSmallHeading2LineHeight = /*#__PURE__*/ r$2("var(--fds-typography-heading-small-heading-2-line-height, 110%)");
-const FdsTypographyHeadingSmallHeading2FontWeight = /*#__PURE__*/ r$2("var(--fds-typography-heading-small-heading-2-font-weight, 700)");
-const FdsTypographyHeadingSmallHeading2Display = /*#__PURE__*/ r$2("var(--fds-typography-heading-small-heading-2-display, inline-block)");
-const FdsTypographyHeadingSmallHeading3FontFamily = /*#__PURE__*/ r$2("var(--fds-typography-heading-small-heading-3-font-family, 'Public Sans', 'PublicSans-Bold')");
-const FdsTypographyHeadingSmallHeading3FontSize = /*#__PURE__*/ r$2("var(--fds-typography-heading-small-heading-3-font-size, 28px)");
-const FdsTypographyHeadingSmallHeading3LetterSpacing = /*#__PURE__*/ r$2("var(--fds-typography-heading-small-heading-3-letter-spacing, 0px)");
-const FdsTypographyHeadingSmallHeading3LineHeight = /*#__PURE__*/ r$2("var(--fds-typography-heading-small-heading-3-line-height, 110%)");
-const FdsTypographyHeadingSmallHeading3FontWeight = /*#__PURE__*/ r$2("var(--fds-typography-heading-small-heading-3-font-weight, 700)");
-const FdsTypographyHeadingSmallHeading3Display = /*#__PURE__*/ r$2("var(--fds-typography-heading-small-heading-3-display, inline-block)");
-const FdsTypographyHeadingSmallHeading4FontFamily = /*#__PURE__*/ r$2("var(--fds-typography-heading-small-heading-4-font-family, 'Public Sans', 'PublicSans-Bold')");
-const FdsTypographyHeadingSmallHeading4FontSize = /*#__PURE__*/ r$2("var(--fds-typography-heading-small-heading-4-font-size, 24px)");
-const FdsTypographyHeadingSmallHeading4LetterSpacing = /*#__PURE__*/ r$2("var(--fds-typography-heading-small-heading-4-letter-spacing, 0px)");
-const FdsTypographyHeadingSmallHeading4LineHeight = /*#__PURE__*/ r$2("var(--fds-typography-heading-small-heading-4-line-height, 110%)");
-const FdsTypographyHeadingSmallHeading4FontWeight = /*#__PURE__*/ r$2("var(--fds-typography-heading-small-heading-4-font-weight, 700)");
-const FdsTypographyHeadingSmallHeading4Display = /*#__PURE__*/ r$2("var(--fds-typography-heading-small-heading-4-display, inline-block)");
-const FdsTypographyHeadingSmallHeading5FontFamily = /*#__PURE__*/ r$2("var(--fds-typography-heading-small-heading-5-font-family, 'Public Sans', 'PublicSans-Bold')");
-const FdsTypographyHeadingSmallHeading5FontSize = /*#__PURE__*/ r$2("var(--fds-typography-heading-small-heading-5-font-size, 18px)");
-const FdsTypographyHeadingSmallHeading5LetterSpacing = /*#__PURE__*/ r$2("var(--fds-typography-heading-small-heading-5-letter-spacing, 0px)");
-const FdsTypographyHeadingSmallHeading5LineHeight = /*#__PURE__*/ r$2("var(--fds-typography-heading-small-heading-5-line-height, 110%)");
-const FdsTypographyHeadingSmallHeading5FontWeight = /*#__PURE__*/ r$2("var(--fds-typography-heading-small-heading-5-font-weight, 700)");
-const FdsTypographyHeadingSmallHeading5Display = /*#__PURE__*/ r$2("var(--fds-typography-heading-small-heading-5-display, inline-block)");
-const FdsTypographyHeadingSmallHeading6FontFamily = /*#__PURE__*/ r$2("var(--fds-typography-heading-small-heading-6-font-family, 'Public Sans', 'PublicSans-Bold')");
-const FdsTypographyHeadingSmallHeading6FontSize = /*#__PURE__*/ r$2("var(--fds-typography-heading-small-heading-6-font-size, 16px)");
-const FdsTypographyHeadingSmallHeading6LetterSpacing = /*#__PURE__*/ r$2("var(--fds-typography-heading-small-heading-6-letter-spacing, 0px)");
-const FdsTypographyHeadingSmallHeading6LineHeight = /*#__PURE__*/ r$2("var(--fds-typography-heading-small-heading-6-line-height, 110%)");
-const FdsTypographyHeadingSmallHeading6FontWeight = /*#__PURE__*/ r$2("var(--fds-typography-heading-small-heading-6-font-weight, 700)");
-const FdsTypographyHeadingSmallHeading6Display = /*#__PURE__*/ r$2("var(--fds-typography-heading-small-heading-6-display, inline-block)");
-const FdsTypographyLinkLargeFontFamily = /*#__PURE__*/ r$2("var(--fds-typography-link-large-font-family, 'Public Sans')");
-const FdsTypographyLinkLargeFontSize = /*#__PURE__*/ r$2("var(--fds-typography-link-large-font-size, 18px)");
-const FdsTypographyLinkLargeLetterSpacing = /*#__PURE__*/ r$2("var(--fds-typography-link-large-letter-spacing, 0px)");
-const FdsTypographyLinkLargeLineHeight = /*#__PURE__*/ r$2("var(--fds-typography-link-large-line-height, 150%)");
-const FdsTypographyLinkLargeFontWeight = /*#__PURE__*/ r$2("var(--fds-typography-link-large-font-weight, 400)");
-const FdsTypographyLinkLargeTextDecoration = /*#__PURE__*/ r$2("var(--fds-typography-link-large-text-decoration, underline)");
-const FdsTypographyLinkLargeDisplay = /*#__PURE__*/ r$2("var(--fds-typography-link-large-display, inline-block)");
-const FdsTypographyLinkMicroFontFamily = /*#__PURE__*/ r$2("var(--fds-typography-link-micro-font-family, 'Public Sans')");
-const FdsTypographyLinkMicroFontSize = /*#__PURE__*/ r$2("var(--fds-typography-link-micro-font-size, 12px)");
-const FdsTypographyLinkMicroLetterSpacing = /*#__PURE__*/ r$2("var(--fds-typography-link-micro-letter-spacing, 0px)");
-const FdsTypographyLinkMicroLineHeight = /*#__PURE__*/ r$2("var(--fds-typography-link-micro-line-height, 150%)");
-const FdsTypographyLinkMicroFontWeight = /*#__PURE__*/ r$2("var(--fds-typography-link-micro-font-weight, 400)");
-const FdsTypographyLinkMicroTextDecoration = /*#__PURE__*/ r$2("var(--fds-typography-link-micro-text-decoration, underline)");
-const FdsTypographyLinkMicroDisplay = /*#__PURE__*/ r$2("var(--fds-typography-link-micro-display, inline-block)");
-const FdsTypographyLinkSmallFontFamily = /*#__PURE__*/ r$2("var(--fds-typography-link-small-font-family, 'Public Sans')");
-const FdsTypographyLinkSmallFontSize = /*#__PURE__*/ r$2("var(--fds-typography-link-small-font-size, 14px)");
-const FdsTypographyLinkSmallLetterSpacing = /*#__PURE__*/ r$2("var(--fds-typography-link-small-letter-spacing, 0px)");
-const FdsTypographyLinkSmallLineHeight = /*#__PURE__*/ r$2("var(--fds-typography-link-small-line-height, 150%)");
-const FdsTypographyLinkSmallFontWeight = /*#__PURE__*/ r$2("var(--fds-typography-link-small-font-weight, 400)");
-const FdsTypographyLinkSmallTextDecoration = /*#__PURE__*/ r$2("var(--fds-typography-link-small-text-decoration, underline)");
-const FdsTypographyLinkSmallDisplay = /*#__PURE__*/ r$2("var(--fds-typography-link-small-display, inline-block)");
-const FdsTypographyLinkDefaultFontFamily = /*#__PURE__*/ r$2("var(--fds-typography-link-default-font-family, 'Public Sans')");
-const FdsTypographyLinkDefaultFontSize = /*#__PURE__*/ r$2("var(--fds-typography-link-default-font-size, 16px)");
-const FdsTypographyLinkDefaultLetterSpacing = /*#__PURE__*/ r$2("var(--fds-typography-link-default-letter-spacing, 0px)");
-const FdsTypographyLinkDefaultLineHeight = /*#__PURE__*/ r$2("var(--fds-typography-link-default-line-height, 150%)");
-const FdsTypographyLinkDefaultFontWeight = /*#__PURE__*/ r$2("var(--fds-typography-link-default-font-weight, 400)");
-const FdsTypographyLinkDefaultTextDecoration = /*#__PURE__*/ r$2("var(--fds-typography-link-default-text-decoration, underline)");
-const FdsTypographyLinkDefaultDisplay = /*#__PURE__*/ r$2("var(--fds-typography-link-default-display, inline-block)");
-const FdsTypographyUiHelperFontFamily = /*#__PURE__*/ r$2("var(--fds-typography-ui-helper-font-family, 'Public Sans', 'PublicSans-Regular')");
-const FdsTypographyUiHelperFontSize = /*#__PURE__*/ r$2("var(--fds-typography-ui-helper-font-size, 15px)");
-const FdsTypographyUiHelperLetterSpacing = /*#__PURE__*/ r$2("var(--fds-typography-ui-helper-letter-spacing, 0px)");
-const FdsTypographyUiHelperLineHeight = /*#__PURE__*/ r$2("var(--fds-typography-ui-helper-line-height, 100%)");
-const FdsTypographyUiHelperFontWeight = /*#__PURE__*/ r$2("var(--fds-typography-ui-helper-font-weight, 400)");
-const FdsTypographyUiHelperDisplay = /*#__PURE__*/ r$2("var(--fds-typography-ui-helper-display, inline-block)");
-const FdsTypographyUiIdFontFamily = /*#__PURE__*/ r$2("var(--fds-typography-ui-id-font-family, 'Roboto Mono')");
-const FdsTypographyUiIdFontSize = /*#__PURE__*/ r$2("var(--fds-typography-ui-id-font-size, 13px)");
-const FdsTypographyUiIdLetterSpacing = /*#__PURE__*/ r$2("var(--fds-typography-ui-id-letter-spacing, 0px)");
-const FdsTypographyUiIdLineHeight = /*#__PURE__*/ r$2("var(--fds-typography-ui-id-line-height, 100%)");
-const FdsTypographyUiIdFontWeight = /*#__PURE__*/ r$2("var(--fds-typography-ui-id-font-weight, 700)");
-const FdsTypographyUiIdDisplay = /*#__PURE__*/ r$2("var(--fds-typography-ui-id-display, inline-block)");
-const FdsTypographyUiLabelFontFamily = /*#__PURE__*/ r$2("var(--fds-typography-ui-label-font-family, 'Public Sans', 'PublicSans-Medium')");
-const FdsTypographyUiLabelFontSize = /*#__PURE__*/ r$2("var(--fds-typography-ui-label-font-size, 16px)");
-const FdsTypographyUiLabelLetterSpacing = /*#__PURE__*/ r$2("var(--fds-typography-ui-label-letter-spacing, 0px)");
-const FdsTypographyUiLabelLineHeight = /*#__PURE__*/ r$2("var(--fds-typography-ui-label-line-height, 22px)");
-const FdsTypographyUiLabelFontWeight = /*#__PURE__*/ r$2("var(--fds-typography-ui-label-font-weight, 500)");
-const FdsTypographyUiLabelDisplay = /*#__PURE__*/ r$2("var(--fds-typography-ui-label-display, inline-block)");
-const FdsTypographyUiPlaceholderFontFamily = /*#__PURE__*/ r$2("var(--fds-typography-ui-placeholder-font-family, 'Public Sans', 'PublicSans-Medium')");
-const FdsTypographyUiPlaceholderFontSize = /*#__PURE__*/ r$2("var(--fds-typography-ui-placeholder-font-size, 16px)");
-const FdsTypographyUiPlaceholderLetterSpacing = /*#__PURE__*/ r$2("var(--fds-typography-ui-placeholder-letter-spacing, 0px)");
-const FdsTypographyUiPlaceholderLineHeight = /*#__PURE__*/ r$2("var(--fds-typography-ui-placeholder-line-height, 100%)");
-const FdsTypographyUiPlaceholderFontWeight = /*#__PURE__*/ r$2("var(--fds-typography-ui-placeholder-font-weight, 500)");
-const FdsTypographyUiPlaceholderDisplay = /*#__PURE__*/ r$2("var(--fds-typography-ui-placeholder-display, inline-block)");
-const FdsTypographyUiTagFontFamily = /*#__PURE__*/ r$2("var(--fds-typography-ui-tag-font-family, 'Public Sans', 'PublicSans-Bold')");
-const FdsTypographyUiTagFontSize = /*#__PURE__*/ r$2("var(--fds-typography-ui-tag-font-size, 16px)");
-const FdsTypographyUiTagLetterSpacing = /*#__PURE__*/ r$2("var(--fds-typography-ui-tag-letter-spacing, 0px)");
-const FdsTypographyUiTagLineHeight = /*#__PURE__*/ r$2("var(--fds-typography-ui-tag-line-height, 100%)");
-const FdsTypographyUiTagFontWeight = /*#__PURE__*/ r$2("var(--fds-typography-ui-tag-font-weight, 700)");
-const FdsTypographyUiTagDisplay = /*#__PURE__*/ r$2("var(--fds-typography-ui-tag-display, inline-block)");
-const FdsColorBrandBlack = /*#__PURE__*/ r$2("var(--fds-color-brand-black, #000000)");
-const FdsColorBrandWhite = /*#__PURE__*/ r$2("var(--fds-color-brand-white, #ffffff)");
-const FdsColorNeutral100 = /*#__PURE__*/ r$2("var(--fds-color-neutral-100, #cdcdd7)");
-const FdsColorText300 = /*#__PURE__*/ r$2("var(--fds-color-text-300, #9696aa)");
-
-i$4`
+ */
+var ct,gt;class yt extends E{constructor(){super(...arguments),this.renderOptions={host:this},this._$Do=void 0}createRenderRoot(){var t,e;const i=super.createRenderRoot();return null!==(t=(e=this.renderOptions).renderBefore)&&void 0!==t||(e.renderBefore=i.firstChild),i}update(t){const e=this.render();this.hasUpdated||(this.renderOptions.isConnected=this.isConnected),super.update(t),this._$Do=((t,e,i)=>{var a,n;const s=null!==(a=null==i?void 0:i.renderBefore)&&void 0!==a?a:e;let r=s._$litPart$;if(void 0===r){const t=null!==(n=null==i?void 0:i.renderBefore)&&void 0!==n?n:null;s._$litPart$=r=new nt(e.insertBefore(H(),t),t,void 0,null!=i?i:{})}return r._$AI(t),r})(e,this.renderRoot,this.renderOptions)}connectedCallback(){var t;super.connectedCallback(),null===(t=this._$Do)||void 0===t||t.setConnected(!0)}disconnectedCallback(){var t;super.disconnectedCallback(),null===(t=this._$Do)||void 0===t||t.setConnected(!1)}render(){return J}}yt.finalized=!0,yt._$litElement$=!0,null===(ct=globalThis.litElementHydrateSupport)||void 0===ct||ct.call(globalThis,{LitElement:yt});const ft=globalThis.litElementPolyfillSupport;null==ft||ft({LitElement:yt}),(null!==(gt=globalThis.litElementVersions)&&void 0!==gt?gt:globalThis.litElementVersions=[]).push("3.3.3");const ut=c("var(--fds-typography-body-default-font-family, 'Public Sans')"),vt=c("var(--fds-typography-body-default-font-size, 16px)"),mt=c("var(--fds-typography-body-default-letter-spacing, 0px)"),$t=c("var(--fds-typography-body-default-line-height, 150%)"),_t=c("var(--fds-typography-body-default-font-weight, 400)"),bt=c("var(--fds-typography-body-default-display, inline-block)"),wt=c("var(--fds-typography-body-large-font-family, 'Public Sans')"),xt=c("var(--fds-typography-body-large-font-size, 18px)"),At=c("var(--fds-typography-body-large-letter-spacing, 0px)"),St=c("var(--fds-typography-body-large-line-height, 150%)"),kt=c("var(--fds-typography-body-large-font-weight, 400)"),Et=c("var(--fds-typography-body-large-display, inline-block)"),Ct=c("var(--fds-typography-body-micro-font-family, 'Public Sans')"),Mt=c("var(--fds-typography-body-micro-font-size, 12px)"),Pt=c("var(--fds-typography-body-micro-letter-spacing, 0px)"),zt=c("var(--fds-typography-body-micro-line-height, 150%)"),Nt=c("var(--fds-typography-body-micro-font-weight, 400)"),Rt=c("var(--fds-typography-body-micro-display, inline-block)"),Tt=c("var(--fds-typography-body-small-font-family, 'Public Sans')"),Ut=c("var(--fds-typography-body-small-font-size, 14px)"),Ot=c("var(--fds-typography-body-small-letter-spacing, 0px)"),Ht=c("var(--fds-typography-body-small-line-height, 150%)"),Lt=c("var(--fds-typography-body-small-font-weight, 400)"),Dt=c("var(--fds-typography-body-small-display, inline-block)"),jt=c("var(--fds-typography-emphasis-default-font-family, 'Public Sans')"),Bt=c("var(--fds-typography-emphasis-default-font-size, 16px)"),Vt=c("var(--fds-typography-emphasis-default-letter-spacing, 0px)"),It=c("var(--fds-typography-emphasis-default-line-height, 150%)"),Wt=c("var(--fds-typography-emphasis-default-font-weight, 700)"),Kt=c("var(--fds-typography-emphasis-default-display, inline-block)"),qt=c("var(--fds-typography-emphasis-large-font-family, 'Public Sans')"),Zt=c("var(--fds-typography-emphasis-large-font-size, 18px)"),Ft=c("var(--fds-typography-emphasis-large-letter-spacing, 0px)"),Jt=c("var(--fds-typography-emphasis-large-line-height, 150%)"),Gt=c("var(--fds-typography-emphasis-large-font-weight, 700)"),Qt=c("var(--fds-typography-emphasis-large-display, inline-block)"),Yt=c("var(--fds-typography-emphasis-micro-font-family, 'Public Sans')"),Xt=c("var(--fds-typography-emphasis-micro-font-size, 12px)"),te=c("var(--fds-typography-emphasis-micro-letter-spacing, 0px)"),ee=c("var(--fds-typography-emphasis-micro-line-height, 150%)"),ie=c("var(--fds-typography-emphasis-micro-font-weight, 700)"),ae=c("var(--fds-typography-emphasis-micro-display, inline-block)"),ne=c("var(--fds-typography-emphasis-small-font-family, 'Public Sans')"),se=c("var(--fds-typography-emphasis-small-font-size, 14px)"),re=c("var(--fds-typography-emphasis-small-letter-spacing, 0px)"),oe=c("var(--fds-typography-emphasis-small-line-height, 150%)"),le=c("var(--fds-typography-emphasis-small-font-weight, 700)"),he=c("var(--fds-typography-emphasis-small-display, inline-block)"),de=c("var(--fds-typography-heading-large-heading-3-font-family, 'Public Sans', 'PublicSans-Bold')"),pe=c("var(--fds-typography-heading-large-heading-3-font-size, 40px)"),ce=c("var(--fds-typography-heading-large-heading-3-letter-spacing, 0px)"),ge=c("var(--fds-typography-heading-large-heading-3-line-height, 110%)"),ye=c("var(--fds-typography-heading-large-heading-3-font-weight, 700)"),fe=c("var(--fds-typography-heading-large-heading-3-display, inline-block)"),ue=c("var(--fds-typography-heading-large-heading-4-font-family, 'Public Sans', 'PublicSans-Bold')"),ve=c("var(--fds-typography-heading-large-heading-4-font-size, 32px)"),me=c("var(--fds-typography-heading-large-heading-4-letter-spacing, 0px)"),$e=c("var(--fds-typography-heading-large-heading-4-line-height, 110%)"),_e=c("var(--fds-typography-heading-large-heading-4-font-weight, 700)"),be=c("var(--fds-typography-heading-large-heading-4-display, inline-block)"),we=c("var(--fds-typography-heading-large-heading-5-font-family, 'Public Sans', 'PublicSans-Bold')"),xe=c("var(--fds-typography-heading-large-heading-5-font-size, 28px)"),Ae=c("var(--fds-typography-heading-large-heading-5-letter-spacing, 0px)"),Se=c("var(--fds-typography-heading-large-heading-5-line-height, 110%)"),ke=c("var(--fds-typography-heading-large-heading-5-font-weight, 700)"),Ee=c("var(--fds-typography-heading-large-heading-5-display, inline-block)"),Ce=c("var(--fds-typography-heading-large-heading-6-font-family, 'Public Sans', 'PublicSans-Bold')"),Me=c("var(--fds-typography-heading-large-heading-6-font-size, 20px)"),Pe=c("var(--fds-typography-heading-large-heading-6-letter-spacing, 0px)"),ze=c("var(--fds-typography-heading-large-heading-6-line-height, 110%)"),Ne=c("var(--fds-typography-heading-large-heading-6-font-weight, 700)"),Re=c("var(--fds-typography-heading-large-heading-6-display, inline-block)"),Te=c("var(--fds-typography-heading-large-heading-1-font-family, 'Public Sans', 'PublicSans-Bold')"),Ue=c("var(--fds-typography-heading-large-heading-1-font-size, 64px)"),Oe=c("var(--fds-typography-heading-large-heading-1-letter-spacing, 0px)"),He=c("var(--fds-typography-heading-large-heading-1-line-height, 110%)"),Le=c("var(--fds-typography-heading-large-heading-1-font-weight, 700)"),De=c("var(--fds-typography-heading-large-heading-1-display, inline-block)"),je=c("var(--fds-typography-heading-large-heading-2-font-family, 'Public Sans', 'PublicSans-Bold')"),Be=c("var(--fds-typography-heading-large-heading-2-font-size, 48px)"),Ve=c("var(--fds-typography-heading-large-heading-2-letter-spacing, 0px)"),Ie=c("var(--fds-typography-heading-large-heading-2-line-height, 110%)"),We=c("var(--fds-typography-heading-large-heading-2-font-weight, 700)"),Ke=c("var(--fds-typography-heading-large-heading-2-display, inline-block)"),qe=c("var(--fds-typography-heading-small-heading-1-font-family, 'Public Sans', 'PublicSans-Bold')"),Ze=c("var(--fds-typography-heading-small-heading-1-font-size, 42px)"),Fe=c("var(--fds-typography-heading-small-heading-1-letter-spacing, 0px)"),Je=c("var(--fds-typography-heading-small-heading-1-line-height, 110%)"),Ge=c("var(--fds-typography-heading-small-heading-1-font-weight, 700)"),Qe=c("var(--fds-typography-heading-small-heading-1-display, inline-block)"),Ye=c("var(--fds-typography-heading-small-heading-2-font-family, 'Public Sans', 'PublicSans-Bold')"),Xe=c("var(--fds-typography-heading-small-heading-2-font-size, 32px)"),ti=c("var(--fds-typography-heading-small-heading-2-letter-spacing, 0px)"),ei=c("var(--fds-typography-heading-small-heading-2-line-height, 110%)"),ii=c("var(--fds-typography-heading-small-heading-2-font-weight, 700)"),ai=c("var(--fds-typography-heading-small-heading-2-display, inline-block)"),ni=c("var(--fds-typography-heading-small-heading-3-font-family, 'Public Sans', 'PublicSans-Bold')"),si=c("var(--fds-typography-heading-small-heading-3-font-size, 28px)"),ri=c("var(--fds-typography-heading-small-heading-3-letter-spacing, 0px)"),oi=c("var(--fds-typography-heading-small-heading-3-line-height, 110%)"),li=c("var(--fds-typography-heading-small-heading-3-font-weight, 700)"),hi=c("var(--fds-typography-heading-small-heading-3-display, inline-block)"),di=c("var(--fds-typography-heading-small-heading-4-font-family, 'Public Sans', 'PublicSans-Bold')"),pi=c("var(--fds-typography-heading-small-heading-4-font-size, 24px)"),ci=c("var(--fds-typography-heading-small-heading-4-letter-spacing, 0px)"),gi=c("var(--fds-typography-heading-small-heading-4-line-height, 110%)"),yi=c("var(--fds-typography-heading-small-heading-4-font-weight, 700)"),fi=c("var(--fds-typography-heading-small-heading-4-display, inline-block)"),ui=c("var(--fds-typography-heading-small-heading-5-font-family, 'Public Sans', 'PublicSans-Bold')"),vi=c("var(--fds-typography-heading-small-heading-5-font-size, 18px)"),mi=c("var(--fds-typography-heading-small-heading-5-letter-spacing, 0px)"),$i=c("var(--fds-typography-heading-small-heading-5-line-height, 110%)"),_i=c("var(--fds-typography-heading-small-heading-5-font-weight, 700)"),bi=c("var(--fds-typography-heading-small-heading-5-display, inline-block)"),wi=c("var(--fds-typography-heading-small-heading-6-font-family, 'Public Sans', 'PublicSans-Bold')"),xi=c("var(--fds-typography-heading-small-heading-6-font-size, 16px)"),Ai=c("var(--fds-typography-heading-small-heading-6-letter-spacing, 0px)"),Si=c("var(--fds-typography-heading-small-heading-6-line-height, 110%)"),ki=c("var(--fds-typography-heading-small-heading-6-font-weight, 700)"),Ei=c("var(--fds-typography-heading-small-heading-6-display, inline-block)"),Ci=c("var(--fds-typography-link-large-font-family, 'Public Sans')"),Mi=c("var(--fds-typography-link-large-font-size, 18px)"),Pi=c("var(--fds-typography-link-large-letter-spacing, 0px)"),zi=c("var(--fds-typography-link-large-line-height, 150%)"),Ni=c("var(--fds-typography-link-large-font-weight, 400)"),Ri=c("var(--fds-typography-link-large-text-decoration, underline)"),Ti=c("var(--fds-typography-link-large-display, inline-block)"),Ui=c("var(--fds-typography-link-micro-font-family, 'Public Sans')"),Oi=c("var(--fds-typography-link-micro-font-size, 12px)"),Hi=c("var(--fds-typography-link-micro-letter-spacing, 0px)"),Li=c("var(--fds-typography-link-micro-line-height, 150%)"),Di=c("var(--fds-typography-link-micro-font-weight, 400)"),ji=c("var(--fds-typography-link-micro-text-decoration, underline)"),Bi=c("var(--fds-typography-link-micro-display, inline-block)"),Vi=c("var(--fds-typography-link-small-font-family, 'Public Sans')"),Ii=c("var(--fds-typography-link-small-font-size, 14px)"),Wi=c("var(--fds-typography-link-small-letter-spacing, 0px)"),Ki=c("var(--fds-typography-link-small-line-height, 150%)"),qi=c("var(--fds-typography-link-small-font-weight, 400)"),Zi=c("var(--fds-typography-link-small-text-decoration, underline)"),Fi=c("var(--fds-typography-link-small-display, inline-block)"),Ji=c("var(--fds-typography-link-default-font-family, 'Public Sans')"),Gi=c("var(--fds-typography-link-default-font-size, 16px)"),Qi=c("var(--fds-typography-link-default-letter-spacing, 0px)"),Yi=c("var(--fds-typography-link-default-line-height, 150%)"),Xi=c("var(--fds-typography-link-default-font-weight, 400)"),ta=c("var(--fds-typography-link-default-text-decoration, underline)"),ea=c("var(--fds-typography-link-default-display, inline-block)"),ia=c("var(--fds-typography-ui-helper-font-family, 'Public Sans', 'PublicSans-Regular')"),aa=c("var(--fds-typography-ui-helper-font-size, 15px)"),na=c("var(--fds-typography-ui-helper-letter-spacing, 0px)"),sa=c("var(--fds-typography-ui-helper-line-height, 100%)"),ra=c("var(--fds-typography-ui-helper-font-weight, 400)"),oa=c("var(--fds-typography-ui-helper-display, inline-block)"),la=c("var(--fds-typography-ui-id-font-family, 'Roboto Mono')"),ha=c("var(--fds-typography-ui-id-font-size, 13px)"),da=c("var(--fds-typography-ui-id-letter-spacing, 0px)"),pa=c("var(--fds-typography-ui-id-line-height, 100%)"),ca=c("var(--fds-typography-ui-id-font-weight, 700)"),ga=c("var(--fds-typography-ui-id-display, inline-block)"),ya=c("var(--fds-typography-ui-label-font-family, 'Public Sans', 'PublicSans-Medium')"),fa=c("var(--fds-typography-ui-label-font-size, 16px)"),ua=c("var(--fds-typography-ui-label-letter-spacing, 0px)"),va=c("var(--fds-typography-ui-label-line-height, 22px)"),ma=c("var(--fds-typography-ui-label-font-weight, 500)"),$a=c("var(--fds-typography-ui-label-display, inline-block)"),_a=c("var(--fds-typography-ui-placeholder-font-family, 'Public Sans', 'PublicSans-Medium')"),ba=c("var(--fds-typography-ui-placeholder-font-size, 16px)"),wa=c("var(--fds-typography-ui-placeholder-letter-spacing, 0px)"),xa=c("var(--fds-typography-ui-placeholder-line-height, 100%)"),Aa=c("var(--fds-typography-ui-placeholder-font-weight, 500)"),Sa=c("var(--fds-typography-ui-placeholder-display, inline-block)"),ka=c("var(--fds-typography-ui-tag-font-family, 'Public Sans', 'PublicSans-Bold')"),Ea=c("var(--fds-typography-ui-tag-font-size, 16px)"),Ca=c("var(--fds-typography-ui-tag-letter-spacing, 0px)"),Ma=c("var(--fds-typography-ui-tag-line-height, 100%)"),Pa=c("var(--fds-typography-ui-tag-font-weight, 700)"),za=c("var(--fds-typography-ui-tag-display, inline-block)"),Na=c("var(--fds-color-brand-black, #000000)"),Ra=c("var(--fds-color-brand-white, #ffffff)"),Ta=c("var(--fds-color-neutral-100, #cdcdd7)"),Ua=c("var(--fds-color-text-300, #9696aa)");g`
   .body-default-text {
-    display: ${FdsTypographyBodyDefaultDisplay};
-    font-family: ${FdsTypographyBodyDefaultFontFamily};
-    font-size: ${FdsTypographyBodyDefaultFontSize};
-    font-weight: ${FdsTypographyBodyDefaultFontWeight};
-    letter-spacing: ${FdsTypographyBodyDefaultLetterSpacing};
-    line-height: ${FdsTypographyBodyDefaultLineHeight};
+    display: ${bt};
+    font-family: ${ut};
+    font-size: ${vt};
+    font-weight: ${_t};
+    letter-spacing: ${mt};
+    line-height: ${$t};
   }
-`;
-
-i$4`
+`,g`
   .body-large-text {
-    display: ${FdsTypographyBodyLargeDisplay};
-    font-family: ${FdsTypographyBodyLargeFontFamily};
-    font-size: ${FdsTypographyBodyLargeFontSize};
-    font-weight: ${FdsTypographyBodyLargeFontWeight};
-    letter-spacing: ${FdsTypographyBodyLargeLetterSpacing};
-    line-height: ${FdsTypographyBodyLargeLineHeight};
+    display: ${Et};
+    font-family: ${wt};
+    font-size: ${xt};
+    font-weight: ${kt};
+    letter-spacing: ${At};
+    line-height: ${St};
   }
-`;
-
-i$4`
+`,g`
   .body-micro-text {
-    display: ${FdsTypographyBodyMicroDisplay};
-    font-family: ${FdsTypographyBodyMicroFontFamily};
-    font-size: ${FdsTypographyBodyMicroFontSize};
-    font-weight: ${FdsTypographyBodyMicroFontWeight};
-    letter-spacing: ${FdsTypographyBodyMicroLetterSpacing};
-    line-height: ${FdsTypographyBodyMicroLineHeight};
+    display: ${Rt};
+    font-family: ${Ct};
+    font-size: ${Mt};
+    font-weight: ${Nt};
+    letter-spacing: ${Pt};
+    line-height: ${zt};
   }
-`;
-
-i$4`
+`,g`
   .body-small-text {
-    display: ${FdsTypographyBodySmallDisplay};
-    font-family: ${FdsTypographyBodySmallFontFamily};
-    font-size: ${FdsTypographyBodySmallFontSize};
-    font-weight: ${FdsTypographyBodySmallFontWeight};
-    letter-spacing: ${FdsTypographyBodySmallLetterSpacing};
-    line-height: ${FdsTypographyBodySmallLineHeight};
+    display: ${Dt};
+    font-family: ${Tt};
+    font-size: ${Ut};
+    font-weight: ${Lt};
+    letter-spacing: ${Ot};
+    line-height: ${Ht};
   }
-`;
-
-i$4`
+`,g`
   .emphasis-default-text {
-    display: ${FdsTypographyEmphasisDefaultDisplay};
-    font-family: ${FdsTypographyEmphasisDefaultFontFamily};
-    font-size: ${FdsTypographyEmphasisDefaultFontSize};
-    font-weight: ${FdsTypographyEmphasisDefaultFontWeight};
-    letter-spacing: ${FdsTypographyEmphasisDefaultLetterSpacing};
-    line-height: ${FdsTypographyEmphasisDefaultLineHeight};
+    display: ${Kt};
+    font-family: ${jt};
+    font-size: ${Bt};
+    font-weight: ${Wt};
+    letter-spacing: ${Vt};
+    line-height: ${It};
   }
-`;
-
-i$4`
+`,g`
   .emphasis-large-text {
-    display: ${FdsTypographyEmphasisLargeDisplay};
-    font-family: ${FdsTypographyEmphasisLargeFontFamily};
-    font-size: ${FdsTypographyEmphasisLargeFontSize};
-    font-weight: ${FdsTypographyEmphasisLargeFontWeight};
-    letter-spacing: ${FdsTypographyEmphasisLargeLetterSpacing};
-    line-height: ${FdsTypographyEmphasisLargeLineHeight};
+    display: ${Qt};
+    font-family: ${qt};
+    font-size: ${Zt};
+    font-weight: ${Gt};
+    letter-spacing: ${Ft};
+    line-height: ${Jt};
   }
-`;
-
-i$4`
+`,g`
   .emphasis-micro-text {
-    display: ${FdsTypographyEmphasisMicroDisplay};
-    font-family: ${FdsTypographyEmphasisMicroFontFamily};
-    font-size: ${FdsTypographyEmphasisMicroFontSize};
-    font-weight: ${FdsTypographyEmphasisMicroFontWeight};
-    letter-spacing: ${FdsTypographyEmphasisMicroLetterSpacing};
-    line-height: ${FdsTypographyEmphasisMicroLineHeight};
+    display: ${ae};
+    font-family: ${Yt};
+    font-size: ${Xt};
+    font-weight: ${ie};
+    letter-spacing: ${te};
+    line-height: ${ee};
   }
-`;
-
-i$4`
+`,g`
   .emphasis-small-text {
-    display: ${FdsTypographyEmphasisSmallDisplay};
-    font-family: ${FdsTypographyEmphasisSmallFontFamily};
-    font-size: ${FdsTypographyEmphasisSmallFontSize};
-    font-weight: ${FdsTypographyEmphasisSmallFontWeight};
-    letter-spacing: ${FdsTypographyEmphasisSmallLetterSpacing};
-    line-height: ${FdsTypographyEmphasisSmallLineHeight};
+    display: ${he};
+    font-family: ${ne};
+    font-size: ${se};
+    font-weight: ${le};
+    letter-spacing: ${re};
+    line-height: ${oe};
   }
-`;
-
-i$4`
+`,g`
   .heading-large-1-text {
-    display: ${FdsTypographyHeadingLargeHeading1Display};
-    font-family: ${FdsTypographyHeadingLargeHeading1FontFamily};
-    font-size: ${FdsTypographyHeadingLargeHeading1FontSize};
-    font-weight: ${FdsTypographyHeadingLargeHeading1FontWeight};
-    letter-spacing: ${FdsTypographyHeadingLargeHeading1LetterSpacing};
-    line-height: ${FdsTypographyHeadingLargeHeading1LineHeight};
+    display: ${De};
+    font-family: ${Te};
+    font-size: ${Ue};
+    font-weight: ${Le};
+    letter-spacing: ${Oe};
+    line-height: ${He};
   }
-`;
-
-i$4`
+`,g`
   .heading-large-2-text {
-    display: ${FdsTypographyHeadingLargeHeading2Display};
-    font-family: ${FdsTypographyHeadingLargeHeading2FontFamily};
-    font-size: ${FdsTypographyHeadingLargeHeading2FontSize};
-    font-weight: ${FdsTypographyHeadingLargeHeading2FontWeight};
-    letter-spacing: ${FdsTypographyHeadingLargeHeading2LetterSpacing};
-    line-height: ${FdsTypographyHeadingLargeHeading2LineHeight};
+    display: ${Ke};
+    font-family: ${je};
+    font-size: ${Be};
+    font-weight: ${We};
+    letter-spacing: ${Ve};
+    line-height: ${Ie};
   }
-`;
-
-i$4`
+`,g`
   .heading-large-3-text {
-    display: ${FdsTypographyHeadingLargeHeading3Display};
-    font-family: ${FdsTypographyHeadingLargeHeading3FontFamily};
-    font-size: ${FdsTypographyHeadingLargeHeading3FontSize};
-    font-weight: ${FdsTypographyHeadingLargeHeading3FontWeight};
-    letter-spacing: ${FdsTypographyHeadingLargeHeading3LetterSpacing};
-    line-height: ${FdsTypographyHeadingLargeHeading3LineHeight};
+    display: ${fe};
+    font-family: ${de};
+    font-size: ${pe};
+    font-weight: ${ye};
+    letter-spacing: ${ce};
+    line-height: ${ge};
   }
-`;
-
-i$4`
+`,g`
   .heading-large-4-text {
-    display: ${FdsTypographyHeadingLargeHeading4Display};
-    font-family: ${FdsTypographyHeadingLargeHeading4FontFamily};
-    font-size: ${FdsTypographyHeadingLargeHeading4FontSize};
-    font-weight: ${FdsTypographyHeadingLargeHeading4FontWeight};
-    letter-spacing: ${FdsTypographyHeadingLargeHeading4LetterSpacing};
-    line-height: ${FdsTypographyHeadingLargeHeading4LineHeight};
+    display: ${be};
+    font-family: ${ue};
+    font-size: ${ve};
+    font-weight: ${_e};
+    letter-spacing: ${me};
+    line-height: ${$e};
   }
-`;
-
-i$4`
+`,g`
   .heading-large-5-text {
-    display: ${FdsTypographyHeadingLargeHeading5Display};
-    font-family: ${FdsTypographyHeadingLargeHeading5FontFamily};
-    font-size: ${FdsTypographyHeadingLargeHeading5FontSize};
-    font-weight: ${FdsTypographyHeadingLargeHeading5FontWeight};
-    letter-spacing: ${FdsTypographyHeadingLargeHeading5LetterSpacing};
-    line-height: ${FdsTypographyHeadingLargeHeading5LineHeight};
+    display: ${Ee};
+    font-family: ${we};
+    font-size: ${xe};
+    font-weight: ${ke};
+    letter-spacing: ${Ae};
+    line-height: ${Se};
   }
-`;
-
-i$4`
+`,g`
   .heading-large-6-text {
-    display: ${FdsTypographyHeadingLargeHeading6Display};
-    font-family: ${FdsTypographyHeadingLargeHeading6FontFamily};
-    font-size: ${FdsTypographyHeadingLargeHeading6FontSize};
-    font-weight: ${FdsTypographyHeadingLargeHeading6FontWeight};
-    letter-spacing: ${FdsTypographyHeadingLargeHeading6LetterSpacing};
-    line-height: ${FdsTypographyHeadingLargeHeading6LineHeight};
+    display: ${Re};
+    font-family: ${Ce};
+    font-size: ${Me};
+    font-weight: ${Ne};
+    letter-spacing: ${Pe};
+    line-height: ${ze};
   }
-`;
-
-i$4`
+`,g`
   .heading-small-1-text {
-    display: ${FdsTypographyHeadingSmallHeading1Display};
-    font-family: ${FdsTypographyHeadingSmallHeading1FontFamily};
-    font-size: ${FdsTypographyHeadingSmallHeading1FontSize};
-    font-weight: ${FdsTypographyHeadingSmallHeading1FontWeight};
-    letter-spacing: ${FdsTypographyHeadingSmallHeading1LetterSpacing};
-    line-height: ${FdsTypographyHeadingSmallHeading1LineHeight};
+    display: ${Qe};
+    font-family: ${qe};
+    font-size: ${Ze};
+    font-weight: ${Ge};
+    letter-spacing: ${Fe};
+    line-height: ${Je};
   }
-`;
-
-i$4`
+`,g`
   .heading-small-2-text {
-    display: ${FdsTypographyHeadingSmallHeading2Display};
-    font-family: ${FdsTypographyHeadingSmallHeading2FontFamily};
-    font-size: ${FdsTypographyHeadingSmallHeading2FontSize};
-    font-weight: ${FdsTypographyHeadingSmallHeading2FontWeight};
-    letter-spacing: ${FdsTypographyHeadingSmallHeading2LetterSpacing};
-    line-height: ${FdsTypographyHeadingSmallHeading2LineHeight};
+    display: ${ai};
+    font-family: ${Ye};
+    font-size: ${Xe};
+    font-weight: ${ii};
+    letter-spacing: ${ti};
+    line-height: ${ei};
   }
-`;
-
-i$4`
+`,g`
   .heading-small-3-text {
-    display: ${FdsTypographyHeadingSmallHeading3Display};
-    font-family: ${FdsTypographyHeadingSmallHeading3FontFamily};
-    font-size: ${FdsTypographyHeadingSmallHeading3FontSize};
-    font-weight: ${FdsTypographyHeadingSmallHeading3FontWeight};
-    letter-spacing: ${FdsTypographyHeadingSmallHeading3LetterSpacing};
-    line-height: ${FdsTypographyHeadingSmallHeading3LineHeight};
+    display: ${hi};
+    font-family: ${ni};
+    font-size: ${si};
+    font-weight: ${li};
+    letter-spacing: ${ri};
+    line-height: ${oi};
   }
-`;
-
-i$4`
+`,g`
   .heading-small-4-text {
-    display: ${FdsTypographyHeadingSmallHeading4Display};
-    font-family: ${FdsTypographyHeadingSmallHeading4FontFamily};
-    font-size: ${FdsTypographyHeadingSmallHeading4FontSize};
-    font-weight: ${FdsTypographyHeadingSmallHeading4FontWeight};
-    letter-spacing: ${FdsTypographyHeadingSmallHeading4LetterSpacing};
-    line-height: ${FdsTypographyHeadingSmallHeading4LineHeight};
+    display: ${fi};
+    font-family: ${di};
+    font-size: ${pi};
+    font-weight: ${yi};
+    letter-spacing: ${ci};
+    line-height: ${gi};
   }
-`;
-
-i$4`
+`,g`
   .heading-small-5-text {
-    display: ${FdsTypographyHeadingSmallHeading5Display};
-    font-family: ${FdsTypographyHeadingSmallHeading5FontFamily};
-    font-size: ${FdsTypographyHeadingSmallHeading5FontSize};
-    font-weight: ${FdsTypographyHeadingSmallHeading5FontWeight};
-    letter-spacing: ${FdsTypographyHeadingSmallHeading5LetterSpacing};
-    line-height: ${FdsTypographyHeadingSmallHeading5LineHeight};
+    display: ${bi};
+    font-family: ${ui};
+    font-size: ${vi};
+    font-weight: ${_i};
+    letter-spacing: ${mi};
+    line-height: ${$i};
   }
-`;
-
-i$4`
+`,g`
   .heading-small-6-text {
-    display: ${FdsTypographyHeadingSmallHeading6Display};
-    font-family: ${FdsTypographyHeadingSmallHeading6FontFamily};
-    font-size: ${FdsTypographyHeadingSmallHeading6FontSize};
-    font-weight: ${FdsTypographyHeadingSmallHeading6FontWeight};
-    letter-spacing: ${FdsTypographyHeadingSmallHeading6LetterSpacing};
-    line-height: ${FdsTypographyHeadingSmallHeading6LineHeight};
+    display: ${Ei};
+    font-family: ${wi};
+    font-size: ${xi};
+    font-weight: ${ki};
+    letter-spacing: ${Ai};
+    line-height: ${Si};
   }
-`;
-
-i$4`
+`,g`
   .link-default-text {
-    display: ${FdsTypographyLinkDefaultDisplay};
-    font-family: ${FdsTypographyLinkDefaultFontFamily};
-    font-size: ${FdsTypographyLinkDefaultFontSize};
-    font-weight: ${FdsTypographyLinkDefaultFontWeight};
-    letter-spacing: ${FdsTypographyLinkDefaultLetterSpacing};
-    line-height: ${FdsTypographyLinkDefaultLineHeight};
-    text-decoration: ${FdsTypographyLinkDefaultTextDecoration};
+    display: ${ea};
+    font-family: ${Ji};
+    font-size: ${Gi};
+    font-weight: ${Xi};
+    letter-spacing: ${Qi};
+    line-height: ${Yi};
+    text-decoration: ${ta};
   }
-`;
-
-i$4`
+`,g`
   .link-large-text {
-    display: ${FdsTypographyLinkLargeDisplay};
-    font-family: ${FdsTypographyLinkLargeFontFamily};
-    font-size: ${FdsTypographyLinkLargeFontSize};
-    font-weight: ${FdsTypographyLinkLargeFontWeight};
-    letter-spacing: ${FdsTypographyLinkLargeLetterSpacing};
-    line-height: ${FdsTypographyLinkLargeLineHeight};
-    text-decoration: ${FdsTypographyLinkLargeTextDecoration};
+    display: ${Ti};
+    font-family: ${Ci};
+    font-size: ${Mi};
+    font-weight: ${Ni};
+    letter-spacing: ${Pi};
+    line-height: ${zi};
+    text-decoration: ${Ri};
   }
-`;
-
-i$4`
+`,g`
   .link-micro-text {
-    display: ${FdsTypographyLinkMicroDisplay};
-    font-family: ${FdsTypographyLinkMicroFontFamily};
-    font-size: ${FdsTypographyLinkMicroFontSize};
-    font-weight: ${FdsTypographyLinkMicroFontWeight};
-    letter-spacing: ${FdsTypographyLinkMicroLetterSpacing};
-    line-height: ${FdsTypographyLinkMicroLineHeight};
-    text-decoration: ${FdsTypographyLinkMicroTextDecoration};
+    display: ${Bi};
+    font-family: ${Ui};
+    font-size: ${Oi};
+    font-weight: ${Di};
+    letter-spacing: ${Hi};
+    line-height: ${Li};
+    text-decoration: ${ji};
   }
-`;
-
-i$4`
+`,g`
   .link-small-text {
-    display: ${FdsTypographyLinkSmallDisplay};
-    font-family: ${FdsTypographyLinkSmallFontFamily};
-    font-size: ${FdsTypographyLinkSmallFontSize};
-    font-weight: ${FdsTypographyLinkSmallFontWeight};
-    letter-spacing: ${FdsTypographyLinkSmallLetterSpacing};
-    line-height: ${FdsTypographyLinkSmallLineHeight};
-    text-decoration: ${FdsTypographyLinkSmallTextDecoration};
+    display: ${Fi};
+    font-family: ${Vi};
+    font-size: ${Ii};
+    font-weight: ${qi};
+    letter-spacing: ${Wi};
+    line-height: ${Ki};
+    text-decoration: ${Zi};
   }
-`;
-
-i$4`
+`,g`
   .ui-helper-text {
-    display: ${FdsTypographyUiHelperDisplay};
-    font-family: ${FdsTypographyUiHelperFontFamily};
-    font-size: ${FdsTypographyUiHelperFontSize};
-    font-weight: ${FdsTypographyUiHelperFontWeight};
-    letter-spacing: ${FdsTypographyUiHelperLetterSpacing};
-    line-height: ${FdsTypographyUiHelperLineHeight};
+    display: ${oa};
+    font-family: ${ia};
+    font-size: ${aa};
+    font-weight: ${ra};
+    letter-spacing: ${na};
+    line-height: ${sa};
   }
-`;
-
-i$4`
+`,g`
   .ui-id-text {
-    display: ${FdsTypographyUiIdDisplay};
-    font-family: ${FdsTypographyUiIdFontFamily};
-    font-size: ${FdsTypographyUiIdFontSize};
-    font-weight: ${FdsTypographyUiIdFontWeight};
-    letter-spacing: ${FdsTypographyUiIdLetterSpacing};
-    line-height: ${FdsTypographyUiIdLineHeight};
+    display: ${ga};
+    font-family: ${la};
+    font-size: ${ha};
+    font-weight: ${ca};
+    letter-spacing: ${da};
+    line-height: ${pa};
   }
-`;
-
-const uiLabelTextClass = i$4`
+`;const Oa=g`
   .ui-label-text {
-    display: ${FdsTypographyUiLabelDisplay};
-    font-family: ${FdsTypographyUiLabelFontFamily};
-    font-size: ${FdsTypographyUiLabelFontSize};
-    font-weight: ${FdsTypographyUiLabelFontWeight};
-    letter-spacing: ${FdsTypographyUiLabelLetterSpacing};
-    line-height: ${FdsTypographyUiLabelLineHeight};
+    display: ${$a};
+    font-family: ${ya};
+    font-size: ${fa};
+    font-weight: ${ma};
+    letter-spacing: ${ua};
+    line-height: ${va};
   }
-`;
-
-i$4`
+`;g`
   .ui-placeholder-text {
-    display: ${FdsTypographyUiPlaceholderDisplay};
-    font-family: ${FdsTypographyUiPlaceholderFontFamily};
-    font-size: ${FdsTypographyUiPlaceholderFontSize};
-    font-weight: ${FdsTypographyUiPlaceholderFontWeight};
-    letter-spacing: ${FdsTypographyUiPlaceholderLetterSpacing};
-    line-height: ${FdsTypographyUiPlaceholderLineHeight};
+    display: ${Sa};
+    font-family: ${_a};
+    font-size: ${ba};
+    font-weight: ${Aa};
+    letter-spacing: ${wa};
+    line-height: ${xa};
   }
-`;
-
-i$4`
+`,g`
   .ui-tag-text {
-    display: ${FdsTypographyUiTagDisplay};
-    font-family: ${FdsTypographyUiTagFontFamily};
-    font-size: ${FdsTypographyUiTagFontSize};
-    font-weight: ${FdsTypographyUiTagFontWeight};
-    letter-spacing: ${FdsTypographyUiTagLetterSpacing};
-    line-height: ${FdsTypographyUiTagLineHeight};
+    display: ${za};
+    font-family: ${ka};
+    font-size: ${Ea};
+    font-weight: ${Pa};
+    letter-spacing: ${Ca};
+    line-height: ${Ma};
   }
-`;
-
+`
 /**
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
- */
-const i$2=(i,e)=>"method"===e.kind&&e.descriptor&&!("value"in e.descriptor)?{...e,finisher(n){n.createProperty(e.key,i);}}:{kind:"field",key:Symbol(),placement:"own",descriptor:{},originalKey:e.key,initializer(){"function"==typeof e.initializer&&(this[e.key]=e.initializer.call(this));},finisher(n){n.createProperty(e.key,i);}},e$1=(i,e,n)=>{e.constructor.createProperty(n,i);};function n$1(n){return (t,o)=>void 0!==o?e$1(n,t,o):i$2(n,t)}
-
+ */;const Ha=(t,e)=>"method"===e.kind&&e.descriptor&&!("value"in e.descriptor)?{...e,finisher(i){i.createProperty(e.key,t)}}:{kind:"field",key:Symbol(),placement:"own",descriptor:{},originalKey:e.key,initializer(){"function"==typeof e.initializer&&(this[e.key]=e.initializer.call(this))},finisher(i){i.createProperty(e.key,t)}},La=(t,e,i)=>{e.constructor.createProperty(i,t)};function Da(t){return(e,i)=>void 0!==i?La(t,e,i):Ha(t,e)
 /**
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
- */function t$1(t){return n$1({...t,state:!0})}
-
+ */}
 /**
  * @license
  * Copyright 2021 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
- */var l;null!=(null===(l=globalThis.HTMLSlotElement)||void 0===l?void 0:l.prototype.assignedElements)?(o,l)=>o.assignedElements(l):(o,l)=>o.assignedNodes(l).filter((o=>o.nodeType===Node.ELEMENT_NODE));
-
+ */
+var ja;null===(ja=globalThis.HTMLSlotElement)||void 0===ja||ja.prototype.assignedElements;
 /**
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const t={ATTRIBUTE:1,CHILD:2,PROPERTY:3,BOOLEAN_ATTRIBUTE:4,EVENT:5,ELEMENT:6},e=t=>(...e)=>({_$litDirective$:t,values:e});let i$1 = class i{constructor(t){}get _$AU(){return this._$AM._$AU}_$AT(t,e,i){this._$Ct=t,this._$AM=e,this._$Ci=i;}_$AS(t,e){return this.update(t,e)}update(t,e){return this.render(...e)}};
-
+const Ba=1;let Va=class{constructor(t){}get _$AU(){return this._$AM._$AU}_$AT(t,e,i){this._$Ct=t,this._$AM=e,this._$Ci=i}_$AS(t,e){return this.update(t,e)}update(t,e){return this.render(...e)}};
 /**
  * @license
  * Copyright 2018 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
- */const i="important",n=" !"+i,o=e(class extends i$1{constructor(t$1){var e;if(super(t$1),t$1.type!==t.ATTRIBUTE||"style"!==t$1.name||(null===(e=t$1.strings)||void 0===e?void 0:e.length)>2)throw Error("The `styleMap` directive must be used in the `style` attribute and must be the only part in the attribute.")}render(t){return Object.keys(t).reduce(((e,r)=>{const s=t[r];return null==s?e:e+`${r=r.includes("-")?r:r.replace(/(?:^(webkit|moz|ms|o)|)(?=[A-Z])/g,"-$&").toLowerCase()}:${s};`}),"")}update(e,[r]){const{style:s}=e.element;if(void 0===this.ht){this.ht=new Set;for(const t in r)this.ht.add(t);return this.render(r)}this.ht.forEach((t=>{null==r[t]&&(this.ht.delete(t),t.includes("-")?s.removeProperty(t):s[t]="");}));for(const t in r){const e=r[t];if(null!=e){this.ht.add(t);const r="string"==typeof e&&e.endsWith(n);t.includes("-")||r?s.setProperty(t,r?e.slice(0,-11):e,r?i:""):s[t]=e;}}return w}});
-
-var __decorate$1 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var FdsNavigationVariant;
-(function (FdsNavigationVariant) {
-    FdsNavigationVariant["primary"] = "primary";
-    FdsNavigationVariant["secondary"] = "secondary";
-})(FdsNavigationVariant || (FdsNavigationVariant = {}));
-var FdsNavigationItemPosition;
-(function (FdsNavigationItemPosition) {
-    FdsNavigationItemPosition["left"] = "left";
-    FdsNavigationItemPosition["right"] = "right";
-})(FdsNavigationItemPosition || (FdsNavigationItemPosition = {}));
-/**
- * Navigation component.
- *
- * @property {FdsNavigationVariant} variant - Primary or secondary style
- * @property {FdsNavigationItem[]} items - List of navigation items
- * @property {FdsNavigationItem} selected - Currently selected value
- * @property {string} verticalMenuNavText - Text for vertical menu navigation button
- * @property {number} verticalMenuThreshold - Width in pixels when navigation is collapsed
- * @event select - Triggered when destination is clicked. The selected item is in event details field.
- */
-class FdsNavigation extends s {
-    constructor() {
-        super(...arguments);
-        this.variant = FdsNavigationVariant.primary;
-        this.items = [];
-        this.verticalMenuNavText = '';
-        this.verticalMenuThreshold = 768;
-        this._open = false;
-    }
-    connectedCallback() {
-        super.connectedCallback();
-        S$1(this.shadowRoot, [
-            FdsNavigation.cssVariables,
-            uiLabelTextClass,
-            FdsNavigation.collapsedNavigationStyles,
-            this.desktopStyles(),
-        ]);
-    }
-    render() {
-        const itemsOnRight = this.items.filter(item => item.position === FdsNavigationItemPosition.right);
-        const itemsOnLeft = this.items.filter(item => item.position !== FdsNavigationItemPosition.right);
-        return T ` <div class="navigation-wrapper">
+ */const Ia="important",Wa=" !"+Ia,Ka=(t=>(...e)=>({_$litDirective$:t,values:e}))(class extends Va{constructor(t){var e;if(super(t),t.type!==Ba||"style"!==t.name||(null===(e=t.strings)||void 0===e?void 0:e.length)>2)throw Error("The `styleMap` directive must be used in the `style` attribute and must be the only part in the attribute.")}render(t){return Object.keys(t).reduce(((e,i)=>{const a=t[i];return null==a?e:e+`${i=i.includes("-")?i:i.replace(/(?:^(webkit|moz|ms|o)|)(?=[A-Z])/g,"-$&").toLowerCase()}:${a};`}),"")}update(t,[e]){const{style:i}=t.element;if(void 0===this.ht){this.ht=new Set;for(const t in e)this.ht.add(t);return this.render(e)}this.ht.forEach((t=>{null==e[t]&&(this.ht.delete(t),t.includes("-")?i.removeProperty(t):i[t]="")}));for(const t in e){const a=e[t];if(null!=a){this.ht.add(t);const e="string"==typeof a&&a.endsWith(Wa);t.includes("-")||e?i.setProperty(t,e?a.slice(0,-11):a,e?Ia:""):i[t]=a}}return J}});var qa,Za,Fa=function(t,e,i,a){var n,s=arguments.length,r=s<3?e:null===a?a=Object.getOwnPropertyDescriptor(e,i):a;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)r=Reflect.decorate(t,e,i,a);else for(var o=t.length-1;o>=0;o--)(n=t[o])&&(r=(s<3?n(r):s>3?n(e,i,r):n(e,i))||r);return s>3&&r&&Object.defineProperty(e,i,r),r};!function(t){t.primary="primary",t.secondary="secondary"}(qa||(qa={})),function(t){t.left="left",t.right="right"}(Za||(Za={}));class Ja extends yt{constructor(){super(...arguments),this.variant=qa.primary,this.items=[],this.verticalMenuNavText="",this.verticalMenuThreshold=768,this._open=!1}connectedCallback(){super.connectedCallback(),y(this.shadowRoot,[Ja.cssVariables,Oa,Ja.collapsedNavigationStyles,this.desktopStyles()])}render(){const t=this.items.filter((t=>t.position===Za.right)),e=this.items.filter((t=>t.position!==Za.right));return F` <div class="navigation-wrapper">
       <div class="navigation navigation--${this.variant} ui-label-text">
-        ${this.variant === FdsNavigationVariant.primary
-            ? T ` <div class="navigation__header">
+        ${this.variant===qa.primary?F` <div class="navigation__header">
               <slot></slot>
-            </div>`
-            : A}
-        <ul class="navigation__body ${this._open ? 'navigation__open' : ''}">
-          ${itemsOnLeft
-            .map(item => this.renderItem(item))
-            .concat(itemsOnRight.map((item, index) => this.renderItem(item, index === 0 ? 'item__first-right' : '')))}
+            </div>`:G}
+        <ul class="navigation__body ${this._open?"navigation__open":""}">
+          ${e.map((t=>this.renderItem(t))).concat(t.map(((t,e)=>this.renderItem(t,0===e?"item__first-right":""))))}
         </ul>
         <div class="navigation__button-wrapper">${this.renderNavigationButton()}</div>
       </div>
-    </div>`;
-    }
-    renderNavigationButton() {
-        let icon;
-        switch (this.variant) {
-            case FdsNavigationVariant.primary:
-                icon = this._open
-                    ? T `<fds-icon icon="chevron-up"></fds-icon>`
-                    : T `<fds-icon icon="chevron-down"></fds-icon>`;
-                break;
-            case FdsNavigationVariant.secondary:
-                icon = T `<fds-icon icon="menu"></fds-icon>`;
-                break;
-        }
-        return T `
+    </div>`}renderNavigationButton(){let t;switch(this.variant){case qa.primary:t=this._open?F`<fds-icon icon="chevron-up"></fds-icon>`:F`<fds-icon icon="chevron-down"></fds-icon>`;break;case qa.secondary:t=F`<fds-icon icon="menu"></fds-icon>`}return F`
       <button
         class="navigation__button navigation__button--${this.variant}"
         type="button"
         @click=${this.handleNavigationClick}
       >
         <span class="navigation__label ui-label-text">${this.verticalMenuNavText}</span>
-        ${icon}
+        ${t}
       </button>
-    `;
-    }
-    handleNavigationClick() {
-        this._open = !this._open;
-    }
-    renderItem(item, clazz = '') {
-        var _a;
-        const verticalMenuOrder = (_a = item.verticalMenuOrder) !== null && _a !== void 0 ? _a : 0;
-        return T ` <li
-      @click=${() => this.handleSelect(item)}
-      class="item ${this.selected === item ? 'item--active' : ''} ${clazz}"
-      style=${o({ order: verticalMenuOrder })}
+    `}handleNavigationClick(){this._open=!this._open}renderItem(t,e=""){var i;const a=null!==(i=t.verticalMenuOrder)&&void 0!==i?i:0;return F` <li
+      @click=${()=>this.handleSelect(t)}
+      class="item ${this.selected===t?"item--active":""} ${e}"
+      style=${Ka({order:a})}
     >
       <div class="item__label">
-        ${item.icon && T `<fds-icon class="item__icon" .icon="${item.icon}"></fds-icon>`}
-        <span>${item.label}</span>
+        ${t.icon&&F`<fds-icon class="item__icon" .icon="${t.icon}"></fds-icon>`}
+        <span>${t.label}</span>
       </div>
-    </li>`;
-    }
-    handleSelect(item) {
-        this.selected = item;
-        this.dispatchEvent(new CustomEvent('select', {
-            detail: item,
-        }));
-    }
-    /**
-     * These styles are inside a function instead of being static because they depend on the verticalMenuThreshold property
-     * that the end user can change
-     */
-    desktopStyles() {
-        return i$4 `
-      @container navigation-wrapper (min-width: ${r$2(this.verticalMenuThreshold)}px) {
+    </li>`}handleSelect(t){this.selected=t,this.dispatchEvent(new CustomEvent("select",{detail:t}))}desktopStyles(){return g`
+      @container navigation-wrapper (min-width: ${c(this.verticalMenuThreshold)}px) {
         .navigation {
           flex-wrap: nowrap;
         }
@@ -954,7 +383,7 @@ class FdsNavigation extends s {
           top: 1px;
           border-left: 6px solid transparent;
           border-right: 6px solid transparent;
-          border-bottom: var(--element-vertical-padding--primary) solid ${FdsColorBrandWhite};
+          border-bottom: var(--element-vertical-padding--primary) solid ${Ra};
         }
 
         /* Disable the arrow shown on collapsed view */
@@ -984,18 +413,14 @@ class FdsNavigation extends s {
           width: auto;
         }
       }
-    `;
-    }
-}
-FdsNavigation.cssVariables = i$4 `
+    `}}Ja.cssVariables=g`
     :host {
       --element-vertical-padding--primary: 9px;
       --element-vertical-padding--secondary: 16px;
       --element-horizontal-padding--primary: 20px;
       --item-border-bottom-width--secondary: 3px;
     }
-  `;
-FdsNavigation.collapsedNavigationStyles = i$4 `
+  `,Ja.collapsedNavigationStyles=g`
     .navigation-wrapper {
       container-type: inline-size;
       container-name: navigation-wrapper;
@@ -1060,12 +485,12 @@ FdsNavigation.collapsedNavigationStyles = i$4 `
     }
 
     .navigation--primary {
-      background-color: ${FdsColorBrandBlack};
-      color: ${FdsColorBrandWhite};
+      background-color: ${Na};
+      color: ${Ra};
     }
 
     .navigation--primary .item:hover {
-      color: ${FdsColorText300};
+      color: ${Ua};
     }
 
     .navigation--primary .navigation__open .item--active .item__label:after {
@@ -1076,20 +501,20 @@ FdsNavigation.collapsedNavigationStyles = i$4 `
       margin-left: auto;
       border-top: 6px solid transparent;
       border-bottom: 6px solid transparent;
-      border-right: var(--element-vertical-padding--primary) solid ${FdsColorBrandWhite};
+      border-right: var(--element-vertical-padding--primary) solid ${Ra};
     }
 
     .navigation--secondary {
-      background-color: ${FdsColorBrandWhite};
-      border-bottom: 1px solid ${FdsColorBrandBlack};
+      background-color: ${Ra};
+      border-bottom: 1px solid ${Na};
     }
 
     .navigation--secondary .item {
-      border-bottom: 1px solid ${FdsColorNeutral100};
+      border-bottom: 1px solid ${Ta};
     }
 
     .navigation--secondary .item:hover {
-      color: ${FdsColorText300};
+      color: ${Ua};
     }
 
     .navigation__open {
@@ -1101,7 +526,7 @@ FdsNavigation.collapsedNavigationStyles = i$4 `
       margin-left: 0;
       margin-top: 0;
 
-      border-top: 1px solid ${FdsColorNeutral100};
+      border-top: 1px solid ${Ta};
     }
 
     .navigation__button-wrapper {
@@ -1124,784 +549,30 @@ FdsNavigation.collapsedNavigationStyles = i$4 `
     }
 
     .navigation__button--primary {
-      background-color: ${FdsColorBrandBlack};
-      color: ${FdsColorBrandWhite};
+      background-color: ${Na};
+      color: ${Ra};
       padding: var(--element-vertical-padding--primary);
     }
 
     .navigation__button--primary:hover {
-      color: ${FdsColorText300};
+      color: ${Ua};
     }
 
     .navigation__button--secondary {
-      background-color: ${FdsColorBrandWhite};
-      color: ${FdsColorBrandBlack};
+      background-color: ${Ra};
+      color: ${Na};
       padding: var(--element-vertical-padding--secondary);
     }
 
     .navigation__button--secondary:hover {
-      color: ${FdsColorText300};
+      color: ${Ua};
     }
 
     .navigation__label {
       margin-right: 10px;
     }
-  `;
-FdsNavigation.styles = [
-    FdsNavigation.cssVariables,
-    uiLabelTextClass,
-    FdsNavigation.collapsedNavigationStyles,
-];
-__decorate$1([
-    n$1()
-], FdsNavigation.prototype, "variant", void 0);
-__decorate$1([
-    n$1()
-], FdsNavigation.prototype, "items", void 0);
-__decorate$1([
-    n$1()
-], FdsNavigation.prototype, "selected", void 0);
-__decorate$1([
-    n$1({ attribute: 'vertical-menu-nav-text' })
-], FdsNavigation.prototype, "verticalMenuNavText", void 0);
-__decorate$1([
-    n$1({ type: Number, attribute: 'vertical-menu-threshold' })
-], FdsNavigation.prototype, "verticalMenuThreshold", void 0);
-__decorate$1([
-    t$1()
-], FdsNavigation.prototype, "_open", void 0);
-
-/**
- * lucide v0.265.0 - ISC
- */
-
-const createElement = (tag, attrs, children = []) => {
-  const element = document.createElementNS("http://www.w3.org/2000/svg", tag);
-  Object.keys(attrs).forEach((name) => {
-    element.setAttribute(name, String(attrs[name]));
-  });
-  if (children.length) {
-    children.forEach((child) => {
-      const childElement = createElement(...child);
-      element.appendChild(childElement);
-    });
-  }
-  return element;
-};
-var createElement$1 = ([tag, attrs, children]) => createElement(tag, attrs, children);
-
-/**
- * lucide v0.265.0 - ISC
- */
-
-
-const getAttrs = (element) => Array.from(element.attributes).reduce((attrs, attr) => {
-  attrs[attr.name] = attr.value;
-  return attrs;
-}, {});
-const getClassNames = (attrs) => {
-  if (typeof attrs === "string")
-    return attrs;
-  if (!attrs || !attrs.class)
-    return "";
-  if (attrs.class && typeof attrs.class === "string") {
-    return attrs.class.split(" ");
-  }
-  if (attrs.class && Array.isArray(attrs.class)) {
-    return attrs.class;
-  }
-  return "";
-};
-const combineClassNames = (arrayOfClassnames) => {
-  const classNameArray = arrayOfClassnames.flatMap(getClassNames);
-  return classNameArray.map((classItem) => classItem.trim()).filter(Boolean).filter((value, index, self) => self.indexOf(value) === index).join(" ");
-};
-const toPascalCase = (string) => string.replace(/(\w)(\w*)(_|-|\s*)/g, (g0, g1, g2) => g1.toUpperCase() + g2.toLowerCase());
-const replaceElement = (element, { nameAttr, icons, attrs }) => {
-  const iconName = element.getAttribute(nameAttr);
-  if (iconName == null)
-    return;
-  const ComponentName = toPascalCase(iconName);
-  const iconNode = icons[ComponentName];
-  if (!iconNode) {
-    return console.warn(
-      `${element.outerHTML} icon name was not found in the provided icons object.`
-    );
-  }
-  const elementAttrs = getAttrs(element);
-  const [tag, iconAttributes, children] = iconNode;
-  const iconAttrs = {
-    ...iconAttributes,
-    "data-lucide": iconName,
-    ...attrs,
-    ...elementAttrs
-  };
-  const classNames = combineClassNames(["lucide", `lucide-${iconName}`, elementAttrs, attrs]);
-  if (classNames) {
-    Object.assign(iconAttrs, {
-      class: classNames
-    });
-  }
-  const svgElement = createElement$1([tag, iconAttrs, children]);
-  return element.parentNode?.replaceChild(svgElement, element);
-};
-
-/**
- * lucide v0.265.0 - ISC
- */
-
-const defaultAttributes = {
-  xmlns: "http://www.w3.org/2000/svg",
-  width: 24,
-  height: 24,
-  viewBox: "0 0 24 24",
-  fill: "none",
-  stroke: "currentColor",
-  "stroke-width": 2,
-  "stroke-linecap": "round",
-  "stroke-linejoin": "round"
-};
-
-/**
- * lucide v0.265.0 - ISC
- */
-
-
-const AlertCircle = [
-  "svg",
-  defaultAttributes,
-  [
-    ["circle", { cx: "12", cy: "12", r: "10" }],
-    ["line", { x1: "12", x2: "12", y1: "8", y2: "12" }],
-    ["line", { x1: "12", x2: "12.01", y1: "16", y2: "16" }]
-  ]
-];
-
-/**
- * lucide v0.265.0 - ISC
- */
-
-
-const AlertTriangle = [
-  "svg",
-  defaultAttributes,
-  [
-    [
-      "path",
-      {
-        d: "m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"
-      }
-    ],
-    ["path", { d: "M12 9v4" }],
-    ["path", { d: "M12 17h.01" }]
-  ]
-];
-
-/**
- * lucide v0.265.0 - ISC
- */
-
-
-const CheckCircle = [
-  "svg",
-  defaultAttributes,
-  [
-    ["path", { d: "M22 11.08V12a10 10 0 1 1-5.93-9.14" }],
-    ["polyline", { points: "22 4 12 14.01 9 11.01" }]
-  ]
-];
-
-/**
- * lucide v0.265.0 - ISC
- */
-
-
-const ChevronDown = [
-  "svg",
-  defaultAttributes,
-  [["path", { d: "m6 9 6 6 6-6" }]]
-];
-
-/**
- * lucide v0.265.0 - ISC
- */
-
-
-const ChevronRight = [
-  "svg",
-  defaultAttributes,
-  [["path", { d: "m9 18 6-6-6-6" }]]
-];
-
-/**
- * lucide v0.265.0 - ISC
- */
-
-
-const ChevronUp = [
-  "svg",
-  defaultAttributes,
-  [["path", { d: "m18 15-6-6-6 6" }]]
-];
-
-/**
- * lucide v0.265.0 - ISC
- */
-
-
-const ExternalLink = [
-  "svg",
-  defaultAttributes,
-  [
-    ["path", { d: "M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" }],
-    ["polyline", { points: "15 3 21 3 21 9" }],
-    ["line", { x1: "10", x2: "21", y1: "14", y2: "3" }]
-  ]
-];
-
-/**
- * lucide v0.265.0 - ISC
- */
-
-
-const Facebook = [
-  "svg",
-  defaultAttributes,
-  [
-    [
-      "path",
-      {
-        d: "M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"
-      }
-    ]
-  ]
-];
-
-/**
- * lucide v0.265.0 - ISC
- */
-
-
-const Globe = [
-  "svg",
-  defaultAttributes,
-  [
-    ["circle", { cx: "12", cy: "12", r: "10" }],
-    ["line", { x1: "2", x2: "22", y1: "12", y2: "12" }],
-    [
-      "path",
-      {
-        d: "M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"
-      }
-    ]
-  ]
-];
-
-/**
- * lucide v0.265.0 - ISC
- */
-
-
-const Instagram = [
-  "svg",
-  defaultAttributes,
-  [
-    ["rect", { width: "20", height: "20", x: "2", y: "2", rx: "5", ry: "5" }],
-    ["path", { d: "M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" }],
-    ["line", { x1: "17.5", x2: "17.51", y1: "6.5", y2: "6.5" }]
-  ]
-];
-
-/**
- * lucide v0.265.0 - ISC
- */
-
-
-const Linkedin = [
-  "svg",
-  defaultAttributes,
-  [
-    [
-      "path",
-      {
-        d: "M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"
-      }
-    ],
-    ["rect", { width: "4", height: "12", x: "2", y: "9" }],
-    ["circle", { cx: "4", cy: "4", r: "2" }]
-  ]
-];
-
-/**
- * lucide v0.265.0 - ISC
- */
-
-
-const Menu = [
-  "svg",
-  defaultAttributes,
-  [
-    ["line", { x1: "4", x2: "20", y1: "12", y2: "12" }],
-    ["line", { x1: "4", x2: "20", y1: "6", y2: "6" }],
-    ["line", { x1: "4", x2: "20", y1: "18", y2: "18" }]
-  ]
-];
-
-/**
- * lucide v0.265.0 - ISC
- */
-
-
-const Pencil = [
-  "svg",
-  defaultAttributes,
-  [
-    ["path", { d: "M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" }],
-    ["path", { d: "m15 5 4 4" }]
-  ]
-];
-
-/**
- * lucide v0.265.0 - ISC
- */
-
-
-const PlusCircle = [
-  "svg",
-  defaultAttributes,
-  [
-    ["circle", { cx: "12", cy: "12", r: "10" }],
-    ["path", { d: "M8 12h8" }],
-    ["path", { d: "M12 8v8" }]
-  ]
-];
-
-/**
- * lucide v0.265.0 - ISC
- */
-
-
-const Plus = [
-  "svg",
-  defaultAttributes,
-  [
-    ["path", { d: "M5 12h14" }],
-    ["path", { d: "M12 5v14" }]
-  ]
-];
-
-/**
- * lucide v0.265.0 - ISC
- */
-
-
-const Settings = [
-  "svg",
-  defaultAttributes,
-  [
-    [
-      "path",
-      {
-        d: "M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"
-      }
-    ],
-    ["circle", { cx: "12", cy: "12", r: "3" }]
-  ]
-];
-
-/**
- * lucide v0.265.0 - ISC
- */
-
-
-const Trash2 = [
-  "svg",
-  defaultAttributes,
-  [
-    ["path", { d: "M3 6h18" }],
-    ["path", { d: "M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" }],
-    ["path", { d: "M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" }],
-    ["line", { x1: "10", x2: "10", y1: "11", y2: "17" }],
-    ["line", { x1: "14", x2: "14", y1: "11", y2: "17" }]
-  ]
-];
-
-/**
- * lucide v0.265.0 - ISC
- */
-
-
-const Twitter = [
-  "svg",
-  defaultAttributes,
-  [
-    [
-      "path",
-      {
-        d: "M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"
-      }
-    ]
-  ]
-];
-
-/**
- * lucide v0.265.0 - ISC
- */
-
-
-const User = [
-  "svg",
-  defaultAttributes,
-  [
-    ["path", { d: "M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" }],
-    ["circle", { cx: "12", cy: "7", r: "4" }]
-  ]
-];
-
-/**
- * lucide v0.265.0 - ISC
- */
-
-
-const X = [
-  "svg",
-  defaultAttributes,
-  [
-    ["path", { d: "M18 6 6 18" }],
-    ["path", { d: "m6 6 12 12" }]
-  ]
-];
-
-/**
- * lucide v0.265.0 - ISC
- */
-
-
-const Youtube = [
-  "svg",
-  defaultAttributes,
-  [
-    [
-      "path",
-      {
-        d: "M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17"
-      }
-    ],
-    ["path", { d: "m10 15 5-3-5-3z" }]
-  ]
-];
-
-/**
- * lucide v0.265.0 - ISC
- */
-
-
-const createIcons = ({ icons = {}, nameAttr = "data-lucide", attrs = {} } = {}) => {
-  if (!Object.values(icons).length) {
-    throw new Error(
-      "Please provide an icons object.\nIf you want to use all the icons you can import it like:\n `import { createIcons, icons } from 'lucide';\nlucide.createIcons({icons});`"
-    );
-  }
-  if (typeof document === "undefined") {
-    throw new Error("`createIcons()` only works in a browser environment.");
-  }
-  const elementsToReplace = document.querySelectorAll(`[${nameAttr}]`);
-  Array.from(elementsToReplace).forEach(
-    (element) => replaceElement(element, { nameAttr, icons, attrs })
-  );
-  if (nameAttr === "data-lucide") {
-    const deprecatedElements = document.querySelectorAll("[icon-name]");
-    if (deprecatedElements.length > 0) {
-      console.warn("[Lucide] Some icons were found with the now deprecated icon-name attribute. These will still be replaced for backwards compatibility, but will no longer be supported in v1.0 and you should switch to data-lucide");
-      Array.from(deprecatedElements).forEach(
-        (element) => replaceElement(element, { nameAttr: "icon-name", icons, attrs })
-      );
-    }
-  }
-};
-
-var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-/**
- * Only the common icons needed in fds components are here to keep bundle size smaller
- */
-const FdsIcons = {
-    'alert-circle': AlertCircle,
-    'alert-triangle': AlertTriangle,
-    'chevron-down': ChevronDown,
-    'chevron-right': ChevronRight,
-    'chevron-up': ChevronUp,
-    menu: Menu,
-    pencil: Pencil,
-    plus: Plus,
-    'plus-circle': PlusCircle,
-    'trash-2': Trash2,
-    x: X,
-    settings: Settings,
-    'check-circle': CheckCircle,
-};
-/**
- * Add interactible icon element. Icon library: https://lucide.dev/
- *
- * @event click - Dispatches a MouseEvent on click.
- *
- * @property {string} icon - Options:
- * - alert-circle
- * - alert-triangle
- * - chevron-down
- * - chevron-right
- * - chevron-up
- * - menu
- * - edit
- * - plus-circle
- * - trash-2
- * - x
- * - settings
- * - check-circle
- * @property {string} size - FdsSizeToken
- */
-class FdsIcon extends s {
-    constructor() {
-        super(...arguments);
-        this.size = FdsTokenSize3;
-    }
-    render() {
-        if (!this.icon || !FdsIcons[this.icon]) {
-            console.error(`invalid icon: '${this.icon}'`);
-            return null;
-        }
-        const svgElement = createElement$1(FdsIcons[this.icon]);
-        svgElement.setAttribute('width', this.size.value);
-        svgElement.setAttribute('height', this.size.value);
-        return svgElement;
-    }
-}
-FdsIcon.styles = i$4 `
+  `,Ja.styles=[Ja.cssVariables,Oa,Ja.collapsedNavigationStyles],Fa([Da()],Ja.prototype,"variant",void 0),Fa([Da()],Ja.prototype,"items",void 0),Fa([Da()],Ja.prototype,"selected",void 0),Fa([Da({attribute:"vertical-menu-nav-text"})],Ja.prototype,"verticalMenuNavText",void 0),Fa([Da({type:Number,attribute:"vertical-menu-threshold"})],Ja.prototype,"verticalMenuThreshold",void 0),Fa([function(t){return Da({...t,state:!0})}()],Ja.prototype,"_open",void 0);const Ga=(t,e,i=[])=>{const a=document.createElementNS("http://www.w3.org/2000/svg",t);return Object.keys(e).forEach((t=>{a.setAttribute(t,String(e[t]))})),i.length&&i.forEach((t=>{const e=Ga(...t);a.appendChild(e)})),a};var Qa=([t,e,i])=>Ga(t,e,i);const Ya=t=>"string"==typeof t?t:t&&t.class?t.class&&"string"==typeof t.class?t.class.split(" "):t.class&&Array.isArray(t.class)?t.class:"":"",Xa=(t,{nameAttr:e,icons:i,attrs:a})=>{const n=t.getAttribute(e);if(null==n)return;const s=i[n.replace(/(\w)(\w*)(_|-|\s*)/g,((t,e,i)=>e.toUpperCase()+i.toLowerCase()))];if(!s)return console.warn(`${t.outerHTML} icon name was not found in the provided icons object.`);const r=(t=>Array.from(t.attributes).reduce(((t,e)=>(t[e.name]=e.value,t)),{}))(t),[o,l,h]=s,d={...l,"data-lucide":n,...a,...r},p=["lucide",`lucide-${n}`,r,a].flatMap(Ya).map((t=>t.trim())).filter(Boolean).filter(((t,e,i)=>i.indexOf(t)===e)).join(" ");p&&Object.assign(d,{class:p});const c=Qa([o,d,h]);return t.parentNode?.replaceChild(c,t)},tn={xmlns:"http://www.w3.org/2000/svg",width:24,height:24,viewBox:"0 0 24 24",fill:"none",stroke:"currentColor","stroke-width":2,"stroke-linecap":"round","stroke-linejoin":"round"},en=["svg",tn,[["path",{d:"m6 9 6 6 6-6"}]]],an=["svg",tn,[["path",{d:"m18 15-6-6-6 6"}]]],nn=["svg",tn,[["path",{d:"M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"}],["polyline",{points:"15 3 21 3 21 9"}],["line",{x1:"10",x2:"21",y1:"14",y2:"3"}]]],sn=["svg",tn,[["path",{d:"M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"}]]],rn=["svg",tn,[["circle",{cx:"12",cy:"12",r:"10"}],["line",{x1:"2",x2:"22",y1:"12",y2:"12"}],["path",{d:"M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"}]]],on=["svg",tn,[["rect",{width:"20",height:"20",x:"2",y:"2",rx:"5",ry:"5"}],["path",{d:"M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"}],["line",{x1:"17.5",x2:"17.51",y1:"6.5",y2:"6.5"}]]],ln=["svg",tn,[["path",{d:"M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"}],["rect",{width:"4",height:"12",x:"2",y:"9"}],["circle",{cx:"4",cy:"4",r:"2"}]]],hn=["svg",tn,[["line",{x1:"4",x2:"20",y1:"12",y2:"12"}],["line",{x1:"4",x2:"20",y1:"6",y2:"6"}],["line",{x1:"4",x2:"20",y1:"18",y2:"18"}]]],dn=["svg",tn,[["path",{d:"M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"}]]],pn=["svg",tn,[["path",{d:"M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"}],["circle",{cx:"12",cy:"7",r:"4"}]]],cn=["svg",tn,[["path",{d:"M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17"}],["path",{d:"m10 15 5-3-5-3z"}]]];var gn=function(t,e,i,a){var n,s=arguments.length,r=s<3?e:null===a?a=Object.getOwnPropertyDescriptor(e,i):a;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)r=Reflect.decorate(t,e,i,a);else for(var o=t.length-1;o>=0;o--)(n=t[o])&&(r=(s<3?n(r):s>3?n(e,i,r):n(e,i))||r);return s>3&&r&&Object.defineProperty(e,i,r),r};const yn={"alert-circle":["svg",tn,[["circle",{cx:"12",cy:"12",r:"10"}],["line",{x1:"12",x2:"12",y1:"8",y2:"12"}],["line",{x1:"12",x2:"12.01",y1:"16",y2:"16"}]]],"alert-triangle":["svg",tn,[["path",{d:"m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"}],["path",{d:"M12 9v4"}],["path",{d:"M12 17h.01"}]]],"chevron-down":en,"chevron-right":["svg",tn,[["path",{d:"m9 18 6-6-6-6"}]]],"chevron-up":an,menu:hn,pencil:["svg",tn,[["path",{d:"M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"}],["path",{d:"m15 5 4 4"}]]],plus:["svg",tn,[["path",{d:"M5 12h14"}],["path",{d:"M12 5v14"}]]],"plus-circle":["svg",tn,[["circle",{cx:"12",cy:"12",r:"10"}],["path",{d:"M8 12h8"}],["path",{d:"M12 8v8"}]]],"trash-2":["svg",tn,[["path",{d:"M3 6h18"}],["path",{d:"M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"}],["path",{d:"M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"}],["line",{x1:"10",x2:"10",y1:"11",y2:"17"}],["line",{x1:"14",x2:"14",y1:"11",y2:"17"}]]],x:["svg",tn,[["path",{d:"M18 6 6 18"}],["path",{d:"m6 6 12 12"}]]],settings:["svg",tn,[["path",{d:"M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"}],["circle",{cx:"12",cy:"12",r:"3"}]]],"check-circle":["svg",tn,[["path",{d:"M22 11.08V12a10 10 0 1 1-5.93-9.14"}],["polyline",{points:"22 4 12 14.01 9 11.01"}]]]};class fn extends yt{constructor(){super(...arguments),this.size=t}render(){if(!this.icon||!yn[this.icon])return console.error(`invalid icon: '${this.icon}'`),null;const t=Qa(yn[this.icon]);return t.setAttribute("width",this.size.value),t.setAttribute("height",this.size.value),t}}fn.styles=g`
     :host {
       display: inline-flex;
     }
-  `;
-__decorate([
-    n$1()
-], FdsIcon.prototype, "size", void 0);
-__decorate([
-    n$1()
-], FdsIcon.prototype, "icon", void 0);
-
-customElements.define('fds-icon', FdsIcon);
-
-customElements.define('fds-navigation', FdsNavigation);
-
-ckan.module('digitraffic_theme_top_navigation', function ($) {
-    return {
-        initialize: function () {
-            const DIGITRAFFIC_SERVICE = { label: "Digitraffic", value: "digitraffic", url: "https://www.digitraffic.fi/" };
-            const FT_SERVICES = [
-                { label: "Liikennetilanne", value: "liikennetilanne", url: "https://liikennetilanne.fintraffic.fi/" },
-                { label: "Palauteväylä", value: "palautevayla", url: "https://www.palautevayla.fi/aspa?lang=fi" },
-                { label: "Junalähdöt", value: "junalahdot", url: "https://junalahdot.fintraffic.fi/" },
-                { label: "Drone-palvelut", value: "dronepalvelut", url: "https://skynavx.fi/#/drone" },
-                DIGITRAFFIC_SERVICE,
-                { label: "Digitransit", value: "digitransit", url: "https://digitransit.fi/" },
-                { label: "Reittiopas", value: "reittiopas", url: "https://opas.matka.fi/" },
-                { label: "NAP", value: "nap", url: "https://finap.fi/#/" }
-            ];
-            customElements.whenDefined("fds-navigation").then(() => {
-                const fdsNavigation = document.createElement("fds-navigation");
-                fdsNavigation.setAttribute("vertical-menu-threshold", "1225");
-                fdsNavigation.innerHTML = `
-      <a href="https://www.fintraffic.fi/fi">
-              <svg viewBox="0 0 253 42" style="height: 18px">
-                  <use href="/assets/fintraffic_horizontal_white.svg#fintraffic_horizontal_white"></use>
-              </svg>
-          </a>`;
-                const handleSelection = (event) => {
-                    const item = event.detail;
-                    window.open(item.url, "_blank");
-                    event.target.selected = DIGITRAFFIC_SERVICE;
-                };
-                fdsNavigation.variant = FdsNavigationVariant.primary;
-                fdsNavigation.items = FT_SERVICES;
-                fdsNavigation.selected = DIGITRAFFIC_SERVICE;
-                fdsNavigation.verticalMenuNavText = "Services";
-                fdsNavigation.addEventListener('select', handleSelection);
-                this.el.replaceWith(fdsNavigation);
-            });
-        }
-    };
-});
-
-const ModuleBase = {
-    initialize() {
-        $.proxyAll(this, /_on/);
-    }
-};
-
-const Dropdown = {
-    ...ModuleBase,
-    initialize() {
-        ModuleBase.initialize.apply(this);
-        this._getMenuController().on('click', this._onMenuControllerClick);
-        this._getMenuController().on('keydown', this._onMenuControllerKeyDown);
-        this._getMenu().on('keydown', this._onMenuKeyDown);
-    },
-    _onMenuControllerClick(event) {
-        if (this._getMenuController().has(event.target)) {
-            this._toggleList();
-        }
-    },
-    _onMenuControllerKeyDown(event) {
-        if (this._getMenuController().has(event.target)) {
-            const { key } = event;
-            switch (key) {
-                case ' ':
-                case 'Enter':
-                    event.preventDefault();
-                    this._toggleList();
-                    break;
-                case 'ArrowDown':
-                    event.preventDefault();
-                    this._focus('first');
-                    break;
-            }
-        }
-    },
-    _onMenuKeyDown(event) {
-        if (this._getMenuController().is(':visible') && this._getMenu().has(event.target)) {
-            const { key } = event;
-            switch (key) {
-                case 'Escape':
-                    event.preventDefault();
-                    this._closeList();
-                    this._focus('menuController');
-                    break;
-                case 'ArrowDown':
-                    if (!$(event.target).is('select')) {
-                        event.preventDefault();
-                        this._focus('next');
-                    }
-                    break;
-                case 'ArrowUp':
-                    if (!$(event.target).is('select')) {
-                        event.preventDefault();
-                        this._focus('previous');
-                    }
-                    break;
-            }
-        }
-    },
-    _expandedClass: "expanded",
-    _focus(elementKey) {
-        let el;
-        const currentlyFocusedElement = this.el.find(':focus');
-        const isFocusOnMenu = !!this._getMenu().has(currentlyFocusedElement);
-        const isFocusOnLastMenuItem = isFocusOnMenu && this._getMenu().find('a:last')[0] === currentlyFocusedElement[0];
-        const isFocusOnFirstMenuItem = isFocusOnMenu && this._getMenu().find('a:first')[0] === currentlyFocusedElement[0];
-        switch (elementKey) {
-            case "first":
-                el = this._getMenu().find('a:first');
-                break;
-            case "menuController":
-                el = this._getMenuController();
-                break;
-            case "next":
-                if (isFocusOnMenu) {
-                    if (isFocusOnLastMenuItem) {
-                        return;
-                    }
-                    else {
-                        const menuElements = this._getMenu().find('a');
-                        const nextElement = menuElements.filter((index) => index > 0 && menuElements[index - 1] === currentlyFocusedElement[0]);
-                        el = nextElement;
-                    }
-                }
-                else {
-                    el = this._getMenu().find('a:first');
-                }
-                break;
-            case "previous":
-                if (isFocusOnMenu) {
-                    if (isFocusOnFirstMenuItem) {
-                        return;
-                    }
-                    else {
-                        const menuElements = this._getMenu().find('a');
-                        const previousElement = menuElements.filter((index) => index < (menuElements.length - 1) && menuElements[index + 1] === currentlyFocusedElement[0]);
-                        el = previousElement;
-                    }
-                }
-                else {
-                    el = this._getMenu().find('a:first');
-                }
-                break;
-        }
-        el.trigger('focus');
-    },
-    _toggleList() {
-        if (this._isMenuOpen()) {
-            this._closeList();
-            this._focus('menuController');
-        }
-        else {
-            this._openList();
-            this._focus('first');
-        }
-    },
-    _isMenuOpen() {
-        const menu = this._getMenu();
-        return menu.hasClass(this._expandedClass);
-    },
-    _closeList() {
-        const menuController = this._getMenuController();
-        const menu = this._getMenu();
-        menu.removeClass(this._expandedClass);
-        menuController.attr("aria-expanded", "false");
-    },
-    _openList() {
-        const menuController = this._getMenuController();
-        const menu = this._getMenu();
-        menu.addClass(this._expandedClass);
-        menuController.attr("aria-expanded", "true");
-    },
-    _getMenuController() {
-        throw Error('No controller');
-    },
-    _getMenu() {
-        throw Error('No menu');
-    }
-};
-
-const AppNavigation = {
-    ...Dropdown,
-    _getMenuController() {
-        return $("#app-nav-hamburger-button");
-    },
-    _getMenu() {
-        return $("#nav-interactions-wrapper");
-    }
-};
-ckan.module('digitraffic_theme_app_navigation', function ($) { return AppNavigation; });
-
-const UserActions = {
-    ...Dropdown,
-    _getMenuController() {
-        return $("#user-action-select");
-    },
-    _getMenu() {
-        return $("#user-action-list");
-    }
-};
-ckan.module('digitraffic_theme_user_actions', function ($) { return UserActions; });
-
-jQuery(function () {
-    $(".js-disabled").removeClass("js-disabled");
-    createIcons({
-        icons: {
-            ExternalLink, User, Menu, Globe, ChevronDown, ChevronUp, Facebook, Twitter, Instagram, Youtube, Linkedin
-        }
-    });
-});
+  `,gn([Da()],fn.prototype,"size",void 0),gn([Da()],fn.prototype,"icon",void 0),customElements.define("fds-icon",fn),customElements.define("fds-navigation",Ja),ckan.module("digitraffic_theme_top_navigation",(function(t){return{initialize:function(){const t={label:"Digitraffic",value:"digitraffic",url:"https://www.digitraffic.fi/"},e=[{label:"Liikennetilanne",value:"liikennetilanne",url:"https://liikennetilanne.fintraffic.fi/"},{label:"Palauteväylä",value:"palautevayla",url:"https://www.palautevayla.fi/aspa?lang=fi"},{label:"Junalähdöt",value:"junalahdot",url:"https://junalahdot.fintraffic.fi/"},{label:"Drone-palvelut",value:"dronepalvelut",url:"https://skynavx.fi/#/drone"},t,{label:"Digitransit",value:"digitransit",url:"https://digitransit.fi/"},{label:"Reittiopas",value:"reittiopas",url:"https://opas.matka.fi/"},{label:"NAP",value:"nap",url:"https://finap.fi/#/"}];customElements.whenDefined("fds-navigation").then((()=>{const i=document.createElement("fds-navigation");i.setAttribute("vertical-menu-threshold","1225"),i.innerHTML='\n      <a href="https://www.fintraffic.fi/fi">\n              <svg viewBox="0 0 253 42" style="height: 18px">\n                  <use href="/assets/fintraffic_horizontal_white.svg#fintraffic_horizontal_white"></use>\n              </svg>\n          </a>';i.variant=qa.primary,i.items=e,i.selected=t,i.verticalMenuNavText="Services",i.addEventListener("select",(e=>{const i=e.detail;window.open(i.url,"_blank"),e.target.selected=t})),this.el.replaceWith(i)}))}}}));const un={initialize(){$.proxyAll(this,/_on/)}},vn={...un,initialize(){un.initialize.apply(this),this._getMenuController().on("click",this._onMenuControllerClick),this._getMenuController().on("keydown",this._onMenuControllerKeyDown),this._getMenu().on("keydown",this._onMenuKeyDown)},_onMenuControllerClick(t){this._getMenuController().has(t.target)&&this._toggleList()},_onMenuControllerKeyDown(t){if(this._getMenuController().has(t.target)){const{key:e}=t;switch(e){case" ":case"Enter":t.preventDefault(),this._toggleList();break;case"ArrowDown":t.preventDefault(),this._focus("first")}}},_onMenuKeyDown(t){if(this._getMenuController().is(":visible")&&this._getMenu().has(t.target)){const{key:e}=t;switch(e){case"Escape":t.preventDefault(),this._closeList(),this._focus("menuController");break;case"ArrowDown":$(t.target).is("select")||(t.preventDefault(),this._focus("next"));break;case"ArrowUp":$(t.target).is("select")||(t.preventDefault(),this._focus("previous"))}}},_expandedClass:"expanded",_focus(t){let e;const i=this.el.find(":focus"),a=!!this._getMenu().has(i),n=a&&this._getMenu().find("a:last")[0]===i[0],s=a&&this._getMenu().find("a:first")[0]===i[0];switch(t){case"first":e=this._getMenu().find("a:first");break;case"menuController":e=this._getMenuController();break;case"next":if(a){if(n)return;{const t=this._getMenu().find("a");e=t.filter((e=>e>0&&t[e-1]===i[0]))}}else e=this._getMenu().find("a:first");break;case"previous":if(a){if(s)return;{const t=this._getMenu().find("a");e=t.filter((e=>e<t.length-1&&t[e+1]===i[0]))}}else e=this._getMenu().find("a:first")}e.trigger("focus")},_toggleList(){this._isMenuOpen()?(this._closeList(),this._focus("menuController")):(this._openList(),this._focus("first"))},_isMenuOpen(){return this._getMenu().hasClass(this._expandedClass)},_closeList(){const t=this._getMenuController();this._getMenu().removeClass(this._expandedClass),t.attr("aria-expanded","false")},_openList(){const t=this._getMenuController();this._getMenu().addClass(this._expandedClass),t.attr("aria-expanded","true")},_getMenuController(){throw Error("No controller")},_getMenu(){throw Error("No menu")}},mn={...vn,_getMenuController:()=>$("#app-nav-hamburger-button"),_getMenu:()=>$("#nav-interactions-wrapper")};ckan.module("digitraffic_theme_app_navigation",(function(t){return mn}));const $n={...vn,_getMenuController:()=>$("#user-action-select"),_getMenu:()=>$("#user-action-list")};ckan.module("digitraffic_theme_user_actions",(function(t){return $n})),jQuery((function(){$(".js-disabled").removeClass("js-disabled"),(({icons:t={},nameAttr:e="data-lucide",attrs:i={}}={})=>{if(!Object.values(t).length)throw new Error("Please provide an icons object.\nIf you want to use all the icons you can import it like:\n `import { createIcons, icons } from 'lucide';\nlucide.createIcons({icons});`");if("undefined"==typeof document)throw new Error("`createIcons()` only works in a browser environment.");const a=document.querySelectorAll(`[${e}]`);if(Array.from(a).forEach((a=>Xa(a,{nameAttr:e,icons:t,attrs:i}))),"data-lucide"===e){const e=document.querySelectorAll("[icon-name]");e.length>0&&(console.warn("[Lucide] Some icons were found with the now deprecated icon-name attribute. These will still be replaced for backwards compatibility, but will no longer be supported in v1.0 and you should switch to data-lucide"),Array.from(e).forEach((e=>Xa(e,{nameAttr:"icon-name",icons:t,attrs:i}))))}})({icons:{ExternalLink:nn,User:pn,Menu:hn,Globe:rn,ChevronDown:en,ChevronUp:an,Facebook:sn,Twitter:dn,Instagram:on,Youtube:cn,Linkedin:ln}})}));

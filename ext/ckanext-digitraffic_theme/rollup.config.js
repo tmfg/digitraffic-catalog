@@ -45,8 +45,8 @@ export default Object.entries(inputs).map(([name, file]) => {
         }),
     ]
     const jsPlugins = [
-        ...tsCompilePlugins
-        //terser()
+        ...tsCompilePlugins,
+        terser()
     ]
     return {
         input: {
