@@ -44,6 +44,11 @@ run_python_install() {
   popd
 }
 
+if [ "$COMPOSE_COMMAND" == "down" ]; then
+  docker compose --project-name datakatalogi-local down --remove-orphans
+  exit 0
+fi
+
 if [ "$CI" != "ci" ]; then
   # Create necessary files if they do not exist
   EXTENSIONS_FOR_CKAN_DOCKER_PATH=../docker/ckan/ckanext
@@ -102,6 +107,4 @@ if [ "$COMPOSE_COMMAND" == "up" ]; then
   else
     docker compose --project-name datakatalogi-local --env-file ".env_ckan_common" --env-file ".env_solr_common" up
   fi
-elif [ "$COMPOSE_COMMAND" == "down" ]; then
-  docker compose --project-name datakatalogi-local down --remove-orphans
 fi
