@@ -41,6 +41,11 @@ $app-bar-nav: app-bar-nav;
 #app-nav-bar-wrapper {
     container-type: inline-size;
     container-name: app-nav-bar-wrapper;
+
+    :focus {
+        z-index: var(--digitraffic-focus-z-index);
+        position: relative;
+    }
 }
 
 #app-nav-bar {

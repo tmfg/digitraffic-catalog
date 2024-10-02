@@ -7,7 +7,5 @@ select, input {
   :focus {
     outline: 6px solid var(--fds-color-interactive-100) !important;
     outline-offset: 2px !important;
-    z-index: var(--digitraffic-focus-z-index);
-    position: relative;
   }
 }
