@@ -1,0 +1,11 @@
+select, input {
+  border-radius: var(--fds-border-radius) !important;
+}
+
+:root {
+  --digitraffic-focus-z-index: 1000;
+  :focus {
+    outline: 6px solid var(--fds-color-interactive-100) !important;
+    outline-offset: 2px !important;
+  }
+}

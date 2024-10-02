@@ -29,7 +29,53 @@ CI="${3:-}"
 
 cd "$(dirname "${BASH_SOURCE[0]}")"
 
+run_python_install() {
+  set -euo pipefail
+  PATH_TO_EXT="$1"
+  PYTHON_VIRTUAL_ENV_DIR='venv'
+  pushd "$PATH_TO_EXT"
+  if [[ ! -d "$PYTHON_VIRTUAL_ENV_DIR" ]]; then
+    python -m venv "$PYTHON_VIRTUAL_ENV_DIR"
+  fi
+  source venv/bin/activate
+  pip install -e .
+  pip install -r requirements.txt
+  deactivate
+  popd
+}
+
+if [ "$COMPOSE_COMMAND" == "down" ]; then
+  docker compose --project-name datakatalogi-local down --remove-orphans
+  exit 0
+fi
+
+if [ "$CI" != "ci" ]; then
+  # Create necessary files if they do not exist
+  EXTENSIONS_FOR_CKAN_DOCKER_PATH=../docker/ckan/ckanext
+  if [[ ! -d $EXTENSIONS_FOR_CKAN_DOCKER_PATH ]]; then
+    echo "$EXTENSIONS_FOR_CKAN_DOCKER_PATH extensions folder does not exist. Creating one..."
+    cp -r ../ext $EXTENSIONS_FOR_CKAN_DOCKER_PATH
+  fi
+
+  ENTRA_ENV_FILE=./.env_entra
+
+  if [[ ! -f $ENTRA_ENV_FILE ]]; then
+    echo "$ENTRA_ENV_FILE file was not found. Creating one..."
+    ENTRA_EXT_ENV_FILE=../ext/ckanext-entraid_authenticator/.env
+    ENTRA_EXT_EXAMPLE_ENV_FILE=../ext/ckanext-entraid_authenticator/.env.example
+    if [[ -f $ENTRA_EXT_ENV_FILE ]]; then
+      cp $ENTRA_EXT_ENV_FILE $ENTRA_ENV_FILE
+    else
+      cp $ENTRA_EXT_EXAMPLE_ENV_FILE $ENTRA_ENV_FILE
+    fi
+  fi
+
+  export -f run_python_install
+  ls -I -d -1 "$PWD"/../ext/{*,} | tail -n +2 | xargs -I % bash -c 'run_python_install "%"'
+fi
+
 build_image_conditionally() {
+  set -euo pipefail
   PATH_TO_DOCKERFILE="$1"
   shift;
   IMAGE_NAME="$1"
@@ -61,6 +107,4 @@ if [ "$COMPOSE_COMMAND" == "up" ]; then
   else
     docker compose --project-name datakatalogi-local --env-file ".env_ckan_common" --env-file ".env_solr_common" up
   fi
-elif [ "$COMPOSE_COMMAND" == "down" ]; then
-  docker compose --project-name datakatalogi-local down --remove-orphans
 fi

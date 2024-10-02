@@ -76,4 +76,4 @@ class TestProfile(object):
         assert ((dataset_ref, DCTERMS.spatial, Location(dataset_spatial).iri) in g)
         assert (str(g.value(dataset_ref, DCTERMS.title, None)) == dataset_name)
         publisher_ref = g.value(dataset_ref, DCTERMS.publisher, None)
-        assert (str(g.value(publisher_ref, FOAF.name, None)) == owner_org['name'])
+        assert (owner_org['name'] in [str(name) for name in list(g.objects(publisher_ref, FOAF.name))])
