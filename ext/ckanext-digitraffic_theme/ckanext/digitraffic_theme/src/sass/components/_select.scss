@@ -1,3 +1,5 @@
+@use '../variables';
+
 $select-dropdown-area: dropdown;
 $select-error-area: error;
 
@@ -31,7 +33,7 @@ $select-error-area: error;
 }
 
 //  Snippet snippets/search_form.html start
-.form-group:has(label:first-child):has(> select) {
+#{variables.$form-select-selector} {
     position: relative;
     display: flex;
     align-items: flex-start;
