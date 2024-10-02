@@ -1711,10 +1711,7 @@ ckan.module('digitraffic_theme_top_navigation', function ($) {
                 { label: "NAP", value: "nap", url: "https://finap.fi/#/" }
             ];
             customElements.whenDefined("fds-navigation").then(() => {
-                console.log('fds-navigation DEFINED');
                 const fdsNavigation = document.createElement("fds-navigation");
-                /*const FdsNavigation = customElements.get("fds-navigation")
-                const fdsNavigation:FdsNavigation = new FdsNavigation()*/
                 fdsNavigation.setAttribute("vertical-menu-threshold", "1225");
                 fdsNavigation.innerHTML = `
       <a href="https://www.fintraffic.fi/fi">
