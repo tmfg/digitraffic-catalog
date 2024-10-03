@@ -1,9 +1,11 @@
+from dataclasses import dataclass
+
 from rdflib import Dataset, Graph, Namespace, URIRef, Literal
 from rdflib.namespace import RDF, RDFS, DCTERMS, XSD, DCAM, DCAT, FOAF, VANN, OWL, SKOS, ORG, PROV
 
-from cache.vocabularies import is_local_file_created, get_cached_file_path, cache_vocabulary
-from integration.client import get_graph_url, get_serialized_rdf
-from mobility_dcat_ap.namespace import MOBILITYDCATAP_NS_URL, MOBILITYDCATAP
+from dcat_schema_transpiler.cache.vocabularies import is_local_file_created, get_cached_file_path, cache_vocabulary
+from dcat_schema_transpiler.integration.client import get_graph_url, get_serialized_rdf
+from dcat_schema_transpiler.mobility_dcat_ap.namespace import MOBILITYDCATAP_NS_URL, MOBILITYDCATAP
 
 dcat_ap_v_2_0_1_url = 'https://joinup.ec.europa.eu/sites/default/files/distribution/access_url/2020-06/e7febda4-1604-4e01-802f-53f0fd2f690c/dcat-ap_2.0.1.rdf'
 
@@ -46,8 +48,6 @@ CVOCAB_NUTS = Namespace('http://data.europa.eu/nuts/')
 # About LAU: https://ec.europa.eu/eurostat/web/gisco/geodata/statistical-units/local-administrative-units
 CVOCAB_LAU = Namespace('https://w3id.org/stirdata/resource/lau/item/')
 
-
-
 mobility_dcat_namespaces = {
     "adms": ADMS,
     "bibo": BIBO,
@@ -73,7 +73,7 @@ mobility_dcat_namespaces = {
     "vs": VS,
     "xml": XML,
     "xsd": XSD
-    #"eli": ELI
+    # "eli": ELI
 }
 
 controlled_vocabularies = [
@@ -91,6 +91,7 @@ controlled_vocabularies = [
     CVOCAB_NUTS,
     CVOCAB_LAU
 ]
+
 
 def mobilitydcatap_fixes(graph):
     # There is probably a typo in the .ttl file. Should be capital 'M' as per https://mobilitydcat-ap.github.io/mobilityDCAT-AP/releases/index.html#properties-for-mobility-data-standard
@@ -131,10 +132,10 @@ def mobilitydcatap_fixes(graph):
     graph.add((DCTERMS.description, DCAM.rangeIncludes, RDFS.Literal))
 
     # Resources taken from DCAT-AP version 3
-    #graph.add((DCAT_AP.applicableLegislation, RDFS.label, Literal("applicable legislation", lang="en")))
-    #graph.add((DCAT_AP.applicableLegislation, SKOS.definition, Literal("the legislation that is applicable to this resource.", lang="en")))
-    #graph.add((DCAT_AP.applicableLegislation, RDFS.domain, RDFS.Resource))
-    #graph.add((DCAT_AP.applicableLegislation, RDFS.range, ELI.LegalResource))
+    # graph.add((DCAT_AP.applicableLegislation, RDFS.label, Literal("applicable legislation", lang="en")))
+    # graph.add((DCAT_AP.applicableLegislation, SKOS.definition, Literal("the legislation that is applicable to this resource.", lang="en")))
+    # graph.add((DCAT_AP.applicableLegislation, RDFS.domain, RDFS.Resource))
+    # graph.add((DCAT_AP.applicableLegislation, RDFS.range, ELI.LegalResource))
 
     # Agent
     graph.add((FOAF.name, DCAM.domainIncludes, FOAF.Agent))
@@ -155,6 +156,7 @@ def add_property(ds: Dataset, graph_namespace: URIRef, property: URIRef):
     for triple in propertys_graph.triples((property, None, None)):
         g.add(triple)
 
+
 def fill_mobilitydcatap_graph(ds: Dataset):
     ## Distribution
     dataset_property_iris = {DCTERMS.description, DCTERMS.title, DCAT.contactPoint, DCAT.distribution, DCAT.keyword,
@@ -169,129 +171,136 @@ def fill_mobilitydcatap_graph(ds: Dataset):
     for property_iri in property_union:
         add_property(ds, URIRef(MOBILITYDCATAP._NS), property_iri)
 
-def set_content_for_graph(graph: Graph) -> None:
-    ns: URIRef = graph.identifier
 
-    if is_local_file_created(ns):
-        graph.parse(get_cached_file_path(ns))
-        return
+@dataclass
+class NsFetchInfo:
+    graph_url: str
+    serialization_format: str
+
+    def get_mime_type(self):
+        match self.serialization_format:
+            case "rdf":
+                return 'application/rdf+xml'
+            case "ttl":
+                return 'text/turtle'
+
+
+def ns_fetch_info(ns: URIRef) -> NsFetchInfo | None:
     # The namespaces in elif -clauses need some special handling as the content negotiation does not work
     if str(ns) == 'http://data.europa.eu/r5r/':
         # The above link won't lead to the serialized resource
         # ds.default_context.serialize(destination=mdcatap_file_name, format="xml")
         graph_url = dcat_ap_v_2_0_1_url
         serialization_format = 'rdf'
-        graph.parse(graph_url)
+
     elif str(ns) == 'http://spdx.org/rdf/terms#':
         # The above link won't lead to the serialized resource
         graph_url = 'https://raw.githubusercontent.com/spdx/spdx-spec/development/v2.3/ontology/spdx-ontology.owl.xml'
         serialization_format = 'rdf'
-        graph.parse(graph_url,
-                    format='application/rdf+xml')
     elif str(ns) == 'http://www.w3.org/ns/locn#':
         # The above link won't lead to the serialized resource
         graph_url = 'https://semiceu.github.io/Core-Location-Vocabulary/releases/w3c/locn.rdf'
         serialization_format = 'rdf'
-        graph.parse(graph_url,
-                    format='application/rdf+xml')
     elif str(ns) == 'http://purl.org/vocab/vann/':
         # The above link won't lead to the serialized resource
         graph_url = 'https://vocab.org/vann/vann-vocab-20100607.rdf'
         serialization_format = 'rdf'
-        graph.parse(graph_url, format='application/rdf+xml')
     elif str(ns) == 'http://www.w3.org/1999/xhtml/vocab#':
-        return
+        return None
     elif str(ns) == 'http://creativecommons.org/ns#':
         # Couldn't find a serialized version
-        return
+        return None
     elif str(ns) == 'http://purl.org/linked-data/sdmx#':
         # The returned content-type header is set wrong to text/plain when it actually is Turtle
         graph_url, _ = get_graph_url(ns)
         serialization_format = 'ttl'
-        graph.parse(graph_url, format='text/turtle')
     elif str(ns) == 'http://www.w3.org/TR/skos-primer/':
         # Couldn't find a serialized version
-        return
+        return None
     elif str(ns) == 'http://www.w3.org/2001/XMLSchema#':
-        return
+        return None
     elif str(ns) == 'http://www.w3.org/XML/1998/namespace':
-        return
+        return None
     elif str(ns) == 'http://purl.org/linked-data/cube#':
         # The returned content-type header is set wrong
         graph_url, _ = get_graph_url(ns)
         serialization_format = 'ttl'
-        graph.parse(graph_url, format='text/turtle')
     elif str(ns) == 'http://purl.org/ontology/bibo/':
         # The returned content-type header is set wrong
         graph_url, _ = get_graph_url(ns)
         serialization_format = 'rdf'
-        graph.parse(graph_url, format='application/rdf+xml')
 
     # VOCABS
     elif str(ns) == 'http://publications.europa.eu/resource/authority/file-type/':
         graph_url = 'https://op.europa.eu/o/opportal-service/euvoc-download-handler?cellarURI=http%3A%2F%2Fpublications.europa.eu%2Fresource%2Fcellar%2Fa8fa2fcb-28d8-11ef-9290-01aa75ed71a1.0001.04%2FDOC_1&fileName=filetypes-skos.rdf'
         serialization_format = 'rdf'
-        graph.parse(graph_url, format='application/rdf+xml')
     elif str(ns) == 'http://publications.europa.eu/resource/authority/licence/':
         graph_url = 'https://op.europa.eu/o/opportal-service/euvoc-download-handler?cellarURI=http%3A%2F%2Fpublications.europa.eu%2Fresource%2Fcellar%2Fab0e79f8-5c6c-11ee-9220-01aa75ed71a1.0001.03%2FDOC_1&fileName=licences-skos.rdf'
         serialization_format = 'rdf'
-        graph.parse(graph_url, format='application/rdf+xml')
     elif str(ns) == 'http://publications.europa.eu/resource/authority/frequency':
         graph_url = 'https://op.europa.eu/o/opportal-service/euvoc-download-handler?cellarURI=http%3A%2F%2Fpublications.europa.eu%2Fresource%2Fcellar%2Fcc196da1-28d8-11ef-9290-01aa75ed71a1.0001.03%2FDOC_1&fileName=frequencies-skos.rdf'
         serialization_format = 'rdf'
-        graph.parse(graph_url, format='application/rdf+xml')
     elif str(ns) == 'http://publications.europa.eu/resource/authority/language':
         graph_url = 'https://op.europa.eu/o/opportal-service/euvoc-download-handler?cellarURI=http%3A%2F%2Fpublications.europa.eu%2Fresource%2Fcellar%2F3f407e57-28d9-11ef-9290-01aa75ed71a1.0001.05%2FDOC_1&fileName=languages-skos.rdf'
         serialization_format = 'rdf'
-        graph.parse(graph_url, format='application/rdf+xml')
     elif str(ns) == 'https://w3id.org/mobilitydcat-ap/mobility-data-standard/':
         graph_url, _ = get_graph_url(ns)
         serialization_format = 'ttl'
-        graph.parse(graph_url, format='text/turtle')
     elif str(ns) == 'https://w3id.org/mobilitydcat-ap/grammar/':
         graph_url, _ = get_graph_url(ns)
         serialization_format = 'ttl'
-        graph.parse(graph_url, format='text/turtle')
     elif str(ns) == 'https://w3id.org/mobilitydcat-ap/application-layer-protocol/':
         graph_url, _ = get_graph_url(ns)
         serialization_format = 'ttl'
-        graph.parse(graph_url, format='text/turtle')
     elif str(ns) == 'https://w3id.org/mobilitydcat-ap/communication-method/':
         graph_url, _ = get_graph_url(ns)
         serialization_format = 'ttl'
-        graph.parse(graph_url, format='text/turtle')
     elif str(ns) == 'https://w3id.org/mobilitydcat-ap/conditions-for-access-and-usage/':
         graph_url, _ = get_graph_url(ns)
         serialization_format = 'ttl'
-        graph.parse(graph_url, format='text/turtle')
     elif str(ns) == 'https://w3id.org/mobilitydcat-ap/update-frequency':
         graph_url, _ = get_graph_url(ns)
         serialization_format = 'ttl'
-        graph.parse(graph_url, format='text/turtle')
     elif str(ns) == 'https://w3id.org/mobilitydcat-ap/mobility-theme/':
         graph_url, _ = get_graph_url(ns)
         serialization_format = 'ttl'
-        graph.parse(graph_url, format='text/turtle')
     elif str(ns) == 'http://data.europa.eu/nuts/':
         graph_url = 'https://op.europa.eu/o/opportal-service/euvoc-download-handler?cellarURI=http://publications.europa.eu/resource/distribution/nuts/20240425-0/rdf/skos_ap_eu/NUTS-skos-ap-eu.rdf&fileName=NUTS-skos-ap-eu.rdf'
         serialization_format = 'rdf'
-        graph.parse(graph_url, format='application/rdf+xml')
     elif str(ns) == 'https://w3id.org/stirdata/resource/lau/item/':
         graph_url, _ = get_graph_url(ns)
         serialization_format = 'ttl'
-        graph.parse(graph_url, format='text/turtle')
     else:
         graph_url, mime_format = get_graph_url(ns)
         serialization_format = 'ttl' if mime_format == 'text/turtle' else 'rdf'
-        graph.parse(graph_url)
+    return NsFetchInfo(graph_url, serialization_format)
+
+
+def set_content_for_graph(graph: Graph) -> None:
+    ns: URIRef = graph.identifier
+
+    if is_local_file_created(ns):
+        graph.parse(get_cached_file_path(ns))
+        return
+
+    fetch_info = ns_fetch_info(ns)
+
+    if fetch_info is None:
+        return
+
+    graph_url = fetch_info.graph_url
+    serialization_format = fetch_info.serialization_format
+    graph.parse(graph_url, format=fetch_info.get_mime_type())
 
     cache_content = get_serialized_rdf(graph_url, serialization_format)
     cache_vocabulary(cache_content, ns, serialization_format)
+
 
 def populate_dataset(ds: Dataset, namespace: Namespace) -> None:
     if not [context for context in ds.contexts() if context.identifier == URIRef(namespace)]:
         g = ds.graph(namespace)
         set_content_for_graph(g)
+
 
 def create_dataset() -> Dataset:
     DCATAP_NS_URL = 'http://data.europa.eu/r5r/'
