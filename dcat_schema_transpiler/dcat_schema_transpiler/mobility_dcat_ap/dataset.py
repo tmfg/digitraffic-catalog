@@ -30,7 +30,6 @@ XML = Namespace('http://www.w3.org/XML/1998/namespace')
 ELI = Namespace('http://data.europa.eu/eli/ontology')
 
 CVOCAB_MOBILITY_THEME = Namespace('https://w3id.org/mobilitydcat-ap/mobility-theme/')
-CVOCAB_THEME = Namespace('http://publications.europa.eu/resource/authority/data-theme/')
 
 CVOCAB_FORMAT = Namespace('http://publications.europa.eu/resource/authority/file-type/')
 CVOCAB_MOBILITY_DATA_STANDARD = Namespace('https://w3id.org/mobilitydcat-ap/mobility-data-standard/')
@@ -44,6 +43,7 @@ CVOCAB_EUV_FREQUENCY = Namespace('http://publications.europa.eu/resource/authori
 CVOCAB_MOBILITY_DCAT_AP_FREQUENCY = Namespace('https://w3id.org/mobilitydcat-ap/update-frequency')
 CVOCAB_LANGUAGE = Namespace('http://publications.europa.eu/resource/authority/language')
 # About NUTS: https://ec.europa.eu/eurostat/web/gisco/geodata/statistical-units/territorial-units-statistics
+# Download page: https://data.europa.eu/data/datasets/nuts~~1?locale=en
 CVOCAB_NUTS = Namespace('http://data.europa.eu/nuts/')
 # About LAU: https://ec.europa.eu/eurostat/web/gisco/geodata/statistical-units/local-administrative-units
 CVOCAB_LAU = Namespace('https://w3id.org/stirdata/resource/lau/item/')
@@ -265,7 +265,7 @@ def ns_fetch_info(ns: URIRef) -> NsFetchInfo | None:
         graph_url, _ = get_graph_url(ns)
         serialization_format = 'ttl'
     elif str(ns) == 'http://data.europa.eu/nuts/':
-        graph_url = 'https://op.europa.eu/o/opportal-service/euvoc-download-handler?cellarURI=http://publications.europa.eu/resource/distribution/nuts/20240425-0/rdf/skos_ap_eu/NUTS-skos-ap-eu.rdf&fileName=NUTS-skos-ap-eu.rdf'
+        graph_url = 'https://data.europa.eu/api/hub/repo/distributions/e02ba91d-0aaa-4af0-b49c-699eda90c902.rdf'
         serialization_format = 'rdf'
     elif str(ns) == 'https://w3id.org/stirdata/resource/lau/item/':
         graph_url, _ = get_graph_url(ns)
