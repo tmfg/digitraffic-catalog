@@ -5,9 +5,14 @@ dataset_fields:
   label: Organization
   preset: dataset_organization
   required: true
-- field_name: name
+- field_name: title
   label: Title
+  preset: title
   required: true
+- field_name: name
+  label: URL
+  preset: dataset_slug
+  form_placeholder: eg. my-dataset
 - field_name: notes
   label: Description
   required: true
