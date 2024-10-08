@@ -103,8 +103,8 @@ build_image_conditionally ./postgresql local_catalog_postgresql:latest
 
 if [ "$COMPOSE_COMMAND" == "up" ]; then
   if [ "$CI" == "ci" ]; then
-    INCLUDE_VOLUMES="" docker compose --project-name datakatalogi-local --env-file ".env_ckan_common" --env-file ".env_solr_common" up -d
+    docker compose -f compose-ci.yaml --project-name datakatalogi-local --env-file ".env_ckan_common" --env-file ".env_solr_common" up -d
   else
-    docker compose --project-name datakatalogi-local --env-file ".env_ckan_common" --env-file ".env_solr_common" up
+    docker compose -f compose.yaml --project-name datakatalogi-local --env-file ".env_ckan_common" --env-file ".env_solr_common" up
   fi
 fi
