@@ -17,7 +17,10 @@ class MobilityDCATAPToSchema:
     def resource_fields(ds: Dataset) -> List:
         distribution = RDFSClass.from_ds(DCAT.Distribution, ds)
 
-        return ClassConverter.convert(distribution, ds, omit={DCAT.Distribution: Distribution.recommended_properties | Distribution.optional_properties,
+        #distribution_fields_to_omit = (Distribution.recommended_properties - DCTERMS.license) | Distribution.optional_properties
+        distribution_fields_to_omit = Distribution.recommended_properties | Distribution.optional_properties
+
+        return ClassConverter.convert(distribution, ds, omit={DCAT.Distribution: distribution_fields_to_omit,
                                                               DCTERMS.RightsStatement: RightsStatement.recommended_properties})
 
     @staticmethod

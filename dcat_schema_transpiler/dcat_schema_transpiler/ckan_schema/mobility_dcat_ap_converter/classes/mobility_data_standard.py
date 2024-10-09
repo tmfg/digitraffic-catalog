@@ -1,4 +1,6 @@
-from rdflib import DCTERMS, Dataset, SKOS, RDFS, OWL, URIRef
+from typing import Dict
+
+from rdflib import Dataset, OWL, URIRef
 
 from ckan_schema.mobility_dcat_ap_converter.range_value_converter import RangeValueConverter
 from mobility_dcat_ap.dataset import CVOCAB_MOBILITY_DATA_STANDARD
@@ -8,26 +10,49 @@ from dcat_schema_transpiler.rdfs.rdfs_property import RDFSProperty
 
 
 class MobilityDataStandard(RangeValueConverter):
-    def __init__(self):
-        super().__init__(MOBILITYDCATAP.MobilityDataStandard)
+    def __init__(self, clazz: RDFSClass):
+        super().__init__(clazz)
 
-    def get_range_value(self, ds: Dataset, clazz: RDFSClass, clazz_p: RDFSProperty) -> RDFSClass | None:
-        return super().get_range_value(ds, clazz, clazz_p)
+    def ckan_field(self, p: RDFSProperty, pointer: str = None) -> str:
+        mappings = {
+            MOBILITYDCATAP.schema: 'mobility_data_standard_schema',
+            OWL.versionInfo: 'mobility_data_standard_version'
+        }
+        field_name = mappings.get(p.iri)
 
-    def get_schema(self, ds: Dataset, clazz: RDFSClass, clazz_p: RDFSProperty, is_required: bool = False):
-        if self.is_class_specific_converter(clazz):
-            # TODO MobilityDataStandard has some special rules. It has a controlled vocabulary as an option
-            # but a custom schema should also be supported
-            label_value = RangeValueConverter.get_label(clazz_p, ds)
+        if field_name is not None:
+            return field_name
+        else:
+            raise ValueError(f'A mapping was not found between the class {self.clazz.iri} property {p.iri} and CKAN datamodel')
 
-            if clazz_p.is_iri(OWL.versionInfo):
+    def get_range_value(self, ds: Dataset, clazz_p: RDFSProperty) -> RDFSClass | None:
+        return super().get_range_value(ds, clazz_p)
+
+    def get_schema(self, ds: Dataset, clazz_p: RDFSProperty, is_required: bool = False):
+        # TODO MobilityDataStandard has some special rules. It has a controlled vocabulary as an option
+        # but a custom schema should also be supported
+        label_value = RangeValueConverter.get_label(clazz_p, ds)
+
+        if clazz_p.is_iri(OWL.versionInfo):
+            return {
+                "field_name": self.ckan_field(clazz_p),
+                "label": label_value,
+                "required": is_required,
+                "help_text": 'Version of the mobility data standard. Use only short version identifiers, e.g., only  "3.2", without redundant acronyms such as "v", underscores etc.'
+            }
+        if clazz_p.is_iri(MOBILITYDCATAP.schema):
+            return self.controlled_vocab_field(clazz_p, ds, is_required)
+        raise Exception('Should not get to this point')
+
+    def controlled_vocab_field(self, p: RDFSProperty, ds: Dataset, is_required: bool) -> Dict:
+        match p.iri:
+            case MOBILITYDCATAP.schema:
+                g = ds.get_graph(URIRef(CVOCAB_MOBILITY_DATA_STANDARD))
                 return {
-                    "field_name": RangeValueConverter.ckan_field(clazz.iri, clazz_p),
-                    "label": label_value,
+                    "field_name": self.ckan_field(p),
+                    "label": "Mobility data standard",
                     "required": is_required,
-                    "help_text": 'Version of the mobility data standard. Use only short version identifiers, e.g., only  "3.2", without redundant acronyms such as "v", underscores etc.'
+                    "preset": "select",
+                    "form_include_blank_choice": True,
+                    "choices": RangeValueConverter.vocab_choices(g)
                 }
-            if clazz_p.is_iri(MOBILITYDCATAP.schema):
-                return RangeValueConverter.controlled_vocab_field(clazz_p, clazz, ds, is_required)
-            raise Exception('Should not get to this point')
-        return super().get_schema(ds, clazz, clazz_p, is_required)
