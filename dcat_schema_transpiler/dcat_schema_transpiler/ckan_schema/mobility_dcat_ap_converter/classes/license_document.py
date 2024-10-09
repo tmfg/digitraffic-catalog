@@ -1,6 +1,7 @@
 from typing import Dict
 
-from rdflib import DCTERMS, Dataset, SKOS, URIRef
+from rdflib import Dataset, URIRef
+from rdflib.namespace import DCTERMS, RDFS, SKOS
 
 from ckan_schema.mobility_dcat_ap_converter.range_value_converter import RangeValueConverter
 from dcat_schema_transpiler.rdfs.rdfs_class import RDFSClass
@@ -10,6 +11,8 @@ from mobility_dcat_ap.dataset import CVOCAB_LICENSE_IDENTIFIER
 
 
 class LicenseDocument(RangeValueConverter):
+    mandatory_properties = [DCTERMS.identifier]
+    optional_properties = [RDFS.label]
 
     def __init__(self, clazz: RDFSClass):
         super().__init__(clazz)
@@ -35,9 +38,11 @@ class LicenseDocument(RangeValueConverter):
         return r_value
 
     def get_schema(self, ds: Dataset, clazz_p: RDFSProperty, is_required: bool = False):
-        if clazz_p.iri in DCTERMS.identifier:
-            return self.controlled_vocab_field(clazz_p, ds, is_required)
-        return super().get_schema(ds, clazz_p, is_required)
+        if clazz_p.iri in LicenseDocument.mandatory_properties:
+            if clazz_p.iri in DCTERMS.identifier:
+                return self.controlled_vocab_field(clazz_p, ds, is_required)
+            return super().get_schema(ds, clazz_p, is_required)
+        return None
 
     def controlled_vocab_field(self, p: RDFSProperty, ds: Dataset, is_required: bool) -> Dict:
         match p.iri:
