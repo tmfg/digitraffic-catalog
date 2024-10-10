@@ -6,6 +6,7 @@ from rdflib.namespace import RDF, RDFS, DCTERMS, XSD, DCAM, DCAT, FOAF, VANN, OW
 from dcat_schema_transpiler.cache.vocabularies import is_local_file_created, get_cached_file_path, cache_vocabulary
 from dcat_schema_transpiler.integration.client import get_graph_url, get_serialized_rdf
 from dcat_schema_transpiler.mobility_dcat_ap.namespace import MOBILITYDCATAP_NS_URL, MOBILITYDCATAP
+from dcat_schema_transpiler.asset_description_metadata_schema.namespace import ADMS
 
 dcat_ap_v_2_0_1_url = 'https://joinup.ec.europa.eu/sites/default/files/distribution/access_url/2020-06/e7febda4-1604-4e01-802f-53f0fd2f690c/dcat-ap_2.0.1.rdf'
 
@@ -113,6 +114,8 @@ def mobilitydcatap_fixes(graph):
     graph.add((DCTERMS.accrualPeriodicity, DCAM.domainIncludes, DCAT.Dataset))
     graph.add((DCTERMS.spatial, DCAM.domainIncludes, DCAT.Dataset))
     graph.add((DCTERMS.publisher, DCAM.domainIncludes, DCAT.Dataset))
+    graph.add((OWL.versionInfo, DCAM.domainIncludes, DCAT.Dataset))
+    graph.add((ADMS.versionNotes, DCAM.domainIncludes, DCAT.Dataset))
 
     graph.add((DCTERMS.created, DCAM.domainIncludes, DCAT.CatalogRecord))
     graph.add((DCTERMS.language, DCAM.domainIncludes, DCAT.CatalogRecord))
@@ -126,6 +129,7 @@ def mobilitydcatap_fixes(graph):
     graph.add((DCAT.record, DCAM.domainIncludes, DCAT.Catalog))
     graph.add((DCTERMS.spatial, DCAM.domainIncludes, DCAT.Catalog))
     graph.add((DCTERMS.title, DCAM.domainIncludes, DCAT.Catalog))
+
 
     # Range chanages stated in the document but not visible in the serialized format
     graph.add((DCTERMS.format, DCAM.rangeIncludes, DCTERMS.MediaTypeOrExtent))

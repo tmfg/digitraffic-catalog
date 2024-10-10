@@ -42,7 +42,7 @@ class RangeValueConverter(ABC):
     def get_schema(self, ds: Dataset, clazz_p: RDFSProperty | None, is_required: bool=False) -> List | Dict:
         rdf_range = self.get_range_value(ds, clazz_p)
         if isinstance(rdf_range, RDFSResource) and rdf_range.iri == RDFS.Literal:
-            label_value = RangeValueConverter.get_label(clazz_p, ds)
+            label_value = self.get_label(clazz_p, ds)
             field_name = self.ckan_field(clazz_p)
             return {
                 "field_name": field_name,
@@ -51,7 +51,7 @@ class RangeValueConverter(ABC):
             }
         elif isinstance(rdf_range, RDFSResource) and rdf_range.iri == RDFS.Resource:
             # Resurssi tyyppiset näyttää olevan URLeja
-            label_value = RangeValueConverter.get_label(clazz_p, ds)
+            label_value = self.get_label(clazz_p, ds)
             return {
                 "field_name": self.ckan_field(clazz_p),
                 "label": label_value,
@@ -61,8 +61,7 @@ class RangeValueConverter(ABC):
         else:
             return {"required": is_required}
 
-    @staticmethod
-    def get_label(p: RDFSProperty, ds: Dataset):
+    def get_label(self, p: RDFSProperty, ds: Dataset):
         label = [label for label in get_rdf_object(p, RDFS.label, ds) if
                  (label.is_language_string() and (label.language() == 'en') or not label.is_language_string())]
         if not label:

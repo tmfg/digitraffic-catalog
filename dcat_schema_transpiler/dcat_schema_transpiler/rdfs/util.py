@@ -91,6 +91,9 @@ class ClassPropertiesAggregator:
             elif (s, RDF.type, OWL.DatatypeProperty) in g:
                 # Not exactly correct, ubt OWL.DatatypeProperty is a subclass of RDF Property
                 properties.add(RDFSProperty.from_ds(s, ds))
+            elif (s, RDF.type, OWL.AnnotationProperty) in g:
+                # Not exactly correct, ubt OWL.AnnotationProperty is a subclass of RDF Property
+                properties.add(RDFSProperty.from_ds(s, ds))
             elif (s, RDF.type, OWL.ObjectProperty) in g:
                 # Not exactly correct, ubt OWL.ObjectProperty is a subclass of RDF Property
                 properties.add(RDFSProperty.from_ds(s, ds))
@@ -104,10 +107,13 @@ class ClassPropertiesAggregator:
             if (s, RDF.type, RDF.Property) in g:
                 properties_includes.add(RDFSProperty.from_ds(s, ds))
             elif (s, RDF.type, OWL.DatatypeProperty) in g:
-                # Not exactly correct, ubt OWL.DatatypeProperty is a subclass of RDF Property
+                # Not exactly correct, but OWL.DatatypeProperty is a subclass of RDF Property
+                properties_includes.add(RDFSProperty.from_ds(s, ds))
+            elif (s, RDF.type, OWL.AnnotationProperty) in g:
+                # Not exactly correct, but OWL.AnnotationProperty is a subclass of RDF Property
                 properties_includes.add(RDFSProperty.from_ds(s, ds))
             elif (s, RDF.type, OWL.ObjectProperty) in g:
-                # Not exactly correct, ubt OWL.ObjectProperty is a subclass of RDF Property
+                # Not exactly correct, but OWL.ObjectProperty is a subclass of RDF Property
                 properties_includes.add(RDFSProperty.from_ds(s, ds))
             else:
                 raise ValueError('''

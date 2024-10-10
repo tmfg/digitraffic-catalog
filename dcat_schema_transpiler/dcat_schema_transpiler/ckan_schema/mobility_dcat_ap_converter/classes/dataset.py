@@ -35,7 +35,9 @@ class DCATDataset(RangeValueConverter):
                 'sub': 'mobility_theme_sub'
             },
             DCTERMS.title: 'title',
-            DCTERMS.spatial: 'spatial'
+            DCTERMS.spatial: 'spatial',
+            OWL.versionInfo: 'version',
+            ADMS.versionNotes: 'version_notes'
         }
         field_value = mappings.get(p.iri)
         if isinstance(field_value, dict):
@@ -48,6 +50,13 @@ class DCATDataset(RangeValueConverter):
         else:
             raise ValueError(f'A mapping was not found between the class {self.clazz.iri} property {p.iri} and CKAN datamodel using pointer {pointer}')
 
+    def get_label(self, p: RDFSProperty, ds: Dataset):
+        if p.is_iri(OWL.versionInfo):
+            return 'Dataset version'
+        if p.is_iri(ADMS.versionNotes):
+            return 'Version notes'
+        return super().get_label(p, ds)
+
     def get_range_value(self, ds: Dataset, clazz_p: RDFSProperty) -> RDFSClass | None:
         if clazz_p.is_iri(DCTERMS.publisher):
             r_value = RDFSResource.from_ds(FOAF.Agent, ds)
@@ -58,11 +67,21 @@ class DCATDataset(RangeValueConverter):
 
     def get_schema(self, ds: Dataset, clazz_p: RDFSProperty, is_required: bool = None):
         is_required_ = is_required if is_required is not None else clazz_p.iri in DCATDataset.mandatory_properties
+        if clazz_p.iri in DCATDataset.optional_properties:
+            is_required_ = False
         properties_union = DCATDataset.mandatory_properties | DCATDataset.optional_properties
         if clazz_p.is_iri(MOBILITYDCATAP.mobilityTheme):
             return self.controlled_vocab_field(clazz_p, ds, is_required_)
         if clazz_p.is_iri(DCTERMS.spatial):
             return self.controlled_vocab_field(clazz_p, ds, is_required_)
+        if clazz_p.is_iri(DCTERMS.title):
+            r_value = super().get_schema(ds, clazz_p, is_required_)
+            return r_value | {
+                # Tämä tarvitaan, jotta 'name' fieldin slug saa tästä arvot
+                "form_attrs": {
+                    "data-module": "slug-preview-target"
+                }
+            }
         if clazz_p.iri in properties_union:
             return super().get_schema(ds, clazz_p, is_required_)
         return None

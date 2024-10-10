@@ -31,7 +31,7 @@ class MobilityDataStandard(RangeValueConverter):
     def get_schema(self, ds: Dataset, clazz_p: RDFSProperty, is_required: bool = False):
         # TODO MobilityDataStandard has some special rules. It has a controlled vocabulary as an option
         # but a custom schema should also be supported
-        label_value = RangeValueConverter.get_label(clazz_p, ds)
+        label_value = self.get_label(clazz_p, ds)
 
         if clazz_p.is_iri(OWL.versionInfo):
             return {
