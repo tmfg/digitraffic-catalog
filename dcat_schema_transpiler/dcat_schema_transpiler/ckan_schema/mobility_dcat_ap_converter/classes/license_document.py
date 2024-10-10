@@ -19,7 +19,7 @@ class LicenseDocument(RangeValueConverter):
 
     def ckan_field(self, p: RDFSProperty, pointer: str = None) -> str:
         mappings = {
-            DCTERMS.identifier: 'license'
+            DCTERMS.identifier: 'license_id'
         }
         field_name = mappings.get(p.iri)
 
