@@ -4,7 +4,7 @@ select, input {
 
 :root {
   --digitraffic-focus-z-index: 1000;
-  :focus {
+  :focus-visible {
     outline: 6px solid var(--fds-color-interactive-100) !important;
     outline-offset: 2px !important;
   }
