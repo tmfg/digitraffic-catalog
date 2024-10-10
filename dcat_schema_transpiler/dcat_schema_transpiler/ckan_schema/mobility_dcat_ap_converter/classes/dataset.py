@@ -1,11 +1,13 @@
 from typing import List, Dict
 
-from rdflib import DCTERMS, Dataset, SKOS, RDFS, DCAT, FOAF, URIRef
+from rdflib import Dataset, URIRef
+from rdflib.namespace import DCTERMS, SKOS, DCAT, FOAF, OWL
 from rdflib.term import Node
 
 from ckan_schema.mobility_dcat_ap_converter.range_value_converter import RangeValueConverter
 from mobility_dcat_ap.dataset import CVOCAB_MOBILITY_THEME, CVOCAB_NUTS, CVOCAB_LAU
 from mobility_dcat_ap.namespace import MOBILITYDCATAP
+from dcat_schema_transpiler.asset_description_metadata_schema.namespace import ADMS
 from dcat_schema_transpiler.rdfs.rdfs_class import RDFSClass
 from dcat_schema_transpiler.rdfs.rdfs_property import RDFSProperty
 from dcat_schema_transpiler.rdfs.rdfs_resource import RDFSResource
@@ -13,11 +15,13 @@ from dcat_schema_transpiler.rdfs.rdfs_resource import RDFSResource
 
 class DCATDataset(RangeValueConverter):
 
-    mandatory_properties = [DCTERMS.description, DCAT.distribution, DCTERMS.accrualPeriodicity,
+    mandatory_properties = {DCTERMS.description, DCAT.distribution, DCTERMS.accrualPeriodicity,
                             MOBILITYDCATAP.mobilityTheme,
                             DCTERMS.spatial,
                             DCTERMS.title,
-                            DCTERMS.publisher]
+                            DCTERMS.publisher}
+
+    optional_properties = {OWL.versionInfo, ADMS.versionNotes}
 
     def __init__(self, clazz: RDFSClass):
         super().__init__(clazz)
@@ -54,11 +58,12 @@ class DCATDataset(RangeValueConverter):
 
     def get_schema(self, ds: Dataset, clazz_p: RDFSProperty, is_required: bool = None):
         is_required_ = is_required if is_required is not None else clazz_p.iri in DCATDataset.mandatory_properties
-        if clazz_p.iri in MOBILITYDCATAP.mobilityTheme:
+        properties_union = DCATDataset.mandatory_properties | DCATDataset.optional_properties
+        if clazz_p.is_iri(MOBILITYDCATAP.mobilityTheme):
             return self.controlled_vocab_field(clazz_p, ds, is_required_)
-        if clazz_p.iri in DCTERMS.spatial:
+        if clazz_p.is_iri(DCTERMS.spatial):
             return self.controlled_vocab_field(clazz_p, ds, is_required_)
-        if clazz_p.iri in DCATDataset.mandatory_properties:
+        if clazz_p.iri in properties_union:
             return super().get_schema(ds, clazz_p, is_required_)
         return None
 

@@ -24,7 +24,9 @@ class Distribution(RangeValueConverter):
     def ckan_field(self, p: RDFSProperty, pointer: str = None) -> str:
         mappings = {
             DCAT.accessURL: 'url',
-            DCTERMS.format: 'format'
+            DCTERMS.format: 'format',
+            DCTERMS.title: 'name',
+            DCTERMS.description: 'description'
         }
         field_name = mappings.get(p.iri)
 
