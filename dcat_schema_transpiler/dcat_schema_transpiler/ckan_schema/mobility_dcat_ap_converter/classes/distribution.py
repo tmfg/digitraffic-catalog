@@ -53,7 +53,7 @@ class Distribution(RangeValueConverter):
         return None
 
     def controlled_vocab_field(self, p: RDFSProperty, ds: Dataset, is_required: bool) -> Dict:
-        label_value = RangeValueConverter.get_label(p, ds)
+        label_value = self.get_label(p, ds)
         match p.iri:
             case MOBILITYDCATAP.communicationMethod:
                 g = ds.get_graph(URIRef(CVOCAB_COMMUNICATION_METHOD))

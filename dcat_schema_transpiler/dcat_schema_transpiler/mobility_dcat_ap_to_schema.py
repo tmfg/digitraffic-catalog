@@ -35,8 +35,8 @@ def sort_dropdowns(schemas: List[Dict[str, Any]]):
 
 
 def sort_dataset_fields(dataset_fields: List[Dict[str, Any]]):
-    order = ['owner_org', 'name', 'notes', 'metadata_language', 'frequency', 'mobility_theme',
-             'mobility_theme_sub', 'spatial']
+    order = ['owner_org', 'title', 'name', 'notes', 'metadata_language', 'frequency', 'mobility_theme',
+             'mobility_theme_sub', 'spatial', 'version', 'version_notes']
     dataset_fields.sort(key=partial(sort_by_field_name, order))
     sort_dropdowns(dataset_fields)
 
@@ -82,6 +82,7 @@ def dataset_fields(ds: Dataset) -> List:
         {"field_name": "name",
          "label": "URL",
          "preset": "dataset_slug",
+         "form_placeholder": "eg. my-dataset",
          "required": True}
     ]
 
