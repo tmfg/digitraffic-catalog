@@ -77,7 +77,7 @@ class DCATDataset(RangeValueConverter):
         if clazz_p.is_iri(DCTERMS.title):
             r_value = super().get_schema(ds, clazz_p, is_required_)
             return r_value | {
-                # Tämä tarvitaan, jotta 'name' fieldin slug saa tästä arvot
+                # This bit of code is needed so that the `name` field slug gets its value from here
                 "form_attrs": {
                     "data-module": "slug-preview-target"
                 }
