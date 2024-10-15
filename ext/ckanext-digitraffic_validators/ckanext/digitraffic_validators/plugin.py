@@ -18,7 +18,8 @@ def find_field(schema, field_name):
     return None
 
 
-# set value of field "format_label" based on the label of the current format in the yaml schema
+# set the value of field "label" of current choice of field "format" in the yaml schema as the value of field "format" in the ckan data
+# doing this will display labels (e.g. "JSON", "HTML") instead of IRIs in CKAN
 def set_format_label(key, data, errors, context):
     format_value = data.get(key)
     if format_value:
@@ -35,6 +36,8 @@ def set_format_label(key, data, errors, context):
     return False
 
 
+# set the value of field "value" of current choice of field "format" in the yaml schema as the value of field "format_iri" in the ckan data
+# the format IRI of a resource is still needed for metadata generation in CKAN so it is stored in the field format_iri
 def set_format_iri(key, data, errors, context):
     format_value = data.get(("resources", 0, "format"))
     if format_value:
