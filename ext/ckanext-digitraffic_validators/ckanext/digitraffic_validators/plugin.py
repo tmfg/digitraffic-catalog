@@ -5,7 +5,7 @@ import yaml
 from ckan.plugins import SingletonPlugin
 
 current_dir = os.path.dirname(__file__)
-yaml_path = os.path.join(current_dir, "mobility_dcat.yaml")
+yaml_path = os.path.join(current_dir, "schemas/mobility_dcat.yaml")
 
 with open(yaml_path, "r") as file:
     schema = yaml.safe_load(file)

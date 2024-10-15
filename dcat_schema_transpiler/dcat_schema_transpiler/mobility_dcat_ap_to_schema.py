@@ -96,6 +96,17 @@ def resource_fields(ds: Dataset) -> List:
             DCTERMS.RightsStatement: RightsStatement.recommended_properties,
         },
     )
+
+    # append custom field needed to store format iri in ckan
+    resource_fields.append(
+        {
+            "field_name": "format_iri",
+            "required": False,
+            "form_snippet": None,
+            "validators": "set_format_iri",
+        }
+    )
+
     sort_resource_fields(resource_fields)
 
     return resource_fields
@@ -130,20 +141,8 @@ def dataset_fields(ds: Dataset) -> List:
         },
     ]
 
-    required_custom_fields = [
-        {
-            "field_name": "format_iri",
-            "required": False,
-            "form_snippet": None,
-            "validators": "set_format_iri",
-        }
-    ]
+    dataset_fields = dataset_fields_required_by_ckan + dataset_fields_schema_map
 
-    dataset_fields = (
-        dataset_fields_required_by_ckan
-        + dataset_fields_schema_map
-        + required_custom_fields
-    )
     sort_dataset_fields(dataset_fields)
 
     return dataset_fields
