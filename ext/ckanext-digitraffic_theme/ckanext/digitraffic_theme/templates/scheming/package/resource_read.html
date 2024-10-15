@@ -1,0 +1,37 @@
+<!-- Fix for https://github.com/ckan/ckanext-scheming/pull/420 and we need to modify
+     the special handling of format and license information by CKAN and the Scheming extension.
+     This is because we save all metadata as RDF -->
+
+{% ckan_extends %}
+
+{%- block resource_format -%}
+{% with field= schema.resource_fields|selectattr("field_name", "eq", "format")|first() %}
+<tr>
+    <th scope="row">
+        {{- h.scheming_language_text(field.label) -}}
+    </th>
+    <td>
+        {%- snippet 'scheming/snippets/display_field.html',
+        field=field, data=res, entity_type='dataset',
+        object_type=dataset_type -%}
+    </td>
+</tr>
+{% endwith %}
+{%- endblock -%}
+
+{%- block resource_license -%}
+{# License row is provided by the default implementation of resource_fields #}
+{%- endblock -%}
+
+{%- block resource_more_items -%}
+{# Content of resource_more_items is moved to end of the file #}
+{%- endblock -%}
+
+{%- block resource_fields -%}
+    {{ super() }}
+    {% for key, value in h.format_resource_items(res.items()) %}
+        {% if key not in ('created', 'metadata modified', 'last modified', 'format') %}
+            <tr class="toggle-more"><th scope="row">{{ key | capitalize }}</th><td>{{ value }}</td></tr>
+        {% endif %}
+    {% endfor %}
+{%- endblock -%}
