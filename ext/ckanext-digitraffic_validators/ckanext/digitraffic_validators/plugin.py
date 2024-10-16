@@ -18,36 +18,18 @@ def find_field(schema, field_name):
     return None
 
 
-# set the value of field "label" of current choice of field "format" in the yaml schema as the value of field "format" in the ckan data
-# doing this will display labels (e.g. "JSON", "HTML") instead of IRIs in CKAN
-def set_format_label(key, data, errors, context):
-    format_value = data.get(key)
-    if format_value:
-        format_label = None
-        format_field = find_field(schema, "format")
-        if format_field:
-            format_choices = format_field.get("choices", [])
-            for choice in format_choices:
-                if choice["value"] == format_value:
-                    format_label = choice["label"]
-        if format_label:
-            data[key] = format_label
-            return True
-    return False
-
-
-# set the value of field "value" of current choice of field "format" in the yaml schema as the value of field "format_iri" in the ckan data
-# the format IRI of a resource is still needed for metadata generation in CKAN so it is stored in the field format_iri
+# get the IRI for the current format from the field "label_iri_map", which maps format labels to IRIs
+# store it in CKAN extras under key "format_iri"
 def set_format_iri(key, data, errors, context):
     format_value = data.get(("resources", 0, "format"))
     if format_value:
         format_iri = None
         format_field = find_field(schema, "format")
         if format_field:
-            format_choices = format_field.get("choices", [])
-            for choice in format_choices:
-                if choice["value"] == format_value or choice["label"] == format_value:
-                    format_iri = choice["value"]
+            formats = format_field.get("label_iri_map", [])
+            for _format in formats:
+                if _format["label"] == format_value:
+                    format_iri = _format["iri"]
         if format_iri:
             data[key] = format_iri
             return True
@@ -58,4 +40,4 @@ class DigitrafficValidators(SingletonPlugin):
     plugins.implements(plugins.IValidators)
 
     def get_validators(self):
-        return {"set_format_label": set_format_label, "set_format_iri": set_format_iri}
+        return {"set_format_iri": set_format_iri}

@@ -38,6 +38,16 @@ class MediaTypeOrExtent(RangeValueConverter):
             "required": is_required,
             "preset": "select",
             "form_include_blank_choice": True,
-            "choices": RangeValueConverter.vocab_choices(g),
-            "validators": "set_format_label",
+            # set the label as both value and label in the YAML for CKAN
+            # otherwise, using ckan_scheming, CKAN will store "value" in the database which results
+            # in IRIs displayed in the UI where labels should be
+            "choices": [
+                {"value": choice["label"], "label": choice["label"]}
+                for choice in RangeValueConverter.vocab_choices(g)
+            ],
+            # store the IRIs and labels in this extra field for CKAN
+            "label_iri_map": [
+                {"iri": choice["value"], "label": choice["label"]}
+                for choice in RangeValueConverter.vocab_choices(g)
+            ],
         }
