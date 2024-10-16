@@ -29,9 +29,17 @@
 
 {%- block resource_fields -%}
     {{ super() }}
-    {% for key, value in h.format_resource_items(res.items()) %}
-        {% if key not in ('created', 'metadata modified', 'last modified', 'format') %}
-            <tr class="toggle-more"><th scope="row">{{ key | capitalize }}</th><td>{{ value }}</td></tr>
-        {% endif %}
-    {% endfor %}
+    {% with schema_resource_fields = schema.resource_fields|map(attribute="field_name")|list() %}
+        {% for key, value in res.items() %}
+            {% set resource_item_not_in_schema = key is not in schema_resource_fields %}
+            {% set k_v = h.format_resource_items([(key, value)])[0] %}
+            {% if k_v|length == 2 %}
+                {% set k = k_v|first %}
+                {% set v = k_v|last %}
+                {% if k not in ('created', 'metadata modified', 'last modified', 'format') and resource_item_not_in_schema%}
+                    <tr class="toggle-more"><th scope="row">{{ k | capitalize }}</th><td>{{ v }}</td></tr>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+    {% endwith %}
 {%- endblock -%}
