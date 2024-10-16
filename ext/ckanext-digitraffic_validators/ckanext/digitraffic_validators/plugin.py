@@ -18,18 +18,18 @@ def find_field(schema, field_name):
     return None
 
 
-# get the IRI for the current format from the field "label_iri_map", which maps format labels to IRIs
-# store it in CKAN extras under key "format_iri"
+# set field format_iri for CKAN extras on the basis of current format label
 def set_format_iri(key, data, errors, context):
-    format_value = data.get(("resources", 0, "format"))
+    format_key = ("resources", 0, "format")
+    format_value = data.get(format_key)
     if format_value:
         format_iri = None
         format_field = find_field(schema, "format")
         if format_field:
-            formats = format_field.get("label_iri_map", [])
-            for _format in formats:
-                if _format["label"] == format_value:
-                    format_iri = _format["iri"]
+            format_choices = format_field.get("choices", [])
+            for choice in format_choices:
+                if choice["label"] == format_value:
+                    format_iri = choice["iri"]
         if format_iri:
             data[key] = format_iri
             return True
