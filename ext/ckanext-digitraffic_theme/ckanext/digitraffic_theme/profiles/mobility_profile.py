@@ -1,4 +1,7 @@
-from rdflib import Graph, DCTERMS, URIRef, Literal, DCAT, RDF, BNode
+from datetime import datetime, timezone
+
+from rdflib import Graph, URIRef, Literal, BNode
+from rdflib.namespace import DCTERMS, DCAT, RDF, XSD
 
 from ckanext.dcat.profiles import RDFProfile
 from ckanext.digitraffic_theme.profiles.graph_modifiers.adder import (
@@ -23,6 +26,29 @@ class MobilityDCATAPProfile(RDFProfile):
         g: Graph = self.g
         g.bind("mobilitydcatap", MOBILITYDCATAP)
 
+        self._remove_existing_self_managed_graph_data(dataset_ref)
+        self._update_existing_graph_data(dataset_ref, mobility_data)
+
+        # We'll end up adding Dataset metadata when injecting record
+        self._inject_record(mobility_data, dataset_ref)
+
+    def graph_from_catalog(self, catalog_dict, catalog_ref):
+        g: Graph = self.g
+        # Remove data that we are going to add ourselves
+        for obj in g.objects(catalog_ref, DCTERMS.title):
+            g.remove((catalog_ref, DCTERMS.title, obj))
+
+        # Add the metadata
+        add_literal_to_graph(g, catalog_ref, DCTERMS.description,
+                                          Literal("Digitraffic Catalog description"))
+        add_class_instance_with_children(g, catalog_ref, DCTERMS.publisher,
+                                                               Agent(None, "Digitraffic"))
+        add_vocabulary_to_graph(g, catalog_ref, DCTERMS.spatial,
+                                             Location('http://data.europa.eu/nuts/code/FI'))
+        add_literal_to_graph(g, catalog_ref, DCTERMS.title, Literal("Digitraffic Catalog"))
+
+    def _remove_existing_self_managed_graph_data(self, dataset_ref):
+        g: Graph = self.g
         ## Remove some values that we are going to put in ourselves
         for obj in g.objects(dataset_ref, DCTERMS.publisher):
             g.remove((dataset_ref, DCTERMS.publisher, obj))
@@ -43,36 +69,26 @@ class MobilityDCATAPProfile(RDFProfile):
             if (isinstance(s, BNode) and
                     (None, None, s) not in g):
                 g.remove((s, p, o))
-        print("###### GRAPH DATA ######")
-        for s, p, o in g:
-            print(f'({s}, {p}, {o})')
-        # We'll end up adding Dataset metadata when injecting record
-        self.inject_record(mobility_data, dataset_ref)
 
-    def graph_from_catalog(self, catalog_dict, catalog_ref):
+    def _update_existing_graph_data(self, dataset_ref, mobility_data: MobilityData):
         g: Graph = self.g
-        # Remove data that we are going to add ourselves
-        for obj in g.objects(catalog_ref, DCTERMS.title):
-            g.remove((catalog_ref, DCTERMS.title, obj))
+        for s, p, o in g:
+            # Add timezones to datetimes.
+            # Internally, CKAN saves all times in UTC.
+            # https://docs.ckan.org/en/2.10/maintaining/configuration.html?highlight=utc#ckan-display-timezone
+            if isinstance(o, Literal) and o.datatype == XSD.dateTime:
+                g.remove((s, p, o))
+                g.add((s, p, Literal(o.toPython().replace(tzinfo=timezone.utc))))
 
-        # Add the metadata
-        add_literal_to_graph(g, catalog_ref, DCTERMS.description,
-                                          Literal("Digitraffic Catalog description"))
-        add_class_instance_with_children(g, catalog_ref, DCTERMS.publisher,
-                                                               Agent(None, "Digitraffic"))
-        add_vocabulary_to_graph(g, catalog_ref, DCTERMS.spatial,
-                                             Location('http://data.europa.eu/nuts/code/FI'))
-        add_literal_to_graph(g, catalog_ref, DCTERMS.title, Literal("Digitraffic Catalog"))
 
-    def inject_record(self, mobility_data: MobilityData, dataset_ref: URIRef):
+    def _inject_record(self, mobility_data: MobilityData, dataset_ref: URIRef):
         """DCAT extension does not have a support for Catalog Records which are required for MobilityDCAT-AP.
            Inject the metadata here."""
 
         g: Graph = self.g
         try:
             catalog_ref: URIRef = self._get_root_catalog_ref()
-            add_class_instance_with_children(g, catalog_ref, DCAT.record,
-                                                                   mobility_data.catalog_record)
+            add_class_instance_with_children(g, catalog_ref, DCAT.record, mobility_data.catalog_record)
         # We end up with an exception when metadata is asked only for a Dataset. In that situation, there is no catalog_ref
         except Exception:
             add_class_instance_values(g, mobility_data.catalog_record.primary_topic)
