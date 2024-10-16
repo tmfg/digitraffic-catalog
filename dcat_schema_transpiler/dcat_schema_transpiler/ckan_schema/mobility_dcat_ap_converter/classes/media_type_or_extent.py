@@ -42,12 +42,11 @@ class MediaTypeOrExtent(RangeValueConverter):
             # otherwise, using ckan_scheming, CKAN will store "value" in the database which results
             # in IRIs displayed in the UI where labels should be
             "choices": [
-                {"value": choice["label"], "label": choice["label"]}
-                for choice in RangeValueConverter.vocab_choices(g)
-            ],
-            # store the IRIs and labels in this extra field for CKAN
-            "label_iri_map": [
-                {"iri": choice["value"], "label": choice["label"]}
+                {
+                    "value": choice["label"],
+                    "label": choice["label"],
+                    "iri": choice["value"],
+                }
                 for choice in RangeValueConverter.vocab_choices(g)
             ],
         }
