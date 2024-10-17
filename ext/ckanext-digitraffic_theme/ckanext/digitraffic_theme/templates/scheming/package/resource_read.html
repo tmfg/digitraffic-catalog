@@ -1,90 +1,52 @@
-{% extends "package/resource_read.html" %}
+<!-- Fix for https://github.com/ckan/ckanext-scheming/pull/420 and we need to modify
+     the special handling of format and license information by CKAN and the Scheming extension.
+     This is because we save all metadata as RDF -->
 
-{%- set exclude_fields = [
-  'name',
-  'description',
-  'url',
-  'format',
-  'format_iri'
-  ] -%}
-{%- set schema = h.scheming_get_dataset_schema(dataset_type) -%}
+{% ckan_extends %}
 
-{% block resource_additional_information_inner %}
-  {% if res.datastore_active %}
-    {% block resource_data_dictionary %}
-      {{ super() }}
-    {% endblock %}
-  {% endif %}
+{%- block resource_license -%}
+{# License row is provided by the default implementation of resource_fields #}
+{%- endblock -%}
 
-  <div class="module-content">
-    {%- block additional_info_heading -%}<h2>{{ _('Additional Information') }}</h2>{%- endblock -%}
-    <table class="table table-striped table-bordered table-condensed" data-module="table-toggle-more">
-      {%- block additional_info_table_head -%}
-        <thead>
-          <tr>
-            <th scope="col">{{ _('Field') }}</th>
-            <th scope="col">{{ _('Value') }}</th>
-          </tr>
-        </thead>
-      {%- endblock -%}
-      <tbody>
-        {%- block resource_last_updated -%}
-        <tr>
-          <th scope="row">{{ _('Data last updated') }}</th>
-          <td>{{ h.render_datetime(res.last_modified) or h.render_datetime(res.created) or _('unknown') }}</td>
-        </tr>
-        {%- endblock -%}
-        {%- block resource_metadata_last_updated -%}
-        <tr>
-          <th scope="row">{{ _('Metadata last updated') }}</th>
-          <td>{{ h.render_datetime(res.metadata_modified) or h.render_datetime(res.created) or _('unknown') }}</td>
-        </tr>
-        {%- endblock -%}
-        {%- block resource_created -%}
-        <tr>
-          <th scope="row">{{ _('Created') }}</th>
-          <td>{{ h.render_datetime(res.created) or _('unknown') }}</td>
-        </tr>
-        {%- endblock -%}
-        {%- block resource_format -%}
-        <tr>
-          <th scope="row">{{ _('Format') }}</th>
-          <td>{{ res.format or res.mimetype_inner or res.mimetype or _('unknown') }}</td>
-        </tr>
-        {%- endblock -%}
-        {%- block resource_license -%}
-        <tr>
-          <th scope="row">{{ _('License') }}</th>
-          <td>{% snippet "snippets/license.html", pkg_dict=pkg, text_only=True %}</td>
-        </tr>
-        {%- endblock -%}
-        {%- block resource_more_items -%}
-          {% for key, value in h.format_resource_items(res.items()) %}
-            {% if key not in ('created', 'metadata modified', 'last modified', 'format') %}
-              <tr class="toggle-more"><th scope="row">{{ key | capitalize }}</th><td>{{ value }}</td></tr>
-            {% endif %}
-          {% endfor %}
-        {%- endblock -%}
-        {%- block resource_fields -%}
-          {%- for field in schema.resource_fields -%}
+{%- block resource_more_items -%}
+{# Content of resource_more_items is moved to end of the file #}
+{%- endblock -%}
+
+{%- block resource_fields -%}
+    {% with exclude_fields = [
+       'name',
+       'description',
+       'url',
+       'format',
+       'format_iri'
+    ] %}
+        {%- for field in schema.resource_fields -%}
             {%- if field.field_name not in exclude_fields
                 and field.display_snippet is not none -%}
-              <tr>
-                <th scope="row">
-                  {{- h.scheming_language_text(field.label) -}}
-                </th>
-                <td>
-                  {%- snippet 'scheming/snippets/display_field.html',
+                <tr>
+                    <th scope="row">
+                        {{- h.scheming_language_text(field.label) -}}
+                    </th>
+                    <td>
+                        {%- snippet 'scheming/snippets/display_field.html',
                       field=field, data=res, entity_type='dataset',
                       object_type=dataset_type -%}
-                </td>
-              </tr>
+                    </td>
+                </tr>
             {%- endif -%}
-          {%- endfor -%}
-        {%- endblock -%}
-      </tbody>
-    </table>
-
-
-  </div>
-{% endblock %}
+        {%- endfor -%}
+    {% endwith %}
+    {% with schema_resource_fields = schema.resource_fields|map(attribute="field_name")|list() %}
+        {% for key, value in res.items() %}
+            {% set resource_item_not_in_schema = key is not in schema_resource_fields %}
+            {% set k_v = h.format_resource_items([(key, value)])[0] %}
+            {% if k_v|length == 2 %}
+                {% set k = k_v|first %}
+                {% set v = k_v|last %}
+                {% if k not in ('created', 'metadata modified', 'last modified', 'format', 'format_iri') and resource_item_not_in_schema%}
+                    <tr class="toggle-more"><th scope="row">{{ k | capitalize }}</th><td>{{ v }}</td></tr>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+    {% endwith %}
+{%- endblock -%}

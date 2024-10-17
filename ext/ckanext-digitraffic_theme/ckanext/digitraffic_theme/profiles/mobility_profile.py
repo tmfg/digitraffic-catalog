@@ -1,17 +1,18 @@
-from rdflib import Graph, DCTERMS, URIRef, Literal, DCAT, RDF, BNode
+from datetime import datetime, timezone
+
+from rdflib import Graph, URIRef, Literal, BNode
+from rdflib.namespace import DCTERMS, DCAT, RDF, XSD
 
 from ckanext.dcat.profiles import RDFProfile
-from ckanext.digitraffic_theme.profiles.graph_modifiers.adder_util import add_class_instance_with_children, \
-    add_class_instance_values
-from ckanext.digitraffic_theme.profiles.graph_modifiers.class_instance_adder import ClassInstanceAdder
-from ckanext.digitraffic_theme.profiles.graph_modifiers.literal_adder import LiteralAdder
-from ckanext.digitraffic_theme.profiles.graph_modifiers.uriref_adder import URIRefAdder
-from ckanext.digitraffic_theme.profiles.graph_modifiers.vocabulary_adder import VocabularyAdder
+from ckanext.digitraffic_theme.profiles.graph_modifiers.adder import (
+    add_class_instance_with_children,
+    add_class_instance_values,
+    add_literal_to_graph,
+    add_vocabulary_to_graph
+)
 from ckanext.digitraffic_theme.profiles.model.agent import Agent
-from ckanext.digitraffic_theme.profiles.model.class_instance import ClassInstance
 from ckanext.digitraffic_theme.profiles.model.location import Location
 from ckanext.digitraffic_theme.profiles.model.mobility_data import MobilityData
-from ckanext.digitraffic_theme.profiles.model.vocabulary import Vocabulary
 from ckanext.digitraffic_theme.profiles.rdf.mobility_dcat_ap import MOBILITYDCATAP
 
 
@@ -25,6 +26,29 @@ class MobilityDCATAPProfile(RDFProfile):
         g: Graph = self.g
         g.bind("mobilitydcatap", MOBILITYDCATAP)
 
+        self._remove_existing_self_managed_graph_data(dataset_ref)
+        self._update_existing_graph_data(dataset_ref, mobility_data)
+
+        # We'll end up adding Dataset metadata when injecting record
+        self._inject_record(mobility_data, dataset_ref)
+
+    def graph_from_catalog(self, catalog_dict, catalog_ref):
+        g: Graph = self.g
+        # Remove data that we are going to add ourselves
+        for obj in g.objects(catalog_ref, DCTERMS.title):
+            g.remove((catalog_ref, DCTERMS.title, obj))
+
+        # Add the metadata
+        add_literal_to_graph(g, catalog_ref, DCTERMS.description,
+                                          Literal("Digitraffic Catalog description"))
+        add_class_instance_with_children(g, catalog_ref, DCTERMS.publisher,
+                                                               Agent(None, "Digitraffic"))
+        add_vocabulary_to_graph(g, catalog_ref, DCTERMS.spatial,
+                                             Location('http://data.europa.eu/nuts/code/FI'))
+        add_literal_to_graph(g, catalog_ref, DCTERMS.title, Literal("Digitraffic Catalog"))
+
+    def _remove_existing_self_managed_graph_data(self, dataset_ref):
+        g: Graph = self.g
         ## Remove some values that we are going to put in ourselves
         for obj in g.objects(dataset_ref, DCTERMS.publisher):
             g.remove((dataset_ref, DCTERMS.publisher, obj))
@@ -45,53 +69,27 @@ class MobilityDCATAPProfile(RDFProfile):
             if (isinstance(s, BNode) and
                     (None, None, s) not in g):
                 g.remove((s, p, o))
-        # We'll end up adding Dataset metadata when injecting record
-        self.inject_record(mobility_data, dataset_ref)
 
-    def graph_from_catalog(self, catalog_dict, catalog_ref):
+    def _update_existing_graph_data(self, dataset_ref, mobility_data: MobilityData):
         g: Graph = self.g
-        # Remove data that we are going to add ourselves
-        for obj in g.objects(catalog_ref, DCTERMS.title):
-            g.remove((catalog_ref, DCTERMS.title, obj))
+        for s, p, o in g:
+            # Add timezones to datetimes.
+            # Internally, CKAN saves all times in UTC.
+            # https://docs.ckan.org/en/2.10/maintaining/configuration.html?highlight=utc#ckan-display-timezone
+            if isinstance(o, Literal) and o.datatype == XSD.dateTime:
+                g.remove((s, p, o))
+                g.add((s, p, Literal(o.toPython().replace(tzinfo=timezone.utc))))
 
-        # Add the metadata
-        MobilityDCATAPProfile.add_literal(g, catalog_ref, DCTERMS.description,
-                                          Literal("Digitraffic Catalog description"))
-        MobilityDCATAPProfile.add_class_instance_with_children(g, catalog_ref, DCTERMS.publisher,
-                                                               Agent(None, "Digitraffic"))
-        MobilityDCATAPProfile.add_vocabulary(g, catalog_ref, DCTERMS.spatial,
-                                             Location('http://data.europa.eu/nuts/code/FI'))
-        MobilityDCATAPProfile.add_literal(g, catalog_ref, DCTERMS.title, Literal("Digitraffic Catalog"))
 
-    def inject_record(self, mobility_data: MobilityData, dataset_ref: URIRef):
+    def _inject_record(self, mobility_data: MobilityData, dataset_ref: URIRef):
         """DCAT extension does not have a support for Catalog Records which are required for MobilityDCAT-AP.
            Inject the metadata here."""
 
         g: Graph = self.g
         try:
             catalog_ref: URIRef = self._get_root_catalog_ref()
-            MobilityDCATAPProfile.add_class_instance_with_children(g, catalog_ref, DCAT.record,
-                                                                   mobility_data.catalog_record)
+            add_class_instance_with_children(g, catalog_ref, DCAT.record, mobility_data.catalog_record)
         # We end up with an exception when metadata is asked only for a Dataset. In that situation, there is no catalog_ref
         except Exception:
             add_class_instance_values(g, mobility_data.catalog_record.primary_topic)
 
-    @staticmethod
-    def add_vocabulary(g: Graph, subject: URIRef, predicate: URIRef, obj: Vocabulary):
-        VocabularyAdder.add_to_graph(g, subject, predicate, obj)
-
-    @staticmethod
-    def add_literal(g: Graph, subject: URIRef, predicate: URIRef, obj: Literal):
-        LiteralAdder.add_to_graph(g, subject, predicate, obj)
-
-    @staticmethod
-    def add_uriref(g: Graph, subject: URIRef, predicate: URIRef, obj: URIRef):
-        URIRefAdder.add_to_graph(g, subject, predicate, obj)
-
-    @staticmethod
-    def add_class_instance_with_children(g: Graph, subject: URIRef, predicate: URIRef, obj: ClassInstance):
-        add_class_instance_with_children(g, subject, predicate, obj)
-
-    @staticmethod
-    def add_class_instance(g: Graph, subject: URIRef, predicate: URIRef, obj: ClassInstance):
-        ClassInstanceAdder.add_to_graph(g, subject, predicate, obj)
