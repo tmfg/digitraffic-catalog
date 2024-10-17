@@ -28,6 +28,13 @@
 {%- endblock -%}
 
 {%- block resource_fields -%}
+    {%- set exclude_fields = [
+       'name',
+       'description',
+       'url',
+       'format',
+       'format_iri'
+    ] -%}
     {{ super() }}
     {% with schema_resource_fields = schema.resource_fields|map(attribute="field_name")|list() %}
         {% for key, value in res.items() %}
@@ -36,7 +43,7 @@
             {% if k_v|length == 2 %}
                 {% set k = k_v|first %}
                 {% set v = k_v|last %}
-                {% if k not in ('created', 'metadata modified', 'last modified', 'format') and resource_item_not_in_schema%}
+                {% if k not in ('created', 'metadata modified', 'last modified', 'format', 'format_iri') and resource_item_not_in_schema%}
                     <tr class="toggle-more"><th scope="row">{{ k | capitalize }}</th><td>{{ v }}</td></tr>
                 {% endif %}
             {% endif %}

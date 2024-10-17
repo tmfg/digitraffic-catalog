@@ -8,6 +8,8 @@
 !ext/ckanext-digitraffic_theme/*/
 !ext/ckanext-entraid_authenticator
 !ext/ckanext-entraid_authenticator/*/
+!ext/ckanext-digitraffic_validators
+!ext/ckanext-digitraffic_validators/*/
 
 !local-env
 !local-env/**
