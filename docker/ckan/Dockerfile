@@ -99,6 +99,7 @@ RUN chmod 644 ${APP_DIR}/wsgi.py
 RUN mkdir -p ${EXT_DIR}
 COPY ckanext/ckanext-digitraffic_theme "${EXT_DIR}/ckanext-digitraffic_theme"
 COPY ckanext/ckanext-entraid_authenticator "${EXT_DIR}/ckanext-entraid_authenticator"
+COPY ckanext/ckanext-digitraffic_validators "${EXT_DIR}/ckanext-digitraffic_validators"
 RUN chown -R ckan:ckan "${EXT_DIR}"
 
 # install extensions
