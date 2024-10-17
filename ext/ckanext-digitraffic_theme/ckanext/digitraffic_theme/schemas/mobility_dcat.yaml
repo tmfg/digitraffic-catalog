@@ -1089,437 +1089,651 @@ resource_fields:
   preset: select
   form_include_blank_choice: true
   choices:
-  - value: http://publications.europa.eu/resource/authority/file-type/7Z
+  - value: 7z
     label: 7z
-  - value: http://publications.europa.eu/resource/authority/file-type/AAB
+    iri: http://publications.europa.eu/resource/authority/file-type/7Z
+  - value: AAB
     label: AAB
-  - value: http://publications.europa.eu/resource/authority/file-type/AAC
+    iri: http://publications.europa.eu/resource/authority/file-type/AAB
+  - value: AAC
     label: AAC
-  - value: http://publications.europa.eu/resource/authority/file-type/AKN4EU_ZIP
+    iri: http://publications.europa.eu/resource/authority/file-type/AAC
+  - value: AKN4EU ZIP
     label: AKN4EU ZIP
-  - value: http://publications.europa.eu/resource/authority/file-type/AKN4EU
+    iri: http://publications.europa.eu/resource/authority/file-type/AKN4EU_ZIP
+  - value: AKN4EU file
     label: AKN4EU file
-  - value: http://publications.europa.eu/resource/authority/file-type/APK
+    iri: http://publications.europa.eu/resource/authority/file-type/AKN4EU
+  - value: APK
     label: APK
-  - value: http://publications.europa.eu/resource/authority/file-type/ARC
+    iri: http://publications.europa.eu/resource/authority/file-type/APK
+  - value: ARC
     label: ARC
-  - value: http://publications.europa.eu/resource/authority/file-type/ARC_GZ
+    iri: http://publications.europa.eu/resource/authority/file-type/ARC
+  - value: ARC GZ
     label: ARC GZ
-  - value: http://publications.europa.eu/resource/authority/file-type/ARJ
+    iri: http://publications.europa.eu/resource/authority/file-type/ARC_GZ
+  - value: ARJ
     label: ARJ
-  - value: http://publications.europa.eu/resource/authority/file-type/AZW
+    iri: http://publications.europa.eu/resource/authority/file-type/ARJ
+  - value: Amazon Kindle eBook
     label: Amazon Kindle eBook
-  - value: http://publications.europa.eu/resource/authority/file-type/APPX
+    iri: http://publications.europa.eu/resource/authority/file-type/AZW
+  - value: AppX
     label: AppX
-  - value: http://publications.europa.eu/resource/authority/file-type/MAP_PRVW
+    iri: http://publications.europa.eu/resource/authority/file-type/APPX
+  - value: ArcGIS Map Preview
     label: ArcGIS Map Preview
-  - value: http://publications.europa.eu/resource/authority/file-type/MAP_SRVC
+    iri: http://publications.europa.eu/resource/authority/file-type/MAP_PRVW
+  - value: ArcGIS Map Service
     label: ArcGIS Map Service
-  - value: http://publications.europa.eu/resource/authority/file-type/ARCINFO_COV
+    iri: http://publications.europa.eu/resource/authority/file-type/MAP_SRVC
+  - value: ArcInfo coverage
     label: ArcInfo coverage
-  - value: http://publications.europa.eu/resource/authority/file-type/ARROW_FILE
+    iri: http://publications.europa.eu/resource/authority/file-type/ARCINFO_COV
+  - value: Arrow file
     label: Arrow file
-  - value: http://publications.europa.eu/resource/authority/file-type/ARROW_STREAM
+    iri: http://publications.europa.eu/resource/authority/file-type/ARROW_FILE
+  - value: Arrow stream
     label: Arrow stream
-  - value: http://publications.europa.eu/resource/authority/file-type/ATOM
+    iri: http://publications.europa.eu/resource/authority/file-type/ARROW_STREAM
+  - value: Atom Feed
     label: Atom Feed
-  - value: http://publications.europa.eu/resource/authority/file-type/BITS
+    iri: http://publications.europa.eu/resource/authority/file-type/ATOM
+  - value: BITS XML
     label: BITS XML
-  - value: http://publications.europa.eu/resource/authority/file-type/BWF
+    iri: http://publications.europa.eu/resource/authority/file-type/BITS
+  - value: BWF
     label: BWF
-  - value: http://publications.europa.eu/resource/authority/file-type/BIN
+    iri: http://publications.europa.eu/resource/authority/file-type/BWF
+  - value: Binary Data
     label: Binary Data
-  - value: http://publications.europa.eu/resource/authority/file-type/BMP
+    iri: http://publications.europa.eu/resource/authority/file-type/BIN
+  - value: Bitmap Image File
     label: Bitmap Image File
-  - value: http://publications.europa.eu/resource/authority/file-type/CSS
+    iri: http://publications.europa.eu/resource/authority/file-type/BMP
+  - value: CSS
     label: CSS
-  - value: http://publications.europa.eu/resource/authority/file-type/CSV
+    iri: http://publications.europa.eu/resource/authority/file-type/CSS
+  - value: CSV
     label: CSV
-  - value: http://publications.europa.eu/resource/authority/file-type/LAZ
+    iri: http://publications.europa.eu/resource/authority/file-type/CSV
+  - value: Compressed LAS file
     label: Compressed LAS file
-  - value: http://publications.europa.eu/resource/authority/file-type/DAPK
+    iri: http://publications.europa.eu/resource/authority/file-type/LAZ
+  - value: DAPK
     label: DAPK
-  - value: http://publications.europa.eu/resource/authority/file-type/DBF
+    iri: http://publications.europa.eu/resource/authority/file-type/DAPK
+  - value: DBF
     label: DBF
-  - value: http://publications.europa.eu/resource/authority/file-type/DCR
+    iri: http://publications.europa.eu/resource/authority/file-type/DBF
+  - value: DCR File
     label: DCR File
-  - value: http://publications.europa.eu/resource/authority/file-type/DGN
+    iri: http://publications.europa.eu/resource/authority/file-type/DCR
+  - value: DGN
     label: DGN
-  - value: http://publications.europa.eu/resource/authority/file-type/DMG
+    iri: http://publications.europa.eu/resource/authority/file-type/DGN
+  - value: DMG
     label: DMG
-  - value: http://publications.europa.eu/resource/authority/file-type/DWG
+    iri: http://publications.europa.eu/resource/authority/file-type/DMG
+  - value: DWG
     label: DWG
-  - value: http://publications.europa.eu/resource/authority/file-type/DXF
+    iri: http://publications.europa.eu/resource/authority/file-type/DWG
+  - value: DXF
     label: DXF
-  - value: http://publications.europa.eu/resource/authority/file-type/DWCA
+    iri: http://publications.europa.eu/resource/authority/file-type/DXF
+  - value: DwC-A
     label: DwC-A
-  - value: http://publications.europa.eu/resource/authority/file-type/E00
+    iri: http://publications.europa.eu/resource/authority/file-type/DWCA
+  - value: E00
     label: E00
-  - value: http://publications.europa.eu/resource/authority/file-type/EAR
+    iri: http://publications.europa.eu/resource/authority/file-type/E00
+  - value: EAR
     label: EAR
-  - value: http://publications.europa.eu/resource/authority/file-type/ECW
+    iri: http://publications.europa.eu/resource/authority/file-type/EAR
+  - value: ECW
     label: ECW
-  - value: http://publications.europa.eu/resource/authority/file-type/EPUB
+    iri: http://publications.europa.eu/resource/authority/file-type/ECW
+  - value: EPUB
     label: EPUB
-  - value: http://publications.europa.eu/resource/authority/file-type/ETSI_TSL
+    iri: http://publications.europa.eu/resource/authority/file-type/EPUB
+  - value: ETSI TSL
     label: ETSI TSL
-  - value: http://publications.europa.eu/resource/authority/file-type/ETSI_XML
+    iri: http://publications.europa.eu/resource/authority/file-type/ETSI_TSL
+  - value: ETSI signature validation report
     label: ETSI signature validation report
-  - value: http://publications.europa.eu/resource/authority/file-type/EXE
+    iri: http://publications.europa.eu/resource/authority/file-type/ETSI_XML
+  - value: EXE
     label: EXE
-  - value: http://publications.europa.eu/resource/authority/file-type/EPS
+    iri: http://publications.europa.eu/resource/authority/file-type/EXE
+  - value: Encapsulated Postscript
     label: Encapsulated Postscript
-  - value: http://publications.europa.eu/resource/authority/file-type/GRID_ASCII
+    iri: http://publications.europa.eu/resource/authority/file-type/EPS
+  - value: Esri ASCII grid
     label: Esri ASCII grid
-  - value: http://publications.europa.eu/resource/authority/file-type/GDB
+    iri: http://publications.europa.eu/resource/authority/file-type/GRID_ASCII
+  - value: Esri File Geodatabase
     label: Esri File Geodatabase
-  - value: http://publications.europa.eu/resource/authority/file-type/REST
+    iri: http://publications.europa.eu/resource/authority/file-type/GDB
+  - value: Esri REST
     label: Esri REST
-  - value: http://publications.europa.eu/resource/authority/file-type/SHP
+    iri: http://publications.europa.eu/resource/authority/file-type/REST
+  - value: Esri Shape
     label: Esri Shape
-  - value: http://publications.europa.eu/resource/authority/file-type/GRID
+    iri: http://publications.europa.eu/resource/authority/file-type/SHP
+  - value: Esri binary grid
     label: Esri binary grid
-  - value: http://publications.europa.eu/resource/authority/file-type/XLS
+    iri: http://publications.europa.eu/resource/authority/file-type/GRID
+  - value: Excel XLS
     label: Excel XLS
-  - value: http://publications.europa.eu/resource/authority/file-type/XLSX
+    iri: http://publications.europa.eu/resource/authority/file-type/XLS
+  - value: Excel XLSX
     label: Excel XLSX
-  - value: http://publications.europa.eu/resource/authority/file-type/FMX4_ZIP
+    iri: http://publications.europa.eu/resource/authority/file-type/XLSX
+  - value: FMX4 ZIP
     label: FMX4 ZIP
-  - value: http://publications.europa.eu/resource/authority/file-type/FMX2
+    iri: http://publications.europa.eu/resource/authority/file-type/FMX4_ZIP
+  - value: Formex 2
     label: Formex 2
-  - value: http://publications.europa.eu/resource/authority/file-type/FMX3
+    iri: http://publications.europa.eu/resource/authority/file-type/FMX2
+  - value: Formex 3
     label: Formex 3
-  - value: http://publications.europa.eu/resource/authority/file-type/FMX4
+    iri: http://publications.europa.eu/resource/authority/file-type/FMX3
+  - value: Formex 4
     label: Formex 4
-  - value: http://publications.europa.eu/resource/authority/file-type/GIF
+    iri: http://publications.europa.eu/resource/authority/file-type/FMX4
+  - value: GIF
     label: GIF
-  - value: http://publications.europa.eu/resource/authority/file-type/GML
+    iri: http://publications.europa.eu/resource/authority/file-type/GIF
+  - value: GML
     label: GML
-  - value: http://publications.europa.eu/resource/authority/file-type/GZIP
+    iri: http://publications.europa.eu/resource/authority/file-type/GML
+  - value: GNU zip
     label: GNU zip
-  - value: http://publications.europa.eu/resource/authority/file-type/GPX
+    iri: http://publications.europa.eu/resource/authority/file-type/GZIP
+  - value: GPX
     label: GPX
-  - value: http://publications.europa.eu/resource/authority/file-type/GTFS
+    iri: http://publications.europa.eu/resource/authority/file-type/GPX
+  - value: GTFS
     label: GTFS
-  - value: http://publications.europa.eu/resource/authority/file-type/GEOJSON
+    iri: http://publications.europa.eu/resource/authority/file-type/GTFS
+  - value: GeoJSON
     label: GeoJSON
-  - value: http://publications.europa.eu/resource/authority/file-type/GPKG
+    iri: http://publications.europa.eu/resource/authority/file-type/GEOJSON
+  - value: GeoPackage
     label: GeoPackage
-  - value: http://publications.europa.eu/resource/authority/file-type/GEOTIFF
+    iri: http://publications.europa.eu/resource/authority/file-type/GPKG
+  - value: GeoTIFF
     label: GeoTIFF
-  - value: http://publications.europa.eu/resource/authority/file-type/HDF
+    iri: http://publications.europa.eu/resource/authority/file-type/GEOTIFF
+  - value: HDF
     label: HDF
-  - value: http://publications.europa.eu/resource/authority/file-type/HDT
+    iri: http://publications.europa.eu/resource/authority/file-type/HDF
+  - value: HDT
     label: HDT
-  - value: http://publications.europa.eu/resource/authority/file-type/HTML
+    iri: http://publications.europa.eu/resource/authority/file-type/HDT
+  - value: HTML
     label: HTML
-  - value: http://publications.europa.eu/resource/authority/file-type/HTML_SIMPL
+    iri: http://publications.europa.eu/resource/authority/file-type/HTML
+  - value: HTML simplified
     label: HTML simplified
-  - value: http://publications.europa.eu/resource/authority/file-type/HTML5
+    iri: http://publications.europa.eu/resource/authority/file-type/HTML_SIMPL
+  - value: HTML5
     label: HTML5
-  - value: http://publications.europa.eu/resource/authority/file-type/MSG_HTTP
+    iri: http://publications.europa.eu/resource/authority/file-type/HTML5
+  - value: HTTP Message
     label: HTTP Message
-  - value: http://publications.europa.eu/resource/authority/file-type/ICS
+    iri: http://publications.europa.eu/resource/authority/file-type/MSG_HTTP
+  - value: ICalendar
     label: ICalendar
-  - value: http://publications.europa.eu/resource/authority/file-type/IMMC_XML
+    iri: http://publications.europa.eu/resource/authority/file-type/ICS
+  - value: IMMC XML message
     label: IMMC XML message
-  - value: http://publications.europa.eu/resource/authority/file-type/INDD
+    iri: http://publications.europa.eu/resource/authority/file-type/IMMC_XML
+  - value: INDD
     label: INDD
-  - value: http://publications.europa.eu/resource/authority/file-type/IPA
+    iri: http://publications.europa.eu/resource/authority/file-type/INDD
+  - value: IPA
     label: IPA
-  - value: http://publications.europa.eu/resource/authority/file-type/ISO
+    iri: http://publications.europa.eu/resource/authority/file-type/IPA
+  - value: ISO image
     label: ISO image
-  - value: http://publications.europa.eu/resource/authority/file-type/JAR
+    iri: http://publications.europa.eu/resource/authority/file-type/ISO
+  - value: JAR
     label: JAR
-  - value: http://publications.europa.eu/resource/authority/file-type/JATS
+    iri: http://publications.europa.eu/resource/authority/file-type/JAR
+  - value: JATS XML
     label: JATS XML
-  - value: http://publications.europa.eu/resource/authority/file-type/JPEG
+    iri: http://publications.europa.eu/resource/authority/file-type/JATS
+  - value: JPEG
     label: JPEG
-  - value: http://publications.europa.eu/resource/authority/file-type/JPEG2000
+    iri: http://publications.europa.eu/resource/authority/file-type/JPEG
+  - value: JPEG 2000
     label: JPEG 2000
-  - value: http://publications.europa.eu/resource/authority/file-type/JSON
+    iri: http://publications.europa.eu/resource/authority/file-type/JPEG2000
+  - value: JSON
     label: JSON
-  - value: http://publications.europa.eu/resource/authority/file-type/JSON_LD
+    iri: http://publications.europa.eu/resource/authority/file-type/JSON
+  - value: JSON-LD
     label: JSON-LD
-  - value: http://publications.europa.eu/resource/authority/file-type/JS
+    iri: http://publications.europa.eu/resource/authority/file-type/JSON_LD
+  - value: JavaScript
     label: JavaScript
-  - value: http://publications.europa.eu/resource/authority/file-type/KML
+    iri: http://publications.europa.eu/resource/authority/file-type/JS
+  - value: KML
     label: KML
-  - value: http://publications.europa.eu/resource/authority/file-type/KMZ
+    iri: http://publications.europa.eu/resource/authority/file-type/KML
+  - value: KMZ
     label: KMZ
-  - value: http://publications.europa.eu/resource/authority/file-type/LAS
+    iri: http://publications.europa.eu/resource/authority/file-type/KMZ
+  - value: LASer file
     label: LASer file
-  - value: http://publications.europa.eu/resource/authority/file-type/LEG
+    iri: http://publications.europa.eu/resource/authority/file-type/LAS
+  - value: LEG
     label: LEG
-  - value: http://publications.europa.eu/resource/authority/file-type/LHA
+    iri: http://publications.europa.eu/resource/authority/file-type/LEG
+  - value: LHA
     label: LHA
-  - value: http://publications.europa.eu/resource/authority/file-type/LPK
+    iri: http://publications.europa.eu/resource/authority/file-type/LHA
+  - value: Layer package
     label: Layer package
-  - value: http://publications.europa.eu/resource/authority/file-type/LEGALHTML
+    iri: http://publications.europa.eu/resource/authority/file-type/LPK
+  - value: LegalHTML
     label: LegalHTML
-  - value: http://publications.europa.eu/resource/authority/file-type/MBOX
+    iri: http://publications.europa.eu/resource/authority/file-type/LEGALHTML
+  - value: MBOX
     label: MBOX
-  - value: http://publications.europa.eu/resource/authority/file-type/MDB
+    iri: http://publications.europa.eu/resource/authority/file-type/MBOX
+  - value: MDB
     label: MDB
-  - value: http://publications.europa.eu/resource/authority/file-type/METS
+    iri: http://publications.europa.eu/resource/authority/file-type/MDB
+  - value: METS XML
     label: METS XML
-  - value: http://publications.europa.eu/resource/authority/file-type/METS_ZIP
+    iri: http://publications.europa.eu/resource/authority/file-type/METS
+  - value: METS package
     label: METS package
-  - value: http://publications.europa.eu/resource/authority/file-type/MHTML
+    iri: http://publications.europa.eu/resource/authority/file-type/METS_ZIP
+  - value: MHTML
     label: MHTML
-  - value: http://publications.europa.eu/resource/authority/file-type/MIF_MID
+    iri: http://publications.europa.eu/resource/authority/file-type/MHTML
+  - value: MIF/MID
     label: MIF/MID
-  - value: http://publications.europa.eu/resource/authority/file-type/MOP
+    iri: http://publications.europa.eu/resource/authority/file-type/MIF_MID
+  - value: MOP
     label: MOP
-  - value: http://publications.europa.eu/resource/authority/file-type/MOV
+    iri: http://publications.europa.eu/resource/authority/file-type/MOP
+  - value: MOV
     label: MOV
-  - value: http://publications.europa.eu/resource/authority/file-type/MP3
+    iri: http://publications.europa.eu/resource/authority/file-type/MOV
+  - value: MP3
     label: MP3
-  - value: http://publications.europa.eu/resource/authority/file-type/MPEG2
+    iri: http://publications.europa.eu/resource/authority/file-type/MP3
+  - value: MPEG-2
     label: MPEG-2
-  - value: http://publications.europa.eu/resource/authority/file-type/MPEG4
+    iri: http://publications.europa.eu/resource/authority/file-type/MPEG2
+  - value: MPEG-4
     label: MPEG-4
-  - value: http://publications.europa.eu/resource/authority/file-type/MPEG4_AVC
+    iri: http://publications.europa.eu/resource/authority/file-type/MPEG4
+  - value: MPEG-4 AVC
     label: MPEG-4 AVC
-  - value: http://publications.europa.eu/resource/authority/file-type/MSI
+    iri: http://publications.europa.eu/resource/authority/file-type/MPEG4_AVC
+  - value: MSI
     label: MSI
-  - value: http://publications.europa.eu/resource/authority/file-type/MXD
+    iri: http://publications.europa.eu/resource/authority/file-type/MSI
+  - value: MXD
     label: MXD
-  - value: http://publications.europa.eu/resource/authority/file-type/TAB
+    iri: http://publications.europa.eu/resource/authority/file-type/MXD
+  - value: MapInfo TAB file
     label: MapInfo TAB file
-  - value: http://publications.europa.eu/resource/authority/file-type/TAB_RSTR
+    iri: http://publications.europa.eu/resource/authority/file-type/TAB
+  - value: MapInfo TAB raster file
     label: MapInfo TAB raster file
-  - value: http://publications.europa.eu/resource/authority/file-type/MARKDOWN
+    iri: http://publications.europa.eu/resource/authority/file-type/TAB_RSTR
+  - value: Markdown
     label: Markdown
-  - value: http://publications.europa.eu/resource/authority/file-type/MATHML
+    iri: http://publications.europa.eu/resource/authority/file-type/MARKDOWN
+  - value: MathML
     label: MathML
-  - value: http://publications.europa.eu/resource/authority/file-type/MOBI
+    iri: http://publications.europa.eu/resource/authority/file-type/MATHML
+  - value: Mobipocket eBook
     label: Mobipocket eBook
-  - value: http://publications.europa.eu/resource/authority/file-type/MRSID
+    iri: http://publications.europa.eu/resource/authority/file-type/MOBI
+  - value: MrSID
     label: MrSID
-  - value: http://publications.europa.eu/resource/authority/file-type/N3
+    iri: http://publications.europa.eu/resource/authority/file-type/MRSID
+  - value: N3
     label: N3
-  - value: http://publications.europa.eu/resource/authority/file-type/NETCDF
+    iri: http://publications.europa.eu/resource/authority/file-type/N3
+  - value: NetCDF
     label: NetCDF
-  - value: http://publications.europa.eu/resource/authority/file-type/OAPK
+    iri: http://publications.europa.eu/resource/authority/file-type/NETCDF
+  - value: OAPK
     label: OAPK
-  - value: http://publications.europa.eu/resource/authority/file-type/ODF
+    iri: http://publications.europa.eu/resource/authority/file-type/OAPK
+  - value: ODF
     label: ODF
-  - value: http://publications.europa.eu/resource/authority/file-type/ODP
+    iri: http://publications.europa.eu/resource/authority/file-type/ODF
+  - value: ODP
     label: ODP
-  - value: http://publications.europa.eu/resource/authority/file-type/ODS
+    iri: http://publications.europa.eu/resource/authority/file-type/ODP
+  - value: ODS
     label: ODS
-  - value: http://publications.europa.eu/resource/authority/file-type/ODT
+    iri: http://publications.europa.eu/resource/authority/file-type/ODS
+  - value: ODT
     label: ODT
-  - value: http://publications.europa.eu/resource/authority/file-type/OVF
+    iri: http://publications.europa.eu/resource/authority/file-type/ODT
+  - value: OVF
     label: OVF
-  - value: http://publications.europa.eu/resource/authority/file-type/OWL
+    iri: http://publications.europa.eu/resource/authority/file-type/OVF
+  - value: OWL
     label: OWL
-  - value: http://publications.europa.eu/resource/authority/file-type/OCTET
+    iri: http://publications.europa.eu/resource/authority/file-type/OWL
+  - value: Octet Stream
     label: Octet Stream
-  - value: http://publications.europa.eu/resource/authority/file-type/ODC
+    iri: http://publications.europa.eu/resource/authority/file-type/OCTET
+  - value: OpenDocument Chart
     label: OpenDocument Chart
-  - value: http://publications.europa.eu/resource/authority/file-type/ODB
+    iri: http://publications.europa.eu/resource/authority/file-type/ODC
+  - value: OpenDocument Database
     label: OpenDocument Database
-  - value: http://publications.europa.eu/resource/authority/file-type/ODG
+    iri: http://publications.europa.eu/resource/authority/file-type/ODB
+  - value: OpenDocument Image
     label: OpenDocument Image
-  - value: http://publications.europa.eu/resource/authority/file-type/DMP
+    iri: http://publications.europa.eu/resource/authority/file-type/ODG
+  - value: Oracle Dump
     label: Oracle Dump
-  - value: http://publications.europa.eu/resource/authority/file-type/PDF
+    iri: http://publications.europa.eu/resource/authority/file-type/DMP
+  - value: PDF
     label: PDF
-  - value: http://publications.europa.eu/resource/authority/file-type/PDFA1A
+    iri: http://publications.europa.eu/resource/authority/file-type/PDF
+  - value: PDF/A-1a
     label: PDF/A-1a
-  - value: http://publications.europa.eu/resource/authority/file-type/PDFA1B
+    iri: http://publications.europa.eu/resource/authority/file-type/PDFA1A
+  - value: PDF/A-1b
     label: PDF/A-1b
-  - value: http://publications.europa.eu/resource/authority/file-type/PDFA2A
+    iri: http://publications.europa.eu/resource/authority/file-type/PDFA1B
+  - value: PDF/A-2a
     label: PDF/A-2a
-  - value: http://publications.europa.eu/resource/authority/file-type/PDFA2B
+    iri: http://publications.europa.eu/resource/authority/file-type/PDFA2A
+  - value: PDF/A-2b
     label: PDF/A-2b
-  - value: http://publications.europa.eu/resource/authority/file-type/PDFUA
+    iri: http://publications.europa.eu/resource/authority/file-type/PDFA2B
+  - value: PDF/UA
     label: PDF/UA
-  - value: http://publications.europa.eu/resource/authority/file-type/PDFX
+    iri: http://publications.europa.eu/resource/authority/file-type/PDFUA
+  - value: PDF/X
     label: PDF/X
-  - value: http://publications.europa.eu/resource/authority/file-type/PDFX1A
+    iri: http://publications.europa.eu/resource/authority/file-type/PDFX
+  - value: PDF/X-1a
     label: PDF/X-1a
-  - value: http://publications.europa.eu/resource/authority/file-type/PDFX2A
+    iri: http://publications.europa.eu/resource/authority/file-type/PDFX1A
+  - value: PDF/X-2a
     label: PDF/X-2a
-  - value: http://publications.europa.eu/resource/authority/file-type/PDFX4
+    iri: http://publications.europa.eu/resource/authority/file-type/PDFX2A
+  - value: PDF/X-4
     label: PDF/X-4
-  - value: http://publications.europa.eu/resource/authority/file-type/PDF1X
+    iri: http://publications.europa.eu/resource/authority/file-type/PDFX4
+  - value: PDF1X
     label: PDF1X
-  - value: http://publications.europa.eu/resource/authority/file-type/PDFA3
+    iri: http://publications.europa.eu/resource/authority/file-type/PDF1X
+  - value: PDFA-3
     label: PDFA-3
-  - value: http://publications.europa.eu/resource/authority/file-type/PNG
+    iri: http://publications.europa.eu/resource/authority/file-type/PDFA3
+  - value: PNG
     label: PNG
-  - value: http://publications.europa.eu/resource/authority/file-type/PS
+    iri: http://publications.europa.eu/resource/authority/file-type/PNG
+  - value: PS
     label: PS
-  - value: http://publications.europa.eu/resource/authority/file-type/PSD
+    iri: http://publications.europa.eu/resource/authority/file-type/PS
+  - value: PSD
     label: PSD
-  - value: http://publications.europa.eu/resource/authority/file-type/PWP
+    iri: http://publications.europa.eu/resource/authority/file-type/PSD
+  - value: PWP
     label: PWP
-  - value: http://publications.europa.eu/resource/authority/file-type/PARQUET
+    iri: http://publications.europa.eu/resource/authority/file-type/PWP
+  - value: Parquet
     label: Parquet
-  - value: http://publications.europa.eu/resource/authority/file-type/PL
+    iri: http://publications.europa.eu/resource/authority/file-type/PARQUET
+  - value: Perl script
     label: Perl script
-  - value: http://publications.europa.eu/resource/authority/file-type/TXT
+    iri: http://publications.europa.eu/resource/authority/file-type/PL
+  - value: Plain text
     label: Plain text
-  - value: http://publications.europa.eu/resource/authority/file-type/PPSX
+    iri: http://publications.europa.eu/resource/authority/file-type/TXT
+  - value: PowerPoint PPSX
     label: PowerPoint PPSX
-  - value: http://publications.europa.eu/resource/authority/file-type/PPT
+    iri: http://publications.europa.eu/resource/authority/file-type/PPSX
+  - value: PowerPoint PPT
     label: PowerPoint PPT
-  - value: http://publications.europa.eu/resource/authority/file-type/PPTX
+    iri: http://publications.europa.eu/resource/authority/file-type/PPT
+  - value: PowerPoint PPTX
     label: PowerPoint PPTX
-  - value: http://publications.europa.eu/resource/authority/file-type/PPS
+    iri: http://publications.europa.eu/resource/authority/file-type/PPTX
+  - value: PowerPoint Slide Show
     label: PowerPoint Slide Show
-  - value: http://publications.europa.eu/resource/authority/file-type/OP_DATPRO
+    iri: http://publications.europa.eu/resource/authority/file-type/PPS
+  - value: Provisional data
     label: Provisional data
-  - value: http://publications.europa.eu/resource/authority/file-type/QGS
+    iri: http://publications.europa.eu/resource/authority/file-type/OP_DATPRO
+  - value: QGS
     label: QGS
-  - value: http://publications.europa.eu/resource/authority/file-type/RAR
+    iri: http://publications.europa.eu/resource/authority/file-type/QGS
+  - value: RAR
     label: RAR
-  - value: http://publications.europa.eu/resource/authority/file-type/RDF
+    iri: http://publications.europa.eu/resource/authority/file-type/RAR
+  - value: RDF
     label: RDF
-  - value: http://publications.europa.eu/resource/authority/file-type/RDF_N_QUADS
+    iri: http://publications.europa.eu/resource/authority/file-type/RDF
+  - value: RDF N-Quads
     label: RDF N-Quads
-  - value: http://publications.europa.eu/resource/authority/file-type/RDF_N_TRIPLES
+    iri: http://publications.europa.eu/resource/authority/file-type/RDF_N_QUADS
+  - value: RDF N-Triples
     label: RDF N-Triples
-  - value: http://publications.europa.eu/resource/authority/file-type/RDF_THRIFT
+    iri: http://publications.europa.eu/resource/authority/file-type/RDF_N_TRIPLES
+  - value: RDF Thrift
     label: RDF Thrift
-  - value: http://publications.europa.eu/resource/authority/file-type/RDF_TRIG
+    iri: http://publications.europa.eu/resource/authority/file-type/RDF_THRIFT
+  - value: RDF TriG
     label: RDF TriG
-  - value: http://publications.europa.eu/resource/authority/file-type/RDF_TRIX
+    iri: http://publications.europa.eu/resource/authority/file-type/RDF_TRIG
+  - value: RDF TriX
     label: RDF TriX
-  - value: http://publications.europa.eu/resource/authority/file-type/RDF_TURTLE
+    iri: http://publications.europa.eu/resource/authority/file-type/RDF_TRIX
+  - value: RDF Turtle
     label: RDF Turtle
-  - value: http://publications.europa.eu/resource/authority/file-type/RDF_XML
+    iri: http://publications.europa.eu/resource/authority/file-type/RDF_TURTLE
+  - value: RDF XML
     label: RDF XML
-  - value: http://publications.europa.eu/resource/authority/file-type/RDFA
+    iri: http://publications.europa.eu/resource/authority/file-type/RDF_XML
+  - value: RDFa
     label: RDFa
-  - value: http://publications.europa.eu/resource/authority/file-type/RPM
+    iri: http://publications.europa.eu/resource/authority/file-type/RDFA
+  - value: RPM
     label: RPM
-  - value: http://publications.europa.eu/resource/authority/file-type/RSS
+    iri: http://publications.europa.eu/resource/authority/file-type/RPM
+  - value: RSS feed
     label: RSS feed
-  - value: http://publications.europa.eu/resource/authority/file-type/RTF
+    iri: http://publications.europa.eu/resource/authority/file-type/RSS
+  - value: RTF
     label: RTF
-  - value: http://publications.europa.eu/resource/authority/file-type/SDMX
+    iri: http://publications.europa.eu/resource/authority/file-type/RTF
+  - value: SDMX
     label: SDMX
-  - value: http://publications.europa.eu/resource/authority/file-type/SGML
+    iri: http://publications.europa.eu/resource/authority/file-type/SDMX
+  - value: SGML
     label: SGML
-  - value: http://publications.europa.eu/resource/authority/file-type/DTD_SGML
+    iri: http://publications.europa.eu/resource/authority/file-type/SGML
+  - value: SGML DTD
     label: SGML DTD
-  - value: http://publications.europa.eu/resource/authority/file-type/SKOS_XML
+    iri: http://publications.europa.eu/resource/authority/file-type/DTD_SGML
+  - value: SKOS
     label: SKOS
-  - value: http://publications.europa.eu/resource/authority/file-type/SPARQLQ
+    iri: http://publications.europa.eu/resource/authority/file-type/SKOS_XML
+  - value: SPARQL
     label: SPARQL
-  - value: http://publications.europa.eu/resource/authority/file-type/SPARQLQRES
+    iri: http://publications.europa.eu/resource/authority/file-type/SPARQLQ
+  - value: SPARQL results
     label: SPARQL results
-  - value: http://publications.europa.eu/resource/authority/file-type/SQL
+    iri: http://publications.europa.eu/resource/authority/file-type/SPARQLQRES
+  - value: SQL
     label: SQL
-  - value: http://publications.europa.eu/resource/authority/file-type/SVG
+    iri: http://publications.europa.eu/resource/authority/file-type/SQL
+  - value: SVG
     label: SVG
-  - value: http://publications.europa.eu/resource/authority/file-type/SWM
+    iri: http://publications.europa.eu/resource/authority/file-type/SVG
+  - value: SWM
     label: SWM
-  - value: http://publications.europa.eu/resource/authority/file-type/STL
+    iri: http://publications.europa.eu/resource/authority/file-type/SWM
+  - value: StL
     label: StL
-  - value: http://publications.europa.eu/resource/authority/file-type/TAR
+    iri: http://publications.europa.eu/resource/authority/file-type/STL
+  - value: TAR
     label: TAR
-  - value: http://publications.europa.eu/resource/authority/file-type/TAR_GZ
+    iri: http://publications.europa.eu/resource/authority/file-type/TAR
+  - value: TAR GZ
     label: TAR GZ
-  - value: http://publications.europa.eu/resource/authority/file-type/TAR_XZ
+    iri: http://publications.europa.eu/resource/authority/file-type/TAR_GZ
+  - value: TAR XZ
     label: TAR XZ
-  - value: http://publications.europa.eu/resource/authority/file-type/TIFF
+    iri: http://publications.europa.eu/resource/authority/file-type/TAR_XZ
+  - value: TIFF
     label: TIFF
-  - value: http://publications.europa.eu/resource/authority/file-type/TIFF_FX
+    iri: http://publications.europa.eu/resource/authority/file-type/TIFF
+  - value: TIFF FX
     label: TIFF FX
-  - value: http://publications.europa.eu/resource/authority/file-type/TMX
+    iri: http://publications.europa.eu/resource/authority/file-type/TIFF_FX
+  - value: TMX
     label: TMX
-  - value: http://publications.europa.eu/resource/authority/file-type/TSV
+    iri: http://publications.europa.eu/resource/authority/file-type/TMX
+  - value: TSV
     label: TSV
-  - value: http://publications.europa.eu/resource/authority/file-type/THRIFT_JSON
+    iri: http://publications.europa.eu/resource/authority/file-type/TSV
+  - value: Thrift JSON
     label: Thrift JSON
-  - value: http://publications.europa.eu/resource/authority/file-type/THRIFT_BINARY
+    iri: http://publications.europa.eu/resource/authority/file-type/THRIFT_JSON
+  - value: Thrift binary
     label: Thrift binary
-  - value: http://publications.europa.eu/resource/authority/file-type/THRIFT_COMPACT
+    iri: http://publications.europa.eu/resource/authority/file-type/THRIFT_BINARY
+  - value: Thrift compact
     label: Thrift compact
-  - value: http://publications.europa.eu/resource/authority/file-type/UNGEN
+    iri: http://publications.europa.eu/resource/authority/file-type/THRIFT_COMPACT
+  - value: Ungen
     label: Ungen
-  - value: http://publications.europa.eu/resource/authority/file-type/WAR
+    iri: http://publications.europa.eu/resource/authority/file-type/UNGEN
+  - value: WAR
     label: WAR
-  - value: http://publications.europa.eu/resource/authority/file-type/WARC
+    iri: http://publications.europa.eu/resource/authority/file-type/WAR
+  - value: WARC
     label: WARC
-  - value: http://publications.europa.eu/resource/authority/file-type/WARC_GZ
+    iri: http://publications.europa.eu/resource/authority/file-type/WARC
+  - value: WARC GZ
     label: WARC GZ
-  - value: http://publications.europa.eu/resource/authority/file-type/WAV
+    iri: http://publications.europa.eu/resource/authority/file-type/WARC_GZ
+  - value: WAV
     label: WAV
-  - value: http://publications.europa.eu/resource/authority/file-type/WCS_SRVC
+    iri: http://publications.europa.eu/resource/authority/file-type/WAV
+  - value: WCS
     label: WCS
-  - value: http://publications.europa.eu/resource/authority/file-type/WFS_SRVC
+    iri: http://publications.europa.eu/resource/authority/file-type/WCS_SRVC
+  - value: WFS
     label: WFS
-  - value: http://publications.europa.eu/resource/authority/file-type/WIM
+    iri: http://publications.europa.eu/resource/authority/file-type/WFS_SRVC
+  - value: WIM
     label: WIM
-  - value: http://publications.europa.eu/resource/authority/file-type/WMS_SRVC
+    iri: http://publications.europa.eu/resource/authority/file-type/WIM
+  - value: WMS
     label: WMS
-  - value: http://publications.europa.eu/resource/authority/file-type/WMTS_SRVC
+    iri: http://publications.europa.eu/resource/authority/file-type/WMS_SRVC
+  - value: WMTS
     label: WMTS
-  - value: http://publications.europa.eu/resource/authority/file-type/WEBP
+    iri: http://publications.europa.eu/resource/authority/file-type/WMTS_SRVC
+  - value: WebP
     label: WebP
-  - value: http://publications.europa.eu/resource/authority/file-type/DOC
+    iri: http://publications.europa.eu/resource/authority/file-type/WEBP
+  - value: Word DOC
     label: Word DOC
-  - value: http://publications.europa.eu/resource/authority/file-type/DOCX
+    iri: http://publications.europa.eu/resource/authority/file-type/DOC
+  - value: Word DOCX
     label: Word DOCX
-  - value: http://publications.europa.eu/resource/authority/file-type/WORLD
+    iri: http://publications.europa.eu/resource/authority/file-type/DOCX
+  - value: World file
     label: World file
-  - value: http://publications.europa.eu/resource/authority/file-type/XHTML
+    iri: http://publications.europa.eu/resource/authority/file-type/WORLD
+  - value: XHTML
     label: XHTML
-  - value: http://publications.europa.eu/resource/authority/file-type/XHTML_SIMPL
+    iri: http://publications.europa.eu/resource/authority/file-type/XHTML
+  - value: XHTML simplified
     label: XHTML simplified
-  - value: http://publications.europa.eu/resource/authority/file-type/XHTML5
+    iri: http://publications.europa.eu/resource/authority/file-type/XHTML_SIMPL
+  - value: XHTML5
     label: XHTML5
-  - value: http://publications.europa.eu/resource/authority/file-type/XLIFF
+    iri: http://publications.europa.eu/resource/authority/file-type/XHTML5
+  - value: XLIFF
     label: XLIFF
-  - value: http://publications.europa.eu/resource/authority/file-type/XLSB
+    iri: http://publications.europa.eu/resource/authority/file-type/XLIFF
+  - value: XLSB
     label: XLSB
-  - value: http://publications.europa.eu/resource/authority/file-type/XLSM
+    iri: http://publications.europa.eu/resource/authority/file-type/XLSB
+  - value: XLSM
     label: XLSM
-  - value: http://publications.europa.eu/resource/authority/file-type/XML
+    iri: http://publications.europa.eu/resource/authority/file-type/XLSM
+  - value: XML
     label: XML
-  - value: http://publications.europa.eu/resource/authority/file-type/DTD_XML
+    iri: http://publications.europa.eu/resource/authority/file-type/XML
+  - value: XML DTD
     label: XML DTD
-  - value: http://publications.europa.eu/resource/authority/file-type/SCHEMA_XML
+    iri: http://publications.europa.eu/resource/authority/file-type/DTD_XML
+  - value: XML schema
     label: XML schema
-  - value: http://publications.europa.eu/resource/authority/file-type/XSLFO
+    iri: http://publications.europa.eu/resource/authority/file-type/SCHEMA_XML
+  - value: XSL-FO
     label: XSL-FO
-  - value: http://publications.europa.eu/resource/authority/file-type/XSLT
+    iri: http://publications.europa.eu/resource/authority/file-type/XSLFO
+  - value: XSLT
     label: XSLT
-  - value: http://publications.europa.eu/resource/authority/file-type/XYZ
+    iri: http://publications.europa.eu/resource/authority/file-type/XSLT
+  - value: XYZ Chemical File
     label: XYZ Chemical File
-  - value: http://publications.europa.eu/resource/authority/file-type/YAML
+    iri: http://publications.europa.eu/resource/authority/file-type/XYZ
+  - value: YAML
     label: YAML
-  - value: http://publications.europa.eu/resource/authority/file-type/Z
+    iri: http://publications.europa.eu/resource/authority/file-type/YAML
+  - value: Z
     label: Z
-  - value: http://publications.europa.eu/resource/authority/file-type/ZIP
+    iri: http://publications.europa.eu/resource/authority/file-type/Z
+  - value: ZIP
     label: ZIP
-  - value: http://publications.europa.eu/resource/authority/file-type/GMZ
+    iri: http://publications.europa.eu/resource/authority/file-type/ZIP
+  - value: Zipped GML
     label: Zipped GML
-  - value: http://publications.europa.eu/resource/authority/file-type/ISO_ZIP
+    iri: http://publications.europa.eu/resource/authority/file-type/GMZ
+  - value: Zipped ISO image
     label: Zipped ISO image
-  - value: http://publications.europa.eu/resource/authority/file-type/BZIP2
+    iri: http://publications.europa.eu/resource/authority/file-type/ISO_ZIP
+  - value: bzip2
     label: bzip2
-  - value: http://publications.europa.eu/resource/authority/file-type/DEB
+    iri: http://publications.europa.eu/resource/authority/file-type/BZIP2
+  - value: deb
     label: deb
-  - value: http://publications.europa.eu/resource/authority/file-type/EFORMS_XML
+    iri: http://publications.europa.eu/resource/authority/file-type/DEB
+  - value: eForms XML
     label: eForms XML
-  - value: http://publications.europa.eu/resource/authority/file-type/LZIP
+    iri: http://publications.europa.eu/resource/authority/file-type/EFORMS_XML
+  - value: lzip
     label: lzip
-  - value: http://publications.europa.eu/resource/authority/file-type/LZMA
+    iri: http://publications.europa.eu/resource/authority/file-type/LZIP
+  - value: lzma
     label: lzma
-  - value: http://publications.europa.eu/resource/authority/file-type/LZO
+    iri: http://publications.europa.eu/resource/authority/file-type/LZMA
+  - value: lzo
     label: lzo
-  - value: http://publications.europa.eu/resource/authority/file-type/SB3
+    iri: http://publications.europa.eu/resource/authority/file-type/LZO
+  - value: sb3
     label: sb3
-  - value: http://publications.europa.eu/resource/authority/file-type/XZ
+    iri: http://publications.europa.eu/resource/authority/file-type/SB3
+  - value: xz
     label: xz
-  validators: set_format_label
+    iri: http://publications.europa.eu/resource/authority/file-type/XZ
 - field_name: mobility_data_standard_schema
   label: Mobility data standard
   required: true
