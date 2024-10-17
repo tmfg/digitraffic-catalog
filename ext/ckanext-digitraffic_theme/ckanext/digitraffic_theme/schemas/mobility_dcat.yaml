@@ -1519,6 +1519,7 @@ resource_fields:
     label: sb3
   - value: http://publications.europa.eu/resource/authority/file-type/XZ
     label: xz
+  validators: set_format_label
 - field_name: mobility_data_standard_schema
   label: Mobility data standard
   required: true
@@ -1903,3 +1904,7 @@ resource_fields:
     label: Zero-Clause BSD / Free Public License 1.0.0 (0BSD)
   - value: http://publications.europa.eu/resource/authority/licence/ECOS_2_0
     label: eCos License version 2.0
+- field_name: format_iri
+  required: false
+  form_snippet: null
+  validators: set_format_iri

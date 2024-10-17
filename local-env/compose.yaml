@@ -4,7 +4,7 @@ services:
     image: local_catalog_ckan_dev:latest
     user: root
     group_add:
-      - '92'
+      - "92"
     volumes:
       - ckanext:/srv/app/ckanext
     command: |
@@ -14,6 +14,7 @@ services:
       echo "bar";
       pip install -r "/srv/app/ckanext/ckanext-entraid_authenticator/requirements.txt";
       echo "baz";
+      pip install -r "/srv/app/ckanext/ckanext-digitraffic_validators/requirements.txt";
   ckan:
     image: local_catalog_ckan_dev:latest
     ports:
@@ -43,7 +44,7 @@ services:
     env_file:
       - .env_postgresql_common
       - .env_postgresql
-    command: [ "postgres", "-c", "config_file=/etc/postgresql/postgresql.conf" ]
+    command: ["postgres", "-c", "config_file=/etc/postgresql/postgresql.conf"]
   solr:
     image: local_catalog_solr:latest
     ports:
