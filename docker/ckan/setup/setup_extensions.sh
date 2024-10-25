@@ -17,7 +17,7 @@ echo "Configuring extensions..."
 #ckan config-tool $CKAN_INI "ckan.matomo.ignored_user_agents = docker-healthcheck"
 
 # scheming
-ckan config-tool $CKAN_INI "scheming.dataset_schemas = ckanext.digitraffic_theme.schemas:mobility_dcat.yaml ckanext.fluent:fluent_scheming.yaml"
+ckan config-tool $CKAN_INI "scheming.dataset_schemas = ckanext.digitraffic_theme.schemas:mobility_dcat.yaml"
 ckan config-tool $CKAN_INI "scheming.presets = ckanext.scheming:presets.json ckanext.fluent:presets.json"
 
 # DCAT
