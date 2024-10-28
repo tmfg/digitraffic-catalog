@@ -10,7 +10,6 @@ from ckan_schema.mobility_dcat_ap_converter.classes.frequency import Frequency
 from ckan_schema.mobility_dcat_ap_converter.classes.license_document import LicenseDocument
 from ckan_schema.mobility_dcat_ap_converter.classes.linguistic_system import LinguisticSystem
 from ckan_schema.mobility_dcat_ap_converter.classes.media_type_or_extent import MediaTypeOrExtent
-from ckan_schema.mobility_dcat_ap_converter.classes.mobility_data_standard import MobilityDataStandard
 from ckan_schema.mobility_dcat_ap_converter.classes.rights_statement import RightsStatement
 from ckan_schema.mobility_dcat_ap_converter.range_value_converter import RangeValueConverter
 from mobility_dcat_ap.namespace import MOBILITYDCATAP_NS_URL, MOBILITYDCATAP
@@ -38,6 +37,7 @@ class ClassConverter:
                 schema_fields.append(schema)
 
         if not class_properties:
+            # These are vocabularies
             schema = converter.get_schema(ds, None, is_required)
             if schema is None:
                 print('WARNING: Schema is None when converting a class')
@@ -68,7 +68,6 @@ class ClassConverter:
             DCTERMS.LicenseDocument: LicenseDocument,
             DCTERMS.LinguisticSystem: LinguisticSystem,
             DCTERMS.MediaTypeOrExtent: MediaTypeOrExtent,
-            MOBILITYDCATAP.MobilityDataStandard: MobilityDataStandard,
             DCTERMS.RightsStatement: RightsStatement
         }
 
