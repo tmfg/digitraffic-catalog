@@ -22,9 +22,7 @@ class Distribution(ClassInstance):
         self.accessURL = Literal(data["url"])
         self.format = Format(data["format_iri"])
         self.mobilityDataStandard = MobilityDataStandard(
-            None,
-            data["mobility_data_standard_version"],
-            data["mobility_data_standard_schema"],
+            data["mobility_data_standard"],
         )
         self.rights = RightsStatement(None, data["rights_type"])
 
