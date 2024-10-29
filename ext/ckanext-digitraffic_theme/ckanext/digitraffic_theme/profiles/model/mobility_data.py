@@ -26,12 +26,16 @@ class MobilityData:
         organization_ref = dataset_dict.get(
             "publisher_uri", publisher_uri_organization_fallback(dataset_dict)
         )
+
         dataset = Dataset(
             dataset_ref,
             {
-                "description": Literal(
-                    dataset_dict.get("notes_translated", {}).get(current_language, "")
-                ),
+                "description": [
+                    Literal(
+                        dataset_dict.get("notes_translated", {}).get(key, ""), lang=key
+                    )
+                    for key in dataset_dict.get("notes_translated", {}).keys()
+                ],
                 "distribution": [
                     Distribution(resource_uri(dist), dist)
                     for dist in dataset_dict["resources"]
