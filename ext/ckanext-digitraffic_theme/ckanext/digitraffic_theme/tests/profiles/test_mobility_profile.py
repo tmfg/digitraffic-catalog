@@ -1,6 +1,6 @@
 import pprint
 
-from rdflib import Graph, URIRef, RDF, DCAT, FOAF, DCTERMS
+from rdflib import Graph, URIRef, RDF, DCAT, FOAF, DCTERMS, Literal
 
 import pytest
 
@@ -81,10 +81,15 @@ class TestProfile(object):
         assert (distribution_ref, RDF.type, DCAT.Distribution) in g
 
         # DATASET VALUE
-        assert (
-            str(g.value(dataset_ref, DCTERMS.description, None))
-            == notes[config.get("ckan.locale_default")]
-        )
+
+        # description values for all languages exist
+        descriptions = list(g.objects(dataset_ref, DCTERMS.description))
+
+        for description in descriptions:
+            assert (description.toPython()) in notes.values()
+
+        assert (len(descriptions)) == len(notes.keys())
+
         assert (
             dataset_ref,
             DCTERMS.accrualPeriodicity,
