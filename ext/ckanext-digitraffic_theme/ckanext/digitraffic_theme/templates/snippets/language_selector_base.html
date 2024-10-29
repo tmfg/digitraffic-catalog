@@ -4,7 +4,7 @@ is_icon_select - true or false
 id - id for select
 #}
 {% set current_lang = request.environ.CKAN_LANG %}
-<form class="lang-select {% if is_icon_select %}lang-icon{% endif %}" action="{% url_for 'util.internal_redirect' %}" data-module="select-switch" method="POST">
+<form class="lang-select {% if is_icon_select %}lang-icon{% endif %}" action="{% url_for 'util.internal_redirect' %}" data-module="digitraffic_theme_select_switch" method="POST">
     {{ h.csrf_input() }}
     <div class="form-group">
         <label for="{{ id }}" {% if is_icon_select %}class="d-none"{% endif %}>{{ _('Language') }}</label>
