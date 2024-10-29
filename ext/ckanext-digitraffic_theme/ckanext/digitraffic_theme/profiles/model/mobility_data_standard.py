@@ -1,25 +1,26 @@
-from __future__ import annotations
-
-from rdflib import Literal, RDF
-
-from ckanext.dcat.profiles import OWL
-from ckanext.digitraffic_theme.profiles.model.class_instance import ClassInstance
-from ckanext.digitraffic_theme.profiles.model.mobility_data_standard_schema import MobilityDataStandardSchema
-from ckanext.digitraffic_theme.profiles.rdf.mobility_dcat_ap import MOBILITYDCATAP
+from ckanext.digitraffic_theme.profiles.model.vocabulary import Vocabulary
 
 
-class MobilityDataStandard(ClassInstance):
-    version: Literal
-    schema: MobilityDataStandardSchema
+MOBILITY_DATA_STANDARD = [
+    'https://w3id.org/mobilitydcat-ap/mobility-data-standard/c-its',
+    'https://w3id.org/mobilitydcat-ap/mobility-data-standard/datex-II',
+    'https://w3id.org/mobilitydcat-ap/mobility-data-standard/dino',
+    'https://w3id.org/mobilitydcat-ap/mobility-data-standard/gbfs',
+    'https://w3id.org/mobilitydcat-ap/mobility-data-standard/gml',
+    'https://w3id.org/mobilitydcat-ap/mobility-data-standard/gtfs',
+    'https://w3id.org/mobilitydcat-ap/mobility-data-standard/gtfs-rt',
+    'https://w3id.org/mobilitydcat-ap/mobility-data-standard/inspire',
+    'https://w3id.org/mobilitydcat-ap/mobility-data-standard/netex',
+    'https://w3id.org/mobilitydcat-ap/mobility-data-standard/ocit-c',
+    'https://w3id.org/mobilitydcat-ap/mobility-data-standard/other',
+    'https://w3id.org/mobilitydcat-ap/mobility-data-standard/siri',
+    'https://w3id.org/mobilitydcat-ap/mobility-data-standard/tn-its',
+    'https://w3id.org/mobilitydcat-ap/mobility-data-standard/tpegml',
+]
 
-    def __init__(self, iri:str|None, version: str, schema: str):
-        super().__init__(iri, MOBILITYDCATAP.MobilityDataStandard)
-        self.version = Literal(version)
-        self.schema = MobilityDataStandardSchema(schema)
 
-    def predicate_objects(self):
-        return [
-            (RDF.type, self.type),
-            (OWL.vesrionInfo, self.version),
-            (MOBILITYDCATAP.schema, self.schema)
-        ]
+class MobilityDataStandard(Vocabulary):
+    iris = MOBILITY_DATA_STANDARD
+
+    def __init__(self, iri):
+        super().__init__(iri)
