@@ -19,10 +19,6 @@ class MobilityData:
     catalog_record: CatalogRecord
 
     def __init__(self, dataset_dict: dict[str, Any], dataset_ref: URIRef):
-        current_language = request.environ.get(
-            "CKAN_LANG", config.get("ckan.locale_default")
-        )
-
         organization_ref = dataset_dict.get(
             "publisher_uri", publisher_uri_organization_fallback(dataset_dict)
         )

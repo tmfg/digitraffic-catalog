@@ -1,10 +1,18 @@
 from typing import Dict
 
-from rdflib import DCTERMS, Dataset,DCAT, URIRef
+from rdflib import DCTERMS, Dataset, DCAT, URIRef
 
-from ckan_schema.mobility_dcat_ap_converter.range_value_converter import RangeValueConverter
-from mobility_dcat_ap.dataset import CNT, ADMS, CVOCAB_COMMUNICATION_METHOD, CVOCAB_APPLICATION_LAYER_PROTOCOL, \
-    CVOCAB_GRAMMAR, CVOCAB_MOBILITY_DATA_STANDARD
+from ckan_schema.mobility_dcat_ap_converter.range_value_converter import (
+    RangeValueConverter,
+)
+from mobility_dcat_ap.dataset import (
+    CNT,
+    ADMS,
+    CVOCAB_COMMUNICATION_METHOD,
+    CVOCAB_APPLICATION_LAYER_PROTOCOL,
+    CVOCAB_GRAMMAR,
+    CVOCAB_MOBILITY_DATA_STANDARD,
+)
 from mobility_dcat_ap.namespace import MOBILITYDCATAP
 from dcat_schema_transpiler.rdfs.rdfs_class import RDFSClass
 from dcat_schema_transpiler.rdfs.rdfs_property import RDFSProperty
@@ -77,15 +85,19 @@ class Distribution(RangeValueConverter):
                 return self.controlled_vocab_field(clazz_p, ds, is_required_)
             if clazz_p.is_iri(DCTERMS.description):
                 r_value = super().get_schema(ds, clazz_p, is_required_)
-                return r_value | {
-                    "preset": "fluent_core_translated",
-                    "form_languages": ["fi", "en", "sv"],
+                return {
+                    **(r_value | self.translated_field_properties),
+                    "form_languages": self.translated_field_properties[
+                        "form_languages"
+                    ].copy(),
                 }
             if clazz_p.is_iri(DCTERMS.title):
                 r_value = super().get_schema(ds, clazz_p, is_required_)
-                return r_value | {
-                    "preset": "fluent_core_translated",
-                    "form_languages": ["fi", "en", "sv"],
+                return {
+                    **(r_value | self.translated_field_properties),
+                    "form_languages": self.translated_field_properties[
+                        "form_languages"
+                    ].copy(),
                 }
             return super().get_schema(ds, clazz_p, is_required_)
         return None
@@ -133,5 +145,5 @@ class Distribution(RangeValueConverter):
                     "required": is_required,
                     "preset": "select",
                     "form_include_blank_choice": True,
-                    "choices": RangeValueConverter.vocab_choices(g)
+                    "choices": RangeValueConverter.vocab_choices(g),
                 }

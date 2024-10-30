@@ -29,11 +29,6 @@ class DCATDataset(RangeValueConverter):
 
     optional_properties = {OWL.versionInfo, ADMS.versionNotes}
 
-    translated_field_properties = {
-        "preset": "fluent_core_translated",
-        "form_languages": ["fi", "en", "sv"],
-    }
-
     def __init__(self, clazz: RDFSClass):
         super().__init__(clazz)
 
@@ -94,23 +89,30 @@ class DCATDataset(RangeValueConverter):
             return self.controlled_vocab_field(clazz_p, ds, is_required_)
         if clazz_p.is_iri(DCTERMS.title):
             r_value = super().get_schema(ds, clazz_p, is_required_)
-            return r_value | {
-                "preset": "fluent_core_translated",
-                "form_languages": ["fi", "en", "sv"],
-                # This bit of code is needed so that the `name` field slug gets its value from here
+            return {
+                **(r_value | self.translated_field_properties),
+                "form_languages": self.translated_field_properties[
+                    "form_languages"
+                ].copy(),
                 "form_attrs": {"data-module": "slug-preview-target"},
             }
+
         if clazz_p.is_iri(DCTERMS.description):
             r_value = super().get_schema(ds, clazz_p, is_required_)
-            return r_value | {
-                "preset": "fluent_core_translated",
-                "form_languages": ["fi", "en", "sv"],
+            return {
+                **(r_value | self.translated_field_properties),
+                "form_languages": self.translated_field_properties[
+                    "form_languages"
+                ].copy(),
             }
+
         if clazz_p.is_iri(ADMS.versionNotes):
             r_value = super().get_schema(ds, clazz_p, is_required_)
-            return r_value | {
-                "preset": "fluent_core_translated",
-                "form_languages": ["fi", "en", "sv"],
+            return {
+                **(r_value | self.translated_field_properties),
+                "form_languages": self.translated_field_properties[
+                    "form_languages"
+                ].copy(),
             }
         if clazz_p.iri in properties_union:
             return super().get_schema(ds, clazz_p, is_required_)
