@@ -5,11 +5,29 @@ dataset_fields:
   label: Organization
   preset: dataset_organization
   required: true
+- field_name: title_translated
+  label: Title
+  required: true
+  preset: fluent_core_translated
+  form_languages:
+  - fi
+  - en
+  - sv
+  form_attrs:
+    data-module: slug-preview-target
 - field_name: name
   label: URL
   preset: dataset_slug
   form_placeholder: eg. my-dataset
   required: true
+- field_name: notes_translated
+  label: Description
+  required: true
+  preset: fluent_core_translated
+  form_languages:
+  - fi
+  - en
+  - sv
 - field_name: metadata_language
   label: Metadata Language
   required: true
@@ -1064,27 +1082,9 @@ dataset_fields:
   label: Dataset version
   required: false
   help_text: The value should be URL
-- field_name: title_translated
-  label: Title
-  required: true
-  preset: fluent_core_translated
-  form_languages:
-  - fi
-  - en
-  - sv
-  form_attrs:
-    data-module: slug-preview-target
 - field_name: version_notes_translated
   label: Version notes
   required: false
-  preset: fluent_core_translated
-  form_languages:
-  - fi
-  - en
-  - sv
-- field_name: notes_translated
-  label: Description
-  required: true
   preset: fluent_core_translated
   form_languages:
   - fi
@@ -1095,6 +1095,22 @@ resource_fields:
   label: access address
   required: true
   help_text: The value should be URL
+- field_name: name_translated
+  label: Title
+  required: false
+  preset: fluent_core_translated
+  form_languages:
+  - fi
+  - en
+  - sv
+- field_name: description_translated
+  label: Description
+  required: false
+  preset: fluent_core_translated
+  form_languages:
+  - fi
+  - en
+  - sv
 - field_name: format
   label: Format
   required: true
@@ -2125,14 +2141,6 @@ resource_fields:
     label: TN-ITS
   - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/tpegml
     label: tpegML
-- field_name: description_translated
-  label: Description
-  required: false
-  preset: fluent_core_translated
-  form_languages:
-  - fi
-  - en
-  - sv
 - field_name: format_iri
   required: false
   form_snippet: null

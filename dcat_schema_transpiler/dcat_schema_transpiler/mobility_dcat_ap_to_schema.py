@@ -42,16 +42,16 @@ def sort_dropdowns(schemas: List[Dict[str, Any]]):
 def sort_dataset_fields(dataset_fields: List[Dict[str, Any]]):
     order = [
         "owner_org",
-        "title",
+        "title_translated",
         "name",
-        "notes",
+        "notes_translated",
         "metadata_language",
         "frequency",
         "mobility_theme",
         "mobility_theme_sub",
         "spatial",
         "version",
-        "version_notes",
+        "version_notes_translated",
     ]
     dataset_fields.sort(key=partial(sort_by_field_name, order))
     sort_dropdowns(dataset_fields)
@@ -60,8 +60,8 @@ def sort_dataset_fields(dataset_fields: List[Dict[str, Any]]):
 def sort_resource_fields(resource_fields: List[Dict[str, Any]]):
     order = [
         "url",
-        "name",
-        "description",
+        "name_translated",
+        "description_translated",
         "format",
         "mobility_data_standard_schema",
         "mobility_data_standard_version",
@@ -85,8 +85,8 @@ def resource_fields(ds: Dataset) -> List:
     ckan_defaults = {DCTERMS.license, DCTERMS.title, DCTERMS.description}
 
     distribution_fields_to_omit = (
-        Distribution.recommended_properties - ckan_defaults
-    ) | Distribution.optional_properties
+        Distribution.recommended_properties | Distribution.optional_properties
+    ) - ckan_defaults
 
     resource_fields = ClassConverter.convert(
         distribution,
