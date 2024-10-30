@@ -14,8 +14,8 @@ from ckanext.digitraffic_theme.profiles.model.format import Format
 from ckanext.digitraffic_theme.profiles.model.frequency import Frequency
 from ckanext.digitraffic_theme.profiles.model.language import Language
 from ckanext.digitraffic_theme.profiles.model.location import Location
-from ckanext.digitraffic_theme.profiles.model.mobility_data_standard_schema import (
-    MobilityDataStandardSchema,
+from ckanext.digitraffic_theme.profiles.model.mobility_data_standard import (
+    MobilityDataStandard,
 )
 from ckanext.digitraffic_theme.profiles.model.mobility_theme import MobilityTheme
 from ckanext.digitraffic_theme.profiles.model.mobility_theme_sub import MobilityThemeSub
@@ -61,7 +61,7 @@ class TestProfile(object):
                     "url": "http://localhost:8080/foo",
                     "format": Format.labels[0],
                     "mobility_data_standard_version": "3",
-                    "mobility_data_standard_schema": MobilityDataStandardSchema.iris[0],
+                    "mobility_data_standard": MobilityDataStandard.iris[0],
                     "rights_type": RightsType.iris[0],
                 }
             ],

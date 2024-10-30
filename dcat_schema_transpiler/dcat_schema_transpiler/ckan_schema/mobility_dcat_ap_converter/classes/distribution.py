@@ -1,20 +1,13 @@
 from typing import Dict
 
-from rdflib import DCTERMS, Dataset, SKOS, RDFS, DCAT, FOAF, URIRef
+from rdflib import DCTERMS, Dataset,DCAT, URIRef
 
-from ckan_schema.mobility_dcat_ap_converter.range_value_converter import (
-    RangeValueConverter,
-)
-from mobility_dcat_ap.dataset import (
-    CNT,
-    ADMS,
-    CVOCAB_COMMUNICATION_METHOD,
-    CVOCAB_APPLICATION_LAYER_PROTOCOL,
-)
+from ckan_schema.mobility_dcat_ap_converter.range_value_converter import RangeValueConverter
+from mobility_dcat_ap.dataset import CNT, ADMS, CVOCAB_COMMUNICATION_METHOD, CVOCAB_APPLICATION_LAYER_PROTOCOL, \
+    CVOCAB_GRAMMAR, CVOCAB_MOBILITY_DATA_STANDARD
 from mobility_dcat_ap.namespace import MOBILITYDCATAP
 from dcat_schema_transpiler.rdfs.rdfs_class import RDFSClass
 from dcat_schema_transpiler.rdfs.rdfs_property import RDFSProperty
-from dcat_schema_transpiler.rdfs.rdfs_resource import RDFSResource
 
 
 class Distribution(RangeValueConverter):
@@ -74,11 +67,13 @@ class Distribution(RangeValueConverter):
             else clazz_p.iri in Distribution.mandatory_properties
         )
         if clazz_p.iri in properties_union:
-            if clazz_p.iri in MOBILITYDCATAP.communicationMethod:
+            if clazz_p.is_iri(MOBILITYDCATAP.communicationMethod):
                 return self.controlled_vocab_field(clazz_p, ds, is_required_)
-            if clazz_p.iri in MOBILITYDCATAP.applicationLayerProtocol:
+            if clazz_p.is_iri(MOBILITYDCATAP.applicationLayerProtocol):
                 return self.controlled_vocab_field(clazz_p, ds, is_required_)
-            if clazz_p.iri in MOBILITYDCATAP.grammar:
+            if clazz_p.is_iri(MOBILITYDCATAP.grammar):
+                return self.controlled_vocab_field(clazz_p, ds, is_required_)
+            if clazz_p.is_iri(MOBILITYDCATAP.mobilityDataStandard):
                 return self.controlled_vocab_field(clazz_p, ds, is_required_)
             if clazz_p.is_iri(DCTERMS.description):
                 r_value = super().get_schema(ds, clazz_p, is_required_)
@@ -123,10 +118,20 @@ class Distribution(RangeValueConverter):
             case MOBILITYDCATAP.grammar:
                 g = ds.get_graph(URIRef(CVOCAB_GRAMMAR))
                 return {
-                    "field_name": self.ckan_field(clazz.iri, p),
+                    "field_name": self.ckan_field(p),
                     "label": label_value,
                     "required": is_required,
                     "preset": "select",
                     "form_include_blank_choice": True,
                     "choices": RangeValueConverter.vocab_choices(g),
+                }
+            case MOBILITYDCATAP.mobilityDataStandard:
+                g = ds.get_graph(URIRef(CVOCAB_MOBILITY_DATA_STANDARD))
+                return {
+                    "field_name": "mobility_data_standard",
+                    "label": "Mobility data standard",
+                    "required": is_required,
+                    "preset": "select",
+                    "form_include_blank_choice": True,
+                    "choices": RangeValueConverter.vocab_choices(g)
                 }
