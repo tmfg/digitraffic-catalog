@@ -46,7 +46,6 @@ class TestProfile(object):
         dataset_mobility_theme = MobilityTheme.iris[0]
         dataset_mobility_theme_sub = MobilityThemeSub.iris[0]
         dataset_spatial = Location.iris[0]
-        dataset_metadata_language = Language.iris[0]
         dataset = factories.Dataset(
             owner_org=owner_org["id"],
             name=dataset_name,
@@ -55,7 +54,6 @@ class TestProfile(object):
             mobility_theme=dataset_mobility_theme,
             mobility_theme_sub=dataset_mobility_theme_sub,
             spatial=dataset_spatial,
-            metadata_language=dataset_metadata_language,
             resources=[
                 {
                     "url": "http://localhost:8080/foo",

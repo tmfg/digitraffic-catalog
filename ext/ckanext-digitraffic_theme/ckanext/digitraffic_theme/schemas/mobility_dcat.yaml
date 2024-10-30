@@ -28,18 +28,6 @@ dataset_fields:
   - fi
   - en
   - sv
-- field_name: metadata_language
-  label: Metadata Language
-  required: true
-  preset: select
-  form_include_blank_choice: true
-  choices:
-  - value: http://publications.europa.eu/resource/authority/language/ENG
-    label: English
-  - value: http://publications.europa.eu/resource/authority/language/FIN
-    label: Finnish
-  - value: http://publications.europa.eu/resource/authority/language/SWE
-    label: Swedish
 - field_name: frequency
   label: Frequency
   required: true
