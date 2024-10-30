@@ -27,9 +27,7 @@ class Distribution(ClassInstance):
             for key in data.get("description_translated", {}).keys()
         ]
         self.mobilityDataStandard = MobilityDataStandard(
-            None,
-            data["mobility_data_standard_version"],
-            data["mobility_data_standard_schema"],
+            data["mobility_data_standard"],
         )
         self.rights = RightsStatement(None, data["rights_type"])
 
