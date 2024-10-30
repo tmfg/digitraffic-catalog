@@ -2,6 +2,12 @@ select, input {
   border-radius: var(--fds-border-radius) !important;
 }
 
+select {
+  option {
+    color: var(--fds-color-text-1000);
+  }
+}
+
 :root {
   --digitraffic-focus-z-index: 1000;
   :focus-visible {
