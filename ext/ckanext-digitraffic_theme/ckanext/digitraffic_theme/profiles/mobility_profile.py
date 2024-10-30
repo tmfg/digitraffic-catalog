@@ -37,6 +37,8 @@ class MobilityDCATAPProfile(RDFProfile):
         # Remove data that we are going to add ourselves
         for obj in g.objects(catalog_ref, DCTERMS.title):
             g.remove((catalog_ref, DCTERMS.title, obj))
+        for obj in g.objects(catalog_ref, DCTERMS.language):
+            g.remove((catalog_ref, DCTERMS.language, obj))
 
         # Add the metadata
         add_literal_to_graph(
@@ -56,6 +58,26 @@ class MobilityDCATAPProfile(RDFProfile):
         )
         add_literal_to_graph(
             g, catalog_ref, DCTERMS.title, Literal("Digitraffic Catalog")
+        )
+
+        # Add all languages supported by the catalog
+        add_literal_to_graph(
+            g,
+            catalog_ref,
+            DCTERMS.language,
+            URIRef("http://publications.europa.eu/resource/authority/language/ENG"),
+        )
+        add_literal_to_graph(
+            g,
+            catalog_ref,
+            DCTERMS.language,
+            URIRef("http://publications.europa.eu/resource/authority/language/FIN"),
+        )
+        add_literal_to_graph(
+            g,
+            catalog_ref,
+            DCTERMS.language,
+            URIRef("http://publications.europa.eu/resource/authority/language/SWE"),
         )
 
     def _remove_existing_self_managed_graph_data(self, dataset_ref):

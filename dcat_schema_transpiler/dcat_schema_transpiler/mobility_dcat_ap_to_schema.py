@@ -45,7 +45,6 @@ def sort_dataset_fields(dataset_fields: List[Dict[str, Any]]):
         "title_translated",
         "name",
         "notes_translated",
-        "metadata_language",
         "frequency",
         "mobility_theme",
         "mobility_theme_sub",

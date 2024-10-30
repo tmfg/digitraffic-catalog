@@ -53,7 +53,6 @@ class MobilityData:
             None,
             {
                 "created": Literal(dataset_dict["metadata_created"]),
-                "language": Language(dataset_dict["metadata_language"]),
                 "primary_topic": dataset,
                 "modified": Literal(dataset_dict["metadata_modified"]),
             },
