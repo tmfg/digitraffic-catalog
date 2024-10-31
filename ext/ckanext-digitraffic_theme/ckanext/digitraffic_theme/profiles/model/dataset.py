@@ -24,7 +24,7 @@ class DatasetInput(TypedDict):
 
 
 class Dataset(ClassInstance):
-    description: Literal
+    description: List[Literal]
     distribution: List[Distribution]
     accrualPeriodicity: Frequency
     mobility_theme: MobilityTheme
@@ -47,11 +47,12 @@ class Dataset(ClassInstance):
     def predicate_objects(self):
         return [
             (RDF.type, self.type),
-            (DCTERMS.description, self.description),
+            # multilingual field
+            *[(DCTERMS.description, entry) for entry in self.description],
             (DCTERMS.accrualPeriodicity, self.accrualPeriodicity),
             (MOBILITYDCATAP.mobilityTheme, self.mobility_theme),
             (MOBILITYDCATAP.mobilityTheme, self.mobility_theme_sub),
             (DCTERMS.spatial, self.spatial),
             (DCTERMS.title, self.title),
-            (DCTERMS.publisher, self.publisher)
+            (DCTERMS.publisher, self.publisher),
         ] + [(DCAT.distribution, dist) for dist in self.distribution]

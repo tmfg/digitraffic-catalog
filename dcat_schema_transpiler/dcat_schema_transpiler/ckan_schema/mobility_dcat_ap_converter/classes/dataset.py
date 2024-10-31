@@ -4,7 +4,9 @@ from rdflib import Dataset, URIRef
 from rdflib.namespace import DCTERMS, SKOS, DCAT, FOAF, OWL
 from rdflib.term import Node
 
-from ckan_schema.mobility_dcat_ap_converter.range_value_converter import RangeValueConverter
+from ckan_schema.mobility_dcat_ap_converter.range_value_converter import (
+    RangeValueConverter,
+)
 from mobility_dcat_ap.dataset import CVOCAB_MOBILITY_THEME, CVOCAB_NUTS, CVOCAB_LAU
 from mobility_dcat_ap.namespace import MOBILITYDCATAP
 from dcat_schema_transpiler.asset_description_metadata_schema.namespace import ADMS
@@ -15,11 +17,15 @@ from dcat_schema_transpiler.rdfs.rdfs_resource import RDFSResource
 
 class DCATDataset(RangeValueConverter):
 
-    mandatory_properties = {DCTERMS.description, DCAT.distribution, DCTERMS.accrualPeriodicity,
-                            MOBILITYDCATAP.mobilityTheme,
-                            DCTERMS.spatial,
-                            DCTERMS.title,
-                            DCTERMS.publisher}
+    mandatory_properties = {
+        DCTERMS.description,
+        DCAT.distribution,
+        DCTERMS.accrualPeriodicity,
+        MOBILITYDCATAP.mobilityTheme,
+        DCTERMS.spatial,
+        DCTERMS.title,
+        DCTERMS.publisher,
+    }
 
     optional_properties = {OWL.versionInfo, ADMS.versionNotes}
 
@@ -28,16 +34,16 @@ class DCATDataset(RangeValueConverter):
 
     def ckan_field(self, p: RDFSProperty, pointer: str = None) -> str:
         mappings = {
-            DCTERMS.description: 'notes',
-            DCTERMS.accrualPeriodicity: 'frequency',
+            DCTERMS.description: "notes_translated",
+            DCTERMS.accrualPeriodicity: "frequency",
             MOBILITYDCATAP.mobilityTheme: {
-                'main': 'mobility_theme',
-                'sub': 'mobility_theme_sub'
+                "main": "mobility_theme",
+                "sub": "mobility_theme_sub",
             },
-            DCTERMS.title: 'title',
-            DCTERMS.spatial: 'spatial',
-            OWL.versionInfo: 'version',
-            ADMS.versionNotes: 'version_notes'
+            DCTERMS.title: "title_translated",
+            DCTERMS.spatial: "spatial",
+            OWL.versionInfo: "version",
+            ADMS.versionNotes: "version_notes_translated",
         }
         field_value = mappings.get(p.iri)
         if isinstance(field_value, dict):
@@ -48,13 +54,15 @@ class DCATDataset(RangeValueConverter):
         if field_name is not None:
             return field_name
         else:
-            raise ValueError(f'A mapping was not found between the class {self.clazz.iri} property {p.iri} and CKAN datamodel using pointer {pointer}')
+            raise ValueError(
+                f"A mapping was not found between the class {self.clazz.iri} property {p.iri} and CKAN datamodel using pointer {pointer}"
+            )
 
     def get_label(self, p: RDFSProperty, ds: Dataset):
         if p.is_iri(OWL.versionInfo):
-            return 'Dataset version'
+            return "Dataset version"
         if p.is_iri(ADMS.versionNotes):
-            return 'Version notes'
+            return "Version notes"
         return super().get_label(p, ds)
 
     def get_range_value(self, ds: Dataset, clazz_p: RDFSProperty) -> RDFSClass | None:
@@ -64,50 +72,95 @@ class DCATDataset(RangeValueConverter):
             r_value = super().get_range_value(ds, clazz_p)
         return r_value
 
-
     def get_schema(self, ds: Dataset, clazz_p: RDFSProperty, is_required: bool = None):
-        is_required_ = is_required if is_required is not None else clazz_p.iri in DCATDataset.mandatory_properties
+        is_required_ = (
+            is_required
+            if is_required is not None
+            else clazz_p.iri in DCATDataset.mandatory_properties
+        )
         if clazz_p.iri in DCATDataset.optional_properties:
             is_required_ = False
-        properties_union = DCATDataset.mandatory_properties | DCATDataset.optional_properties
+        properties_union = (
+            DCATDataset.mandatory_properties | DCATDataset.optional_properties
+        )
         if clazz_p.is_iri(MOBILITYDCATAP.mobilityTheme):
             return self.controlled_vocab_field(clazz_p, ds, is_required_)
         if clazz_p.is_iri(DCTERMS.spatial):
             return self.controlled_vocab_field(clazz_p, ds, is_required_)
         if clazz_p.is_iri(DCTERMS.title):
             r_value = super().get_schema(ds, clazz_p, is_required_)
-            return r_value | {
-                # This bit of code is needed so that the `name` field slug gets its value from here
-                "form_attrs": {
-                    "data-module": "slug-preview-target"
-                }
+            return {
+                **(r_value | self.translated_field_properties),
+                "form_languages": self.translated_field_properties[
+                    "form_languages"
+                ].copy(),
+                "form_attrs": {"data-module": "slug-preview-target"},
+            }
+
+        if clazz_p.is_iri(DCTERMS.description):
+            r_value = super().get_schema(ds, clazz_p, is_required_)
+            return {
+                **(r_value | self.translated_field_properties),
+                "form_languages": self.translated_field_properties[
+                    "form_languages"
+                ].copy(),
+            }
+
+        if clazz_p.is_iri(ADMS.versionNotes):
+            r_value = super().get_schema(ds, clazz_p, is_required_)
+            return {
+                **(r_value | self.translated_field_properties),
+                "form_languages": self.translated_field_properties[
+                    "form_languages"
+                ].copy(),
             }
         if clazz_p.iri in properties_union:
             return super().get_schema(ds, clazz_p, is_required_)
         return None
 
-    def controlled_vocab_field(self, p: RDFSProperty, ds: Dataset, is_required: bool) -> List | Dict:
+    def controlled_vocab_field(
+        self, p: RDFSProperty, ds: Dataset, is_required: bool
+    ) -> List | Dict:
         match p.iri:
             case MOBILITYDCATAP.mobilityTheme:
                 g = ds.get_graph(URIRef(CVOCAB_MOBILITY_THEME))
-                return [{
-                    "field_name": self.ckan_field(p, 'main'),
-                    "label": "Data content category",
-                    "required": is_required,
-                    "preset": "select",
-                    "form_include_blank_choice": True,
-                    "choices": RangeValueConverter.vocab_choices(g, lambda s: (s, SKOS.broader, URIRef(
-                        'https://w3id.org/mobilitydcat-ap/mobility-theme/data-content-category')) in g)
-                },
+                return [
                     {
-                        "field_name": self.ckan_field(p, 'sub'),
+                        "field_name": self.ckan_field(p, "main"),
+                        "label": "Data content category",
+                        "required": is_required,
+                        "preset": "select",
+                        "form_include_blank_choice": True,
+                        "choices": RangeValueConverter.vocab_choices(
+                            g,
+                            lambda s: (
+                                s,
+                                SKOS.broader,
+                                URIRef(
+                                    "https://w3id.org/mobilitydcat-ap/mobility-theme/data-content-category"
+                                ),
+                            )
+                            in g,
+                        ),
+                    },
+                    {
+                        "field_name": self.ckan_field(p, "sub"),
                         "label": "Data content sub category",
                         "required": is_required,
                         "preset": "select",
                         "form_include_blank_choice": True,
-                        "choices": RangeValueConverter.vocab_choices(g, lambda s: (s, SKOS.broader, URIRef(
-                            'https://w3id.org/mobilitydcat-ap/mobility-theme/data-content-sub-category')) in g)
-                    }
+                        "choices": RangeValueConverter.vocab_choices(
+                            g,
+                            lambda s: (
+                                s,
+                                SKOS.broader,
+                                URIRef(
+                                    "https://w3id.org/mobilitydcat-ap/mobility-theme/data-content-sub-category"
+                                ),
+                            )
+                            in g,
+                        ),
+                    },
                 ]
             case DCTERMS.spatial:
                 g_nuts = ds.get_graph(URIRef(CVOCAB_NUTS))
@@ -121,17 +174,37 @@ class DCATDataset(RangeValueConverter):
 
                 def is_finnish_nuts(nuts):
                     if (nuts, None, None) in g_nuts:
-                        return ((nuts, URIRef('http://publications.europa.eu/ontology/euvoc#status'),
-                                 URIRef('http://publications.europa.eu/resource/authority/concept-status/CURRENT')) in g_nuts and
-                                (nuts, URIRef('http://www.w3.org/ns/adms#status'), URIRef('http://publications.europa.eu/resource/authority/concept-status/DEPRECATED')) not in g_nuts and
-                                find_top_nuts(nuts) == URIRef("http://data.europa.eu/nuts/code/FI"))
+                        return (
+                            (
+                                nuts,
+                                URIRef(
+                                    "http://publications.europa.eu/ontology/euvoc#status"
+                                ),
+                                URIRef(
+                                    "http://publications.europa.eu/resource/authority/concept-status/CURRENT"
+                                ),
+                            )
+                            in g_nuts
+                            and (
+                                nuts,
+                                URIRef("http://www.w3.org/ns/adms#status"),
+                                URIRef(
+                                    "http://publications.europa.eu/resource/authority/concept-status/DEPRECATED"
+                                ),
+                            )
+                            not in g_nuts
+                            and find_top_nuts(nuts)
+                            == URIRef("http://data.europa.eu/nuts/code/FI")
+                        )
                     else:
                         return False
 
-                def is_finnish_lau(lau:URIRef):
+                def is_finnish_lau(lau: URIRef):
                     if (lau, None, None) in g_lau:
                         lau_nuts = g_lau.value(lau, SKOS.broadMatch)
-                        return (find_top_nuts(lau_nuts) == URIRef("http://data.europa.eu/nuts/code/FI"))
+                        return find_top_nuts(lau_nuts) == URIRef(
+                            "http://data.europa.eu/nuts/code/FI"
+                        )
                     return False
 
                 def is_finnish_place(concept: URIRef):
@@ -143,5 +216,7 @@ class DCATDataset(RangeValueConverter):
                     "required": is_required,
                     "preset": "select",
                     "form_include_blank_choice": True,
-                    "choices": RangeValueConverter.vocab_choices(g_nuts + g_lau, is_finnish_place)
+                    "choices": RangeValueConverter.vocab_choices(
+                        g_nuts + g_lau, is_finnish_place
+                    ),
                 }

@@ -16,9 +16,13 @@ from typing import Callable, List, Dict
 
 class RangeValueConverter(ABC):
 
+    translated_field_properties = {
+        "preset": "fluent_core_translated",
+        "form_languages": ["fi", "en", "sv"],
+    }
+
     def __init__(self, clazz: RDFSClass):
         self.clazz = clazz
-
 
     @abstractmethod
     def get_range_value(self, ds: Dataset, clazz_p: RDFSProperty) -> RDFSClass | None:
@@ -29,17 +33,31 @@ class RangeValueConverter(ABC):
             print("#### COULD NOT FIND AN OBJECT")
             return None
         # TODO: Warn if more than one object
-        r_defined_by_mobility_dcat_ap = tuple(o for o in obj if URIRef(MOBILITYDCATAP_NS_URL) in o.is_defined_by)
-        r_defined_by_original = tuple(o for o in obj if
-                                      URIRef(o.namespace).defrag() in map(lambda defined_by: defined_by.defrag(),
-                                                                          o.is_defined_by))
-        r_defined_by_clazz_ns = tuple(o for o in obj if URIRef(self.clazz.namespace) in o.is_defined_by)
+        r_defined_by_mobility_dcat_ap = tuple(
+            o for o in obj if URIRef(MOBILITYDCATAP_NS_URL) in o.is_defined_by
+        )
+        r_defined_by_original = tuple(
+            o
+            for o in obj
+            if URIRef(o.namespace).defrag()
+            in map(lambda defined_by: defined_by.defrag(), o.is_defined_by)
+        )
+        r_defined_by_clazz_ns = tuple(
+            o for o in obj if URIRef(self.clazz.namespace) in o.is_defined_by
+        )
 
-        r_ordered = r_defined_by_mobility_dcat_ap + r_defined_by_original + r_defined_by_clazz_ns + obj
+        r_ordered = (
+            r_defined_by_mobility_dcat_ap
+            + r_defined_by_original
+            + r_defined_by_clazz_ns
+            + obj
+        )
         return r_ordered[0] if len(r_ordered) > 0 else None
 
     @abstractmethod
-    def get_schema(self, ds: Dataset, clazz_p: RDFSProperty | None, is_required: bool=False) -> List | Dict:
+    def get_schema(
+        self, ds: Dataset, clazz_p: RDFSProperty | None, is_required: bool = False
+    ) -> Dict:
         rdf_range = self.get_range_value(ds, clazz_p)
         if isinstance(rdf_range, RDFSResource) and rdf_range.iri == RDFS.Literal:
             label_value = self.get_label(clazz_p, ds)
@@ -47,7 +65,7 @@ class RangeValueConverter(ABC):
             return {
                 "field_name": field_name,
                 "label": label_value,
-                "required": is_required
+                "required": is_required,
             }
         elif isinstance(rdf_range, RDFSResource) and rdf_range.iri == RDFS.Resource:
             # Resurssi tyyppiset näyttää olevan URLeja
@@ -56,18 +74,25 @@ class RangeValueConverter(ABC):
                 "field_name": self.ckan_field(clazz_p),
                 "label": label_value,
                 "required": is_required,
-                "help_text": 'The value should be URL'
+                "help_text": "The value should be URL",
             }
         else:
             return {"required": is_required}
 
     def get_label(self, p: RDFSProperty, ds: Dataset):
-        label = [label for label in get_rdf_object(p, RDFS.label, ds) if
-                 (label.is_language_string() and (label.language() == 'en') or not label.is_language_string())]
+        label = [
+            label
+            for label in get_rdf_object(p, RDFS.label, ds)
+            if (
+                label.is_language_string()
+                and (label.language() == "en")
+                or not label.is_language_string()
+            )
+        ]
         if not label:
             print("LABEL NOT KNOWN")
             print(str(get_rdf_object(p, RDFS.label, ds)))
-            return 'not known'
+            return "not known"
         else:
             return label[0].value()
 
@@ -87,15 +112,21 @@ class RangeValueConverter(ABC):
         def get_label(s):
             labels = [pl for pl in g.objects(s, SKOS.prefLabel)]
             if labels:
-                english = [pl for pl in labels if pl.language is None or pl.language == 'en']
+                english = [
+                    pl for pl in labels if pl.language is None or pl.language == "en"
+                ]
                 if english:
                     picked_label = english[0]
                 else:
                     picked_label = labels[0]
                 return RDFSLiteral(picked_label).value()
-            print(f'Could not find label for {s}')
+            print(f"Could not find label for {s}")
             return None
 
-        return list([{"value": str(s), "label": get_label(s)} for
-                     s, _, _ in g.triples((None, RDF.type, SKOS.Concept))
-                     if filter(URIRef(s))])
+        return list(
+            [
+                {"value": str(s), "label": get_label(s)}
+                for s, _, _ in g.triples((None, RDF.type, SKOS.Concept))
+                if filter(URIRef(s))
+            ]
+        )
