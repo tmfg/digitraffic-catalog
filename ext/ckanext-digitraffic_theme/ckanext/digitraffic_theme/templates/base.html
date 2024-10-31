@@ -9,6 +9,10 @@
     registered inside webassets.yml file. #}
   {% asset 'digitraffic_theme/digitraffic_theme-css' %}
 {% endblock %}
+{%- block head_extras %}
+  {% snippet 'snippets/tracking/matomo.html' %}
+  {% snippet 'snippets/tracking/cookie_consent.html' %}
+{% endblock %}
 {% block scripts %}
   {% asset 'digitraffic_theme/digitraffic_main-js'%}
 {% endblock %}
