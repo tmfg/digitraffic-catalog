@@ -18,6 +18,7 @@ echo "Configuring extensions..."
 
 # scheming
 ckan config-tool $CKAN_INI "scheming.dataset_schemas = ckanext.digitraffic_theme.schemas:mobility_dcat.yaml"
+ckan config-tool $CKAN_INI "scheming.presets = ckanext.scheming:presets.json ckanext.fluent:presets.json"
 
 # DCAT
 ## Make it possible for MobilityDCAT-AP metadata requester to define in which serialization format the metadata should

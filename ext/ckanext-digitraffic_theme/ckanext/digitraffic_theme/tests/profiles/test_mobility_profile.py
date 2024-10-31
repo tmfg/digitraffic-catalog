@@ -1,6 +1,6 @@
 import pprint
 
-from rdflib import Graph, URIRef, RDF, DCAT, FOAF, DCTERMS
+from rdflib import Graph, URIRef, RDF, DCAT, FOAF, DCTERMS, Literal
 
 import pytest
 
@@ -8,9 +8,7 @@ from ckanext.dcat.processors import RDFSerializer
 
 import ckan.tests.factories as factories
 
-# from ckan.logic.schema import
-import ckan.tests.helpers as helpers
-from ckan.plugins.toolkit import NotAuthorized, ObjectNotFound
+from ckan.common import request, config
 
 from ckanext.digitraffic_theme.profiles.model.format import Format
 from ckanext.digitraffic_theme.profiles.model.frequency import Frequency
@@ -34,22 +32,28 @@ class TestProfile(object):
             users=[{"name": user["id"], "capacity": "admin"}]
         )
         dataset_name = "foo"
-        description = "Stuff about foo"
+        notes = {
+            "en": "English description",
+            "fi": "Suomenkielinen kuvaus",
+            "sv": "Svensk beskrivning",
+        }
+        titles = {
+            "en": "English title",
+            "fi": "Suomenkielinen nimi",
+            "sv": "Svensk titel",
+        }
         dataset_frequency = Frequency.iris[0]
         dataset_mobility_theme = MobilityTheme.iris[0]
         dataset_mobility_theme_sub = MobilityThemeSub.iris[0]
         dataset_spatial = Location.iris[0]
-        dataset_metadata_language = Language.iris[0]
         dataset = factories.Dataset(
             owner_org=owner_org["id"],
             name=dataset_name,
             type="dataset",
-            notes=description,
             frequency=dataset_frequency,
             mobility_theme=dataset_mobility_theme,
             mobility_theme_sub=dataset_mobility_theme_sub,
             spatial=dataset_spatial,
-            metadata_language=dataset_metadata_language,
             resources=[
                 {
                     "url": "http://localhost:8080/foo",
@@ -59,6 +63,8 @@ class TestProfile(object):
                     "rights_type": RightsType.iris[0],
                 }
             ],
+            notes_translated=notes,
+            title_translated=titles,
         )
         serializer = RDFSerializer()
         dataset_ref = serializer.graph_from_dataset(dataset)
@@ -72,9 +78,16 @@ class TestProfile(object):
         assert distribution_ref is not None
         assert (distribution_ref, RDF.type, DCAT.Distribution) in g
 
-        # DATASET VALUES
+        # DATASET VALUE
 
-        assert str(g.value(dataset_ref, DCTERMS.description, None)) == description
+        # description values for all languages exist
+        descriptions = list(g.objects(dataset_ref, DCTERMS.description))
+
+        for description in descriptions:
+            assert (description.toPython()) in notes.values()
+
+        assert (len(descriptions)) == len(notes.keys())
+
         assert (
             dataset_ref,
             DCTERMS.accrualPeriodicity,

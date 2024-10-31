@@ -21,6 +21,7 @@ pip install -e "${EXT_DIR}/ckanext-entraid_authenticator"
 pip install -e "${EXT_DIR}/ckanext-digitraffic_validators"
 pip install -e "git+https://github.com/ckan/ckanext-dcat.git@v1.7.0#egg=ckanext-dcat"
 pip install -e "git+https://github.com/ckan/ckanext-scheming.git@release-3.0.0#egg=ckanext-scheming"
+pip install -e "git+https://github.com/ckan/ckanext-fluent.git#egg=ckanext-fluent"
 
 # install requirements
 pip_install "${EXT_DIR}/ckanext-digitraffic_theme/dev-requirements.txt"

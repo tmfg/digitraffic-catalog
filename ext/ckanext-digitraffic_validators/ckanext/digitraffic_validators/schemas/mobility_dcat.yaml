@@ -5,9 +5,14 @@ dataset_fields:
   label: Organization
   preset: dataset_organization
   required: true
-- field_name: title
+- field_name: title_translated
   label: Title
   required: true
+  preset: fluent_core_translated
+  form_languages:
+  - fi
+  - en
+  - sv
   form_attrs:
     data-module: slug-preview-target
 - field_name: name
@@ -15,21 +20,14 @@ dataset_fields:
   preset: dataset_slug
   form_placeholder: eg. my-dataset
   required: true
-- field_name: notes
+- field_name: notes_translated
   label: Description
   required: true
-- field_name: metadata_language
-  label: Metadata Language
-  required: true
-  preset: select
-  form_include_blank_choice: true
-  choices:
-  - value: http://publications.europa.eu/resource/authority/language/ENG
-    label: English
-  - value: http://publications.europa.eu/resource/authority/language/FIN
-    label: Finnish
-  - value: http://publications.europa.eu/resource/authority/language/SWE
-    label: Swedish
+  preset: fluent_core_translated
+  form_languages:
+  - fi
+  - en
+  - sv
 - field_name: frequency
   label: Frequency
   required: true
@@ -1072,17 +1070,35 @@ dataset_fields:
   label: Dataset version
   required: false
   help_text: The value should be URL
-- field_name: version_notes
+- field_name: version_notes_translated
   label: Version notes
   required: false
+  preset: fluent_core_translated
+  form_languages:
+  - fi
+  - en
+  - sv
 resource_fields:
 - field_name: url
   label: access address
   required: true
   help_text: The value should be URL
-- field_name: description
+- field_name: name_translated
+  label: Title
+  required: false
+  preset: fluent_core_translated
+  form_languages:
+  - fi
+  - en
+  - sv
+- field_name: description_translated
   label: Description
   required: false
+  preset: fluent_core_translated
+  form_languages:
+  - fi
+  - en
+  - sv
 - field_name: format
   label: Format
   required: true
@@ -1734,45 +1750,6 @@ resource_fields:
   - value: xz
     label: xz
     iri: http://publications.europa.eu/resource/authority/file-type/XZ
-- field_name: mobility_data_standard_schema
-  label: Mobility data standard
-  required: true
-  preset: select
-  form_include_blank_choice: true
-  choices:
-  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/c-its
-    label: C-ITS
-  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/datex-II
-    label: DATEX II
-  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/dino
-    label: DINO
-  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/gbfs
-    label: GBFS
-  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/gml
-    label: GML
-  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/gtfs
-    label: GTFS
-  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/gtfs-rt
-    label: GTFS-RT
-  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/inspire
-    label: INSPIRE
-  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/netex
-    label: NeTEx
-  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/ocit-c
-    label: OCIT-C
-  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/other
-    label: Other
-  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/siri
-    label: SIRI
-  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/tn-its
-    label: TN-ITS
-  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/tpegml
-    label: tpegML
-- field_name: mobility_data_standard_version
-  label: versionInfo
-  required: true
-  help_text: Version of the mobility data standard. Use only short version identifiers,
-    e.g., only  "3.2", without redundant acronyms such as "v", underscores etc.
 - field_name: rights_type
   label: Conditions for access and usage
   required: true
@@ -2118,6 +2095,40 @@ resource_fields:
     label: Zero-Clause BSD / Free Public License 1.0.0 (0BSD)
   - value: http://publications.europa.eu/resource/authority/licence/ECOS_2_0
     label: eCos License version 2.0
+- field_name: mobility_data_standard
+  label: Mobility data standard
+  required: true
+  preset: select
+  form_include_blank_choice: true
+  choices:
+  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/c-its
+    label: C-ITS
+  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/datex-II
+    label: DATEX II
+  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/dino
+    label: DINO
+  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/gbfs
+    label: GBFS
+  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/gml
+    label: GML
+  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/gtfs
+    label: GTFS
+  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/gtfs-rt
+    label: GTFS-RT
+  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/inspire
+    label: INSPIRE
+  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/netex
+    label: NeTEx
+  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/ocit-c
+    label: OCIT-C
+  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/other
+    label: Other
+  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/siri
+    label: SIRI
+  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/tn-its
+    label: TN-ITS
+  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/tpegml
+    label: tpegML
 - field_name: format_iri
   required: false
   form_snippet: null

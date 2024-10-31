@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, List
 
 from rdflib import Literal, DCAT, DCTERMS, URIRef, RDF
 
@@ -16,11 +16,16 @@ class Distribution(ClassInstance):
     format: Format
     mobilityDataStandard: MobilityDataStandard
     rights: RightsStatement
+    description: List[Literal]
 
     def __init__(self, iri: str, data: dict[str, Any]):
         super().__init__(iri, DCAT.Distribution)
         self.accessURL = Literal(data["url"])
         self.format = Format(data["format_iri"])
+        self.description = [
+            Literal(data.get("description_translated", {}).get(key, ""), lang=key)
+            for key in data.get("description_translated", {}).keys()
+        ]
         self.mobilityDataStandard = MobilityDataStandard(
             data["mobility_data_standard"],
         )
@@ -33,4 +38,6 @@ class Distribution(ClassInstance):
             (MOBILITYDCATAP.mobilityDataStandard, self.mobilityDataStandard),
             (DCTERMS.format, self.format),
             (DCTERMS.rights, self.rights),
+            # multilingual field
+            *[(DCTERMS.description, entry) for entry in self.description],
         ]
