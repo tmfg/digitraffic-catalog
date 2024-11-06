@@ -46,6 +46,17 @@ def fluent_alternate_languages(field=None, schema=None):
     return {}
 
 
+def fluent_required_languages(field=None, schema=None):
+    """
+    Returns list of required languages for current field.
+    """
+    if field and "required_languages" in field:
+        return field["required_languages"]
+    if schema and "required_languages" in schema:
+        return schema["required_languages"]
+    return []
+
+
 def fluent_form_label(field, lang):
     """
     Return a label for the input field for the given language

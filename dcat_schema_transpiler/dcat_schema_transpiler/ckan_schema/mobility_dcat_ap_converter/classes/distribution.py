@@ -90,6 +90,12 @@ class Distribution(RangeValueConverter):
                     "form_languages": self.translated_field_properties[
                         "form_languages"
                     ].copy(),
+                    "required_languages": self.translated_field_properties[
+                        "required_languages"
+                    ].copy(),
+                    "alternate_languages": self.translated_field_properties[
+                        "alternate_languages"
+                    ].copy(),
                 }
             if clazz_p.is_iri(DCTERMS.title):
                 r_value = super().get_schema(ds, clazz_p, is_required_)
@@ -97,6 +103,12 @@ class Distribution(RangeValueConverter):
                     **(r_value | self.translated_field_properties),
                     "form_languages": self.translated_field_properties[
                         "form_languages"
+                    ].copy(),
+                    "required_languages": self.translated_field_properties[
+                        "required_languages"
+                    ].copy(),
+                    "alternate_languages": self.translated_field_properties[
+                        "alternate_languages"
                     ].copy(),
                 }
             return super().get_schema(ds, clazz_p, is_required_)
