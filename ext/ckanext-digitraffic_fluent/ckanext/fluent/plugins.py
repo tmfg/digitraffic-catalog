@@ -19,6 +19,7 @@ class FluentPlugin(p.SingletonPlugin):
         template_helpers = {
             "fluent_form_languages": helpers.fluent_form_languages,
             "fluent_form_label": helpers.fluent_form_label,
+            "fluent_required_languages": helpers.fluent_required_languages,
         }
         if "truncate" not in h:
             from ckan.lib.helpers import truncate

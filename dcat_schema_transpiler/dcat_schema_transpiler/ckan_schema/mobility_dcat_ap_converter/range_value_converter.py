@@ -19,6 +19,8 @@ class RangeValueConverter(ABC):
     translated_field_properties = {
         "preset": "fluent_core_translated",
         "form_languages": ["fi", "en", "sv"],
+        "required_languages": ["en"],
+        "alternate_languages": {"fi": "en", "sv": "en"},
     }
 
     def __init__(self, clazz: RDFSClass):

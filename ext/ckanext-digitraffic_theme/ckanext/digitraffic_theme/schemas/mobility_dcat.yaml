@@ -13,6 +13,11 @@ dataset_fields:
   - fi
   - en
   - sv
+  required_languages:
+  - en
+  alternate_languages:
+    fi: en
+    sv: en
   form_attrs:
     data-module: slug-preview-target
 - field_name: name
@@ -28,6 +33,11 @@ dataset_fields:
   - fi
   - en
   - sv
+  required_languages:
+  - en
+  alternate_languages:
+    fi: en
+    sv: en
 - field_name: frequency
   label: Frequency
   required: true
@@ -1078,6 +1088,11 @@ dataset_fields:
   - fi
   - en
   - sv
+  required_languages:
+  - en
+  alternate_languages:
+    fi: en
+    sv: en
 resource_fields:
 - field_name: url
   label: access address
@@ -1091,6 +1106,11 @@ resource_fields:
   - fi
   - en
   - sv
+  required_languages:
+  - en
+  alternate_languages:
+    fi: en
+    sv: en
 - field_name: description_translated
   label: Description
   required: false
@@ -1099,6 +1119,11 @@ resource_fields:
   - fi
   - en
   - sv
+  required_languages:
+  - en
+  alternate_languages:
+    fi: en
+    sv: en
 - field_name: format
   label: Format
   required: true

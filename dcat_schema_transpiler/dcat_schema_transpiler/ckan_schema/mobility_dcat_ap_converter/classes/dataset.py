@@ -94,6 +94,12 @@ class DCATDataset(RangeValueConverter):
                 "form_languages": self.translated_field_properties[
                     "form_languages"
                 ].copy(),
+                "required_languages": self.translated_field_properties[
+                    "required_languages"
+                ].copy(),
+                "alternate_languages": self.translated_field_properties[
+                    "alternate_languages"
+                ].copy(),
                 "form_attrs": {"data-module": "slug-preview-target"},
             }
 
@@ -104,6 +110,12 @@ class DCATDataset(RangeValueConverter):
                 "form_languages": self.translated_field_properties[
                     "form_languages"
                 ].copy(),
+                "required_languages": self.translated_field_properties[
+                    "required_languages"
+                ].copy(),
+                "alternate_languages": self.translated_field_properties[
+                    "alternate_languages"
+                ].copy(),
             }
 
         if clazz_p.is_iri(ADMS.versionNotes):
@@ -112,6 +124,12 @@ class DCATDataset(RangeValueConverter):
                 **(r_value | self.translated_field_properties),
                 "form_languages": self.translated_field_properties[
                     "form_languages"
+                ].copy(),
+                "required_languages": self.translated_field_properties[
+                    "required_languages"
+                ].copy(),
+                "alternate_languages": self.translated_field_properties[
+                    "alternate_languages"
                 ].copy(),
             }
         if clazz_p.iri in properties_union:
