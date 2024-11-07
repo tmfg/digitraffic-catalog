@@ -1,5 +1,4 @@
-export const ModuleBase= {
-  initialize() {
-    $.proxyAll(this, /_on/);
-  }
-} as ckan.Module
+
+export function initialize() {
+  $.proxyAll(this, /_on|_handle/);
+}
