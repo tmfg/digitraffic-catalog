@@ -33,15 +33,19 @@ def fluent_core_translated_output(field, schema):
         """
         Return a value for a core field using a multilingual dict.
         """
+
         data[key] = fluent_text_output(data[key])
 
         k = key[-1]
         new_key = key[:-1] + (k[: -len(LANG_SUFFIX)],)
 
         if new_key in data:
-            data[new_key] = scheming_language_text(
-                data[key], config.get("ckan.locale_default", "en")
-            )
+            current_lang = config.get("ckan.locale_default", "en")
+
+            if not data[key].get(current_lang):
+                data[new_key] = scheming_language_text(data[key], "en")
+            else:
+                data[new_key] = scheming_language_text(data[key], current_lang)
 
     return validator
 

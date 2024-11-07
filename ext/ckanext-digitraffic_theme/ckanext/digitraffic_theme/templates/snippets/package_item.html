@@ -14,8 +14,8 @@ Template has been modified to display correct title and notes values
 for current language selection. 
 #}
 
-{% set title = package.get('title_translated', {}).get(request.environ.CKAN_LANG, package.title) %}
-{% set notes = h.markdown_extract(package.get('notes_translated', {}).get(request.environ.CKAN_LANG, package.notes), extract_length=180)  %}
+{% set title = package.get('title_translated', {}).get(request.environ.CKAN_LANG) or package.get('title_translated', {}).get("en", package.title)  %}
+{% set notes = h.markdown_extract(package.get('notes_translated', {}).get(request.environ.CKAN_LANG) or package.get('notes_translated', {}).get("en", package.title), extract_length=180)  %}
 
 {% block package_item %}
   <li class="{{ item_class or "dataset-item" }}">
