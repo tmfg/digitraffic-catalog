@@ -1,12 +1,12 @@
 import { Dropdown } from "../module-constructs/dropdown";
 
-const AppNavigation: ckan.Module = {
-  ...Dropdown,
-  _getMenuController(): JQuery<HTMLElement> {
+const AppNavigation: ckan.Module<HTMLDivElement> = {
+  ...Dropdown<HTMLDivElement>(),
+  _getMenuController(): JQuery<HTMLButtonElement> {
     return $("#app-nav-hamburger-button")
   },
 
-  _getMenu(): JQuery<HTMLElement> {
+  _getMenu(): JQuery<HTMLDivElement> {
     return $("#nav-interactions-wrapper")
   }
 }

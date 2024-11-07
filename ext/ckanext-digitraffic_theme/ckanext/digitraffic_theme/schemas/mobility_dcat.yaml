@@ -172,7 +172,7 @@ dataset_fields:
     label: Waterways and water bodies
 - field_name: mobility_theme_sub
   label: Data content sub category
-  required: true
+  required: false
   preset: select
   form_include_blank_choice: true
   choices:

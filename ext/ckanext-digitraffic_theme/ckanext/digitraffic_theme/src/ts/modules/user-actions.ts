@@ -1,7 +1,7 @@
 import { Dropdown } from "../module-constructs/dropdown";
 
-const UserActions: ckan.Module = {
-  ...Dropdown,
+const UserActions: ckan.Module<HTMLElement> = {
+  ...Dropdown(),
   _getMenuController(): JQuery<HTMLButtonElement> {
     return $("#user-action-select")
   },

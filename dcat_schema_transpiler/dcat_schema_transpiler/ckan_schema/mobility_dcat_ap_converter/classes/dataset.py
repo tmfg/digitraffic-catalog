@@ -146,7 +146,7 @@ class DCATDataset(RangeValueConverter):
                     {
                         "field_name": self.ckan_field(p, "sub"),
                         "label": "Data content sub category",
-                        "required": is_required,
+                        "required": False,
                         "preset": "select",
                         "form_include_blank_choice": True,
                         "choices": RangeValueConverter.vocab_choices(

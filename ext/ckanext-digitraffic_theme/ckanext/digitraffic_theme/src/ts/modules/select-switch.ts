@@ -1,4 +1,4 @@
-import { ModuleBase } from "../module-constructs/module";
+import { initialize } from "../module-constructs/module";
 
 /**
  * CKAN has a select-switch module (https://github.com/ckan/ckan/blob/master/ckan/public/base/javascript/modules/select-switch.js)
@@ -6,9 +6,8 @@ import { ModuleBase } from "../module-constructs/module";
  * but tries to make sure that the change event is fired only when user means it.
  */
 export const SelectSwitch = {
-  ...ModuleBase,
   initialize(this) {
-    ModuleBase.initialize.apply(this);
+    initialize.apply(this);
     this.el.on('keyup', 'select', (event) => {
       const key = event.key;
       const pickerOpenerKeys = new Set(['ArrowDown', 'ArrowUp', "Space"])
@@ -27,6 +26,6 @@ export const SelectSwitch = {
       this.el.submit()
     });
   }
-}
+} as ckan.Module<HTMLFormElement>
 
 ckan.module('digitraffic_theme_select_switch', function ($) { return SelectSwitch})
