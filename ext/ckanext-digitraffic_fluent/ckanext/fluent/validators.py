@@ -5,7 +5,11 @@ import six
 from ckan.plugins.toolkit import missing, get_validator, Invalid
 from ckantoolkit import config, _
 
-from ckanext.fluent.helpers import fluent_form_languages, fluent_alternate_languages
+from ckanext.fluent.helpers import (
+    fluent_form_languages,
+    fluent_alternate_languages,
+    fluent_required_languages,
+)
 from ckanext.scheming.helpers import scheming_language_text
 from ckanext.scheming.validation import scheming_validator, validators_from_string
 
@@ -65,16 +69,18 @@ def fluent_text(field, schema):
     When using this validator in a ckanext-scheming schema setting
     "required" to true will make all form languages required to
     pass validation.
+
+    Setting "required" to false and listing required languages in
+    "required_languages" makes it possible to have both required
+    and optional input languages for a multilingual field.
     """
     # combining scheming required checks and fluent field processing
     # into a single validator makes this validator more complicated,
     # but should be easier for fluent users and eliminates quite a
     # bit of duplication in handling the different types of input
-    required_langs = []
-    alternate_langs = {}
-    if field and field.get("required"):
-        required_langs = fluent_form_languages(field, schema=schema)
-        alternate_langs = fluent_alternate_languages(field, schema=schema)
+
+    form_langs = fluent_form_languages(field, schema=schema)
+    required_langs = fluent_required_languages(field, schema=schema)
 
     def validator(key, data, errors, context):
         # just in case there was an error before our validator,
@@ -117,9 +123,7 @@ def fluent_text(field, schema):
                         errors[key].append(_('invalid encoding for "%s" value') % lang)
 
             for lang in required_langs:
-                if value.get(lang) or any(
-                    value.get(l) for l in alternate_langs.get(lang, [])
-                ):
+                if value.get(lang):
                     continue
                 errors[key].append(_('Required language "%s" missing') % lang)
 
@@ -145,13 +149,12 @@ def fluent_text(field, schema):
             if output is not None:
                 output[lang] = text
 
-        for lang in required_langs:
-            if extras.get(prefix + lang) or any(
-                extras.get(prefix + l) for l in alternate_langs.get(lang, [])
-            ):
+        for lang in form_langs:
+            if extras.get(prefix + lang):
                 continue
-            errors[key[:-1] + (key[-1] + "-" + lang,)] = [_("Missing value")]
-            output = None
+            elif lang in required_langs:
+                errors[key[:-1] + (key[-1] + "-" + lang,)] = [_("Missing value")]
+                output = None
 
         if output is None:
             return

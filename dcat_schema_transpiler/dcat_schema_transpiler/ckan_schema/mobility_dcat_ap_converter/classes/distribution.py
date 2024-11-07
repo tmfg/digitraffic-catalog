@@ -83,33 +83,30 @@ class Distribution(RangeValueConverter):
                 return self.controlled_vocab_field(clazz_p, ds, is_required_)
             if clazz_p.is_iri(MOBILITYDCATAP.mobilityDataStandard):
                 return self.controlled_vocab_field(clazz_p, ds, is_required_)
+
+            """
+            Multilingual fields should have "required: false" at the field level.
+            Required input languages are given in separate field "required_languages".
+            """
             if clazz_p.is_iri(DCTERMS.description):
-                r_value = super().get_schema(ds, clazz_p, is_required_)
+                r_value = super().get_schema(ds, clazz_p, is_required=False)
                 return {
-                    **(r_value | self.translated_field_properties),
-                    "form_languages": self.translated_field_properties[
-                        "form_languages"
-                    ].copy(),
-                    "required_languages": self.translated_field_properties[
-                        "required_languages"
-                    ].copy(),
-                    "alternate_languages": self.translated_field_properties[
-                        "alternate_languages"
-                    ].copy(),
+                    **(
+                        r_value
+                        | RangeValueConverter.get_translated_field_properties(
+                            is_required_
+                        )
+                    )
                 }
             if clazz_p.is_iri(DCTERMS.title):
-                r_value = super().get_schema(ds, clazz_p, is_required_)
+                r_value = super().get_schema(ds, clazz_p, is_required=False)
                 return {
-                    **(r_value | self.translated_field_properties),
-                    "form_languages": self.translated_field_properties[
-                        "form_languages"
-                    ].copy(),
-                    "required_languages": self.translated_field_properties[
-                        "required_languages"
-                    ].copy(),
-                    "alternate_languages": self.translated_field_properties[
-                        "alternate_languages"
-                    ].copy(),
+                    **(
+                        r_value
+                        | RangeValueConverter.get_translated_field_properties(
+                            is_required_
+                        )
+                    )
                 }
             return super().get_schema(ds, clazz_p, is_required_)
         return None

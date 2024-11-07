@@ -7,7 +7,7 @@ dataset_fields:
   required: true
 - field_name: title_translated
   label: Title
-  required: true
+  required: false
   preset: fluent_core_translated
   form_languages:
   - fi
@@ -15,9 +15,6 @@ dataset_fields:
   - sv
   required_languages:
   - en
-  alternate_languages:
-    fi: en
-    sv: en
   form_attrs:
     data-module: slug-preview-target
 - field_name: name
@@ -27,7 +24,7 @@ dataset_fields:
   required: true
 - field_name: notes_translated
   label: Description
-  required: true
+  required: false
   preset: fluent_core_translated
   form_languages:
   - fi
@@ -35,9 +32,6 @@ dataset_fields:
   - sv
   required_languages:
   - en
-  alternate_languages:
-    fi: en
-    sv: en
 - field_name: frequency
   label: Frequency
   required: true
@@ -1088,11 +1082,6 @@ dataset_fields:
   - fi
   - en
   - sv
-  required_languages:
-  - en
-  alternate_languages:
-    fi: en
-    sv: en
 resource_fields:
 - field_name: url
   label: access address
@@ -1106,11 +1095,6 @@ resource_fields:
   - fi
   - en
   - sv
-  required_languages:
-  - en
-  alternate_languages:
-    fi: en
-    sv: en
 - field_name: description_translated
   label: Description
   required: false
@@ -1119,11 +1103,6 @@ resource_fields:
   - fi
   - en
   - sv
-  required_languages:
-  - en
-  alternate_languages:
-    fi: en
-    sv: en
 - field_name: format
   label: Format
   required: true
