@@ -1,5 +1,22 @@
 {% ckan_extends %}
 
+{% block package_notes %}
+  {%- if not dataset_type -%}
+    <p>
+    dataset_type not passed to template. your version of CKAN
+    might not be compatible with ckanext-scheming
+    </p>
+  {%- endif -%}
+  {% if (h.scheming_field_by_name(schema.dataset_fields, 'notes') or
+    h.scheming_field_by_name(schema.dataset_fields, 'notes_translated')) and
+    pkg.notes%}
+    {% set notes = pkg.get('notes_translated', {}).get(request.environ.CKAN_LANG) or pkg.get('notes_translated', {}).get("en", pkg.notes)  %}
+    <div class="notes embedded-content">
+      {{ h.render_markdown(notes) }}
+    </div>
+  {% endif %}
+{% endblock %}
+
 {% block package_additional_info %}
     <section class="rdf-links">
         <h3>RDF links</h3>
