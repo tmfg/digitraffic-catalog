@@ -16,13 +16,6 @@ from typing import Callable, List, Dict
 
 class RangeValueConverter(ABC):
 
-    translated_field_properties = {
-        "preset": "fluent_core_translated",
-        "form_languages": ["fi", "en", "sv"],
-        "required_languages": ["en"],
-        "alternate_languages": {"fi": "en", "sv": "en"},
-    }
-
     def __init__(self, clazz: RDFSClass):
         self.clazz = clazz
 
@@ -132,3 +125,22 @@ class RangeValueConverter(ABC):
                 if filter(URIRef(s))
             ]
         )
+
+    @staticmethod
+    def get_translated_field_properties(is_required: bool):
+        translated_field_properties = {
+            "preset": "fluent_core_translated",
+            "form_languages": ["fi", "en", "sv"],
+        }
+
+        if is_required:
+            return {
+                **translated_field_properties,
+                "form_languages": translated_field_properties["form_languages"].copy(),
+                "required_languages": ["en"],
+            }
+        else:
+            return {
+                **translated_field_properties,
+                "form_languages": translated_field_properties["form_languages"].copy(),
+            }
