@@ -8,6 +8,8 @@ import {
 
 type DatasetFormWrapperState = {
   topMobilityTheme?: TOP_MOBILITY_THEMES_T
+  subMobilityThemeSelector?: JQuery<HTMLSelectElement>
+  subMobilityThemeSelectorParent?: JQuery<HTMLSelectElement>
 }
 
 interface DatasetFormWrapperModule extends ckan.Module<HTMLSelectElement> {
@@ -23,7 +25,7 @@ const DatasetFormWrapper = {
     };
 
     const topMobilityThemeSelector = this._getTopMobilityThemeSelector()
-    const subMobilityThemeSelector = this._getSubMobilityTHemeSelector()
+    const subMobilityThemeSelector = this._getSubMobilityThemeSelector()
 
     topMobilityThemeSelector.on('change', this._onTopMobilityThemeChanged)
 
@@ -43,48 +45,61 @@ const DatasetFormWrapper = {
   _getTopMobilityThemeSelector(): JQuery<HTMLSelectElement> {
     return this.$("#field-mobility_theme")
   },
-  _getSubMobilityTHemeSelector(): JQuery<HTMLSelectElement> {
+  _getSubMobilityThemeSelector(): JQuery<HTMLSelectElement> {
     return this.$("#field-mobility_theme_sub")
   },
   _onTopMobilityThemeChanged(event) {
-    console.log("Top mobility theme changed")
     const selectedMobilityTheme = event.target.value;
-    console.log(`Selected mobility theme: ${selectedMobilityTheme}`)
-    this._updateState({topMobilityTheme: selectedMobilityTheme})
+    this._mergeState({topMobilityTheme: selectedMobilityTheme})
   },
-  _updateState(newState: Partial<DatasetFormWrapperState>) {
-    console.log("Updating state...")
-    const oldState = this.state
-    this.state = {
-      ...this.state,
-      ...newState
-    };
+  _stateChangedKeys(oldState: DatasetFormWrapperState, newState: DatasetFormWrapperState) {
     const changedKeys = new Set()
     for (const key in oldState) {
-      if (key in this.state) {
+      if (key in newState) {
         // Check if an existing key's value has changed
-        if (oldState[key] !== this.state[key]) {
+        if (oldState[key] !== newState[key]) {
           changedKeys.add(key)
         }
-      // If the key was deleted
+        // If the key was deleted
       } else {
         changedKeys.add(key)
       }
     }
-    for (const key in this.state) {
+    for (const key in newState) {
       // If a new key was added
       if (!(key in oldState)) {
         changedKeys.add(key)
       }
     }
-    console.log(`Old state: ${JSON.stringify(oldState)}`)
-    console.log(`New state: ${JSON.stringify(this.state)}`)
-    console.log(`Changed keys: ${JSON.stringify(changedKeys)}`)
+    return changedKeys
+  },
+  _triggerListeners(oldState: DatasetFormWrapperState, changedKeys) {
     if (this._stateListeners) {
       for (const listener of this._stateListeners) {
         listener(oldState, changedKeys)
       }
     }
+  },
+  _updateState(newState: DatasetFormWrapperState) {
+    const oldState = this.state
+    this.state = newState
+
+    const changedKeys = this._stateChangedKeys(oldState, newState)
+    this._triggerListeners(oldState, changedKeys)
+    return newState
+  },
+  _mergeState(partialNewState: Partial<DatasetFormWrapperState>) {
+    const oldState = this.state
+
+    const newState = {
+      ...this.state,
+      ...partialNewState
+    };
+    this.state = newState
+
+    const changedKeys = this._stateChangedKeys(oldState, newState)
+    this._triggerListeners(oldState, changedKeys)
+    return newState
   },
   _onStateUpdate(fn: (oldState: DatasetFormWrapperState, changedKeys: Set<keyof DatasetFormWrapperState>) => void): ()=>void {
     if (this._stateListeners) {
@@ -99,9 +114,8 @@ const DatasetFormWrapper = {
     }
   },
   _handleTopMobilityThemeChanged(oldState: DatasetFormWrapperState, changedKeys: Set<keyof DatasetFormWrapperState>): void {
-    console.log('handling top mobility theme changed')
-    if (changedKeys.has("topMobilityTheme")) {
-      const subThemeOptions = MOBILITY_THEME_TREE[this.state.topMobilityTheme].map(subTheme => {
+    function _buildSubThemeOptions(subThemes: SUB_MOBILITY_THEMES_T[]) {
+      const subThemeOptions = subThemes.map(subTheme => {
         const option = document.createElement("option")
         option.value = subTheme
         option.text = MOBILITY_THEME_LABELS[subTheme]
@@ -112,8 +126,65 @@ const DatasetFormWrapper = {
       emptyOption.text = ""
       emptyOption.selected = true
       subThemeOptions.unshift(emptyOption)
-      console.log(subThemeOptions)
-      this._getSubMobilityTHemeSelector().empty().append(subThemeOptions)
+
+      return subThemeOptions
+    }
+    function _changeSubThemeOptions(subThemeOptions: HTMLOptionElement[]) {
+      this._getSubMobilityThemeSelector().empty().append(subThemeOptions)
+    }
+
+    function _toggleSubMobilityThemeVisibility() {
+      const formGroup = this._getSubMobilityThemeSelector().parentsUntil('form')
+        .filter('div.form-group')
+      const display = formGroup.css('display')
+      const isVisible = display !== 'none'
+
+      if (isVisible) {
+        formGroup.css('display', 'none')
+      } else {
+        formGroup.css('display', '')
+      }
+    }
+
+    function _removeSubThemeSelector() {
+      const isSelectorRemoved = this._getSubMobilityThemeSelector().length === 0
+      if (!(isSelectorRemoved)) {
+        _toggleSubMobilityThemeVisibility.apply(this)
+        const subMobilityThemeSelectorParent = this._getSubMobilityThemeSelector().parent()
+        const subMobilityThemeSelector = this._getSubMobilityThemeSelector().detach()
+        this._mergeState({
+          subMobilityThemeSelector: subMobilityThemeSelector,
+          subMobilityThemeSelectorParent: subMobilityThemeSelectorParent,
+        })
+      }
+    }
+
+    function _addSubThemeSelector() {
+      this.state.subMobilityThemeSelectorParent.append(this.state.subMobilityThemeSelector)
+      _toggleSubMobilityThemeVisibility.apply(this)
+      const currentState = this.state
+      const keysToRemove = new Set(["subMobilityThemeSelector", "subMobilityThemeSelectorParent"])
+      const newState = Object.keys(currentState).reduce((state, key) => {
+        if (!(keysToRemove.has(key))) {
+          state[key] = currentState[key]
+        }
+        return state
+      }, {})
+      this._updateState(newState)
+    }
+
+    if (changedKeys.has("topMobilityTheme")) {
+      const subThemes = MOBILITY_THEME_TREE[this.state.topMobilityTheme]
+      if (subThemes?.length > 0) {
+        const isSubMobilityThemeSelectorRemoved = !!this.state.subMobilityThemeSelector
+        if (isSubMobilityThemeSelectorRemoved) {
+          _addSubThemeSelector.apply(this)
+        }
+        const subThemeOptions = _buildSubThemeOptions.apply(this, [subThemes])
+        _changeSubThemeOptions.apply(this, [subThemeOptions])
+      } else {
+        _removeSubThemeSelector.apply(this)
+      }
     }
   }
 } as DatasetFormWrapperModule
