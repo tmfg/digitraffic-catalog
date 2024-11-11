@@ -15,8 +15,6 @@ dataset_fields:
   - sv
   required_languages:
   - en
-  form_attrs:
-    data-module: slug-preview-target
 - field_name: name
   label: URL
   preset: dataset_slug

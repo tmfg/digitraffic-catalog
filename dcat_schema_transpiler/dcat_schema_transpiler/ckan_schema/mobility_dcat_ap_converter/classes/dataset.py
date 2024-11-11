@@ -98,8 +98,7 @@ class DCATDataset(RangeValueConverter):
                 **(
                     r_value
                     | RangeValueConverter.get_translated_field_properties(is_required_)
-                ),
-                "form_attrs": {"data-module": "slug-preview-target"},
+                )
             }
         if clazz_p.is_iri(DCTERMS.description):
             r_value = super().get_schema(ds, clazz_p, is_required=False)
