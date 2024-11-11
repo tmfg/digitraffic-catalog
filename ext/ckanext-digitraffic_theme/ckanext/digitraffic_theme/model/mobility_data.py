@@ -11,8 +11,7 @@ from ckanext.digitraffic_theme.model.distribution import Distribution
 from ckanext.digitraffic_theme.model.frequency import Frequency
 from ckanext.digitraffic_theme.model.language import Language
 from ckanext.digitraffic_theme.model.location import Location
-from ckanext.digitraffic_theme.model.mobility_theme import MobilityTheme
-from ckanext.digitraffic_theme.model.mobility_theme_sub import MobilityThemeSub
+from ckanext.digitraffic_theme.model.mobility_theme import MobilityTheme, MobilityThemeSub
 
 
 class MobilityData:
