@@ -1,9 +1,8 @@
 import { initialize } from "../module-constructs/module";
 import {
-  TOP_MOBILITY_THEMES,
   TOP_MOBILITY_THEMES_T,
   isTopMobilityTheme,
-  SUB_MOBILITY_THEMES_T, MOBILITY_THEME_TREE, MOBILITY_THEME_LABELS
+  SUB_MOBILITY_THEMES_T, MOBILITY_THEME_TREE, MOBILITY_THEME_LABELS, SUB_MOBILITY_THEMES
 } from "../model/mobility-theme";
 
 type DatasetFormWrapperState = {
@@ -25,11 +24,11 @@ const DatasetFormWrapper = {
     };
 
     const topMobilityThemeSelector = this._getTopMobilityThemeSelector()
-    const subMobilityThemeSelector = this._getSubMobilityThemeSelector()
 
     topMobilityThemeSelector.on('change', this._onTopMobilityThemeChanged)
 
     this._onStateUpdate(this._handleTopMobilityThemeChanged)
+    this._subThemeSelectorViewUpdate(undefined, this.state)
   },
   teardown: function() {
     this._stateListeners = undefined
@@ -114,6 +113,15 @@ const DatasetFormWrapper = {
     }
   },
   _handleTopMobilityThemeChanged(oldState: DatasetFormWrapperState, changedKeys: Set<keyof DatasetFormWrapperState>): void {
+    if (changedKeys.has("topMobilityTheme")) {
+      this._subThemeSelectorViewUpdate(oldState, this.state)
+    }
+  },
+  _subThemeSelectorViewUpdate(oldState: DatasetFormWrapperState | undefined, state: DatasetFormWrapperState) {
+    function isSubMobilityThemeSelectorRemoved(state: DatasetFormWrapperState): state is DatasetFormWrapperState & Required<Pick<DatasetFormWrapperState, "subMobilityThemeSelector"|"subMobilityThemeSelectorParent">> {
+      return typeof state === 'object' && !!state.subMobilityThemeSelectorParent && !!state.subMobilityThemeSelector
+    }
+
     function _buildSubThemeOptions(subThemes: SUB_MOBILITY_THEMES_T[]) {
       const subThemeOptions = subThemes.map(subTheme => {
         const option = document.createElement("option")
@@ -147,8 +155,7 @@ const DatasetFormWrapper = {
     }
 
     function _removeSubThemeSelector() {
-      const isSelectorRemoved = this._getSubMobilityThemeSelector().length === 0
-      if (!(isSelectorRemoved)) {
+      if (!(isSubMobilityThemeSelectorRemoved(state))) {
         _toggleSubMobilityThemeVisibility.apply(this)
         const subMobilityThemeSelectorParent = this._getSubMobilityThemeSelector().parent()
         const subMobilityThemeSelector = this._getSubMobilityThemeSelector().detach()
@@ -160,26 +167,27 @@ const DatasetFormWrapper = {
     }
 
     function _addSubThemeSelector() {
-      this.state.subMobilityThemeSelectorParent.append(this.state.subMobilityThemeSelector)
-      _toggleSubMobilityThemeVisibility.apply(this)
-      const currentState = this.state
-      const keysToRemove = new Set(["subMobilityThemeSelector", "subMobilityThemeSelectorParent"])
-      const newState = Object.keys(currentState).reduce((state, key) => {
-        if (!(keysToRemove.has(key))) {
-          state[key] = currentState[key]
-        }
-        return state
-      }, {})
-      this._updateState(newState)
+      if (isSubMobilityThemeSelectorRemoved(state)) {
+        state.subMobilityThemeSelectorParent.append(state.subMobilityThemeSelector)
+        _toggleSubMobilityThemeVisibility.apply(this)
+        const currentState = {...state}
+        const keysToRemove = new Set(["subMobilityThemeSelector", "subMobilityThemeSelectorParent"])
+        const newState = Object.keys(currentState).reduce((state, key) => {
+          if (!(keysToRemove.has(key))) {
+            state[key] = currentState[key]
+          }
+          return state
+        }, {})
+        this._updateState(newState)
+      }
     }
-
-    if (changedKeys.has("topMobilityTheme")) {
-      const subThemes = MOBILITY_THEME_TREE[this.state.topMobilityTheme]
+    const isInitialRender = oldState === undefined
+    const isMobilityThemeChanged = oldState?.topMobilityTheme !== state.topMobilityTheme
+    const isRenderNeeded = isInitialRender || isMobilityThemeChanged
+    if (isRenderNeeded) {
+      const subThemes = MOBILITY_THEME_TREE[state.topMobilityTheme]
       if (subThemes?.length > 0) {
-        const isSubMobilityThemeSelectorRemoved = !!this.state.subMobilityThemeSelector
-        if (isSubMobilityThemeSelectorRemoved) {
-          _addSubThemeSelector.apply(this)
-        }
+        _addSubThemeSelector.apply(this)
         const subThemeOptions = _buildSubThemeOptions.apply(this, [subThemes])
         _changeSubThemeOptions.apply(this, [subThemeOptions])
       } else {
