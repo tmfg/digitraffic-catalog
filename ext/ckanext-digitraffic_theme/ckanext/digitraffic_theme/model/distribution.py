@@ -2,13 +2,13 @@ from typing import Any, List
 
 from rdflib import Literal, DCAT, DCTERMS, URIRef, RDF
 
-from ckanext.digitraffic_theme.profiles.model.class_instance import ClassInstance
-from ckanext.digitraffic_theme.profiles.model.mobility_data_standard import (
+from ckanext.digitraffic_theme.model.class_instance import ClassInstance
+from ckanext.digitraffic_theme.model.mobility_data_standard import (
     MobilityDataStandard,
 )
-from ckanext.digitraffic_theme.profiles.model.rights_statement import RightsStatement
-from ckanext.digitraffic_theme.profiles.model.format import Format
-from ckanext.digitraffic_theme.profiles.rdf.mobility_dcat_ap import MOBILITYDCATAP
+from ckanext.digitraffic_theme.model.rights_statement import RightsStatement
+from ckanext.digitraffic_theme.model.format import Format
+from ckanext.digitraffic_theme.rdf.mobility_dcat_ap import MOBILITYDCATAP
 
 
 class Distribution(ClassInstance):

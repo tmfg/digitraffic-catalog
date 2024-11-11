@@ -1,4 +1,4 @@
-from ckanext.digitraffic_theme.profiles.model.vocabulary import Vocabulary
+from ckanext.digitraffic_theme.model.vocabulary import Vocabulary
 
 RIGHTS_TYPE = [
     'https://w3id.org/mobilitydcat-ap/conditions-for-access-and-usage/contractual-arrangement',

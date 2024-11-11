@@ -1,6 +1,6 @@
 import pytest
 
-from ckanext.digitraffic_theme.profiles.model.mobility_theme import MobilityTheme
+from ckanext.digitraffic_theme.model.mobility_theme import MobilityTheme
 
 
 def test_create_valid_mobility_theme():
