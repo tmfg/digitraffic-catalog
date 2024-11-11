@@ -7,8 +7,7 @@ from ckanext.digitraffic_theme.model.class_instance import ClassInstance
 from ckanext.digitraffic_theme.model.distribution import Distribution
 from ckanext.digitraffic_theme.model.frequency import Frequency
 from ckanext.digitraffic_theme.model.location import Location
-from ckanext.digitraffic_theme.model.mobility_theme import MobilityTheme
-from ckanext.digitraffic_theme.model.mobility_theme_sub import MobilityThemeSub
+from ckanext.digitraffic_theme.model.mobility_theme import MobilityTheme, MobilityThemeSub, is_valid_mobility_theme_sub
 from ckanext.digitraffic_theme.rdf.mobility_dcat_ap import MOBILITYDCATAP
 
 
@@ -35,6 +34,8 @@ class Dataset(ClassInstance):
 
     def __init__(self, iri: str, input: DatasetInput):
         super().__init__(iri, DCAT.Dataset)
+        if not self._is_valid_input(input):
+            raise ValueError(f'{input} is not a valid input for Dataset')
         self.description = input["description"]
         self.distribution = input["distribution"]
         self.accrualPeriodicity = input["accrualPeriodicity"]
@@ -43,6 +44,12 @@ class Dataset(ClassInstance):
         self.spatial = input["spatial"]
         self.title = input["title"]
         self.publisher = input["publisher"]
+
+    def _is_valid_input(self, input: DatasetInput) -> bool:
+        mobility_theme_sub = input.get("mobility_theme_sub")
+        if mobility_theme_sub:
+            return is_valid_mobility_theme_sub(input["mobility_theme"], mobility_theme_sub)
+        return True
 
     def predicate_objects(self):
         pos = [

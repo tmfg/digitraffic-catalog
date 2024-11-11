@@ -3,14 +3,20 @@ import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
 from ckan.lib.plugins import DefaultTranslation
 
+from ckanext.digitraffic_theme.validators.dataset_validators import mobility_theme_sub_validator
+
 class DigitrafficThemePlugin(plugins.SingletonPlugin, DefaultTranslation):
     '''Digitraffic theme plugin.
     '''
 
     plugins.implements(plugins.ITranslation)
+    plugins.implements(plugins.IValidators)
     
     # Declare that this class implements IConfigurer.
     plugins.implements(plugins.IConfigurer)
+
+    def get_validators(self):
+        return {"mobility_theme_sub_validator": mobility_theme_sub_validator}
 
     def update_config(self, config):
         # Add this plugin's templates dir to CKAN's extra_template_paths, so

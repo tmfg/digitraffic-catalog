@@ -17,8 +17,7 @@ from ckanext.digitraffic_theme.model.location import Location
 from ckanext.digitraffic_theme.model.mobility_data_standard import (
     MobilityDataStandard,
 )
-from ckanext.digitraffic_theme.model.mobility_theme import MobilityTheme
-from ckanext.digitraffic_theme.model.mobility_theme_sub import MobilityThemeSub
+from ckanext.digitraffic_theme.model.mobility_theme import MobilityTheme, MobilityThemeSub
 from ckanext.digitraffic_theme.model.rights_type import RightsType
 from ckanext.digitraffic_theme.rdf.mobility_dcat_ap import MOBILITYDCATAP
 
