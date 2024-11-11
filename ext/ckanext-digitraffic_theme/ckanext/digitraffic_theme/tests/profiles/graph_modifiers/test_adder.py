@@ -7,9 +7,9 @@ from ckanext.digitraffic_theme.profiles.graph_modifiers.adder import (
     add_literal_to_graph,
     add_vocabulary_to_graph
 )
-from ckanext.digitraffic_theme.profiles.model.agent import Agent
-from ckanext.digitraffic_theme.profiles.model.mobility_theme import MobilityTheme
-from ckanext.digitraffic_theme.profiles.rdf.mobility_dcat_ap import MOBILITYDCATAP
+from ckanext.digitraffic_theme.model.agent import Agent
+from ckanext.digitraffic_theme.model.mobility_theme import MobilityTheme
+from ckanext.digitraffic_theme.rdf.mobility_dcat_ap import MOBILITYDCATAP
 
 
 def test_add_class_instance_with_children_adds_correctly():

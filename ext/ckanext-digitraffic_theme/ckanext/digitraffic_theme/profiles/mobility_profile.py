@@ -10,10 +10,10 @@ from ckanext.digitraffic_theme.profiles.graph_modifiers.adder import (
     add_literal_to_graph,
     add_vocabulary_to_graph,
 )
-from ckanext.digitraffic_theme.profiles.model.agent import Agent
-from ckanext.digitraffic_theme.profiles.model.location import Location
-from ckanext.digitraffic_theme.profiles.model.mobility_data import MobilityData
-from ckanext.digitraffic_theme.profiles.rdf.mobility_dcat_ap import MOBILITYDCATAP
+from ckanext.digitraffic_theme.model.agent import Agent
+from ckanext.digitraffic_theme.model.location import Location
+from ckanext.digitraffic_theme.model.mobility_data import MobilityData
+from ckanext.digitraffic_theme.rdf.mobility_dcat_ap import MOBILITYDCATAP
 
 
 class MobilityDCATAPProfile(RDFProfile):
@@ -22,6 +22,7 @@ class MobilityDCATAPProfile(RDFProfile):
         return super().parse_dataset(dataset_dict, dataset_ref)
 
     def graph_from_dataset(self, dataset_dict, dataset_ref):
+        print("GRAPH FROM DATASET")
         mobility_data: MobilityData = MobilityData(dataset_dict, dataset_ref)
         g: Graph = self.g
         g.bind("mobilitydcatap", MOBILITYDCATAP)

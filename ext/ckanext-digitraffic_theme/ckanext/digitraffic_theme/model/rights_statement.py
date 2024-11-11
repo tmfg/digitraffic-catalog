@@ -1,8 +1,8 @@
 from __future__ import annotations
 
 from rdflib import DCTERMS, RDF
-from ckanext.digitraffic_theme.profiles.model.class_instance import ClassInstance
-from ckanext.digitraffic_theme.profiles.model.rights_type import RightsType
+from ckanext.digitraffic_theme.model.class_instance import ClassInstance
+from ckanext.digitraffic_theme.model.rights_type import RightsType
 
 
 class RightsStatement(ClassInstance):

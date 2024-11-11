@@ -1,6 +1,6 @@
 from __future__ import annotations
-from ckanext.digitraffic_theme.profiles.model.class_instance import ClassInstance
-from ckanext.digitraffic_theme.profiles.model.vocabulary import Vocabulary
+from ckanext.digitraffic_theme.model.class_instance import ClassInstance
+from ckanext.digitraffic_theme.model.vocabulary import Vocabulary
 
 from rdflib import Graph, URIRef, BNode, Literal
 from typing import Any, Callable, overload
