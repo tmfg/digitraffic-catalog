@@ -15,6 +15,7 @@
 {% block package_additional_info %}
   {%- for field in schema.dataset_fields -%}
     {%- if field.field_name == 'title_translated' -%}
+        {# Show English value if current language not available #}
         {% set title = pkg_dict.get('title_translated', {}).get(request.environ.CKAN_LANG) or pkg_dict.get('title_translated', {}).get("en", pkg_dict.title)  %}
         <tr>
         <th scope="row" class="dataset-label">{{
@@ -26,6 +27,7 @@
         </tr>
     {%- endif -%}
     {%- if field.field_name == 'notes_translated' -%}
+        {# Show English value if current language not available #}
         {% set notes = pkg_dict.get('notes_translated', {}).get(request.environ.CKAN_LANG) or pkg_dict.get('notes_translated', {}).get("en", pkg_dict.title)  %}
         <tr>
         <th scope="row" class="dataset-label">{{
@@ -38,8 +40,6 @@
     {%- endif -%}
     {%- if field.field_name not in exclude_fields
         and field.display_snippet is not none -%}
-      field_name: {{field.field_name}}
-      exclude_fields: {{exclude_fields}}
       <tr>
         <th scope="row" class="dataset-label">{{
           h.scheming_language_text(field.label) }}</th>

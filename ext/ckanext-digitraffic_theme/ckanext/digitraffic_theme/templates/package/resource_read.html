@@ -66,7 +66,7 @@
             {% endif %}
           {% endblock %}
           <div class="prose notes" property="rdfs:label">
-            <!-- multilingual field -->
+            {# Multilingual field - get value in currently selected language #}
             {% if res.get("description_translated", {}).get(request.environ.CKAN_LANG, "") %}
               {{ h.render_markdown(res.get("description_translated", {}).get(request.environ.CKAN_LANG, "")) }}
             {% endif %}

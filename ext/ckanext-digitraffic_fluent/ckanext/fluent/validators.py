@@ -74,6 +74,7 @@ def fluent_text(field, schema):
     "required" to true will make all form languages required to
     pass validation.
 
+    Digitraffic addition:
     Setting "required" to false and listing required languages in
     "required_languages" makes it possible to have both required
     and optional input languages for a multilingual field.
