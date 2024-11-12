@@ -13,6 +13,8 @@ from dcat_schema_transpiler.rdfs.rdfs_property import RDFSProperty
 
 from typing import Callable, List, Dict
 
+from copy import deepcopy
+
 
 class RangeValueConverter(ABC):
 
@@ -135,12 +137,8 @@ class RangeValueConverter(ABC):
 
         if is_required:
             return {
-                **translated_field_properties,
-                "form_languages": translated_field_properties["form_languages"].copy(),
+                **deepcopy(translated_field_properties),
                 "required_languages": ["en"],
             }
         else:
-            return {
-                **translated_field_properties,
-                "form_languages": translated_field_properties["form_languages"].copy(),
-            }
+            return deepcopy(translated_field_properties)
