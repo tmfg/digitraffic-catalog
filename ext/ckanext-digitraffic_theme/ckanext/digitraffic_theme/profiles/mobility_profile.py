@@ -22,7 +22,6 @@ class MobilityDCATAPProfile(RDFProfile):
         return super().parse_dataset(dataset_dict, dataset_ref)
 
     def graph_from_dataset(self, dataset_dict, dataset_ref):
-        print("GRAPH FROM DATASET")
         mobility_data: MobilityData = MobilityData(dataset_dict, dataset_ref)
         g: Graph = self.g
         g.bind("mobilitydcatap", MOBILITYDCATAP)
