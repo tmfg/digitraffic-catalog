@@ -146,5 +146,4 @@ class Distribution(RangeValueConverter):
                     "preset": "select",
                     "form_include_blank_choice": True,
                     "choices": RangeValueConverter.vocab_choices(g),
-                    "validators": "scheming_required scheming_choices mobility_theme_sub_validator"
                 }
