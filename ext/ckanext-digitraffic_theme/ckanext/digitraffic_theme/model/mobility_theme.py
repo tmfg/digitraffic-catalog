@@ -94,7 +94,8 @@ MOBILITY_THEME_TREE = {
         URIRef("https://w3id.org/mobilitydcat-ap/mobility-theme/speed"),
         URIRef("https://w3id.org/mobilitydcat-ap/mobility-theme/traffic-data-at-border-crossings-to-third-countries"),
         URIRef("https://w3id.org/mobilitydcat-ap/mobility-theme/traffic-volume"),
-        URIRef("https://w3id.org/mobilitydcat-ap/mobility-theme/waiting-time-at-border-crossings-to-non-eu-member-states"),
+        URIRef(
+            "https://w3id.org/mobilitydcat-ap/mobility-theme/waiting-time-at-border-crossings-to-non-eu-member-states"),
     },
     URIRef("https://w3id.org/mobilitydcat-ap/mobility-theme/road-events-and-conditions"): {
         URIRef("https://w3id.org/mobilitydcat-ap/mobility-theme/accidents-and-incidents"),
@@ -152,6 +153,7 @@ class MobilityTheme(Vocabulary):
 
     def __init__(self, iri):
         super().__init__(iri)
+
 
 class MobilityThemeSub(Vocabulary):
     iris = [str(sub_theme) for theme, sub_themes in MOBILITY_THEME_TREE.items() for sub_theme in sub_themes]

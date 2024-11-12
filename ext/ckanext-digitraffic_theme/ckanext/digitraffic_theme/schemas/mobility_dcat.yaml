@@ -2129,6 +2129,7 @@ resource_fields:
     label: TN-ITS
   - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/tpegml
     label: tpegML
+  validators: scheming_required scheming_choices mobility_theme_sub_validator
 - field_name: format_iri
   required: false
   form_snippet: null
