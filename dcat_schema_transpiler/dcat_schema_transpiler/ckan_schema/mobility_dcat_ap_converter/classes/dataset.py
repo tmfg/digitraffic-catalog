@@ -83,33 +83,24 @@ class DCATDataset(RangeValueConverter):
         properties_union = (
             DCATDataset.mandatory_properties | DCATDataset.optional_properties
         )
-        if clazz_p.is_iri(MOBILITYDCATAP.mobilityTheme):
-            return self.controlled_vocab_field(clazz_p, ds, is_required_)
-        if clazz_p.is_iri(DCTERMS.spatial):
+
+        """
+        Controlled vocabulary fields.
+        """
+        if clazz_p.is_iri(MOBILITYDCATAP.mobilityTheme) or clazz_p.is_iri(
+            DCTERMS.spatial
+        ):
             return self.controlled_vocab_field(clazz_p, ds, is_required_)
 
         """
         Multilingual fields should have "required: false" at the field level.
         Required input languages are given in separate field "required_languages".
         """
-        if clazz_p.is_iri(DCTERMS.title):
-            r_value = super().get_schema(ds, clazz_p, is_required=False)
-            return {
-                **(
-                    r_value
-                    | RangeValueConverter.get_translated_field_properties(is_required_)
-                )
-            }
-        if clazz_p.is_iri(DCTERMS.description):
-            r_value = super().get_schema(ds, clazz_p, is_required=False)
-            return {
-                **(
-                    r_value
-                    | RangeValueConverter.get_translated_field_properties(is_required_)
-                )
-            }
-
-        if clazz_p.is_iri(ADMS.versionNotes):
+        if (
+            clazz_p.is_iri(DCTERMS.title)
+            or clazz_p.is_iri(DCTERMS.description)
+            or clazz_p.is_iri(ADMS.versionNotes)
+        ):
             r_value = super().get_schema(ds, clazz_p, is_required=False)
             return {
                 **(
