@@ -74,7 +74,7 @@ jobs:
           cp -R ext/ckanext-digitraffic_theme docker/ckan/ckanext/ckanext-digitraffic_theme
           cp -R ext/ckanext-digitraffic_validators docker/ckan/ckanext/ckanext-digitraffic_validators
           cp -R ext/ckanext-entraid_authenticator docker/ckan/ckanext/ckanext-entraid_authenticator
-          cp -R ext/ckanext-entraid_authenticator docker/ckan/ckanext/ckanext-digitraffic_fluent
+          cp -R ext/ckanext-digitraffic_fluent docker/ckan/ckanext/ckanext-digitraffic_fluent
 
       - name: CKAN build
         if: github.event.inputs.install_ckan == 'true'
