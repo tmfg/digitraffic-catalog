@@ -7,14 +7,14 @@ dataset_fields:
   required: true
 - field_name: title_translated
   label: Title
-  required: true
+  required: false
   preset: fluent_core_translated
   form_languages:
   - fi
   - en
   - sv
-  form_attrs:
-    data-module: slug-preview-target
+  required_languages:
+  - en
 - field_name: name
   label: URL
   preset: dataset_slug
@@ -22,12 +22,14 @@ dataset_fields:
   required: true
 - field_name: notes_translated
   label: Description
-  required: true
+  required: false
   preset: fluent_core_translated
   form_languages:
   - fi
   - en
   - sv
+  required_languages:
+  - en
 - field_name: frequency
   label: Frequency
   required: true
