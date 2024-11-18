@@ -10,17 +10,16 @@ import ckan.tests.factories as factories
 
 from ckan.common import request, config
 
-from ckanext.digitraffic_theme.profiles.model.format import Format
-from ckanext.digitraffic_theme.profiles.model.frequency import Frequency
-from ckanext.digitraffic_theme.profiles.model.language import Language
-from ckanext.digitraffic_theme.profiles.model.location import Location
-from ckanext.digitraffic_theme.profiles.model.mobility_data_standard import (
+from ckanext.digitraffic_theme.model.format import Format
+from ckanext.digitraffic_theme.model.frequency import Frequency
+from ckanext.digitraffic_theme.model.language import Language
+from ckanext.digitraffic_theme.model.location import Location
+from ckanext.digitraffic_theme.model.mobility_data_standard import (
     MobilityDataStandard,
 )
-from ckanext.digitraffic_theme.profiles.model.mobility_theme import MobilityTheme
-from ckanext.digitraffic_theme.profiles.model.mobility_theme_sub import MobilityThemeSub
-from ckanext.digitraffic_theme.profiles.model.rights_type import RightsType
-from ckanext.digitraffic_theme.profiles.rdf.mobility_dcat_ap import MOBILITYDCATAP
+from ckanext.digitraffic_theme.model.mobility_theme import MobilityTheme, MobilityThemeSub, MOBILITY_THEME_TREE
+from ckanext.digitraffic_theme.model.rights_type import RightsType
+from ckanext.digitraffic_theme.rdf.mobility_dcat_ap import MOBILITYDCATAP
 
 
 # @pytest.mark.ckan_config('ckan.plugins', 'digitraffic_theme')
@@ -43,8 +42,8 @@ class TestProfile(object):
             "sv": "Svensk titel",
         }
         dataset_frequency = Frequency.iris[0]
-        dataset_mobility_theme = MobilityTheme.iris[0]
-        dataset_mobility_theme_sub = MobilityThemeSub.iris[0]
+        dataset_mobility_theme = str([main_theme for main_theme, sub_themes in MOBILITY_THEME_TREE.items() if len(sub_themes) > 0][0])
+        dataset_mobility_theme_sub = str(list(MOBILITY_THEME_TREE[URIRef(dataset_mobility_theme)])[0])
         dataset_spatial = Location.iris[0]
         dataset = factories.Dataset(
             owner_org=owner_org["id"],
