@@ -8,6 +8,7 @@ from ckanext.digitraffic_theme.model.distribution import Distribution
 from ckanext.digitraffic_theme.model.frequency import Frequency
 from ckanext.digitraffic_theme.model.location import Location
 from ckanext.digitraffic_theme.model.georeferencing_method import GeoreferencingMethod
+from ckanext.digitraffic_theme.model.network_coverage import NetworkCoverage
 from ckanext.digitraffic_theme.model.mobility_theme import MobilityTheme, MobilityThemeSub, is_valid_mobility_theme_sub
 from ckanext.digitraffic_theme.rdf.mobility_dcat_ap import MOBILITYDCATAP
 
@@ -24,6 +25,7 @@ class DatasetInput(TypedDict):
     publisher: Agent
     # Recommended properteis
     georeferencing_method: NotRequired[GeoreferencingMethod]
+    network_coverage: NotRequired[NetworkCoverage]
 
 
 class Dataset(ClassInstance):
@@ -43,6 +45,7 @@ class Dataset(ClassInstance):
         self.publisher = input["publisher"]
         # Recommended properties
         self.georeferencing_method = input.get("georeferencing_method")
+        self.network_coverage = input.get("network_coverage")
 
     def _is_valid_input(self, input: DatasetInput) -> bool:
         mobility_theme_sub = input.get("mobility_theme_sub")
@@ -63,5 +66,6 @@ class Dataset(ClassInstance):
             (DCTERMS.publisher, self.publisher),
             *[(DCAT.distribution, dist) for dist in self.distribution],
             (MOBILITYDCATAP.georeferencingMethod, self.georeferencing_method) if self.georeferencing_method else None,
+            (MOBILITYDCATAP.networkCoverage, self.network_coverage) if self.network_coverage else None,
         ]
         return [po for po in pos if po is not None]

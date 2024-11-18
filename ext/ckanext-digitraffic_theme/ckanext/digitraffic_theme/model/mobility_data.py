@@ -12,6 +12,7 @@ from ckanext.digitraffic_theme.model.frequency import Frequency
 from ckanext.digitraffic_theme.model.location import Location
 from ckanext.digitraffic_theme.model.mobility_theme import MobilityTheme, MobilityThemeSub
 from ckanext.digitraffic_theme.model.georeferencing_method import GeoreferencingMethod
+from ckanext.digitraffic_theme.model.network_coverage import NetworkCoverage
 
 
 class MobilityData:
@@ -44,6 +45,7 @@ class MobilityData:
                 ),
                 **({"mobility_theme_sub": MobilityThemeSub(dataset_dict["mobility_theme_sub"])} if dataset_dict.get("mobility_theme_sub") else {}),
                 **({"georeferencing_method": GeoreferencingMethod(dataset_dict["georeferencing_method"])} if dataset_dict.get("georeferencing_method") else {}),
+                **({"network_coverage": NetworkCoverage(dataset_dict["network_coverage"])} if dataset_dict.get("network_coverage") else {}),
             },
         )
         # Catalog Record
