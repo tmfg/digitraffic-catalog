@@ -174,9 +174,10 @@ dataset_fields:
     label: Waterways and water bodies
 - field_name: mobility_theme_sub
   label: Data content sub category
-  required: true
+  required: false
   preset: select
   form_include_blank_choice: true
+  validators: scheming_required scheming_choices mobility_theme_sub_validator
   choices:
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/accesibility-information-for-vehicles
     label: Accesibility information for vehicles

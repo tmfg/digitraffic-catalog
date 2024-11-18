@@ -1,4 +1,4 @@
-from ckanext.digitraffic_theme.profiles.model.vocabulary import Vocabulary
+from ckanext.digitraffic_theme.model.vocabulary import Vocabulary
 
 FORMAT = [
     "http://publications.europa.eu/resource/authority/file-type/TAR",

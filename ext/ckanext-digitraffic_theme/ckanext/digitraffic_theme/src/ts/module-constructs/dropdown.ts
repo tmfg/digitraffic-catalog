@@ -1,9 +1,8 @@
-import { ModuleBase } from "./module";
+import { initialize } from "./module";
 
-export const Dropdown = {
-  ...ModuleBase,
+export const Dropdown = <T extends HTMLElement>(): ckan.Module<T> => ({
   initialize(this) {
-    ModuleBase.initialize.apply(this);
+    initialize.apply(this);
     this._getMenuController().on('click', this._onMenuControllerClick);
     this._getMenuController().on('keydown', this._onMenuControllerKeyDown);
     this._getMenu().on('keydown', this._onMenuKeyDown)
@@ -142,4 +141,4 @@ export const Dropdown = {
   _getMenu(): JQuery<HTMLElement> {
     throw Error('No menu')
   }
-}
+} as ckan.Module<T>)
