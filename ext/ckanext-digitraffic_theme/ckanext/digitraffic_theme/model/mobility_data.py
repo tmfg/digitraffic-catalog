@@ -9,9 +9,9 @@ from ckanext.digitraffic_theme.model.catalog_record import CatalogRecord
 from ckanext.digitraffic_theme.model.dataset import Dataset
 from ckanext.digitraffic_theme.model.distribution import Distribution
 from ckanext.digitraffic_theme.model.frequency import Frequency
-from ckanext.digitraffic_theme.model.language import Language
 from ckanext.digitraffic_theme.model.location import Location
 from ckanext.digitraffic_theme.model.mobility_theme import MobilityTheme, MobilityThemeSub
+from ckanext.digitraffic_theme.model.georeferencing_method import GeoreferencingMethod
 
 
 class MobilityData:
@@ -42,7 +42,8 @@ class MobilityData:
                 "publisher": Agent(
                     organization_ref, dataset_dict["organization"]["name"]
                 ),
-                **({"mobility_theme_sub": MobilityThemeSub(dataset_dict["mobility_theme_sub"])} if dataset_dict.get("mobility_theme_sub") else {})
+                **({"mobility_theme_sub": MobilityThemeSub(dataset_dict["mobility_theme_sub"])} if dataset_dict.get("mobility_theme_sub") else {}),
+                **({"georeferencing_method": GeoreferencingMethod(dataset_dict["georeferencing_method"])} if dataset_dict.get("georeferencing_method") else {}),
             },
         )
         # Catalog Record

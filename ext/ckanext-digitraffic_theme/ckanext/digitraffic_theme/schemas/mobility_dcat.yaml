@@ -1079,6 +1079,26 @@ dataset_fields:
   - fi
   - en
   - sv
+- field_name: georeferencing_method
+  label: Georeferencing Method
+  required: true
+  preset: select
+  form_include_blank_choice: true
+  choices:
+  - value: https://w3id.org/mobilitydcat-ap/georeferencing-method/alert-c
+    label: ALERT-C
+  - value: https://w3id.org/mobilitydcat-ap/georeferencing-method/gml
+    label: GML
+  - value: https://w3id.org/mobilitydcat-ap/georeferencing-method/geocoordinates
+    label: Geocoordinates
+  - value: https://w3id.org/mobilitydcat-ap/georeferencing-method/iso-19148
+    label: ISO 19148
+  - value: https://w3id.org/mobilitydcat-ap/georeferencing-method/openlr
+    label: OpenLR
+  - value: https://w3id.org/mobilitydcat-ap/georeferencing-method/other
+    label: Other
+  - value: https://w3id.org/mobilitydcat-ap/georeferencing-method/tpeg-loc
+    label: TPEG-LOC
 resource_fields:
 - field_name: url
   label: access address

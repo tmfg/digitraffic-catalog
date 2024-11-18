@@ -7,7 +7,7 @@ from rdflib.term import Node
 from ckan_schema.mobility_dcat_ap_converter.range_value_converter import (
     RangeValueConverter,
 )
-from mobility_dcat_ap.dataset import CVOCAB_MOBILITY_THEME, CVOCAB_NUTS, CVOCAB_LAU
+from mobility_dcat_ap.dataset import CVOCAB_MOBILITY_THEME, CVOCAB_NUTS, CVOCAB_LAU, CVOCAB_GEOREFERENCING_METHOD
 from mobility_dcat_ap.namespace import MOBILITYDCATAP
 from dcat_schema_transpiler.asset_description_metadata_schema.namespace import ADMS
 from dcat_schema_transpiler.rdfs.rdfs_class import RDFSClass
@@ -16,7 +16,6 @@ from dcat_schema_transpiler.rdfs.rdfs_resource import RDFSResource
 
 
 class DCATDataset(RangeValueConverter):
-
     mandatory_properties = {
         DCTERMS.description,
         DCAT.distribution,
@@ -25,6 +24,10 @@ class DCATDataset(RangeValueConverter):
         DCTERMS.spatial,
         DCTERMS.title,
         DCTERMS.publisher,
+    }
+
+    recommended_properties = {
+        MOBILITYDCATAP.georeferencingMethod
     }
 
     optional_properties = {OWL.versionInfo, ADMS.versionNotes}
@@ -44,6 +47,7 @@ class DCATDataset(RangeValueConverter):
             DCTERMS.spatial: "spatial",
             OWL.versionInfo: "version",
             ADMS.versionNotes: "version_notes_translated",
+            MOBILITYDCATAP.georeferencingMethod: "georeferencing_method"
         }
         field_value = mappings.get(p.iri)
         if isinstance(field_value, dict):
@@ -81,11 +85,14 @@ class DCATDataset(RangeValueConverter):
         if clazz_p.iri in DCATDataset.optional_properties:
             is_required_ = False
         properties_union = (
-            DCATDataset.mandatory_properties | DCATDataset.optional_properties
+                DCATDataset.mandatory_properties | DCATDataset.recommended_properties | DCATDataset.optional_properties
         )
-        if clazz_p.is_iri(MOBILITYDCATAP.mobilityTheme):
-            return self.controlled_vocab_field(clazz_p, ds, is_required_)
-        if clazz_p.is_iri(DCTERMS.spatial):
+        vocabulary_ranges = [
+            MOBILITYDCATAP.mobilityTheme,
+            DCTERMS.spatial,
+            MOBILITYDCATAP.georeferencingMethod
+        ]
+        if any(clazz_p.is_iri(vocabulary_range) for vocabulary_range in vocabulary_ranges):
             return self.controlled_vocab_field(clazz_p, ds, is_required_)
         if clazz_p.is_iri(DCTERMS.title):
             r_value = super().get_schema(ds, clazz_p, is_required_)
@@ -119,7 +126,7 @@ class DCATDataset(RangeValueConverter):
         return None
 
     def controlled_vocab_field(
-        self, p: RDFSProperty, ds: Dataset, is_required: bool
+            self, p: RDFSProperty, ds: Dataset, is_required: bool
     ) -> List | Dict:
         match p.iri:
             case MOBILITYDCATAP.mobilityTheme:
@@ -134,13 +141,13 @@ class DCATDataset(RangeValueConverter):
                         "choices": RangeValueConverter.vocab_choices(
                             g,
                             lambda s: (
-                                s,
-                                SKOS.broader,
-                                URIRef(
-                                    "https://w3id.org/mobilitydcat-ap/mobility-theme/data-content-category"
-                                ),
-                            )
-                            in g,
+                                          s,
+                                          SKOS.broader,
+                                          URIRef(
+                                              "https://w3id.org/mobilitydcat-ap/mobility-theme/data-content-category"
+                                          ),
+                                      )
+                                      in g,
                         ),
                     },
                     {
@@ -153,13 +160,13 @@ class DCATDataset(RangeValueConverter):
                         "choices": RangeValueConverter.vocab_choices(
                             g,
                             lambda s: (
-                                s,
-                                SKOS.broader,
-                                URIRef(
-                                    "https://w3id.org/mobilitydcat-ap/mobility-theme/data-content-sub-category"
-                                ),
-                            )
-                            in g,
+                                          s,
+                                          SKOS.broader,
+                                          URIRef(
+                                              "https://w3id.org/mobilitydcat-ap/mobility-theme/data-content-sub-category"
+                                          ),
+                                      )
+                                      in g,
                         ),
                     },
                 ]
@@ -176,26 +183,26 @@ class DCATDataset(RangeValueConverter):
                 def is_finnish_nuts(nuts):
                     if (nuts, None, None) in g_nuts:
                         return (
-                            (
-                                nuts,
-                                URIRef(
-                                    "http://publications.europa.eu/ontology/euvoc#status"
-                                ),
-                                URIRef(
-                                    "http://publications.europa.eu/resource/authority/concept-status/CURRENT"
-                                ),
-                            )
-                            in g_nuts
-                            and (
-                                nuts,
-                                URIRef("http://www.w3.org/ns/adms#status"),
-                                URIRef(
-                                    "http://publications.europa.eu/resource/authority/concept-status/DEPRECATED"
-                                ),
-                            )
-                            not in g_nuts
-                            and find_top_nuts(nuts)
-                            == URIRef("http://data.europa.eu/nuts/code/FI")
+                                (
+                                    nuts,
+                                    URIRef(
+                                        "http://publications.europa.eu/ontology/euvoc#status"
+                                    ),
+                                    URIRef(
+                                        "http://publications.europa.eu/resource/authority/concept-status/CURRENT"
+                                    ),
+                                )
+                                in g_nuts
+                                and (
+                                    nuts,
+                                    URIRef("http://www.w3.org/ns/adms#status"),
+                                    URIRef(
+                                        "http://publications.europa.eu/resource/authority/concept-status/DEPRECATED"
+                                    ),
+                                )
+                                not in g_nuts
+                                and find_top_nuts(nuts)
+                                == URIRef("http://data.europa.eu/nuts/code/FI")
                         )
                     else:
                         return False
@@ -220,4 +227,14 @@ class DCATDataset(RangeValueConverter):
                     "choices": RangeValueConverter.vocab_choices(
                         g_nuts + g_lau, is_finnish_place
                     ),
+                }
+            case MOBILITYDCATAP.georeferencingMethod:
+                g = ds.get_graph(URIRef(CVOCAB_GEOREFERENCING_METHOD))
+                return {
+                    "field_name": self.ckan_field(p),
+                    "label": "Georeferencing Method",
+                    "required": is_required,
+                    "preset": "select",
+                    "form_include_blank_choice": True,
+                    "choices": RangeValueConverter.vocab_choices(g),
                 }
