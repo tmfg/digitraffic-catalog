@@ -1081,6 +1081,36 @@ dataset_fields:
   - fi
   - en
   - sv
+- field_name: network_coverage
+  label: Network Coverage
+  required: true
+  preset: select
+  form_include_blank_choice: true
+  choices:
+  - value: https://w3id.org/mobilitydcat-ap/network-coverage/air-network
+    label: Air network
+  - value: https://w3id.org/mobilitydcat-ap/network-coverage/metro-subway-tram-or-light-rail-network
+    label: Metro, subway, tram or light-rail network
+  - value: https://w3id.org/mobilitydcat-ap/network-coverage/motorways
+    label: Motorways
+  - value: https://w3id.org/mobilitydcat-ap/network-coverage/other
+    label: Other
+  - value: https://w3id.org/mobilitydcat-ap/network-coverage/other-public-transport-network
+    label: Other public transport network
+  - value: https://w3id.org/mobilitydcat-ap/network-coverage/rail-network
+    label: Rail network
+  - value: https://w3id.org/mobilitydcat-ap/network-coverage/regional-roads
+    label: Regional roads
+  - value: https://w3id.org/mobilitydcat-ap/network-coverage/state-roads-or-federal-roads
+    label: State roads or federal roads
+  - value: https://w3id.org/mobilitydcat-ap/network-coverage/ten-network
+    label: TEN Network
+  - value: https://w3id.org/mobilitydcat-ap/network-coverage/tern-network
+    label: TERN Network
+  - value: https://w3id.org/mobilitydcat-ap/network-coverage/urban-and-local-roads
+    label: Urban and local roads
+  - value: https://w3id.org/mobilitydcat-ap/network-coverage/waterways
+    label: Waterways
 - field_name: georeferencing_method
   label: Georeferencing Method
   required: true

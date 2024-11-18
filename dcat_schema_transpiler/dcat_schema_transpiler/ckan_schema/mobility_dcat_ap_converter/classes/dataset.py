@@ -7,7 +7,13 @@ from rdflib.term import Node
 from ckan_schema.mobility_dcat_ap_converter.range_value_converter import (
     RangeValueConverter,
 )
-from mobility_dcat_ap.dataset import CVOCAB_MOBILITY_THEME, CVOCAB_NUTS, CVOCAB_LAU, CVOCAB_GEOREFERENCING_METHOD
+from mobility_dcat_ap.dataset import (
+    CVOCAB_MOBILITY_THEME,
+    CVOCAB_NUTS,
+    CVOCAB_LAU,
+    CVOCAB_GEOREFERENCING_METHOD,
+    CVOCAB_NETWORK_COVERAGE
+)
 from mobility_dcat_ap.namespace import MOBILITYDCATAP
 from dcat_schema_transpiler.asset_description_metadata_schema.namespace import ADMS
 from dcat_schema_transpiler.rdfs.rdfs_class import RDFSClass
@@ -27,7 +33,8 @@ class DCATDataset(RangeValueConverter):
     }
 
     recommended_properties = {
-        MOBILITYDCATAP.georeferencingMethod
+        MOBILITYDCATAP.georeferencingMethod,
+        MOBILITYDCATAP.networkCoverage
     }
 
     optional_properties = {OWL.versionInfo, ADMS.versionNotes}
@@ -47,7 +54,8 @@ class DCATDataset(RangeValueConverter):
             DCTERMS.spatial: "spatial",
             OWL.versionInfo: "version",
             ADMS.versionNotes: "version_notes_translated",
-            MOBILITYDCATAP.georeferencingMethod: "georeferencing_method"
+            MOBILITYDCATAP.georeferencingMethod: "georeferencing_method",
+            MOBILITYDCATAP.networkCoverage: "network_coverage"
         }
         field_value = mappings.get(p.iri)
         if isinstance(field_value, dict):
@@ -90,7 +98,8 @@ class DCATDataset(RangeValueConverter):
         vocabulary_ranges = [
             MOBILITYDCATAP.mobilityTheme,
             DCTERMS.spatial,
-            MOBILITYDCATAP.georeferencingMethod
+            MOBILITYDCATAP.georeferencingMethod,
+            MOBILITYDCATAP.networkCoverage,
         ]
         if any(clazz_p.is_iri(vocabulary_range) for vocabulary_range in vocabulary_ranges):
             """
@@ -98,13 +107,12 @@ class DCATDataset(RangeValueConverter):
             """
             return self.controlled_vocab_field(clazz_p, ds, is_required_)
         if clazz_p.is_iri(DCTERMS.title):
-            r_value = super().get_schema(ds, clazz_p, is_required_)
+            r_value = super().get_schema(ds, clazz_p, False)
             return {
-                **(r_value | self.translated_field_properties),
-                "form_languages": self.translated_field_properties[
+                **(r_value | RangeValueConverter.get_translated_field_properties(True)),
+                "form_languages": RangeValueConverter.get_translated_field_properties(True)[
                     "form_languages"
                 ].copy(),
-                "form_attrs": {"data-module": "slug-preview-target"},
             }
 
         """
@@ -235,6 +243,16 @@ class DCATDataset(RangeValueConverter):
                 return {
                     "field_name": self.ckan_field(p),
                     "label": "Georeferencing Method",
+                    "required": is_required,
+                    "preset": "select",
+                    "form_include_blank_choice": True,
+                    "choices": RangeValueConverter.vocab_choices(g),
+                }
+            case MOBILITYDCATAP.networkCoverage:
+                g = ds.get_graph(URIRef(CVOCAB_NETWORK_COVERAGE))
+                return {
+                    "field_name": self.ckan_field(p),
+                    "label": "Network Coverage",
                     "required": is_required,
                     "preset": "select",
                     "form_include_blank_choice": True,
