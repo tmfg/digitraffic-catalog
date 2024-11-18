@@ -82,6 +82,7 @@ CVOCAB_LANGUAGE = Namespace("http://publications.europa.eu/resource/authority/la
 CVOCAB_NUTS = Namespace("http://data.europa.eu/nuts/")
 # About LAU: https://ec.europa.eu/eurostat/web/gisco/geodata/statistical-units/local-administrative-units
 CVOCAB_LAU = Namespace("https://w3id.org/stirdata/resource/lau/item/")
+CVOCAB_GEOREFERENCING_METHOD = Namespace("https://w3id.org/mobilitydcat-ap/georeferencing-method#")
 
 mobility_dcat_namespaces = {
     "adms": ADMS,
@@ -125,6 +126,7 @@ controlled_vocabularies = [
     CVOCAB_LANGUAGE,
     CVOCAB_NUTS,
     CVOCAB_LAU,
+    CVOCAB_GEOREFERENCING_METHOD,
 ]
 
 
@@ -340,6 +342,9 @@ def ns_fetch_info(ns: URIRef) -> NsFetchInfo | None:
         graph_url = "https://data.europa.eu/api/hub/repo/distributions/e02ba91d-0aaa-4af0-b49c-699eda90c902.rdf"
         serialization_format = "rdf"
     elif str(ns) == "https://w3id.org/stirdata/resource/lau/item/":
+        graph_url, _ = get_graph_url(ns)
+        serialization_format = "ttl"
+    elif str(ns) == "https://w3id.org/mobilitydcat-ap/georeferencing-method#":
         graph_url, _ = get_graph_url(ns)
         serialization_format = "ttl"
     else:
