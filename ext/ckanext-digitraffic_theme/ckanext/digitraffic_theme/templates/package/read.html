@@ -1,0 +1,13 @@
+{% ckan_extends %}
+
+{% block page_heading %}
+  {# Show English value if current language not available #}
+  {% set title = pkg.get('title_translated', {}).get(request.environ.CKAN_LANG) or pkg.get('title_translated', {}).get("en", pkg.title)  %}
+  {{ title }}
+  {% if pkg.state.startswith('draft') %}
+      [{{ _('Draft') }}]
+  {% endif %}
+  {% if pkg.state == 'deleted' %}
+      [{{ _('Deleted') }}]
+  {% endif %}
+{% endblock %}    

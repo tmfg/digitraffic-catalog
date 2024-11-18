@@ -13,13 +13,10 @@ from dcat_schema_transpiler.rdfs.rdfs_property import RDFSProperty
 
 from typing import Callable, List, Dict
 
+from copy import deepcopy
+
 
 class RangeValueConverter(ABC):
-
-    translated_field_properties = {
-        "preset": "fluent_core_translated",
-        "form_languages": ["fi", "en", "sv"],
-    }
 
     def __init__(self, clazz: RDFSClass):
         self.clazz = clazz
@@ -130,3 +127,18 @@ class RangeValueConverter(ABC):
                 if filter(URIRef(s))
             ]
         )
+
+    @staticmethod
+    def get_translated_field_properties(is_required: bool):
+        translated_field_properties = {
+            "preset": "fluent_core_translated",
+            "form_languages": ["fi", "en", "sv"],
+        }
+
+        if is_required:
+            return {
+                **deepcopy(translated_field_properties),
+                "required_languages": ["en"],
+            }
+        else:
+            return deepcopy(translated_field_properties)

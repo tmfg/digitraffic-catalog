@@ -93,6 +93,9 @@ class DCATDataset(RangeValueConverter):
             MOBILITYDCATAP.georeferencingMethod
         ]
         if any(clazz_p.is_iri(vocabulary_range) for vocabulary_range in vocabulary_ranges):
+            """
+            Controlled vocabulary fields.
+            """
             return self.controlled_vocab_field(clazz_p, ds, is_required_)
         if clazz_p.is_iri(DCTERMS.title):
             r_value = super().get_schema(ds, clazz_p, is_required_)
@@ -104,22 +107,21 @@ class DCATDataset(RangeValueConverter):
                 "form_attrs": {"data-module": "slug-preview-target"},
             }
 
-        if clazz_p.is_iri(DCTERMS.description):
-            r_value = super().get_schema(ds, clazz_p, is_required_)
+        """
+        Multilingual fields should have "required: false" at the field level.
+        Required input languages are given in separate field "required_languages".
+        """
+        if (
+            clazz_p.is_iri(DCTERMS.title)
+            or clazz_p.is_iri(DCTERMS.description)
+            or clazz_p.is_iri(ADMS.versionNotes)
+        ):
+            r_value = super().get_schema(ds, clazz_p, is_required=False)
             return {
-                **(r_value | self.translated_field_properties),
-                "form_languages": self.translated_field_properties[
-                    "form_languages"
-                ].copy(),
-            }
-
-        if clazz_p.is_iri(ADMS.versionNotes):
-            r_value = super().get_schema(ds, clazz_p, is_required_)
-            return {
-                **(r_value | self.translated_field_properties),
-                "form_languages": self.translated_field_properties[
-                    "form_languages"
-                ].copy(),
+                **(
+                    r_value
+                    | RangeValueConverter.get_translated_field_properties(is_required_)
+                )
             }
         if clazz_p.iri in properties_union:
             return super().get_schema(ds, clazz_p, is_required_)
