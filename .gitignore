@@ -10,6 +10,8 @@
 !ext/ckanext-entraid_authenticator/*/
 !ext/ckanext-digitraffic_validators
 !ext/ckanext-digitraffic_validators/*/
+!ext/ckanext-digitraffic_fluent
+!ext/ckanext-digitraffic_fluent/*/
 
 !local-env
 !local-env/**
