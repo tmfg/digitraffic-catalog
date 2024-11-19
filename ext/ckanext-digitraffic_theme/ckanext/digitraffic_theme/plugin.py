@@ -4,6 +4,7 @@ import ckan.plugins.toolkit as toolkit
 from ckan.lib.plugins import DefaultTranslation
 
 from ckanext.digitraffic_theme.validators.dataset_validators import mobility_theme_sub_validator
+from ckanext.digitraffic_theme.helpers.helpers import helpers
 
 class DigitrafficThemePlugin(plugins.SingletonPlugin, DefaultTranslation):
     '''Digitraffic theme plugin.
@@ -11,6 +12,7 @@ class DigitrafficThemePlugin(plugins.SingletonPlugin, DefaultTranslation):
 
     plugins.implements(plugins.ITranslation)
     plugins.implements(plugins.IValidators)
+    plugins.implements(plugins.ITemplateHelpers)
     
     # Declare that this class implements IConfigurer.
     plugins.implements(plugins.IConfigurer)
@@ -32,3 +34,6 @@ class DigitrafficThemePlugin(plugins.SingletonPlugin, DefaultTranslation):
         # templates.
         toolkit.add_resource('assets', 'digitraffic_theme')
         toolkit.add_resource('assets', 'digitraffic_web_component')
+
+    def get_helpers(self):
+        return helpers

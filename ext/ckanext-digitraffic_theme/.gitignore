@@ -15,7 +15,6 @@
 !rollup.config.js
 !tsconfig.json
 
-
 !/ckanext/
 !/ckanext/digitraffic_theme/
 !/ckanext/digitraffic_theme/**/

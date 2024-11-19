@@ -1,0 +1,14 @@
+{
+  "scheming_presets_version": 1,
+  "about": "These are presets used in digitraffic theme plugin",
+  "presets": [
+    {
+      "preset_name": "fieldset",
+      "values": {
+        "form_snippet": "fieldset.html",
+        "display_snippet": "fieldset.html",
+        "required": false
+      }
+    }
+  ]
+}
