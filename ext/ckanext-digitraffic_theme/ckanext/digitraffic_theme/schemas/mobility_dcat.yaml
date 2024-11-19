@@ -1083,7 +1083,7 @@ dataset_fields:
   - sv
 - field_name: network_coverage
   label: Network Coverage
-  required: true
+  required: false
   preset: select
   form_include_blank_choice: true
   choices:
@@ -1113,7 +1113,7 @@ dataset_fields:
     label: Waterways
 - field_name: georeferencing_method
   label: Georeferencing Method
-  required: true
+  required: false
   preset: select
   form_include_blank_choice: true
   choices:

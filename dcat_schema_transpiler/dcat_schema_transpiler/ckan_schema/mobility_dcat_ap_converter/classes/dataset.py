@@ -85,13 +85,7 @@ class DCATDataset(RangeValueConverter):
         return r_value
 
     def get_schema(self, ds: Dataset, clazz_p: RDFSProperty, is_required: bool = None):
-        is_required_ = (
-            is_required
-            if is_required is not None
-            else clazz_p.iri in DCATDataset.mandatory_properties
-        )
-        if clazz_p.iri in DCATDataset.optional_properties:
-            is_required_ = False
+        is_required_ = clazz_p.iri in DCATDataset.mandatory_properties
         properties_union = (
                 DCATDataset.mandatory_properties | DCATDataset.recommended_properties | DCATDataset.optional_properties
         )
