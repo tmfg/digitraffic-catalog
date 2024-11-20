@@ -26,11 +26,11 @@ from dcat_schema_transpiler.mobility_dcat_ap.namespace import (
     MOBILITYDCATAP_NS_URL,
     MOBILITYDCATAP,
 )
-from dcat_schema_transpiler.asset_description_metadata_schema.namespace import ADMS
+from dcat_schema_transpiler.namespaces.ADMS import ADMS
+from dcat_schema_transpiler.namespaces.VCARD import VCARD
 
 dcat_ap_v_2_0_1_url = "https://joinup.ec.europa.eu/sites/default/files/distribution/access_url/2020-06/e7febda4-1604-4e01-802f-53f0fd2f690c/dcat-ap_2.0.1.rdf"
 
-ADMS = Namespace("http://www.w3.org/ns/adms#")
 BIBO = Namespace("http://purl.org/ontology/bibo/")
 CC = Namespace("http://creativecommons.org/ns#")
 CNT = Namespace("http://www.w3.org/2011/content#")
@@ -40,7 +40,6 @@ DQV = Namespace("http://www.w3.org/ns/dqv#")
 LOCN = Namespace("http://www.w3.org/ns/locn#")
 OA = Namespace("http://www.w3.org/ns/oa#")
 XHV = Namespace("http://www.w3.org/1999/xhtml/vocab#")
-VCARD = Namespace("http://www.w3.org/2006/vcard/ns#")
 SDMX = Namespace("http://purl.org/linked-data/sdmx#")
 WDRS = Namespace("http://www.w3.org/2007/05/powder-s#")
 VOAF = Namespace("http://purl.org/vocommons/voaf#")
@@ -186,6 +185,18 @@ def mobilitydcatap_fixes(graph):
     # Agent
     graph.add((FOAF.name, DCAM.domainIncludes, FOAF.Agent))
 
+def xsd_fixes(ds: Dataset):
+    """
+    rdflib parsing of the namespace does not work. Add some necessary data here.
+    """
+    g = ds.get_graph(URIRef(XSD._NS))
+    # Documentation states https://www.w3.org/TR/rdf12-schema/#ch_datatype that the basic datatypes that are compatible
+    # with XML Schema are of class rdfs:Datatype
+    xsd_datatypes = [XSD.string, XSD.boolean, XSD.decimal, XSD.integer, XSD.double, XSD.float, XSD.date, XSD.dateTime,
+                     XSD.time, XSD.dateTimeStamp]
+    for datatype in xsd_datatypes:
+        g.add((datatype, RDF.type, RDFS.Datatype))
+
 
 def other_fixes(ds: Dataset):
     g_dcterms = ds.get_graph(URIRef(DCTERMS._NS))
@@ -193,6 +204,8 @@ def other_fixes(ds: Dataset):
     # Cannot find anything about class DCTERMS.Extent but it is still used
     # here https://www.dublincore.org/specifications/dublin-core/dcmi-terms/terms/format/
     g_dcterms.remove((DCTERMS.format, DCAM.rangeIncludes, DCTERMS._NS.Extent))
+
+    xsd_fixes(ds)
 
 
 def add_property(ds: Dataset, graph_namespace: URIRef, property: URIRef):
@@ -294,6 +307,7 @@ def ns_fetch_info(ns: URIRef) -> NsFetchInfo | None:
         # Couldn't find a serialized version
         return None
     elif str(ns) == "http://www.w3.org/2001/XMLSchema#":
+        # Rdflib parsing of this does not work.
         return None
     elif str(ns) == "http://www.w3.org/XML/1998/namespace":
         return None

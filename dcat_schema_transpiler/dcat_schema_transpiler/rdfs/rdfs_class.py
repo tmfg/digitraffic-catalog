@@ -18,8 +18,8 @@ class RDFSClass(RDFSResource):
         super().__init__(namespace, iri, types, additional_properties=additional_properties,
                          label=label, comment=comment, see_also=see_also, is_defined_by=is_defined_by,
                          member=member)
-        # OWL.Class is a subclass of RDFS.Class
-        if RDFS.Class not in types and OWL.Class not in types:
+        # OWL.Class and RDFS.Datatype are both subclass of RDFS.Class
+        if RDFS.Class not in types and OWL.Class not in types and RDFS.Datatype not in types:
             raise ValueError(f'Trying to create an RDFSClass without specifying it as a Class type')
         self.sub_class_of = sub_class_of
 

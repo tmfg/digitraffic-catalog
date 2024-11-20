@@ -15,22 +15,6 @@ dataset_fields:
   - sv
   required_languages:
   - en
-- preset: fieldset
-  field_name: fieldset_test
-  legend: "Fieldset test"
-  fields:
-    - field_name: foo_1
-      label: foo 1
-      preset: select
-      choices:
-        - value: foo
-          label: foo
-        - value: bar
-          label: bar
-    - field_name: foo_2
-      label: foo 2
-      form_placeholder: some placeholder
-      required: true
 - field_name: name
   label: URL
   preset: dataset_slug
@@ -1127,6 +1111,13 @@ dataset_fields:
     label: Urban and local roads
   - value: https://w3id.org/mobilitydcat-ap/network-coverage/waterways
     label: Waterways
+- field_name: contact_point
+  preset: fieldset
+  legend: Contact point
+  fields:
+  - field_name: has_email
+    label: Email
+    required: true
 - field_name: georeferencing_method
   label: Georeferencing Method
   required: false
@@ -1839,7 +1830,7 @@ resource_fields:
     label: Royalty-free
 - field_name: license_id
   label: Standard license
-  required: false
+  required: true
   preset: select
   form_include_blank_choice: true
   choices:

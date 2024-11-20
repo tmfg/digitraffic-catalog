@@ -15,10 +15,13 @@ from mobility_dcat_ap.dataset import (
     CVOCAB_NETWORK_COVERAGE
 )
 from mobility_dcat_ap.namespace import MOBILITYDCATAP
-from dcat_schema_transpiler.asset_description_metadata_schema.namespace import ADMS
+from dcat_schema_transpiler.namespaces.ADMS import ADMS
+from dcat_schema_transpiler.namespaces.DCAT_AP import DCATAP
+from dcat_schema_transpiler.namespaces.DQV import DQV
 from dcat_schema_transpiler.rdfs.rdfs_class import RDFSClass
 from dcat_schema_transpiler.rdfs.rdfs_property import RDFSProperty
 from dcat_schema_transpiler.rdfs.rdfs_resource import RDFSResource
+from dcat_schema_transpiler.ckan_schema.mobility_dcat_ap_converter.classes.kind import Kind
 
 
 class DCATDataset(RangeValueConverter):
@@ -34,10 +37,33 @@ class DCATDataset(RangeValueConverter):
 
     recommended_properties = {
         MOBILITYDCATAP.georeferencingMethod,
-        MOBILITYDCATAP.networkCoverage
+        DCAT.contactPoint,
+        DCAT.keyword,
+        MOBILITYDCATAP.networkCoverage,
+        DCTERMS.conformsTo,
+        DCTERMS.rightsHolder,
+        DCAT.theme,
+        DCTERMS.temporal,
+        MOBILITYDCATAP.transportMode
     }
 
-    optional_properties = {OWL.versionInfo, ADMS.versionNotes}
+    optional_properties = {
+        DCATAP.applicableLegislation,
+        MOBILITYDCATAP.assessmentResult,
+        DCTERMS.hasVersion,
+        DCTERMS.identifier,
+        DCTERMS.isReferencedBy,
+        DCTERMS.isVersionOf,
+        MOBILITYDCATAP.intendedInformationService,
+        DCTERMS.language,
+        ADMS.identifier,
+        DCTERMS.relation,
+        DCTERMS.issued,
+        DCTERMS.modified,
+        OWL.versionInfo,
+        ADMS.versionNotes,
+        DQV.hasQualityAnnotation
+    }
 
     def __init__(self, clazz: RDFSClass):
         super().__init__(clazz)
@@ -55,7 +81,8 @@ class DCATDataset(RangeValueConverter):
             OWL.versionInfo: "version",
             ADMS.versionNotes: "version_notes_translated",
             MOBILITYDCATAP.georeferencingMethod: "georeferencing_method",
-            MOBILITYDCATAP.networkCoverage: "network_coverage"
+            MOBILITYDCATAP.networkCoverage: "network_coverage",
+            DCAT.contactPoint: "contact_point"
         }
         field_value = mappings.get(p.iri)
         if isinstance(field_value, dict):
@@ -85,7 +112,7 @@ class DCATDataset(RangeValueConverter):
         return r_value
 
     def get_schema(self, ds: Dataset, clazz_p: RDFSProperty, is_required: bool = None):
-        is_required_ = clazz_p.iri in DCATDataset.mandatory_properties
+        is_required_ = is_required and clazz_p.iri in DCATDataset.mandatory_properties
         properties_union = (
                 DCATDataset.mandatory_properties | DCATDataset.recommended_properties | DCATDataset.optional_properties
         )
@@ -125,9 +152,7 @@ class DCATDataset(RangeValueConverter):
                     | RangeValueConverter.get_translated_field_properties(is_required_)
                 )
             }
-        if clazz_p.iri in properties_union:
-            return super().get_schema(ds, clazz_p, is_required_)
-        return None
+        return super().get_schema(ds, clazz_p, is_required_)
 
     def controlled_vocab_field(
             self, p: RDFSProperty, ds: Dataset, is_required: bool
@@ -252,3 +277,11 @@ class DCATDataset(RangeValueConverter):
                     "form_include_blank_choice": True,
                     "choices": RangeValueConverter.vocab_choices(g),
                 }
+
+    def post_process_schema(self, schema: List[Dict]):
+        def rename_field_names(field):
+            if field.get("field_name") == Kind.field_name:
+                field["field_name"] = "contact_point"
+                field["legend"] = "Contact point"
+            return field
+        return list(map(rename_field_names, schema))

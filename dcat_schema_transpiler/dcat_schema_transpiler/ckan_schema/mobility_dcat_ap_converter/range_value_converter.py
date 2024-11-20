@@ -54,7 +54,7 @@ class RangeValueConverter(ABC):
     @abstractmethod
     def get_schema(
         self, ds: Dataset, clazz_p: RDFSProperty | None, is_required: bool = False
-    ) -> Dict:
+    ) -> Dict | None:
         rdf_range = self.get_range_value(ds, clazz_p)
         if isinstance(rdf_range, RDFSResource) and rdf_range.iri == RDFS.Literal:
             label_value = self.get_label(clazz_p, ds)
@@ -74,7 +74,7 @@ class RangeValueConverter(ABC):
                 "help_text": "The value should be URL",
             }
         else:
-            return {"required": is_required}
+            return None
 
     def get_label(self, p: RDFSProperty, ds: Dataset):
         label = [
@@ -142,3 +142,32 @@ class RangeValueConverter(ABC):
             }
         else:
             return deepcopy(translated_field_properties)
+
+    def post_process_schema(self, schema: List[Dict]) -> List[Dict]:
+        """
+        Acts as a hook to post process the complete schema of the class
+
+        :param schema:
+        :return: List[Dict]
+        """
+        return schema
+
+
+class AggregateRangeValueConverter(ABC):
+
+    @abstractmethod
+    def get_aggregate_schema(self) -> Dict | None:
+        """
+        If the range value is represented as a group of fields, this method can be used
+        to create the aggregate part of the schema
+
+        :return: Dict | None
+        """
+        return None
+
+    @abstractmethod
+    def add_to_aggregate(self, shema: Dict) -> None:
+        """
+        Add schema to the aggregate
+        """
+        pass
