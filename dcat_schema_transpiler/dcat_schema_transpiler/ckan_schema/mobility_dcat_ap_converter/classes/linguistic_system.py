@@ -19,7 +19,7 @@ class LinguisticSystem(RangeValueConverter):
     def get_range_value(self, ds: Dataset, clazz_p: RDFSProperty) -> RDFSClass | None:
         return super().get_range_value(ds, clazz_p)
 
-    def get_schema(self, ds: Dataset, clazz_p: RDFSProperty | None, is_required: bool = False):
+    def get_schema(self, ds: Dataset, clazz_p: RDFSProperty | None, is_required: bool = None):
         return self.controlled_vocab_field(clazz_p, ds, is_required)
 
     def controlled_vocab_field(self, p: RDFSProperty, ds: Dataset, is_required: bool) -> Dict:

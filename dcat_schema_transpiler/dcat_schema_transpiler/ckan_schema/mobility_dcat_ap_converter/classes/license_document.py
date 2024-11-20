@@ -37,11 +37,12 @@ class LicenseDocument(RangeValueConverter):
             r_value = super().get_range_value(ds, clazz_p)
         return r_value
 
-    def get_schema(self, ds: Dataset, clazz_p: RDFSProperty, is_required: bool = False):
+    def get_schema(self, ds: Dataset, clazz_p: RDFSProperty, is_required: bool = None):
+        is_required_ = is_required and clazz_p.iri in LicenseDocument.mandatory_properties
         if clazz_p.iri in LicenseDocument.mandatory_properties:
             if clazz_p.iri in DCTERMS.identifier:
-                return self.controlled_vocab_field(clazz_p, ds, is_required)
-            return super().get_schema(ds, clazz_p, is_required)
+                return self.controlled_vocab_field(clazz_p, ds, is_required_)
+            return super().get_schema(ds, clazz_p, is_required_)
         return None
 
     def controlled_vocab_field(self, p: RDFSProperty, ds: Dataset, is_required: bool) -> Dict:

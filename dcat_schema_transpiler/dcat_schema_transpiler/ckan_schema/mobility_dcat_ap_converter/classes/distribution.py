@@ -30,7 +30,8 @@ class Distribution(RangeValueConverter):
         DCTERMS.description,
         DCTERMS.license,
     }
-    optional_properties = {  # DCAT.accessService,
+    optional_properties = {
+        DCAT.accessService,
         CNT.characterEncoding,
         MOBILITYDCATAP.communicationMethod,
         MOBILITYDCATAP.dataFormatNotes,
@@ -69,11 +70,7 @@ class Distribution(RangeValueConverter):
             | Distribution.recommended_properties
             | Distribution.optional_properties
         )
-        is_required_ = (
-            is_required
-            if is_required is not None
-            else clazz_p.iri in Distribution.mandatory_properties
-        )
+        is_required_ = is_required and clazz_p.iri in Distribution.mandatory_properties
         if clazz_p.iri in properties_union:
             if clazz_p.is_iri(MOBILITYDCATAP.communicationMethod):
                 return self.controlled_vocab_field(clazz_p, ds, is_required_)
