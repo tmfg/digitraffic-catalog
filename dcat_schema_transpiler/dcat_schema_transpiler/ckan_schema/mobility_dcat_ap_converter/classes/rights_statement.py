@@ -9,6 +9,9 @@ from mobility_dcat_ap.dataset import CVOCAB_RIGHTS_STATEMENT_TYPE
 
 
 class RightsStatement(RangeValueConverter):
+    mandatory_properties = {
+        DCTERMS.type
+    }
     recommended_properties = {RDFS.label}
 
     def __init__(self, clazz: RDFSClass):
@@ -52,3 +55,6 @@ class RightsStatement(RangeValueConverter):
                     "form_include_blank_choice": True,
                     "choices": RangeValueConverter.vocab_choices(g)
                 }
+
+    def is_property_required(self, property: RDFSProperty) -> bool:
+        return property.iri in RightsStatement.mandatory_properties

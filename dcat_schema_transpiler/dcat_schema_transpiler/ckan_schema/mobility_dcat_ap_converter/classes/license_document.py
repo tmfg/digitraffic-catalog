@@ -38,11 +38,10 @@ class LicenseDocument(RangeValueConverter):
         return r_value
 
     def get_schema(self, ds: Dataset, clazz_p: RDFSProperty, is_required: bool = None):
-        is_required_ = is_required and clazz_p.iri in LicenseDocument.mandatory_properties
         if clazz_p.iri in LicenseDocument.mandatory_properties:
             if clazz_p.iri in DCTERMS.identifier:
-                return self.controlled_vocab_field(clazz_p, ds, is_required_)
-            return super().get_schema(ds, clazz_p, is_required_)
+                return self.controlled_vocab_field(clazz_p, ds, is_required)
+            return super().get_schema(ds, clazz_p, is_required)
         return None
 
     def controlled_vocab_field(self, p: RDFSProperty, ds: Dataset, is_required: bool) -> Dict:
@@ -57,3 +56,6 @@ class LicenseDocument(RangeValueConverter):
                     "form_include_blank_choice": True,
                     "choices": RangeValueConverter.vocab_choices(g)
                 }
+
+    def is_property_required(self, property: RDFSProperty) -> bool:
+        return property.iri in LicenseDocument.mandatory_properties

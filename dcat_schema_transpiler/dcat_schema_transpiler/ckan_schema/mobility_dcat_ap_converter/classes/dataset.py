@@ -112,10 +112,6 @@ class DCATDataset(RangeValueConverter):
         return r_value
 
     def get_schema(self, ds: Dataset, clazz_p: RDFSProperty, is_required: bool = None):
-        is_required_ = is_required and clazz_p.iri in DCATDataset.mandatory_properties
-        properties_union = (
-                DCATDataset.mandatory_properties | DCATDataset.recommended_properties | DCATDataset.optional_properties
-        )
         vocabulary_ranges = [
             MOBILITYDCATAP.mobilityTheme,
             DCTERMS.spatial,
@@ -126,7 +122,7 @@ class DCATDataset(RangeValueConverter):
             """
             Controlled vocabulary fields.
             """
-            return self.controlled_vocab_field(clazz_p, ds, is_required_)
+            return self.controlled_vocab_field(clazz_p, ds, is_required)
         if clazz_p.is_iri(DCTERMS.title):
             r_value = super().get_schema(ds, clazz_p, False)
             return {
@@ -149,10 +145,10 @@ class DCATDataset(RangeValueConverter):
             return {
                 **(
                     r_value
-                    | RangeValueConverter.get_translated_field_properties(is_required_)
+                    | RangeValueConverter.get_translated_field_properties(is_required)
                 )
             }
-        return super().get_schema(ds, clazz_p, is_required_)
+        return super().get_schema(ds, clazz_p, is_required)
 
     def controlled_vocab_field(
             self, p: RDFSProperty, ds: Dataset, is_required: bool
@@ -282,6 +278,9 @@ class DCATDataset(RangeValueConverter):
         def rename_field_names(field):
             if field.get("field_name") == Kind.field_name:
                 field["field_name"] = "contact_point"
-                field["legend"] = "Contact point"
+                field["label"] = "Contact point"
             return field
         return list(map(rename_field_names, schema))
+
+    def is_property_required(self, property: RDFSProperty) -> bool:
+        return property.iri in DCATDataset.mandatory_properties

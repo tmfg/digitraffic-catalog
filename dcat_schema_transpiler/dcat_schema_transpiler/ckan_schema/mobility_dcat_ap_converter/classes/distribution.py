@@ -70,16 +70,15 @@ class Distribution(RangeValueConverter):
             | Distribution.recommended_properties
             | Distribution.optional_properties
         )
-        is_required_ = is_required and clazz_p.iri in Distribution.mandatory_properties
         if clazz_p.iri in properties_union:
             if clazz_p.is_iri(MOBILITYDCATAP.communicationMethod):
-                return self.controlled_vocab_field(clazz_p, ds, is_required_)
+                return self.controlled_vocab_field(clazz_p, ds, is_required)
             if clazz_p.is_iri(MOBILITYDCATAP.applicationLayerProtocol):
-                return self.controlled_vocab_field(clazz_p, ds, is_required_)
+                return self.controlled_vocab_field(clazz_p, ds, is_required)
             if clazz_p.is_iri(MOBILITYDCATAP.grammar):
-                return self.controlled_vocab_field(clazz_p, ds, is_required_)
+                return self.controlled_vocab_field(clazz_p, ds, is_required)
             if clazz_p.is_iri(MOBILITYDCATAP.mobilityDataStandard):
-                return self.controlled_vocab_field(clazz_p, ds, is_required_)
+                return self.controlled_vocab_field(clazz_p, ds, is_required)
 
             """
             Multilingual fields should have "required: false" at the field level.
@@ -91,7 +90,7 @@ class Distribution(RangeValueConverter):
                     **(
                         r_value
                         | RangeValueConverter.get_translated_field_properties(
-                            is_required_
+                            is_required
                         )
                     )
                 }
@@ -101,11 +100,11 @@ class Distribution(RangeValueConverter):
                     **(
                         r_value
                         | RangeValueConverter.get_translated_field_properties(
-                            is_required_
+                            is_required
                         )
                     )
                 }
-            return super().get_schema(ds, clazz_p, is_required_)
+            return super().get_schema(ds, clazz_p, is_required)
         return None
 
     def controlled_vocab_field(
@@ -153,3 +152,6 @@ class Distribution(RangeValueConverter):
                     "form_include_blank_choice": True,
                     "choices": RangeValueConverter.vocab_choices(g),
                 }
+
+    def is_property_required(self, property: RDFSProperty) -> bool:
+        return property.iri in Distribution.mandatory_properties
