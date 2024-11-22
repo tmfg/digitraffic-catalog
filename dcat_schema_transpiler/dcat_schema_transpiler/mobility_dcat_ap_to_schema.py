@@ -140,7 +140,7 @@ def dataset_fields(ds: Dataset) -> List:
              ADMS.versionNotes,
          }))
 
-    omitted_kind_fields = (Kind.mandatory_properties | Kind.recommended_properties | Kind.optional_properties) - {VCARD.hasEmail}
+    omitted_kind_fields = Kind.optional_properties
 
     dataset_fields_schema_map = class_converter.convert(
         {

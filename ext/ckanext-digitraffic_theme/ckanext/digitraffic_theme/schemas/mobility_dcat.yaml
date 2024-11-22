@@ -1112,12 +1112,19 @@ dataset_fields:
   - value: https://w3id.org/mobilitydcat-ap/network-coverage/waterways
     label: Waterways
 - field_name: contact_point
-  preset: fieldset
-  legend: Contact point
-  fields:
+  label: Contact point
+  repeating_subfields:
+  - field_name: fn
+    label: formatted name
+    required: false
   - field_name: has_email
     label: Email
-    required: true
+    required: false
+    preset: email
+  - field_name: has_url
+    label: Web site
+    required: false
+    preset: url
 - field_name: georeferencing_method
   label: Georeferencing Method
   required: false
@@ -1830,7 +1837,7 @@ resource_fields:
     label: Royalty-free
 - field_name: license_id
   label: Standard license
-  required: true
+  required: false
   preset: select
   form_include_blank_choice: true
   choices:

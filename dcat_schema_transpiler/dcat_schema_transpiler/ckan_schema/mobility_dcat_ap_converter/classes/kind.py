@@ -49,22 +49,31 @@ class Kind(RangeValueConverter, AggregateRangeValueConverter):
         return super().get_range_value(ds, clazz_p)
 
     def get_schema(self, ds: Dataset, clazz_p: RDFSProperty | None, is_required: bool = None):
-        is_required_ = is_required and clazz_p.iri in Kind.mandatory_properties
         if clazz_p.is_iri(VCARD.hasEmail):
             return {
                 "field_name": self.ckan_field(clazz_p, None),
                 "label": "Email",
-                "required": is_required_,
+                "required": is_required,
+                "preset": "email"
+            }
+        if clazz_p.is_iri(VCARD.hasURL):
+            return {
+                "field_name": self.ckan_field(clazz_p, None),
+                "label": "Web site",
+                "required": is_required,
+                "preset": "url"
             }
         return super().get_schema(ds, clazz_p, False)
 
     def get_aggregate_schema(self) -> Dict:
         return {
             "field_name": Kind.field_name,
-            "preset": "fieldset",
-            "legend": "Fieldset",
-            "fields": self.__aggregate_schemas,
+            "label": "Fieldset",
+            "repeating_subfields": self.__aggregate_schemas,
         }
 
     def add_to_aggregate(self, schema: Dict) -> None:
         self.__aggregate_schemas.append(schema)
+
+    def is_property_required(self, property: RDFSProperty) -> bool:
+        return property.iri in Kind.mandatory_properties

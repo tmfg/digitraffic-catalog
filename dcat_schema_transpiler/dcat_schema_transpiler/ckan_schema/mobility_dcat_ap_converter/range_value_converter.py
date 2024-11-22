@@ -152,6 +152,10 @@ class RangeValueConverter(ABC):
         """
         return schema
 
+    @abstractmethod
+    def is_property_required(self, property: RDFSProperty) -> bool:
+        pass
+
 
 class AggregateRangeValueConverter(ABC):
 

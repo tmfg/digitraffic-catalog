@@ -50,3 +50,6 @@ class MediaTypeOrExtent(RangeValueConverter):
                 for choice in RangeValueConverter.vocab_choices(g)
             ],
         }
+
+    def is_property_required(self, property: RDFSProperty) -> bool:
+        return False

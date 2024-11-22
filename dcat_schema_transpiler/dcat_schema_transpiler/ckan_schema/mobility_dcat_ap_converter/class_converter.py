@@ -65,7 +65,9 @@ class ClassConverter:
                 is_property_omitted = self.clazz.iri in omit and p.iri in omit[self.clazz.iri]
                 if is_property_omitted:
                     continue
-                schema = self._get_property_schema(p, converter, omit, is_required)
+                is_property_required = converter.is_property_required(p)
+                is_required_ = is_required and is_property_required
+                schema = self._get_property_schema(p, converter, omit, is_required_)
 
                 if isinstance(converter, AggregateRangeValueConverter):
                     self._append_aggregate(schema, converter)
@@ -92,13 +94,15 @@ class ClassConverter:
         schema = converter.get_schema(self.ds, p, is_required)
 
         if schema is None:
+            is_property_required = converter.is_property_required(p)
+            is_required_ = is_required and is_property_required
             rdf_range = converter.get_range_value(self.ds, p)
             print(f'''
 Schema was not defined for class {self.clazz.iri} range value converter for property {p.iri}.
 Trying to find a converter for the property'f's range value {rdf_range.iri}''')
             range_range_value_converter = ClassConverter(rdf_range, self.ds)
             schema = range_range_value_converter.convert(
-                omit, is_required
+                omit, is_required_
             )
         return schema
 

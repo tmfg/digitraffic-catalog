@@ -46,15 +46,13 @@ class CatalogueRecord(RangeValueConverter):
         return r_value
 
     def get_schema(self, ds: Dataset, clazz_p: RDFSProperty, is_required: bool = None):
-        is_required_ = is_required and clazz_p.iri in CatalogueRecord.mandatory_properties
         if clazz_p.iri in CatalogueRecord.mandatory_properties:
             return super().get_schema(
                 ds,
                 clazz_p,
-                (
-                    is_required_
-                    if is_required is not None
-                    else clazz_p.iri in CatalogueRecord.mandatory_properties
-                ),
+                is_required,
             )
         return None
+
+    def is_property_required(self, property: RDFSProperty) -> bool:
+        return property.iri in CatalogueRecord.mandatory_properties
