@@ -56,7 +56,8 @@ class RangeValueConverter(ABC):
         self, ds: Dataset, clazz_p: RDFSProperty | None, is_required: bool = False
     ) -> Dict | None:
         rdf_range = self.get_range_value(ds, clazz_p)
-        if isinstance(rdf_range, RDFSResource) and rdf_range.iri == RDFS.Literal:
+        is_literal = isinstance(rdf_range, RDFSResource) and (rdf_range.iri == RDFS.Literal or RDFSLiteral.is_literal_type(rdf_range.iri))
+        if is_literal:
             label_value = self.get_label(clazz_p, ds)
             field_name = self.ckan_field(clazz_p)
             return {

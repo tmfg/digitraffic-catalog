@@ -63,7 +63,10 @@ class Kind(RangeValueConverter, AggregateRangeValueConverter):
                 "required": is_required,
                 "preset": "url"
             }
-        return super().get_schema(ds, clazz_p, False)
+        schema = super().get_schema(ds, clazz_p, False)
+        if clazz_p.is_iri(VCARD.fn):
+            schema["label"] = "Full name"
+        return schema
 
     def get_aggregate_schema(self) -> Dict:
         return {
