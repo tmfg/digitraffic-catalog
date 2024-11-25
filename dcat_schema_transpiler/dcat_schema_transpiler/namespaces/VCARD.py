@@ -10,6 +10,7 @@ class VCARD(DefinedNamespace):
 
     # Classes
     Kind: URIRef
+    Address: URIRef
 
     # Properties
     hasEmail: URIRef
@@ -17,3 +18,5 @@ class VCARD(DefinedNamespace):
     hasURL: URIRef
     hasAddress: URIRef
     hasTelephone: URIRef
+    locality: URIRef
+    region: URIRef
