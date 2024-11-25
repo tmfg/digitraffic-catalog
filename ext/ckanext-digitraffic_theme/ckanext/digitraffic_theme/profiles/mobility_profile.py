@@ -1,19 +1,18 @@
-from datetime import datetime, timezone
-
-from rdflib import Graph, URIRef, Literal, BNode
-from rdflib.namespace import DCTERMS, DCAT, RDF, XSD
+from datetime import timezone
 
 from ckanext.dcat.profiles import RDFProfile
-from ckanext.digitraffic_theme.profiles.graph_modifiers.adder import (
-    add_class_instance_with_children,
-    add_class_instance_values,
-    add_literal_to_graph,
-    add_vocabulary_to_graph,
-)
 from ckanext.digitraffic_theme.model.agent import Agent
 from ckanext.digitraffic_theme.model.location import Location
 from ckanext.digitraffic_theme.model.mobility_data import MobilityData
+from ckanext.digitraffic_theme.profiles.graph_modifiers.adder import (
+    add_class_instance_values,
+    add_class_instance_with_children,
+    add_literal_to_graph,
+    add_vocabulary_to_graph,
+)
 from ckanext.digitraffic_theme.rdf.mobility_dcat_ap import MOBILITYDCATAP
+from rdflib import BNode, Graph, Literal, URIRef
+from rdflib.namespace import DCAT, DCTERMS, RDF, XSD
 
 
 class MobilityDCATAPProfile(RDFProfile):
@@ -59,6 +58,8 @@ class MobilityDCATAPProfile(RDFProfile):
         add_literal_to_graph(
             g, catalog_ref, DCTERMS.title, Literal("Digitraffic Catalog")
         )
+        # catalog_ref contains value of rdf:about - in other words it is the subject URI
+        add_literal_to_graph(g, catalog_ref, DCTERMS.identifier, Literal(catalog_ref))
 
         # Add all languages supported by the catalog
         add_literal_to_graph(
