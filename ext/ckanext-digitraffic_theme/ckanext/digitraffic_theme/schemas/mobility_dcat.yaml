@@ -1081,35 +1081,6 @@ dataset_fields:
   - fi
   - en
   - sv
-- field_name: contact_point
-  label: Contact point
-  repeating_subfields:
-  - field_name: has_email
-    label: Email
-    required: false
-    preset: email
-  - field_name: fn
-    label: Full name
-    required: false
-  - field_name: has_url
-    label: Web site
-    required: false
-    preset: url
-  - field_name: locality
-    label: locality
-    required: false
-  - field_name: street_address
-    label: street address
-    required: false
-  - field_name: region
-    label: region
-    required: false
-  - field_name: country_name
-    label: country name
-    required: false
-  - field_name: postal_code
-    label: postal code
-    required: false
 - field_name: georeferencing_method
   label: Georeferencing Method
   required: false
@@ -1130,6 +1101,42 @@ dataset_fields:
     label: Other
   - value: https://w3id.org/mobilitydcat-ap/georeferencing-method/tpeg-loc
     label: TPEG-LOC
+- field_name: contact_point
+  label: Contact point
+  repeating_subfields:
+  - field_name: has_email
+    label: Email
+    required: false
+    preset: email
+  - field_name: fn
+    label: Full name
+    required: false
+  - field_name: has_telephone
+    label: Phone number
+    required: false
+    preset: phone
+  - field_name: has_url
+    label: Web site
+    required: false
+    preset: url
+  - field_name: country_name
+    label: country name
+    required: false
+  - field_name: locality
+    label: locality
+    required: false
+  - field_name: organization_name
+    label: organization name
+    required: false
+  - field_name: postal_code
+    label: postal code
+    required: false
+  - field_name: region
+    label: region
+    required: false
+  - field_name: street_address
+    label: street address
+    required: false
 - field_name: network_coverage
   label: Network Coverage
   required: false

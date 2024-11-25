@@ -1,2 +1,2 @@
 rdflib==7.0.0
-
+phonenumbers==8.13.50
