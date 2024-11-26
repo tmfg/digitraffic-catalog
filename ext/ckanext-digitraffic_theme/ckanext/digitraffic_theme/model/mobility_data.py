@@ -10,7 +10,10 @@ from ckanext.digitraffic_theme.model.dataset import Dataset
 from ckanext.digitraffic_theme.model.distribution import Distribution
 from ckanext.digitraffic_theme.model.frequency import Frequency
 from ckanext.digitraffic_theme.model.location import Location
-from ckanext.digitraffic_theme.model.mobility_theme import MobilityTheme, MobilityThemeSub
+from ckanext.digitraffic_theme.model.mobility_theme import (
+    MobilityTheme,
+    MobilityThemeSub,
+)
 from ckanext.digitraffic_theme.model.georeferencing_method import GeoreferencingMethod
 from ckanext.digitraffic_theme.model.network_coverage import NetworkCoverage
 
@@ -22,6 +25,9 @@ class MobilityData:
         organization_ref = dataset_dict.get(
             "publisher_uri", publisher_uri_organization_fallback(dataset_dict)
         )
+
+        # Publisher is the same for both Dataset and Catalogue Record
+        publisher = Agent(organization_ref, dataset_dict["organization"]["name"])
 
         dataset = Dataset(
             dataset_ref,
@@ -40,12 +46,34 @@ class MobilityData:
                 "mobility_theme": MobilityTheme(dataset_dict["mobility_theme"]),
                 "spatial": Location(dataset_dict["spatial"]),
                 "title": Literal(dataset_dict["name"]),
-                "publisher": Agent(
-                    organization_ref, dataset_dict["organization"]["name"]
+                "publisher": publisher,
+                **(
+                    {
+                        "mobility_theme_sub": MobilityThemeSub(
+                            dataset_dict["mobility_theme_sub"]
+                        )
+                    }
+                    if dataset_dict.get("mobility_theme_sub")
+                    else {}
                 ),
-                **({"mobility_theme_sub": MobilityThemeSub(dataset_dict["mobility_theme_sub"])} if dataset_dict.get("mobility_theme_sub") else {}),
-                **({"georeferencing_method": GeoreferencingMethod(dataset_dict["georeferencing_method"])} if dataset_dict.get("georeferencing_method") else {}),
-                **({"network_coverage": NetworkCoverage(dataset_dict["network_coverage"])} if dataset_dict.get("network_coverage") else {}),
+                **(
+                    {
+                        "georeferencing_method": GeoreferencingMethod(
+                            dataset_dict["georeferencing_method"]
+                        )
+                    }
+                    if dataset_dict.get("georeferencing_method")
+                    else {}
+                ),
+                **(
+                    {
+                        "network_coverage": NetworkCoverage(
+                            dataset_dict["network_coverage"]
+                        )
+                    }
+                    if dataset_dict.get("network_coverage")
+                    else {}
+                ),
             },
         )
         # Catalog Record
@@ -55,5 +83,6 @@ class MobilityData:
                 "created": Literal(dataset_dict["metadata_created"]),
                 "primary_topic": dataset,
                 "modified": Literal(dataset_dict["metadata_modified"]),
+                "publisher": publisher,
             },
         )

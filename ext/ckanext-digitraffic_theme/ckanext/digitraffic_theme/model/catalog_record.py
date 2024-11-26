@@ -7,12 +7,14 @@ from rdflib import Literal, DCAT, DCTERMS, RDF, FOAF
 from ckanext.digitraffic_theme.model.class_instance import ClassInstance
 from ckanext.digitraffic_theme.model.dataset import Dataset
 from ckanext.digitraffic_theme.model.language import LANGUAGES, Language
+from ckanext.digitraffic_theme.model.agent import Agent
 
 
 class CatalogRecordInput(TypedDict):
     created: Literal
     primary_topic: Dataset
     modified: Literal
+    publisher: Agent
 
 
 class CatalogRecord(ClassInstance):
@@ -20,6 +22,7 @@ class CatalogRecord(ClassInstance):
     languages: list[Language]
     primary_topic: Dataset
     modified: Literal
+    publisher: Agent
 
     def __init__(self, iri: str | None, input: CatalogRecordInput):
         super().__init__(iri, DCAT.CatalogRecord)
@@ -27,6 +30,7 @@ class CatalogRecord(ClassInstance):
         self.languages = [Language(iri) for iri in LANGUAGES]
         self.primary_topic = input["primary_topic"]
         self.modified = input["modified"]
+        self.publisher = input["publisher"]
 
     def predicate_objects(self):
         return [
@@ -36,4 +40,5 @@ class CatalogRecord(ClassInstance):
             *[(DCTERMS.language, language) for language in self.languages],
             (FOAF.primaryTopic, self.primary_topic),
             (DCTERMS.modified, self.modified),
+            (DCTERMS.publisher, self.publisher),
         ]
