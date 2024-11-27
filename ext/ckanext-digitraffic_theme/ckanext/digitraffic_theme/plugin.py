@@ -3,7 +3,11 @@ import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
 from ckan.lib.plugins import DefaultTranslation
 
-from ckanext.digitraffic_theme.validators.dataset_validators import mobility_theme_sub_validator, phone_number_validator
+from ckanext.digitraffic_theme.validators.dataset_validators import (
+    mobility_theme_sub_validator,
+    phone_number_validator,
+    spatial_reference_validator
+)
 from ckanext.digitraffic_theme.helpers.helpers import helpers
 
 class DigitrafficThemePlugin(plugins.SingletonPlugin, DefaultTranslation):
@@ -19,7 +23,8 @@ class DigitrafficThemePlugin(plugins.SingletonPlugin, DefaultTranslation):
 
     def get_validators(self):
         return {"mobility_theme_sub_validator": mobility_theme_sub_validator,
-                "phone_number_validator": phone_number_validator}
+                "phone_number_validator": phone_number_validator,
+                "spatial_reference_validator": spatial_reference_validator}
 
     def update_config(self, config):
         # Add this plugin's templates dir to CKAN's extra_template_paths, so

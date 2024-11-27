@@ -1,7 +1,8 @@
+from rdflib import Namespace
 from ckanext.digitraffic_theme.model.vocabulary import Vocabulary
 
 
-MOBILITY_DATA_STANDARD = [
+MOBILITY_DATA_STANDARD = {
     'https://w3id.org/mobilitydcat-ap/mobility-data-standard/c-its',
     'https://w3id.org/mobilitydcat-ap/mobility-data-standard/datex-II',
     'https://w3id.org/mobilitydcat-ap/mobility-data-standard/dino',
@@ -16,11 +17,12 @@ MOBILITY_DATA_STANDARD = [
     'https://w3id.org/mobilitydcat-ap/mobility-data-standard/siri',
     'https://w3id.org/mobilitydcat-ap/mobility-data-standard/tn-its',
     'https://w3id.org/mobilitydcat-ap/mobility-data-standard/tpegml',
-]
+}
 
 
 class MobilityDataStandard(Vocabulary):
     iris = MOBILITY_DATA_STANDARD
+    namespace = Namespace('https://w3id.org/mobilitydcat-ap/mobility-data-standard/')
 
     def __init__(self, iri):
         super().__init__(iri)
