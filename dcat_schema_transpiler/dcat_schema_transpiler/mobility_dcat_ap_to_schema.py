@@ -7,7 +7,9 @@ from ckan_schema.mobility_dcat_ap_converter.class_converter import ClassConverte
 from ckan_schema.mobility_dcat_ap_converter.classes.dataset import DCATDataset
 from ckan_schema.mobility_dcat_ap_converter.classes.distribution import Distribution
 from ckan_schema.mobility_dcat_ap_converter.classes.kind import Kind
-from ckan_schema.mobility_dcat_ap_converter.classes.license_document import LicenseDocument
+from ckan_schema.mobility_dcat_ap_converter.classes.license_document import (
+    LicenseDocument,
+)
 from ckan_schema.mobility_dcat_ap_converter.classes.rights_statement import (
     RightsStatement,
 )
@@ -90,9 +92,9 @@ def resource_fields(ds: Dataset) -> List:
         {
             DCAT.Distribution: distribution_fields_to_omit,
             DCTERMS.RightsStatement: RightsStatement.recommended_properties,
-            DCTERMS.LicenseDocument: LicenseDocument.optional_properties
+            DCTERMS.LicenseDocument: LicenseDocument.optional_properties,
         },
-        True
+        True,
     )
 
     # append custom field needed to store format iri in ckan
@@ -122,23 +124,27 @@ def dataset_fields(ds: Dataset) -> List:
         DCTERMS.modified,
         # Should be omitted for now
         DCTERMS.language,
-        DCTERMS.publisher
+        DCTERMS.publisher,
     }
 
-    omitted_dataset_fields = ({
-        # Dataset publisher is set to the organization
-        DCTERMS.publisher
-    } | (DCATDataset.recommended_properties -
-         {
-             MOBILITYDCATAP.georeferencingMethod,
-             DCAT.contactPoint,
-             MOBILITYDCATAP.networkCoverage,
-         })
-      | (DCATDataset.optional_properties -
-         {
-             OWL.versionInfo,
-             ADMS.versionNotes,
-         }))
+    omitted_dataset_fields = (
+        {
+            # Dataset publisher is set to the organization
+            DCTERMS.publisher
+        }
+        | (
+            DCATDataset.recommended_properties
+            - {
+                MOBILITYDCATAP.georeferencingMethod,
+                DCAT.contactPoint,
+                MOBILITYDCATAP.networkCoverage,
+            }
+        )
+        | (
+            DCATDataset.optional_properties
+            - {OWL.versionInfo, ADMS.versionNotes, MOBILITYDCATAP.assessmentResult}
+        )
+    )
 
     omitted_kind_fields = Kind.optional_properties
 
@@ -147,9 +153,9 @@ def dataset_fields(ds: Dataset) -> List:
             DCAT.CatalogRecord: omitted_catalog_record_fields,
             DCAT.Distribution: "all",
             DCAT.Dataset: omitted_dataset_fields,
-            VCARD.Kind: omitted_kind_fields
+            VCARD.Kind: omitted_kind_fields,
         },
-        True
+        True,
     )
 
     dataset_fields_required_by_ckan = [

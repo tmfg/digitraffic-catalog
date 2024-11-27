@@ -81,8 +81,12 @@ CVOCAB_LANGUAGE = Namespace("http://publications.europa.eu/resource/authority/la
 CVOCAB_NUTS = Namespace("http://data.europa.eu/nuts/")
 # About LAU: https://ec.europa.eu/eurostat/web/gisco/geodata/statistical-units/local-administrative-units
 CVOCAB_LAU = Namespace("https://w3id.org/stirdata/resource/lau/item/")
-CVOCAB_GEOREFERENCING_METHOD = Namespace("https://w3id.org/mobilitydcat-ap/georeferencing-method#")
-CVOCAB_NETWORK_COVERAGE = Namespace("https://w3id.org/mobilitydcat-ap/network-coverage#")
+CVOCAB_GEOREFERENCING_METHOD = Namespace(
+    "https://w3id.org/mobilitydcat-ap/georeferencing-method#"
+)
+CVOCAB_NETWORK_COVERAGE = Namespace(
+    "https://w3id.org/mobilitydcat-ap/network-coverage#"
+)
 
 mobility_dcat_namespaces = {
     "adms": ADMS,
@@ -185,6 +189,7 @@ def mobilitydcatap_fixes(graph):
     # Agent
     graph.add((FOAF.name, DCAM.domainIncludes, FOAF.Agent))
 
+
 def xsd_fixes(ds: Dataset):
     """
     rdflib parsing of the namespace does not work. Add some necessary data here.
@@ -192,8 +197,18 @@ def xsd_fixes(ds: Dataset):
     g = ds.get_graph(URIRef(XSD._NS))
     # Documentation states https://www.w3.org/TR/rdf12-schema/#ch_datatype that the basic datatypes that are compatible
     # with XML Schema are of class rdfs:Datatype
-    xsd_datatypes = [XSD.string, XSD.boolean, XSD.decimal, XSD.integer, XSD.double, XSD.float, XSD.date, XSD.dateTime,
-                     XSD.time, XSD.dateTimeStamp]
+    xsd_datatypes = [
+        XSD.string,
+        XSD.boolean,
+        XSD.decimal,
+        XSD.integer,
+        XSD.double,
+        XSD.float,
+        XSD.date,
+        XSD.dateTime,
+        XSD.time,
+        XSD.dateTimeStamp,
+    ]
     for datatype in xsd_datatypes:
         g.add((datatype, RDF.type, RDFS.Datatype))
 

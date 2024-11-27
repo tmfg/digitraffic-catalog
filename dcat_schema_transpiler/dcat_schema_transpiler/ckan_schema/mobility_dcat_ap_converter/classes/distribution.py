@@ -45,7 +45,7 @@ class Distribution(RangeValueConverter):
     def __init__(self, clazz: RDFSClass):
         super().__init__(clazz)
 
-    def ckan_field(self, p: RDFSProperty, pointer: str = None) -> str:
+    def ckan_field(self, p: RDFSProperty, pointer: str | None = None) -> str:
         mappings = {
             DCAT.accessURL: "url",
             DCTERMS.format: "format",
