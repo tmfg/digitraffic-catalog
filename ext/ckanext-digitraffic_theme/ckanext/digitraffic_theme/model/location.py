@@ -1,6 +1,7 @@
+from rdflib import Namespace
 from ckanext.digitraffic_theme.model.vocabulary import Vocabulary
 
-NUTS_AND_LAUS = [
+NUTS_AND_LAUS = {
     'http://data.europa.eu/nuts/code/FI1DA',
     'http://data.europa.eu/nuts/code/FI1C',
     'http://data.europa.eu/nuts/code/FIZZZ',
@@ -341,11 +342,12 @@ NUTS_AND_LAUS = [
     'https://w3id.org/stirdata/resource/lau/item/FI_584',
     'https://w3id.org/stirdata/resource/lau/item/FI_177',
     'https://w3id.org/stirdata/resource/lau/item/FI_738',
-]
+}
 
 
 class Location(Vocabulary):
     iris = NUTS_AND_LAUS
+    namespace = Namespace('http://data.europa.eu/nuts/code/')
 
     def __init__(self, iri):
         super().__init__(iri)

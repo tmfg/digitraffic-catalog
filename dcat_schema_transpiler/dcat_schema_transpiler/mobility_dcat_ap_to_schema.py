@@ -64,7 +64,8 @@ def sort_dataset_fields(dataset_fields: List[Dict[str, Any]]):
         "version_notes_translated",
         "georeferencing_method",
         "contact_point",
-        "network_coverage"
+        "network_coverage",
+        "conforms_to"
     ]
     dataset_fields.sort(key=partial(sort_by_field_name, order))
     sort_repeating_subfields(dataset_fields)
@@ -143,6 +144,7 @@ def dataset_fields(ds: Dataset) -> List:
                                        MOBILITYDCATAP.georeferencingMethod,
                                        DCAT.contactPoint,
                                        MOBILITYDCATAP.networkCoverage,
+                                       DCTERMS.conformsTo
                                    })
                               | (DCATDataset.optional_properties -
                                  {

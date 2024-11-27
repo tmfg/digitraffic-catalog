@@ -56,10 +56,10 @@ class TestProfile(object):
             resources=[
                 {
                     "url": "http://localhost:8080/foo",
-                    "format": Format.labels[0],
+                    "format": list(Format.labels)[0],
                     "mobility_data_standard_version": "3",
-                    "mobility_data_standard": MobilityDataStandard.iris[0],
-                    "rights_type": RightsType.iris[0],
+                    "mobility_data_standard": list(MobilityDataStandard.iris)[0],
+                    "rights_type": list(RightsType.iris)[0],
                 }
             ],
             notes_translated=notes,

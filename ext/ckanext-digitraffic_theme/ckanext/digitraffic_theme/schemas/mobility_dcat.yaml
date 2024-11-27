@@ -1167,6 +1167,16 @@ dataset_fields:
     label: Urban and local roads
   - value: https://w3id.org/mobilitydcat-ap/network-coverage/waterways
     label: Waterways
+- field_name: conforms_to
+  label: Spatial Reference System
+  help_text: Value must be an EPSG number
+  required: false
+  preset: iri_fragment
+  input_type: number
+  form_attrs:
+    min: '2000'
+    max: '69036405'
+  validators: scheming_required remove_whitespace ignore_missing spatial_reference_validator
 resource_fields:
 - field_name: url
   label: access address
