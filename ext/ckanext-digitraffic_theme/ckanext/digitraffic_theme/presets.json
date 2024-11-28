@@ -15,6 +15,20 @@
         "form_snippet": "email_input.html",
         "validators": "scheming_required remove_whitespace ignore_missing email_validator"
       }
+    },
+    {
+      "preset_name": "phone",
+      "values": {
+        "form_snippet": "phone_input.html",
+        "validators": "scheming_required remove_whitespace ignore_missing phone_number_validator"
+      }
+    },
+    {
+      "preset_name": "iri_fragment",
+      "values": {
+        "form_snippet": "iri_fragment_input.html",
+        "validators": "scheming_required remove_whitespace ignore_missing"
+      }
     }
   ]
 }

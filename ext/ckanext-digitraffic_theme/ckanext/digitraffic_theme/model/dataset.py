@@ -4,6 +4,7 @@ from rdflib import Literal, DCAT, DCTERMS, RDF, URIRef
 
 from ckanext.digitraffic_theme.model.agent import Agent
 from ckanext.digitraffic_theme.model.class_instance import ClassInstance
+from ckanext.digitraffic_theme.model.contact_point import ContactPoint
 from ckanext.digitraffic_theme.model.distribution import Distribution
 from ckanext.digitraffic_theme.model.frequency import Frequency
 from ckanext.digitraffic_theme.model.location import Location
@@ -14,7 +15,7 @@ from ckanext.digitraffic_theme.rdf.mobility_dcat_ap import MOBILITYDCATAP
 
 
 class DatasetInput(TypedDict):
-    # Mandatory porperties
+    # Mandatory properties
     description: List[Literal]
     distribution: List[Distribution]
     accrualPeriodicity: Frequency
@@ -23,8 +24,9 @@ class DatasetInput(TypedDict):
     spatial: Location
     title: Literal
     publisher: Agent
-    # Recommended properteis
+    # Recommended properties
     georeferencing_method: NotRequired[GeoreferencingMethod]
+    contact_points: List[ContactPoint]
     network_coverage: NotRequired[NetworkCoverage]
 
 
@@ -45,6 +47,7 @@ class Dataset(ClassInstance):
         self.publisher = input["publisher"]
         # Recommended properties
         self.georeferencing_method = input.get("georeferencing_method")
+        self.contact_points = input.get("contact_points")
         self.network_coverage = input.get("network_coverage")
 
     def _is_valid_input(self, input: DatasetInput) -> bool:
@@ -66,6 +69,7 @@ class Dataset(ClassInstance):
             (DCTERMS.publisher, self.publisher),
             *[(DCAT.distribution, dist) for dist in self.distribution],
             (MOBILITYDCATAP.georeferencingMethod, self.georeferencing_method) if self.georeferencing_method else None,
+            *[(DCAT.contactPoint, contact_point) for contact_point in self.contact_points],
             (MOBILITYDCATAP.networkCoverage, self.network_coverage) if self.network_coverage else None,
         ]
         return [po for po in pos if po is not None]

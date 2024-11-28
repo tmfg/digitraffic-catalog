@@ -1,5 +1,5 @@
 from ckanext.digitraffic_theme.model.vocabulary import Vocabulary
-from rdflib import URIRef
+from rdflib import URIRef, Namespace
 
 MOBILITY_THEME_TREE = {
     URIRef("https://w3id.org/mobilitydcat-ap/mobility-theme/air-and-space-travel"): {
@@ -149,14 +149,16 @@ MOBILITY_THEME_TREE = {
 
 
 class MobilityTheme(Vocabulary):
-    iris = [str(key) for key in MOBILITY_THEME_TREE.keys()]
+    iris = {str(key) for key in MOBILITY_THEME_TREE.keys()}
+    namespace = Namespace('https://w3id.org/mobilitydcat-ap/mobility-theme/')
 
     def __init__(self, iri):
         super().__init__(iri)
 
 
 class MobilityThemeSub(Vocabulary):
-    iris = [str(sub_theme) for theme, sub_themes in MOBILITY_THEME_TREE.items() for sub_theme in sub_themes]
+    iris = {str(sub_theme) for theme, sub_themes in MOBILITY_THEME_TREE.items() for sub_theme in sub_themes}
+    namespace = Namespace('https://w3id.org/mobilitydcat-ap/mobility-theme/')
 
     def __init__(self, iri):
         super().__init__(iri)

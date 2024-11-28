@@ -46,6 +46,12 @@ def sort_dropdowns(schemas: List[Dict[str, Any]]):
                 schema["choices"].sort(key=sort_by_label)
 
 
+def sort_repeating_subfields(schemas: List[Dict[str, Any]]):
+    for schema in schemas:
+        if schema.get("repeating_subfields") is not None:
+            schema["repeating_subfields"].sort(key=sort_by_label)
+
+
 def sort_dataset_fields(dataset_fields: List[Dict[str, Any]]):
     order = [
         "owner_org",
@@ -58,8 +64,13 @@ def sort_dataset_fields(dataset_fields: List[Dict[str, Any]]):
         "spatial",
         "version",
         "version_notes_translated",
+        "georeferencing_method",
+        "contact_point",
+        "network_coverage",
+        "conforms_to"
     ]
     dataset_fields.sort(key=partial(sort_by_field_name, order))
+    sort_repeating_subfields(dataset_fields)
     sort_dropdowns(dataset_fields)
 
 
@@ -84,8 +95,8 @@ def resource_fields(ds: Dataset) -> List:
     ckan_defaults = {DCTERMS.license, DCTERMS.title, DCTERMS.description}
 
     distribution_fields_to_omit = (
-        Distribution.recommended_properties | Distribution.optional_properties
-    ) - ckan_defaults
+                                          Distribution.recommended_properties | Distribution.optional_properties
+                                  ) - ckan_defaults
 
     class_converter = ClassConverter(distribution, ds)
     resource_fields = class_converter.convert(
@@ -127,35 +138,29 @@ def dataset_fields(ds: Dataset) -> List:
         DCTERMS.publisher,
     }
 
-    omitted_dataset_fields = (
-        {
-            # Dataset publisher is set to the organization
-            DCTERMS.publisher
-        }
-        | (
-            DCATDataset.recommended_properties
-            - {
-                MOBILITYDCATAP.georeferencingMethod,
-                DCAT.contactPoint,
-                MOBILITYDCATAP.networkCoverage,
-            }
-        )
-        | (
-            DCATDataset.optional_properties
-            - {OWL.versionInfo, ADMS.versionNotes, MOBILITYDCATAP.assessmentResult}
-        )
-    )
-
-    omitted_kind_fields = Kind.optional_properties
+    omitted_dataset_fields = ({
+                                  # Dataset publisher is set to the organization
+                                  DCTERMS.publisher
+                              } | (DCATDataset.recommended_properties -
+                                   {
+                                       MOBILITYDCATAP.georeferencingMethod,
+                                       DCAT.contactPoint,
+                                       MOBILITYDCATAP.networkCoverage,
+                                       DCTERMS.conformsTo
+                                   })
+                              | (DCATDataset.optional_properties -
+                                 {
+                                     OWL.versionInfo,
+                                     ADMS.versionNotes,
+									 MOBILITYDCATAP.assessmentResult
+                                 }))
 
     dataset_fields_schema_map = class_converter.convert(
         {
             DCAT.CatalogRecord: omitted_catalog_record_fields,
             DCAT.Distribution: "all",
             DCAT.Dataset: omitted_dataset_fields,
-            VCARD.Kind: omitted_kind_fields,
         },
-        True,
     )
 
     dataset_fields_required_by_ckan = [

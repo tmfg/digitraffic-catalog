@@ -41,7 +41,7 @@ class Kind(RangeValueConverter, AggregateRangeValueConverter):
             VCARD.hasURL: 'has_url',
             VCARD.hasAddress: 'has_address',
             VCARD['organization-name']: 'organization_name',
-            VCARD['has_telephone']: 'has_telephone',
+            VCARD.hasTelephone: 'has_telephone',
         }
         return mappings.get(p.iri)
 
@@ -63,7 +63,17 @@ class Kind(RangeValueConverter, AggregateRangeValueConverter):
                 "required": is_required,
                 "preset": "url"
             }
-        return super().get_schema(ds, clazz_p, False)
+        if clazz_p.is_iri(VCARD.hasTelephone):
+            return {
+                "field_name": self.ckan_field(clazz_p, None),
+                "label": "Phone number",
+                "required": is_required,
+                "preset": "phone"
+            }
+        schema = super().get_schema(ds, clazz_p, False)
+        if clazz_p.is_iri(VCARD.fn):
+            schema["label"] = "Full name"
+        return schema
 
     def get_aggregate_schema(self) -> Dict:
         return {
