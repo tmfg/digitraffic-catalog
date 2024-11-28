@@ -114,7 +114,7 @@ Schema was not defined for class {self.clazz.iri} range value converter for prop
 Trying to find a converter for the property'f's range value {rdf_range.iri}"""
             )
             range_range_value_converter = ClassConverter(rdf_range, self.ds)
-            schema = range_range_value_converter.convert(omit, is_required_)
+            schema = range_range_value_converter.convert(omit, is_required)
         return schema
 
     def _append_schema(self, schema):
@@ -145,11 +145,19 @@ Trying to find a converter for the property'f's range value {rdf_range.iri}"""
             clazz_aggregate_clazz = ClassPropertiesAggregator.from_ds_with_graph(
                 self.clazz, self.ds, URIRef(self.clazz.namespace)
             )
-        properties = (clazz_aggregate_mobilitydcatap.properties or set()) | ((clazz_aggregate_clazz.properties or set()) if clazz_aggregate_clazz is not None else set())
-        properties_includes = (clazz_aggregate_mobilitydcatap.properties_includes or set()) | ((clazz_aggregate_clazz.properties_includes or set()) if clazz_aggregate_clazz is not None else set())
-        return (
-                properties | properties_includes
+        properties = (clazz_aggregate_mobilitydcatap.properties or set()) | (
+            (clazz_aggregate_clazz.properties or set())
+            if clazz_aggregate_clazz is not None
+            else set()
         )
+        properties_includes = (
+            clazz_aggregate_mobilitydcatap.properties_includes or set()
+        ) | (
+            (clazz_aggregate_clazz.properties_includes or set())
+            if clazz_aggregate_clazz is not None
+            else set()
+        )
+        return properties | properties_includes
 
     def _get_converter(self) -> RangeValueConverter:
         iri_to_converter: Dict[URIRef, type[RangeValueConverter]] = {
@@ -162,7 +170,7 @@ Trying to find a converter for the property'f's range value {rdf_range.iri}"""
             DCTERMS.MediaTypeOrExtent: MediaTypeOrExtent,
             DCTERMS.RightsStatement: RightsStatement,
             VCARD.Kind: Kind,
-            VCARD.Address: VCARDAddress
+            VCARD.Address: VCARDAddress,
             MOBILITYDCATAP.Assessment: Assessment,
         }
 

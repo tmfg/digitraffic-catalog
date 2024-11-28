@@ -75,9 +75,12 @@ class Distribution(RangeValueConverter):
                 MOBILITYDCATAP.communicationMethod,
                 MOBILITYDCATAP.applicationLayerProtocol,
                 MOBILITYDCATAP.grammar,
-                MOBILITYDCATAP.mobilityDataStandard
+                MOBILITYDCATAP.mobilityDataStandard,
             ]
-            if any(clazz_p.is_iri(vocabulary_range) for vocabulary_range in vocabulary_ranges):
+            if any(
+                clazz_p.is_iri(vocabulary_range)
+                for vocabulary_range in vocabulary_ranges
+            ):
                 return self.controlled_vocab_field(clazz_p, ds, is_required)
 
             """

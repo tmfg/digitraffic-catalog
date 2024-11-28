@@ -85,7 +85,7 @@ class DCATDataset(RangeValueConverter):
             MOBILITYDCATAP.georeferencingMethod: "georeferencing_method",
             MOBILITYDCATAP.networkCoverage: "network_coverage",
             DCAT.contactPoint: "contact_point",
-            DCTERMS.conformsTo: "conforms_to"
+            DCTERMS.conformsTo: "conforms_to",
             MOBILITYDCATAP.assessmentResult: "assessment_result",
         }
         field_value = mappings.get(p.iri)
