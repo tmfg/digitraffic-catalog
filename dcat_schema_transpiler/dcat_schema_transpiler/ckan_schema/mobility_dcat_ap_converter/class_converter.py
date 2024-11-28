@@ -1,8 +1,10 @@
 from typing import Dict, Set, Literal
 
 from rdflib import Dataset, URIRef
-from rdflib.namespace import DCAT, DCTERMS
+from rdflib.namespace import DCAT, DCTERMS, FOAF, ORG
 
+from ckan_schema.mobility_dcat_ap_converter.classes.agent import Agent
+from ckan_schema.mobility_dcat_ap_converter.classes.organization import Organization
 from ckan_schema.mobility_dcat_ap_converter.classes.catalogue_record import (
     CatalogueRecord,
 )
@@ -15,6 +17,7 @@ from ckan_schema.mobility_dcat_ap_converter.classes.license_document import (
 from ckan_schema.mobility_dcat_ap_converter.classes.linguistic_system import (
     LinguisticSystem,
 )
+from ckan_schema.mobility_dcat_ap_converter.classes.locn_address import LOCNAddress
 from ckan_schema.mobility_dcat_ap_converter.classes.media_type_or_extent import (
     MediaTypeOrExtent,
 )
@@ -31,12 +34,13 @@ from mobility_dcat_ap.namespace import MOBILITYDCATAP_NS_URL, MOBILITYDCATAP
 from dcat_schema_transpiler.rdfs.rdfs_class import RDFSClass
 from dcat_schema_transpiler.rdfs.util import ClassPropertiesAggregator
 from dcat_schema_transpiler.namespaces.VCARD import VCARD
+from dcat_schema_transpiler.namespaces.LOCN import LOCN
 from rdfs.rdfs_property import RDFSProperty
 
 
 class ClassConverter:
 
-    def __init__(self, clazz: RDFSClass, ds: Dataset,):
+    def __init__(self, clazz: RDFSClass, ds: Dataset):
         self.clazz = clazz
         self.ds = ds
         self.__schema_fields = []
@@ -46,6 +50,7 @@ class ClassConverter:
             omit_: Dict[URIRef, Set[URIRef] | Literal["all"]] = None,
             is_required: bool = None,
     ):
+        print(f' # Converting {str(self.clazz.iri)} ...')
         if omit_ is None:
             omit = {}
         else:
@@ -55,15 +60,17 @@ class ClassConverter:
             return []
 
         converter = self._get_converter()
-        class_properties = self._get_class_properties()
+        class_properties = self._get_main_class_properties()
+        sub_class_properties = self._get_sub_class_properties(converter)
+        all_properties = class_properties | sub_class_properties
 
-        if not class_properties:
+        if not all_properties:
             # These are vocabularies
             schema = self._get_vocabulary_schema(converter, is_required)
             self._append_schema(schema)
         else:
             property_schemas = []
-            for p in class_properties:
+            for p in all_properties:
                 is_property_omitted = self.clazz.iri in omit and p.iri in omit[self.clazz.iri]
                 if is_property_omitted:
                     continue
@@ -82,8 +89,8 @@ class ClassConverter:
             if isinstance(converter, AggregateRangeValueConverter):
                 property_schemas = converter.get_aggregate_schema()
             self._append_schema(property_schemas)
-
         self.__schema_fields = converter.post_process_schema(self.__schema_fields)
+        print(f' # {str(self.clazz.iri)} converted!')
         return self.__schema_fields
 
     def _get_vocabulary_schema(self, converter: RangeValueConverter, is_required: bool):
@@ -120,25 +127,37 @@ Trying to find a converter for the property'f's range value {rdf_range.iri}''')
         else:
             converter.add_to_aggregate(schema)
 
-    def _get_class_properties(self) -> Set[RDFSProperty]:
-        graph_namespace = URIRef(MOBILITYDCATAP_NS_URL)
-        clazz_aggregate_mobilitydcatap = ClassPropertiesAggregator.from_ds_with_graph(
-            self.clazz, self.ds, graph_namespace
+    def _get_class_properties(self, clazz: RDFSClass, namespace: URIRef) -> Set[RDFSProperty]:
+        clazz_aggregate = ClassPropertiesAggregator.from_ds_with_graph(
+            clazz, self.ds, namespace
         )
+        return clazz_aggregate.properties | clazz_aggregate.properties_includes
+
+    def _get_class_properties_from_mobility_and_class_ns(self, clazz: RDFSClass):
+        graph_namespace = URIRef(MOBILITYDCATAP_NS_URL)
+        clazz_aggregate_mobilitydcatap = self._get_class_properties(clazz, graph_namespace)
         # We do not want to take into account properties set by DCAT or DCATAP.
         # This is because MobilityDCAT-AP has done some modifications based on those vocabularies, including removal
         # of properties
         if self.clazz.namespace == DCAT._NS or self.clazz.namespace == DCATAP._NS:
             clazz_aggregate_clazz = None
         else:
-            clazz_aggregate_clazz = ClassPropertiesAggregator.from_ds_with_graph(
-                self.clazz, self.ds, URIRef(self.clazz.namespace)
-            )
-        properties = (clazz_aggregate_mobilitydcatap.properties or set()) | ((clazz_aggregate_clazz.properties or set()) if clazz_aggregate_clazz is not None else set())
-        properties_includes = (clazz_aggregate_mobilitydcatap.properties_includes or set()) | ((clazz_aggregate_clazz.properties_includes or set()) if clazz_aggregate_clazz is not None else set())
-        return (
-                properties | properties_includes
-        )
+            clazz_aggregate_clazz = self._get_class_properties(clazz, URIRef(clazz.namespace))
+
+        properties = clazz_aggregate_mobilitydcatap | (clazz_aggregate_clazz if clazz_aggregate_clazz is not None else set())
+        return properties
+
+    def _get_main_class_properties(self) -> Set[RDFSProperty]:
+        return self._get_class_properties_from_mobility_and_class_ns(self.clazz)
+
+    def _get_sub_class_properties(self, converter: RangeValueConverter) -> Set[RDFSProperty]:
+        all_properties = set()
+        if converter.sub_classes:
+            for sub_class_iri in converter.sub_classes:
+                sub_class = RDFSClass.from_ds(sub_class_iri, self.ds)
+                sub_class_properties = self._get_class_properties_from_mobility_and_class_ns(sub_class)
+                all_properties = all_properties | sub_class_properties
+        return all_properties
 
     def _get_converter(self) -> RangeValueConverter:
         iri_to_converter: Dict[URIRef, type[RangeValueConverter]] = {
@@ -151,7 +170,10 @@ Trying to find a converter for the property'f's range value {rdf_range.iri}''')
             DCTERMS.MediaTypeOrExtent: MediaTypeOrExtent,
             DCTERMS.RightsStatement: RightsStatement,
             VCARD.Kind: Kind,
-            VCARD.Address: VCARDAddress
+            VCARD.Address: VCARDAddress,
+            FOAF.Agent: Agent,
+            ORG.Organization: Organization,
+            LOCN.Address: LOCNAddress,
         }
 
         if self.clazz.iri in iri_to_converter:

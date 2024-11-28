@@ -13,7 +13,7 @@ from dcat_schema_transpiler.namespaces.VCARD import VCARD
 
 
 class Kind(RangeValueConverter, AggregateRangeValueConverter):
-    field_name = "vcard_kind"
+    aggregate_field_name = "vcard_kind"
 
     mandatory_properties = {
         VCARD.hasEmail,
@@ -77,7 +77,7 @@ class Kind(RangeValueConverter, AggregateRangeValueConverter):
 
     def get_aggregate_schema(self) -> Dict:
         return {
-            "field_name": Kind.field_name,
+            "field_name": Kind.aggregate_field_name,
             "label": "Fieldset",
             "repeating_subfields": self.__aggregate_schemas,
         }
