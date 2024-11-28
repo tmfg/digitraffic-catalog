@@ -1072,7 +1072,6 @@ dataset_fields:
 - field_name: version
   label: Dataset version
   required: false
-  help_text: The value should be URL
 - field_name: version_notes_translated
   label: Version notes
   required: false
@@ -1177,6 +1176,76 @@ dataset_fields:
     min: '2000'
     max: '69036405'
   validators: scheming_required remove_whitespace ignore_missing spatial_reference_validator
+- field_name: rights_holder
+  label: Rights holder
+  repeating_subfields:
+  - field_name: type
+    label: Agent type
+    required: false
+    preset: select
+    form_include_blank_choice: true
+    choices:
+    - value: http://purl.org/adms/publishertype/Academia-ScientificOrganisation
+      label: Academia/Scientific organisation
+    - value: http://purl.org/adms/publishertype/Company
+      label: Company
+    - value: http://purl.org/adms/publishertype/IndustryConsortium
+      label: Industry consortium
+    - value: http://purl.org/adms/publishertype/LocalAuthority
+      label: Local Authority
+    - value: http://purl.org/adms/publishertype/NationalAuthority
+      label: National authority
+    - value: http://purl.org/adms/publishertype/NonGovernmentalOrganisation
+      label: Non-Governmental Organisation
+    - value: http://purl.org/adms/publishertype/NonProfitOrganisation
+      label: Non-Profit Organisation
+    - value: http://purl.org/adms/publishertype/PrivateIndividual(s)
+      label: Private Individual(s)
+    - value: http://purl.org/adms/publishertype/RegionalAuthority
+      label: Regional authority
+    - value: http://purl.org/adms/publishertype/StandardisationBody
+      label: Standardisation body
+    - value: http://purl.org/adms/publishertype/SupraNationalAuthority
+      label: Supra-national authority
+  - field_name: mbox
+    label: Email
+    required: false
+    preset: email
+  - field_name: member_of
+    label: Member of
+    repeating_subfields:
+    - field_name: organization_name
+      label: Organization name
+      required: false
+  - field_name: phone
+    label: Phone number
+    required: false
+    preset: phone
+  - field_name: surname
+    label: Surname
+    required: false
+  - field_name: workplace_homepage
+    label: Workplace homepage
+    required: false
+    preset: url
+  - field_name: admin_unit_l1
+    label: admin unit level 1
+    required: false
+  - field_name: admin_unit_l2
+    label: admin unit level 2
+    required: false
+  - field_name: first_name
+    label: firstName
+    required: false
+  - field_name: post_code
+    label: post code
+    required: false
+  - field_name: post_name
+    label: post name
+    required: false
+  - field_name: thoroughfare
+    label: thoroughfare
+    required: false
 resource_fields:
 - field_name: url
   label: access address

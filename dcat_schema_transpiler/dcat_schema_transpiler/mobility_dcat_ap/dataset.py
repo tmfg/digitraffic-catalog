@@ -28,6 +28,7 @@ from dcat_schema_transpiler.mobility_dcat_ap.namespace import (
 )
 from dcat_schema_transpiler.namespaces.ADMS import ADMS
 from dcat_schema_transpiler.namespaces.VCARD import VCARD
+from dcat_schema_transpiler.namespaces.LOCN import LOCN
 
 dcat_ap_v_2_0_1_url = "https://joinup.ec.europa.eu/sites/default/files/distribution/access_url/2020-06/e7febda4-1604-4e01-802f-53f0fd2f690c/dcat-ap_2.0.1.rdf"
 
@@ -37,7 +38,6 @@ CNT = Namespace("http://www.w3.org/2011/content#")
 DCAT_AP = Namespace("http://data.europa.eu/r5r/")
 DCELEM = Namespace("http://purl.org/dc/elements/1.1/")
 DQV = Namespace("http://www.w3.org/ns/dqv#")
-LOCN = Namespace("http://www.w3.org/ns/locn#")
 OA = Namespace("http://www.w3.org/ns/oa#")
 XHV = Namespace("http://www.w3.org/1999/xhtml/vocab#")
 SDMX = Namespace("http://purl.org/linked-data/sdmx#")
@@ -83,6 +83,7 @@ CVOCAB_NUTS = Namespace("http://data.europa.eu/nuts/")
 CVOCAB_LAU = Namespace("https://w3id.org/stirdata/resource/lau/item/")
 CVOCAB_GEOREFERENCING_METHOD = Namespace("https://w3id.org/mobilitydcat-ap/georeferencing-method#")
 CVOCAB_NETWORK_COVERAGE = Namespace("https://w3id.org/mobilitydcat-ap/network-coverage#")
+CVOCAB_AGENT_TYPE = Namespace("http://purl.org/adms/publishertype/")
 
 mobility_dcat_namespaces = {
     "adms": ADMS,
@@ -128,6 +129,7 @@ controlled_vocabularies = [
     CVOCAB_LAU,
     CVOCAB_GEOREFERENCING_METHOD,
     CVOCAB_NETWORK_COVERAGE,
+    CVOCAB_AGENT_TYPE,
 ]
 
 
@@ -139,6 +141,15 @@ def mobilitydcatap_fixes(graph):
     graph.add(
         (OWL.versionInfo, DCAM.domainIncludes, MOBILITYDCATAP.MobilityDataStandard)
     )
+
+    # Probably a typo somewhere. FOAF properties have been set to LOCN:Address
+    properties_to_move = [FOAF.phone, FOAF.mbox, FOAF.firstName, FOAF.surname, FOAF.phone, FOAF.workplaceHomepage]
+    for p in properties_to_move:
+        graph.remove((p, DCAM.domainIncludes, LOCN.Address))
+        graph.add((p, DCAM.domainIncludes, FOAF.Agent))
+
+    graph.remove((LOCN.address, DCAM.domainIncludes, LOCN.Address))
+
 
     # DCAT or DCAT-AP has in comments that the following properties are part of some class. Here we add a property that states the fact
     graph.add((DCTERMS.format, DCAM.domainIncludes, DCAT.Distribution))
@@ -163,6 +174,9 @@ def mobilitydcatap_fixes(graph):
     graph.add((DCTERMS.language, DCAM.domainIncludes, DCAT.CatalogRecord))
     graph.add((FOAF.primaryTopic, DCAM.domainIncludes, DCAT.CatalogRecord))
     graph.add((DCTERMS.modified, DCAM.domainIncludes, DCAT.CatalogRecord))
+
+    graph.add((DCTERMS.type, DCAM.domainIncludes, FOAF.Agent))
+    graph.add((LOCN.address, DCAM.domainIncludes, FOAF.Agent))
 
     graph.add((DCAT.dataset, DCAM.domainIncludes, DCAT.Catalog))
     graph.add((DCTERMS.description, DCAM.domainIncludes, DCAT.Catalog))
@@ -208,6 +222,24 @@ def vcard_fixes(ds: Dataset):
     g.add((VCARD["region"], DCAM.domainIncludes, VCARD.Address))
     g.add((VCARD["street-address"], DCAM.domainIncludes, VCARD.Address))
 
+def org_fixes(ds: Dataset):
+    """
+    Organization recommends usage of SKOS fields https://www.w3.org/TR/vocab-org/#class-organization.
+    Let's add some of them here
+    """
+    g = ds.get_graph(URIRef(ORG._NS))
+    g.add((SKOS.prefLabel, DCAM.domainIncludes, ORG.Organization))
+    g.add((SKOS.prefLabel, RDF.type, OWL.AnnotationProperty))
+
+def cvocab_agent_type_fixes(ds: Dataset):
+    """
+    The provided graph contains a lot more stuff than just the agent types. Remove the unneeded triples.
+    """
+    g = ds.get_graph(URIRef(CVOCAB_AGENT_TYPE))
+    for s, p, o in g:
+        if "http://purl.org/adms/publishertype/" not in str(s):
+            g.remove((s, p, o))
+
 def other_fixes(ds: Dataset):
     g_dcterms = ds.get_graph(URIRef(DCTERMS._NS))
 
@@ -217,6 +249,9 @@ def other_fixes(ds: Dataset):
 
     xsd_fixes(ds)
     vcard_fixes(ds)
+    org_fixes(ds)
+
+    cvocab_agent_type_fixes(ds)
 
 
 def add_property(ds: Dataset, graph_namespace: URIRef, property: URIRef):
@@ -377,6 +412,9 @@ def ns_fetch_info(ns: URIRef) -> NsFetchInfo | None:
     elif str(ns) == "https://w3id.org/mobilitydcat-ap/network-coverage#":
         graph_url, _ = get_graph_url(ns)
         serialization_format = "ttl"
+    elif str(ns) == "http://purl.org/adms/publishertype/":
+        graph_url = 'https://raw.githubusercontent.com/SEMICeu/ADMS-AP/master/purl.org/ADMS_SKOS_v1.00.rdf'
+        serialization_format = "rdf"
     else:
         graph_url, mime_format = get_graph_url(ns)
         serialization_format = "ttl" if mime_format == "text/turtle" else "rdf"
@@ -412,6 +450,7 @@ def populate_dataset(ds: Dataset, namespace: Namespace) -> None:
 
 
 def create_dataset() -> Dataset:
+    print(' # Creating dataset...')
     DCATAP_NS_URL = "http://data.europa.eu/r5r/"
 
     mobility_dcat_v_1_0_1_url = "https://mobilitydcat-ap.github.io/mobilityDCAT-AP/releases/1.0.1/mobilitydcat-ap.ttl"
@@ -422,14 +461,26 @@ def create_dataset() -> Dataset:
     ds = Dataset()
 
     g_mobility_dcat = ds.graph(URIRef(MOBILITYDCATAP_NS_URL))
-    g_mobility_dcat.parse(mobility_dcat_v_1_0_1_url)
-
     g_dcat_ap = ds.graph(URIRef(DCATAP_NS_URL))
-    g_dcat_ap.parse(dcat_ap_v_2_0_1_url)
+
+    if is_local_file_created(URIRef(MOBILITYDCATAP_NS_URL)):
+        g_mobility_dcat.parse(get_cached_file_path(URIRef(MOBILITYDCATAP_NS_URL)))
+    else:
+        g_mobility_dcat.parse(mobility_dcat_v_1_0_1_url)
+        cache_content = get_serialized_rdf(mobility_dcat_v_1_0_1_url, 'ttl')
+        cache_vocabulary(cache_content, URIRef(MOBILITYDCATAP_NS_URL), 'ttl')
+
+    if is_local_file_created(URIRef(DCATAP_NS_URL)):
+        g_dcat_ap.parse(get_cached_file_path(URIRef(DCATAP_NS_URL)))
+    else:
+        g_dcat_ap.parse(dcat_ap_v_2_0_1_url)
+        cache_content = get_serialized_rdf(dcat_ap_v_2_0_1_url, 'rdf')
+        cache_vocabulary(cache_content, URIRef(DCATAP_NS_URL), 'rdf')
 
     mobilitydcatap_fixes(g_mobility_dcat)
 
     for namespace in list(mobility_dcat_namespaces.values()) + controlled_vocabularies:
+        print(f' # Populating dataset with {str(namespace)} namespace...')
         if isinstance(namespace, Namespace):
             ns = namespace
         else:
@@ -437,9 +488,12 @@ def create_dataset() -> Dataset:
         if not isinstance(ns, Namespace):
             raise ValueError("Foo")
         populate_dataset(ds, ns)
+        print(f' # Populated dataset with {str(namespace)} namespace!')
 
     other_fixes(ds)
 
     fill_mobilitydcatap_graph(ds)
+
+    print(' # Dataset ready!')
 
     return ds

@@ -1,19 +1,22 @@
-from rdflib import Dataset, URIRef, DCAT, DCTERMS, OWL
+from rdflib import Dataset
+from rdflib.namespace import DCAT, DCTERMS, OWL, FOAF, ORG, SKOS
 from typing import List, Dict, Any
 
 from functools import partial
 
 from ckan_schema.mobility_dcat_ap_converter.class_converter import ClassConverter
 from ckan_schema.mobility_dcat_ap_converter.classes.dataset import DCATDataset
+from ckan_schema.mobility_dcat_ap_converter.classes.agent import Agent
+from ckan_schema.mobility_dcat_ap_converter.classes.organization import Organization
 from ckan_schema.mobility_dcat_ap_converter.classes.distribution import Distribution
-from ckan_schema.mobility_dcat_ap_converter.classes.kind import Kind
 from ckan_schema.mobility_dcat_ap_converter.classes.license_document import LicenseDocument
 from ckan_schema.mobility_dcat_ap_converter.classes.rights_statement import (
     RightsStatement,
 )
+from ckan_schema.mobility_dcat_ap_converter.classes.locn_address import LOCNAddress
 from dcat_schema_transpiler.namespaces.ADMS import ADMS
+from dcat_schema_transpiler.namespaces.LOCN import LOCN
 from dcat_schema_transpiler.rdfs.rdfs_class import RDFSClass
-from dcat_schema_transpiler.namespaces.VCARD import VCARD
 from mobility_dcat_ap.namespace import MOBILITYDCATAP
 
 
@@ -88,6 +91,7 @@ def sort_resource_fields(resource_fields: List[Dict[str, Any]]):
 
 
 def resource_fields(ds: Dataset) -> List:
+    print(' # Creating Distribution fields...')
     distribution = RDFSClass.from_ds(DCAT.Distribution, ds)
 
     ckan_defaults = {DCTERMS.license, DCTERMS.title, DCTERMS.description}
@@ -118,10 +122,13 @@ def resource_fields(ds: Dataset) -> List:
 
     sort_resource_fields(resource_fields)
 
+    print(' # Distribution fields created!')
+
     return resource_fields
 
 
 def dataset_fields(ds: Dataset) -> List:
+    print(' # Creating Dataset fields...')
     catalog_record = RDFSClass.from_ds(DCAT.CatalogRecord, ds)
 
     class_converter = ClassConverter(catalog_record, ds)
@@ -144,7 +151,8 @@ def dataset_fields(ds: Dataset) -> List:
                                        MOBILITYDCATAP.georeferencingMethod,
                                        DCAT.contactPoint,
                                        MOBILITYDCATAP.networkCoverage,
-                                       DCTERMS.conformsTo
+                                       DCTERMS.conformsTo,
+                                       DCTERMS.rightsHolder
                                    })
                               | (DCATDataset.optional_properties -
                                  {
@@ -152,11 +160,27 @@ def dataset_fields(ds: Dataset) -> List:
                                      ADMS.versionNotes,
                                  }))
 
+    all_FOAF_properties = {FOAF[name] for name in FOAF.__annotations__.keys() if not name[0].isupper()}
+    all_ORG_properties = {ORG[name] for name in ORG.__annotations__.keys() if not name[0].isupper()} | {SKOS.prefLabel}
+    all_LOCN_properties = {LOCN[name] for name in LOCN.__annotations__.keys() if not name[0].isupper()}
+    relevant_agent_properties = (Agent.mandatory_properties | Agent.recommended_properties | Agent.optional_properties)
+    relevant_organization_properties = (Organization.mandatory_properties | Organization.recommended_properties | Organization.optional_properties)
+    relevant_locn_properties = (LOCNAddress.mandatory_properties | LOCNAddress.recommended_properties | LOCNAddress.optional_properties)
+
+    omitted_agent_fields = (all_FOAF_properties | all_ORG_properties) - relevant_agent_properties
+    # org:Organization is a subclass of foaf:Agent. Therefore, it would be correct to include all properties
+    # from foaf:Agent class. However, if we did that, it would create an infinite loop when creating fields
+    omitted_organization_fields = all_ORG_properties - relevant_organization_properties
+    omitted_locn_address_fields = all_LOCN_properties - relevant_locn_properties
+
     dataset_fields_schema_map = class_converter.convert(
         {
             DCAT.CatalogRecord: omitted_catalog_record_fields,
             DCAT.Distribution: "all",
             DCAT.Dataset: omitted_dataset_fields,
+            FOAF.Agent: omitted_agent_fields,
+            ORG.Organization: omitted_organization_fields,
+            LOCN.Address: omitted_locn_address_fields,
         },
         True
     )
@@ -180,5 +204,7 @@ def dataset_fields(ds: Dataset) -> List:
     dataset_fields = dataset_fields_required_by_ckan + dataset_fields_schema_map
 
     sort_dataset_fields(dataset_fields)
+
+    print(' # Dataset fields created!')
 
     return dataset_fields
