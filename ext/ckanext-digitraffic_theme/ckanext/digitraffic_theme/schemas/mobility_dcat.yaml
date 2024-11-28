@@ -1081,6 +1081,62 @@ dataset_fields:
   - fi
   - en
   - sv
+- field_name: georeferencing_method
+  label: Georeferencing Method
+  required: false
+  preset: select
+  form_include_blank_choice: true
+  choices:
+  - value: https://w3id.org/mobilitydcat-ap/georeferencing-method/alert-c
+    label: ALERT-C
+  - value: https://w3id.org/mobilitydcat-ap/georeferencing-method/gml
+    label: GML
+  - value: https://w3id.org/mobilitydcat-ap/georeferencing-method/geocoordinates
+    label: Geocoordinates
+  - value: https://w3id.org/mobilitydcat-ap/georeferencing-method/iso-19148
+    label: ISO 19148
+  - value: https://w3id.org/mobilitydcat-ap/georeferencing-method/openlr
+    label: OpenLR
+  - value: https://w3id.org/mobilitydcat-ap/georeferencing-method/other
+    label: Other
+  - value: https://w3id.org/mobilitydcat-ap/georeferencing-method/tpeg-loc
+    label: TPEG-LOC
+- field_name: contact_point
+  label: Contact point
+  repeating_subfields:
+  - field_name: has_email
+    label: Email
+    required: false
+    preset: email
+  - field_name: fn
+    label: Full name
+    required: false
+  - field_name: has_telephone
+    label: Phone number
+    required: false
+    preset: phone
+  - field_name: has_url
+    label: Web site
+    required: false
+    preset: url
+  - field_name: country_name
+    label: country name
+    required: false
+  - field_name: locality
+    label: locality
+    required: false
+  - field_name: organization_name
+    label: organization name
+    required: false
+  - field_name: postal_code
+    label: postal code
+    required: false
+  - field_name: region
+    label: region
+    required: false
+  - field_name: street_address
+    label: street address
+    required: false
 - field_name: network_coverage
   label: Network Coverage
   required: false
@@ -1111,40 +1167,16 @@ dataset_fields:
     label: Urban and local roads
   - value: https://w3id.org/mobilitydcat-ap/network-coverage/waterways
     label: Waterways
-- field_name: contact_point
-  label: Contact point
-  repeating_subfields:
-  - field_name: fn
-    label: formatted name
-    required: false
-  - field_name: has_email
-    label: Email
-    required: false
-    preset: email
-  - field_name: has_url
-    label: Web site
-    required: false
-    preset: url
-- field_name: georeferencing_method
-  label: Georeferencing Method
+- field_name: conforms_to
+  label: Spatial Reference System
+  help_text: Value must be an EPSG number
   required: false
-  preset: select
-  form_include_blank_choice: true
-  choices:
-  - value: https://w3id.org/mobilitydcat-ap/georeferencing-method/alert-c
-    label: ALERT-C
-  - value: https://w3id.org/mobilitydcat-ap/georeferencing-method/gml
-    label: GML
-  - value: https://w3id.org/mobilitydcat-ap/georeferencing-method/geocoordinates
-    label: Geocoordinates
-  - value: https://w3id.org/mobilitydcat-ap/georeferencing-method/iso-19148
-    label: ISO 19148
-  - value: https://w3id.org/mobilitydcat-ap/georeferencing-method/openlr
-    label: OpenLR
-  - value: https://w3id.org/mobilitydcat-ap/georeferencing-method/other
-    label: Other
-  - value: https://w3id.org/mobilitydcat-ap/georeferencing-method/tpeg-loc
-    label: TPEG-LOC
+  preset: iri_fragment
+  input_type: number
+  form_attrs:
+    min: '2000'
+    max: '69036405'
+  validators: scheming_required remove_whitespace ignore_missing spatial_reference_validator
 resource_fields:
 - field_name: url
   label: access address

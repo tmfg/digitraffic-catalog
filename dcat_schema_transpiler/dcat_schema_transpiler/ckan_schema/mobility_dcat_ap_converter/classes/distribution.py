@@ -71,13 +71,13 @@ class Distribution(RangeValueConverter):
             | Distribution.optional_properties
         )
         if clazz_p.iri in properties_union:
-            if clazz_p.is_iri(MOBILITYDCATAP.communicationMethod):
-                return self.controlled_vocab_field(clazz_p, ds, is_required)
-            if clazz_p.is_iri(MOBILITYDCATAP.applicationLayerProtocol):
-                return self.controlled_vocab_field(clazz_p, ds, is_required)
-            if clazz_p.is_iri(MOBILITYDCATAP.grammar):
-                return self.controlled_vocab_field(clazz_p, ds, is_required)
-            if clazz_p.is_iri(MOBILITYDCATAP.mobilityDataStandard):
+            vocabulary_ranges = [
+                MOBILITYDCATAP.communicationMethod,
+                MOBILITYDCATAP.applicationLayerProtocol,
+                MOBILITYDCATAP.grammar,
+                MOBILITYDCATAP.mobilityDataStandard
+            ]
+            if any(clazz_p.is_iri(vocabulary_range) for vocabulary_range in vocabulary_ranges):
                 return self.controlled_vocab_field(clazz_p, ds, is_required)
 
             """

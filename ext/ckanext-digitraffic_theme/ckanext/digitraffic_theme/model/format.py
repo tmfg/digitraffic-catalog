@@ -1,6 +1,8 @@
+from rdflib import Namespace
+
 from ckanext.digitraffic_theme.model.vocabulary import Vocabulary
 
-FORMAT = [
+FORMAT = {
     "http://publications.europa.eu/resource/authority/file-type/TAR",
     "http://publications.europa.eu/resource/authority/file-type/GZIP",
     "http://publications.europa.eu/resource/authority/file-type/ZIP",
@@ -216,9 +218,9 @@ FORMAT = [
     "http://publications.europa.eu/resource/authority/file-type/ARROW_FILE",
     "http://publications.europa.eu/resource/authority/file-type/ARROW_STREAM",
     "http://publications.europa.eu/resource/authority/file-type/OP_DATPRO",
-]
+}
 
-LABEL = [
+LABEL = {
     "7z",
     "AAB",
     "AAC",
@@ -434,12 +436,13 @@ LABEL = [
     "lzo",
     "sb3",
     "xz",
-]
+}
 
 
 class Format(Vocabulary):
     iris = FORMAT
     labels = LABEL
+    namespace = Namespace('http://publications.europa.eu/resource/authority/file-type/')
 
     def __init__(self, iri):
         super().__init__(iri)

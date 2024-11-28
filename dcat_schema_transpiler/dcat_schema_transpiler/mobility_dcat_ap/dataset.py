@@ -212,6 +212,16 @@ def xsd_fixes(ds: Dataset):
     for datatype in xsd_datatypes:
         g.add((datatype, RDF.type, RDFS.Datatype))
 
+def vcard_fixes(ds: Dataset):
+    """
+    VCARD uses owl:equivalentClass to tell which properties goes to with which class. Set domainIncludes.
+    """
+    g = ds.get_graph(URIRef(VCARD._NS))
+    g.add((VCARD["country-name"], DCAM.domainIncludes, VCARD.Address))
+    g.add((VCARD["locality"], DCAM.domainIncludes, VCARD.Address))
+    g.add((VCARD["postal-code"], DCAM.domainIncludes, VCARD.Address))
+    g.add((VCARD["region"], DCAM.domainIncludes, VCARD.Address))
+    g.add((VCARD["street-address"], DCAM.domainIncludes, VCARD.Address))
 
 def other_fixes(ds: Dataset):
     g_dcterms = ds.get_graph(URIRef(DCTERMS._NS))
@@ -221,6 +231,7 @@ def other_fixes(ds: Dataset):
     g_dcterms.remove((DCTERMS.format, DCAM.rangeIncludes, DCTERMS._NS.Extent))
 
     xsd_fixes(ds)
+    vcard_fixes(ds)
 
 
 def add_property(ds: Dataset, graph_namespace: URIRef, property: URIRef):

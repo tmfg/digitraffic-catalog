@@ -28,6 +28,8 @@ from ckan_schema.mobility_dcat_ap_converter.range_value_converter import (
 from ckan_schema.mobility_dcat_ap_converter.classes.kind import Kind
 from ckan_schema.mobility_dcat_ap_converter.classes.assessment import Assessment
 
+from ckan_schema.mobility_dcat_ap_converter.classes.vcard_address import VCARDAddress
+from dcat_schema_transpiler.namespaces.DCAT_AP import DCATAP
 from mobility_dcat_ap.namespace import MOBILITYDCATAP_NS_URL, MOBILITYDCATAP
 from dcat_schema_transpiler.rdfs.rdfs_class import RDFSClass
 from dcat_schema_transpiler.rdfs.util import ClassPropertiesAggregator
@@ -105,8 +107,6 @@ class ClassConverter:
         schema = converter.get_schema(self.ds, p, is_required)
 
         if schema is None:
-            is_property_required = converter.is_property_required(p)
-            is_required_ = is_required and is_property_required
             rdf_range = converter.get_range_value(self.ds, p)
             print(
                 f"""
@@ -133,10 +133,23 @@ Trying to find a converter for the property'f's range value {rdf_range.iri}"""
 
     def _get_class_properties(self) -> Set[RDFSProperty]:
         graph_namespace = URIRef(MOBILITYDCATAP_NS_URL)
-        clazz_aggregate = ClassPropertiesAggregator.from_ds_with_graph(
+        clazz_aggregate_mobilitydcatap = ClassPropertiesAggregator.from_ds_with_graph(
             self.clazz, self.ds, graph_namespace
         )
-        return clazz_aggregate.properties | clazz_aggregate.properties_includes
+        # We do not want to take into account properties set by DCAT or DCATAP.
+        # This is because MobilityDCAT-AP has done some modifications based on those vocabularies, including removal
+        # of properties
+        if self.clazz.namespace == DCAT._NS or self.clazz.namespace == DCATAP._NS:
+            clazz_aggregate_clazz = None
+        else:
+            clazz_aggregate_clazz = ClassPropertiesAggregator.from_ds_with_graph(
+                self.clazz, self.ds, URIRef(self.clazz.namespace)
+            )
+        properties = (clazz_aggregate_mobilitydcatap.properties or set()) | ((clazz_aggregate_clazz.properties or set()) if clazz_aggregate_clazz is not None else set())
+        properties_includes = (clazz_aggregate_mobilitydcatap.properties_includes or set()) | ((clazz_aggregate_clazz.properties_includes or set()) if clazz_aggregate_clazz is not None else set())
+        return (
+                properties | properties_includes
+        )
 
     def _get_converter(self) -> RangeValueConverter:
         iri_to_converter: Dict[URIRef, type[RangeValueConverter]] = {
@@ -149,6 +162,7 @@ Trying to find a converter for the property'f's range value {rdf_range.iri}"""
             DCTERMS.MediaTypeOrExtent: MediaTypeOrExtent,
             DCTERMS.RightsStatement: RightsStatement,
             VCARD.Kind: Kind,
+            VCARD.Address: VCARDAddress
             MOBILITYDCATAP.Assessment: Assessment,
         }
 

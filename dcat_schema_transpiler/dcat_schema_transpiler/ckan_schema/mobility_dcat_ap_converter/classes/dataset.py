@@ -85,6 +85,7 @@ class DCATDataset(RangeValueConverter):
             MOBILITYDCATAP.georeferencingMethod: "georeferencing_method",
             MOBILITYDCATAP.networkCoverage: "network_coverage",
             DCAT.contactPoint: "contact_point",
+            DCTERMS.conformsTo: "conforms_to"
             MOBILITYDCATAP.assessmentResult: "assessment_result",
         }
         field_value = mappings.get(p.iri)
@@ -146,6 +147,20 @@ class DCATDataset(RangeValueConverter):
                     r_value
                     | RangeValueConverter.get_translated_field_properties(is_required)
                 )
+            }
+        if clazz_p.is_iri(DCTERMS.conformsTo):
+            return {
+                "field_name": self.ckan_field(clazz_p),
+                "label": "Spatial Reference System",
+                "help_text": "Value must be an EPSG number",
+                "required": is_required,
+                "preset": "iri_fragment",
+                "input_type": "number",
+                "form_attrs": {
+                    "min": "2000",
+                    "max": "69036405"
+                },
+                "validators": "scheming_required remove_whitespace ignore_missing spatial_reference_validator"
             }
         return super().get_schema(ds, clazz_p, is_required)
 

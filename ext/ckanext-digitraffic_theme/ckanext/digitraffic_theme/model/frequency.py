@@ -1,6 +1,8 @@
+from rdflib import Namespace
+
 from ckanext.digitraffic_theme.model.vocabulary import Vocabulary
 
-FREQUENCY = [
+FREQUENCY = {
     'https://w3id.org/mobilitydcat-ap/update-frequency/24h',
     'https://w3id.org/mobilitydcat-ap/update-frequency/12h',
     'https://w3id.org/mobilitydcat-ap/update-frequency/1min',
@@ -47,11 +49,12 @@ FREQUENCY = [
     'http://publications.europa.eu/resource/authority/frequency/HOURLY',
     'http://publications.europa.eu/resource/authority/frequency/TRIDECENNIAL',
     'http://publications.europa.eu/resource/authority/frequency/TRIHOURLY',
-]
+}
 
 
 class Frequency(Vocabulary):
     iris = FREQUENCY
+    namespace = Namespace('https://w3id.org/mobilitydcat-ap/update-frequency/')
 
     def __init__(self, iri):
         super().__init__(iri)
