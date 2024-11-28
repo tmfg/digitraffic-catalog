@@ -32,7 +32,6 @@ class Assessment(RangeValueConverter):
             )
 
     def get_schema(self, ds: Dataset, clazz_p: RDFSProperty, is_required: bool = False):
-        print("hello4")
         class_properties = self.optional_properties
 
         if clazz_p.iri in class_properties:
