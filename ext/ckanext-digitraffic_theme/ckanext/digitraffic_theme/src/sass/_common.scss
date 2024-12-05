@@ -15,3 +15,51 @@ select {
     outline-offset: 2px !important;
   }
 }
+
+.custom-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.custom-select-trigger {
+  cursor: pointer;
+  display: inline-flex; /* Use inline-flex to restrict width to content */
+  align-items: center;
+  justify-content: center; /* Center the content horizontally */
+  padding: 10px; /* Add padding to make the area around the icon clickable */
+}
+
+.custom-select-trigger i {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Center the icon */
+}
+
+.custom-options {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: auto; /* Ensure the dropdown is not truncated */
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: var(--fds-border-radius);
+  z-index: 1000;
+  max-height: 300px; /* Add a max-height to prevent overflow */
+  overflow-y: auto; /* Enable scrolling if the content exceeds max-height */
+}
+
+.custom-option {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.custom-option:hover {
+  background-color: #f1f1f1;
+}
+
+.custom-dropdown.open .custom-options {
+  display: block;
+  right: 0; /* Ensure the dropdown is fully visible */
+  left: auto; /* Ensure the dropdown is fully visible */
+}

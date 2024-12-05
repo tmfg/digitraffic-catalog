@@ -184,14 +184,12 @@ $app-bar-nav: app-bar-nav;
         margin: 0;
         .form-group {
             margin: 0;
-            padding-left: var(--digitraffic-nav-side-padding);
             [data-lucide="globe"] {
                 pointer-events: none;
                 height: $icon-height;
                 width: $icon-height;
-                right: var(--digitraffic-nav-side-padding);
-                bottom: calc((var(--digitraffic-nav-min-height) / 2) - ($icon-height / 2));
-                position: absolute;
+                top: calc(((var(--digitraffic-nav-min-height)) - ($icon-height)) / 2);
+                position: relative;
                 z-index: calc(var(--digitraffic-focus-z-index) + 10);
             }
         }
@@ -323,4 +321,48 @@ $app-bar-nav: app-bar-nav;
             }
         }
     }
+
+    .custom-language-dropdown {
+        position: relative;
+        cursor: pointer;
+        padding-left: calc(var(--digitraffic-nav-side-padding) * 0.75);
+        padding-right: calc(var(--digitraffic-nav-side-padding) * 0.75);
+        min-height: var(--digitraffic-nav-min-height);
+        width: 100%;
+      }
+      
+      .custom-language-options {
+        display: none;
+        position: absolute;
+        top: 100%;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-radius: var(--fds-border-radius);
+      }
+      
+      .custom-language-dropdown.open .custom-language-options {
+        display: block;
+        right: 0; 
+        left: auto; 
+      }
+      
+      .custom-language-option {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        cursor: pointer;
+      }
+      
+      .checkmark-container {
+        width: 10px;
+        margin-right: 5px;
+      }
+      
+      .custom-language-option .checkmark {
+        color: black; 
+      }
+      
+      .custom-language-option:hover {
+        background-color: #f1f1f1;
+      }    
 }
