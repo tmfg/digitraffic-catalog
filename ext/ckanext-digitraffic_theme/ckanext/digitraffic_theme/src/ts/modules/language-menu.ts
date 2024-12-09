@@ -14,8 +14,9 @@ ckan.module("digitraffic_theme_language_menu", function ($) {
       ) as HTMLInputElement;
       const form = document.querySelector(".lang-select") as HTMLFormElement;
       if (customDropdown) {
-        customDropdown.addEventListener("click", function () {
-          this.classList.toggle("open");
+        customDropdown.addEventListener("click", function (e) {
+          const target = e.currentTarget as HTMLElement;
+          target.classList.toggle("open");
         });
       }
 
