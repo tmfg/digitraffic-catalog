@@ -193,13 +193,6 @@ $app-bar-nav: app-bar-nav;
         z-index: calc(var(--digitraffic-focus-z-index) + 10);
       }
     }
-    select {
-      @include reset-style-for-select-and-button;
-      padding-left: var(--digitraffic-nav-side-padding);
-      min-height: var(--digitraffic-nav-min-height);
-      width: 100%;
-      font-weight: 600;
-    }
   }
 
   .custom-language-dropdown {
@@ -238,7 +231,7 @@ $app-bar-nav: app-bar-nav;
     margin-right: 5px;
   }
 
-  .custom-language-option .checkmark {
+  .checkmark-container .checkmark {
     color: black;
   }
 
