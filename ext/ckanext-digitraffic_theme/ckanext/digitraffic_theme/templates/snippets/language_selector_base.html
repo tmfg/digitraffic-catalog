@@ -6,7 +6,8 @@ id - id for select
 #}
 
 {% set current_lang = request.environ.CKAN_LANG %}
-<form class="lang-select {% if is_icon_select %}lang-icon{% endif %}" action="{% url_for 'util.internal_redirect' %}" data-module="digitraffic_theme_language_menu" method="POST">
+<div data-module="digitraffic_theme_language_menu">
+<form id="language-menu-form" class="lang-select {% if is_icon_select %}lang-icon{% endif %}" action="{% url_for 'util.internal_redirect' %}" method="POST">
     {{ h.csrf_input() }}
     <nav class="form-group custom-language-dropdown" tabindex="0">
         <div class="custom-language-options" role="menu">
@@ -23,6 +24,7 @@ id - id for select
         </div>
         <i data-lucide="globe"></i>
     </nav>
-    <input type="hidden" name="url" id="language-option-hidden">
+    <input type="hidden" name="url" id="language-option-hidden" />
     <button class="btn btn-default d-none" type="submit">{{ _('Go') }}</button>
 </form>
+</div>
