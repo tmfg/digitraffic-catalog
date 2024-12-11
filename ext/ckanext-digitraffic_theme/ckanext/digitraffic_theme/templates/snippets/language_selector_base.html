@@ -1,21 +1,30 @@
-<!-- This is essentially the same as CKAN's original. With the difference of not using BS dropdown -->
+<!-- Original CKAN template uses <select> and <option> elements which render differently in different browsers.
+    They have been replaced here with a custom solution. -->
 {#
 is_icon_select - true or false
 id - id for select
 #}
+
 {% set current_lang = request.environ.CKAN_LANG %}
-<form class="lang-select {% if is_icon_select %}lang-icon{% endif %}" action="{% url_for 'util.internal_redirect' %}" data-module="digitraffic_theme_select_switch" method="POST">
+<div data-module="digitraffic_theme_language_menu">
+<form id="language-menu-form" class="lang-select {% if is_icon_select %}lang-icon{% endif %}" action="{% url_for 'util.internal_redirect' %}" method="POST">
     {{ h.csrf_input() }}
-    <div class="form-group">
-        <label for="{{ id }}" {% if is_icon_select %}class="d-none"{% endif %}>{{ _('Language') }}</label>
-        <select id="{{ id }}" name="url">
+    <nav class="form-group custom-language-dropdown" tabindex="0">
+        <div class="custom-language-options" role="menu">
             {% for locale in h.get_available_locales() %}
-            <option value="{% url_for h.current_url(), locale=locale.short_name %}" {% if locale.short_name == current_lang %}selected="selected"{% endif %}>
+            <div class="custom-language-option" data-value="{% url_for h.current_url(), locale=locale.short_name %}" {% if locale.short_name == current_lang %}selected="selected"{% endif %} role="menuitem" tabindex="0">
+                <span class="checkmark-container">
+                    {% if locale.short_name == current_lang %}
+                    <span class="checkmark">✔</span>
+                    {% endif %}
+                </span>
                 {{ (locale.display_name or locale.english_name).capitalize() }}
-            </option>
+            </div>
             {% endfor %}
-        </select>
+        </div>
         <i data-lucide="globe"></i>
-    </div>
-    <button class="btn btn-default d-none " type="submit">{{ _('Go') }}</button>
+    </nav>
+    <input type="hidden" name="url" id="language-option-hidden" />
+    <button class="btn btn-default d-none" type="submit">{{ _('Go') }}</button>
 </form>
+</div>
