@@ -6,6 +6,7 @@ from ckan.common import request, config
 from ckanext.dcat.utils import publisher_uri_organization_fallback, resource_uri
 from ckanext.digitraffic_theme.model.address import Address
 from ckanext.digitraffic_theme.model.agent import Agent
+from ckanext.digitraffic_theme.model.assessment import Assessment
 from ckanext.digitraffic_theme.model.catalog_record import CatalogRecord
 from ckanext.digitraffic_theme.model.contact_point import ContactPoint
 from ckanext.digitraffic_theme.model.dataset import Dataset
@@ -33,27 +34,55 @@ class MobilityData:
         contact_points = (
             {
                 "contact_points": [
-                    ContactPoint(None, {
-                        "email": Literal(contact_point["has_email"]),
-                        "full_name": Literal(contact_point["fn"]),
-                        "website": Literal(contact_point.get("has_url")),
-                        "address": Address(
-                            None,
-                            {
-                                "country_name": Literal(contact_point.get("country_name")),
-                                "locality": Literal(contact_point.get("locality")),
-                                "postal_code": Literal(contact_point.get("postal_code")),
-                                "region": Literal(contact_point.get("region")),
-                                "street_address": Literal(contact_point.get("street_address")),
-                            }),
-                        "affiliation": Literal(contact_point.get("organization_name")),
-                        "telephone": Literal(contact_point.get("has_telephone")),
-                    })
+                    ContactPoint(
+                        None,
+                        {
+                            "email": Literal(contact_point["has_email"]),
+                            "full_name": Literal(contact_point["fn"]),
+                            "website": Literal(contact_point.get("has_url")),
+                            "address": Address(
+                                None,
+                                {
+                                    "country_name": Literal(
+                                        contact_point.get("country_name")
+                                    ),
+                                    "locality": Literal(contact_point.get("locality")),
+                                    "postal_code": Literal(
+                                        contact_point.get("postal_code")
+                                    ),
+                                    "region": Literal(contact_point.get("region")),
+                                    "street_address": Literal(
+                                        contact_point.get("street_address")
+                                    ),
+                                },
+                            ),
+                            "affiliation": Literal(
+                                contact_point.get("organization_name")
+                            ),
+                            "telephone": Literal(contact_point.get("has_telephone")),
+                        },
+                    )
                     for contact_point in dataset_dict["contact_point"]
                 ]
             }
             if dataset_dict.get("contact_point")
-            else {})
+            else {}
+        )
+
+        assessments = {
+            "assessments": [
+                Assessment(
+                    None,
+                    {
+                        "assessment_date": Literal(assessment.get("assessment_date")),
+                        "assessment_result": URIRef(
+                            assessment.get("assessment_result")
+                        ),
+                    },
+                )
+                for assessment in dataset_dict["assessment"]
+            ]
+        }
 
         dataset = Dataset(
             dataset_ref,
@@ -100,13 +129,35 @@ class MobilityData:
                     if dataset_dict.get("network_coverage")
                     else {}
                 ),
-                **({"mobility_theme_sub": MobilityThemeSub(dataset_dict["mobility_theme_sub"])} if dataset_dict.get(
-                    "mobility_theme_sub") else {}),
-                **({"georeferencing_method": GeoreferencingMethod(
-                    dataset_dict["georeferencing_method"])} if dataset_dict.get("georeferencing_method") else {}),
-                **({"network_coverage": NetworkCoverage(dataset_dict["network_coverage"])} if dataset_dict.get(
-                    "network_coverage") else {}),
-                **contact_points
+                **(
+                    {
+                        "mobility_theme_sub": MobilityThemeSub(
+                            dataset_dict["mobility_theme_sub"]
+                        )
+                    }
+                    if dataset_dict.get("mobility_theme_sub")
+                    else {}
+                ),
+                **(
+                    {
+                        "georeferencing_method": GeoreferencingMethod(
+                            dataset_dict["georeferencing_method"]
+                        )
+                    }
+                    if dataset_dict.get("georeferencing_method")
+                    else {}
+                ),
+                **(
+                    {
+                        "network_coverage": NetworkCoverage(
+                            dataset_dict["network_coverage"]
+                        )
+                    }
+                    if dataset_dict.get("network_coverage")
+                    else {}
+                ),
+                **contact_points,
+                **assessments,
             },
         )
         # Catalog Record
