@@ -2,6 +2,7 @@ from datetime import timezone
 
 from ckanext.dcat.profiles import RDFProfile
 from ckanext.digitraffic_theme.model.agent import Agent
+from ckanext.digitraffic_theme.rdf.oa import OA
 from ckanext.digitraffic_theme.model.location import Location
 from ckanext.digitraffic_theme.model.mobility_data import MobilityData
 from ckanext.digitraffic_theme.profiles.graph_modifiers.adder import (
@@ -23,7 +24,10 @@ class MobilityDCATAPProfile(RDFProfile):
     def graph_from_dataset(self, dataset_dict, dataset_ref):
         mobility_data: MobilityData = MobilityData(dataset_dict, dataset_ref)
         g: Graph = self.g
+
+        # Namespace prefix mappings
         g.bind("mobilitydcatap", MOBILITYDCATAP)
+        g.bind("oa", OA)
 
         self._remove_existing_self_managed_graph_data(dataset_ref)
         self._update_existing_graph_data(dataset_ref, mobility_data)
