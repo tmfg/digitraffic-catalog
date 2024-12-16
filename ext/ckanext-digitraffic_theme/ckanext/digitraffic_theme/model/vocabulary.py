@@ -22,6 +22,4 @@ class Vocabulary:
 
     @classmethod
     def is_known_iri(cls, iri):
-        print("is_known_iri")
-        print(cls.iris)
         return iri in cls.iris
