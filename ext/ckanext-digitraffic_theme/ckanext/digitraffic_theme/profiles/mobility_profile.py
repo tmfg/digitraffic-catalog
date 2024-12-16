@@ -32,6 +32,10 @@ class MobilityDCATAPProfile(RDFProfile):
         self._remove_existing_self_managed_graph_data(dataset_ref)
         self._update_existing_graph_data(dataset_ref, mobility_data)
 
+        # dct:identifier should contain the value of rdf:about (the subject URI)
+        # dataset_ref contains this value
+        add_literal_to_graph(g, dataset_ref, DCTERMS.identifier, Literal(dataset_ref))
+
         # We'll end up adding Dataset metadata when injecting record
         self._inject_record(mobility_data, dataset_ref)
 
@@ -89,7 +93,8 @@ class MobilityDCATAPProfile(RDFProfile):
 
         # Optional properties
 
-        # catalog_ref contains value of rdf:about - in other words it is the subject URI
+        # dct:identifier should contain the value of rdf:about (the subject URI)
+        # catalog_ref contains this value
         add_literal_to_graph(g, catalog_ref, DCTERMS.identifier, Literal(catalog_ref))
 
     def _remove_existing_self_managed_graph_data(self, dataset_ref):
@@ -103,6 +108,8 @@ class MobilityDCATAPProfile(RDFProfile):
             g.remove((dataset_ref, DCTERMS.accrualPeriodicity, obj))
         for obj in g.objects(dataset_ref, DCTERMS.title):
             g.remove((dataset_ref, DCTERMS.title, obj))
+        for obj in g.objects(dataset_ref, DCTERMS.identifier):
+            g.remove((dataset_ref, DCTERMS.identifier, obj))
         for obj in g.objects(dataset_ref, DCTERMS.description):
             g.remove((dataset_ref, DCTERMS.description, obj))
         for dist in g.objects(dataset_ref, DCAT.distribution):
