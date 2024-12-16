@@ -13,6 +13,7 @@ from mobility_dcat_ap.dataset import (
     CVOCAB_LAU,
     CVOCAB_GEOREFERENCING_METHOD,
     CVOCAB_NETWORK_COVERAGE,
+    CVOCAB_INTENDED_INFORMATION_SERVICE,
 )
 from mobility_dcat_ap.namespace import MOBILITYDCATAP
 from dcat_schema_transpiler.namespaces.ADMS import ADMS
@@ -87,6 +88,7 @@ class DCATDataset(RangeValueConverter):
             DCAT.contactPoint: "contact_point",
             DCTERMS.conformsTo: "conforms_to",
             MOBILITYDCATAP.assessmentResult: "assessment_result",
+            MOBILITYDCATAP.intendedInformationService: "intended_information_service",
         }
         field_value = mappings.get(p.iri)
         if isinstance(field_value, dict):
@@ -123,6 +125,7 @@ class DCATDataset(RangeValueConverter):
             DCTERMS.spatial,
             MOBILITYDCATAP.georeferencingMethod,
             MOBILITYDCATAP.networkCoverage,
+            MOBILITYDCATAP.intendedInformationService,
         ]
         if any(
             clazz_p.is_iri(vocabulary_range) for vocabulary_range in vocabulary_ranges
@@ -156,11 +159,8 @@ class DCATDataset(RangeValueConverter):
                 "required": is_required,
                 "preset": "iri_fragment",
                 "input_type": "number",
-                "form_attrs": {
-                    "min": "2000",
-                    "max": "69036405"
-                },
-                "validators": "scheming_required remove_whitespace ignore_missing spatial_reference_validator"
+                "form_attrs": {"min": "2000", "max": "69036405"},
+                "validators": "scheming_required remove_whitespace ignore_missing spatial_reference_validator",
             }
         return super().get_schema(ds, clazz_p, is_required)
 
@@ -287,6 +287,16 @@ class DCATDataset(RangeValueConverter):
                     "form_include_blank_choice": True,
                     "choices": RangeValueConverter.vocab_choices(g),
                 }
+            case MOBILITYDCATAP.intendedInformationService:
+                g = ds.get_graph(URIRef(CVOCAB_INTENDED_INFORMATION_SERVICE))
+                return {
+                    "field_name": self.ckan_field(p),
+                    "label": "Intended information service",
+                    "required": is_required,
+                    "preset": "select",
+                    "form_include_blank_choice": True,
+                    "choices": RangeValueConverter.vocab_choices(g),
+                }
 
     def post_process_schema(self, schema: List[Dict]):
         def rename_field_names(field):
@@ -294,6 +304,7 @@ class DCATDataset(RangeValueConverter):
                 field["field_name"] = "contact_point"
                 field["label"] = "Contact point"
             return field
+
         return list(map(rename_field_names, schema))
 
     def is_property_required(self, property: RDFSProperty) -> bool:

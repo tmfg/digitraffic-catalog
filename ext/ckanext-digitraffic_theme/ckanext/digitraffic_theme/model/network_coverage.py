@@ -19,7 +19,7 @@ NETWORK_COVERAGE = {
 
 class NetworkCoverage(Vocabulary):
     iris = NETWORK_COVERAGE
-    namespace = Namespace('https://w3id.org/mobilitydcat-ap/network-coverage/')
+    namespace = Namespace("https://w3id.org/mobilitydcat-ap/network-coverage/")
 
     def __init__(self, iri):
         super().__init__(iri)

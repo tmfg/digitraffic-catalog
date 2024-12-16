@@ -12,6 +12,10 @@ from ckanext.digitraffic_theme.model.contact_point import ContactPoint
 from ckanext.digitraffic_theme.model.dataset import Dataset
 from ckanext.digitraffic_theme.model.distribution import Distribution
 from ckanext.digitraffic_theme.model.frequency import Frequency
+from ckanext.digitraffic_theme.model.intended_information_service import (
+    IntendedInformationService,
+)
+
 from ckanext.digitraffic_theme.model.location import Location
 from ckanext.digitraffic_theme.model.mobility_theme import (
     MobilityTheme,
@@ -131,6 +135,15 @@ class MobilityData:
                 ),
                 **(
                     {
+                        "intended_information_service": IntendedInformationService(
+                            dataset_dict["intended_information_service"]
+                        )
+                    }
+                    if dataset_dict.get("intended_information_service")
+                    else {}
+                ),
+                **(
+                    {
                         "mobility_theme_sub": MobilityThemeSub(
                             dataset_dict["mobility_theme_sub"]
                         )
@@ -145,15 +158,6 @@ class MobilityData:
                         )
                     }
                     if dataset_dict.get("georeferencing_method")
-                    else {}
-                ),
-                **(
-                    {
-                        "network_coverage": NetworkCoverage(
-                            dataset_dict["network_coverage"]
-                        )
-                    }
-                    if dataset_dict.get("network_coverage")
                     else {}
                 ),
                 **contact_points,
