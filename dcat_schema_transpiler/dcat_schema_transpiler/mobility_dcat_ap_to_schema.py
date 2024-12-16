@@ -68,6 +68,7 @@ def sort_dataset_fields(dataset_fields: List[Dict[str, Any]]):
         "contact_point",
         "network_coverage",
         "conforms_to",
+        "intended_information_service",
     ]
     dataset_fields.sort(key=partial(sort_by_field_name, order))
     sort_repeating_subfields(dataset_fields)
@@ -154,7 +155,12 @@ def dataset_fields(ds: Dataset) -> List:
         )
         | (
             DCATDataset.optional_properties
-            - {OWL.versionInfo, ADMS.versionNotes, MOBILITYDCATAP.assessmentResult}
+            - {
+                OWL.versionInfo,
+                ADMS.versionNotes,
+                MOBILITYDCATAP.assessmentResult,
+                MOBILITYDCATAP.intendedInformationService,
+            }
         )
     )
 

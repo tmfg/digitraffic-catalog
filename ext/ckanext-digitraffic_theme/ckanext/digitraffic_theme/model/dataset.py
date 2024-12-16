@@ -8,6 +8,9 @@ from ckanext.digitraffic_theme.model.class_instance import ClassInstance
 from ckanext.digitraffic_theme.model.contact_point import ContactPoint
 from ckanext.digitraffic_theme.model.distribution import Distribution
 from ckanext.digitraffic_theme.model.frequency import Frequency
+from ckanext.digitraffic_theme.model.intended_information_service import (
+    IntendedInformationService,
+)
 from ckanext.digitraffic_theme.model.location import Location
 from ckanext.digitraffic_theme.model.georeferencing_method import GeoreferencingMethod
 from ckanext.digitraffic_theme.model.network_coverage import NetworkCoverage
@@ -35,6 +38,7 @@ class DatasetInput(TypedDict):
     network_coverage: NotRequired[NetworkCoverage]
     # Optional properties
     assessments: List[Assessment]
+    intended_information_service: NotRequired[IntendedInformationService]
 
 
 class Dataset(ClassInstance):
@@ -58,6 +62,7 @@ class Dataset(ClassInstance):
         self.network_coverage = input.get("network_coverage")
         # Optional properties
         self.assessments = input.get("assessments")
+        self.intended_information_service = input.get("intended_information_service")
 
     def _is_valid_input(self, input: DatasetInput) -> bool:
         mobility_theme_sub = input.get("mobility_theme_sub")
@@ -101,5 +106,9 @@ class Dataset(ClassInstance):
                 (MOBILITYDCATAP.Assessment, assessment)
                 for assessment in self.assessments
             ],
+            (
+                MOBILITYDCATAP.intendedInformationService,
+                self.intended_information_service,
+            ),
         ]
         return [po for po in pos if po is not None]

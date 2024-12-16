@@ -87,6 +87,9 @@ CVOCAB_GEOREFERENCING_METHOD = Namespace(
 CVOCAB_NETWORK_COVERAGE = Namespace(
     "https://w3id.org/mobilitydcat-ap/network-coverage#"
 )
+CVOCAB_INTENDED_INFORMATION_SERVICE = Namespace(
+    "https://w3id.org/mobilitydcat-ap/intended-information-service#"
+)
 
 mobility_dcat_namespaces = {
     "adms": ADMS,
@@ -132,6 +135,7 @@ controlled_vocabularies = [
     CVOCAB_LAU,
     CVOCAB_GEOREFERENCING_METHOD,
     CVOCAB_NETWORK_COVERAGE,
+    CVOCAB_INTENDED_INFORMATION_SERVICE,
 ]
 
 
@@ -212,6 +216,7 @@ def xsd_fixes(ds: Dataset):
     for datatype in xsd_datatypes:
         g.add((datatype, RDF.type, RDFS.Datatype))
 
+
 def vcard_fixes(ds: Dataset):
     """
     VCARD uses owl:equivalentClass to tell which properties goes to with which class. Set domainIncludes.
@@ -222,6 +227,7 @@ def vcard_fixes(ds: Dataset):
     g.add((VCARD["postal-code"], DCAM.domainIncludes, VCARD.Address))
     g.add((VCARD["region"], DCAM.domainIncludes, VCARD.Address))
     g.add((VCARD["street-address"], DCAM.domainIncludes, VCARD.Address))
+
 
 def other_fixes(ds: Dataset):
     g_dcterms = ds.get_graph(URIRef(DCTERMS._NS))
@@ -390,6 +396,9 @@ def ns_fetch_info(ns: URIRef) -> NsFetchInfo | None:
         graph_url, _ = get_graph_url(ns)
         serialization_format = "ttl"
     elif str(ns) == "https://w3id.org/mobilitydcat-ap/network-coverage#":
+        graph_url, _ = get_graph_url(ns)
+        serialization_format = "ttl"
+    elif str(ns) == "https://w3id.org/mobilitydcat-ap/intended-information-service#":
         graph_url, _ = get_graph_url(ns)
         serialization_format = "ttl"
     else:

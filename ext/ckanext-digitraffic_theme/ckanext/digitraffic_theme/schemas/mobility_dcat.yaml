@@ -1188,6 +1188,30 @@ dataset_fields:
     label: Assessment result
     required: false
     help_text: The value should be URL
+- field_name: intended_information_service
+  label: Intended information service
+  required: false
+  preset: select
+  form_include_blank_choice: true
+  choices:
+  - value: https://w3id.org/mobilitydcat-ap/intended-information-service/dynamic-information-service
+    label: Dynamic Information service
+  - value: https://w3id.org/mobilitydcat-ap/intended-information-service/dynamic-passing-times-trip-plans-and-auxiliary-information
+    label: Dynamic Passing times, trip plans and auxiliary information
+  - value: https://w3id.org/mobilitydcat-ap/intended-information-service/dynamic-availability-check
+    label: Dynamic availability check
+  - value: https://w3id.org/mobilitydcat-ap/intended-information-service/information-service
+    label: Information service
+  - value: https://w3id.org/mobilitydcat-ap/intended-information-service/location-search
+    label: Location search
+  - value: https://w3id.org/mobilitydcat-ap/intended-information-service/other
+    label: Other
+  - value: https://w3id.org/mobilitydcat-ap/intended-information-service/trip-plan-computation-scheduled-modes-transport
+    label: Trip plan computation scheduled modes transport
+  - value: https://w3id.org/mobilitydcat-ap/intended-information-service/trip-plans
+    label: Trip plans
+  - value: https://w3id.org/mobilitydcat-ap/intended-information-service/trip-plans-auxiliary-information-availability-check
+    label: Trip plans, auxiliary information, availability check
 resource_fields:
 - field_name: url
   label: access address
