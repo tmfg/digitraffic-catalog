@@ -56,7 +56,9 @@ class RangeValueConverter(ABC):
         self, ds: Dataset, clazz_p: RDFSProperty | None, is_required: bool = False
     ) -> Dict | None:
         rdf_range = self.get_range_value(ds, clazz_p)
-        is_literal = isinstance(rdf_range, RDFSResource) and (rdf_range.iri == RDFS.Literal or RDFSLiteral.is_literal_type(rdf_range.iri))
+        is_literal = isinstance(rdf_range, RDFSResource) and (
+            rdf_range.iri == RDFS.Literal or RDFSLiteral.is_literal_type(rdf_range.iri)
+        )
         if is_literal:
             label_value = self.get_label(clazz_p, ds)
             field_name = self.ckan_field(clazz_p)
@@ -130,9 +132,9 @@ class RangeValueConverter(ABC):
         )
 
     @staticmethod
-    def get_translated_field_properties(is_required: bool):
+    def get_translated_field_properties(is_required: bool, is_core_field: bool = True):
         translated_field_properties = {
-            "preset": "fluent_core_translated",
+            "preset": "fluent_core_translated" if is_core_field else "fluent_text",
             "form_languages": ["fi", "en", "sv"],
         }
 

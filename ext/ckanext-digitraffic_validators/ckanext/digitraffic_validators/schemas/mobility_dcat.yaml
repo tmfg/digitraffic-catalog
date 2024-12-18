@@ -1177,17 +1177,6 @@ dataset_fields:
     min: '2000'
     max: '69036405'
   validators: scheming_required remove_whitespace ignore_missing spatial_reference_validator
-- field_name: assessment
-  label: Assessment
-  help_text: Results from an assessment process by some organisation
-  repeating_subfields:
-  - field_name: assessment_date
-    label: Assessment date
-    required: false
-  - field_name: assessment_result
-    label: Assessment result
-    required: false
-    help_text: The value should be URL
 - field_name: intended_information_service
   label: Intended information service
   required: false
@@ -1212,6 +1201,25 @@ dataset_fields:
     label: Trip plans
   - value: https://w3id.org/mobilitydcat-ap/intended-information-service/trip-plans-auxiliary-information-availability-check
     label: Trip plans, auxiliary information, availability check
+- field_name: quality_description
+  label: Quality description
+  required: false
+  preset: fluent_text
+  form_languages:
+  - fi
+  - en
+  - sv
+- field_name: assessment
+  label: Assessment
+  help_text: Results from an assessment process by some organisation
+  repeating_subfields:
+  - field_name: assessment_date
+    label: Assessment date
+    required: false
+  - field_name: assessment_result
+    label: Assessment result
+    required: false
+    help_text: The value should be URL
 resource_fields:
 - field_name: url
   label: access address

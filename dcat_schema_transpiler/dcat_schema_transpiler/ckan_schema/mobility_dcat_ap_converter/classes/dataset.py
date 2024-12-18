@@ -89,6 +89,7 @@ class DCATDataset(RangeValueConverter):
             DCTERMS.conformsTo: "conforms_to",
             MOBILITYDCATAP.assessmentResult: "assessment_result",
             MOBILITYDCATAP.intendedInformationService: "intended_information_service",
+            DQV.hasQualityAnnotation: "quality_description",
         }
         field_value = mappings.get(p.iri)
         if isinstance(field_value, dict):
