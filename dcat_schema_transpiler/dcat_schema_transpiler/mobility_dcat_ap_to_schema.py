@@ -13,9 +13,9 @@ from ckan_schema.mobility_dcat_ap_converter.classes.license_document import (
 from ckan_schema.mobility_dcat_ap_converter.classes.rights_statement import (
     RightsStatement,
 )
+from dcat_schema_transpiler.namespaces.DQV import DQV
 from dcat_schema_transpiler.namespaces.ADMS import ADMS
 from dcat_schema_transpiler.rdfs.rdfs_class import RDFSClass
-from dcat_schema_transpiler.namespaces.VCARD import VCARD
 from mobility_dcat_ap.namespace import MOBILITYDCATAP
 
 
@@ -69,6 +69,8 @@ def sort_dataset_fields(dataset_fields: List[Dict[str, Any]]):
         "network_coverage",
         "conforms_to",
         "intended_information_service",
+        "quality_description",
+        "assessment",
     ]
     dataset_fields.sort(key=partial(sort_by_field_name, order))
     sort_repeating_subfields(dataset_fields)
@@ -160,6 +162,7 @@ def dataset_fields(ds: Dataset) -> List:
                 ADMS.versionNotes,
                 MOBILITYDCATAP.assessmentResult,
                 MOBILITYDCATAP.intendedInformationService,
+                DQV.hasQualityAnnotation,
             }
         )
     )

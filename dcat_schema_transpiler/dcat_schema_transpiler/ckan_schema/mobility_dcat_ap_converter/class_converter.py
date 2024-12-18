@@ -29,11 +29,16 @@ from ckan_schema.mobility_dcat_ap_converter.classes.kind import Kind
 from ckan_schema.mobility_dcat_ap_converter.classes.assessment import Assessment
 
 from ckan_schema.mobility_dcat_ap_converter.classes.vcard_address import VCARDAddress
+from ckan_schema.mobility_dcat_ap_converter.classes.quality_annotation import (
+    QualityAnnotation,
+)
+from dcat_schema_transpiler.mobility_dcat_ap.dataset import OA
 from dcat_schema_transpiler.namespaces.DCAT_AP import DCATAP
 from mobility_dcat_ap.namespace import MOBILITYDCATAP_NS_URL, MOBILITYDCATAP
 from dcat_schema_transpiler.rdfs.rdfs_class import RDFSClass
 from dcat_schema_transpiler.rdfs.util import ClassPropertiesAggregator
 from dcat_schema_transpiler.namespaces.VCARD import VCARD
+from dcat_schema_transpiler.namespaces.DQV import DQV
 from rdfs.rdfs_property import RDFSProperty
 
 
@@ -86,7 +91,7 @@ class ClassConverter:
                     if isinstance(schema, list):
                         for field in schema:
                             property_schemas.append(field)
-                    else:
+                    elif schema is not None:
                         property_schemas.append(schema)
             if isinstance(converter, AggregateRangeValueConverter):
                 property_schemas = converter.get_aggregate_schema()
@@ -113,8 +118,11 @@ class ClassConverter:
 Schema was not defined for class {self.clazz.iri} range value converter for property {p.iri}.
 Trying to find a converter for the property'f's range value {rdf_range.iri}"""
             )
-            range_range_value_converter = ClassConverter(rdf_range, self.ds)
-            schema = range_range_value_converter.convert(omit, is_required)
+            # oa:hasTarget should be left out of the schema
+            if p.iri != OA.hasTarget:
+                range_range_value_converter = ClassConverter(rdf_range, self.ds)
+                schema = range_range_value_converter.convert(omit, is_required)
+
         return schema
 
     def _append_schema(self, schema):
@@ -172,6 +180,7 @@ Trying to find a converter for the property'f's range value {rdf_range.iri}"""
             VCARD.Kind: Kind,
             VCARD.Address: VCARDAddress,
             MOBILITYDCATAP.Assessment: Assessment,
+            DQV.QualityAnnotation: QualityAnnotation,
         }
 
         if self.clazz.iri in iri_to_converter:
