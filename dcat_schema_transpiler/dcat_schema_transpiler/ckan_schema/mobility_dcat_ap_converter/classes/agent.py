@@ -23,7 +23,9 @@ class Agent(RangeValueConverter, AggregateRangeValueConverter):
         ORG.Organization
     }
 
-    mandatory_properties = set()
+    mandatory_properties = {
+        FOAF.name,
+    }
 
     recommended_properties = {
         DCTERMS.type,
@@ -45,6 +47,7 @@ class Agent(RangeValueConverter, AggregateRangeValueConverter):
 
     def ckan_field_by_id(self, p: URIRef, pointer: str = None) -> str:
         mappings = {
+            FOAF.name: "name",
             DCTERMS.type: "type",
             LOCN.address: "address",
             ORG.memberOf: "member_of",

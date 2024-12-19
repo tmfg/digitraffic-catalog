@@ -1,7 +1,7 @@
 from typing import Dict
 
 from rdflib import Dataset
-from rdflib.namespace import SKOS
+from rdflib.namespace import FOAF
 
 from ckan_schema.mobility_dcat_ap_converter.range_value_converter import (
     RangeValueConverter,
@@ -16,7 +16,7 @@ class Organization(RangeValueConverter, AggregateRangeValueConverter):
     aggregate_field_name = "org_organization"
 
     mandatory_properties = {
-        SKOS.prefLabel
+        FOAF.name
     }
 
     recommended_properties = set()
@@ -29,7 +29,7 @@ class Organization(RangeValueConverter, AggregateRangeValueConverter):
 
     def ckan_field(self, p: RDFSProperty, pointer: str = None) -> str:
         mappings = {
-            SKOS.prefLabel: "organization_name"
+            FOAF.name: "name"
         }
         return mappings.get(p.iri)
 
@@ -38,7 +38,7 @@ class Organization(RangeValueConverter, AggregateRangeValueConverter):
 
     def get_schema(self, ds: Dataset, clazz_p: RDFSProperty | None, is_required: bool = None):
         schema = super().get_schema(ds, clazz_p, False)
-        if clazz_p.is_iri(SKOS.prefLabel):
+        if clazz_p.is_iri(FOAF.name):
             schema["label"] = "Organization name"
         return schema
 

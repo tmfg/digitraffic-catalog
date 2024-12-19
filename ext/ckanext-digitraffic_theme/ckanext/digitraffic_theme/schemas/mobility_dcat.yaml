@@ -1214,7 +1214,7 @@ dataset_fields:
   - field_name: member_of
     label: Member of
     repeating_subfields:
-    - field_name: organization_name
+    - field_name: name
       label: Organization name
       required: false
   - field_name: phone
@@ -1236,6 +1236,9 @@ dataset_fields:
     required: false
   - field_name: first_name
     label: firstName
+    required: false
+  - field_name: name
+    label: name
     required: false
   - field_name: post_code
     label: post code

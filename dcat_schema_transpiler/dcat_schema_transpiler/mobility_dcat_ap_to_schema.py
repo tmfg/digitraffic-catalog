@@ -161,7 +161,7 @@ def dataset_fields(ds: Dataset) -> List:
                                  }))
 
     all_FOAF_properties = {FOAF[name] for name in FOAF.__annotations__.keys() if not name[0].isupper()}
-    all_ORG_properties = {ORG[name] for name in ORG.__annotations__.keys() if not name[0].isupper()} | {SKOS.prefLabel}
+    all_ORG_properties = {ORG[name] for name in ORG.__annotations__.keys() if not name[0].isupper()} | {FOAF.name}
     all_LOCN_properties = {LOCN[name] for name in LOCN.__annotations__.keys() if not name[0].isupper()}
     relevant_agent_properties = (Agent.mandatory_properties | Agent.recommended_properties | Agent.optional_properties)
     relevant_organization_properties = (Organization.mandatory_properties | Organization.recommended_properties | Organization.optional_properties)
