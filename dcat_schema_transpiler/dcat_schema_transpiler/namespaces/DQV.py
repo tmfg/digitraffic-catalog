@@ -13,3 +13,4 @@ class DQV(DefinedNamespace):
 
     # Properties
     hasQualityAnnotation: URIRef
+    hasTarget: URIRef

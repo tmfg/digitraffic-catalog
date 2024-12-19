@@ -13,6 +13,7 @@ from ckan_schema.mobility_dcat_ap_converter.classes.license_document import (
 from ckan_schema.mobility_dcat_ap_converter.classes.rights_statement import (
     RightsStatement,
 )
+from dcat_schema_transpiler.mobility_dcat_ap.dataset import OA
 from dcat_schema_transpiler.namespaces.DQV import DQV
 from dcat_schema_transpiler.namespaces.ADMS import ADMS
 from dcat_schema_transpiler.rdfs.rdfs_class import RDFSClass
@@ -172,6 +173,7 @@ def dataset_fields(ds: Dataset) -> List:
             DCAT.CatalogRecord: omitted_catalog_record_fields,
             DCAT.Distribution: "all",
             DCAT.Dataset: omitted_dataset_fields,
+            DQV.QualityAnnotation: {OA.hasTarget},
         },
         True,
     )

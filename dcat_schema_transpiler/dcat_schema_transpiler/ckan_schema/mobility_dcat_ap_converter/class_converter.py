@@ -118,10 +118,8 @@ class ClassConverter:
 Schema was not defined for class {self.clazz.iri} range value converter for property {p.iri}.
 Trying to find a converter for the property'f's range value {rdf_range.iri}"""
             )
-            # oa:hasTarget should be left out of the schema
-            if p.iri != OA.hasTarget:
-                range_range_value_converter = ClassConverter(rdf_range, self.ds)
-                schema = range_range_value_converter.convert(omit, is_required)
+            range_range_value_converter = ClassConverter(rdf_range, self.ds)
+            schema = range_range_value_converter.convert(omit, is_required)
 
         return schema
 
