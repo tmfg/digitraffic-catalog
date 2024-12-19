@@ -19,7 +19,9 @@ from ckanext.digitraffic_theme.model.mobility_theme import (
     MobilityThemeSub,
     is_valid_mobility_theme_sub,
 )
+from ckanext.digitraffic_theme.model.quality_annotation import QualityAnnotation
 from ckanext.digitraffic_theme.rdf.mobility_dcat_ap import MOBILITYDCATAP
+from ckanext.digitraffic_theme.rdf.dqv import DQV
 
 
 class DatasetInput(TypedDict):
@@ -39,6 +41,7 @@ class DatasetInput(TypedDict):
     # Optional properties
     assessments: List[Assessment]
     intended_information_service: NotRequired[IntendedInformationService]
+    quality_annotations: List[QualityAnnotation]
 
 
 class Dataset(ClassInstance):
@@ -63,6 +66,7 @@ class Dataset(ClassInstance):
         # Optional properties
         self.assessments = input.get("assessments")
         self.intended_information_service = input.get("intended_information_service")
+        self.quality_annotations = input.get("quality_annotations")
 
     def _is_valid_input(self, input: DatasetInput) -> bool:
         mobility_theme_sub = input.get("mobility_theme_sub")
@@ -107,8 +111,16 @@ class Dataset(ClassInstance):
                 for assessment in self.assessments
             ],
             (
-                MOBILITYDCATAP.intendedInformationService,
-                self.intended_information_service,
+                (
+                    MOBILITYDCATAP.intendedInformationService,
+                    self.intended_information_service,
+                )
+                if self.intended_information_service
+                else None
             ),
+            *[
+                (DQV.QualityAnnotation, quality_annotation)
+                for quality_annotation in self.quality_annotations
+            ],
         ]
         return [po for po in pos if po is not None]

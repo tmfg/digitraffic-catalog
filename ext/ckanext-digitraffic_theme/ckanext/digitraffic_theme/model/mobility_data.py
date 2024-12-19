@@ -23,6 +23,7 @@ from ckanext.digitraffic_theme.model.mobility_theme import (
 )
 from ckanext.digitraffic_theme.model.georeferencing_method import GeoreferencingMethod
 from ckanext.digitraffic_theme.model.network_coverage import NetworkCoverage
+from ckanext.digitraffic_theme.model.quality_annotation import QualityAnnotation
 
 
 class MobilityData:
@@ -85,6 +86,25 @@ class MobilityData:
                     },
                 )
                 for assessment in dataset_dict["assessment"]
+            ]
+        }
+
+        # we have left out "quality annotation target" of class dqv:QualityAnnotation from the schema used with CKAN
+        # here the property is added for each language version ("quality annotation resource" is a multilingual field)
+        # for correct RDF representation
+        quality_annotations = {
+            "quality_annotations": [
+                QualityAnnotation(
+                    None,
+                    {
+                        "quality_annotation_resource": Literal(
+                            dataset_dict.get("quality_description", {}).get(key, ""),
+                            lang=key,
+                        ),
+                        "quality_annotation_target": dataset_ref,
+                    },
+                )
+                for key in dataset_dict.get("quality_description", {}).keys()
             ]
         }
 
@@ -162,8 +182,10 @@ class MobilityData:
                 ),
                 **contact_points,
                 **assessments,
+                **quality_annotations,
             },
         )
+
         # Catalog Record
         self.catalog_record = CatalogRecord(
             None,
