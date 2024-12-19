@@ -150,6 +150,10 @@ def mobilitydcatap_fixes(graph):
 
     graph.remove((LOCN.address, DCAM.domainIncludes, LOCN.Address))
 
+    # Agent is specified to have FOAF.name
+    graph.add((FOAF.name, DCAM.domainIncludes, FOAF.Agent))
+    graph.add((FOAF.name, DCAM.domainIncludes, ORG.Organization))
+
 
     # DCAT or DCAT-AP has in comments that the following properties are part of some class. Here we add a property that states the fact
     graph.add((DCTERMS.format, DCAM.domainIncludes, DCAT.Distribution))
@@ -222,15 +226,6 @@ def vcard_fixes(ds: Dataset):
     g.add((VCARD["region"], DCAM.domainIncludes, VCARD.Address))
     g.add((VCARD["street-address"], DCAM.domainIncludes, VCARD.Address))
 
-def org_fixes(ds: Dataset):
-    """
-    Organization recommends usage of SKOS fields https://www.w3.org/TR/vocab-org/#class-organization.
-    Let's add some of them here
-    """
-    g = ds.get_graph(URIRef(ORG._NS))
-    g.add((SKOS.prefLabel, DCAM.domainIncludes, ORG.Organization))
-    g.add((SKOS.prefLabel, RDF.type, OWL.AnnotationProperty))
-
 def cvocab_agent_type_fixes(ds: Dataset):
     """
     The provided graph contains a lot more stuff than just the agent types. Remove the unneeded triples.
@@ -249,7 +244,6 @@ def other_fixes(ds: Dataset):
 
     xsd_fixes(ds)
     vcard_fixes(ds)
-    org_fixes(ds)
 
     cvocab_agent_type_fixes(ds)
 
