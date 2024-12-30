@@ -41,7 +41,7 @@ class DatasetInput(TypedDict):
     # Optional properties
     assessments: List[Assessment]
     intended_information_service: NotRequired[IntendedInformationService]
-    quality_annotations: List[QualityAnnotation]
+    quality_annotation: QualityAnnotation
 
 
 class Dataset(ClassInstance):
@@ -66,7 +66,7 @@ class Dataset(ClassInstance):
         # Optional properties
         self.assessments = input.get("assessments")
         self.intended_information_service = input.get("intended_information_service")
-        self.quality_annotations = input.get("quality_annotations")
+        self.quality_annotation = input.get("quality_annotation")
 
     def _is_valid_input(self, input: DatasetInput) -> bool:
         mobility_theme_sub = input.get("mobility_theme_sub")
@@ -118,9 +118,6 @@ class Dataset(ClassInstance):
                 if self.intended_information_service
                 else None
             ),
-            *[
-                (DQV.QualityAnnotation, quality_annotation)
-                for quality_annotation in self.quality_annotations
-            ],
+            (DQV.QualityAnnotation, self.quality_annotation),
         ]
         return [po for po in pos if po is not None]
