@@ -6,13 +6,14 @@ from ckanext.digitraffic_theme.model.class_instance import ClassInstance
 from ckanext.digitraffic_theme.rdf.mobility_dcat_ap import MOBILITYDCATAP
 from ckanext.digitraffic_theme.rdf.oa import OA
 from ckanext.digitraffic_theme.rdf.dqv import DQV
-from rdflib import DCAT, Dataset, Literal, RDF
+from rdflib import DCAT, URIRef, Literal, RDF
 
 
 class QualityAnnotationInput(TypedDict):
     # Optional properties
-    quality_annotation_resource: NotRequired[Literal]
-    quality_annotation_target: NotRequired[Dataset]
+    quality_annotation_resource: NotRequired[URIRef]
+    # dataset ref
+    quality_annotation_target: NotRequired[Literal]
 
 
 class QualityAnnotation(ClassInstance):

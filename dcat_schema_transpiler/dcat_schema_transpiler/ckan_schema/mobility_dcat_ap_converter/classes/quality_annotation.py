@@ -40,9 +40,9 @@ class QualityAnnotation(RangeValueConverter):
                     "field_name": "quality_description",
                     "label": "Quality description",
                     "required": is_required,
-                } | RangeValueConverter.get_translated_field_properties(
-                    is_required, is_core_field=False
-                )
+                    "preset": "url",
+                    "help_text": "URL for an assessment or notes by the publisher regarding quality of dataset contents",
+                }
             # oa:hasTarget is not needed in the schema or the CKAN data input form
             if clazz_p.is_iri(OA.hasTarget):
                 return None

@@ -43,7 +43,13 @@ class Assessment(RangeValueConverter, AggregateRangeValueConverter):
             if clazz_p.is_iri(DCTERMS.issued):
                 return super().get_schema(ds, clazz_p, is_required)
             if clazz_p.is_iri(OA.hasBody):
-                return super().get_schema(ds, clazz_p, is_required)
+                return {
+                    "field_name": self.ckan_field(clazz_p, None),
+                    "label": "Assessment result",
+                    "required": is_required,
+                    "preset": "url",
+                    "help_text": "URL for the results of an assessment process by some organisation",
+                }
         return None
 
     def get_label(self, p: RDFSProperty, ds: Dataset):
@@ -60,7 +66,6 @@ class Assessment(RangeValueConverter, AggregateRangeValueConverter):
         return {
             "field_name": Assessment.field_name,
             "label": "Assessment",
-            "help_text": "Results from an assessment process by some organisation",
             "repeating_subfields": self.__aggregate_schemas,
         }
 
