@@ -32,7 +32,6 @@ from ckan_schema.mobility_dcat_ap_converter.classes.vcard_address import VCARDAd
 from ckan_schema.mobility_dcat_ap_converter.classes.quality_annotation import (
     QualityAnnotation,
 )
-from dcat_schema_transpiler.mobility_dcat_ap.dataset import OA
 from dcat_schema_transpiler.namespaces.DCAT_AP import DCATAP
 from mobility_dcat_ap.namespace import MOBILITYDCATAP_NS_URL, MOBILITYDCATAP
 from dcat_schema_transpiler.rdfs.rdfs_class import RDFSClass
@@ -179,6 +178,7 @@ Trying to find a converter for the property'f's range value {rdf_range.iri}"""
             VCARD.Address: VCARDAddress,
             MOBILITYDCATAP.Assessment: Assessment,
             DQV.QualityAnnotation: QualityAnnotation,
+            DCTERMS.language: LinguisticSystem,
         }
 
         if self.clazz.iri in iri_to_converter:

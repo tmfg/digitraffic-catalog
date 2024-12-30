@@ -166,6 +166,7 @@ def mobilitydcatap_fixes(graph):
     graph.add((DCTERMS.publisher, DCAM.domainIncludes, DCAT.Dataset))
     graph.add((OWL.versionInfo, DCAM.domainIncludes, DCAT.Dataset))
     graph.add((ADMS.versionNotes, DCAM.domainIncludes, DCAT.Dataset))
+    graph.add((DCTERMS.language, DCAM.domainIncludes, DCAT.Dataset))
 
     graph.add((DCTERMS.created, DCAM.domainIncludes, DCAT.CatalogRecord))
     graph.add((DCTERMS.language, DCAM.domainIncludes, DCAT.CatalogRecord))

@@ -90,6 +90,7 @@ class DCATDataset(RangeValueConverter):
             MOBILITYDCATAP.assessmentResult: "assessment_result",
             MOBILITYDCATAP.intendedInformationService: "intended_information_service",
             DQV.hasQualityAnnotation: "quality_description",
+            DCTERMS.language: "language",
         }
         field_value = mappings.get(p.iri)
         if isinstance(field_value, dict):
@@ -163,6 +164,9 @@ class DCATDataset(RangeValueConverter):
                 "form_attrs": {"min": "2000", "max": "69036405"},
                 "validators": "scheming_required remove_whitespace ignore_missing spatial_reference_validator",
             }
+        if clazz_p.is_iri(DCTERMS.language):
+            super().get_schema(ds, clazz_p, is_required)
+
         return super().get_schema(ds, clazz_p, is_required)
 
     def controlled_vocab_field(
