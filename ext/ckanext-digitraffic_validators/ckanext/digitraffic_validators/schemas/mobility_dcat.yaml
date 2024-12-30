@@ -1204,14 +1204,11 @@ dataset_fields:
 - field_name: quality_description
   label: Quality description
   required: false
-  preset: fluent_text
-  form_languages:
-  - fi
-  - en
-  - sv
+  preset: url
+  help_text: URL for an assessment or notes by the publisher regarding quality of
+    dataset contents
 - field_name: assessment
   label: Assessment
-  help_text: Results from an assessment process by some organisation
   repeating_subfields:
   - field_name: assessment_date
     label: Assessment date
@@ -1219,7 +1216,8 @@ dataset_fields:
   - field_name: assessment_result
     label: Assessment result
     required: false
-    help_text: The value should be URL
+    preset: url
+    help_text: URL for the results of an assessment process by some organisation
 resource_fields:
 - field_name: url
   label: access address
