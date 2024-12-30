@@ -16,7 +16,7 @@ from mobility_dcat_ap.dataset import CVOCAB_AGENT_TYPE
 from ckan_schema.mobility_dcat_ap_converter.classes.organization import Organization
 
 
-class Agent(RangeValueConverter, AggregateRangeValueConverter):
+class Agent(AggregateRangeValueConverter):
     aggregate_field_name = "foaf_agent"
     sub_classes = {
         FOAF.Person,

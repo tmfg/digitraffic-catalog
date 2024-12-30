@@ -4,7 +4,6 @@ from rdflib import Dataset
 from rdflib.namespace import FOAF
 
 from ckan_schema.mobility_dcat_ap_converter.range_value_converter import (
-    RangeValueConverter,
     AggregateRangeValueConverter
 )
 from dcat_schema_transpiler.rdfs.rdfs_class import RDFSClass
@@ -12,7 +11,7 @@ from dcat_schema_transpiler.rdfs.rdfs_property import RDFSProperty
 
 
 
-class Organization(RangeValueConverter, AggregateRangeValueConverter):
+class Organization(AggregateRangeValueConverter):
     aggregate_field_name = "org_organization"
 
     mandatory_properties = {

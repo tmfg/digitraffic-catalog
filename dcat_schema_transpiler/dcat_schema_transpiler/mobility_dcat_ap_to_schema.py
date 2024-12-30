@@ -208,3 +208,12 @@ def dataset_fields(ds: Dataset) -> List:
     print(' # Dataset fields created!')
 
     return dataset_fields
+
+
+def schema(ds: Dataset):
+    return {
+        "scheming_version": 2,
+        "dataset_type": "dataset",
+        "dataset_fields": dataset_fields(ds),
+        "resource_fields": resource_fields(ds)
+    }

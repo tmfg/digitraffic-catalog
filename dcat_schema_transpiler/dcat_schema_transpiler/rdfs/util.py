@@ -1,8 +1,9 @@
 from __future__ import annotations
-from rdflib import Dataset, URIRef, Literal
+from dataclasses import dataclass
+from rdflib import Dataset, Graph, URIRef, Literal, Namespace
 from rdflib.namespace import RDF, RDFS, DCAM, OWL
 from typing import Tuple, Set
-import os
+from dcat_schema_transpiler.rdflib_util import get_namespace
 
 from dcat_schema_transpiler.rdfs.rdfs_class import RDFSClass
 from dcat_schema_transpiler.rdfs.rdfs_literal import RDFSLiteral
@@ -73,66 +74,44 @@ def get_rdf_object(resource: RDFSResource, iri: URIRef, ds: Dataset):
         return rdfs_literal_tuple(ap)
     return None
 
+@dataclass(frozen=True)
+class ClassProperties:
+    clazz: RDFSClass
+    properties: Set[RDFSProperty]
+    properties_includes: set[RDFSProperty]
 
 class ClassPropertiesAggregator:
-    def __init__(self, clazz: RDFSClass, properties: Set[RDFSProperty], properties_includes: Set[RDFSProperty]):
-        self.clazz = clazz
-        self.properties = properties
-        self.properties_includes = properties_includes
+    def __init__(self, ds: Dataset):
+        self.ds = ds
 
-    @classmethod
-    def from_ds_with_graph(cls, clazz: RDFSClass, ds: Dataset, graph_namespace: URIRef) -> ClassPropertiesAggregator:
-        properties: Set[RDFSProperty] = set()
-        properties_includes: Set[RDFSProperty] = set()
-        g = ds.get_graph(graph_namespace)
-        for s, _, _ in g.triples((None, RDFS.domain, clazz.iri)):
-            if (s, RDF.type, RDF.Property) in g:
-                properties.add(RDFSProperty.from_ds(s, ds))
-            elif (s, RDF.type, OWL.DatatypeProperty) in g:
-                # Not exactly correct, ubt OWL.DatatypeProperty is a subclass of RDF Property
-                properties.add(RDFSProperty.from_ds(s, ds))
-            elif (s, RDF.type, OWL.AnnotationProperty) in g:
-                # Not exactly correct, ubt OWL.AnnotationProperty is a subclass of RDF Property
-                properties.add(RDFSProperty.from_ds(s, ds))
-            elif (s, RDF.type, OWL.ObjectProperty) in g:
-                # Not exactly correct, ubt OWL.ObjectProperty is a subclass of RDF Property
-                properties.add(RDFSProperty.from_ds(s, ds))
-            else:
-                raise ValueError('''
+    def class_properties(self, clazz: URIRef, namespace: URIRef = None) -> ClassProperties:
+        if namespace is None:
+            namespace = URIRef(get_namespace(self.ds, clazz))
+        g: Graph = self.ds.get_graph(namespace)
+        return ClassProperties(RDFSClass.from_ds(clazz, self.ds),
+                               self._get_clazz_properties(clazz, g),
+                               self._get_clazz_included_properties(clazz, g))
+
+    def _get_clazz_properties(self, clazz: URIRef, g: Graph) -> Set[RDFSProperty]:
+        return {RDFSProperty.from_ds(URIRef(str(subject)), self.ds)
+                for subject
+                in g.subjects(RDFS.domain, clazz)
+                if self._validate_property(URIRef(str(subject)), g)}
+
+    def _get_clazz_included_properties(self, clazz: URIRef, g: Graph) -> Set[RDFSProperty]:
+        return {RDFSProperty.from_ds(URIRef(str(subject)), self.ds)
+                for subject
+                in g.subjects(DCAM.domainIncludes, clazz)
+                if self._validate_property(URIRef(str(subject)), g)}
+
+    def _validate_property(self, subject: URIRef, g: Graph):
+        subject_types = [URIRef(str(t)) for t in g.objects(subject, RDF.type)]
+        property_types = (RDF.Property, OWL.DatatypeProperty, OWL.AnnotationProperty, OWL.ObjectProperty)
+        
+        if not any(t in subject_types for t in property_types):
+            raise ValueError('''
                 Subject was not a Property. Instead;
                 type={type}
                 value={value}\
-                '''.format(type=type(s), value=s))
-        for s, _, _ in g.triples((None, DCAM.domainIncludes, clazz.iri)):
-            if (s, RDF.type, RDF.Property) in g:
-                properties_includes.add(RDFSProperty.from_ds(s, ds))
-            elif (s, RDF.type, OWL.DatatypeProperty) in g:
-                # Not exactly correct, but OWL.DatatypeProperty is a subclass of RDF Property
-                properties_includes.add(RDFSProperty.from_ds(s, ds))
-            elif (s, RDF.type, OWL.AnnotationProperty) in g:
-                # Not exactly correct, but OWL.AnnotationProperty is a subclass of RDF Property
-                properties_includes.add(RDFSProperty.from_ds(s, ds))
-            elif (s, RDF.type, OWL.ObjectProperty) in g:
-                # Not exactly correct, but OWL.ObjectProperty is a subclass of RDF Property
-                properties_includes.add(RDFSProperty.from_ds(s, ds))
-            else:
-                raise ValueError('''
-                Subject was not a Property. Instead;
-                type={type}
-                value={value}\
-                '''.format(type=type(s), value=s))
-        return cls(clazz, properties, properties_includes)
-
-    def __str__(self):
-        spaces = '    '
-        return '''<{class_iri}>
-{spaces}PROPERTIES:
-{spaces}{spaces}{properties}
-{spaces}PROPERTIES INCLUDES:
-{spaces}{spaces}{properties_includes}'''.format(class_iri=self.clazz.iri,
-                                                properties=(os.linesep + spaces*2).join(map(lambda p: "<" + str(p.iri) + ">", self.properties)),
-                                                properties_includes=(os.linesep + spaces*2).join(map(lambda p: "<" + str(p.iri) + ">", self.properties_includes)),
-                                                spaces=spaces)
-
-    def get_property_objects(self):
-        pass
+                '''.format(type=type(subject), value=subject))
+        return True
