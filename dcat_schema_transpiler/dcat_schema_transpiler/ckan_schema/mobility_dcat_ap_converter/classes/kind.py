@@ -1,9 +1,8 @@
 from typing import Dict
 
-from rdflib import DCTERMS, Dataset, URIRef
+from rdflib import Dataset
 
 from ckan_schema.mobility_dcat_ap_converter.range_value_converter import (
-    RangeValueConverter,
     AggregateRangeValueConverter
 )
 from dcat_schema_transpiler.rdfs.rdfs_class import RDFSClass
@@ -12,7 +11,7 @@ from dcat_schema_transpiler.rdfs.rdfs_property import RDFSProperty
 from dcat_schema_transpiler.namespaces.VCARD import VCARD
 
 
-class Kind(RangeValueConverter, AggregateRangeValueConverter):
+class Kind(AggregateRangeValueConverter):
     aggregate_field_name = "vcard_kind"
 
     mandatory_properties = {

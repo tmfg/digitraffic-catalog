@@ -164,7 +164,7 @@ class RangeValueConverter(ABC):
         pass
 
 
-class AggregateRangeValueConverter(ABC):
+class AggregateRangeValueConverter(RangeValueConverter):
 
     @abstractmethod
     def get_aggregate_schema(self) -> Dict | None:
