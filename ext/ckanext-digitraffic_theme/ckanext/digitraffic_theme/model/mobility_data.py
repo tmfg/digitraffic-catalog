@@ -180,6 +180,11 @@ class MobilityData:
                     if dataset_dict.get("georeferencing_method")
                     else {}
                 ),
+                **(
+                    {"language": URIRef(dataset_dict["language"])}
+                    if dataset_dict.get("language")
+                    else {}
+                ),
                 **quality_annotation,
                 **contact_points,
                 **assessments,

@@ -1081,6 +1081,41 @@ dataset_fields:
   - fi
   - en
   - sv
+- field_name: language
+  label: Language
+  required: false
+  preset: select
+  help_text: Language used in content data
+  form_include_blank_choice: true
+  choices:
+  - value: http://publications.europa.eu/resource/authority/language/DAN
+    label: Danish
+  - value: http://publications.europa.eu/resource/authority/language/NLD
+    label: Dutch
+  - value: http://publications.europa.eu/resource/authority/language/ENG
+    label: English
+  - value: http://publications.europa.eu/resource/authority/language/EST
+    label: Estonian
+  - value: http://publications.europa.eu/resource/authority/language/FIN
+    label: Finnish
+  - value: http://publications.europa.eu/resource/authority/language/FRA
+    label: French
+  - value: http://publications.europa.eu/resource/authority/language/DEU
+    label: German
+  - value: http://publications.europa.eu/resource/authority/language/ISL
+    label: Icelandic
+  - value: http://publications.europa.eu/resource/authority/language/LAV
+    label: Latvian
+  - value: http://publications.europa.eu/resource/authority/language/LIT
+    label: Lithuanian
+  - value: http://publications.europa.eu/resource/authority/language/NOR
+    label: Norwegian
+  - value: http://publications.europa.eu/resource/authority/language/POL
+    label: Polish
+  - value: http://publications.europa.eu/resource/authority/language/SPA
+    label: Spanish
+  - value: http://publications.europa.eu/resource/authority/language/SWE
+    label: Swedish
 - field_name: georeferencing_method
   label: Georeferencing Method
   required: false

@@ -65,6 +65,7 @@ def sort_dataset_fields(dataset_fields: List[Dict[str, Any]]):
         "spatial",
         "version",
         "version_notes_translated",
+        "language",
         "georeferencing_method",
         "contact_point",
         "network_coverage",
@@ -164,6 +165,7 @@ def dataset_fields(ds: Dataset) -> List:
                 MOBILITYDCATAP.assessmentResult,
                 MOBILITYDCATAP.intendedInformationService,
                 DQV.hasQualityAnnotation,
+                DCTERMS.language,
             }
         )
     )
