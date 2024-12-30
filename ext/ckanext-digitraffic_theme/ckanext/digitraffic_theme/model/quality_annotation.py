@@ -13,7 +13,7 @@ class QualityAnnotationInput(TypedDict):
     # Optional properties
     quality_annotation_resource: NotRequired[URIRef]
     # dataset ref
-    quality_annotation_target: NotRequired[Literal]
+    quality_annotation_target: NotRequired[URIRef]
 
 
 class QualityAnnotation(ClassInstance):

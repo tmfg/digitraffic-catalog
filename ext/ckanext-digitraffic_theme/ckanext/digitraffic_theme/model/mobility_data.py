@@ -92,21 +92,21 @@ class MobilityData:
         # we have left out "quality annotation target" of class dqv:QualityAnnotation from the schema used with CKAN
         # here the property is added for each language version ("quality annotation resource" is a multilingual field)
         # for correct RDF representation
-        quality_annotations = {
-            "quality_annotations": [
-                QualityAnnotation(
+        quality_annotation = (
+            {
+                "quality_annotation": QualityAnnotation(
                     None,
                     {
-                        "quality_annotation_resource": Literal(
-                            dataset_dict.get("quality_description", {}).get(key, ""),
-                            lang=key,
+                        "quality_annotation_resource": URIRef(
+                            dataset_dict.get("quality_description", {})
                         ),
                         "quality_annotation_target": dataset_ref,
                     },
                 )
-                for key in dataset_dict.get("quality_description", {}).keys()
-            ]
-        }
+            }
+            if dataset_dict.get("quality_description")
+            else {}
+        )
 
         dataset = Dataset(
             dataset_ref,
@@ -180,10 +180,10 @@ class MobilityData:
                     if dataset_dict.get("georeferencing_method")
                     else {}
                 ),
+                **quality_annotation,
                 **contact_points,
                 **assessments,
-                **quality_annotations,
-            },
+            },  # type: ignore
         )
 
         # Catalog Record
