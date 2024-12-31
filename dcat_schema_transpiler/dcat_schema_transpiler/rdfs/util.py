@@ -107,7 +107,7 @@ class ClassPropertiesAggregator:
     def _validate_property(self, subject: URIRef, g: Graph):
         subject_types = [URIRef(str(t)) for t in g.objects(subject, RDF.type)]
         property_types = (RDF.Property, OWL.DatatypeProperty, OWL.AnnotationProperty, OWL.ObjectProperty)
-        
+
         if not any(t in subject_types for t in property_types):
             raise ValueError('''
                 Subject was not a Property. Instead;

@@ -19,6 +19,7 @@ from dcat_schema_transpiler.rdfs.rdfs_property import RDFSProperty
 
 
 class Distribution(RangeValueConverter):
+    iri = DCAT.Distribution
     mandatory_properties = {
         DCAT.accessURL,
         MOBILITYDCATAP.mobilityDataStandard,

@@ -152,7 +152,8 @@ def dataset_fields(ds: Dataset) -> List:
                                        DCAT.contactPoint,
                                        MOBILITYDCATAP.networkCoverage,
                                        DCTERMS.conformsTo,
-                                       DCTERMS.rightsHolder
+                                       DCTERMS.rightsHolder,
+                                       DCTERMS.temporal
                                    })
                               | (DCATDataset.optional_properties -
                                  {

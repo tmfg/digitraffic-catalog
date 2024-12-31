@@ -26,6 +26,7 @@ from dcat_schema_transpiler.ckan_schema.mobility_dcat_ap_converter.classes.agent
 
 
 class DCATDataset(RangeValueConverter):
+    iri = DCAT.Dataset
     mandatory_properties = {
         DCTERMS.description,
         DCAT.distribution,

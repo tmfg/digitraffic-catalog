@@ -9,6 +9,7 @@ from dcat_schema_transpiler.rdfs.rdfs_resource import RDFSResource
 
 
 class CatalogueRecord(RangeValueConverter):
+    iri = DCAT.CatalogRecord
     mandatory_properties = {
         DCTERMS.created,
         DCTERMS.language,

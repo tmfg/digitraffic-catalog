@@ -12,6 +12,7 @@ from dcat_schema_transpiler.namespaces.VCARD import VCARD
 
 
 class Kind(AggregateRangeValueConverter):
+    iri = VCARD.Kind
     aggregate_field_name = "vcard_kind"
 
     mandatory_properties = {

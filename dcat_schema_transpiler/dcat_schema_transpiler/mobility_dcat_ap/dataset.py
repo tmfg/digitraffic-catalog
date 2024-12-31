@@ -173,6 +173,7 @@ def mobilitydcatap_fixes(graph):
     graph.add((DCTERMS.publisher, DCAM.domainIncludes, DCAT.Dataset))
     graph.add((OWL.versionInfo, DCAM.domainIncludes, DCAT.Dataset))
     graph.add((ADMS.versionNotes, DCAM.domainIncludes, DCAT.Dataset))
+    graph.add((DCTERMS.temporal, DCAM.domainIncludes, DCAT.Dataset))
 
     graph.add((DCTERMS.created, DCAM.domainIncludes, DCAT.CatalogRecord))
     graph.add((DCTERMS.language, DCAM.domainIncludes, DCAT.CatalogRecord))
@@ -449,8 +450,7 @@ def create_dataset() -> Dataset:
 
     mobility_dcat_v_1_0_1_url = "https://mobilitydcat-ap.github.io/mobilityDCAT-AP/releases/1.0.1/mobilitydcat-ap.ttl"
 
-    ## HUOM! Ei ole versiota DCAT specificaatioon. Pitäisi olla v2
-    dcat_url = "https://www.w3.org/ns/dcat.ttl"
+    dcat_url = "https://www.w3.org/ns/dcat2.ttl"
 
     ds = Dataset()
 

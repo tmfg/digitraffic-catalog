@@ -9,6 +9,7 @@ from mobility_dcat_ap.dataset import CVOCAB_LANGUAGE
 
 
 class LinguisticSystem(RangeValueConverter):
+    iri = DCTERMS.LinguisticSystem
 
     def __init__(self, clazz: RDFSClass):
         super().__init__(clazz)
