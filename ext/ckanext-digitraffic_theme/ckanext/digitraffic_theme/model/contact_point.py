@@ -8,6 +8,7 @@ from ckanext.dcat.profiles import VCARD
 from ckanext.digitraffic_theme.model.address import VCARDAddress
 from ckanext.digitraffic_theme.model.class_instance import ClassInstance
 
+
 class ContactPointInput(TypedDict):
     # Mandatory properties
     email: Literal
@@ -18,6 +19,7 @@ class ContactPointInput(TypedDict):
     address: NotRequired[VCARDAddress]
     affiliation: NotRequired[Literal]
     telephone: NotRequired[Literal]
+
 
 class ContactPoint(ClassInstance):
 
@@ -39,11 +41,11 @@ class ContactPoint(ClassInstance):
             (VCARD.hasURL, self.website),
             (VCARD.hasAddress, self.address),
             (VCARD["organization-name"], self.affiliation),
-            (VCARD.hasTelephone, self.telephone)
+            (VCARD.hasTelephone, self.telephone),
         ]
 
     def validate(self, input: ContactPointInput):
         mandatory_properties = ["email", "full_name"]
         for mp in mandatory_properties:
             if input.get(mp).value is None:
-                raise ValueError(f'{mp} property cannot be None')
+                raise ValueError(f"{mp} property cannot be None")

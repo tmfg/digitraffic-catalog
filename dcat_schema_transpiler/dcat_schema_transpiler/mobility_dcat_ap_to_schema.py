@@ -9,7 +9,9 @@ from ckan_schema.mobility_dcat_ap_converter.classes.dataset import DCATDataset
 from ckan_schema.mobility_dcat_ap_converter.classes.agent import Agent
 from ckan_schema.mobility_dcat_ap_converter.classes.organization import Organization
 from ckan_schema.mobility_dcat_ap_converter.classes.distribution import Distribution
-from ckan_schema.mobility_dcat_ap_converter.classes.license_document import LicenseDocument
+from ckan_schema.mobility_dcat_ap_converter.classes.license_document import (
+    LicenseDocument,
+)
 from ckan_schema.mobility_dcat_ap_converter.classes.rights_statement import (
     RightsStatement,
 )
@@ -68,7 +70,7 @@ def sort_dataset_fields(dataset_fields: List[Dict[str, Any]]):
         "georeferencing_method",
         "contact_point",
         "network_coverage",
-        "conforms_to"
+        "conforms_to",
     ]
     dataset_fields.sort(key=partial(sort_by_field_name, order))
     sort_repeating_subfields(dataset_fields)
@@ -91,23 +93,23 @@ def sort_resource_fields(resource_fields: List[Dict[str, Any]]):
 
 
 def resource_fields(ds: Dataset) -> List:
-    print(' # Creating Distribution fields...')
+    print(" # Creating Distribution fields...")
     distribution = RDFSClass.from_ds(DCAT.Distribution, ds)
 
     ckan_defaults = {DCTERMS.license, DCTERMS.title, DCTERMS.description}
 
     distribution_fields_to_omit = (
-                                          Distribution.recommended_properties | Distribution.optional_properties
-                                  ) - ckan_defaults
+        Distribution.recommended_properties | Distribution.optional_properties
+    ) - ckan_defaults
 
     class_converter = ClassConverter(distribution, ds)
     resource_fields = class_converter.convert(
         {
             DCAT.Distribution: distribution_fields_to_omit,
             DCTERMS.RightsStatement: RightsStatement.recommended_properties,
-            DCTERMS.LicenseDocument: LicenseDocument.optional_properties
+            DCTERMS.LicenseDocument: LicenseDocument.optional_properties,
         },
-        True
+        True,
     )
 
     # append custom field needed to store format iri in ckan
@@ -122,13 +124,13 @@ def resource_fields(ds: Dataset) -> List:
 
     sort_resource_fields(resource_fields)
 
-    print(' # Distribution fields created!')
+    print(" # Distribution fields created!")
 
     return resource_fields
 
 
 def dataset_fields(ds: Dataset) -> List:
-    print(' # Creating Dataset fields...')
+    print(" # Creating Dataset fields...")
     catalog_record = RDFSClass.from_ds(DCAT.CatalogRecord, ds)
 
     class_converter = ClassConverter(catalog_record, ds)
@@ -140,35 +142,62 @@ def dataset_fields(ds: Dataset) -> List:
         DCTERMS.modified,
         # Should be omitted for now
         DCTERMS.language,
-        DCTERMS.publisher
+        DCTERMS.publisher,
     }
 
-    omitted_dataset_fields = ({
-                                  # Dataset publisher is set to the organization
-                                  DCTERMS.publisher
-                              } | (DCATDataset.recommended_properties -
-                                   {
-                                       MOBILITYDCATAP.georeferencingMethod,
-                                       DCAT.contactPoint,
-                                       MOBILITYDCATAP.networkCoverage,
-                                       DCTERMS.conformsTo,
-                                       DCTERMS.rightsHolder,
-                                       DCTERMS.temporal
-                                   })
-                              | (DCATDataset.optional_properties -
-                                 {
-                                     OWL.versionInfo,
-                                     ADMS.versionNotes,
-                                 }))
+    omitted_dataset_fields = (
+        {
+            # Dataset publisher is set to the organization
+            DCTERMS.publisher
+        }
+        | (
+            DCATDataset.recommended_properties
+            - {
+                MOBILITYDCATAP.georeferencingMethod,
+                DCAT.contactPoint,
+                MOBILITYDCATAP.networkCoverage,
+                DCTERMS.conformsTo,
+                DCTERMS.rightsHolder,
+                DCTERMS.temporal,
+            }
+        )
+        | (
+            DCATDataset.optional_properties
+            - {
+                OWL.versionInfo,
+                ADMS.versionNotes,
+            }
+        )
+    )
 
-    all_FOAF_properties = {FOAF[name] for name in FOAF.__annotations__.keys() if not name[0].isupper()}
-    all_ORG_properties = {ORG[name] for name in ORG.__annotations__.keys() if not name[0].isupper()} | {FOAF.name}
-    all_LOCN_properties = {LOCN[name] for name in LOCN.__annotations__.keys() if not name[0].isupper()}
-    relevant_agent_properties = (Agent.mandatory_properties | Agent.recommended_properties | Agent.optional_properties)
-    relevant_organization_properties = (Organization.mandatory_properties | Organization.recommended_properties | Organization.optional_properties)
-    relevant_locn_properties = (LOCNAddress.mandatory_properties | LOCNAddress.recommended_properties | LOCNAddress.optional_properties)
+    all_FOAF_properties = {
+        FOAF[name] for name in FOAF.__annotations__.keys() if not name[0].isupper()
+    }
+    all_ORG_properties = {
+        ORG[name] for name in ORG.__annotations__.keys() if not name[0].isupper()
+    } | {FOAF.name}
+    all_LOCN_properties = {
+        LOCN[name] for name in LOCN.__annotations__.keys() if not name[0].isupper()
+    }
+    relevant_agent_properties = (
+        Agent.mandatory_properties
+        | Agent.recommended_properties
+        | Agent.optional_properties
+    )
+    relevant_organization_properties = (
+        Organization.mandatory_properties
+        | Organization.recommended_properties
+        | Organization.optional_properties
+    )
+    relevant_locn_properties = (
+        LOCNAddress.mandatory_properties
+        | LOCNAddress.recommended_properties
+        | LOCNAddress.optional_properties
+    )
 
-    omitted_agent_fields = (all_FOAF_properties | all_ORG_properties) - relevant_agent_properties
+    omitted_agent_fields = (
+        all_FOAF_properties | all_ORG_properties
+    ) - relevant_agent_properties
     # org:Organization is a subclass of foaf:Agent. Therefore, it would be correct to include all properties
     # from foaf:Agent class. However, if we did that, it would create an infinite loop when creating fields
     omitted_organization_fields = all_ORG_properties - relevant_organization_properties
@@ -183,7 +212,7 @@ def dataset_fields(ds: Dataset) -> List:
             ORG.Organization: omitted_organization_fields,
             LOCN.Address: omitted_locn_address_fields,
         },
-        True
+        True,
     )
 
     dataset_fields_required_by_ckan = [
@@ -206,7 +235,7 @@ def dataset_fields(ds: Dataset) -> List:
 
     sort_dataset_fields(dataset_fields)
 
-    print(' # Dataset fields created!')
+    print(" # Dataset fields created!")
 
     return dataset_fields
 
@@ -216,5 +245,5 @@ def schema(ds: Dataset):
         "scheming_version": 2,
         "dataset_type": "dataset",
         "dataset_fields": dataset_fields(ds),
-        "resource_fields": resource_fields(ds)
+        "resource_fields": resource_fields(ds),
     }

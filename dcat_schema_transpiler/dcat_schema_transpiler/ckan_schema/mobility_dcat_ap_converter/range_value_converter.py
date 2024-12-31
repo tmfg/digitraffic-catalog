@@ -22,19 +22,32 @@ class RangeValueConverter(ABC):
 
     def __init__(self, clazz: RDFSClass):
         if not clazz.is_iri(self.__class__.iri):
-            raise ValueError(f"The given RDF Class must be of correct type. Was given RDFSClass {clazz.iri} and expected {self.__class__.iri}")
+            raise ValueError(
+                f"The given RDF Class must be of correct type. Was given RDFSClass {clazz.iri} and expected {self.__class__.iri}"
+            )
         self.clazz = clazz
 
     @abstractmethod
     def get_range_value(self, ds: Dataset, clazz_p: RDFSProperty) -> RDFSClass | None:
         r = get_rdf_object(clazz_p, RDFS.range, ds) or ()
         r_includes = get_rdf_object(clazz_p, DCAM.rangeIncludes, ds) or ()
-        range_inculdes_info = clazz_p.additional_properties.get(URIRef(DCAM.rangeIncludes))
+        range_inculdes_info = clazz_p.additional_properties.get(
+            URIRef(DCAM.rangeIncludes)
+        )
         if range_inculdes_info:
-            mobility_dcatap_defined_range = [r for r in range_inculdes_info if str(r[1]) == MOBILITYDCATAP_NS_URL]
-            is_range_include_defined_in_mobility_dcatap = len(mobility_dcatap_defined_range) > 0
+            mobility_dcatap_defined_range = [
+                r for r in range_inculdes_info if str(r[1]) == MOBILITYDCATAP_NS_URL
+            ]
+            is_range_include_defined_in_mobility_dcatap = (
+                len(mobility_dcatap_defined_range) > 0
+            )
             if is_range_include_defined_in_mobility_dcatap:
-                return list(filter(lambda p: p.iri == mobility_dcatap_defined_range[0][0], r_includes))[0]
+                return list(
+                    filter(
+                        lambda p: p.iri == mobility_dcatap_defined_range[0][0],
+                        r_includes,
+                    )
+                )[0]
         obj = r + r_includes
         if not obj:
             print("#### COULD NOT FIND AN OBJECT")
@@ -65,7 +78,9 @@ class RangeValueConverter(ABC):
         self, ds: Dataset, clazz_p: RDFSProperty | None, is_required: bool = False
     ) -> Dict | None:
         rdf_range = self.get_range_value(ds, clazz_p)
-        is_literal = isinstance(rdf_range, RDFSResource) and (rdf_range.iri == RDFS.Literal or RDFSLiteral.is_literal_type(rdf_range.iri))
+        is_literal = isinstance(rdf_range, RDFSResource) and (
+            rdf_range.iri == RDFS.Literal or RDFSLiteral.is_literal_type(rdf_range.iri)
+        )
         if is_literal:
             label_value = self.get_label(clazz_p, ds)
             field_name = self.ckan_field(clazz_p)

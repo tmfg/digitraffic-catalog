@@ -20,29 +20,27 @@ class PeriodOfTime(RangeValueConverter):
         super().__init__(clazz)
 
     def ckan_field(self, p: RDFSProperty, pointer: str = None) -> str:
-        mappings = {
-            DCAT.startDate: 'start_timestamp',
-            DCAT.endDate: 'end_timestamp'
-        }
+        mappings = {DCAT.startDate: "start_timestamp", DCAT.endDate: "end_timestamp"}
         field_name = mappings.get(p.iri)
 
         if field_name is not None:
             return field_name
         else:
             raise ValueError(
-                f'A mapping was not found between the class {self.clazz.iri} property {p.iri} and CKAN datamodel')
+                f"A mapping was not found between the class {self.clazz.iri} property {p.iri} and CKAN datamodel"
+            )
 
     def get_range_value(self, ds: Dataset, clazz_p: RDFSProperty) -> RDFSClass | None:
         return super().get_range_value(ds, clazz_p)
 
     def get_schema(
-            self, ds: Dataset, clazz_p: RDFSProperty | None, is_required: bool = False
+        self, ds: Dataset, clazz_p: RDFSProperty | None, is_required: bool = False
     ):
         if any(clazz_p.is_iri(p) for p in self.__class__.recommended_properties):
             return {
                 "field_name": self.ckan_field(clazz_p),
                 "label": "Start time" if clazz_p.is_iri(DCAT.startDate) else "End time",
-                "preset": "datetime"
+                "preset": "datetime",
             }
         return None
 

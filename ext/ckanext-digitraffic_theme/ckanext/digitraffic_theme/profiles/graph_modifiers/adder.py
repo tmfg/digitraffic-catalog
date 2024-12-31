@@ -81,9 +81,9 @@ def add_class_instance_values(g: Graph, resource: ClassInstance):
     for p, o in resource.predicate_objects():
         if isinstance(o, list):
             for oc in o:
-                add_po(p,oc)
+                add_po(p, oc)
         else:
-            add_po(p,o)
+            add_po(p, o)
 
 
 def add_class_instance_with_children(

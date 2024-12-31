@@ -11,17 +11,25 @@ from dcat_schema_transpiler.rdfs.rdfs_property import RDFSProperty
 from dcat_schema_transpiler.rdfs.rdfs_resource import RDFSResource
 
 
-def rdfs_property_tuple(urirefs: Tuple[URIRef, ...], ds: Dataset) -> Tuple[RDFSProperty, ...]:
+def rdfs_property_tuple(
+    urirefs: Tuple[URIRef, ...], ds: Dataset
+) -> Tuple[RDFSProperty, ...]:
     return tuple(map(lambda p: RDFSProperty.from_ds(p, ds), urirefs))
+
 
 def rdfs_class_tuple(urirefs: Tuple[URIRef, ...], ds: Dataset) -> Tuple[RDFSClass, ...]:
     return tuple(map(lambda c: RDFSClass.from_ds(c, ds), urirefs))
 
+
 def rdfs_literal_tuple(literals: Tuple[Literal, ...]) -> Tuple[RDFSLiteral, ...]:
     return tuple(map(lambda l: RDFSLiteral(l), literals))
 
-def rdfs_resource_tuple(urirefs: Tuple[URIRef, ...], ds: Dataset) -> Tuple[RDFSResource, ...]:
+
+def rdfs_resource_tuple(
+    urirefs: Tuple[URIRef, ...], ds: Dataset
+) -> Tuple[RDFSResource, ...]:
     return tuple(map(lambda r: RDFSResource.from_ds(r, ds), urirefs))
+
 
 def get_rdf_object(resource: RDFSResource, iri: URIRef, ds: Dataset):
     if not isinstance(iri, URIRef):
@@ -50,7 +58,9 @@ def get_rdf_object(resource: RDFSResource, iri: URIRef, ds: Dataset):
         case RDFS.isDefinedBy:
             if resource.is_defined_by and isinstance(resource.is_defined_by[0], URIRef):
                 return rdfs_resource_tuple(resource.is_defined_by, ds)
-            elif resource.is_defined_by and isinstance(resource.is_defined_by[0], Literal):
+            elif resource.is_defined_by and isinstance(
+                resource.is_defined_by[0], Literal
+            ):
                 return rdfs_literal_tuple(resource.is_defined_by)
             else:
                 return ()
@@ -74,44 +84,63 @@ def get_rdf_object(resource: RDFSResource, iri: URIRef, ds: Dataset):
         return rdfs_literal_tuple(ap)
     return None
 
+
 @dataclass(frozen=True)
 class ClassProperties:
     clazz: RDFSClass
     properties: Set[RDFSProperty]
     properties_includes: set[RDFSProperty]
 
+
 class ClassPropertiesAggregator:
     def __init__(self, ds: Dataset):
         self.ds = ds
 
-    def class_properties(self, clazz: URIRef, namespace: URIRef = None) -> ClassProperties:
+    def class_properties(
+        self, clazz: URIRef, namespace: URIRef = None
+    ) -> ClassProperties:
         if namespace is None:
             namespace = URIRef(get_namespace(self.ds, clazz))
         g: Graph = self.ds.get_graph(namespace)
-        return ClassProperties(RDFSClass.from_ds(clazz, self.ds),
-                               self._get_clazz_properties(clazz, g),
-                               self._get_clazz_included_properties(clazz, g))
+        return ClassProperties(
+            RDFSClass.from_ds(clazz, self.ds),
+            self._get_clazz_properties(clazz, g),
+            self._get_clazz_included_properties(clazz, g),
+        )
 
     def _get_clazz_properties(self, clazz: URIRef, g: Graph) -> Set[RDFSProperty]:
-        return {RDFSProperty.from_ds(URIRef(str(subject)), self.ds)
-                for subject
-                in g.subjects(RDFS.domain, clazz)
-                if self._validate_property(URIRef(str(subject)), g)}
+        return {
+            RDFSProperty.from_ds(URIRef(str(subject)), self.ds)
+            for subject in g.subjects(RDFS.domain, clazz)
+            if self._validate_property(URIRef(str(subject)), g)
+        }
 
-    def _get_clazz_included_properties(self, clazz: URIRef, g: Graph) -> Set[RDFSProperty]:
-        return {RDFSProperty.from_ds(URIRef(str(subject)), self.ds)
-                for subject
-                in g.subjects(DCAM.domainIncludes, clazz)
-                if self._validate_property(URIRef(str(subject)), g)}
+    def _get_clazz_included_properties(
+        self, clazz: URIRef, g: Graph
+    ) -> Set[RDFSProperty]:
+        return {
+            RDFSProperty.from_ds(URIRef(str(subject)), self.ds)
+            for subject in g.subjects(DCAM.domainIncludes, clazz)
+            if self._validate_property(URIRef(str(subject)), g)
+        }
 
     def _validate_property(self, subject: URIRef, g: Graph):
         subject_types = [URIRef(str(t)) for t in g.objects(subject, RDF.type)]
-        property_types = (RDF.Property, OWL.DatatypeProperty, OWL.AnnotationProperty, OWL.ObjectProperty)
+        property_types = (
+            RDF.Property,
+            OWL.DatatypeProperty,
+            OWL.AnnotationProperty,
+            OWL.ObjectProperty,
+        )
 
         if not any(t in subject_types for t in property_types):
-            raise ValueError('''
+            raise ValueError(
+                """
                 Subject was not a Property. Instead;
                 type={type}
                 value={value}\
-                '''.format(type=type(subject), value=subject))
+                """.format(
+                    type=type(subject), value=subject
+                )
+            )
         return True

@@ -18,7 +18,7 @@ class LOCNAddress(RangeValueConverter):
         LOCN.postName,
         LOCN.adminUnitL1,
         LOCN.postCode,
-        LOCN.thoroughfare
+        LOCN.thoroughfare,
     }
 
     optional_properties = set()
@@ -32,14 +32,16 @@ class LOCNAddress(RangeValueConverter):
             LOCN.postName: "post_name",
             LOCN.adminUnitL1: "admin_unit_l1",
             LOCN.postCode: "post_code",
-            LOCN.thoroughfare: "thoroughfare"
+            LOCN.thoroughfare: "thoroughfare",
         }
         return mappings.get(p.iri)
 
     def get_range_value(self, ds: Dataset, clazz_p: RDFSProperty) -> RDFSClass | None:
         return super().get_range_value(ds, clazz_p)
 
-    def get_schema(self, ds: Dataset, clazz_p: RDFSProperty | None, is_required: bool = None):
+    def get_schema(
+        self, ds: Dataset, clazz_p: RDFSProperty | None, is_required: bool = None
+    ):
         return super().get_schema(ds, clazz_p, False)
 
     def is_property_required(self, property: RDFSProperty) -> bool:

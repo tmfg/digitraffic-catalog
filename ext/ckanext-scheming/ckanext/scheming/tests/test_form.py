@@ -12,16 +12,18 @@ from ckantoolkit.tests.helpers import call_action
 def sysadmin_env():
     try:
         from ckantoolkit.tests.factories import SysadminWithToken
+
         user = SysadminWithToken()
-        return {'Authorization': user['token']}
+        return {"Authorization": user["token"]}
     except ImportError:
         # ckan <= 2.9
         from ckantoolkit.tests.factories import Sysadmin
+
         user = Sysadmin()
         return {"REMOTE_USER": user["name"].encode("ascii")}
 
 
-def _get_package_new_page(app, env, type_='test-schema'):
+def _get_package_new_page(app, env, type_="test-schema"):
     if ckantoolkit.check_ckan_version(min_version="2.10.0"):
         return app.get(url="/{0}/new".format(type_), headers=env)
     else:
@@ -37,7 +39,7 @@ def _get_package_update_page(app, id, env):
 
 
 def _get_resource_new_page(app, id, env):
-    url = '/dataset/{}/resource/new'.format(id)
+    url = "/dataset/{}/resource/new".format(id)
 
     if ckantoolkit.check_ckan_version(min_version="2.10.0"):
         return app.get(url, headers=env)
@@ -46,7 +48,7 @@ def _get_resource_new_page(app, id, env):
 
 
 def _get_resource_update_page(app, id, resource_id, env):
-    url = '/dataset/{}/resource/{}/edit'.format(id, resource_id)
+    url = "/dataset/{}/resource/{}/edit".format(id, resource_id)
 
     if ckantoolkit.check_ckan_version(min_version="2.10.0"):
         return app.get(url, headers=env)
@@ -88,11 +90,9 @@ def _post_data(app, url, data, env):
         if ckantoolkit.check_ckan_version(min_version="2.11.0a0"):
             app.post(url, headers=env, data=data, follow_redirects=False)
         else:
-            app.post(
-                url, environ_overrides=env, data=data, follow_redirects=False
-            )
+            app.post(url, environ_overrides=env, data=data, follow_redirects=False)
     except TypeError:
-        app.post(url.encode('ascii'), params=data, extra_environ=sysadmin_env)
+        app.post(url.encode("ascii"), params=data, extra_environ=sysadmin_env)
 
 
 @pytest.mark.usefixtures("clean_db")
@@ -125,7 +125,7 @@ class TestDatasetFormNew(object):
         """
         response = _get_package_new_page(app, sysadmin_env, type_="dataset")
         page = BeautifulSoup(response.body)
-        licenses = page.select('#field-license_id option')
+        licenses = page.select("#field-license_id option")
         assert licenses
 
 
@@ -186,17 +186,13 @@ class TestCustomGroupFormNew(object):
 @pytest.mark.usefixtures("clean_db")
 class TestCustomOrgFormNew(object):
     def test_org_form_includes_custom_field(self, app, sysadmin_env):
-        response = _get_organization_new_page(
-            app, sysadmin_env, "publisher"
-        )
+        response = _get_organization_new_page(app, sysadmin_env, "publisher")
 
         form = _get_organization_form(response.body)
         assert form.select("input[name=address]")
 
     def test_org_form_slug_uses_custom_type(self, app, sysadmin_env):
-        response = _get_organization_new_page(
-            app, sysadmin_env, "publisher"
-        )
+        response = _get_organization_new_page(app, sysadmin_env, "publisher")
 
         assert "/publisher/" in response.body
 
@@ -216,7 +212,7 @@ class TestJSONDatasetForm(object):
         data["name"] = "json_dataset_1"
         data["a_json_field"] = json_value
 
-        url = '/test-schema/new'
+        url = "/test-schema/new"
 
         _post_data(app, url, data, sysadmin_env)
 
@@ -227,13 +223,11 @@ class TestJSONDatasetForm(object):
         value = {"a": 1, "b": 2}
         dataset = Dataset(type="test-schema", a_json_field=value)
 
-        response = _get_package_update_page(
-            app, dataset["id"], sysadmin_env
-        )
+        response = _get_package_update_page(app, dataset["id"], sysadmin_env)
         form = BeautifulSoup(response.body).select_one("#dataset-edit")
-        assert form.select_one(
-            "textarea[name=a_json_field]"
-        ).text == json.dumps(value, indent=2)
+        assert form.select_one("textarea[name=a_json_field]").text == json.dumps(
+            value, indent=2
+        )
 
         value = {"a": 1, "b": 2, "c": 3}
         json_value = json.dumps(value)
@@ -244,7 +238,7 @@ class TestJSONDatasetForm(object):
             "name": dataset["name"],
         }
 
-        url = '/dataset/edit/' + dataset["id"]
+        url = "/dataset/edit/" + dataset["id"]
 
         _post_data(app, url, data, sysadmin_env)
 
@@ -267,11 +261,9 @@ class TestJSONResourceForm(object):
 
         response = _get_resource_new_page(app, dataset["id"], sysadmin_env)
 
-        url = ckantoolkit.h.url_for(
-            "test-schema_resource.new", id=dataset["id"]
-        )
-        if not url.startswith('/'):  # ckan < 2.9
-            url = '/dataset/new_resource/' + dataset["id"]
+        url = ckantoolkit.h.url_for("test-schema_resource.new", id=dataset["id"])
+        if not url.startswith("/"):  # ckan < 2.9
+            url = "/dataset/new_resource/" + dataset["id"]
 
         value = {"a": 1, "b": 2}
         json_value = json.dumps(value)
@@ -315,10 +307,9 @@ class TestJSONResourceForm(object):
             id=dataset["id"],
             resource_id=dataset["resources"][0]["id"],
         )
-        if not url.startswith('/'):  # ckan < 2.9
-            url = '/dataset/{ds}/resource_edit/{rs}'.format(
-                ds=dataset["id"],
-                rs=dataset["resources"][0]["id"]
+        if not url.startswith("/"):  # ckan < 2.9
+            url = "/dataset/{ds}/resource_edit/{rs}".format(
+                ds=dataset["id"], rs=dataset["resources"][0]["id"]
             )
 
         value = {"a": 1, "b": 2, "c": 3}
@@ -341,7 +332,7 @@ class TestJSONResourceForm(object):
 @pytest.mark.usefixtures("clean_db")
 class TestSubfieldDatasetForm(object):
     def test_dataset_form_includes_subfields(self, app, sysadmin_env):
-        response = _get_package_new_page(app, sysadmin_env, 'test-subfields')
+        response = _get_package_new_page(app, sysadmin_env, "test-subfields")
         form = BeautifulSoup(response.body).select("#dataset-edit")[0]
         assert form.select("fieldset[name=scheming-repeating-subfields]")
 
@@ -349,97 +340,105 @@ class TestSubfieldDatasetForm(object):
         data = {"save": "", "_ckan_phase": 1}
 
         data["name"] = "subfield_dataset_1"
-        data["citation-0-originator"] = ['mei', 'ahmed']
-        data["contact_address-0-address"] = 'anyplace'
+        data["citation-0-originator"] = ["mei", "ahmed"]
+        data["contact_address-0-address"] = "anyplace"
 
-        url = '/test-subfields/new'
+        url = "/test-subfields/new"
 
         _post_data(app, url, data, sysadmin_env)
 
         dataset = call_action("package_show", id="subfield_dataset_1")
-        assert dataset["citation"] == [{'originator': ['mei', 'ahmed']}]
-        assert dataset["contact_address"] == [{'address': 'anyplace'}]
+        assert dataset["citation"] == [{"originator": ["mei", "ahmed"]}]
+        assert dataset["contact_address"] == [{"address": "anyplace"}]
 
     def test_dataset_form_update(self, app, sysadmin_env):
         dataset = Dataset(
             type="test-subfields",
-            citation=[{'originator': ['mei']}, {'originator': ['ahmed']}],
-            contact_address=[{'address': 'anyplace'}])
-
-        response = _get_package_update_page(
-            app, dataset["id"], sysadmin_env
+            citation=[{"originator": ["mei"]}, {"originator": ["ahmed"]}],
+            contact_address=[{"address": "anyplace"}],
         )
+
+        response = _get_package_update_page(app, dataset["id"], sysadmin_env)
         form = BeautifulSoup(response.body).select_one("#dataset-edit")
-        assert form.select_one(
-            "input[name=citation-1-originator]"
-        ).attrs['value'] == 'ahmed'
+        assert (
+            form.select_one("input[name=citation-1-originator]").attrs["value"]
+            == "ahmed"
+        )
 
         data = {"save": ""}
-        data["citation-0-originator"] = ['ling']
-        data["citation-1-originator"] = ['umet']
-        data["contact_address-0-address"] = 'home'
+        data["citation-0-originator"] = ["ling"]
+        data["citation-1-originator"] = ["umet"]
+        data["contact_address-0-address"] = "home"
         data["name"] = dataset["name"]
 
-        url = '/test-subfields/edit/' + dataset["id"]
+        url = "/test-subfields/edit/" + dataset["id"]
 
         _post_data(app, url, data, sysadmin_env)
 
         dataset = call_action("package_show", id=dataset["id"])
 
-        assert dataset["citation"] == [{'originator': ['ling']}, {'originator': ['umet']}]
-        assert dataset["contact_address"] == [{'address': 'home'}]
+        assert dataset["citation"] == [
+            {"originator": ["ling"]},
+            {"originator": ["umet"]},
+        ]
+        assert dataset["contact_address"] == [{"address": "home"}]
+
 
 @pytest.mark.usefixtures("clean_db")
 class TestNestedSubfieldDatasetForm(object):
     def test_dataset_form_includes_nested_subfields(self, app, sysadmin_env):
-        response = _get_package_new_page(app, sysadmin_env, 'test-subfields')
+        response = _get_package_new_page(app, sysadmin_env, "test-subfields")
         form = BeautifulSoup(response.body).select("#dataset-edit")[0]
-        assert form.select("fieldset[name=scheming-repeating-subfields] fieldset[name=scheming-repeating-subfields]")
+        assert form.select(
+            "fieldset[name=scheming-repeating-subfields] fieldset[name=scheming-repeating-subfields]"
+        )
 
     def test_dataset_form_create(self, app, sysadmin_env):
         data = {"save": "", "_ckan_phase": 1}
 
         contact_points = [
             {
-                'name': 'representative',
-                'ways_of_contact': [
+                "name": "representative",
+                "ways_of_contact": [
                     {
-                        'email': 'email@example.com',
-                        'by_letter': [
-                            {
-                                'name': 'some office',
-                                'address': 'some office address'
-                            },
-                            {
-                                'name': 'other office',
-                                'address': 'other office address'
-                            }
-                        ]
+                        "email": "email@example.com",
+                        "by_letter": [
+                            {"name": "some office", "address": "some office address"},
+                            {"name": "other office", "address": "other office address"},
+                        ],
                     }
-                ]
+                ],
             },
             {
-                'name': 'second representative',
-                'ways_of_contact': [
-                    {
-                        'phone': '01234567'
-                    }
-                ]
-            }
-        ] 
+                "name": "second representative",
+                "ways_of_contact": [{"phone": "01234567"}],
+            },
+        ]
 
         data["name"] = "nested_subfield_dataset_1"
-        data["contact_points-0-name"] = contact_points[0]['name']
-        data["contact_points-0-ways_of_contact-0-email"] = contact_points[0]['ways_of_contact'][0]['email']
-        data["contact_points-0-ways_of_contact-0-by_letter-0-name"] = contact_points[0]['ways_of_contact'][0]['by_letter'][0]['name']
-        data["contact_points-0-ways_of_contact-0-by_letter-0-address"] = contact_points[0]['ways_of_contact'][0]['by_letter'][0]['address'] 
-        data["contact_points-0-ways_of_contact-0-by_letter-1-name"] = contact_points[0]['ways_of_contact'][0]['by_letter'][1]['name']
-        data["contact_points-0-ways_of_contact-0-by_letter-1-address"] = contact_points[0]['ways_of_contact'][0]['by_letter'][1]['address']
+        data["contact_points-0-name"] = contact_points[0]["name"]
+        data["contact_points-0-ways_of_contact-0-email"] = contact_points[0][
+            "ways_of_contact"
+        ][0]["email"]
+        data["contact_points-0-ways_of_contact-0-by_letter-0-name"] = contact_points[0][
+            "ways_of_contact"
+        ][0]["by_letter"][0]["name"]
+        data["contact_points-0-ways_of_contact-0-by_letter-0-address"] = contact_points[
+            0
+        ]["ways_of_contact"][0]["by_letter"][0]["address"]
+        data["contact_points-0-ways_of_contact-0-by_letter-1-name"] = contact_points[0][
+            "ways_of_contact"
+        ][0]["by_letter"][1]["name"]
+        data["contact_points-0-ways_of_contact-0-by_letter-1-address"] = contact_points[
+            0
+        ]["ways_of_contact"][0]["by_letter"][1]["address"]
 
-        data["contact_points-1-name"] = contact_points[1]['name']
-        data["contact_points-1-ways_of_contact-0-phone"] = contact_points[1]['ways_of_contact'][0]['phone']
+        data["contact_points-1-name"] = contact_points[1]["name"]
+        data["contact_points-1-ways_of_contact-0-phone"] = contact_points[1][
+            "ways_of_contact"
+        ][0]["phone"]
 
-        url = '/test-subfields/new'
+        url = "/test-subfields/new"
 
         _post_data(app, url, data, sysadmin_env)
 
@@ -450,57 +449,78 @@ class TestNestedSubfieldDatasetForm(object):
         dataset = Dataset(
             type="test-subfields",
             contact_points=[
-                {'name': 'representative', 'ways_of_contact': [{'email': 'representative@example.com'}]},
-                {'name': 'second representative', 'ways_of_contact': [{'email': 'second.representative@example.com'}]}
-            ])
-
-        response = _get_package_update_page(
-            app, dataset["id"], sysadmin_env
+                {
+                    "name": "representative",
+                    "ways_of_contact": [{"email": "representative@example.com"}],
+                },
+                {
+                    "name": "second representative",
+                    "ways_of_contact": [{"email": "second.representative@example.com"}],
+                },
+            ],
         )
+
+        response = _get_package_update_page(app, dataset["id"], sysadmin_env)
         form = BeautifulSoup(response.body).select_one("#dataset-edit")
-        assert form.select_one(
-            "input[name=contact_points-1-ways_of_contact-0-email]"
-        ).attrs['value'] == 'second.representative@example.com'
+        assert (
+            form.select_one(
+                "input[name=contact_points-1-ways_of_contact-0-email]"
+            ).attrs["value"]
+            == "second.representative@example.com"
+        )
 
         data = {"save": ""}
-        data["contact_points-0-name"] = 'representative' 
-        data["contact_points-0-ways_of_contact-0-email"] = 'modified.representative@example.com'
-        data["contact_points-0-ways_of_contact-1-email"] = 'added.representative@example.com'
-        data["contact_points-1-name"] = 'second representative'
-        data["contact_points-1-ways_of_contact-0-email"] = 'second.representative@example.com'
+        data["contact_points-0-name"] = "representative"
+        data["contact_points-0-ways_of_contact-0-email"] = (
+            "modified.representative@example.com"
+        )
+        data["contact_points-0-ways_of_contact-1-email"] = (
+            "added.representative@example.com"
+        )
+        data["contact_points-1-name"] = "second representative"
+        data["contact_points-1-ways_of_contact-0-email"] = (
+            "second.representative@example.com"
+        )
         data["name"] = dataset["name"]
 
-        url = '/test-subfields/edit/' + dataset["id"]
+        url = "/test-subfields/edit/" + dataset["id"]
 
         _post_data(app, url, data, sysadmin_env)
 
         dataset = call_action("package_show", id=dataset["id"])
 
         assert dataset["contact_points"] == [
-            {'name': 'representative', 'ways_of_contact': [{'email': 'modified.representative@example.com'},
-                                                           {'email': 'added.representative@example.com'}]},
-            {'name': 'second representative', 'ways_of_contact': [{'email': 'second.representative@example.com'}]}
+            {
+                "name": "representative",
+                "ways_of_contact": [
+                    {"email": "modified.representative@example.com"},
+                    {"email": "added.representative@example.com"},
+                ],
+            },
+            {
+                "name": "second representative",
+                "ways_of_contact": [{"email": "second.representative@example.com"}],
+            },
         ]
+
 
 @pytest.mark.usefixtures("clean_db")
 class TestSubfieldResourceForm(object):
     def test_resource_form_includes_subfields(self, app, sysadmin_env):
-        dataset = Dataset(type="test-subfields", citation=[{'originator': 'na'}])
+        dataset = Dataset(type="test-subfields", citation=[{"originator": "na"}])
 
         response = _get_resource_new_page(app, dataset["id"], sysadmin_env)
         form = BeautifulSoup(response.body).select_one("#resource-edit")
         assert form.select("fieldset[name=scheming-repeating-subfields]")
 
     def test_resource_form_create(self, app, sysadmin_env):
-        dataset = Dataset(type="test-subfields", citation=[{'originator': 'na'}])
+        dataset = Dataset(type="test-subfields", citation=[{"originator": "na"}])
 
         response = _get_resource_new_page(app, dataset["id"], sysadmin_env)
 
-        url = ckantoolkit.h.url_for(
-            "test-subfields_resource.new", id=dataset["id"]
-        )
-        if not url.startswith('/'):  # ckan < 2.9
-            url = '/dataset/new_resource/' + dataset["id"]
+        url = ckantoolkit.h.url_for("test-subfields_resource.new", id=dataset["id"])
+        if not url.startswith("/"):  # ckan < 2.9
+            url = "/dataset/new_resource/" + dataset["id"]
 
         data = {"id": "", "save": ""}
         data["schedule-0-impact"] = "P"
@@ -514,14 +534,14 @@ class TestSubfieldResourceForm(object):
     def test_resource_form_update(self, app, sysadmin_env):
         dataset = Dataset(
             type="test-subfields",
-            citation=[{'originator': 'na'}],
+            citation=[{"originator": "na"}],
             resources=[
                 {
                     "url": "http://example.com/data.csv",
                     "schedule": [
                         {"impact": "A", "frequency": "1m"},
                         {"impact": "P", "frequency": "7d"},
-                    ]
+                    ],
                 }
             ],
         )
@@ -530,33 +550,32 @@ class TestSubfieldResourceForm(object):
             app, dataset["id"], dataset["resources"][0]["id"], sysadmin_env
         )
         form = BeautifulSoup(response.body).select_one("#resource-edit")
-        opt7d = form.find_all('option', {'value': '7d'})
-        assert 'selected' not in opt7d[0].attrs
-        assert 'selected' in opt7d[1].attrs
-        assert 'selected' not in opt7d[2].attrs  # blank subfields
+        opt7d = form.find_all("option", {"value": "7d"})
+        assert "selected" not in opt7d[0].attrs
+        assert "selected" in opt7d[1].attrs
+        assert "selected" not in opt7d[2].attrs  # blank subfields
 
         url = ckantoolkit.h.url_for(
             "test-schema_resource.edit",
             id=dataset["id"],
             resource_id=dataset["resources"][0]["id"],
         )
-        if not url.startswith('/'):  # ckan < 2.9
-            url = '/dataset/{ds}/resource_edit/{rs}'.format(
-                ds=dataset["id"],
-                rs=dataset["resources"][0]["id"]
+        if not url.startswith("/"):  # ckan < 2.9
+            url = "/dataset/{ds}/resource_edit/{rs}".format(
+                ds=dataset["id"], rs=dataset["resources"][0]["id"]
             )
 
         data = {"id": dataset["resources"][0]["id"], "save": ""}
-        data["schedule-0-frequency"] = '1y'
-        data["schedule-0-impact"] = 'A'
-        data["schedule-1-frequency"] = '1m'
-        data["schedule-1-impact"] = 'P'
+        data["schedule-0-frequency"] = "1y"
+        data["schedule-0-impact"] = "A"
+        data["schedule-1-frequency"] = "1m"
+        data["schedule-1-impact"] = "P"
 
         _post_data(app, url, data, sysadmin_env)
 
         dataset = call_action("package_show", id=dataset["id"])
 
         assert dataset["resources"][0]["schedule"] == [
-            {"frequency": '1y', "impact": 'A'},
-            {"frequency": '1m', "impact": 'P'},
+            {"frequency": "1y", "impact": "A"},
+            {"frequency": "1m", "impact": "P"},
         ]

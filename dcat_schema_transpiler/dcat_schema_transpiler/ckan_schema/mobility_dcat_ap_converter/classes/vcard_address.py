@@ -19,7 +19,7 @@ class VCARDAddress(RangeValueConverter):
         VCARD.locality,
         VCARD["postal-code"],
         VCARD.region,
-        VCARD["street-address"]
+        VCARD["street-address"],
     }
 
     def __init__(self, clazz: RDFSClass):
@@ -28,18 +28,20 @@ class VCARDAddress(RangeValueConverter):
 
     def ckan_field(self, p: RDFSProperty, pointer: str = None) -> str:
         mappings = {
-            VCARD["country-name"]: 'country_name',
+            VCARD["country-name"]: "country_name",
             VCARD.locality: "locality",
             VCARD["postal-code"]: "postal_code",
             VCARD.region: "region",
-            VCARD["street-address"]: "street_address"
+            VCARD["street-address"]: "street_address",
         }
         return mappings.get(p.iri)
 
     def get_range_value(self, ds: Dataset, clazz_p: RDFSProperty) -> RDFSClass | None:
         return super().get_range_value(ds, clazz_p)
 
-    def get_schema(self, ds: Dataset, clazz_p: RDFSProperty | None, is_required: bool = None):
+    def get_schema(
+        self, ds: Dataset, clazz_p: RDFSProperty | None, is_required: bool = None
+    ):
         return super().get_schema(ds, clazz_p, False)
 
     def is_property_required(self, property: RDFSProperty) -> bool:

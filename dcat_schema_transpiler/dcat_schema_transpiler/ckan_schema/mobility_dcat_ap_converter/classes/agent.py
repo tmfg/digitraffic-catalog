@@ -5,7 +5,7 @@ from rdflib.namespace import DCTERMS, ORG, FOAF
 
 from ckan_schema.mobility_dcat_ap_converter.range_value_converter import (
     RangeValueConverter,
-    AggregateRangeValueConverter
+    AggregateRangeValueConverter,
 )
 from dcat_schema_transpiler.rdfs.rdfs_class import RDFSClass
 from dcat_schema_transpiler.rdfs.rdfs_property import RDFSProperty
@@ -19,10 +19,7 @@ from ckan_schema.mobility_dcat_ap_converter.classes.organization import Organiza
 class Agent(AggregateRangeValueConverter):
     iri = FOAF.Agent
     aggregate_field_name = "foaf_agent"
-    sub_classes = {
-        FOAF.Person,
-        ORG.Organization
-    }
+    sub_classes = {FOAF.Person, ORG.Organization}
 
     mandatory_properties = {
         FOAF.name,
@@ -39,7 +36,7 @@ class Agent(AggregateRangeValueConverter):
         FOAF.firstName,
         FOAF.phone,
         FOAF.surname,
-        FOAF.workplaceHomepage
+        FOAF.workplaceHomepage,
     }
 
     def __init__(self, clazz: RDFSClass):
@@ -56,7 +53,7 @@ class Agent(AggregateRangeValueConverter):
             FOAF.firstName: "first_name",
             FOAF.phone: "phone",
             FOAF.surname: "surname",
-            FOAF.workplaceHomepage: "workplace_homepage"
+            FOAF.workplaceHomepage: "workplace_homepage",
         }
         return mappings.get(p)
 
@@ -66,7 +63,9 @@ class Agent(AggregateRangeValueConverter):
     def get_range_value(self, ds: Dataset, clazz_p: RDFSProperty) -> RDFSClass | None:
         return super().get_range_value(ds, clazz_p)
 
-    def get_schema(self, ds: Dataset, clazz_p: RDFSProperty | None, is_required: bool = None):
+    def get_schema(
+        self, ds: Dataset, clazz_p: RDFSProperty | None, is_required: bool = None
+    ):
         if clazz_p.is_iri(DCTERMS.type):
             return self.controlled_vocab_field(clazz_p, ds, is_required)
         if clazz_p.is_iri(FOAF.mbox):
@@ -74,27 +73,27 @@ class Agent(AggregateRangeValueConverter):
                 "field_name": self.ckan_field(clazz_p, None),
                 "label": "Email",
                 "required": is_required,
-                "preset": "email"
+                "preset": "email",
             }
         if clazz_p.is_iri(FOAF.phone):
             return {
                 "field_name": self.ckan_field(clazz_p, None),
                 "label": "Phone number",
                 "required": is_required,
-                "preset": "phone"
+                "preset": "phone",
             }
         if clazz_p.is_iri(FOAF.workplaceHomepage):
             return {
                 "field_name": self.ckan_field(clazz_p, None),
                 "label": "Workplace homepage",
                 "required": is_required,
-                "preset": "url"
+                "preset": "url",
             }
         schema = super().get_schema(ds, clazz_p, False)
         return schema
 
     def controlled_vocab_field(
-            self, p: RDFSProperty, ds: Dataset, is_required: bool
+        self, p: RDFSProperty, ds: Dataset, is_required: bool
     ) -> List | Dict:
         match p.iri:
             case DCTERMS.type:
@@ -124,7 +123,8 @@ class Agent(AggregateRangeValueConverter):
                 field["field_name"] = self.ckan_field_by_id(ORG.memberOf)
                 field["label"] = "Member of"
             return field
-        for field in schema[0]['repeating_subfields']:
+
+        for field in schema[0]["repeating_subfields"]:
             rename_field_names(field)
         return schema
 

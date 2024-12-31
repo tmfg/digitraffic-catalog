@@ -1,7 +1,8 @@
 from rdflib import Namespace, URIRef
 from rdflib.namespace import DefinedNamespace
 
-MOBILITYDCATAP_NS_URL = 'http://w3id.org/mobilitydcat-ap#'
+MOBILITYDCATAP_NS_URL = "http://w3id.org/mobilitydcat-ap#"
+
 
 class MOBILITYDCATAP(DefinedNamespace):
     _NS = Namespace(MOBILITYDCATAP_NS_URL)
