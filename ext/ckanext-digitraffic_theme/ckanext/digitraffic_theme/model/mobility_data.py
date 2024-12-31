@@ -1,5 +1,6 @@
 from typing import Any, Dict
 from rdflib import URIRef, Literal
+from datetime import datetime
 
 from ckanext.dcat.utils import publisher_uri_organization_fallback, resource_uri
 from ckanext.digitraffic_theme.model.address import VCARDAddress, LOCNAddress
@@ -20,6 +21,7 @@ from ckanext.digitraffic_theme.model.network_coverage import NetworkCoverage
 
 from ckanext.digitraffic_theme.model.organization import Organization
 from ckanext.digitraffic_theme.model.person import Person
+from ckanext.digitraffic_theme.model.period_of_time import PeriodOfTime
 
 
 class MobilityData:
@@ -131,6 +133,18 @@ class MobilityData:
             if dataset_dict.get("rights_holder")
             else {}
         )
+        start_timestamp_str = dataset_dict.get("start_timestamp") + "Z" if dataset_dict.get("start_timestamp") else None
+        end_timestamp_str = dataset_dict.get("end_timestamp") + "Z" if dataset_dict.get("end_timestamp") else None
+        temporal = (
+            {
+                "temporal": PeriodOfTime(None,{
+                    **({"start_timestamp": Literal(datetime.fromisoformat(start_timestamp_str))} if start_timestamp_str else {}),
+                    **({"end_timestamp": Literal(datetime.fromisoformat(end_timestamp_str))} if end_timestamp_str else {}),
+                })
+            }
+            if dataset_dict.get("start_timestamp") or dataset_dict.get("end_timestamp")
+            else {}
+        )
 
         dataset = Dataset(
             dataset_ref,
@@ -182,6 +196,7 @@ class MobilityData:
                 ),
                 **contact_points,
                 **rights_holder,
+                **temporal
             },
         )
         # Catalog Record
