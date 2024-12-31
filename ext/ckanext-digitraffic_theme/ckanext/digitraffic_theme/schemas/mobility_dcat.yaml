@@ -1082,7 +1082,7 @@ dataset_fields:
   - sv
 - field_name: language
   label: Language
-  required: true
+  required: false
   preset: select
   help_text: Language used in content data
   form_include_blank_choice: true
@@ -1140,7 +1140,7 @@ dataset_fields:
   repeating_subfields:
   - field_name: has_email
     label: Email
-    required: true
+    required: false
     preset: email
   - field_name: fn
     label: Full name
@@ -1325,6 +1325,12 @@ dataset_fields:
   - field_name: thoroughfare
     label: thoroughfare
     required: false
+- field_name: end_timestamp
+  label: End time
+  preset: datetime
+- field_name: start_timestamp
+  label: Start time
+  preset: datetime
 resource_fields:
 - field_name: url
   label: access address
@@ -2017,7 +2023,7 @@ resource_fields:
     label: Royalty-free
 - field_name: license_id
   label: Standard license
-  required: true
+  required: false
   preset: select
   form_include_blank_choice: true
   choices:

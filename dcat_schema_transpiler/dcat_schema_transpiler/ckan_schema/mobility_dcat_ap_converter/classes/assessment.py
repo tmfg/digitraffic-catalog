@@ -5,12 +5,14 @@ from ckan_schema.mobility_dcat_ap_converter.range_value_converter import (
 from typing import Dict
 from rdflib import DCTERMS, Dataset
 
+from dcat_schema_transpiler.mobility_dcat_ap.namespace import MOBILITYDCATAP
 from mobility_dcat_ap.dataset import OA
 from rdfs.rdfs_class import RDFSClass
 from rdfs.rdfs_property import RDFSProperty
 
 
 class Assessment(AggregateRangeValueConverter):
+    iri = MOBILITYDCATAP.Assessment
 
     mandatory_properties = {}
 

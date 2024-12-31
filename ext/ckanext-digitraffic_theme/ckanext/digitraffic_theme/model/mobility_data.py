@@ -4,7 +4,6 @@ from rdflib import URIRef, Literal
 from ckanext.dcat.utils import publisher_uri_organization_fallback, resource_uri
 from ckanext.digitraffic_theme.model.address import VCARDAddress, LOCNAddress
 from ckanext.digitraffic_theme.model.agent_type import AgentType
-from ckanext.digitraffic_theme.model.address import Address
 from ckanext.digitraffic_theme.model.agent import Agent
 from ckanext.digitraffic_theme.model.assessment import Assessment
 from ckanext.digitraffic_theme.model.catalog_record import CatalogRecord
@@ -38,8 +37,6 @@ class MobilityData:
             "publisher_uri", publisher_uri_organization_fallback(dataset_dict)
         )
 
-        # Publisher is the same for both Dataset and Catalogue Record
-        publisher = Agent(organization_ref, dataset_dict["organization"]["name"])
         contact_points = (
             {
                 "contact_points": [
@@ -109,6 +106,9 @@ class MobilityData:
                 )
             }
             if dataset_dict.get("quality_description")
+            else {}
+        )
+
         def create_agent(ref: URIRef | None, agent_data: Dict[str, Any]):
             agent_type = (
                 AgentType(agent_data["type"]) if agent_data.get("type") else None
@@ -223,7 +223,6 @@ class MobilityData:
                 ),
                 **contact_points,
                 **rights_holder,
-            },
                 **(
                     {
                         "intended_information_service": IntendedInformationService(
@@ -240,7 +239,7 @@ class MobilityData:
                 ),
                 **quality_annotation,
                 **assessments,
-            },  
+            },
         )
 
         # Catalog Record
@@ -250,6 +249,5 @@ class MobilityData:
                 "created": Literal(dataset_dict["metadata_created"]),
                 "primary_topic": dataset,
                 "modified": Literal(dataset_dict["metadata_modified"]),
-                "publisher": publisher,
             },
         )
