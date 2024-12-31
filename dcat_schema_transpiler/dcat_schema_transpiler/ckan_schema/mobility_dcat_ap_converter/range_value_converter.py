@@ -18,8 +18,11 @@ from copy import deepcopy
 
 class RangeValueConverter(ABC):
     sub_classes: Set[URIRef] = None
+    iri: URIRef
 
     def __init__(self, clazz: RDFSClass):
+        if not clazz.is_iri(self.__class__.iri):
+            raise ValueError(f"The given RDF Class must be of correct type. Was given RDFSClass {clazz.iri} and expected {self.__class__.iri}")
         self.clazz = clazz
 
     @abstractmethod

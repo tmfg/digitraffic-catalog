@@ -9,6 +9,7 @@ from dcat_schema_transpiler.rdfs.rdfs_property import RDFSProperty
 
 
 class Frequency(RangeValueConverter):
+    iri = DCTERMS.Frequency
 
     def __init__(self, clazz: RDFSClass):
         super().__init__(clazz)

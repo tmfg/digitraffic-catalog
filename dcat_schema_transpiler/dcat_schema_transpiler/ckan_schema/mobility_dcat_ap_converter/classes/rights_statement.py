@@ -9,6 +9,7 @@ from mobility_dcat_ap.dataset import CVOCAB_RIGHTS_STATEMENT_TYPE
 
 
 class RightsStatement(RangeValueConverter):
+    iri = DCTERMS.RightsStatement
     mandatory_properties = {
         DCTERMS.type
     }

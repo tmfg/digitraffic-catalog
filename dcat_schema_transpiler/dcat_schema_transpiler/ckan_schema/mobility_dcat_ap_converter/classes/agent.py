@@ -17,6 +17,7 @@ from ckan_schema.mobility_dcat_ap_converter.classes.organization import Organiza
 
 
 class Agent(AggregateRangeValueConverter):
+    iri = FOAF.Agent
     aggregate_field_name = "foaf_agent"
     sub_classes = {
         FOAF.Person,

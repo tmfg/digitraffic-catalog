@@ -10,6 +10,7 @@ from dcat_schema_transpiler.namespaces.LOCN import LOCN
 
 
 class LOCNAddress(RangeValueConverter):
+    iri = LOCN.Address
     mandatory_properties = set()
 
     recommended_properties = {

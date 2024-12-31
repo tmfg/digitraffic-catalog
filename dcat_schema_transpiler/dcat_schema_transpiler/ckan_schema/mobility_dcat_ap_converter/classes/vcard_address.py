@@ -12,6 +12,7 @@ from dcat_schema_transpiler.namespaces.VCARD import VCARD
 
 
 class VCARDAddress(RangeValueConverter):
+    iri = VCARD.Address
 
     optional_properties = {
         VCARD["country-name"],

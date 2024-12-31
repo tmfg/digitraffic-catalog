@@ -1,7 +1,7 @@
 from typing import Dict
 
 from rdflib import Dataset
-from rdflib.namespace import FOAF
+from rdflib.namespace import FOAF, ORG
 
 from ckan_schema.mobility_dcat_ap_converter.range_value_converter import (
     AggregateRangeValueConverter
@@ -12,6 +12,7 @@ from dcat_schema_transpiler.rdfs.rdfs_property import RDFSProperty
 
 
 class Organization(AggregateRangeValueConverter):
+    iri = ORG.Organization
     aggregate_field_name = "org_organization"
 
     mandatory_properties = {

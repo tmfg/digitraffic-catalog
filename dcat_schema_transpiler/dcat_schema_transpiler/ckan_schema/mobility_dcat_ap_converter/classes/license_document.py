@@ -11,6 +11,7 @@ from mobility_dcat_ap.dataset import CVOCAB_LICENSE_IDENTIFIER
 
 
 class LicenseDocument(RangeValueConverter):
+    iri = DCTERMS.LicenseDocument
     mandatory_properties = [DCTERMS.identifier]
     optional_properties = [RDFS.label]
 
