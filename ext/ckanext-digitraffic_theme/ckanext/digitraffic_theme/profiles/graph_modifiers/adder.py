@@ -72,11 +72,18 @@ def get_adder_fn(
 def add_class_instance_values(g: Graph, resource: ClassInstance):
     instance_iri = resource.iri
 
-    for p, o in resource.predicate_objects():
+    def add_po(p, o):
         o_adder = get_adder_fn(o)
         o_adder(g, instance_iri, p, o)
         if isinstance(o, ClassInstance):
             add_class_instance_values(g, o)
+
+    for p, o in resource.predicate_objects():
+        if isinstance(o, list):
+            for oc in o:
+                add_po(p,oc)
+        else:
+            add_po(p,o)
 
 
 def add_class_instance_with_children(
