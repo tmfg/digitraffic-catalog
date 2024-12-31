@@ -36,7 +36,7 @@ from ckan_schema.mobility_dcat_ap_converter.classes.quality_annotation import (
     QualityAnnotation,
 )
 from dcat_schema_transpiler.namespaces.DCAT_AP import DCATAP
-from mobility_dcat_ap.namespace import MOBILITYDCATAP_NS_URL
+from mobility_dcat_ap.namespace import MOBILITYDCATAP, MOBILITYDCATAP_NS_URL
 from dcat_schema_transpiler.rdfs.rdfs_class import RDFSClass
 from dcat_schema_transpiler.rdfs.util import ClassPropertiesAggregator
 from dcat_schema_transpiler.namespaces.VCARD import VCARD
@@ -64,9 +64,9 @@ class ClassConverter:
         self.__schema_fields = []
 
     def convert(
-            self,
-            omit_: Dict[URIRef, Set[URIRef] | Literal["all"]] = None,
-            is_required: bool = None,
+        self,
+        omit_: Dict[URIRef, Set[URIRef] | Literal["all"]] = None,
+        is_required: bool = None,
     ) -> List[Dict]:
         """
         Returns the info for Ckanext Scheming plugin.
@@ -83,7 +83,7 @@ class ClassConverter:
         :param is_required: Tells, if the clazz operated on is considered compulsory
         :return: A list of dictionaries. Each dictionary contains info that is needed by the Ckanext Scheming plugin
         """
-        print(f' # Converting {str(self.clazz.iri)} ...')
+        print(f" # Converting {str(self.clazz.iri)} ...")
         if omit_ is None:
             omit = {}
         else:
@@ -96,7 +96,11 @@ class ClassConverter:
         class_properties = self._get_main_class_properties()
         sub_class_properties = self._get_sub_class_properties(converter)
         all_properties = class_properties | sub_class_properties
-        included_properties = [p for p in all_properties if not (self.clazz.iri in omit and p.iri in omit[self.clazz.iri])]
+        included_properties = [
+            p
+            for p in all_properties
+            if not (self.clazz.iri in omit and p.iri in omit[self.clazz.iri])
+        ]
 
         if not all_properties:
             # These are vocabularies
@@ -113,7 +117,7 @@ class ClassConverter:
                 schema = self._get_property_schema(p, converter, omit, is_required)
                 self._append_schema(schema)
         self.__schema_fields = converter.post_process_schema(self.__schema_fields)
-        print(f' # {str(self.clazz.iri)} converted!')
+        print(f" # {str(self.clazz.iri)} converted!")
         return self.__schema_fields
 
     def _get_vocabulary_schema(self, converter: RangeValueConverter, is_required: bool):
@@ -122,7 +126,9 @@ class ClassConverter:
             print("WARNING: Schema is None when converting a class")
         return schema
 
-    def _get_property_schema(self, p: RDFSProperty, converter: RangeValueConverter, omit, is_required: bool):
+    def _get_property_schema(
+        self, p: RDFSProperty, converter: RangeValueConverter, omit, is_required: bool
+    ):
         is_property_required = converter.is_property_required(p)
         is_required_ = is_required and is_property_required
         schema = converter.get_schema(self.ds, p, is_required_)
@@ -133,10 +139,10 @@ class ClassConverter:
                 f"""
 Schema was not defined for class {self.clazz.iri} range value converter for property {p.iri}.
 Trying to find a converter for the property'f's range value {rdf_range.iri}''')
-            range_range_value_converter = ClassConverter(rdf_range, self.ds)
-            schema = range_range_value_converter.convert(
-                omit, is_required_
+"""
             )
+            range_range_value_converter = ClassConverter(rdf_range, self.ds)
+            schema = range_range_value_converter.convert(omit, is_required_)
             range_range_value_converter = ClassConverter(rdf_range, self.ds)
             schema = range_range_value_converter.convert(omit, is_required)
 
@@ -156,34 +162,46 @@ Trying to find a converter for the property'f's range value {rdf_range.iri}''')
         else:
             converter.add_to_aggregate(schema)
 
-    def _get_class_properties(self, clazz: RDFSClass, namespace: URIRef) -> Set[RDFSProperty]:
+    def _get_class_properties(
+        self, clazz: RDFSClass, namespace: URIRef
+    ) -> Set[RDFSProperty]:
         aggregator = ClassPropertiesAggregator(self.ds)
         clazz_aggregate = aggregator.class_properties(clazz.iri, namespace)
         return clazz_aggregate.properties | clazz_aggregate.properties_includes
 
     def _get_class_properties_from_mobility_and_class_ns(self, clazz: RDFSClass):
         graph_namespace = URIRef(MOBILITYDCATAP_NS_URL)
-        clazz_aggregate_mobilitydcatap = self._get_class_properties(clazz, graph_namespace)
+        clazz_aggregate_mobilitydcatap = self._get_class_properties(
+            clazz, graph_namespace
+        )
         # We do not want to take into account properties set by DCAT or DCATAP.
         # This is because MobilityDCAT-AP has done some modifications based on those vocabularies, including removal
         # of properties
         if self.clazz.namespace == DCAT._NS or self.clazz.namespace == DCATAP._NS:
             clazz_aggregate_clazz = None
         else:
-            clazz_aggregate_clazz = self._get_class_properties(clazz, URIRef(clazz.namespace))
+            clazz_aggregate_clazz = self._get_class_properties(
+                clazz, URIRef(clazz.namespace)
+            )
 
-        properties = clazz_aggregate_mobilitydcatap | (clazz_aggregate_clazz if clazz_aggregate_clazz is not None else set())
+        properties = clazz_aggregate_mobilitydcatap | (
+            clazz_aggregate_clazz if clazz_aggregate_clazz is not None else set()
+        )
         return properties
 
     def _get_main_class_properties(self) -> Set[RDFSProperty]:
         return self._get_class_properties_from_mobility_and_class_ns(self.clazz)
 
-    def _get_sub_class_properties(self, converter: RangeValueConverter) -> Set[RDFSProperty]:
+    def _get_sub_class_properties(
+        self, converter: RangeValueConverter
+    ) -> Set[RDFSProperty]:
         all_properties = set()
         if converter.sub_classes:
             for sub_class_iri in converter.sub_classes:
                 sub_class = RDFSClass.from_ds(sub_class_iri, self.ds)
-                sub_class_properties = self._get_class_properties_from_mobility_and_class_ns(sub_class)
+                sub_class_properties = (
+                    self._get_class_properties_from_mobility_and_class_ns(sub_class)
+                )
                 all_properties = all_properties | sub_class_properties
         return all_properties
 

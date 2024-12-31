@@ -10,7 +10,7 @@ from rdfs.rdfs_class import RDFSClass
 from rdfs.rdfs_property import RDFSProperty
 
 
-class Assessment(RangeValueConverter, AggregateRangeValueConverter):
+class Assessment(AggregateRangeValueConverter):
 
     mandatory_properties = {}
 
