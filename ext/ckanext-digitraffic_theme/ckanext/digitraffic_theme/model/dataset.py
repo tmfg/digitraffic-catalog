@@ -36,8 +36,9 @@ class DatasetInput(TypedDict):
     publisher: Agent
     # Recommended properties
     georeferencing_method: NotRequired[GeoreferencingMethod]
-    contact_points: List[ContactPoint]
+    contact_points: NotRequired[List[ContactPoint]]
     network_coverage: NotRequired[NetworkCoverage]
+    rights_holders: NotRequired[Agent]
     # Optional properties
     assessments: List[Assessment]
     intended_information_service: NotRequired[IntendedInformationService]
@@ -64,6 +65,7 @@ class Dataset(ClassInstance):
         self.georeferencing_method = input.get("georeferencing_method")
         self.contact_points = input.get("contact_points")
         self.network_coverage = input.get("network_coverage")
+        self.rights_holders = input.get("rights_holders")
         # Optional properties
         self.assessments = input.get("assessments")
         self.intended_information_service = input.get("intended_information_service")
@@ -94,20 +96,10 @@ class Dataset(ClassInstance):
             (DCTERMS.title, self.title),
             (DCTERMS.publisher, self.publisher),
             *[(DCAT.distribution, dist) for dist in self.distribution],
-            (
-                (MOBILITYDCATAP.georeferencingMethod, self.georeferencing_method)
-                if self.georeferencing_method
-                else None
-            ),
-            *[
-                (DCAT.contactPoint, contact_point)
-                for contact_point in self.contact_points
-            ],
-            (
-                (MOBILITYDCATAP.networkCoverage, self.network_coverage)
-                if self.network_coverage
-                else None
-            ),
+            (MOBILITYDCATAP.georeferencingMethod, self.georeferencing_method) if self.georeferencing_method else None,
+            *[(DCAT.contactPoint, contact_point) for contact_point in self.contact_points],
+            (MOBILITYDCATAP.networkCoverage, self.network_coverage) if self.network_coverage else None,
+            *[(DCTERMS.rightsHolder, rights_holder) for rights_holder in self.rights_holders],
             *[
                 (MOBILITYDCATAP.Assessment, assessment)
                 for assessment in self.assessments

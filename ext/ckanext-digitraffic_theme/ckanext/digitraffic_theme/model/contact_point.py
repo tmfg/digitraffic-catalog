@@ -5,7 +5,7 @@ from typing import TypedDict, NotRequired, List
 from rdflib import Literal, URIRef, FOAF, RDF
 
 from ckanext.dcat.profiles import VCARD
-from ckanext.digitraffic_theme.model.address import Address
+from ckanext.digitraffic_theme.model.address import VCARDAddress
 from ckanext.digitraffic_theme.model.class_instance import ClassInstance
 
 
@@ -16,7 +16,7 @@ class ContactPointInput(TypedDict):
     # Recommended properties
     website: NotRequired[Literal]
     # Optional properties
-    address: NotRequired[Address]
+    address: NotRequired[VCARDAddress]
     affiliation: NotRequired[Literal]
     telephone: NotRequired[Literal]
 

@@ -22,9 +22,8 @@ from dcat_schema_transpiler.namespaces.DQV import DQV
 from dcat_schema_transpiler.rdfs.rdfs_class import RDFSClass
 from dcat_schema_transpiler.rdfs.rdfs_property import RDFSProperty
 from dcat_schema_transpiler.rdfs.rdfs_resource import RDFSResource
-from dcat_schema_transpiler.ckan_schema.mobility_dcat_ap_converter.classes.kind import (
-    Kind,
-)
+from dcat_schema_transpiler.ckan_schema.mobility_dcat_ap_converter.classes.kind import Kind
+from dcat_schema_transpiler.ckan_schema.mobility_dcat_ap_converter.classes.agent import Agent
 
 
 class DCATDataset(RangeValueConverter):
@@ -71,7 +70,7 @@ class DCATDataset(RangeValueConverter):
     def __init__(self, clazz: RDFSClass):
         super().__init__(clazz)
 
-    def ckan_field(self, p: RDFSProperty, pointer: str = None) -> str:
+    def ckan_field_by_id(self, p: URIRef, pointer: str = None) -> str:
         mappings = {
             DCTERMS.description: "notes_translated",
             DCTERMS.accrualPeriodicity: "frequency",
@@ -91,8 +90,9 @@ class DCATDataset(RangeValueConverter):
             MOBILITYDCATAP.intendedInformationService: "intended_information_service",
             DQV.hasQualityAnnotation: "quality_description",
             DCTERMS.language: "language",
+            DCTERMS.rightsHolder: "rights_holder"
         }
-        field_value = mappings.get(p.iri)
+        field_value = mappings.get(p)
         if isinstance(field_value, dict):
             field_name = field_value.get(pointer)
         else:
@@ -102,8 +102,11 @@ class DCATDataset(RangeValueConverter):
             return field_name
         else:
             raise ValueError(
-                f"A mapping was not found between the class {self.clazz.iri} property {p.iri} and CKAN datamodel using pointer {pointer}"
+                f"A mapping was not found between the class {self.clazz.iri} property {p} and CKAN datamodel using pointer {pointer}"
             )
+
+    def ckan_field(self, p: RDFSProperty, pointer: str = None) -> str:
+        return self.ckan_field_by_id(p.iri, pointer)
 
     def get_label(self, p: RDFSProperty, ds: Dataset):
         if p.is_iri(OWL.versionInfo):
@@ -305,9 +308,12 @@ class DCATDataset(RangeValueConverter):
 
     def post_process_schema(self, schema: List[Dict]):
         def rename_field_names(field):
-            if field.get("field_name") == Kind.field_name:
-                field["field_name"] = "contact_point"
+            if field.get("field_name") == Kind.aggregate_field_name:
+                field["field_name"] = self.ckan_field_by_id(DCAT.contactPoint)
                 field["label"] = "Contact point"
+            if field.get("field_name") == Agent.aggregate_field_name:
+                field["field_name"] = self.ckan_field_by_id(DCTERMS.rightsHolder)
+                field["label"] = "Rights holder"
             return field
 
         return list(map(rename_field_names, schema))

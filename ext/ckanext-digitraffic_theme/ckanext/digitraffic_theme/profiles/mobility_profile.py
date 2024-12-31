@@ -1,6 +1,8 @@
 from datetime import timezone
 
 from ckanext.dcat.profiles import RDFProfile
+
+from ckanext.digitraffic_theme.model.organization import Organization
 from ckanext.digitraffic_theme.model.agent import Agent
 from ckanext.digitraffic_theme.rdf.oa import OA
 from ckanext.digitraffic_theme.rdf.dqv import DQV
@@ -10,8 +12,10 @@ from ckanext.digitraffic_theme.profiles.graph_modifiers.adder import (
     add_class_instance_values,
     add_class_instance_with_children,
     add_literal_to_graph,
-    add_vocabulary_to_graph,
+    add_vocabulary_to_graph, add_uriref_to_graph,
 )
+from ckanext.digitraffic_theme.model.location import Location
+from ckanext.digitraffic_theme.model.mobility_data import MobilityData
 from ckanext.digitraffic_theme.rdf.mobility_dcat_ap import MOBILITYDCATAP
 from rdflib import BNode, Graph, Literal, URIRef
 from rdflib.namespace import DCAT, DCTERMS, RDF, XSD
@@ -23,6 +27,7 @@ class MobilityDCATAPProfile(RDFProfile):
         return super().parse_dataset(dataset_dict, dataset_ref)
 
     def graph_from_dataset(self, dataset_dict, dataset_ref):
+        print("#######  graph_from_dataset #########")
         mobility_data: MobilityData = MobilityData(dataset_dict, dataset_ref)
         g: Graph = self.g
 
@@ -59,7 +64,7 @@ class MobilityDCATAPProfile(RDFProfile):
             Literal("Digitraffic Catalog description"),
         )
         add_class_instance_with_children(
-            g, catalog_ref, DCTERMS.publisher, Agent(None, "Digitraffic")
+            g, catalog_ref, DCTERMS.publisher, Organization(None, {"name": Literal("Digitraffic")})
         )
         add_vocabulary_to_graph(
             g,
@@ -74,19 +79,19 @@ class MobilityDCATAPProfile(RDFProfile):
         # Recommended properties
 
         # Add all languages supported by the catalog
-        add_literal_to_graph(
+        add_uriref_to_graph(
             g,
             catalog_ref,
             DCTERMS.language,
             URIRef("http://publications.europa.eu/resource/authority/language/ENG"),
         )
-        add_literal_to_graph(
+        add_uriref_to_graph(
             g,
             catalog_ref,
             DCTERMS.language,
             URIRef("http://publications.europa.eu/resource/authority/language/FIN"),
         )
-        add_literal_to_graph(
+        add_uriref_to_graph(
             g,
             catalog_ref,
             DCTERMS.language,

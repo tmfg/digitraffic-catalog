@@ -4,6 +4,7 @@ from rdflib.namespace import RDF
 from typing import Any, Dict, Tuple
 import os
 
+from dcat_schema_transpiler.rdflib_util import get_namespace
 from dcat_schema_transpiler.rdfs.resource import Resource
 
 
@@ -50,7 +51,7 @@ class IRIResource(Resource):
 
     @staticmethod
     def resource_args_from_ds(iri: URIRef, ds: Dataset) -> (Namespace, URIRef, Tuple[URIRef]):
-        namespace = [Namespace(str(g.identifier)) for g in ds.graphs() if iri in Namespace(str(g.identifier))][0]
+        namespace = get_namespace(ds, iri)
         g = ds.get_graph(URIRef(namespace))
         return namespace, iri, tuple(URIRef(node) for node in g.objects(iri, RDF.type))
 

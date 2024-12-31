@@ -39,7 +39,9 @@ run_python_install() {
   fi
   source venv/bin/activate
   pip install -e .
-  pip install -r requirements.txt
+  if [[ -f requirements.txt ]]; then
+    pip install -r requirements.txt
+  fi
   deactivate
   popd
 }

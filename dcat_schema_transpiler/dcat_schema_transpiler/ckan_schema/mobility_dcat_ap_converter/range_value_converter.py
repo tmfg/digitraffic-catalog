@@ -11,12 +11,13 @@ from dcat_schema_transpiler.rdfs.rdfs_class import RDFSClass
 from dcat_schema_transpiler.rdfs.rdfs_literal import RDFSLiteral
 from dcat_schema_transpiler.rdfs.rdfs_property import RDFSProperty
 
-from typing import Callable, List, Dict
+from typing import Callable, List, Dict, Set
 
 from copy import deepcopy
 
 
 class RangeValueConverter(ABC):
+    sub_classes: Set[URIRef] = None
 
     def __init__(self, clazz: RDFSClass):
         self.clazz = clazz
@@ -25,13 +26,18 @@ class RangeValueConverter(ABC):
     def get_range_value(self, ds: Dataset, clazz_p: RDFSProperty) -> RDFSClass | None:
         r = get_rdf_object(clazz_p, RDFS.range, ds) or ()
         r_includes = get_rdf_object(clazz_p, DCAM.rangeIncludes, ds) or ()
+        range_inculdes_info = clazz_p.additional_properties.get(URIRef(DCAM.rangeIncludes))
+        if range_inculdes_info:
+            mobility_dcatap_defined_range = [r for r in range_inculdes_info if str(r[1]) == MOBILITYDCATAP_NS_URL]
+            is_range_include_defined_in_mobility_dcatap = len(mobility_dcatap_defined_range) > 0
+            if is_range_include_defined_in_mobility_dcatap:
+                return list(filter(lambda p: p.iri == mobility_dcatap_defined_range[0][0], r_includes))[0]
         obj = r + r_includes
         if not obj:
             print("#### COULD NOT FIND AN OBJECT")
             return None
-        # TODO: Warn if more than one object
         r_defined_by_mobility_dcat_ap = tuple(
-            o for o in obj if URIRef(MOBILITYDCATAP_NS_URL) in o.is_defined_by
+            o for o in obj if (URIRef(MOBILITYDCATAP_NS_URL) in o.is_defined_by)
         )
         r_defined_by_original = tuple(
             o
@@ -160,7 +166,7 @@ class RangeValueConverter(ABC):
         pass
 
 
-class AggregateRangeValueConverter(ABC):
+class AggregateRangeValueConverter(RangeValueConverter):
 
     @abstractmethod
     def get_aggregate_schema(self) -> Dict | None:
