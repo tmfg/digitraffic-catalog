@@ -4,20 +4,17 @@ from rdflib import Dataset
 from rdflib.namespace import FOAF, ORG
 
 from ckan_schema.mobility_dcat_ap_converter.range_value_converter import (
-    AggregateRangeValueConverter
+    AggregateRangeValueConverter,
 )
 from dcat_schema_transpiler.rdfs.rdfs_class import RDFSClass
 from dcat_schema_transpiler.rdfs.rdfs_property import RDFSProperty
-
 
 
 class Organization(AggregateRangeValueConverter):
     iri = ORG.Organization
     aggregate_field_name = "org_organization"
 
-    mandatory_properties = {
-        FOAF.name
-    }
+    mandatory_properties = {FOAF.name}
 
     recommended_properties = set()
 
@@ -28,15 +25,15 @@ class Organization(AggregateRangeValueConverter):
         self.__aggregate_schemas = []
 
     def ckan_field(self, p: RDFSProperty, pointer: str = None) -> str:
-        mappings = {
-            FOAF.name: "name"
-        }
+        mappings = {FOAF.name: "name"}
         return mappings.get(p.iri)
 
     def get_range_value(self, ds: Dataset, clazz_p: RDFSProperty) -> RDFSClass | None:
         return super().get_range_value(ds, clazz_p)
 
-    def get_schema(self, ds: Dataset, clazz_p: RDFSProperty | None, is_required: bool = None):
+    def get_schema(
+        self, ds: Dataset, clazz_p: RDFSProperty | None, is_required: bool = None
+    ):
         schema = super().get_schema(ds, clazz_p, False)
         if clazz_p.is_iri(FOAF.name):
             schema["label"] = "Organization name"

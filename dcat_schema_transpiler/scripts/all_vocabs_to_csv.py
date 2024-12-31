@@ -19,4 +19,4 @@ VOCABS = [
 ]
 
 for VOCAB_NAME in VOCABS:
-    subprocess.run(['poetry', 'run', 'python', 'scripts/rdf_to_csv.py', VOCAB_NAME])
+    subprocess.run(["poetry", "run", "python", "scripts/rdf_to_csv.py", VOCAB_NAME])

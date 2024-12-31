@@ -3,7 +3,7 @@ from typing import Dict
 from rdflib import Dataset
 
 from ckan_schema.mobility_dcat_ap_converter.range_value_converter import (
-    AggregateRangeValueConverter
+    AggregateRangeValueConverter,
 )
 from dcat_schema_transpiler.rdfs.rdfs_class import RDFSClass
 from dcat_schema_transpiler.rdfs.rdfs_property import RDFSProperty
@@ -26,8 +26,8 @@ class Kind(AggregateRangeValueConverter):
 
     optional_properties = {
         VCARD.hasAddress,
-        VCARD['organization-name'],
-        VCARD.hasTelephone
+        VCARD["organization-name"],
+        VCARD.hasTelephone,
     }
 
     def __init__(self, clazz: RDFSClass):
@@ -36,39 +36,41 @@ class Kind(AggregateRangeValueConverter):
 
     def ckan_field(self, p: RDFSProperty, pointer: str = None) -> str:
         mappings = {
-            VCARD.hasEmail: 'has_email',
-            VCARD.fn: 'fn',
-            VCARD.hasURL: 'has_url',
-            VCARD.hasAddress: 'has_address',
-            VCARD['organization-name']: 'organization_name',
-            VCARD.hasTelephone: 'has_telephone',
+            VCARD.hasEmail: "has_email",
+            VCARD.fn: "fn",
+            VCARD.hasURL: "has_url",
+            VCARD.hasAddress: "has_address",
+            VCARD["organization-name"]: "organization_name",
+            VCARD.hasTelephone: "has_telephone",
         }
         return mappings.get(p.iri)
 
     def get_range_value(self, ds: Dataset, clazz_p: RDFSProperty) -> RDFSClass | None:
         return super().get_range_value(ds, clazz_p)
 
-    def get_schema(self, ds: Dataset, clazz_p: RDFSProperty | None, is_required: bool = None):
+    def get_schema(
+        self, ds: Dataset, clazz_p: RDFSProperty | None, is_required: bool = None
+    ):
         if clazz_p.is_iri(VCARD.hasEmail):
             return {
                 "field_name": self.ckan_field(clazz_p, None),
                 "label": "Email",
                 "required": is_required,
-                "preset": "email"
+                "preset": "email",
             }
         if clazz_p.is_iri(VCARD.hasURL):
             return {
                 "field_name": self.ckan_field(clazz_p, None),
                 "label": "Web site",
                 "required": is_required,
-                "preset": "url"
+                "preset": "url",
             }
         if clazz_p.is_iri(VCARD.hasTelephone):
             return {
                 "field_name": self.ckan_field(clazz_p, None),
                 "label": "Phone number",
                 "required": is_required,
-                "preset": "phone"
+                "preset": "phone",
             }
         schema = super().get_schema(ds, clazz_p, False)
         if clazz_p.is_iri(VCARD.fn):

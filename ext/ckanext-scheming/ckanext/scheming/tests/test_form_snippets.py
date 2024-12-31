@@ -2,8 +2,10 @@ import six
 import pytest
 import bs4
 from ckan.lib.base import render_snippet
+
 try:
     from jinja2.utils import markupsafe
+
     Markup = markupsafe.Markup
 except ImportError:
     # old way
@@ -121,9 +123,7 @@ class TestOrganizationFormSnippet(object):
         html = render_form_snippet(
             "_organization_select.html",
             extra_args={
-                "organizations_available": [
-                    {"id": "1", "display_name": "One"}
-                ],
+                "organizations_available": [{"id": "1", "display_name": "One"}],
                 "organization_option_tag": organization_option_tag,
                 "org_required": False,
             },
@@ -134,9 +134,7 @@ class TestOrganizationFormSnippet(object):
         html = render_form_snippet(
             "_organization_select.html",
             extra_args={
-                "organizations_available": [
-                    {"id": "1", "display_name": "One"}
-                ],
+                "organizations_available": [{"id": "1", "display_name": "One"}],
                 "organization_option_tag": organization_option_tag,
                 "org_required": False,
             },
@@ -147,9 +145,7 @@ class TestOrganizationFormSnippet(object):
         html = render_form_snippet(
             "_organization_select.html",
             extra_args={
-                "organizations_available": [
-                    {"id": "1", "display_name": "One"}
-                ],
+                "organizations_available": [{"id": "1", "display_name": "One"}],
                 "organization_option_tag": organization_option_tag,
                 "org_required": True,
             },
@@ -161,9 +157,7 @@ class TestOrganizationFormSnippet(object):
             "_organization_select.html",
             form_include_blank_choice=True,
             extra_args={
-                "organizations_available": [
-                    {"id": "1", "display_name": "One"}
-                ],
+                "organizations_available": [{"id": "1", "display_name": "One"}],
                 "organization_option_tag": organization_option_tag,
                 "org_required": True,
             },
@@ -273,7 +267,7 @@ class TestRepeatingSubfieldsFormSnippet(object):
         )
         snippet = bs4.BeautifulSoup(html)
         attr_holder = snippet.select_one(".controls").div
-        assert attr_holder['data-module'] == 'test-attrs'
+        assert attr_holder["data-module"] == "test-attrs"
 
 
 @pytest.mark.usefixtures("with_request_context")
@@ -282,24 +276,22 @@ class TestRadioFormSnippet(object):
         html = render_form_snippet(
             "radio.html",
             field_name="radio-group",
-            choices=[
-                {"value": "one", "label": "One"}
-            ],
+            choices=[{"value": "one", "label": "One"}],
         )
         snippet = bs4.BeautifulSoup(html)
         attr_holder = snippet.select_one(".controls").label
-        assert attr_holder.text.strip() == 'One' \
-            and attr_holder.input["value"].strip() == 'one'
+        assert (
+            attr_holder.text.strip() == "One"
+            and attr_holder.input["value"].strip() == "one"
+        )
 
     def test_radio_checked(self):
         html = render_form_snippet(
             "radio.html",
             field_name="radio-group",
             data={"radio-group": "one"},
-            choices=[
-                {"value": "one", "label": "One"}
-            ],
+            choices=[{"value": "one", "label": "One"}],
         )
         snippet = bs4.BeautifulSoup(html)
         attr_holder = snippet.select_one(".controls").input
-        assert attr_holder.has_attr('checked')
+        assert attr_holder.has_attr("checked")

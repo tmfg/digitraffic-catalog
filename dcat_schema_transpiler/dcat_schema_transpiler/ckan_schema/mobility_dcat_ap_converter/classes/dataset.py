@@ -12,7 +12,7 @@ from mobility_dcat_ap.dataset import (
     CVOCAB_NUTS,
     CVOCAB_LAU,
     CVOCAB_GEOREFERENCING_METHOD,
-    CVOCAB_NETWORK_COVERAGE
+    CVOCAB_NETWORK_COVERAGE,
 )
 from mobility_dcat_ap.namespace import MOBILITYDCATAP
 from dcat_schema_transpiler.namespaces.ADMS import ADMS
@@ -21,8 +21,12 @@ from dcat_schema_transpiler.namespaces.DQV import DQV
 from dcat_schema_transpiler.rdfs.rdfs_class import RDFSClass
 from dcat_schema_transpiler.rdfs.rdfs_property import RDFSProperty
 from dcat_schema_transpiler.rdfs.rdfs_resource import RDFSResource
-from dcat_schema_transpiler.ckan_schema.mobility_dcat_ap_converter.classes.kind import Kind
-from dcat_schema_transpiler.ckan_schema.mobility_dcat_ap_converter.classes.agent import Agent
+from dcat_schema_transpiler.ckan_schema.mobility_dcat_ap_converter.classes.kind import (
+    Kind,
+)
+from dcat_schema_transpiler.ckan_schema.mobility_dcat_ap_converter.classes.agent import (
+    Agent,
+)
 
 
 class DCATDataset(RangeValueConverter):
@@ -46,7 +50,7 @@ class DCATDataset(RangeValueConverter):
         DCTERMS.rightsHolder,
         DCAT.theme,
         DCTERMS.temporal,
-        MOBILITYDCATAP.transportMode
+        MOBILITYDCATAP.transportMode,
     }
 
     optional_properties = {
@@ -64,7 +68,7 @@ class DCATDataset(RangeValueConverter):
         DCTERMS.modified,
         OWL.versionInfo,
         ADMS.versionNotes,
-        DQV.hasQualityAnnotation
+        DQV.hasQualityAnnotation,
     }
 
     def __init__(self, clazz: RDFSClass):
@@ -86,7 +90,7 @@ class DCATDataset(RangeValueConverter):
             MOBILITYDCATAP.networkCoverage: "network_coverage",
             DCAT.contactPoint: "contact_point",
             DCTERMS.conformsTo: "conforms_to",
-            DCTERMS.rightsHolder: "rights_holder"
+            DCTERMS.rightsHolder: "rights_holder",
         }
         field_value = mappings.get(p)
         if isinstance(field_value, dict):
@@ -125,7 +129,9 @@ class DCATDataset(RangeValueConverter):
             MOBILITYDCATAP.georeferencingMethod,
             MOBILITYDCATAP.networkCoverage,
         ]
-        if any(clazz_p.is_iri(vocabulary_range) for vocabulary_range in vocabulary_ranges):
+        if any(
+            clazz_p.is_iri(vocabulary_range) for vocabulary_range in vocabulary_ranges
+        ):
             """
             Controlled vocabulary fields.
             """
@@ -134,9 +140,9 @@ class DCATDataset(RangeValueConverter):
             r_value = super().get_schema(ds, clazz_p, False)
             return {
                 **(r_value | RangeValueConverter.get_translated_field_properties(True)),
-                "form_languages": RangeValueConverter.get_translated_field_properties(True)[
-                    "form_languages"
-                ].copy(),
+                "form_languages": RangeValueConverter.get_translated_field_properties(
+                    True
+                )["form_languages"].copy(),
             }
 
         """
@@ -163,16 +169,13 @@ class DCATDataset(RangeValueConverter):
                 "required": is_required,
                 "preset": "iri_fragment",
                 "input_type": "number",
-                "form_attrs": {
-                    "min": "2000",
-                    "max": "69036405"
-                },
-                "validators": "scheming_required remove_whitespace ignore_missing spatial_reference_validator"
+                "form_attrs": {"min": "2000", "max": "69036405"},
+                "validators": "scheming_required remove_whitespace ignore_missing spatial_reference_validator",
             }
         return super().get_schema(ds, clazz_p, is_required)
 
     def controlled_vocab_field(
-            self, p: RDFSProperty, ds: Dataset, is_required: bool
+        self, p: RDFSProperty, ds: Dataset, is_required: bool
     ) -> List | Dict:
         match p.iri:
             case MOBILITYDCATAP.mobilityTheme:
@@ -187,13 +190,13 @@ class DCATDataset(RangeValueConverter):
                         "choices": RangeValueConverter.vocab_choices(
                             g,
                             lambda s: (
-                                          s,
-                                          SKOS.broader,
-                                          URIRef(
-                                              "https://w3id.org/mobilitydcat-ap/mobility-theme/data-content-category"
-                                          ),
-                                      )
-                                      in g,
+                                s,
+                                SKOS.broader,
+                                URIRef(
+                                    "https://w3id.org/mobilitydcat-ap/mobility-theme/data-content-category"
+                                ),
+                            )
+                            in g,
                         ),
                     },
                     {
@@ -206,13 +209,13 @@ class DCATDataset(RangeValueConverter):
                         "choices": RangeValueConverter.vocab_choices(
                             g,
                             lambda s: (
-                                          s,
-                                          SKOS.broader,
-                                          URIRef(
-                                              "https://w3id.org/mobilitydcat-ap/mobility-theme/data-content-sub-category"
-                                          ),
-                                      )
-                                      in g,
+                                s,
+                                SKOS.broader,
+                                URIRef(
+                                    "https://w3id.org/mobilitydcat-ap/mobility-theme/data-content-sub-category"
+                                ),
+                            )
+                            in g,
                         ),
                     },
                 ]
@@ -229,26 +232,26 @@ class DCATDataset(RangeValueConverter):
                 def is_finnish_nuts(nuts):
                     if (nuts, None, None) in g_nuts:
                         return (
-                                (
-                                    nuts,
-                                    URIRef(
-                                        "http://publications.europa.eu/ontology/euvoc#status"
-                                    ),
-                                    URIRef(
-                                        "http://publications.europa.eu/resource/authority/concept-status/CURRENT"
-                                    ),
-                                )
-                                in g_nuts
-                                and (
-                                    nuts,
-                                    URIRef("http://www.w3.org/ns/adms#status"),
-                                    URIRef(
-                                        "http://publications.europa.eu/resource/authority/concept-status/DEPRECATED"
-                                    ),
-                                )
-                                not in g_nuts
-                                and find_top_nuts(nuts)
-                                == URIRef("http://data.europa.eu/nuts/code/FI")
+                            (
+                                nuts,
+                                URIRef(
+                                    "http://publications.europa.eu/ontology/euvoc#status"
+                                ),
+                                URIRef(
+                                    "http://publications.europa.eu/resource/authority/concept-status/CURRENT"
+                                ),
+                            )
+                            in g_nuts
+                            and (
+                                nuts,
+                                URIRef("http://www.w3.org/ns/adms#status"),
+                                URIRef(
+                                    "http://publications.europa.eu/resource/authority/concept-status/DEPRECATED"
+                                ),
+                            )
+                            not in g_nuts
+                            and find_top_nuts(nuts)
+                            == URIRef("http://data.europa.eu/nuts/code/FI")
                         )
                     else:
                         return False
@@ -304,6 +307,7 @@ class DCATDataset(RangeValueConverter):
                 field["field_name"] = self.ckan_field_by_id(DCTERMS.rightsHolder)
                 field["label"] = "Rights holder"
             return field
+
         return list(map(rename_field_names, schema))
 
     def is_property_required(self, property: RDFSProperty) -> bool:

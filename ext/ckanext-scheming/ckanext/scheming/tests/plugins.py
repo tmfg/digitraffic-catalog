@@ -2,6 +2,7 @@ import ckan.plugins as p
 
 from ckanext.scheming.plugins import SchemingDatasetsPlugin
 
+
 class SchemingTestSubclass(SchemingDatasetsPlugin):
     pass
 
@@ -11,7 +12,7 @@ class SchemingTestValidationPlugin(p.SingletonPlugin):
 
     def get_validators(self):
         return {
-            'scheming_test_args': lambda *a: a,
+            "scheming_test_args": lambda *a: a,
         }
 
 
@@ -20,7 +21,7 @@ class SchemingTestSchemaPlugin(p.SingletonPlugin):
 
     def get_helpers(self):
         return {
-            'scheming_test_schema_choices': schema_choices_helper,
+            "scheming_test_schema_choices": schema_choices_helper,
         }
 
 
@@ -29,16 +30,7 @@ def schema_choices_helper(field):
     Test custom choices helper
     """
     return [
-        {
-          "value": "friendly",
-          "label": "Often friendly"
-        },
-        {
-          "value": "jealous",
-          "label": "Jealous of others"
-        },
-        {
-          "value": "spits",
-          "label": "Tends to spit"
-        }
+        {"value": "friendly", "label": "Often friendly"},
+        {"value": "jealous", "label": "Jealous of others"},
+        {"value": "spits", "label": "Tends to spit"},
     ]

@@ -10,7 +10,11 @@ from ckanext.digitraffic_theme.model.frequency import Frequency
 from ckanext.digitraffic_theme.model.location import Location
 from ckanext.digitraffic_theme.model.georeferencing_method import GeoreferencingMethod
 from ckanext.digitraffic_theme.model.network_coverage import NetworkCoverage
-from ckanext.digitraffic_theme.model.mobility_theme import MobilityTheme, MobilityThemeSub, is_valid_mobility_theme_sub
+from ckanext.digitraffic_theme.model.mobility_theme import (
+    MobilityTheme,
+    MobilityThemeSub,
+    is_valid_mobility_theme_sub,
+)
 from ckanext.digitraffic_theme.rdf.mobility_dcat_ap import MOBILITYDCATAP
 
 
@@ -36,7 +40,7 @@ class Dataset(ClassInstance):
     def __init__(self, iri: str, input: DatasetInput):
         super().__init__(iri, DCAT.Dataset)
         if not self._is_valid_input(input):
-            raise ValueError(f'{input} is not a valid input for Dataset')
+            raise ValueError(f"{input} is not a valid input for Dataset")
         # Mandatory properties
         self.description = input["description"]
         self.distribution = input["distribution"]
@@ -55,7 +59,9 @@ class Dataset(ClassInstance):
     def _is_valid_input(self, input: DatasetInput) -> bool:
         mobility_theme_sub = input.get("mobility_theme_sub")
         if mobility_theme_sub:
-            return is_valid_mobility_theme_sub(input["mobility_theme"], mobility_theme_sub)
+            return is_valid_mobility_theme_sub(
+                input["mobility_theme"], mobility_theme_sub
+            )
         return True
 
     def predicate_objects(self):
@@ -65,14 +71,32 @@ class Dataset(ClassInstance):
             *[(DCTERMS.description, entry) for entry in self.description],
             (DCTERMS.accrualPeriodicity, self.accrualPeriodicity),
             (MOBILITYDCATAP.mobilityTheme, self.mobility_theme),
-            (MOBILITYDCATAP.mobilityTheme, self.mobility_theme_sub) if self.mobility_theme_sub else None,
+            (
+                (MOBILITYDCATAP.mobilityTheme, self.mobility_theme_sub)
+                if self.mobility_theme_sub
+                else None
+            ),
             (DCTERMS.spatial, self.spatial),
             (DCTERMS.title, self.title),
             (DCTERMS.publisher, self.publisher),
             *[(DCAT.distribution, dist) for dist in self.distribution],
-            (MOBILITYDCATAP.georeferencingMethod, self.georeferencing_method) if self.georeferencing_method else None,
-            *[(DCAT.contactPoint, contact_point) for contact_point in self.contact_points],
-            (MOBILITYDCATAP.networkCoverage, self.network_coverage) if self.network_coverage else None,
-            *[(DCTERMS.rightsHolder, rights_holder) for rights_holder in self.rights_holders],
+            (
+                (MOBILITYDCATAP.georeferencingMethod, self.georeferencing_method)
+                if self.georeferencing_method
+                else None
+            ),
+            *[
+                (DCAT.contactPoint, contact_point)
+                for contact_point in self.contact_points
+            ],
+            (
+                (MOBILITYDCATAP.networkCoverage, self.network_coverage)
+                if self.network_coverage
+                else None
+            ),
+            *[
+                (DCTERMS.rightsHolder, rights_holder)
+                for rights_holder in self.rights_holders
+            ],
         ]
         return [po for po in pos if po is not None]

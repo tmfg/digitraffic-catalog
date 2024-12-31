@@ -16,8 +16,7 @@ class CatalogueRecord(RangeValueConverter):
         FOAF.primaryTopic,
         DCTERMS.modified,
     }
-    recommended_properties = {
-    }
+    recommended_properties = {}
 
     optional_properties = {
         DCTERMS.publisher,

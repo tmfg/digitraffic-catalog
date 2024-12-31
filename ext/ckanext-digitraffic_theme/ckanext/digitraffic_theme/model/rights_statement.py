@@ -8,7 +8,7 @@ from ckanext.digitraffic_theme.model.rights_type import RightsType
 class RightsStatement(ClassInstance):
     rights_type: RightsType
 
-    def __init__(self, iri: str|None, rights_type: str):
+    def __init__(self, iri: str | None, rights_type: str):
         super().__init__(iri, DCTERMS.RightsStatement)
         self.rights_type = RightsType(rights_type)
 
