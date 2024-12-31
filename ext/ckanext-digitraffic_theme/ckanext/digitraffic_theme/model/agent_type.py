@@ -19,7 +19,7 @@ AGENT_TYPE = {
 
 class AgentType(Vocabulary):
     iris = AGENT_TYPE
-    namespace = Namespace('http://purl.org/adms/publishertype/')
+    namespace = Namespace("http://purl.org/adms/publishertype/")
 
     def __init__(self, iri):
         super().__init__(iri)

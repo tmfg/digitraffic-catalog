@@ -9,11 +9,13 @@ class Vocabulary:
     # IRI
     iri: URIRef
 
-    def __init__(self, iri:str):
+    def __init__(self, iri: str):
         if not self.__class__.is_known_iri(iri):
-            raise ValueError(f'{iri} is not a valid iri of the class {self.__class__.__name__}')
+            raise ValueError(
+                f"{iri} is not a valid iri of the class {self.__class__.__name__}"
+            )
         if not isinstance(iri, str):
-            raise ValueError(f'IRI should be a string. It was {type(iri)}')
+            raise ValueError(f"IRI should be a string. It was {type(iri)}")
         self.iri = URIRef(iri)
 
     @classmethod

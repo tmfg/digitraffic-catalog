@@ -16,6 +16,7 @@ class VCARDAddressInput(TypedDict):
     region: Literal
     street_address: Literal
 
+
 class LOCNAddressInput(TypedDict):
     # Optional properties
     admin_unit_L1: Literal
@@ -42,8 +43,9 @@ class VCARDAddress(ClassInstance):
             (VCARD.locality, self.locality),
             (VCARD["postal-code"], self.postal_code),
             (VCARD.region, self.region),
-            (VCARD["street-address"], self.street_address)
+            (VCARD["street-address"], self.street_address),
         ]
+
 
 class LOCNAddress(ClassInstance):
 
@@ -62,5 +64,5 @@ class LOCNAddress(ClassInstance):
             (LOCN.adminUnitL2, self.admin_unit_L2),
             (LOCN.postName, self.post_name),
             (LOCN.postCode, self.post_code),
-            (LOCN.thoroughfare, self.thoroughfare)
+            (LOCN.thoroughfare, self.thoroughfare),
         ]

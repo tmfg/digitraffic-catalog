@@ -21,7 +21,9 @@ class AgentInput(TypedDict):
 
 
 class Agent(ClassInstance):
-    mandatory_properties = {FOAF.name,}
+    mandatory_properties = {
+        FOAF.name,
+    }
 
     def __init__(self, iri: str | None, input: AgentInput):
         super().__init__(iri, FOAF.Agent)
@@ -31,13 +33,14 @@ class Agent(ClassInstance):
         self.mbox = input.get("mbox")
         self.phone = input.get("phone")
 
-
     def predicate_objects(self):
-        return self.filter_used_properties([
-            (RDF.type, self.type),
-            (FOAF.name, self.name),
-            (DCTERMS.type, self.agent_type),
-            (LOCN.address, self.address),
-            (FOAF.mbox, self.mbox),
-            (FOAF.phone, self.phone),
-        ])
+        return self.filter_used_properties(
+            [
+                (RDF.type, self.type),
+                (FOAF.name, self.name),
+                (DCTERMS.type, self.agent_type),
+                (LOCN.address, self.address),
+                (FOAF.mbox, self.mbox),
+                (FOAF.phone, self.phone),
+            ]
+        )
