@@ -15,6 +15,7 @@ from ckanext.digitraffic_theme.model.mobility_theme import (
     MobilityThemeSub,
     is_valid_mobility_theme_sub,
 )
+from ckanext.digitraffic_theme.model.period_of_time import PeriodOfTime
 from ckanext.digitraffic_theme.rdf.mobility_dcat_ap import MOBILITYDCATAP
 
 
@@ -33,6 +34,7 @@ class DatasetInput(TypedDict):
     contact_points: NotRequired[List[ContactPoint]]
     network_coverage: NotRequired[NetworkCoverage]
     rights_holders: NotRequired[Agent]
+    temporal: NotRequired[PeriodOfTime]
 
 
 class Dataset(ClassInstance):
@@ -55,6 +57,7 @@ class Dataset(ClassInstance):
         self.contact_points = input.get("contact_points")
         self.network_coverage = input.get("network_coverage")
         self.rights_holders = input.get("rights_holders")
+        self.temporal = input.get("temporal")
 
     def _is_valid_input(self, input: DatasetInput) -> bool:
         mobility_theme_sub = input.get("mobility_theme_sub")
@@ -98,5 +101,6 @@ class Dataset(ClassInstance):
                 (DCTERMS.rightsHolder, rights_holder)
                 for rights_holder in self.rights_holders
             ],
+            (DCTERMS.temporal, self.temporal) if self.rights_holders else None
         ]
         return [po for po in pos if po is not None]

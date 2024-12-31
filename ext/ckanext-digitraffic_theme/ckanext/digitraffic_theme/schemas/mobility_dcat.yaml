@@ -1178,10 +1178,10 @@ dataset_fields:
   validators: scheming_required remove_whitespace ignore_missing spatial_reference_validator
 - field_name: end_timestamp
   label: End time
-  preset: datetime
+  preset: datetime_tz
 - field_name: start_timestamp
   label: Start time
-  preset: datetime
+  preset: datetime_tz
 - field_name: rights_holder
   label: Rights holder
   repeating_subfields:
