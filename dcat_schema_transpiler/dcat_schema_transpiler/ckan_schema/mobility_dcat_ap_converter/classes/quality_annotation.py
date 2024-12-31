@@ -1,6 +1,7 @@
 from ckan_schema.mobility_dcat_ap_converter.range_value_converter import (
     RangeValueConverter,
 )
+from dcat_schema_transpiler.namespaces.DQV import DQV
 from mobility_dcat_ap.dataset import OA
 from rdflib import Dataset
 
@@ -9,6 +10,8 @@ from dcat_schema_transpiler.rdfs.rdfs_property import RDFSProperty
 
 
 class QualityAnnotation(RangeValueConverter):
+    iri = DQV.QualityAnnotation
+
     mandatory_properties = {}
 
     recommended_properties = {}
