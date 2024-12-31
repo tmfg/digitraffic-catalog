@@ -14,7 +14,7 @@ GEOREFERENCING_METHOD = {
 
 class GeoreferencingMethod(Vocabulary):
     iris = GEOREFERENCING_METHOD
-    namespace = Namespace('https://w3id.org/mobilitydcat-ap/georeferencing-method/')
+    namespace = Namespace("https://w3id.org/mobilitydcat-ap/georeferencing-method/")
 
     def __init__(self, iri):
         super().__init__(iri)

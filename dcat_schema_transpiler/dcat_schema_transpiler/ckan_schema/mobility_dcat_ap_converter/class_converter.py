@@ -1,29 +1,10 @@
+import inspect
+
 from typing import Dict, Set, Literal, List
 
 from rdflib import Dataset, URIRef
-from rdflib.namespace import DCAT, DCTERMS, FOAF, ORG
+from rdflib.namespace import DCAT
 
-from ckan_schema.mobility_dcat_ap_converter.classes.agent import Agent
-from ckan_schema.mobility_dcat_ap_converter.classes.organization import Organization
-from ckan_schema.mobility_dcat_ap_converter.classes.catalogue_record import (
-    CatalogueRecord,
-)
-from ckan_schema.mobility_dcat_ap_converter.classes.dataset import DCATDataset
-from ckan_schema.mobility_dcat_ap_converter.classes.distribution import Distribution
-from ckan_schema.mobility_dcat_ap_converter.classes.frequency import Frequency
-from ckan_schema.mobility_dcat_ap_converter.classes.license_document import (
-    LicenseDocument,
-)
-from ckan_schema.mobility_dcat_ap_converter.classes.linguistic_system import (
-    LinguisticSystem,
-)
-from ckan_schema.mobility_dcat_ap_converter.classes.locn_address import LOCNAddress
-from ckan_schema.mobility_dcat_ap_converter.classes.media_type_or_extent import (
-    MediaTypeOrExtent,
-)
-from ckan_schema.mobility_dcat_ap_converter.classes.rights_statement import (
-    RightsStatement,
-)
 from ckan_schema.mobility_dcat_ap_converter.range_value_converter import (
     RangeValueConverter,
     AggregateRangeValueConverter,
@@ -138,14 +119,10 @@ class ClassConverter:
             print(
                 f"""
 Schema was not defined for class {self.clazz.iri} range value converter for property {p.iri}.
-Trying to find a converter for the property'f's range value {rdf_range.iri}''')
-"""
+Trying to find a converter for the property'f's range value {rdf_range.iri}"""
             )
             range_range_value_converter = ClassConverter(rdf_range, self.ds)
             schema = range_range_value_converter.convert(omit, is_required_)
-            range_range_value_converter = ClassConverter(rdf_range, self.ds)
-            schema = range_range_value_converter.convert(omit, is_required)
-
         return schema
 
     def _append_schema(self, schema):
@@ -206,23 +183,20 @@ Trying to find a converter for the property'f's range value {rdf_range.iri}''')
         return all_properties
 
     def _get_converter(self) -> RangeValueConverter:
-        iri_to_converter: Dict[URIRef, type[RangeValueConverter]] = {
-            DCAT.CatalogRecord: CatalogueRecord,
-            DCAT.Dataset: DCATDataset,
-            DCAT.Distribution: Distribution,
-            DCTERMS.Frequency: Frequency,
-            DCTERMS.LicenseDocument: LicenseDocument,
-            DCTERMS.LinguisticSystem: LinguisticSystem,
-            DCTERMS.MediaTypeOrExtent: MediaTypeOrExtent,
-            DCTERMS.RightsStatement: RightsStatement,
-            VCARD.Kind: Kind,
-            VCARD.Address: VCARDAddress,
-            FOAF.Agent: Agent,
-            ORG.Organization: Organization,
-            LOCN.Address: LOCNAddress,
-            MOBILITYDCATAP.Assessment: Assessment,
-            DQV.QualityAnnotation: QualityAnnotation,
-            DCTERMS.language: LinguisticSystem,
+        def converter_subclasses(clazz: type = None) -> Set[type(RangeValueConverter)]:
+            if clazz is None:
+                clazz = RangeValueConverter
+            subclasses = set()
+            for c in clazz.__subclasses__():
+                subclasses.add(c)
+                sub_subclasses = converter_subclasses(c)
+                subclasses = subclasses | sub_subclasses
+            return subclasses
+
+        iri_to_converter = {
+            converter.iri: converter
+            for converter in converter_subclasses()
+            if not inspect.isabstract(converter)
         }
 
         if self.clazz.iri in iri_to_converter:

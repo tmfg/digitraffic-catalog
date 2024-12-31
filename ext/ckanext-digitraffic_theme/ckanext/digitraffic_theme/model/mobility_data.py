@@ -43,22 +43,34 @@ class MobilityData:
         contact_points = (
             {
                 "contact_points": [
-                    ContactPoint(None, {
-                        "email": Literal(contact_point["has_email"]),
-                        "full_name": Literal(contact_point["fn"]),
-                        "website": Literal(contact_point.get("has_url")),
-                        "address": VCARDAddress(
-                            None,
-                            {
-                                "country_name": Literal(contact_point.get("country_name")),
-                                "locality": Literal(contact_point.get("locality")),
-                                "postal_code": Literal(contact_point.get("postal_code")),
-                                "region": Literal(contact_point.get("region")),
-                                "street_address": Literal(contact_point.get("street_address")),
-                            }),
-                        "affiliation": Literal(contact_point.get("organization_name")),
-                        "telephone": Literal(contact_point.get("has_telephone")),
-                    })
+                    ContactPoint(
+                        None,
+                        {
+                            "email": Literal(contact_point["has_email"]),
+                            "full_name": Literal(contact_point["fn"]),
+                            "website": Literal(contact_point.get("has_url")),
+                            "address": VCARDAddress(
+                                None,
+                                {
+                                    "country_name": Literal(
+                                        contact_point.get("country_name")
+                                    ),
+                                    "locality": Literal(contact_point.get("locality")),
+                                    "postal_code": Literal(
+                                        contact_point.get("postal_code")
+                                    ),
+                                    "region": Literal(contact_point.get("region")),
+                                    "street_address": Literal(
+                                        contact_point.get("street_address")
+                                    ),
+                                },
+                            ),
+                            "affiliation": Literal(
+                                contact_point.get("organization_name")
+                            ),
+                            "telephone": Literal(contact_point.get("has_telephone")),
+                        },
+                    )
                     for contact_point in dataset_dict["contact_point"]
                 ]
             }
@@ -98,7 +110,9 @@ class MobilityData:
             }
             if dataset_dict.get("quality_description")
         def create_agent(ref: URIRef | None, agent_data: Dict[str, Any]):
-            agent_type = AgentType(agent_data["type"]) if agent_data.get("type") else None
+            agent_type = (
+                AgentType(agent_data["type"]) if agent_data.get("type") else None
+            )
             address = LOCNAddress(
                 None,
                 {
@@ -107,15 +121,18 @@ class MobilityData:
                     "post_name": Literal(agent_data.get("post_name")),
                     "post_code": Literal(agent_data.get("post_code")),
                     "thoroughfare": Literal(agent_data.get("thoroughfare")),
-                })
+                },
+            )
             mbox = Literal(agent_data.get("mbox"))
             phone = Literal(agent_data.get("phone"))
-            organizations = [
-                Organization(
-                    None,
-                    {"name": Literal(org.get("name"))}
-                ) for org in agent_data.get("member_of")
-            ] if agent_data.get("member_of") else None
+            organizations = (
+                [
+                    Organization(None, {"name": Literal(org.get("name"))})
+                    for org in agent_data.get("member_of")
+                ]
+                if agent_data.get("member_of")
+                else None
+            )
             common_input = {
                 "agent_type": agent_type,
                 "address": address,
@@ -123,20 +140,27 @@ class MobilityData:
                 "phone": phone,
                 **({"member_of": organizations} if organizations else {}),
             }
-            if agent_type and agent_type.iri == AgentType.namespace["PrivateIndividual(s)"]:
+            if (
+                agent_type
+                and agent_type.iri == AgentType.namespace["PrivateIndividual(s)"]
+            ):
                 first_name = Literal(agent_data.get("first_name", ""))
                 surname = Literal(agent_data.get("surname"))
                 workplace_homepage = Literal(agent_data.get("workplace_homepage"))
-                return Person(ref, common_input | {
-                    "name": first_name + ((" " + surname) if surname else ""),
-                    "first_name": first_name,
-                    "surname": surname,
-                    "workplace_homepage": workplace_homepage,
-                })
+                return Person(
+                    ref,
+                    common_input
+                    | {
+                        "name": first_name + ((" " + surname) if surname else ""),
+                        "first_name": first_name,
+                        "surname": surname,
+                        "workplace_homepage": workplace_homepage,
+                    },
+                )
             else:
-                return Organization(ref, common_input | {
-                    "name": Literal(agent_data.get("name"))
-                })
+                return Organization(
+                    ref, common_input | {"name": Literal(agent_data.get("name"))}
+                )
 
         rights_holder = (
             {
@@ -167,18 +191,38 @@ class MobilityData:
                 "spatial": Location(dataset_dict["spatial"]),
                 "title": Literal(dataset_dict["name"]),
                 "publisher": create_agent(
-                    organization_ref, {
-                        "organization_name": dataset_dict["organization"]["name"]
-                    }
+                    organization_ref,
+                    {"organization_name": dataset_dict["organization"]["name"]},
                 ),
-                **({"mobility_theme_sub": MobilityThemeSub(dataset_dict["mobility_theme_sub"])} if dataset_dict.get(
-                    "mobility_theme_sub") else {}),
-                **({"georeferencing_method": GeoreferencingMethod(
-                    dataset_dict["georeferencing_method"])} if dataset_dict.get("georeferencing_method") else {}),
-                **({"network_coverage": NetworkCoverage(dataset_dict["network_coverage"])} if dataset_dict.get(
-                    "network_coverage") else {}),
+                **(
+                    {
+                        "mobility_theme_sub": MobilityThemeSub(
+                            dataset_dict["mobility_theme_sub"]
+                        )
+                    }
+                    if dataset_dict.get("mobility_theme_sub")
+                    else {}
+                ),
+                **(
+                    {
+                        "georeferencing_method": GeoreferencingMethod(
+                            dataset_dict["georeferencing_method"]
+                        )
+                    }
+                    if dataset_dict.get("georeferencing_method")
+                    else {}
+                ),
+                **(
+                    {
+                        "network_coverage": NetworkCoverage(
+                            dataset_dict["network_coverage"]
+                        )
+                    }
+                    if dataset_dict.get("network_coverage")
+                    else {}
+                ),
                 **contact_points,
-                **rights_holder
+                **rights_holder,
             },
                 **(
                     {

@@ -6,6 +6,7 @@ from rdflib.namespace import FOAF, ORG
 from ckanext.digitraffic_theme.model.agent import Agent, AgentInput
 from ckanext.digitraffic_theme.model.organization import Organization
 
+
 class PersonInput(TypedDict, AgentInput):
     first_name: NotRequired[Literal]
     surname: NotRequired[Literal]
@@ -27,9 +28,12 @@ class Person(Agent):
 
     def predicate_objects(self):
         agent_pos = super().predicate_objects()
-        return self.filter_used_properties(agent_pos + [
-            (FOAF.firstName, self.first_name),
-            (FOAF.surname, self.surname),
-            (FOAF.workplaceHomepage, self.workplace_homepage),
-            (ORG.memberOf, self.member_of),
-        ])
+        return self.filter_used_properties(
+            agent_pos
+            + [
+                (FOAF.firstName, self.first_name),
+                (FOAF.surname, self.surname),
+                (FOAF.workplaceHomepage, self.workplace_homepage),
+                (ORG.memberOf, self.member_of),
+            ]
+        )

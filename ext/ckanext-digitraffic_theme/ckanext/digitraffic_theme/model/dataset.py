@@ -96,10 +96,25 @@ class Dataset(ClassInstance):
             (DCTERMS.title, self.title),
             (DCTERMS.publisher, self.publisher),
             *[(DCAT.distribution, dist) for dist in self.distribution],
-            (MOBILITYDCATAP.georeferencingMethod, self.georeferencing_method) if self.georeferencing_method else None,
-            *[(DCAT.contactPoint, contact_point) for contact_point in self.contact_points],
-            (MOBILITYDCATAP.networkCoverage, self.network_coverage) if self.network_coverage else None,
-            *[(DCTERMS.rightsHolder, rights_holder) for rights_holder in self.rights_holders],
+            (
+                (MOBILITYDCATAP.georeferencingMethod, self.georeferencing_method)
+                if self.georeferencing_method
+                else None
+            ),
+            *[
+                (DCAT.contactPoint, contact_point)
+                for contact_point in self.contact_points
+            ],
+            (
+                (MOBILITYDCATAP.networkCoverage, self.network_coverage)
+                if self.network_coverage
+                else None
+            ),
+            *[
+                (DCTERMS.rightsHolder, rights_holder)
+                for rights_holder in self.rights_holders
+            ],
+
             *[
                 (MOBILITYDCATAP.Assessment, assessment)
                 for assessment in self.assessments

@@ -11,6 +11,7 @@ from dcat_schema_transpiler.rdfs.rdfs_property import RDFSProperty
 
 
 class MediaTypeOrExtent(RangeValueConverter):
+    iri = DCTERMS.MediaTypeOrExtent
 
     def __init__(self, clazz: RDFSClass):
         super().__init__(clazz)

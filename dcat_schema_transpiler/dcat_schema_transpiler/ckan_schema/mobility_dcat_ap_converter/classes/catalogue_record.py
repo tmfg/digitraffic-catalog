@@ -9,14 +9,14 @@ from dcat_schema_transpiler.rdfs.rdfs_resource import RDFSResource
 
 
 class CatalogueRecord(RangeValueConverter):
+    iri = DCAT.CatalogRecord
     mandatory_properties = {
         DCTERMS.created,
         DCTERMS.language,
         FOAF.primaryTopic,
         DCTERMS.modified,
     }
-    recommended_properties = {
-    }
+    recommended_properties = {}
 
     optional_properties = {
         DCTERMS.publisher,

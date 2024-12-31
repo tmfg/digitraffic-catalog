@@ -1,7 +1,7 @@
 from rdflib import Namespace, URIRef
 from rdflib.namespace import DefinedNamespace
 
-LOCN_NS_URL = 'http://www.w3.org/ns/locn#'
+LOCN_NS_URL = "http://www.w3.org/ns/locn#"
 
 
 # INCOMPLETE

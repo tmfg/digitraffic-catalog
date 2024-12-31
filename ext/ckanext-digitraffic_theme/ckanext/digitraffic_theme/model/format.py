@@ -442,7 +442,7 @@ LABEL = {
 class Format(Vocabulary):
     iris = FORMAT
     labels = LABEL
-    namespace = Namespace('http://publications.europa.eu/resource/authority/file-type/')
+    namespace = Namespace("http://publications.europa.eu/resource/authority/file-type/")
 
     def __init__(self, iri):
         super().__init__(iri)

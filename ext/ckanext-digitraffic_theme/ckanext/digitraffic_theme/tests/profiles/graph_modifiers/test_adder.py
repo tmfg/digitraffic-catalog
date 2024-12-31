@@ -6,7 +6,7 @@ from ckanext.digitraffic_theme.profiles.graph_modifiers.adder import (
     add_class_instance_with_children,
     add_class_instance_to_graph,
     add_literal_to_graph,
-    add_vocabulary_to_graph
+    add_vocabulary_to_graph,
 )
 from ckanext.digitraffic_theme.model.mobility_theme import MobilityTheme
 from ckanext.digitraffic_theme.rdf.mobility_dcat_ap import MOBILITYDCATAP
@@ -14,8 +14,8 @@ from ckanext.digitraffic_theme.rdf.mobility_dcat_ap import MOBILITYDCATAP
 
 def test_add_class_instance_with_children_adds_correctly():
     g = Graph()
-    subject = URIRef('example.com/foo')
-    agent_iri = URIRef('example.com/agent')
+    subject = URIRef("example.com/foo")
+    agent_iri = URIRef("example.com/agent")
     agent = Organization(agent_iri, {"name": Literal("foo")})
 
     add_class_instance_with_children(g, subject, DCTERMS.publisher, agent)
@@ -27,8 +27,8 @@ def test_add_class_instance_with_children_adds_correctly():
 
 def test_add_class_instance_to_graph_adds_correctly():
     g = Graph()
-    subject = URIRef('example.com/foo')
-    agent_iri = URIRef('example.com/agent')
+    subject = URIRef("example.com/foo")
+    agent_iri = URIRef("example.com/agent")
     agent = Organization(agent_iri, {"name": Literal("foo")})
 
     add_class_instance_to_graph(g, subject, DCTERMS.publisher, agent)
@@ -39,18 +39,20 @@ def test_add_class_instance_to_graph_adds_correctly():
 def test_add_literal_to_graph_adds_correctly():
     g = Graph()
     foo_name = "bar"
-    subject = URIRef('example.com/foo')
+    subject = URIRef("example.com/foo")
 
     add_literal_to_graph(g, subject, FOAF.name, Literal(foo_name))
 
     assert (subject, FOAF.name, Literal(foo_name)) in g
 
+
 def test_add_vocabulary_to_graph_adds_correctly():
     g = Graph()
-    subject = URIRef('example.com/foo')
-    mobility_theme = MobilityTheme("https://w3id.org/mobilitydcat-ap/mobility-theme/waterways-and-water-bodies")
+    subject = URIRef("example.com/foo")
+    mobility_theme = MobilityTheme(
+        "https://w3id.org/mobilitydcat-ap/mobility-theme/waterways-and-water-bodies"
+    )
 
     add_vocabulary_to_graph(g, subject, MOBILITYDCATAP.mobilityTheme, mobility_theme)
 
     assert (subject, MOBILITYDCATAP.mobilityTheme, mobility_theme.iri) in g
-

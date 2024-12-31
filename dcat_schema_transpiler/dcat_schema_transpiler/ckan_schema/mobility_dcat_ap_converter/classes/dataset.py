@@ -22,11 +22,16 @@ from dcat_schema_transpiler.namespaces.DQV import DQV
 from dcat_schema_transpiler.rdfs.rdfs_class import RDFSClass
 from dcat_schema_transpiler.rdfs.rdfs_property import RDFSProperty
 from dcat_schema_transpiler.rdfs.rdfs_resource import RDFSResource
-from dcat_schema_transpiler.ckan_schema.mobility_dcat_ap_converter.classes.kind import Kind
-from dcat_schema_transpiler.ckan_schema.mobility_dcat_ap_converter.classes.agent import Agent
+from dcat_schema_transpiler.ckan_schema.mobility_dcat_ap_converter.classes.kind import (
+    Kind,
+)
+from dcat_schema_transpiler.ckan_schema.mobility_dcat_ap_converter.classes.agent import (
+    Agent,
+)
 
 
 class DCATDataset(RangeValueConverter):
+    iri = DCAT.Dataset
     mandatory_properties = {
         DCTERMS.description,
         DCAT.distribution,

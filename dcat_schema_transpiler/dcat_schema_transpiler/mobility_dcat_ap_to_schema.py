@@ -169,6 +169,7 @@ def dataset_fields(ds: Dataset) -> List:
                 MOBILITYDCATAP.networkCoverage,
                 DCTERMS.conformsTo,
                 DCTERMS.rightsHolder,
+                DCTERMS.temporal,
             }
         )
         | (

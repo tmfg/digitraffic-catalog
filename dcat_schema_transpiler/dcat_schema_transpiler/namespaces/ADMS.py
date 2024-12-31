@@ -1,7 +1,7 @@
 from rdflib import Namespace, URIRef
 from rdflib.namespace import DefinedNamespace
 
-ADMS_NS_URL = 'http://www.w3.org/ns/adms#'
+ADMS_NS_URL = "http://www.w3.org/ns/adms#"
 
 
 # INCOMPLETE
