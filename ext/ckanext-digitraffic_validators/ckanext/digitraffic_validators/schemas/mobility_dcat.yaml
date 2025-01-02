@@ -1252,6 +1252,13 @@ dataset_fields:
     required: false
     preset: url
     help_text: URL for the results of an assessment process by some organisation
+- field_name: related_resource
+  label: Related resource
+  help_text: A related dataset that is somehow referenced, cited, or otherwise pointed
+    to by this dataset.
+  required: false
+  preset: dataset_reference_select
+  choices: ''
 - field_name: rights_holder
   label: Rights holder
   repeating_subfields:
@@ -1325,11 +1332,11 @@ dataset_fields:
   - field_name: thoroughfare
     label: thoroughfare
     required: false
-- field_name: end_timestamp
-  label: End time
-  preset: datetime
 - field_name: start_timestamp
   label: Start time
+  preset: datetime
+- field_name: end_timestamp
+  label: End time
   preset: datetime
 resource_fields:
 - field_name: url

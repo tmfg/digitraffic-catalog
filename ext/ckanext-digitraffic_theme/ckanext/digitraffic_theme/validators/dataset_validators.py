@@ -3,6 +3,8 @@ from typing import Any
 from ckan.types import Context
 from ckan.lib.navl.dictization_functions import Invalid
 from ckan.common import _
+import ckan.plugins.toolkit as toolkit
+from ckanext.digitraffic_theme.helpers.helpers import is_dataset_public
 
 from ckanext.digitraffic_theme.model.mobility_theme import (
     MobilityTheme,
@@ -49,3 +51,9 @@ def spatial_reference_validator(value: Any, context: Context):
                 return value_with_prefix
             raise Invalid(_("Given spatial reference is not supported"))
     return value
+
+
+def dataset_reference_output_validator(value: Any, context: Context):
+    if is_dataset_public(value):
+        return value
+    return ""

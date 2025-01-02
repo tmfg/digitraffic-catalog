@@ -4,6 +4,7 @@ import ckan.plugins.toolkit as toolkit
 from ckan.lib.plugins import DefaultTranslation
 
 from ckanext.digitraffic_theme.validators.dataset_validators import (
+    dataset_reference_output_validator,
     mobility_theme_sub_validator,
     phone_number_validator,
     spatial_reference_validator,
@@ -26,6 +27,7 @@ class DigitrafficThemePlugin(plugins.SingletonPlugin, DefaultTranslation):
             "mobility_theme_sub_validator": mobility_theme_sub_validator,
             "phone_number_validator": phone_number_validator,
             "spatial_reference_validator": spatial_reference_validator,
+            "dataset_reference_output_validator": dataset_reference_output_validator,
         }
 
     def update_config(self, config):
