@@ -64,6 +64,10 @@ def sort_dataset_fields(dataset_fields: List[Dict[str, Any]]):
         "frequency",
         "mobility_theme",
         "mobility_theme_sub",
+        "theme",
+        "start_timestamp",
+        "end_timestamp",
+        "transport_mode",
         "spatial",
         "version",
         "version_notes_translated",
@@ -159,6 +163,8 @@ def dataset_fields(ds: Dataset) -> List:
                 DCTERMS.conformsTo,
                 DCTERMS.rightsHolder,
                 DCTERMS.temporal,
+                DCAT.theme,
+                MOBILITYDCATAP.transportMode
             }
         )
         | (

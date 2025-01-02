@@ -13,6 +13,8 @@ from mobility_dcat_ap.dataset import (
     CVOCAB_LAU,
     CVOCAB_GEOREFERENCING_METHOD,
     CVOCAB_NETWORK_COVERAGE,
+    CVOCAB_THEME,
+    CVOCAB_TRANSPORT_MODE
 )
 from mobility_dcat_ap.namespace import MOBILITYDCATAP
 from dcat_schema_transpiler.namespaces.ADMS import ADMS
@@ -91,6 +93,8 @@ class DCATDataset(RangeValueConverter):
             DCAT.contactPoint: "contact_point",
             DCTERMS.conformsTo: "conforms_to",
             DCTERMS.rightsHolder: "rights_holder",
+            DCAT.theme: "theme",
+            MOBILITYDCATAP.transportMode: "transport_mode"
         }
         field_value = mappings.get(p)
         if isinstance(field_value, dict):
@@ -128,6 +132,8 @@ class DCATDataset(RangeValueConverter):
             DCTERMS.spatial,
             MOBILITYDCATAP.georeferencingMethod,
             MOBILITYDCATAP.networkCoverage,
+            DCAT.theme,
+            MOBILITYDCATAP.transportMode
         ]
         if any(
             clazz_p.is_iri(vocabulary_range) for vocabulary_range in vocabulary_ranges
@@ -292,6 +298,26 @@ class DCATDataset(RangeValueConverter):
                 return {
                     "field_name": self.ckan_field(p),
                     "label": "Network Coverage",
+                    "required": is_required,
+                    "preset": "select",
+                    "form_include_blank_choice": True,
+                    "choices": RangeValueConverter.vocab_choices(g),
+                }
+            case DCAT.theme:
+                g = ds.get_graph(URIRef(CVOCAB_THEME))
+                return {
+                    "field_name": self.ckan_field(p),
+                    "label": "Theme",
+                    "required": is_required,
+                    "preset": "select",
+                    "form_include_blank_choice": True,
+                    "choices": RangeValueConverter.vocab_choices(g),
+                }
+            case MOBILITYDCATAP.transportMode:
+                g = ds.get_graph(URIRef(CVOCAB_TRANSPORT_MODE))
+                return {
+                    "field_name": self.ckan_field(p),
+                    "label": "Transport Mode",
                     "required": is_required,
                     "preset": "select",
                     "form_include_blank_choice": True,
