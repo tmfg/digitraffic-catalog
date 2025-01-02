@@ -189,6 +189,7 @@ def mobilitydcatap_fixes(graph):
     graph.add((ADMS.versionNotes, DCAM.domainIncludes, DCAT.Dataset))
     graph.add((DCTERMS.temporal, DCAM.domainIncludes, DCAT.Dataset))
     graph.add((DCTERMS.language, DCAM.domainIncludes, DCAT.Dataset))
+    graph.add((DCTERMS.relation, DCAM.domainIncludes, DCAT.Dataset))
 
     graph.add((DCTERMS.created, DCAM.domainIncludes, DCAT.CatalogRecord))
     graph.add((DCTERMS.language, DCAM.domainIncludes, DCAT.CatalogRecord))
@@ -209,6 +210,8 @@ def mobilitydcatap_fixes(graph):
     # Range chanages stated in the document but not visible in the serialized format
     graph.add((DCTERMS.format, DCAM.rangeIncludes, DCTERMS.MediaTypeOrExtent))
     graph.add((DCTERMS.description, DCAM.rangeIncludes, RDFS.Literal))
+
+    graph.add((DCTERMS.relation, RDF.type, RDF.Property))
 
     # Resources taken from DCAT-AP version 3
     # graph.add((DCAT_AP.applicableLegislation, RDFS.label, Literal("applicable legislation", lang="en")))

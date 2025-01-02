@@ -26,3 +26,4 @@ class MOBILITYDCATAP(DefinedNamespace):
     schema: URIRef
     dataFormatNotes: URIRef
     hasQualityAnnotation: URIRef
+    relation: URIRef

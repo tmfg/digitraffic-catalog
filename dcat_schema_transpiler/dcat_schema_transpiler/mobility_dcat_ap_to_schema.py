@@ -82,6 +82,7 @@ def sort_dataset_fields(dataset_fields: List[Dict[str, Any]]):
         "intended_information_service",
         "quality_description",
         "assessment",
+        "related_resource",
     ]
     dataset_fields.sort(key=partial(sort_by_field_name, order))
     sort_repeating_subfields(dataset_fields)
@@ -181,6 +182,7 @@ def dataset_fields(ds: Dataset) -> List:
                 MOBILITYDCATAP.intendedInformationService,
                 DQV.hasQualityAnnotation,
                 DCTERMS.language,
+                DCTERMS.relation,
             }
         )
     )

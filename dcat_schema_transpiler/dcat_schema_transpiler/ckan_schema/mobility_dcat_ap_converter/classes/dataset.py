@@ -59,7 +59,7 @@ class DCATDataset(RangeValueConverter):
         MOBILITYDCATAP.assessmentResult,
         DCTERMS.hasVersion,
         DCTERMS.identifier,
-        DCTERMS.isReferencedBy,
+        DCTERMS.relation,
         DCTERMS.isVersionOf,
         MOBILITYDCATAP.intendedInformationService,
         DCTERMS.language,
@@ -95,7 +95,8 @@ class DCATDataset(RangeValueConverter):
             MOBILITYDCATAP.intendedInformationService: "intended_information_service",
             DQV.hasQualityAnnotation: "quality_description",
             DCTERMS.language: "language",
-            DCTERMS.rightsHolder: "rights_holder"
+            DCTERMS.rightsHolder: "rights_holder",
+            DCTERMS.relation: "related_resource",
         }
         field_value = mappings.get(p)
         if isinstance(field_value, dict):
@@ -172,8 +173,17 @@ class DCATDataset(RangeValueConverter):
                 "form_attrs": {"min": "2000", "max": "69036405"},
                 "validators": "scheming_required remove_whitespace ignore_missing spatial_reference_validator",
             }
+        if clazz_p.is_iri(DCTERMS.relation):
+            return {
+                "field_name": self.ckan_field(clazz_p),
+                "label": "Related dataset",
+                "help_text": "A related dataset that is somehow referenced, cited, or otherwise pointed to by this dataset.",
+                "required": is_required,
+                "preset": "dataset_reference_select",
+                "choices": "",
+            }
         if clazz_p.is_iri(DCTERMS.language):
-            super().get_schema(ds, clazz_p, is_required)
+            return super().get_schema(ds, clazz_p, is_required)
 
         return super().get_schema(ds, clazz_p, is_required)
 
