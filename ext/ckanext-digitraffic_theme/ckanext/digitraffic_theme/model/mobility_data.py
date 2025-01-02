@@ -15,6 +15,8 @@ from ckanext.digitraffic_theme.model.mobility_theme import (
     MobilityTheme,
     MobilityThemeSub,
 )
+from ckanext.digitraffic_theme.model.theme import Theme
+from ckanext.digitraffic_theme.model.transport_mode import TransportMode
 from ckanext.digitraffic_theme.model.georeferencing_method import GeoreferencingMethod
 from ckanext.digitraffic_theme.model.network_coverage import NetworkCoverage
 
@@ -145,6 +147,20 @@ class MobilityData:
             if dataset_dict.get("start_timestamp") or dataset_dict.get("end_timestamp")
             else {}
         )
+        theme = (
+            {
+                "theme": Theme(dataset_dict["theme"])
+            }
+            if dataset_dict.get("theme")
+            else {}
+        )
+        transport_mode = (
+            {
+                "transport_mode": TransportMode(dataset_dict["transport_mode"])
+            }
+            if dataset_dict.get("transport_mode")
+            else {}
+        )
 
         dataset = Dataset(
             dataset_ref,
@@ -196,7 +212,9 @@ class MobilityData:
                 ),
                 **contact_points,
                 **rights_holder,
-                **temporal
+                **temporal,
+                **theme,
+                **transport_mode
             },
         )
         # Catalog Record

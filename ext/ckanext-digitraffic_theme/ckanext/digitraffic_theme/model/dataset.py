@@ -10,6 +10,8 @@ from ckanext.digitraffic_theme.model.frequency import Frequency
 from ckanext.digitraffic_theme.model.location import Location
 from ckanext.digitraffic_theme.model.georeferencing_method import GeoreferencingMethod
 from ckanext.digitraffic_theme.model.network_coverage import NetworkCoverage
+from ckanext.digitraffic_theme.model.theme import Theme
+from ckanext.digitraffic_theme.model.transport_mode import TransportMode
 from ckanext.digitraffic_theme.model.mobility_theme import (
     MobilityTheme,
     MobilityThemeSub,
@@ -35,6 +37,8 @@ class DatasetInput(TypedDict):
     network_coverage: NotRequired[NetworkCoverage]
     rights_holders: NotRequired[Agent]
     temporal: NotRequired[PeriodOfTime]
+    theme: NotRequired[Theme]
+    transport_mode: NotRequired[TransportMode]
 
 
 class Dataset(ClassInstance):
@@ -58,6 +62,8 @@ class Dataset(ClassInstance):
         self.network_coverage = input.get("network_coverage")
         self.rights_holders = input.get("rights_holders")
         self.temporal = input.get("temporal")
+        self.theme = input.get("theme")
+        self.transport_mode = input.get("transport_mode")
 
     def _is_valid_input(self, input: DatasetInput) -> bool:
         mobility_theme_sub = input.get("mobility_theme_sub")
@@ -101,6 +107,8 @@ class Dataset(ClassInstance):
                 (DCTERMS.rightsHolder, rights_holder)
                 for rights_holder in self.rights_holders
             ],
-            (DCTERMS.temporal, self.temporal) if self.rights_holders else None
+            (DCTERMS.temporal, self.temporal) if self.rights_holders else None,
+            (DCAT.theme, self.theme) if self.theme else None,
+            (MOBILITYDCATAP.transportMode, self.transport_mode) if self.transport_mode else None
         ]
         return [po for po in pos if po is not None]
