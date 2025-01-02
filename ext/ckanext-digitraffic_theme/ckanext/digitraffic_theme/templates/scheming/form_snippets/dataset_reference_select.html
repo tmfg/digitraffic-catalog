@@ -7,6 +7,7 @@
   {%- do options.append({'value': '', 'text': ''}) -%}
 {%- endif -%}
 
+<!-- get datasets that can be referred to by current user -->
 {%- for c in h.get_datasets_as_form_choices() -%}
   <!-- exclude this dataset from its own choices -->
   {%- if (not form_restrict_choices_to or c.value in form_restrict_choices_to) and data["id"] != c.value -%}
@@ -18,8 +19,8 @@
 {%- if field.get('sorted_choices') -%}
   {%- set options = options|sort(case_sensitive=false, attribute='text') -%}
 {%- endif -%}
-<!-- the output validator for related_resource returns a url,
-    strip the path and only compare the dataset id against the options -->
+<!-- the output validator for related_resource returns a complete url,
+    strip the preceding path and only compare the dataset id against the options -->
 {%- if field.field_name == "related_resource" and data["related_resource"] -%}
     {%- set option_selected = data[field.field_name].split('/')[-1]|string -%}
 {%- elif data[field.field_name] -%}
