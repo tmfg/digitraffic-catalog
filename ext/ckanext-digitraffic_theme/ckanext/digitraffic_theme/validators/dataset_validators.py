@@ -2,8 +2,8 @@ from typing import Any
 
 from ckan.types import Context
 from ckan.lib.navl.dictization_functions import Invalid
-from ckan.common import _
-import ckan.plugins.toolkit as toolkit
+from ckan.common import _, config
+
 from ckanext.digitraffic_theme.helpers.helpers import is_dataset_public
 
 from ckanext.digitraffic_theme.model.mobility_theme import (
@@ -54,6 +54,7 @@ def spatial_reference_validator(value: Any, context: Context):
 
 
 def dataset_reference_output_validator(value: Any, context: Context):
+    ckan_site_url = config.get("ckan.site_url", "").rstrip("/")
     if is_dataset_public(value):
-        return value
+        return f"{ckan_site_url}/dataset/{value}"
     return ""
