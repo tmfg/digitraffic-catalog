@@ -9,7 +9,7 @@ from ckan_schema.mobility_dcat_ap_converter.classes.dataset import DCATDataset
 from ckan_schema.mobility_dcat_ap_converter.classes.agent import Agent
 from ckan_schema.mobility_dcat_ap_converter.classes.organization import Organization
 from ckan_schema.mobility_dcat_ap_converter.classes.distribution import Distribution
-from dcat_schema_transpiler.mobility_dcat_ap.dataset import OA
+from dcat_schema_transpiler.mobility_dcat_ap.dataset import CNT, OA
 
 
 from ckan_schema.mobility_dcat_ap_converter.classes.license_document import (
@@ -111,7 +111,9 @@ def resource_fields(ds: Dataset) -> List:
     ckan_defaults = {DCTERMS.license, DCTERMS.title, DCTERMS.description}
 
     distribution_fields_to_omit = (
-        Distribution.recommended_properties | Distribution.optional_properties
+        Distribution.recommended_properties
+        | Distribution.optional_properties
+        - {MOBILITYDCATAP.communicationMethod, CNT.characterEncoding}
     ) - ckan_defaults
 
     class_converter = ClassConverter(distribution, ds)

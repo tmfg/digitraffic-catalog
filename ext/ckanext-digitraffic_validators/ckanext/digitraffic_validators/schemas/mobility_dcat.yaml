@@ -1253,7 +1253,7 @@ dataset_fields:
     preset: url
     help_text: URL for the results of an assessment process by some organisation
 - field_name: related_resource
-  label: Related resource
+  label: Related dataset
   help_text: A related dataset that is somehow referenced, cited, or otherwise pointed
     to by this dataset.
   required: false
@@ -1332,11 +1332,11 @@ dataset_fields:
   - field_name: thoroughfare
     label: thoroughfare
     required: false
-- field_name: start_timestamp
-  label: Start time
-  preset: datetime
 - field_name: end_timestamp
   label: End time
+  preset: datetime
+- field_name: start_timestamp
+  label: Start time
   preset: datetime
 resource_fields:
 - field_name: url
@@ -2355,6 +2355,528 @@ resource_fields:
     label: Zero-Clause BSD / Free Public License 1.0.0 (0BSD)
   - value: http://publications.europa.eu/resource/authority/licence/ECOS_2_0
     label: eCos License version 2.0
+- field_name: character_encoding
+  label: Character encoding
+  required: false
+  preset: select
+  form_include_blank_choice: true
+  choices:
+  - value: ANSI_X3.110-1983
+    label: ANSI_X3.110-1983
+  - value: ASMO_449
+    label: ASMO_449
+  - value: Adobe-Standard-Encoding
+    label: Adobe-Standard-Encoding
+  - value: Adobe-Symbol-Encoding
+    label: Adobe-Symbol-Encoding
+  - value: Amiga-1251
+    label: Amiga-1251
+  - value: BOCU-1
+    label: BOCU-1
+  - value: BRF
+    label: BRF
+  - value: BS_4730
+    label: BS_4730
+  - value: BS_viewdata
+    label: BS_viewdata
+  - value: Big5
+    label: Big5
+  - value: Big5-HKSCS
+    label: Big5-HKSCS
+  - value: CESU-8
+    label: CESU-8
+  - value: CP50220
+    label: CP50220
+  - value: CP51932
+    label: CP51932
+  - value: CSA_Z243.4-1985-1
+    label: CSA_Z243.4-1985-1
+  - value: CSA_Z243.4-1985-2
+    label: CSA_Z243.4-1985-2
+  - value: CSA_Z243.4-1985-gr
+    label: CSA_Z243.4-1985-gr
+  - value: CSN_369103
+    label: CSN_369103
+  - value: DEC-MCS
+    label: DEC-MCS
+  - value: DIN_66003
+    label: DIN_66003
+  - value: DS_2089
+    label: DS_2089
+  - value: EBCDIC-AT-DE
+    label: EBCDIC-AT-DE
+  - value: EBCDIC-AT-DE-A
+    label: EBCDIC-AT-DE-A
+  - value: EBCDIC-CA-FR
+    label: EBCDIC-CA-FR
+  - value: EBCDIC-DK-NO
+    label: EBCDIC-DK-NO
+  - value: EBCDIC-DK-NO-A
+    label: EBCDIC-DK-NO-A
+  - value: EBCDIC-ES
+    label: EBCDIC-ES
+  - value: EBCDIC-ES-A
+    label: EBCDIC-ES-A
+  - value: EBCDIC-ES-S
+    label: EBCDIC-ES-S
+  - value: EBCDIC-FI-SE
+    label: EBCDIC-FI-SE
+  - value: EBCDIC-FI-SE-A
+    label: EBCDIC-FI-SE-A
+  - value: EBCDIC-FR
+    label: EBCDIC-FR
+  - value: EBCDIC-IT
+    label: EBCDIC-IT
+  - value: EBCDIC-PT
+    label: EBCDIC-PT
+  - value: EBCDIC-UK
+    label: EBCDIC-UK
+  - value: EBCDIC-US
+    label: EBCDIC-US
+  - value: ECMA-cyrillic
+    label: ECMA-cyrillic
+  - value: ES
+    label: ES
+  - value: ES2
+    label: ES2
+  - value: EUC-JP
+    label: EUC-JP
+  - value: EUC-KR
+    label: EUC-KR
+  - value: Extended_UNIX_Code_Fixed_Width_for_Japanese
+    label: Extended_UNIX_Code_Fixed_Width_for_Japanese
+  - value: GB18030
+    label: GB18030
+  - value: GB2312
+    label: GB2312
+  - value: GBK
+    label: GBK
+  - value: GB_1988-80
+    label: GB_1988-80
+  - value: GB_2312-80
+    label: GB_2312-80
+  - value: GOST_19768-74
+    label: GOST_19768-74
+  - value: HP-DeskTop
+    label: HP-DeskTop
+  - value: HP-Legal
+    label: HP-Legal
+  - value: HP-Math8
+    label: HP-Math8
+  - value: HP-Pi-font
+    label: HP-Pi-font
+  - value: HZ-GB-2312
+    label: HZ-GB-2312
+  - value: IBM-Symbols
+    label: IBM-Symbols
+  - value: IBM-Thai
+    label: IBM-Thai
+  - value: IBM00858
+    label: IBM00858
+  - value: IBM00924
+    label: IBM00924
+  - value: IBM01140
+    label: IBM01140
+  - value: IBM01141
+    label: IBM01141
+  - value: IBM01142
+    label: IBM01142
+  - value: IBM01143
+    label: IBM01143
+  - value: IBM01144
+    label: IBM01144
+  - value: IBM01145
+    label: IBM01145
+  - value: IBM01146
+    label: IBM01146
+  - value: IBM01147
+    label: IBM01147
+  - value: IBM01148
+    label: IBM01148
+  - value: IBM01149
+    label: IBM01149
+  - value: IBM037
+    label: IBM037
+  - value: IBM038
+    label: IBM038
+  - value: IBM1026
+    label: IBM1026
+  - value: IBM1047
+    label: IBM1047
+  - value: IBM273
+    label: IBM273
+  - value: IBM274
+    label: IBM274
+  - value: IBM275
+    label: IBM275
+  - value: IBM277
+    label: IBM277
+  - value: IBM278
+    label: IBM278
+  - value: IBM280
+    label: IBM280
+  - value: IBM281
+    label: IBM281
+  - value: IBM284
+    label: IBM284
+  - value: IBM285
+    label: IBM285
+  - value: IBM290
+    label: IBM290
+  - value: IBM297
+    label: IBM297
+  - value: IBM420
+    label: IBM420
+  - value: IBM423
+    label: IBM423
+  - value: IBM424
+    label: IBM424
+  - value: IBM437
+    label: IBM437
+  - value: IBM500
+    label: IBM500
+  - value: IBM775
+    label: IBM775
+  - value: IBM850
+    label: IBM850
+  - value: IBM851
+    label: IBM851
+  - value: IBM852
+    label: IBM852
+  - value: IBM855
+    label: IBM855
+  - value: IBM857
+    label: IBM857
+  - value: IBM860
+    label: IBM860
+  - value: IBM861
+    label: IBM861
+  - value: IBM862
+    label: IBM862
+  - value: IBM863
+    label: IBM863
+  - value: IBM864
+    label: IBM864
+  - value: IBM865
+    label: IBM865
+  - value: IBM866
+    label: IBM866
+  - value: IBM868
+    label: IBM868
+  - value: IBM869
+    label: IBM869
+  - value: IBM870
+    label: IBM870
+  - value: IBM871
+    label: IBM871
+  - value: IBM880
+    label: IBM880
+  - value: IBM891
+    label: IBM891
+  - value: IBM903
+    label: IBM903
+  - value: IBM904
+    label: IBM904
+  - value: IBM905
+    label: IBM905
+  - value: IBM918
+    label: IBM918
+  - value: IEC_P27-1
+    label: IEC_P27-1
+  - value: INIS
+    label: INIS
+  - value: INIS-8
+    label: INIS-8
+  - value: INIS-cyrillic
+    label: INIS-cyrillic
+  - value: INVARIANT
+    label: INVARIANT
+  - value: ISO-10646-J-1
+    label: ISO-10646-J-1
+  - value: ISO-10646-UCS-2
+    label: ISO-10646-UCS-2
+  - value: ISO-10646-UCS-4
+    label: ISO-10646-UCS-4
+  - value: ISO-10646-UCS-Basic
+    label: ISO-10646-UCS-Basic
+  - value: ISO-10646-UTF-1
+    label: ISO-10646-UTF-1
+  - value: ISO-10646-Unicode-Latin1
+    label: ISO-10646-Unicode-Latin1
+  - value: ISO-11548-1
+    label: ISO-11548-1
+  - value: ISO-2022-CN
+    label: ISO-2022-CN
+  - value: ISO-2022-CN-EXT
+    label: ISO-2022-CN-EXT
+  - value: ISO-2022-JP
+    label: ISO-2022-JP
+  - value: ISO-2022-JP-2
+    label: ISO-2022-JP-2
+  - value: ISO-2022-KR
+    label: ISO-2022-KR
+  - value: ISO-8859-1
+    label: ISO-8859-1
+  - value: ISO-8859-1-Windows-3.0-Latin-1
+    label: ISO-8859-1-Windows-3.0-Latin-1
+  - value: ISO-8859-1-Windows-3.1-Latin-1
+    label: ISO-8859-1-Windows-3.1-Latin-1
+  - value: ISO-8859-10
+    label: ISO-8859-10
+  - value: ISO-8859-13
+    label: ISO-8859-13
+  - value: ISO-8859-14
+    label: ISO-8859-14
+  - value: ISO-8859-15
+    label: ISO-8859-15
+  - value: ISO-8859-16
+    label: ISO-8859-16
+  - value: ISO-8859-2
+    label: ISO-8859-2
+  - value: ISO-8859-2-Windows-Latin-2
+    label: ISO-8859-2-Windows-Latin-2
+  - value: ISO-8859-3
+    label: ISO-8859-3
+  - value: ISO-8859-4
+    label: ISO-8859-4
+  - value: ISO-8859-5
+    label: ISO-8859-5
+  - value: ISO-8859-6
+    label: ISO-8859-6
+  - value: ISO-8859-6-E
+    label: ISO-8859-6-E
+  - value: ISO-8859-6-I
+    label: ISO-8859-6-I
+  - value: ISO-8859-7
+    label: ISO-8859-7
+  - value: ISO-8859-8
+    label: ISO-8859-8
+  - value: ISO-8859-8-E
+    label: ISO-8859-8-E
+  - value: ISO-8859-8-I
+    label: ISO-8859-8-I
+  - value: ISO-8859-9
+    label: ISO-8859-9
+  - value: ISO-8859-9-Windows-Latin-5
+    label: ISO-8859-9-Windows-Latin-5
+  - value: ISO-Unicode-IBM-1261
+    label: ISO-Unicode-IBM-1261
+  - value: ISO-Unicode-IBM-1264
+    label: ISO-Unicode-IBM-1264
+  - value: ISO-Unicode-IBM-1265
+    label: ISO-Unicode-IBM-1265
+  - value: ISO-Unicode-IBM-1268
+    label: ISO-Unicode-IBM-1268
+  - value: ISO-Unicode-IBM-1276
+    label: ISO-Unicode-IBM-1276
+  - value: ISO_10367-box
+    label: ISO_10367-box
+  - value: ISO_2033-1983
+    label: ISO_2033-1983
+  - value: ISO_5427
+    label: ISO_5427
+  - value: ISO_5427:1981
+    label: ISO_5427:1981
+  - value: ISO_5428:1980
+    label: ISO_5428:1980
+  - value: ISO_646.basic:1983
+    label: ISO_646.basic:1983
+  - value: ISO_646.irv:1983
+    label: ISO_646.irv:1983
+  - value: ISO_6937-2-25
+    label: ISO_6937-2-25
+  - value: ISO_6937-2-add
+    label: ISO_6937-2-add
+  - value: ISO_8859-supp
+    label: ISO_8859-supp
+  - value: IT
+    label: IT
+  - value: JIS_C6220-1969-jp
+    label: JIS_C6220-1969-jp
+  - value: JIS_C6220-1969-ro
+    label: JIS_C6220-1969-ro
+  - value: JIS_C6226-1978
+    label: JIS_C6226-1978
+  - value: JIS_C6226-1983
+    label: JIS_C6226-1983
+  - value: JIS_C6229-1984-a
+    label: JIS_C6229-1984-a
+  - value: JIS_C6229-1984-b
+    label: JIS_C6229-1984-b
+  - value: JIS_C6229-1984-b-add
+    label: JIS_C6229-1984-b-add
+  - value: JIS_C6229-1984-hand
+    label: JIS_C6229-1984-hand
+  - value: JIS_C6229-1984-hand-add
+    label: JIS_C6229-1984-hand-add
+  - value: JIS_C6229-1984-kana
+    label: JIS_C6229-1984-kana
+  - value: JIS_Encoding
+    label: JIS_Encoding
+  - value: JIS_X0201
+    label: JIS_X0201
+  - value: JIS_X0212-1990
+    label: JIS_X0212-1990
+  - value: JUS_I.B1.002
+    label: JUS_I.B1.002
+  - value: JUS_I.B1.003-mac
+    label: JUS_I.B1.003-mac
+  - value: JUS_I.B1.003-serb
+    label: JUS_I.B1.003-serb
+  - value: KOI7-switched
+    label: KOI7-switched
+  - value: KOI8-R
+    label: KOI8-R
+  - value: KOI8-U
+    label: KOI8-U
+  - value: KSC5636
+    label: KSC5636
+  - value: KS_C_5601-1987
+    label: KS_C_5601-1987
+  - value: KZ-1048
+    label: KZ-1048
+  - value: Latin-greek-1
+    label: Latin-greek-1
+  - value: MNEM
+    label: MNEM
+  - value: MNEMONIC
+    label: MNEMONIC
+  - value: MSZ_7795.3
+    label: MSZ_7795.3
+  - value: Microsoft-Publishing
+    label: Microsoft-Publishing
+  - value: NATS-DANO
+    label: NATS-DANO
+  - value: NATS-DANO-ADD
+    label: NATS-DANO-ADD
+  - value: NATS-SEFI
+    label: NATS-SEFI
+  - value: NATS-SEFI-ADD
+    label: NATS-SEFI-ADD
+  - value: NC_NC00-10:81
+    label: NC_NC00-10:81
+  - value: NF_Z_62-010
+    label: NF_Z_62-010
+  - value: NF_Z_62-010_(1973)
+    label: NF_Z_62-010_(1973)
+  - value: NS_4551-1
+    label: NS_4551-1
+  - value: NS_4551-2
+    label: NS_4551-2
+  - value: OSD_EBCDIC_DF03_IRV
+    label: OSD_EBCDIC_DF03_IRV
+  - value: OSD_EBCDIC_DF04_1
+    label: OSD_EBCDIC_DF04_1
+  - value: OSD_EBCDIC_DF04_15
+    label: OSD_EBCDIC_DF04_15
+  - value: PC8-Danish-Norwegian
+    label: PC8-Danish-Norwegian
+  - value: PC8-Turkish
+    label: PC8-Turkish
+  - value: PT
+    label: PT
+  - value: PT2
+    label: PT2
+  - value: PTCP154
+    label: PTCP154
+  - value: SCSU
+    label: SCSU
+  - value: SEN_850200_B
+    label: SEN_850200_B
+  - value: SEN_850200_C
+    label: SEN_850200_C
+  - value: Shift_JIS
+    label: Shift_JIS
+  - value: T.101-G2
+    label: T.101-G2
+  - value: T.61-7bit
+    label: T.61-7bit
+  - value: T.61-8bit
+    label: T.61-8bit
+  - value: TIS-620
+    label: TIS-620
+  - value: TSCII
+    label: TSCII
+  - value: UNICODE-1-1
+    label: UNICODE-1-1
+  - value: UNICODE-1-1-UTF-7
+    label: UNICODE-1-1-UTF-7
+  - value: UNKNOWN-8BIT
+    label: UNKNOWN-8BIT
+  - value: US-ASCII
+    label: US-ASCII
+  - value: UTF-16
+    label: UTF-16
+  - value: UTF-16BE
+    label: UTF-16BE
+  - value: UTF-16LE
+    label: UTF-16LE
+  - value: UTF-32
+    label: UTF-32
+  - value: UTF-32BE
+    label: UTF-32BE
+  - value: UTF-32LE
+    label: UTF-32LE
+  - value: UTF-7
+    label: UTF-7
+  - value: UTF-7-IMAP
+    label: UTF-7-IMAP
+  - value: UTF-8
+    label: UTF-8
+  - value: VIQR
+    label: VIQR
+  - value: VISCII
+    label: VISCII
+  - value: Ventura-International
+    label: Ventura-International
+  - value: Ventura-Math
+    label: Ventura-Math
+  - value: Ventura-US
+    label: Ventura-US
+  - value: Windows-31J
+    label: Windows-31J
+  - value: dk-us
+    label: dk-us
+  - value: greek-ccitt
+    label: greek-ccitt
+  - value: greek7
+    label: greek7
+  - value: greek7-old
+    label: greek7-old
+  - value: hp-roman8
+    label: hp-roman8
+  - value: iso-ir-90
+    label: iso-ir-90
+  - value: latin-greek
+    label: latin-greek
+  - value: latin-lap
+    label: latin-lap
+  - value: macintosh
+    label: macintosh
+  - value: us-dk
+    label: us-dk
+  - value: videotex-suppl
+    label: videotex-suppl
+  - value: windows-1250
+    label: windows-1250
+  - value: windows-1251
+    label: windows-1251
+  - value: windows-1252
+    label: windows-1252
+  - value: windows-1253
+    label: windows-1253
+  - value: windows-1254
+    label: windows-1254
+  - value: windows-1255
+    label: windows-1255
+  - value: windows-1256
+    label: windows-1256
+  - value: windows-1257
+    label: windows-1257
+  - value: windows-1258
+    label: windows-1258
+  - value: windows-874
+    label: windows-874
 - field_name: mobility_data_standard
   label: Mobility data standard
   required: true
@@ -2389,6 +2911,16 @@ resource_fields:
     label: TN-ITS
   - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/tpegml
     label: tpegML
+- field_name: communication_method
+  label: communication method
+  required: false
+  preset: select
+  form_include_blank_choice: true
+  choices:
+  - value: https://w3id.org/mobilitydcat-ap/communication-method/pull
+    label: Pull
+  - value: https://w3id.org/mobilitydcat-ap/communication-method/push
+    label: Push
 - field_name: format_iri
   required: false
   form_snippet: null

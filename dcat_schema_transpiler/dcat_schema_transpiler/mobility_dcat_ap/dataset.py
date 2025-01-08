@@ -19,9 +19,13 @@ from rdflib.namespace import (
 from dcat_schema_transpiler.cache.vocabularies import (
     is_local_file_created,
     get_cached_file_path,
-    cache_vocabulary,
+    cache_content,
 )
-from dcat_schema_transpiler.integration.client import get_graph_url, get_serialized_rdf
+from dcat_schema_transpiler.integration.client import (
+    get_csv,
+    get_graph_url,
+    get_serialized_rdf,
+)
 from dcat_schema_transpiler.mobility_dcat_ap.namespace import (
     MOBILITYDCATAP_NS_URL,
     MOBILITYDCATAP,
@@ -92,6 +96,10 @@ CVOCAB_INTENDED_INFORMATION_SERVICE = Namespace(
     "https://w3id.org/mobilitydcat-ap/intended-information-service#"
 )
 
+CNT_CHARACTERENCODING_SETS = (
+    "https://www.iana.org/assignments/character-sets/character-sets-1.csv"
+)
+
 mobility_dcat_namespaces = {
     "adms": ADMS,
     "bibo": BIBO,
@@ -138,6 +146,7 @@ controlled_vocabularies = [
     CVOCAB_NETWORK_COVERAGE,
     CVOCAB_AGENT_TYPE,
     CVOCAB_INTENDED_INFORMATION_SERVICE,
+    CVOCAB_COMMUNICATION_METHOD,
 ]
 
 
@@ -467,8 +476,8 @@ def set_content_for_graph(graph: Graph) -> None:
     serialization_format = fetch_info.serialization_format
     graph.parse(graph_url, format=fetch_info.get_mime_type())
 
-    cache_content = get_serialized_rdf(graph_url, serialization_format)
-    cache_vocabulary(cache_content, ns, serialization_format)
+    cacheable_content = get_serialized_rdf(graph_url, serialization_format)
+    cache_content(cacheable_content, ns, serialization_format)
 
 
 def populate_dataset(ds: Dataset, namespace: Namespace) -> None:
@@ -496,15 +505,20 @@ def create_dataset() -> Dataset:
         g_mobility_dcat.parse(get_cached_file_path(URIRef(MOBILITYDCATAP_NS_URL)))
     else:
         g_mobility_dcat.parse(mobility_dcat_v_1_0_1_url)
-        cache_content = get_serialized_rdf(mobility_dcat_v_1_0_1_url, "ttl")
-        cache_vocabulary(cache_content, URIRef(MOBILITYDCATAP_NS_URL), "ttl")
+        cacheable_content = get_serialized_rdf(mobility_dcat_v_1_0_1_url, "ttl")
+        cache_content(cacheable_content, URIRef(MOBILITYDCATAP_NS_URL), "ttl")
 
     if is_local_file_created(URIRef(DCATAP_NS_URL)):
         g_dcat_ap.parse(get_cached_file_path(URIRef(DCATAP_NS_URL)))
     else:
         g_dcat_ap.parse(dcat_ap_v_2_0_1_url)
-        cache_content = get_serialized_rdf(dcat_ap_v_2_0_1_url, "rdf")
-        cache_vocabulary(cache_content, URIRef(DCATAP_NS_URL), "rdf")
+        cacheable_content = get_serialized_rdf(dcat_ap_v_2_0_1_url, "rdf")
+        cache_content(cacheable_content, URIRef(DCATAP_NS_URL), "rdf")
+    # not a standard rdf/ttl vocabulary but represents the range of property cnt:characterEncoding
+    if not is_local_file_created(CNT_CHARACTERENCODING_SETS):
+        print(f" # Fetching {CNT_CHARACTERENCODING_SETS} ...")
+        cacheable_content = get_csv(CNT_CHARACTERENCODING_SETS)
+        cache_content(cacheable_content, URIRef(CNT_CHARACTERENCODING_SETS), "csv")
 
     mobilitydcatap_fixes(g_mobility_dcat)
 
