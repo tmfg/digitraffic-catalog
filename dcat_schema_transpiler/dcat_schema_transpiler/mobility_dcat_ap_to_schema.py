@@ -87,6 +87,7 @@ def sort_resource_fields(resource_fields: List[Dict[str, Any]]):
         "name_translated",
         "description_translated",
         "format",
+        "application_layer_protocol",
         "mobility_data_standard_schema",
         "mobility_data_standard_version",
         "rights_type",
@@ -103,7 +104,7 @@ def resource_fields(ds: Dataset) -> List:
     ckan_defaults = {DCTERMS.license, DCTERMS.title, DCTERMS.description}
 
     distribution_fields_to_omit = (
-        Distribution.recommended_properties | Distribution.optional_properties
+        Distribution.recommended_properties - {MOBILITYDCATAP.applicationLayerProtocol} | Distribution.optional_properties
     ) - ckan_defaults
 
     class_converter = ClassConverter(distribution, ds)
@@ -152,21 +153,10 @@ def dataset_fields(ds: Dataset) -> List:
     omitted_dataset_fields = (
         {
             # Dataset publisher is set to the organization
-            DCTERMS.publisher
+            DCTERMS.publisher,
+            # Keywords, i.e. tags, are not implemented
+            DCAT.keyword,
         }
-        | (
-            DCATDataset.recommended_properties
-            - {
-                MOBILITYDCATAP.georeferencingMethod,
-                DCAT.contactPoint,
-                MOBILITYDCATAP.networkCoverage,
-                DCTERMS.conformsTo,
-                DCTERMS.rightsHolder,
-                DCTERMS.temporal,
-                DCAT.theme,
-                MOBILITYDCATAP.transportMode
-            }
-        )
         | (
             DCATDataset.optional_properties
             - {
