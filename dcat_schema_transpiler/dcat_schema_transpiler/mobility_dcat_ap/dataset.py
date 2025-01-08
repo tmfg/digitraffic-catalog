@@ -57,7 +57,7 @@ CVOCAB_MOBILITY_DATA_STANDARD = Namespace(
 )
 CVOCAB_GRAMMAR = Namespace("https://w3id.org/mobilitydcat-ap/grammar/")
 CVOCAB_APPLICATION_LAYER_PROTOCOL = Namespace(
-    "https://w3id.org/mobilitydcat-ap/application-layer-protocol/"
+    "https://w3id.org/mobilitydcat-ap/application-layer-protocol#"
 )
 CVOCAB_COMMUNICATION_METHOD = Namespace(
     "https://w3id.org/mobilitydcat-ap/communication-method/"
@@ -420,7 +420,7 @@ def ns_fetch_info(ns: URIRef) -> NsFetchInfo | None:
     elif str(ns) == "https://w3id.org/mobilitydcat-ap/grammar/":
         graph_url, _ = get_graph_url(ns)
         serialization_format = "ttl"
-    elif str(ns) == "https://w3id.org/mobilitydcat-ap/application-layer-protocol/":
+    elif str(ns) == "https://w3id.org/mobilitydcat-ap/application-layer-protocol#":
         graph_url, _ = get_graph_url(ns)
         serialization_format = "ttl"
     elif str(ns) == "https://w3id.org/mobilitydcat-ap/communication-method/":

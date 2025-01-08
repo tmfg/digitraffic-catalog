@@ -52,6 +52,7 @@ class Distribution(RangeValueConverter):
             DCTERMS.format: "format",
             DCTERMS.title: "name_translated",
             DCTERMS.description: "description_translated",
+            MOBILITYDCATAP.applicationLayerProtocol: "application_layer_protocol"
         }
         field_name = mappings.get(p.iri)
 

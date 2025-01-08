@@ -423,6 +423,60 @@ dataset_fields:
 - field_name: end_timestamp
   label: End time
   preset: datetime_tz
+- field_name: transport_mode
+  label: Transport Mode
+  required: false
+  preset: select
+  form_include_blank_choice: true
+  choices:
+  - value: https://w3id.org/mobilitydcat-ap/transport-mode/air
+    label: Air
+  - value: https://w3id.org/mobilitydcat-ap/transport-mode/bicycle
+    label: Bicycle
+  - value: https://w3id.org/mobilitydcat-ap/transport-mode/bike-hire
+    label: Bike Hire
+  - value: https://w3id.org/mobilitydcat-ap/transport-mode/bike-sharing
+    label: Bike Sharing
+  - value: https://w3id.org/mobilitydcat-ap/transport-mode/bus
+    label: Bus
+  - value: https://w3id.org/mobilitydcat-ap/transport-mode/car
+    label: Car
+  - value: https://w3id.org/mobilitydcat-ap/transport-mode/car-hire
+    label: Car Hire
+  - value: https://w3id.org/mobilitydcat-ap/transport-mode/car-pooling
+    label: Car Pooling
+  - value: https://w3id.org/mobilitydcat-ap/transport-mode/car-sharing
+    label: Car Sharing
+  - value: https://w3id.org/mobilitydcat-ap/transport-mode/e-scooter
+    label: E-Scooter
+  - value: https://w3id.org/mobilitydcat-ap/transport-mode/long-distance-coach
+    label: Long-distance coach
+  - value: https://w3id.org/mobilitydcat-ap/transport-mode/long-distance-rail
+    label: Long-distance rail
+  - value: https://w3id.org/mobilitydcat-ap/transport-mode/maritime
+    label: Maritime
+  - value: https://w3id.org/mobilitydcat-ap/transport-mode/metro-subway-train
+    label: Metro, Subway train
+  - value: https://w3id.org/mobilitydcat-ap/transport-mode/motorcycle
+    label: Motorcycle
+  - value: https://w3id.org/mobilitydcat-ap/transport-mode/other
+    label: Other
+  - value: https://w3id.org/mobilitydcat-ap/transport-mode/pedestrian
+    label: Pedestrian
+  - value: https://w3id.org/mobilitydcat-ap/transport-mode/regional-and-local-rail
+    label: Regional and local rail
+  - value: https://w3id.org/mobilitydcat-ap/transport-mode/ride-pooling
+    label: Ride Pooling
+  - value: https://w3id.org/mobilitydcat-ap/transport-mode/shuttle-bus
+    label: Shuttle bus
+  - value: https://w3id.org/mobilitydcat-ap/transport-mode/shuttle-ferry
+    label: Shuttle ferry
+  - value: https://w3id.org/mobilitydcat-ap/transport-mode/taxi
+    label: Taxi
+  - value: https://w3id.org/mobilitydcat-ap/transport-mode/tram-light-rail
+    label: Tram, Light rail
+  - value: https://w3id.org/mobilitydcat-ap/transport-mode/truck
+    label: Truck
 - field_name: spatial
   label: Location
   required: true
@@ -1289,60 +1343,6 @@ dataset_fields:
   - field_name: thoroughfare
     label: thoroughfare
     required: false
-- field_name: transport_mode
-  label: Transport Mode
-  required: false
-  preset: select
-  form_include_blank_choice: true
-  choices:
-  - value: https://w3id.org/mobilitydcat-ap/transport-mode/air
-    label: Air
-  - value: https://w3id.org/mobilitydcat-ap/transport-mode/bicycle
-    label: Bicycle
-  - value: https://w3id.org/mobilitydcat-ap/transport-mode/bike-hire
-    label: Bike Hire
-  - value: https://w3id.org/mobilitydcat-ap/transport-mode/bike-sharing
-    label: Bike Sharing
-  - value: https://w3id.org/mobilitydcat-ap/transport-mode/bus
-    label: Bus
-  - value: https://w3id.org/mobilitydcat-ap/transport-mode/car
-    label: Car
-  - value: https://w3id.org/mobilitydcat-ap/transport-mode/car-hire
-    label: Car Hire
-  - value: https://w3id.org/mobilitydcat-ap/transport-mode/car-pooling
-    label: Car Pooling
-  - value: https://w3id.org/mobilitydcat-ap/transport-mode/car-sharing
-    label: Car Sharing
-  - value: https://w3id.org/mobilitydcat-ap/transport-mode/e-scooter
-    label: E-Scooter
-  - value: https://w3id.org/mobilitydcat-ap/transport-mode/long-distance-coach
-    label: Long-distance coach
-  - value: https://w3id.org/mobilitydcat-ap/transport-mode/long-distance-rail
-    label: Long-distance rail
-  - value: https://w3id.org/mobilitydcat-ap/transport-mode/maritime
-    label: Maritime
-  - value: https://w3id.org/mobilitydcat-ap/transport-mode/metro-subway-train
-    label: Metro, Subway train
-  - value: https://w3id.org/mobilitydcat-ap/transport-mode/motorcycle
-    label: Motorcycle
-  - value: https://w3id.org/mobilitydcat-ap/transport-mode/other
-    label: Other
-  - value: https://w3id.org/mobilitydcat-ap/transport-mode/pedestrian
-    label: Pedestrian
-  - value: https://w3id.org/mobilitydcat-ap/transport-mode/regional-and-local-rail
-    label: Regional and local rail
-  - value: https://w3id.org/mobilitydcat-ap/transport-mode/ride-pooling
-    label: Ride Pooling
-  - value: https://w3id.org/mobilitydcat-ap/transport-mode/shuttle-bus
-    label: Shuttle bus
-  - value: https://w3id.org/mobilitydcat-ap/transport-mode/shuttle-ferry
-    label: Shuttle ferry
-  - value: https://w3id.org/mobilitydcat-ap/transport-mode/taxi
-    label: Taxi
-  - value: https://w3id.org/mobilitydcat-ap/transport-mode/tram-light-rail
-    label: Tram, Light rail
-  - value: https://w3id.org/mobilitydcat-ap/transport-mode/truck
-    label: Truck
 resource_fields:
 - field_name: url
   label: access address
@@ -2015,6 +2015,32 @@ resource_fields:
   - value: xz
     label: xz
     iri: http://publications.europa.eu/resource/authority/file-type/XZ
+- field_name: application_layer_protocol
+  label: application layer protocol
+  required: false
+  preset: select
+  form_include_blank_choice: true
+  choices:
+  - value: https://w3id.org/mobilitydcat-ap/application-layer-protocol/amqp
+    label: AMQP
+  - value: https://w3id.org/mobilitydcat-ap/application-layer-protocol/ftp
+    label: FTP
+  - value: https://w3id.org/mobilitydcat-ap/application-layer-protocol/http-https
+    label: HTTP HTTPS
+  - value: https://w3id.org/mobilitydcat-ap/application-layer-protocol/mqtt
+    label: MQTT
+  - value: https://w3id.org/mobilitydcat-ap/application-layer-protocol/ocit
+    label: OCIT
+  - value: https://w3id.org/mobilitydcat-ap/application-layer-protocol/ots2
+    label: OTS2
+  - value: https://w3id.org/mobilitydcat-ap/application-layer-protocol/other
+    label: Other
+  - value: https://w3id.org/mobilitydcat-ap/application-layer-protocol/rss
+    label: RSS
+  - value: https://w3id.org/mobilitydcat-ap/application-layer-protocol/soap
+    label: SOAP
+  - value: https://w3id.org/mobilitydcat-ap/application-layer-protocol/grpc
+    label: gRPC
 - field_name: rights_type
   label: Conditions for access and usage
   required: true
