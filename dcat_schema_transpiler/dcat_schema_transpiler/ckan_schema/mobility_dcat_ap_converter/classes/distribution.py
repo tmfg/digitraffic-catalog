@@ -92,7 +92,7 @@ class Distribution(RangeValueConverter):
                 return r_value | {
                     "preset": "select",
                     "form_include_blank_choice": True,
-                    # non-standard vocabulary
+                    # choices are taken from specific csv data set
                     "choices": super().choices_from_cached_csv(
                         CNT_CHARACTERENCODING_SETS, "Preferred MIME Name", "Name"
                     ),

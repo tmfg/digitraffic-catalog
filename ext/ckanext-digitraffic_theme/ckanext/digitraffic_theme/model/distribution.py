@@ -7,8 +7,11 @@ from ckanext.digitraffic_theme.model.mobility_data_standard import (
     MobilityDataStandard,
 )
 from ckanext.digitraffic_theme.model.rights_statement import RightsStatement
+from ckanext.digitraffic_theme.model.communication_method import CommunicationMethod
+
 from ckanext.digitraffic_theme.model.format import Format
 from ckanext.digitraffic_theme.rdf.mobility_dcat_ap import MOBILITYDCATAP
+from ckanext.digitraffic_theme.rdf.cnt import CNT
 
 
 class Distribution(ClassInstance):
@@ -17,6 +20,9 @@ class Distribution(ClassInstance):
     mobilityDataStandard: MobilityDataStandard
     rights: RightsStatement
     description: List[Literal]
+    # optional properties
+    communicationMethod: CommunicationMethod
+    characterEncoding: Literal
 
     def __init__(self, iri: str, data: dict[str, Any]):
         super().__init__(iri, DCAT.Distribution)
@@ -30,6 +36,8 @@ class Distribution(ClassInstance):
             data["mobility_data_standard"],
         )
         self.rights = RightsStatement(None, data["rights_type"])
+        self.communicationMethod = CommunicationMethod(data["communication_method"])
+        self.characterEncoding = Literal(data["character_encoding"])
 
     def predicate_objects(self):
         return [
@@ -40,4 +48,14 @@ class Distribution(ClassInstance):
             (DCTERMS.rights, self.rights),
             # multilingual field
             *[(DCTERMS.description, entry) for entry in self.description],
+            (
+                (MOBILITYDCATAP.communicationMethod, self.communicationMethod)
+                if self.communicationMethod
+                else None
+            ),
+            (
+                (CNT.characterEncoding, self.characterEncoding)
+                if self.characterEncoding
+                else None
+            ),
         ]
