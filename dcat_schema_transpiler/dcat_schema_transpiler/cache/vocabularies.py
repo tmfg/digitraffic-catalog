@@ -8,21 +8,21 @@ from typing import Literal
 from rdflib import URIRef
 
 
-def ns_to_encoded(ns: str) -> str:
-    ns_hashed = hashlib.md5(bytes(str(ns), "utf-8"))
+def ns_to_encoded(name: str) -> str:
+    ns_hashed = hashlib.md5(bytes(str(name), "utf-8"))
     return base64.b32encode(ns_hashed.digest()).decode("utf-8").replace("=", "")
 
 
-def get_cached_file_path(ns: str) -> str:
-    cached_file_name = ns_to_encoded(ns)
+def get_cached_file_path(name: str) -> str:
+    cached_file_name = ns_to_encoded(name)
     file_abspath = os.path.abspath("./vocabularies/" + cached_file_name)
     files = glob.glob(file_abspath + ".*")
     if files:
         return files[0]
 
 
-def is_local_file_created(ns: str):
-    cached_file_name = ns_to_encoded(ns)
+def is_local_file_created(name: str):
+    cached_file_name = ns_to_encoded(name)
     file_abspath = os.path.abspath("./vocabularies/" + cached_file_name)
 
     if glob.glob(file_abspath + ".*"):
@@ -30,11 +30,11 @@ def is_local_file_created(ns: str):
     return False
 
 
-def create_cached_file(ns: str, format: Literal["rdf", "ttl"]) -> str:
-    if is_local_file_created(ns):
-        return get_cached_file_path(ns)
+def create_cached_file(name: str, format: Literal["rdf", "ttl", "csv"]) -> str:
+    if is_local_file_created(name):
+        return get_cached_file_path(name)
     else:
-        cached_file_name = ns_to_encoded(ns)
+        cached_file_name = ns_to_encoded(name)
         file_abspath = os.path.abspath(
             "./vocabularies/" + cached_file_name + "." + format
         )
@@ -46,9 +46,9 @@ def create_cached_file(ns: str, format: Literal["rdf", "ttl"]) -> str:
         return file_abspath
 
 
-def cache_vocabulary(
-    cache_content: str, ns: URIRef, serialization_format: Literal["rdf", "ttl"]
+def cache_content(
+    content: str, name: URIRef, serialization_format: Literal["rdf", "ttl", "csv"]
 ):
-    cached_file = create_cached_file(ns, serialization_format)
+    cached_file = create_cached_file(name, serialization_format)
     with open(cached_file, "w") as file:
-        file.write(cache_content)
+        file.write(content)

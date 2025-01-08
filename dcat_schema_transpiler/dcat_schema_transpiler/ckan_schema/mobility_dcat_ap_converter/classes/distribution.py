@@ -8,6 +8,7 @@ from ckan_schema.mobility_dcat_ap_converter.range_value_converter import (
 from mobility_dcat_ap.dataset import (
     CNT,
     ADMS,
+    CNT_CHARACTERENCODING_SETS,
     CVOCAB_COMMUNICATION_METHOD,
     CVOCAB_APPLICATION_LAYER_PROTOCOL,
     CVOCAB_GRAMMAR,
@@ -52,6 +53,8 @@ class Distribution(RangeValueConverter):
             DCTERMS.format: "format",
             DCTERMS.title: "name_translated",
             DCTERMS.description: "description_translated",
+            MOBILITYDCATAP.communicationMethod: "communication_method",
+            CNT.characterEncoding: "character_encoding",
         }
         field_name = mappings.get(p.iri)
 
@@ -83,6 +86,17 @@ class Distribution(RangeValueConverter):
                 for vocabulary_range in vocabulary_ranges
             ):
                 return self.controlled_vocab_field(clazz_p, ds, is_required)
+
+            if clazz_p.is_iri(CNT.characterEncoding):
+                r_value = super().get_schema(ds, clazz_p, is_required=False)
+                return r_value | {
+                    "preset": "select",
+                    "form_include_blank_choice": True,
+                    # non-standard vocabulary
+                    "choices": super().choices_from_cached_csv(
+                        CNT_CHARACTERENCODING_SETS, "Preferred MIME Name", "Name"
+                    ),
+                }
 
             """
             Multilingual fields should have "required: false" at the field level.
@@ -151,6 +165,16 @@ class Distribution(RangeValueConverter):
                 return {
                     "field_name": "mobility_data_standard",
                     "label": "Mobility data standard",
+                    "required": is_required,
+                    "preset": "select",
+                    "form_include_blank_choice": True,
+                    "choices": RangeValueConverter.vocab_choices(g),
+                }
+            case MOBILITYDCATAP.communicationMethod:
+                g = ds.get_graph(URIRef(CVOCAB_COMMUNICATION_METHOD))
+                return {
+                    "field_name": "communication_method",
+                    "label": "Communication method",
                     "required": is_required,
                     "preset": "select",
                     "form_include_blank_choice": True,
