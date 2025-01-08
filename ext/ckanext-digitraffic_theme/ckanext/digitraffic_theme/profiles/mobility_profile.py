@@ -5,6 +5,7 @@ from ckanext.dcat.profiles import RDFProfile
 from ckanext.digitraffic_theme.model.organization import Organization
 from ckanext.digitraffic_theme.model.agent import Agent
 from ckanext.digitraffic_theme.rdf.oa import OA
+from ckanext.digitraffic_theme.rdf.cnt import CNT
 from ckanext.digitraffic_theme.rdf.dqv import DQV
 from ckanext.digitraffic_theme.model.location import Location
 from ckanext.digitraffic_theme.model.mobility_data import MobilityData
@@ -36,6 +37,7 @@ class MobilityDCATAPProfile(RDFProfile):
         g.bind("mobilitydcatap", MOBILITYDCATAP)
         g.bind("oa", OA)
         g.bind("dqv", DQV)
+        g.bind("cnt", CNT)
 
         self._remove_existing_self_managed_graph_data(dataset_ref)
         self._update_existing_graph_data(dataset_ref, mobility_data)
