@@ -54,7 +54,7 @@ FREQUENCY = {
 
 class Frequency(Vocabulary):
     iris = FREQUENCY
-    namespace = Namespace("https://w3id.org/mobilitydcat-ap/update-frequency/")
+    namespace = Namespace("http://publications.europa.eu/resource/authority/frequency/")
 
     def __init__(self, iri):
         super().__init__(iri)

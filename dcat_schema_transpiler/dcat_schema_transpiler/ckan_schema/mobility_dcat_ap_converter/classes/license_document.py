@@ -14,14 +14,15 @@ from mobility_dcat_ap.dataset import CVOCAB_LICENSE_IDENTIFIER
 
 class LicenseDocument(RangeValueConverter):
     iri = DCTERMS.LicenseDocument
-    mandatory_properties = [DCTERMS.identifier]
-    optional_properties = [RDFS.label]
+    mandatory_properties = set(DCTERMS.identifier)
+    optional_properties = set(RDFS.label)
 
     def __init__(self, clazz: RDFSClass):
         super().__init__(clazz)
 
     def ckan_field(self, p: RDFSProperty, pointer: str = None) -> str:
-        mappings = {DCTERMS.identifier: "license_id"}
+        mappings = {DCTERMS.identifier: "license_id",
+                    RDFS.label: "license_text"}
         field_name = mappings.get(p.iri)
 
         if field_name is not None:
@@ -40,11 +41,17 @@ class LicenseDocument(RangeValueConverter):
         return r_value
 
     def get_schema(self, ds: Dataset, clazz_p: RDFSProperty, is_required: bool = None):
-        if clazz_p.iri in LicenseDocument.mandatory_properties:
-            if clazz_p.iri in DCTERMS.identifier:
-                return self.controlled_vocab_field(clazz_p, ds, is_required)
-            return super().get_schema(ds, clazz_p, is_required)
-        return None
+        if clazz_p.is_iri(DCTERMS.identifier):
+            return self.controlled_vocab_field(clazz_p, ds, is_required)
+        if clazz_p.is_iri(RDFS.label):
+            return {
+                "field_name": self.ckan_field(clazz_p),
+                "label": "License Text",
+                "preset": "markdown",
+                "required": is_required,
+            }
+
+        return super().get_schema(ds, clazz_p, is_required)
 
     def controlled_vocab_field(
         self, p: RDFSProperty, ds: Dataset, is_required: bool
