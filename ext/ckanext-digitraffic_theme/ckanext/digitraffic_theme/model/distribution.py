@@ -21,8 +21,8 @@ class Distribution(ClassInstance):
     rights: RightsStatement
     description: List[Literal]
     # optional properties
-    communicationMethod: CommunicationMethod
-    characterEncoding: Literal
+    communicationMethod: CommunicationMethod | None
+    characterEncoding: Literal | None
 
     def __init__(self, iri: str, data: dict[str, Any]):
         super().__init__(iri, DCAT.Distribution)
@@ -36,11 +36,19 @@ class Distribution(ClassInstance):
             data["mobility_data_standard"],
         )
         self.rights = RightsStatement(None, data["rights_type"])
-        self.communicationMethod = CommunicationMethod(data["communication_method"])
-        self.characterEncoding = Literal(data["character_encoding"])
+        self.communicationMethod = (
+            CommunicationMethod(data["communication_method"])
+            if data.get("communication_method", None)
+            else None
+        )
+        self.characterEncoding = (
+            Literal(data["character_encoding"])
+            if data.get("character_encoding", None)
+            else None
+        )
 
     def predicate_objects(self):
-        return [
+        pos = [
             (RDF.type, self.type),
             (DCAT.accessURL, self.accessURL),
             (MOBILITYDCATAP.mobilityDataStandard, self.mobilityDataStandard),
@@ -59,3 +67,4 @@ class Distribution(ClassInstance):
                 else None
             ),
         ]
+        return [po for po in pos if po is not None]
