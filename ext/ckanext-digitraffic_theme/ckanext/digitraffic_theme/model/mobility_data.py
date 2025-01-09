@@ -14,6 +14,8 @@ from ckanext.digitraffic_theme.model.location import Location
 from ckanext.digitraffic_theme.model.rights_statement import RightsStatement
 from ckanext.digitraffic_theme.model.application_layer_protocol import ApplicationLayerProtocol
 from ckanext.digitraffic_theme.model.format import Format
+from ckanext.digitraffic_theme.model.license_document import LicenseDocument
+from ckanext.digitraffic_theme.model.standard_license import StandardLicense
 from ckanext.digitraffic_theme.model.mobility_theme import (
     MobilityTheme,
     MobilityThemeSub,
@@ -158,6 +160,12 @@ class MobilityData:
                 **({"application_layer_protocol": ApplicationLayerProtocol(dist.get('application_layer_protocol'))}
                    if dist.get('application_layer_protocol')
                    else {}),
+                **({"license": LicenseDocument(None, {
+                    **({"identifier": StandardLicense(dist.get("license_id"))} if dist.get('license_id') else {}),
+                    **({"label": Literal(dist.get("license_text"))} if dist.get('license_text') else {})
+                   })}
+                   if dist.get("license_id") or dist.get("license_text")
+                   else {})
             })
             for dist in dataset_dict["resources"]
         ]

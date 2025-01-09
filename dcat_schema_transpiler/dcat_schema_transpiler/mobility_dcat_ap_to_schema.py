@@ -92,6 +92,7 @@ def sort_resource_fields(resource_fields: List[Dict[str, Any]]):
         "mobility_data_standard_version",
         "rights_type",
         "license_id",
+        "license_text"
     ]
     resource_fields.sort(key=partial(sort_by_field_name, order))
     sort_dropdowns(resource_fields)
@@ -103,16 +104,13 @@ def resource_fields(ds: Dataset) -> List:
 
     ckan_defaults = {DCTERMS.license, DCTERMS.title, DCTERMS.description}
 
-    distribution_fields_to_omit = (
-        Distribution.recommended_properties - {MOBILITYDCATAP.applicationLayerProtocol} | Distribution.optional_properties
-    ) - ckan_defaults
+    distribution_fields_to_omit = Distribution.optional_properties - ckan_defaults
 
     class_converter = ClassConverter(distribution, ds)
     resource_fields = class_converter.convert(
         {
             DCAT.Distribution: distribution_fields_to_omit,
             DCTERMS.RightsStatement: RightsStatement.recommended_properties,
-            DCTERMS.LicenseDocument: LicenseDocument.optional_properties,
         },
         True,
     )

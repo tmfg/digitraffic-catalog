@@ -18,7 +18,7 @@ APPLICATION_LAYER_PROTOCOL = {
 
 class ApplicationLayerProtocol(Vocabulary):
     iris = APPLICATION_LAYER_PROTOCOL
-    namespace = Namespace("https://w3id.org/mobilitydcat-ap/application-layer-protocol#")
+    namespace = Namespace("https://w3id.org/mobilitydcat-ap/application-layer-protocol/")
 
     def __init__(self, iri):
         super().__init__(iri)

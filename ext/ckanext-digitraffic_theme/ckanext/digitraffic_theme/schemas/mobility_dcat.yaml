@@ -2386,6 +2386,10 @@ resource_fields:
     label: Zero-Clause BSD / Free Public License 1.0.0 (0BSD)
   - value: http://publications.europa.eu/resource/authority/licence/ECOS_2_0
     label: eCos License version 2.0
+- field_name: license_text
+  label: License Text
+  preset: markdown
+  required: false
 - field_name: mobility_data_standard
   label: Mobility data standard
   required: true
