@@ -1,5 +1,5 @@
 import pprint
-from ckan.logic import get_action
+from ckan.logic import get_action, check_access
 import ckan.model as model
 from typing import cast
 from ckan.common import current_user
@@ -38,6 +38,8 @@ def get_datasets_as_form_choices():
     return [
         {"value": dataset["id"], "label": dataset["title"]}
         for dataset in datasets["results"]
+        # only include in the listing datasets the current user is authorized to edit
+        if check_access("package_update", context, {"id": dataset["id"]})
     ]
 
 
