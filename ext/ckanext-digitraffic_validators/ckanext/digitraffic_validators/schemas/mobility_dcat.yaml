@@ -1259,6 +1259,12 @@ dataset_fields:
   required: false
   preset: dataset_reference_select
   choices: ''
+  validators: scheming_required ignore_missing dataset_reference_validator
+- field_name: is_referenced_by
+  label: Is referenced by
+  form_snippet: null
+  required: false
+  output_validators: dataset_referenced_by_output_validator
 - field_name: rights_holder
   label: Rights holder
   repeating_subfields:
@@ -1332,11 +1338,11 @@ dataset_fields:
   - field_name: thoroughfare
     label: thoroughfare
     required: false
-- field_name: end_timestamp
-  label: End time
-  preset: datetime
 - field_name: start_timestamp
   label: Start time
+  preset: datetime
+- field_name: end_timestamp
+  label: End time
   preset: datetime
 resource_fields:
 - field_name: url
@@ -2010,6 +2016,16 @@ resource_fields:
   - value: xz
     label: xz
     iri: http://publications.europa.eu/resource/authority/file-type/XZ
+- field_name: communication_method
+  label: communication method
+  required: false
+  preset: select
+  form_include_blank_choice: true
+  choices:
+  - value: https://w3id.org/mobilitydcat-ap/communication-method/pull
+    label: Pull
+  - value: https://w3id.org/mobilitydcat-ap/communication-method/push
+    label: Push
 - field_name: rights_type
   label: Conditions for access and usage
   required: true
@@ -2911,16 +2927,6 @@ resource_fields:
     label: TN-ITS
   - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/tpegml
     label: tpegML
-- field_name: communication_method
-  label: communication method
-  required: false
-  preset: select
-  form_include_blank_choice: true
-  choices:
-  - value: https://w3id.org/mobilitydcat-ap/communication-method/pull
-    label: Pull
-  - value: https://w3id.org/mobilitydcat-ap/communication-method/push
-    label: Push
 - field_name: format_iri
   required: false
   form_snippet: null
