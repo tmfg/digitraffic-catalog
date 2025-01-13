@@ -95,6 +95,7 @@ def sort_resource_fields(resource_fields: List[Dict[str, Any]]):
         "name_translated",
         "description_translated",
         "format",
+        "communication_method",
         "mobility_data_standard_schema",
         "mobility_data_standard_version",
         "rights_type",
@@ -185,6 +186,7 @@ def dataset_fields(ds: Dataset) -> List:
                 DQV.hasQualityAnnotation,
                 DCTERMS.language,
                 DCTERMS.relation,
+                DCTERMS.isReferencedBy,
             }
         )
     )

@@ -8,6 +8,8 @@ from ckanext.digitraffic_theme.validators.dataset_validators import (
     mobility_theme_sub_validator,
     phone_number_validator,
     spatial_reference_validator,
+    dataset_reference_validator,
+    dataset_referenced_by_output_validator,
 )
 from ckanext.digitraffic_theme.helpers.helpers import helpers
 
@@ -28,6 +30,8 @@ class DigitrafficThemePlugin(plugins.SingletonPlugin, DefaultTranslation):
             "phone_number_validator": phone_number_validator,
             "spatial_reference_validator": spatial_reference_validator,
             "dataset_reference_output_validator": dataset_reference_output_validator,
+            "dataset_reference_validator": dataset_reference_validator,
+            "dataset_referenced_by_output_validator": dataset_referenced_by_output_validator,
         }
 
     def update_config(self, config):

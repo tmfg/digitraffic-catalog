@@ -59,12 +59,12 @@ class DCATDataset(RangeValueConverter):
         MOBILITYDCATAP.assessmentResult,
         DCTERMS.hasVersion,
         DCTERMS.identifier,
-        DCTERMS.relation,
         DCTERMS.isVersionOf,
         MOBILITYDCATAP.intendedInformationService,
         DCTERMS.language,
         ADMS.identifier,
         DCTERMS.relation,
+        DCTERMS.isReferencedBy,
         DCTERMS.issued,
         DCTERMS.modified,
         OWL.versionInfo,
@@ -97,6 +97,7 @@ class DCATDataset(RangeValueConverter):
             DCTERMS.language: "language",
             DCTERMS.rightsHolder: "rights_holder",
             DCTERMS.relation: "related_resource",
+            DCTERMS.isReferencedBy: "is_referenced_by",
         }
         field_value = mappings.get(p)
         if isinstance(field_value, dict):
@@ -181,6 +182,15 @@ class DCATDataset(RangeValueConverter):
                 "required": is_required,
                 "preset": "dataset_reference_select",
                 "choices": "",
+                "validators": "scheming_required ignore_missing dataset_reference_validator",
+            }
+        if clazz_p.is_iri(DCTERMS.isReferencedBy):
+            return {
+                "field_name": self.ckan_field(clazz_p),
+                "label": "Is referenced by",
+                "form_snippet": None,
+                "required": False,
+                "output_validators": "dataset_referenced_by_output_validator",
             }
         if clazz_p.is_iri(DCTERMS.language):
             return super().get_schema(ds, clazz_p, is_required)
