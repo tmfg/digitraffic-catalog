@@ -56,6 +56,25 @@ def spatial_reference_validator(value: Any, context: Context):
     return value
 
 
+def is_referenced_by_validator(value: Any, context: Context):
+    if value:
+        return value
+
+    package = context.get("package", None)
+
+    # not doing this will result in is_referenced_by being reset for the
+    # currently edited dataset on form submit (because form data for the field will always be empty)
+    if package and not value:
+        package_details = get_action("package_show")(
+            context,
+            {"id": package.id},
+        )
+
+        return package_details.get("is_referenced_by", None)
+
+    return None
+
+
 def dataset_reference_validator(value: Any, context: Context):
     # get currently edited package from contect
     package = context.get("package", None)
@@ -69,24 +88,24 @@ def dataset_reference_validator(value: Any, context: Context):
             {"id": package.id},
         )
 
-        resource_reference = referring_dataset.get("related_resource")
+        referred_id = referring_dataset.get("related_resource")
 
         # a reference to another dataset exists if the below is true
-        if resource_reference and isinstance(resource_reference, str):
-
-            # the output validator for dataset references will transform the id into an url
-            # where the last part of the path is the id
-            referred_id = resource_reference.split("/")[-1]
+        if referred_id and isinstance(referred_id, str):
 
             # get the details of the referred dataset
             referred_dataset = get_action("package_show")(
                 context,
                 {"id": referred_id},
             )
-            reference_list = json.loads(referred_dataset["is_referenced_by"])
+            reference_list = (
+                json.loads(referred_dataset["is_referenced_by"])
+                if referred_dataset.get("is_referenced_by")
+                else None
+            )
 
             # remove the previous reference if it was found
-            if package.id in reference_list:
+            if reference_list and package.id in reference_list:
                 logger.info(
                     f"Removing reference to dataset id {package.id} from dataset id {referred_id}"
                 )
@@ -109,7 +128,7 @@ def dataset_reference_validator(value: Any, context: Context):
         ):
             # values are saved to the database as strings of json lists but the output validator transforms these to strings
             # where the list elements are separated by line breaks
-            reference_list = referred_dataset["is_referenced_by"].split("\n")
+            reference_list = json.loads(referred_dataset["is_referenced_by"])
 
             if package.id in reference_list:
                 pass
@@ -124,26 +143,3 @@ def dataset_reference_validator(value: Any, context: Context):
         get_action("package_update")(context, referred_dataset)
 
     return value
-
-
-def dataset_reference_output_validator(value: Any, context: Context):
-    ckan_site_url = config.get("ckan.site_url", "").rstrip("/")
-    # show reference to public datasets
-    if is_dataset_public(value):
-        return f"{ckan_site_url}/dataset/{value}"
-    return ""
-
-
-def dataset_referenced_by_output_validator(value: Any, context: Context):
-    if value and isinstance(json.loads(value), list):
-        ckan_site_url = config.get("ckan.site_url", "").rstrip("/")
-        dataset_ids = json.loads(value)
-        # show references made by public datasets
-        # TODO: format strings in html templates to avoid string manipulation in validator functions
-        public_datasets = [
-            f"{ckan_site_url}/dataset/{dataset_id}"
-            for dataset_id in dataset_ids
-            if is_dataset_public(dataset_id)
-        ]
-        return "\n".join(public_datasets)
-    return ""

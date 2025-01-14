@@ -34,8 +34,7 @@
       "preset_name": "dataset_reference_select",
       "values": {
         "form_snippet": "dataset_reference_select.html",
-        "validators": "scheming_required ignore_missing",
-        "output_validators": "dataset_reference_output_validator"
+        "validators": "scheming_required ignore_missing"
       }
     }
   ]

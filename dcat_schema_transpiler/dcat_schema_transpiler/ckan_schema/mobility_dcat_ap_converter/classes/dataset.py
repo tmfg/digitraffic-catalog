@@ -190,7 +190,7 @@ class DCATDataset(RangeValueConverter):
                 "label": "Is referenced by",
                 "form_snippet": None,
                 "required": False,
-                "output_validators": "dataset_referenced_by_output_validator",
+                "validators": "is_referenced_by_validator",
             }
         if clazz_p.is_iri(DCTERMS.language):
             return super().get_schema(ds, clazz_p, is_required)
