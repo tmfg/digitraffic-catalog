@@ -19,11 +19,8 @@
 {%- if field.get('sorted_choices') -%}
   {%- set options = options|sort(case_sensitive=false, attribute='text') -%}
 {%- endif -%}
-<!-- the output validator for related_resource returns a complete url,
-    strip the preceding path and only compare the dataset id against the options -->
-{%- if field.field_name == "related_resource" and data["related_resource"] -%}
-    {%- set option_selected = data[field.field_name].split('/')[-1]|string -%}
-{%- elif data[field.field_name] -%}
+
+{%- if data[field.field_name] -%}
   {%- set option_selected = data[field.field_name]|string -%}
 {%- else -%}
   {%- set option_selected = None -%}
