@@ -43,8 +43,9 @@ class DatasetInput(TypedDict):
     assessments: List[Assessment]
     intended_information_service: NotRequired[IntendedInformationService]
     quality_annotation: QualityAnnotation
-    language: NotRequired[Literal]
+    language: NotRequired[URIRef]
     related_resource: NotRequired[URIRef]
+    is_referenced_by: NotRequired[List[URIRef]]
 
 
 class Dataset(ClassInstance):
@@ -73,6 +74,7 @@ class Dataset(ClassInstance):
         self.quality_annotation = input.get("quality_annotation")
         self.language = input.get("language")
         self.related_resource = input.get("related_resource")
+        self.is_referenced_by = input.get("is_referenced_by")
 
     def _is_valid_input(self, input: DatasetInput) -> bool:
         mobility_theme_sub = input.get("mobility_theme_sub")
@@ -138,6 +140,14 @@ class Dataset(ClassInstance):
                 (DCTERMS.relation, self.related_resource)
                 if self.related_resource
                 else None
+            ),
+            *(
+                [
+                    (DCTERMS.isReferencedBy, dataset_url)
+                    for dataset_url in self.is_referenced_by
+                ]
+                if self.is_referenced_by
+                else []
             ),
         ]
         return [po for po in pos if po is not None]
