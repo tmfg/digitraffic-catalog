@@ -1,7 +1,8 @@
+import json
 import pprint
 from ckan.logic import get_action, check_access
 import ckan.model as model
-from typing import cast
+from typing import Any, cast
 from ckan.common import current_user, config
 from ckan.types import Context
 
@@ -48,8 +49,15 @@ def url_from_dataset_id(dataset_id: str) -> str:
     return f"{ckan_site_url}/dataset/{dataset_id}"
 
 
+def from_json(string: str) -> Any:
+    if string and isinstance(string, str):
+        return json.loads(string)
+    return {}
+
+
 helpers = {
     "print_field_and_data": print_field_and_data,
     "get_datasets_as_form_choices": get_datasets_as_form_choices,
     "url_from_dataset_id": url_from_dataset_id,
+    "from_json": from_json,
 }
