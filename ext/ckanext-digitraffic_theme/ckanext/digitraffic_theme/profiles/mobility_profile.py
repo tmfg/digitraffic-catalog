@@ -125,6 +125,8 @@ class MobilityDCATAPProfile(RDFProfile):
             g.remove((dataset_ref, DCTERMS.identifier, obj))
         for obj in g.objects(dataset_ref, DCTERMS.description):
             g.remove((dataset_ref, DCTERMS.description, obj))
+        for obj in g.objects(dataset_ref, DCTERMS.relation):
+            g.remove((dataset_ref, DCTERMS.relation, obj))
         for dist in g.objects(dataset_ref, DCAT.distribution):
             for p, o in g.predicate_objects(dist):
                 if (

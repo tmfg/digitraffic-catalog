@@ -75,47 +75,58 @@ def is_referenced_by_validator(value: Any, context: Context):
     return None
 
 
+def remove_reference_from_referred_dataset(
+    referring_id: str, referred_id: str, context: Context
+):
+    # get the details of the referred dataset
+    referred_dataset = get_action("package_show")(
+        context,
+        {"id": referred_id},
+    )
+    reference_list = (
+        json.loads(referred_dataset["is_referenced_by"])
+        if referred_dataset.get("is_referenced_by")
+        else None
+    )
+
+    # remove reference by given dataset if it was found
+    if reference_list and referring_id in reference_list:
+        logger.info(
+            f"Removing reference by dataset id {referring_id} from dataset id {referred_id}"
+        )
+        reference_list.remove(referring_id)
+        referred_dataset["is_referenced_by"] = json.dumps(reference_list)
+        # commit the changes
+        get_action("package_update")(context, referred_dataset)
+
+
 def dataset_reference_validator(value: Any, context: Context):
     # get currently edited package from contect
     package = context.get("package", None)
 
+    if package is None:
+        return None
+
+    # get dataset details
+    referring_dataset = get_action("package_show")(
+        context,
+        {"id": package.id},
+    )
+    referred_id = referring_dataset.get("related_resource")
+
     # in this case related_resource was set to empty for currently edited dataset
-    if package and not value:
-
-        # get dataset details
-        referring_dataset = get_action("package_show")(
-            context,
-            {"id": package.id},
-        )
-
-        referred_id = referring_dataset.get("related_resource")
-
+    if not value:
         # a reference to another dataset exists if the below is true
         if referred_id and isinstance(referred_id, str):
-
-            # get the details of the referred dataset
-            referred_dataset = get_action("package_show")(
-                context,
-                {"id": referred_id},
-            )
-            reference_list = (
-                json.loads(referred_dataset["is_referenced_by"])
-                if referred_dataset.get("is_referenced_by")
-                else None
-            )
-
-            # remove the previous reference if it was found
-            if reference_list and package.id in reference_list:
-                logger.info(
-                    f"Removing reference to dataset id {package.id} from dataset id {referred_id}"
-                )
-                reference_list.remove(package.id)
-                referred_dataset["is_referenced_by"] = json.dumps(reference_list)
-                # commit the changes
-                get_action("package_update")(context, referred_dataset)
+            remove_reference_from_referred_dataset(package.id, referred_id, context)
 
     # in this case related_resource was given a value for currently edited dataset
-    if package and value:
+    if value:
+        # first check if there was a previous reference to a different dataset
+        # if yes - remove old reference from referred dataset
+        if referred_id and referred_id != value:
+            remove_reference_from_referred_dataset(package.id, referred_id, context)
+
         referred_dataset = get_action("package_show")(
             context,
             {"id": value},

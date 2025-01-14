@@ -1,3 +1,4 @@
+import json
 from typing import Any, Dict
 from rdflib import URIRef, Literal
 
@@ -27,6 +28,8 @@ from ckanext.digitraffic_theme.model.quality_annotation import QualityAnnotation
 
 from ckanext.digitraffic_theme.model.organization import Organization
 from ckanext.digitraffic_theme.model.person import Person
+
+from ckanext.digitraffic_theme.helpers.helpers import url_from_dataset_id
 
 
 class MobilityData:
@@ -106,6 +109,18 @@ class MobilityData:
                 )
             }
             if dataset_dict.get("quality_description")
+            else {}
+        )
+
+        is_referenced_by = (
+            {
+                "is_referenced_by": [
+                    URIRef(url_from_dataset_id(dataset_id))
+                    for dataset_id in json.loads(dataset_dict["is_referenced_by"])
+                    if dataset_id
+                ]
+            }
+            if dataset_dict.get("is_referenced_by")
             else {}
         )
 
@@ -239,6 +254,16 @@ class MobilityData:
                 ),
                 **quality_annotation,
                 **assessments,
+                **(
+                    {
+                        "related_resource": URIRef(
+                            url_from_dataset_id(dataset_dict.get("related_resource"))
+                        )
+                    }
+                    if dataset_dict.get("related_resource")
+                    else {}
+                ),
+                **is_referenced_by,
             },
         )
 
