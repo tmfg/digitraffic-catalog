@@ -86,7 +86,8 @@ class ClassConverter:
         if not all_properties:
             # These are vocabularies
             schema = self._get_vocabulary_schema(converter, is_required)
-            self._append_schema(schema)
+            if schema is not None:
+                self._append_schema(schema)
         elif isinstance(converter, AggregateRangeValueConverter):
             for p in included_properties:
                 schema = self._get_property_schema(p, converter, omit, is_required)
@@ -154,7 +155,7 @@ Trying to find a converter for the property'f's range value {rdf_range.iri}"""
         # We do not want to take into account properties set by DCAT or DCATAP.
         # This is because MobilityDCAT-AP has done some modifications based on those vocabularies, including removal
         # of properties
-        if self.clazz.namespace == DCAT._NS or self.clazz.namespace == DCATAP._NS:
+        if clazz.namespace == DCAT._NS or clazz.namespace == DCATAP._NS:
             clazz_aggregate_clazz = None
         else:
             clazz_aggregate_clazz = self._get_class_properties(

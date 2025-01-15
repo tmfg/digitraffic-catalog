@@ -221,9 +221,6 @@ def mobilitydcatap_fixes(graph):
     graph.add((DCTERMS.format, DCAM.rangeIncludes, DCTERMS.MediaTypeOrExtent))
     graph.add((DCTERMS.description, DCAM.rangeIncludes, RDFS.Literal))
 
-    graph.add((DCTERMS.relation, RDF.type, RDF.Property))
-    graph.add((DCTERMS.isReferencedBy, RDF.type, RDF.Property))
-
     # Resources taken from DCAT-AP version 3
     # graph.add((DCAT_AP.applicableLegislation, RDFS.label, Literal("applicable legislation", lang="en")))
     # graph.add((DCAT_AP.applicableLegislation, SKOS.definition, Literal("the legislation that is applicable to this resource.", lang="en")))
@@ -313,6 +310,8 @@ def fill_mobilitydcatap_graph(ds: Dataset):
         DCTERMS.accrualPeriodicity,
         DCTERMS.spatial,
         DCTERMS.publisher,
+        DCTERMS.relation,
+        DCTERMS.isReferencedBy,
     }
     distribution_property_iris = {
         DCAT.accessURL,
