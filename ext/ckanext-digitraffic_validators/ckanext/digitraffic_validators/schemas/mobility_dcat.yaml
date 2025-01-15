@@ -1260,6 +1260,17 @@ dataset_fields:
   preset: dataset_reference_select
   choices: ''
   validators: scheming_required ignore_missing dataset_reference_validator
+- field_name: is_referenced_by
+  label: Is referenced by
+  form_snippet: null
+  required: false
+  validators: is_referenced_by_validator
+- field_name: start_timestamp
+  label: Start time
+  preset: datetime
+- field_name: end_timestamp
+  label: End time
+  preset: datetime
 - field_name: rights_holder
   label: Rights holder
   repeating_subfields:
@@ -1333,22 +1344,11 @@ dataset_fields:
   - field_name: thoroughfare
     label: thoroughfare
     required: false
-- field_name: is_referenced_by
-  label: Is referenced by
-  form_snippet: null
-  required: false
-  validators: is_referenced_by_validator
-- field_name: start_timestamp
-  label: Start time
-  preset: datetime
-- field_name: end_timestamp
-  label: End time
-  preset: datetime
 resource_fields:
 - field_name: url
   label: access address
   required: true
-  help_text: The value should be URL
+  help_text: URL that gives access to a Distribution of the Dataset
 - field_name: name_translated
   label: Title
   required: false

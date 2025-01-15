@@ -125,8 +125,6 @@ class ClassPropertiesAggregator:
         }
 
     def _validate_property(self, subject: URIRef, g: Graph):
-        print("subject ", subject)
-
         subject_types = [URIRef(str(t)) for t in g.objects(subject, RDF.type)]
         property_types = (
             RDF.Property,
