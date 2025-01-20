@@ -83,6 +83,7 @@ def sort_dataset_fields(dataset_fields: List[Dict[str, Any]]):
         "quality_description",
         "assessment",
         "related_resource",
+        "is_referenced_by",
     ]
     dataset_fields.sort(key=partial(sort_by_field_name, order))
     sort_repeating_subfields(dataset_fields)
@@ -92,15 +93,21 @@ def sort_dataset_fields(dataset_fields: List[Dict[str, Any]]):
 def sort_resource_fields(resource_fields: List[Dict[str, Any]]):
     order = [
         "url",
+        "download_url",
         "name_translated",
         "description_translated",
         "format",
+        "character_encoding",
         "communication_method",
         "mobility_data_standard",
         "mobility_data_standard_schema",
         "mobility_data_standard_version",
         "rights_type",
         "license_id",
+        "data_service_endpoint_url",
+        "data_service_endpoint_description_translated",
+        "data_service_title",
+        "data_service_description_translated",
     ]
     resource_fields.sort(key=partial(sort_by_field_name, order))
     sort_dropdowns(resource_fields)
@@ -115,7 +122,12 @@ def resource_fields(ds: Dataset) -> List:
     distribution_fields_to_omit = (
         Distribution.recommended_properties
         | Distribution.optional_properties
-        - {MOBILITYDCATAP.communicationMethod, CNT.characterEncoding}
+        - {
+            MOBILITYDCATAP.communicationMethod,
+            CNT.characterEncoding,
+            DCAT.accessService,
+            DCAT.downloadURL,
+        }
     ) - ckan_defaults
 
     class_converter = ClassConverter(distribution, ds)
@@ -124,6 +136,11 @@ def resource_fields(ds: Dataset) -> List:
             DCAT.Distribution: distribution_fields_to_omit,
             DCTERMS.RightsStatement: RightsStatement.recommended_properties,
             DCTERMS.LicenseDocument: LicenseDocument.optional_properties,
+            DCAT.DataService: {
+                DCAT.servesDataset,
+                DCTERMS.license,
+                DCTERMS.accessRights,
+            },
         },
         True,
     )
