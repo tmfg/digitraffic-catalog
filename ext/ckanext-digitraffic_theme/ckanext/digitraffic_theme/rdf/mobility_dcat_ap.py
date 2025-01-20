@@ -11,6 +11,7 @@ class MOBILITYDCATAP(DefinedNamespace):
     MobilityDataStandard: URIRef
     Assessment: URIRef
     QualityAnnotation: URIRef
+    DataService: URIRef
 
     # Properties
     mobilityTheme: URIRef
