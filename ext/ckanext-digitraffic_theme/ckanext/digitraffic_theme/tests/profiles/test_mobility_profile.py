@@ -45,7 +45,7 @@ class TestProfile(object):
             "fi": "Suomenkielinen nimi",
             "sv": "Svensk titel",
         }
-        dataset_frequency = Frequency.iris[0]
+        dataset_frequency = list(Frequency.iris)[0]
         dataset_mobility_theme = str(
             [
                 main_theme
@@ -56,7 +56,7 @@ class TestProfile(object):
         dataset_mobility_theme_sub = str(
             list(MOBILITY_THEME_TREE[URIRef(dataset_mobility_theme)])[0]
         )
-        dataset_spatial = Location.iris[0]
+        dataset_spatial = list(Location.iris)[0]
         dataset = factories.Dataset(
             owner_org=owner_org["id"],
             name=dataset_name,

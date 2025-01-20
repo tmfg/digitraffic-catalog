@@ -209,6 +209,14 @@ def mobilitydcatap_fixes(graph):
     graph.add((DCTERMS.type, DCAM.domainIncludes, FOAF.Agent))
     graph.add((LOCN.address, DCAM.domainIncludes, FOAF.Agent))
 
+    graph.add((DCAT.endpointURL, DCAM.domainIncludes, DCAT.DataService))
+    graph.add((DCTERMS.title, DCAM.domainIncludes, DCAT.DataService))
+    graph.add((DCAT.endpointDescription, DCAM.domainIncludes, DCAT.DataService))
+    graph.add((DCAT.servesDataset, DCAM.domainIncludes, DCAT.DataService))
+    graph.add((DCTERMS.accessRights, DCAM.domainIncludes, DCAT.DataService))
+    graph.add((DCTERMS.description, DCAM.domainIncludes, DCAT.DataService))
+    graph.add((DCTERMS.license, DCAM.domainIncludes, DCAT.DataService))
+
     graph.add((DCAT.dataset, DCAM.domainIncludes, DCAT.Catalog))
     graph.add((DCTERMS.description, DCAM.domainIncludes, DCAT.Catalog))
     graph.add((FOAF.homepage, DCAM.domainIncludes, DCAT.Catalog))
@@ -220,6 +228,7 @@ def mobilitydcatap_fixes(graph):
     # Range chanages stated in the document but not visible in the serialized format
     graph.add((DCTERMS.format, DCAM.rangeIncludes, DCTERMS.MediaTypeOrExtent))
     graph.add((DCTERMS.description, DCAM.rangeIncludes, RDFS.Literal))
+    graph.add((DCAT.endpointDescription, DCAM.rangeIncludes, RDFS.Resource))
 
     # Resources taken from DCAT-AP version 3
     # graph.add((DCAT_AP.applicableLegislation, RDFS.label, Literal("applicable legislation", lang="en")))
@@ -329,6 +338,12 @@ def fill_mobilitydcatap_graph(ds: Dataset):
         FOAF.primaryTopic,
         DCTERMS.modified,
     }
+    data_service_property_iris = {
+        DCAT.endpointURL,
+        DCAT.endpointDescription,
+        DCAT.servesDataset,
+        DCTERMS.accessRights,
+    }
     other_property_iris = {FOAF.name}
 
     property_union = (
@@ -337,6 +352,7 @@ def fill_mobilitydcatap_graph(ds: Dataset):
         | period_of_time_property_iris
         | other_property_iris
         | catalogue_record_iris
+        | data_service_property_iris
     )
     for property_iri in property_union:
         add_property(ds, URIRef(MOBILITYDCATAP._NS), property_iri)
@@ -365,8 +381,8 @@ def ns_fetch_info(ns: URIRef) -> NsFetchInfo | None:
 
     elif str(ns) == "http://spdx.org/rdf/terms#":
         # The above link won't lead to the serialized resource
-        graph_url = "https://raw.githubusercontent.com/spdx/spdx-spec/development/v2.3/ontology/spdx-ontology.owl.xml"
-        serialization_format = "rdf"
+        graph_url = "https://raw.githubusercontent.com/spdx/spdx-spec/refs/tags/v2.3/ontology/spdx-ontology.owl.ttl"
+        serialization_format = "ttl"
     elif str(ns) == "http://www.w3.org/ns/locn#":
         # The above link won't lead to the serialized resource
         graph_url = (
@@ -401,7 +417,7 @@ def ns_fetch_info(ns: URIRef) -> NsFetchInfo | None:
     elif str(ns) == "http://purl.org/ontology/bibo/":
         # The returned content-type header is set wrong
         graph_url, _ = get_graph_url(ns)
-        serialization_format = "rdf"
+        serialization_format = "ttl"
 
     # VOCABS
     elif str(ns) == "http://publications.europa.eu/resource/authority/file-type/":
@@ -474,8 +490,9 @@ def set_content_for_graph(graph: Graph) -> None:
         return
 
     graph_url = fetch_info.graph_url
+
     serialization_format = fetch_info.serialization_format
-    graph.parse(graph_url, format=fetch_info.get_mime_type())
+    graph.parse(graph_url, format="xml" if serialization_format == "rdf" else "ttl")
 
     cacheable_content = get_serialized_rdf(graph_url, serialization_format)
     cache_content(cacheable_content, ns, serialization_format)
