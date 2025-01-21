@@ -15,7 +15,7 @@ from ckanext.digitraffic_theme.model.frequency import Frequency
 from ckanext.digitraffic_theme.model.intended_information_service import (
     IntendedInformationService,
 )
-
+from ckanext.digitraffic_theme.helpers import helpers
 from ckanext.digitraffic_theme.model.location import Location
 from ckanext.digitraffic_theme.model.mobility_theme import (
     MobilityTheme,
@@ -90,6 +90,8 @@ class MobilityData:
                             "assessment_result": URIRef(
                                 assessment.get("assessment_result")
                             ),
+                            # assessmment_target is not included in the schema - give it the required value here
+                            "assessment_target": URIRef(dataset_ref),
                         },
                     )
                     for assessment in dataset_dict["assessment"]
@@ -123,7 +125,7 @@ class MobilityData:
                 "is_referenced_by": [
                     URIRef(url_from_dataset_id(dataset_id))
                     for dataset_id in json.loads(dataset_dict["is_referenced_by"])
-                    if dataset_id
+                    if dataset_id and helpers.is_dataset_public(dataset_id)
                 ]
             }
             if dataset_dict.get("is_referenced_by")
@@ -204,7 +206,7 @@ class MobilityData:
                     for key in dataset_dict.get("notes_translated", {}).keys()
                 ],
                 "distribution": [
-                    Distribution(resource_uri(dist), dist)
+                    Distribution(resource_uri(dist), dist, dataset_ref)
                     for dist in dataset_dict["resources"]
                 ],
                 "accrualPeriodicity": Frequency(dataset_dict["frequency"]),
@@ -267,6 +269,7 @@ class MobilityData:
                         )
                     }
                     if dataset_dict.get("related_resource")
+                    and helpers.is_dataset_public(dataset_dict.get("related_resource"))
                     else {}
                 ),
                 **is_referenced_by,

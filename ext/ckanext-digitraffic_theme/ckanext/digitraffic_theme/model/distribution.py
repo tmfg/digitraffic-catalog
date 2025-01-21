@@ -10,6 +10,7 @@ from ckanext.digitraffic_theme.model.rights_statement import RightsStatement
 from ckanext.digitraffic_theme.model.communication_method import CommunicationMethod
 
 from ckanext.digitraffic_theme.model.format import Format
+from ckanext.digitraffic_theme.model.data_service import DataService
 from ckanext.digitraffic_theme.rdf.mobility_dcat_ap import MOBILITYDCATAP
 from ckanext.digitraffic_theme.rdf.cnt import CNT
 
@@ -23,8 +24,9 @@ class Distribution(ClassInstance):
     # optional properties
     communicationMethod: CommunicationMethod | None
     characterEncoding: Literal | None
+    accessService: DataService
 
-    def __init__(self, iri: str, data: dict[str, Any]):
+    def __init__(self, iri: str, data: dict[str, Any], dataset_ref: str):
         super().__init__(iri, DCAT.Distribution)
         self.accessURL = Literal(data["url"])
         self.format = Format(data["format_iri"])
@@ -46,6 +48,25 @@ class Distribution(ClassInstance):
             if data.get("character_encoding", None)
             else None
         )
+        self.accessService = DataService(
+            None,
+            {
+                "access_rights": self.rights,
+                "dataset_ref": dataset_ref,
+                "data_service_description_translated": data.get(
+                    "data_service_description_translated", None
+                ),
+                "data_service_endpoint_description": data.get(
+                    "data_service_endpoint_description", None
+                ),
+                "data_service_title_translated": data.get(
+                    "data_service_title_translated", None
+                ),
+                "data_service_endpoint_url": data.get(
+                    "data_service_endpoint_url", None
+                ),
+            },
+        )
 
     def predicate_objects(self):
         pos = [
@@ -66,5 +87,6 @@ class Distribution(ClassInstance):
                 if self.characterEncoding
                 else None
             ),
+            (DCAT.accessService, self.accessService),
         ]
         return [po for po in pos if po is not None]

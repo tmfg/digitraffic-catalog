@@ -3,6 +3,7 @@ from typing import TypedDict, List, NotRequired, Optional
 from rdflib import Literal, DCAT, DCTERMS, RDF, URIRef
 
 from ckanext.digitraffic_theme.model.agent import Agent
+
 from ckanext.digitraffic_theme.model.assessment import Assessment
 from ckanext.digitraffic_theme.model.class_instance import ClassInstance
 from ckanext.digitraffic_theme.model.contact_point import ContactPoint

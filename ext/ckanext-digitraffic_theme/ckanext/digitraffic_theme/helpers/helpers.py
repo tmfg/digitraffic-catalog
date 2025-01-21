@@ -60,4 +60,5 @@ helpers = {
     "get_datasets_as_form_choices": get_datasets_as_form_choices,
     "url_from_dataset_id": url_from_dataset_id,
     "from_json": from_json,
+    "is_dataset_public": is_dataset_public,
 }
