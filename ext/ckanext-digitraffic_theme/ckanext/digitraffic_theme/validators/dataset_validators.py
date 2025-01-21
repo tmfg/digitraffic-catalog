@@ -7,7 +7,6 @@ from ckan.common import _, config
 from ckan.lib.navl.dictization_functions import Invalid
 from ckan.logic import get_action
 from ckan.types import Context
-from ckanext.digitraffic_theme.helpers.helpers import is_dataset_public
 from ckanext.digitraffic_theme.model.mobility_theme import (
     MobilityTheme,
     MobilityThemeSub,

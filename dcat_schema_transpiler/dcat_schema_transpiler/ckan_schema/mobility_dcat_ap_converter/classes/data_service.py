@@ -22,7 +22,7 @@ class DataService(RangeValueConverter):
     def ckan_field(self, p: RDFSProperty, pointer: str = None) -> str:
         mappings = {
             DCAT.endpointURL: "data_service_endpoint_url",
-            DCAT.endpointDescription: "data_service_endpoint_description_translated",
+            DCAT.endpointDescription: "data_service_endpoint_description",
             DCTERMS.title: "data_service_title_translated",
             DCTERMS.description: "data_service_description_translated",
         }
