@@ -41,14 +41,6 @@ def create_dataset(org: Organization):
     return dataset
 
 
-# ckan's clean_db fixture only resets the db before the tests
-@pytest.fixture
-def clean_db():
-    helpers.reset_db()
-    yield
-    helpers.reset_db()
-
-
 @pytest.mark.usefixtures("clean_db", "clean_index", "with_plugins")
 class TestDatasetValidators:
 
