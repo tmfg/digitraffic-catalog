@@ -105,23 +105,35 @@ class Dataset(ClassInstance):
                 if self.georeferencing_method
                 else None
             ),
-            *[
-                (DCAT.contactPoint, contact_point)
-                for contact_point in self.contact_points
-            ],
+            *(
+                [
+                    (DCAT.contactPoint, contact_point)
+                    for contact_point in self.contact_points
+                ]
+                if self.contact_points
+                else []
+            ),
             (
                 (MOBILITYDCATAP.networkCoverage, self.network_coverage)
                 if self.network_coverage
                 else None
             ),
-            *[
-                (DCTERMS.rightsHolder, rights_holder)
-                for rights_holder in self.rights_holders
-            ],
-            *[
-                (MOBILITYDCATAP.Assessment, assessment)
-                for assessment in self.assessments
-            ],
+            *(
+                [
+                    (DCTERMS.rightsHolder, rights_holder)
+                    for rights_holder in self.rights_holders
+                ]
+                if self.rights_holders
+                else []
+            ),
+            *(
+                [
+                    (MOBILITYDCATAP.Assessment, assessment)
+                    for assessment in self.assessments
+                ]
+                if self.assessments
+                else []
+            ),
             (
                 (
                     MOBILITYDCATAP.intendedInformationService,

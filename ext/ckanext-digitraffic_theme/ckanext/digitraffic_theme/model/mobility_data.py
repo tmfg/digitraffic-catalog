@@ -78,20 +78,26 @@ class MobilityData:
             else {}
         )
 
-        assessments = {
-            "assessments": [
-                Assessment(
-                    None,
-                    {
-                        "assessment_date": Literal(assessment.get("assessment_date")),
-                        "assessment_result": URIRef(
-                            assessment.get("assessment_result")
-                        ),
-                    },
-                )
-                for assessment in dataset_dict["assessment"]
-            ]
-        }
+        assessments = (
+            {
+                "assessments": [
+                    Assessment(
+                        None,
+                        {
+                            "assessment_date": Literal(
+                                assessment.get("assessment_date")
+                            ),
+                            "assessment_result": URIRef(
+                                assessment.get("assessment_result")
+                            ),
+                        },
+                    )
+                    for assessment in dataset_dict["assessment"]
+                ]
+            }
+            if dataset_dict.get("assessment")
+            else {}
+        )
 
         # we have left out "quality annotation target" of class dqv:QualityAnnotation from the schema used with CKAN
         # here the property is added for each language version ("quality annotation resource" is a multilingual field)
