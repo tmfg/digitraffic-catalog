@@ -16,7 +16,7 @@ from ckanext.digitraffic_theme.rdf.cnt import CNT
 
 
 class Distribution(ClassInstance):
-    accessURL: Literal
+    accessURL: URIRef
     format: Format
     mobilityDataStandard: MobilityDataStandard
     rights: RightsStatement
@@ -25,14 +25,20 @@ class Distribution(ClassInstance):
     communicationMethod: CommunicationMethod | None
     characterEncoding: Literal | None
     accessService: DataService
+    dataFormatNotes: List[Literal]
+    downloadURL: URIRef | None
 
     def __init__(self, iri: str, data: dict[str, Any], dataset_ref: str):
         super().__init__(iri, DCAT.Distribution)
-        self.accessURL = Literal(data["url"])
+        self.accessURL = URIRef(data["url"])
         self.format = Format(data["format_iri"])
         self.description = [
             Literal(data.get("description_translated", {}).get(key, ""), lang=key)
             for key in data.get("description_translated", {}).keys()
+        ]
+        self.dataFormatNotes = [
+            Literal(data.get("data_format_notes_translated", {}).get(key, ""), lang=key)
+            for key in data.get("data_format_notes_translated", {}).keys()
         ]
         self.mobilityDataStandard = MobilityDataStandard(
             data["mobility_data_standard"],
@@ -67,6 +73,9 @@ class Distribution(ClassInstance):
                 ),
             },
         )
+        self.downloadURL = (
+            URIRef(data["download_url"]) if data.get("download_url", None) else None
+        )
 
     def predicate_objects(self):
         pos = [
@@ -77,6 +86,11 @@ class Distribution(ClassInstance):
             (DCTERMS.rights, self.rights),
             # multilingual field
             *[(DCTERMS.description, entry) for entry in self.description],
+            # multilingual field
+            *[
+                (MOBILITYDCATAP.dataFormatNotes, entry)
+                for entry in self.dataFormatNotes
+            ],
             (
                 (MOBILITYDCATAP.communicationMethod, self.communicationMethod)
                 if self.communicationMethod
@@ -88,5 +102,6 @@ class Distribution(ClassInstance):
                 else None
             ),
             (DCAT.accessService, self.accessService),
+            (DCAT.downloadURL, self.downloadURL) if self.downloadURL else None,
         ]
         return [po for po in pos if po is not None]
