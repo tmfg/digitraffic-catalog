@@ -1265,12 +1265,6 @@ dataset_fields:
   form_snippet: null
   required: false
   validators: is_referenced_by_validator
-- field_name: end_timestamp
-  label: End time
-  preset: datetime
-- field_name: start_timestamp
-  label: Start time
-  preset: datetime
 - field_name: rights_holder
   label: Rights holder
   repeating_subfields:
@@ -1344,6 +1338,12 @@ dataset_fields:
   - field_name: thoroughfare
     label: thoroughfare
     required: false
+- field_name: end_timestamp
+  label: End time
+  preset: datetime
+- field_name: start_timestamp
+  label: Start time
+  preset: datetime
 resource_fields:
 - field_name: url
   label: Access URL
@@ -2020,6 +2020,14 @@ resource_fields:
   - value: xz
     label: xz
     iri: http://publications.europa.eu/resource/authority/file-type/XZ
+- field_name: data_format_notes_translated
+  label: Data format notes
+  required: false
+  preset: fluent_core_translated
+  form_languages:
+  - fi
+  - en
+  - sv
 - field_name: character_encoding
   label: Character encoding
   required: false

@@ -57,6 +57,7 @@ class Distribution(RangeValueConverter):
             CNT.characterEncoding: "character_encoding",
             DCAT.accessService: "access_service",
             DCAT.downloadURL: "download_url",
+            MOBILITYDCATAP.dataFormatNotes: "data_format_notes_translated",
         }
         field_name = mappings.get(p.iri)
 
@@ -75,6 +76,8 @@ class Distribution(RangeValueConverter):
             return "Access URL"
         if p.is_iri(DCAT.downloadURL):
             return "Download URL"
+        if p.is_iri(MOBILITYDCATAP.dataFormatNotes):
+            return "Data format notes"
         return super().get_label(p, ds)
 
     def get_schema(self, ds: Dataset, clazz_p: RDFSProperty, is_required: bool = None):
@@ -111,7 +114,11 @@ class Distribution(RangeValueConverter):
             Multilingual fields should have "required: false" at the field level.
             Required input languages are given in separate field "required_languages".
             """
-            if clazz_p.is_iri(DCTERMS.description):
+            if (
+                clazz_p.is_iri(DCTERMS.description)
+                or clazz_p.is_iri(DCTERMS.title)
+                or clazz_p.is_iri(MOBILITYDCATAP.dataFormatNotes)
+            ):
                 r_value = super().get_schema(ds, clazz_p, is_required=False)
                 return {
                     **(
@@ -122,16 +129,6 @@ class Distribution(RangeValueConverter):
                     )
                 }
 
-            if clazz_p.is_iri(DCTERMS.title):
-                r_value = super().get_schema(ds, clazz_p, is_required=False)
-                return {
-                    **(
-                        r_value
-                        | RangeValueConverter.get_translated_field_properties(
-                            is_required
-                        )
-                    )
-                }
             if clazz_p.is_iri(DCAT.accessURL):
                 return super().get_schema(ds, clazz_p, is_required) | {
                     "help_text": "URL that gives access to this Distribution of the Dataset"
