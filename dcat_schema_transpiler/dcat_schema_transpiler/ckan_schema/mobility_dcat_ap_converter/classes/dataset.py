@@ -250,9 +250,10 @@ class DCATDataset(RangeValueConverter):
                     broader_concept = g_nuts.value(concept, SKOS.broader)
                     if broader_concept is not None:
                         return find_top_nuts(broader_concept)
-                    return concept
+                    return concept if concept is not None else URIRef("")
 
                 def is_finnish_nuts(nuts):
+
                     if (nuts, None, None) in g_nuts:
                         return (
                             (
@@ -273,8 +274,9 @@ class DCATDataset(RangeValueConverter):
                                 ),
                             )
                             not in g_nuts
-                            and find_top_nuts(nuts)
-                            == URIRef("http://data.europa.eu/nuts/code/FI")
+                            and str(find_top_nuts(nuts)).startswith(
+                                "http://data.europa.eu/nuts/code/FI"
+                            )
                         )
                     else:
                         return False
@@ -282,7 +284,8 @@ class DCATDataset(RangeValueConverter):
                 def is_finnish_lau(lau: URIRef):
                     if (lau, None, None) in g_lau:
                         lau_nuts = g_lau.value(lau, SKOS.broadMatch)
-                        return find_top_nuts(lau_nuts) == URIRef(
+                        top_nuts = find_top_nuts(lau_nuts)
+                        return top_nuts and str(top_nuts).startswith(
                             "http://data.europa.eu/nuts/code/FI"
                         )
                     return False
