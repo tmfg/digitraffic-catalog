@@ -14,6 +14,8 @@ from mobility_dcat_ap.dataset import (
     CVOCAB_GEOREFERENCING_METHOD,
     CVOCAB_NETWORK_COVERAGE,
     CVOCAB_INTENDED_INFORMATION_SERVICE,
+    CVOCAB_THEME,
+    CVOCAB_TRANSPORT_MODE
 )
 from mobility_dcat_ap.namespace import MOBILITYDCATAP
 from dcat_schema_transpiler.namespaces.ADMS import ADMS
@@ -98,6 +100,8 @@ class DCATDataset(RangeValueConverter):
             DCTERMS.rightsHolder: "rights_holder",
             DCTERMS.relation: "related_resource",
             DCTERMS.isReferencedBy: "is_referenced_by",
+            DCAT.theme: "theme",
+            MOBILITYDCATAP.transportMode: "transport_mode"
         }
         field_value = mappings.get(p)
         if isinstance(field_value, dict):
@@ -138,6 +142,8 @@ class DCATDataset(RangeValueConverter):
             MOBILITYDCATAP.georeferencingMethod,
             MOBILITYDCATAP.networkCoverage,
             MOBILITYDCATAP.intendedInformationService,
+            DCAT.theme,
+            MOBILITYDCATAP.transportMode
         ]
         if any(
             clazz_p.is_iri(vocabulary_range) for vocabulary_range in vocabulary_ranges
@@ -321,6 +327,26 @@ class DCATDataset(RangeValueConverter):
                     "form_include_blank_choice": True,
                     "choices": RangeValueConverter.vocab_choices(g),
                 }
+            case DCAT.theme:
+                g = ds.get_graph(URIRef(CVOCAB_THEME))
+                return {
+                    "field_name": self.ckan_field(p),
+                    "label": "Theme",
+                    "required": is_required,
+                    "preset": "select",
+                    "form_include_blank_choice": True,
+                    "choices": RangeValueConverter.vocab_choices(g),
+                }
+            case MOBILITYDCATAP.transportMode:
+                g = ds.get_graph(URIRef(CVOCAB_TRANSPORT_MODE))
+                return {
+                    "field_name": self.ckan_field(p),
+                    "label": "Transport Mode",
+                    "required": is_required,
+                    "preset": "select",
+                    "form_include_blank_choice": True,
+                    "choices": RangeValueConverter.vocab_choices(g),
+			}
             case MOBILITYDCATAP.intendedInformationService:
                 g = ds.get_graph(URIRef(CVOCAB_INTENDED_INFORMATION_SERVICE))
                 return {

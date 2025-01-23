@@ -15,11 +15,14 @@ from ckanext.digitraffic_theme.model.intended_information_service import (
 from ckanext.digitraffic_theme.model.location import Location
 from ckanext.digitraffic_theme.model.georeferencing_method import GeoreferencingMethod
 from ckanext.digitraffic_theme.model.network_coverage import NetworkCoverage
+from ckanext.digitraffic_theme.model.theme import Theme
+from ckanext.digitraffic_theme.model.transport_mode import TransportMode
 from ckanext.digitraffic_theme.model.mobility_theme import (
     MobilityTheme,
     MobilityThemeSub,
     is_valid_mobility_theme_sub,
 )
+from ckanext.digitraffic_theme.model.period_of_time import PeriodOfTime
 from ckanext.digitraffic_theme.model.quality_annotation import QualityAnnotation
 from ckanext.digitraffic_theme.rdf.mobility_dcat_ap import MOBILITYDCATAP
 from ckanext.digitraffic_theme.rdf.dqv import DQV
@@ -40,6 +43,9 @@ class DatasetInput(TypedDict):
     contact_points: NotRequired[List[ContactPoint]]
     network_coverage: NotRequired[NetworkCoverage]
     rights_holders: NotRequired[Agent]
+    temporal: NotRequired[PeriodOfTime]
+    theme: NotRequired[Theme]
+    transport_mode: NotRequired[TransportMode]
     # Optional properties
     assessments: List[Assessment]
     intended_information_service: NotRequired[IntendedInformationService]
@@ -69,6 +75,9 @@ class Dataset(ClassInstance):
         self.contact_points = input.get("contact_points")
         self.network_coverage = input.get("network_coverage")
         self.rights_holders = input.get("rights_holders")
+        self.temporal = input.get("temporal")
+        self.theme = input.get("theme")
+        self.transport_mode = input.get("transport_mode")
         # Optional properties
         self.assessments = input.get("assessments")
         self.intended_information_service = input.get("intended_information_service")
@@ -119,6 +128,9 @@ class Dataset(ClassInstance):
                 if self.network_coverage
                 else None
             ),
+            (DCTERMS.temporal, self.temporal) if self.rights_holders else None,
+            (DCAT.theme, self.theme) if self.theme else None,
+            (MOBILITYDCATAP.transportMode, self.transport_mode) if self.transport_mode else None
             *(
                 [
                     (DCTERMS.rightsHolder, rights_holder)

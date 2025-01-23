@@ -71,6 +71,10 @@ def sort_dataset_fields(dataset_fields: List[Dict[str, Any]]):
         "frequency",
         "mobility_theme",
         "mobility_theme_sub",
+        "theme",
+        "start_timestamp",
+        "end_timestamp",
+        "transport_mode",
         "spatial",
         "version",
         "version_notes_translated",
@@ -99,6 +103,7 @@ def sort_resource_fields(resource_fields: List[Dict[str, Any]]):
         "name_translated",
         "description_translated",
         "format",
+        "application_layer_protocol",
         "data_grammar",
         "data_format_notes_translated",
         "character_encoding",
@@ -109,6 +114,7 @@ def sort_resource_fields(resource_fields: List[Dict[str, Any]]):
         "mobility_data_standard_version",
         "rights_type",
         "license_id",
+        "license_text"
         "start_timestamp",
         "end_timestamp",
         "data_service_endpoint_url",
@@ -192,19 +198,10 @@ def dataset_fields(ds: Dataset) -> List:
     omitted_dataset_fields = (
         {
             # Dataset publisher is set to the organization
-            DCTERMS.publisher
+            DCTERMS.publisher,
+            # Keywords, i.e. tags, are not implemented
+            DCAT.keyword,
         }
-        | (
-            DCATDataset.recommended_properties
-            - {
-                MOBILITYDCATAP.georeferencingMethod,
-                DCAT.contactPoint,
-                MOBILITYDCATAP.networkCoverage,
-                DCTERMS.conformsTo,
-                DCTERMS.rightsHolder,
-                DCTERMS.temporal,
-            }
-        )
         | (
             DCATDataset.optional_properties
             - {

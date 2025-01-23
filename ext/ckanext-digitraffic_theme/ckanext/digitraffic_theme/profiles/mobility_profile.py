@@ -1,5 +1,7 @@
-from datetime import timezone
+from datetime import datetime, timezone
 
+from rdflib import Graph, URIRef, Literal, BNode
+from rdflib.namespace import DCTERMS, DCAT, RDF, XSD
 from ckanext.dcat.profiles import RDFProfile
 
 from ckanext.digitraffic_theme.model.organization import Organization
@@ -29,7 +31,6 @@ class MobilityDCATAPProfile(RDFProfile):
         return super().parse_dataset(dataset_dict, dataset_ref)
 
     def graph_from_dataset(self, dataset_dict, dataset_ref):
-        print("#######  graph_from_dataset #########")
         mobility_data: MobilityData = MobilityData(dataset_dict, dataset_ref)
         g: Graph = self.g
 
