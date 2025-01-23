@@ -106,7 +106,7 @@ def sort_resource_fields(resource_fields: List[Dict[str, Any]]):
         "rights_type",
         "license_id",
         "data_service_endpoint_url",
-        "data_service_endpoint_description_translated",
+        "data_service_endpoint_description",
         "data_service_title",
         "data_service_description_translated",
     ]

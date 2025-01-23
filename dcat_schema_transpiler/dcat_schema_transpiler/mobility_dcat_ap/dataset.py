@@ -82,7 +82,7 @@ CVOCAB_MOBILITY_DCAT_AP_FREQUENCY = Namespace(
 CVOCAB_LANGUAGE = Namespace("http://publications.europa.eu/resource/authority/language")
 # About NUTS: https://ec.europa.eu/eurostat/web/gisco/geodata/statistical-units/territorial-units-statistics
 # Download page: https://data.europa.eu/data/datasets/nuts~~1?locale=en
-CVOCAB_NUTS = Namespace("http://data.europa.eu/nuts/")
+CVOCAB_NUTS = Namespace("http://data.europa.eu/nuts")
 # About LAU: https://ec.europa.eu/eurostat/web/gisco/geodata/statistical-units/local-administrative-units
 CVOCAB_LAU = Namespace("https://w3id.org/stirdata/resource/lau/item/")
 CVOCAB_GEOREFERENCING_METHOD = Namespace(
@@ -453,8 +453,8 @@ def ns_fetch_info(ns: URIRef) -> NsFetchInfo | None:
     elif str(ns) == "https://w3id.org/mobilitydcat-ap/mobility-theme/":
         graph_url, _ = get_graph_url(ns)
         serialization_format = "ttl"
-    elif str(ns) == "http://data.europa.eu/nuts/":
-        graph_url = "https://data.europa.eu/api/hub/repo/distributions/e02ba91d-0aaa-4af0-b49c-699eda90c902.rdf"
+    elif str(ns) == "http://data.europa.eu/nuts":
+        graph_url = "https://op.europa.eu/o/opportal-service/euvoc-download-handler?cellarURI=http%3A%2F%2Fpublications.europa.eu%2Fresource%2Fdistribution%2Fnuts%2F20241002-0%2Frdf%2Fskos_core%2FNUTS.rdf&fileName=NUTS.rdf"
         serialization_format = "rdf"
     elif str(ns) == "https://w3id.org/stirdata/resource/lau/item/":
         graph_url, _ = get_graph_url(ns)
