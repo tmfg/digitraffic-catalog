@@ -1265,6 +1265,12 @@ dataset_fields:
   form_snippet: null
   required: false
   validators: is_referenced_by_validator
+- field_name: start_timestamp
+  label: Start time
+  preset: datetime
+- field_name: end_timestamp
+  label: End time
+  preset: datetime
 - field_name: rights_holder
   label: Rights holder
   repeating_subfields:
@@ -1338,12 +1344,6 @@ dataset_fields:
   - field_name: thoroughfare
     label: thoroughfare
     required: false
-- field_name: end_timestamp
-  label: End time
-  preset: datetime
-- field_name: start_timestamp
-  label: Start time
-  preset: datetime
 resource_fields:
 - field_name: url
   label: Access URL
@@ -2953,6 +2953,10 @@ resource_fields:
   preset: url
   help_text: The root location or primary endpoint of the Data Service related to
     this Distribution
+- field_name: data_service_endpoint_description
+  label: Endpoint description
+  required: false
+  help_text: The value should be URL
 - field_name: data_service_description_translated
   label: Data service description
   required: false
@@ -2961,10 +2965,6 @@ resource_fields:
   - fi
   - en
   - sv
-- field_name: data_service_endpoint_description
-  label: Endpoint description
-  required: false
-  help_text: The value should be URL
 - field_name: data_service_title_translated
   label: Data service name
   required: false

@@ -258,9 +258,7 @@ class DCATDataset(RangeValueConverter):
                         return (
                             (
                                 nuts,
-                                URIRef(
-                                    "http://publications.europa.eu/ontology/euvoc#status"
-                                ),
+                                URIRef("http://www.w3.org/ns/adms#status"),
                                 URIRef(
                                     "http://publications.europa.eu/resource/authority/concept-status/CURRENT"
                                 ),
