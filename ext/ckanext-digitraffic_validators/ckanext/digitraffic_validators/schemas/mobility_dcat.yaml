@@ -1338,21 +1338,23 @@ dataset_fields:
   - field_name: thoroughfare
     label: thoroughfare
     required: false
-- field_name: end_timestamp
-  label: End time
-  preset: datetime
 - field_name: start_timestamp
   label: Start time
+  preset: datetime
+- field_name: end_timestamp
+  label: End time
   preset: datetime
 resource_fields:
 - field_name: url
   label: Access URL
   required: true
   help_text: URL that gives access to this Distribution of the Dataset
+  preset: url
 - field_name: download_url
   label: Download URL
   required: false
   help_text: A direct link to a downloadable file of this Distribution
+  preset: url
 - field_name: name_translated
   label: Title
   required: false
@@ -2983,6 +2985,13 @@ resource_fields:
   - fi
   - en
   - sv
+- field_name: sample
+  label: Sample
+  required: false
+  help_text: A sample Distribution of the Dataset. A data sample allows data users
+    to investigate the data content and data structure, without subscribing to a data
+    feed or downloading a complete data set.
+  preset: url
 - field_name: data_service_title_translated
   label: Data service name
   required: false

@@ -13,6 +13,7 @@ from ckanext.digitraffic_theme.model.format import Format
 from ckanext.digitraffic_theme.model.data_service import DataService
 from ckanext.digitraffic_theme.rdf.mobility_dcat_ap import MOBILITYDCATAP
 from ckanext.digitraffic_theme.rdf.cnt import CNT
+from ckanext.digitraffic_theme.rdf.adms import ADMS
 
 
 class Distribution(ClassInstance):
@@ -28,6 +29,7 @@ class Distribution(ClassInstance):
     dataFormatNotes: List[Literal]
     downloadURL: URIRef | None
     dataGrammar: URIRef | None
+    sample: URIRef | None
 
     def __init__(self, iri: str, data: dict[str, Any], dataset_ref: str):
         super().__init__(iri, DCAT.Distribution)
@@ -80,6 +82,7 @@ class Distribution(ClassInstance):
         self.dataGrammar = (
             URIRef(data["data_grammar"]) if data.get("data_grammar") else None
         )
+        self.sample = URIRef(data["sample"]) if data.get("sample") else None
 
     def predicate_objects(self):
         pos = [
@@ -108,5 +111,6 @@ class Distribution(ClassInstance):
             (DCAT.accessService, self.accessService),
             (DCAT.downloadURL, self.downloadURL) if self.downloadURL else None,
             (MOBILITYDCATAP.grammar, self.dataGrammar) if self.dataGrammar else None,
+            (ADMS.sample, self.sample) if self.sample else None,
         ]
         return [po for po in pos if po is not None]

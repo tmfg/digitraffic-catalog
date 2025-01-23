@@ -59,6 +59,7 @@ class Distribution(RangeValueConverter):
             DCAT.downloadURL: "download_url",
             MOBILITYDCATAP.dataFormatNotes: "data_format_notes_translated",
             MOBILITYDCATAP.grammar: "data_grammar",
+            ADMS.sample: "sample",
         }
         field_name = mappings.get(p.iri)
 
@@ -83,6 +84,8 @@ class Distribution(RangeValueConverter):
             return "Data format notes"
         if p.is_iri(MOBILITYDCATAP.grammar):
             return "Data grammar"
+        if p.is_iri(ADMS.sample):
+            return "Sample"
         return super().get_label(p, ds)
 
     def get_schema(self, ds: Dataset, clazz_p: RDFSProperty, is_required: bool = None):
@@ -136,12 +139,20 @@ class Distribution(RangeValueConverter):
 
             if clazz_p.is_iri(DCAT.accessURL):
                 return super().get_schema(ds, clazz_p, is_required) | {
-                    "help_text": "URL that gives access to this Distribution of the Dataset"
+                    "preset": "url",
+                    "help_text": "URL that gives access to this Distribution of the Dataset",
                 }
             if clazz_p.is_iri(DCAT.downloadURL):
                 return super().get_schema(ds, clazz_p, is_required) | {
-                    "help_text": "A direct link to a downloadable file of this Distribution"
+                    "preset": "url",
+                    "help_text": "A direct link to a downloadable file of this Distribution",
                 }
+            if clazz_p.is_iri(ADMS.sample):
+                return super().get_schema(ds, clazz_p, is_required) | {
+                    "preset": "url",
+                    "help_text": "A sample Distribution of the Dataset. A data sample allows data users to investigate the data content and data structure, without subscribing to a data feed or downloading a complete data set.",
+                }
+
             return super().get_schema(ds, clazz_p, is_required)
         return None
 
