@@ -1235,6 +1235,12 @@ dataset_fields:
     label: Trip plans
   - value: https://w3id.org/mobilitydcat-ap/intended-information-service/trip-plans-auxiliary-information-availability-check
     label: Trip plans, auxiliary information, availability check
+- field_name: start_timestamp
+  label: Start time
+  preset: datetime
+- field_name: end_timestamp
+  label: End time
+  preset: datetime
 - field_name: quality_description
   label: Quality description
   required: false
@@ -1338,12 +1344,6 @@ dataset_fields:
   - field_name: thoroughfare
     label: thoroughfare
     required: false
-- field_name: start_timestamp
-  label: Start time
-  preset: datetime
-- field_name: end_timestamp
-  label: End time
-  preset: datetime
 resource_fields:
 - field_name: url
   label: Access URL
@@ -2580,6 +2580,13 @@ resource_fields:
     label: Pull
   - value: https://w3id.org/mobilitydcat-ap/communication-method/push
     label: Push
+- field_name: sample
+  label: Sample
+  required: false
+  help_text: A sample Distribution of the Dataset. A data sample allows data users
+    to investigate the data content and data structure, without subscribing to a data
+    feed or downloading a complete data set.
+  preset: url
 - field_name: mobility_data_standard
   label: Mobility data standard
   required: true
@@ -2967,6 +2974,12 @@ resource_fields:
     label: Zero-Clause BSD / Free Public License 1.0.0 (0BSD)
   - value: http://publications.europa.eu/resource/authority/licence/ECOS_2_0
     label: eCos License version 2.0
+- field_name: start_timestamp
+  label: Start time
+  preset: datetime
+- field_name: end_timestamp
+  label: End time
+  preset: datetime
 - field_name: data_service_endpoint_url
   label: Endpoint URL
   required: false
@@ -2985,13 +2998,6 @@ resource_fields:
   - fi
   - en
   - sv
-- field_name: sample
-  label: Sample
-  required: false
-  help_text: A sample Distribution of the Dataset. A data sample allows data users
-    to investigate the data content and data structure, without subscribing to a data
-    feed or downloading a complete data set.
-  preset: url
 - field_name: data_service_title_translated
   label: Data service name
   required: false
