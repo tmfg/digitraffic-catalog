@@ -27,6 +27,7 @@ class Distribution(ClassInstance):
     accessService: DataService
     dataFormatNotes: List[Literal]
     downloadURL: URIRef | None
+    dataGrammar: URIRef | None
 
     def __init__(self, iri: str, data: dict[str, Any], dataset_ref: str):
         super().__init__(iri, DCAT.Distribution)
@@ -46,12 +47,12 @@ class Distribution(ClassInstance):
         self.rights = RightsStatement(None, data["rights_type"])
         self.communicationMethod = (
             CommunicationMethod(data["communication_method"])
-            if data.get("communication_method", None)
+            if data.get("communication_method")
             else None
         )
         self.characterEncoding = (
             Literal(data["character_encoding"])
-            if data.get("character_encoding", None)
+            if data.get("character_encoding")
             else None
         )
         self.accessService = DataService(
@@ -74,7 +75,10 @@ class Distribution(ClassInstance):
             },
         )
         self.downloadURL = (
-            URIRef(data["download_url"]) if data.get("download_url", None) else None
+            URIRef(data["download_url"]) if data.get("download_url") else None
+        )
+        self.dataGrammar = (
+            URIRef(data["data_grammar"]) if data.get("data_grammar") else None
         )
 
     def predicate_objects(self):
@@ -103,5 +107,6 @@ class Distribution(ClassInstance):
             ),
             (DCAT.accessService, self.accessService),
             (DCAT.downloadURL, self.downloadURL) if self.downloadURL else None,
+            (MOBILITYDCATAP.grammar, self.dataGrammar) if self.dataGrammar else None,
         ]
         return [po for po in pos if po is not None]
