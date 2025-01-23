@@ -110,6 +110,7 @@ def sort_resource_fields(resource_fields: List[Dict[str, Any]]):
         "data_service_endpoint_description",
         "data_service_title",
         "data_service_description_translated",
+        "sample",
     ]
     resource_fields.sort(key=partial(sort_by_field_name, order))
     sort_dropdowns(resource_fields)
@@ -125,6 +126,7 @@ def resource_fields(ds: Dataset) -> List:
         Distribution.recommended_properties
         | Distribution.optional_properties
         - {
+            ADMS.sample,
             CNT.characterEncoding,
             DCAT.accessService,
             DCAT.downloadURL,
