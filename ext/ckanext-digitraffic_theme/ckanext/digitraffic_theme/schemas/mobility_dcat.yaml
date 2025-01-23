@@ -1265,12 +1265,6 @@ dataset_fields:
   form_snippet: null
   required: false
   validators: is_referenced_by_validator
-- field_name: start_timestamp
-  label: Start time
-  preset: datetime
-- field_name: end_timestamp
-  label: End time
-  preset: datetime
 - field_name: rights_holder
   label: Rights holder
   repeating_subfields:
@@ -1344,6 +1338,12 @@ dataset_fields:
   - field_name: thoroughfare
     label: thoroughfare
     required: false
+- field_name: end_timestamp
+  label: End time
+  preset: datetime
+- field_name: start_timestamp
+  label: Start time
+  preset: datetime
 resource_fields:
 - field_name: url
   label: Access URL
@@ -2020,6 +2020,24 @@ resource_fields:
   - value: xz
     label: xz
     iri: http://publications.europa.eu/resource/authority/file-type/XZ
+- field_name: data_grammar
+  label: Data grammar
+  required: false
+  preset: select
+  form_include_blank_choice: true
+  help_text: The technical data grammar format of the delivered content within the
+    Distribution
+  choices:
+  - value: https://w3id.org/mobilitydcat-ap/grammar/asn.1
+    label: ASN.1
+  - value: https://w3id.org/mobilitydcat-ap/grammar/json-schema
+    label: JSON Schema
+  - value: https://w3id.org/mobilitydcat-ap/grammar/other
+    label: Other
+  - value: https://w3id.org/mobilitydcat-ap/grammar/protocol-buffers
+    label: Protocol buffers
+  - value: https://w3id.org/mobilitydcat-ap/grammar/xsd
+    label: XSD
 - field_name: data_format_notes_translated
   label: Data format notes
   required: false
@@ -2551,7 +2569,7 @@ resource_fields:
   - value: windows-874
     label: windows-874
 - field_name: communication_method
-  label: communication method
+  label: Communication method
   required: false
   preset: select
   form_include_blank_choice: true

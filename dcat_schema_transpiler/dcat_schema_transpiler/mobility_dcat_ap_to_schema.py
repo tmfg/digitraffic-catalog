@@ -97,6 +97,7 @@ def sort_resource_fields(resource_fields: List[Dict[str, Any]]):
         "name_translated",
         "description_translated",
         "format",
+        "data_grammar",
         "data_format_notes_translated",
         "character_encoding",
         "communication_method",
@@ -124,11 +125,12 @@ def resource_fields(ds: Dataset) -> List:
         Distribution.recommended_properties
         | Distribution.optional_properties
         - {
-            MOBILITYDCATAP.communicationMethod,
-            MOBILITYDCATAP.dataFormatNotes,
             CNT.characterEncoding,
             DCAT.accessService,
             DCAT.downloadURL,
+            MOBILITYDCATAP.communicationMethod,
+            MOBILITYDCATAP.dataFormatNotes,
+            MOBILITYDCATAP.grammar,
         }
     ) - ckan_defaults
 

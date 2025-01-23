@@ -58,6 +58,7 @@ class Distribution(RangeValueConverter):
             DCAT.accessService: "access_service",
             DCAT.downloadURL: "download_url",
             MOBILITYDCATAP.dataFormatNotes: "data_format_notes_translated",
+            MOBILITYDCATAP.grammar: "data_grammar",
         }
         field_name = mappings.get(p.iri)
 
@@ -74,10 +75,14 @@ class Distribution(RangeValueConverter):
     def get_label(self, p: RDFSProperty, ds: Dataset):
         if p.is_iri(DCAT.accessURL):
             return "Access URL"
+        if p.is_iri(MOBILITYDCATAP.communicationMethod):
+            return "Communication method"
         if p.is_iri(DCAT.downloadURL):
             return "Download URL"
         if p.is_iri(MOBILITYDCATAP.dataFormatNotes):
             return "Data format notes"
+        if p.is_iri(MOBILITYDCATAP.grammar):
+            return "Data grammar"
         return super().get_label(p, ds)
 
     def get_schema(self, ds: Dataset, clazz_p: RDFSProperty, is_required: bool = None):
@@ -173,6 +178,7 @@ class Distribution(RangeValueConverter):
                     "required": is_required,
                     "preset": "select",
                     "form_include_blank_choice": True,
+                    "help_text": "The technical data grammar format of the delivered content within the Distribution",
                     "choices": RangeValueConverter.vocab_choices(g),
                 }
             case MOBILITYDCATAP.mobilityDataStandard:
