@@ -1,27 +1,34 @@
-from typing import Any, List
+from typing import List, TypedDict, NotRequired
 
-from rdflib import Literal, DCAT, DCTERMS, URIRef, RDF
+from rdflib import Literal, DCAT, DCTERMS, RDF
 
 from ckanext.digitraffic_theme.model.class_instance import ClassInstance
 from ckanext.digitraffic_theme.model.mobility_data_standard import (
     MobilityDataStandard,
 )
 from ckanext.digitraffic_theme.model.rights_statement import RightsStatement
+from ckanext.digitraffic_theme.model.application_layer_protocol import ApplicationLayerProtocol
+from ckanext.digitraffic_theme.model.format import Format
+from ckanext.digitraffic_theme.model.license_document import LicenseDocument
 from ckanext.digitraffic_theme.model.communication_method import CommunicationMethod
 
-from ckanext.digitraffic_theme.model.format import Format
 from ckanext.digitraffic_theme.model.data_service import DataService
 from ckanext.digitraffic_theme.rdf.mobility_dcat_ap import MOBILITYDCATAP
 from ckanext.digitraffic_theme.rdf.cnt import CNT
 from ckanext.digitraffic_theme.rdf.adms import ADMS
 
 
-class Distribution(ClassInstance):
-    accessURL: URIRef
+class DistributionInput(TypedDict):
+    access_url: Literal
     format: Format
-    mobilityDataStandard: MobilityDataStandard
-    rights: RightsStatement
     description: List[Literal]
+    communication_method: CommunicationMethod | None
+    character_encoding: Literal | None
+    access_service: DataService
+    data_format_notes: List[Literal]
+    download_url: URIRef | None
+    data_grammar: URIRef | None
+    sample: URIRef | None
     # optional properties
     communicationMethod: CommunicationMethod | None
     characterEncoding: Literal | None
@@ -87,8 +94,8 @@ class Distribution(ClassInstance):
     def predicate_objects(self):
         pos = [
             (RDF.type, self.type),
-            (DCAT.accessURL, self.accessURL),
-            (MOBILITYDCATAP.mobilityDataStandard, self.mobilityDataStandard),
+            (DCAT.accessURL, self.access_url),
+            (MOBILITYDCATAP.mobilityDataStandard, self.mobility_data_standard),
             (DCTERMS.format, self.format),
             (DCTERMS.rights, self.rights),
             # multilingual field
@@ -112,5 +119,9 @@ class Distribution(ClassInstance):
             (DCAT.downloadURL, self.downloadURL) if self.downloadURL else None,
             (MOBILITYDCATAP.grammar, self.dataGrammar) if self.dataGrammar else None,
             (ADMS.sample, self.sample) if self.sample else None,
+            (MOBILITYDCATAP.applicationLayerProtocol, self.application_layer_protocol)
+            if self.application_layer_protocol
+            else None,
+            (DCTERMS.license, self.license) if self.license else None
         ]
         return [po for po in pos if po is not None]

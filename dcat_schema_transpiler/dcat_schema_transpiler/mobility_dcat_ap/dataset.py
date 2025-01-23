@@ -61,7 +61,7 @@ CVOCAB_MOBILITY_DATA_STANDARD = Namespace(
 )
 CVOCAB_GRAMMAR = Namespace("https://w3id.org/mobilitydcat-ap/grammar/")
 CVOCAB_APPLICATION_LAYER_PROTOCOL = Namespace(
-    "https://w3id.org/mobilitydcat-ap/application-layer-protocol/"
+    "https://w3id.org/mobilitydcat-ap/application-layer-protocol#"
 )
 CVOCAB_COMMUNICATION_METHOD = Namespace(
     "https://w3id.org/mobilitydcat-ap/communication-method/"
@@ -90,6 +90,12 @@ CVOCAB_GEOREFERENCING_METHOD = Namespace(
 )
 CVOCAB_NETWORK_COVERAGE = Namespace(
     "https://w3id.org/mobilitydcat-ap/network-coverage#"
+)
+CVOCAB_THEME = Namespace(
+    "http://publications.europa.eu/resource/authority/data-theme/"
+)
+CVOCAB_TRANSPORT_MODE = Namespace(
+    "https://w3id.org/mobilitydcat-ap/transport-mode#"
 )
 CVOCAB_AGENT_TYPE = Namespace("http://purl.org/adms/publishertype/")
 CVOCAB_INTENDED_INFORMATION_SERVICE = Namespace(
@@ -140,6 +146,8 @@ controlled_vocabularies = [
     CVOCAB_MOBILITY_DCAT_AP_FREQUENCY,
     CVOCAB_MOBILITY_THEME,
     CVOCAB_LANGUAGE,
+    CVOCAB_THEME,
+    CVOCAB_TRANSPORT_MODE,
     CVOCAB_NUTS,
     CVOCAB_LAU,
     CVOCAB_GEOREFERENCING_METHOD,
@@ -197,6 +205,8 @@ def mobilitydcatap_fixes(graph):
     graph.add((OWL.versionInfo, DCAM.domainIncludes, DCAT.Dataset))
     graph.add((ADMS.versionNotes, DCAM.domainIncludes, DCAT.Dataset))
     graph.add((DCTERMS.temporal, DCAM.domainIncludes, DCAT.Dataset))
+    graph.add((DCAT.theme, DCAM.domainIncludes, DCAT.Dataset))
+    graph.add((DCAT.theme, RDF.type, OWL.AnnotationProperty))
     graph.add((DCTERMS.language, DCAM.domainIncludes, DCAT.Dataset))
     graph.add((DCTERMS.relation, DCAM.domainIncludes, DCAT.Dataset))
     graph.add((DCTERMS.isReferencedBy, DCAM.domainIncludes, DCAT.Dataset))
@@ -426,6 +436,12 @@ def ns_fetch_info(ns: URIRef) -> NsFetchInfo | None:
     elif str(ns) == "http://publications.europa.eu/resource/authority/licence/":
         graph_url = "https://op.europa.eu/o/opportal-service/euvoc-download-handler?cellarURI=http%3A%2F%2Fpublications.europa.eu%2Fresource%2Fcellar%2Fab0e79f8-5c6c-11ee-9220-01aa75ed71a1.0001.03%2FDOC_1&fileName=licences-skos.rdf"
         serialization_format = "rdf"
+    elif str(ns) == "http://publications.europa.eu/resource/authority/data-theme/":
+        graph_url = "https://op.europa.eu/o/opportal-service/euvoc-download-handler?cellarURI=http%3A%2F%2Fpublications.europa.eu%2Fresource%2Fdistribution%2Fdata-theme%2F20241211-0%2Frdf%2Fskos_core%2Fdata-theme-skos.rdf&fileName=data-theme-skos.rdf"
+        serialization_format = "rdf"
+    elif str(ns) == "https://w3id.org/mobilitydcat-ap/transport-mode#":
+        graph_url = "https://mobilitydcat-ap.github.io/controlled-vocabularies/transport-mode/latest/transport-mode.ttl"
+        serialization_format = "ttl"
     elif str(ns) == "http://publications.europa.eu/resource/authority/frequency":
         graph_url = "https://op.europa.eu/o/opportal-service/euvoc-download-handler?cellarURI=http%3A%2F%2Fpublications.europa.eu%2Fresource%2Fcellar%2Fcc196da1-28d8-11ef-9290-01aa75ed71a1.0001.03%2FDOC_1&fileName=frequencies-skos.rdf"
         serialization_format = "rdf"
@@ -438,7 +454,7 @@ def ns_fetch_info(ns: URIRef) -> NsFetchInfo | None:
     elif str(ns) == "https://w3id.org/mobilitydcat-ap/grammar/":
         graph_url, _ = get_graph_url(ns)
         serialization_format = "ttl"
-    elif str(ns) == "https://w3id.org/mobilitydcat-ap/application-layer-protocol/":
+    elif str(ns) == "https://w3id.org/mobilitydcat-ap/application-layer-protocol#":
         graph_url, _ = get_graph_url(ns)
         serialization_format = "ttl"
     elif str(ns) == "https://w3id.org/mobilitydcat-ap/communication-method/":

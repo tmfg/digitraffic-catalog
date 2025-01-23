@@ -1,6 +1,7 @@
 import json
 from typing import Any, Dict
 from rdflib import URIRef, Literal
+from datetime import datetime
 
 from ckanext.dcat.utils import publisher_uri_organization_fallback, resource_uri
 from ckanext.digitraffic_theme.model.address import VCARDAddress, LOCNAddress
@@ -17,10 +18,20 @@ from ckanext.digitraffic_theme.model.intended_information_service import (
 )
 from ckanext.digitraffic_theme.helpers import helpers
 from ckanext.digitraffic_theme.model.location import Location
+from ckanext.digitraffic_theme.model.rights_statement import RightsStatement
+from ckanext.digitraffic_theme.model.application_layer_protocol import ApplicationLayerProtocol
+from ckanext.digitraffic_theme.model.format import Format
+from ckanext.digitraffic_theme.model.license_document import LicenseDocument
+from ckanext.digitraffic_theme.model.standard_license import StandardLicense
 from ckanext.digitraffic_theme.model.mobility_theme import (
     MobilityTheme,
     MobilityThemeSub,
 )
+from ckanext.digitraffic_theme.model.mobility_data_standard import (
+    MobilityDataStandard,
+)
+from ckanext.digitraffic_theme.model.theme import Theme
+from ckanext.digitraffic_theme.model.transport_mode import TransportMode
 from ckanext.digitraffic_theme.model.georeferencing_method import GeoreferencingMethod
 from ckanext.digitraffic_theme.model.network_coverage import NetworkCoverage
 from ckanext.digitraffic_theme.model.quality_annotation import QualityAnnotation
@@ -28,6 +39,7 @@ from ckanext.digitraffic_theme.model.quality_annotation import QualityAnnotation
 
 from ckanext.digitraffic_theme.model.organization import Organization
 from ckanext.digitraffic_theme.model.person import Person
+from ckanext.digitraffic_theme.model.period_of_time import PeriodOfTime
 
 from ckanext.digitraffic_theme.helpers.helpers import url_from_dataset_id
 
@@ -195,6 +207,56 @@ class MobilityData:
             if dataset_dict.get("rights_holder")
             else {}
         )
+        start_timestamp_str = dataset_dict.get("start_timestamp") + "Z" if dataset_dict.get("start_timestamp") else None
+        end_timestamp_str = dataset_dict.get("end_timestamp") + "Z" if dataset_dict.get("end_timestamp") else None
+        distribution = [
+            Distribution(resource_uri(dist), {
+                "access_url": Literal(dist["url"]),
+                "format": Format(dist["format_iri"]),
+                "description": [
+                    Literal(dist.get("description_translated", {}).get(key, ""), lang=key)
+                    for key in dist.get("description_translated", {}).keys()
+                ],
+                "mobility_data_standard": MobilityDataStandard(
+                    dist["mobility_data_standard"],
+                ),
+                "rights": RightsStatement(None, dist["rights_type"]),
+                **({"application_layer_protocol": ApplicationLayerProtocol(dist.get('application_layer_protocol'))}
+                   if dist.get('application_layer_protocol')
+                   else {}),
+                **({"license": LicenseDocument(None, {
+                    **({"identifier": StandardLicense(dist.get("license_id"))} if dist.get('license_id') else {}),
+                    **({"label": Literal(dist.get("license_text"))} if dist.get('license_text') else {})
+                   })}
+                   if dist.get("license_id") or dist.get("license_text")
+                   else {})
+            })
+            for dist in dataset_dict["resources"]
+        ]
+        temporal = (
+            {
+                "temporal": PeriodOfTime(None,{
+                    **({"start_timestamp": Literal(datetime.fromisoformat(start_timestamp_str))} if start_timestamp_str else {}),
+                    **({"end_timestamp": Literal(datetime.fromisoformat(end_timestamp_str))} if end_timestamp_str else {}),
+                })
+            }
+            if dataset_dict.get("start_timestamp") or dataset_dict.get("end_timestamp")
+            else {}
+        )
+        theme = (
+            {
+                "theme": Theme(dataset_dict["theme"])
+            }
+            if dataset_dict.get("theme")
+            else {}
+        )
+        transport_mode = (
+            {
+                "transport_mode": TransportMode(dataset_dict["transport_mode"])
+            }
+            if dataset_dict.get("transport_mode")
+            else {}
+        )
 
         dataset = Dataset(
             dataset_ref,
@@ -205,10 +267,7 @@ class MobilityData:
                     )
                     for key in dataset_dict.get("notes_translated", {}).keys()
                 ],
-                "distribution": [
-                    Distribution(resource_uri(dist), dist, dataset_ref)
-                    for dist in dataset_dict["resources"]
-                ],
+                "distribution": distribution,
                 "accrualPeriodicity": Frequency(dataset_dict["frequency"]),
                 "mobility_theme": MobilityTheme(dataset_dict["mobility_theme"]),
                 "spatial": Location(dataset_dict["spatial"]),
@@ -273,6 +332,9 @@ class MobilityData:
                     else {}
                 ),
                 **is_referenced_by,
+                **temporal,
+                **theme,
+                **transport_mode
             },
         )
 

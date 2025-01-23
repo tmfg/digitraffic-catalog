@@ -61,6 +61,7 @@ class Distribution(RangeValueConverter):
             MOBILITYDCATAP.grammar: "data_grammar",
             ADMS.sample: "sample",
             DCTERMS.temporal: "temporal_coverage",
+            MOBILITYDCATAP.applicationLayerProtocol: "application_layer_protocol"
         }
         field_name = mappings.get(p.iri)
 
