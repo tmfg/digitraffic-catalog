@@ -45,7 +45,6 @@ class DataService(ClassInstance):
             if input.get("data_service_endpoint_description")
             else None
         )
-        print("jee: ", self.endpoint_description)
         self.serves_dataset = input.get("dataset_ref")
         self.descriptions = [
             Literal(

@@ -1,27 +1,33 @@
-from typing import List, TypedDict, NotRequired
+from typing import Any, List, TypedDict, NotRequired
 
-from rdflib import Literal, DCAT, DCTERMS, RDF
+from rdflib import Literal, DCAT, DCTERMS, RDF, URIRef
 
 from ckanext.digitraffic_theme.model.class_instance import ClassInstance
 from ckanext.digitraffic_theme.model.mobility_data_standard import (
     MobilityDataStandard,
 )
 from ckanext.digitraffic_theme.model.rights_statement import RightsStatement
-from ckanext.digitraffic_theme.model.application_layer_protocol import ApplicationLayerProtocol
+from ckanext.digitraffic_theme.model.application_layer_protocol import (
+    ApplicationLayerProtocol,
+)
 from ckanext.digitraffic_theme.model.format import Format
 from ckanext.digitraffic_theme.model.license_document import LicenseDocument
 from ckanext.digitraffic_theme.model.communication_method import CommunicationMethod
 
 from ckanext.digitraffic_theme.model.data_service import DataService
+from ckanext.digitraffic_theme.model.period_of_time import PeriodOfTime
+
 from ckanext.digitraffic_theme.rdf.mobility_dcat_ap import MOBILITYDCATAP
 from ckanext.digitraffic_theme.rdf.cnt import CNT
 from ckanext.digitraffic_theme.rdf.adms import ADMS
 
 
 class DistributionInput(TypedDict):
-    access_url: Literal
+    access_url: URIRef
     format: Format
     description: List[Literal]
+
+    # optional properties
     communication_method: CommunicationMethod | None
     character_encoding: Literal | None
     access_service: DataService
@@ -29,67 +35,30 @@ class DistributionInput(TypedDict):
     download_url: URIRef | None
     data_grammar: URIRef | None
     sample: URIRef | None
-    # optional properties
-    communicationMethod: CommunicationMethod | None
-    characterEncoding: Literal | None
-    accessService: DataService
-    dataFormatNotes: List[Literal]
-    downloadURL: URIRef | None
-    dataGrammar: URIRef | None
-    sample: URIRef | None
+    temporal: PeriodOfTime | None
 
-    def __init__(self, iri: str, data: dict[str, Any], dataset_ref: str):
+
+class Distribution(ClassInstance):
+
+    def __init__(self, iri: str, data: dict[str, Any]):
         super().__init__(iri, DCAT.Distribution)
-        self.accessURL = URIRef(data["url"])
-        self.format = Format(data["format_iri"])
-        self.description = [
-            Literal(data.get("description_translated", {}).get(key, ""), lang=key)
-            for key in data.get("description_translated", {}).keys()
-        ]
-        self.dataFormatNotes = [
-            Literal(data.get("data_format_notes_translated", {}).get(key, ""), lang=key)
-            for key in data.get("data_format_notes_translated", {}).keys()
-        ]
-        self.mobilityDataStandard = MobilityDataStandard(
-            data["mobility_data_standard"],
-        )
-        self.rights = RightsStatement(None, data["rights_type"])
-        self.communicationMethod = (
-            CommunicationMethod(data["communication_method"])
-            if data.get("communication_method")
-            else None
-        )
-        self.characterEncoding = (
-            Literal(data["character_encoding"])
-            if data.get("character_encoding")
-            else None
-        )
-        self.accessService = DataService(
-            None,
-            {
-                "access_rights": self.rights,
-                "dataset_ref": dataset_ref,
-                "data_service_description_translated": data.get(
-                    "data_service_description_translated", None
-                ),
-                "data_service_endpoint_description": data.get(
-                    "data_service_endpoint_description", None
-                ),
-                "data_service_title_translated": data.get(
-                    "data_service_title_translated", None
-                ),
-                "data_service_endpoint_url": data.get(
-                    "data_service_endpoint_url", None
-                ),
-            },
-        )
-        self.downloadURL = (
-            URIRef(data["download_url"]) if data.get("download_url") else None
-        )
-        self.dataGrammar = (
-            URIRef(data["data_grammar"]) if data.get("data_grammar") else None
-        )
-        self.sample = URIRef(data["sample"]) if data.get("sample") else None
+        self.access_url = data["access_url"]
+        self.format = data["format"]
+        self.description = data["description"]
+        self.mobility_data_standard = data["mobility_data_standard"]
+        self.rights = data["rights"]
+        self.application_layer_protocol = data.get("application_layer_protocol")
+        self.license = data.get("license")
+
+        self.data_format_notes = data["data_format_notes"]
+
+        self.communication_method = data.get("communication_method")
+        self.character_encoding = data.get("character_encoding")
+        self.access_service = data.get("access_service")
+        self.download_url = data.get("download_url")
+        self.data_grammar = data.get("data_grammar")
+        self.sample = data.get("sample")
+        self.temporal = data.get("temporal")
 
     def predicate_objects(self):
         pos = [
@@ -103,25 +72,31 @@ class DistributionInput(TypedDict):
             # multilingual field
             *[
                 (MOBILITYDCATAP.dataFormatNotes, entry)
-                for entry in self.dataFormatNotes
+                for entry in self.data_format_notes
             ],
             (
-                (MOBILITYDCATAP.communicationMethod, self.communicationMethod)
-                if self.communicationMethod
+                (MOBILITYDCATAP.communicationMethod, self.communication_method)
+                if self.communication_method
                 else None
             ),
             (
-                (CNT.characterEncoding, self.characterEncoding)
-                if self.characterEncoding
+                (CNT.characterEncoding, self.character_encoding)
+                if self.character_encoding
                 else None
             ),
-            (DCAT.accessService, self.accessService),
-            (DCAT.downloadURL, self.downloadURL) if self.downloadURL else None,
-            (MOBILITYDCATAP.grammar, self.dataGrammar) if self.dataGrammar else None,
+            (DCAT.accessService, self.access_service),
+            (DCAT.downloadURL, self.download_url) if self.download_url else None,
+            (MOBILITYDCATAP.grammar, self.data_grammar) if self.data_grammar else None,
             (ADMS.sample, self.sample) if self.sample else None,
-            (MOBILITYDCATAP.applicationLayerProtocol, self.application_layer_protocol)
-            if self.application_layer_protocol
-            else None,
-            (DCTERMS.license, self.license) if self.license else None
+            (
+                (
+                    MOBILITYDCATAP.applicationLayerProtocol,
+                    self.application_layer_protocol,
+                )
+                if self.application_layer_protocol
+                else None
+            ),
+            (DCTERMS.license, self.license) if self.license else None,
+            (DCTERMS.temporal, self.temporal) if self.temporal else None,
         ]
         return [po for po in pos if po is not None]

@@ -41,6 +41,7 @@ class PeriodOfTime(RangeValueConverter):
                 "field_name": self.ckan_field(clazz_p),
                 "label": "Start time" if clazz_p.is_iri(DCAT.startDate) else "End time",
                 "preset": "datetime_tz",
+                "required": is_required,
             }
         return None
 

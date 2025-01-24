@@ -73,6 +73,8 @@ def add_class_instance_values(g: Graph, resource: ClassInstance):
     instance_iri = resource.iri
 
     def add_po(p, o):
+        if o is None:
+            print(f"WARNING: object of predicate {p} is {o} ")
         o_adder = get_adder_fn(o)
         o_adder(g, instance_iri, p, o)
         if isinstance(o, ClassInstance):
