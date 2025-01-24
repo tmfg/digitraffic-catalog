@@ -42,7 +42,7 @@ class DatasetInput(TypedDict):
     georeferencing_method: NotRequired[GeoreferencingMethod]
     contact_points: NotRequired[List[ContactPoint]]
     network_coverage: NotRequired[NetworkCoverage]
-    rights_holders: NotRequired[Agent]
+    rights_holders: NotRequired[List[Agent]]
     temporal: NotRequired[PeriodOfTime]
     theme: NotRequired[Theme]
     transport_mode: NotRequired[TransportMode]
@@ -128,9 +128,13 @@ class Dataset(ClassInstance):
                 if self.network_coverage
                 else None
             ),
-            (DCTERMS.temporal, self.temporal) if self.rights_holders else None,
+            (DCTERMS.temporal, self.temporal) if self.temporal else None,
             (DCAT.theme, self.theme) if self.theme else None,
-            (MOBILITYDCATAP.transportMode, self.transport_mode) if self.transport_mode else None
+            (
+                (MOBILITYDCATAP.transportMode, self.transport_mode)
+                if self.transport_mode
+                else None
+            ),
             *(
                 [
                     (DCTERMS.rightsHolder, rights_holder)

@@ -84,8 +84,6 @@ def sort_dataset_fields(dataset_fields: List[Dict[str, Any]]):
         "network_coverage",
         "conforms_to",
         "intended_information_service",
-        "start_timestamp",
-        "end_timestamp",
         "quality_description",
         "assessment",
         "related_resource",
@@ -114,7 +112,7 @@ def sort_resource_fields(resource_fields: List[Dict[str, Any]]):
         "mobility_data_standard_version",
         "rights_type",
         "license_id",
-        "license_text"
+        "license_text",
         "start_timestamp",
         "end_timestamp",
         "data_service_endpoint_url",
@@ -195,26 +193,23 @@ def dataset_fields(ds: Dataset) -> List:
         DCTERMS.publisher,
     }
 
-    omitted_dataset_fields = (
-        {
-            # Dataset publisher is set to the organization
-            DCTERMS.publisher,
-            # Keywords, i.e. tags, are not implemented
-            DCAT.keyword,
+    omitted_dataset_fields = {
+        # Dataset publisher is set to the organization
+        DCTERMS.publisher,
+        # Keywords, i.e. tags, are not implemented
+        DCAT.keyword,
+    } | (
+        DCATDataset.optional_properties
+        - {
+            OWL.versionInfo,
+            ADMS.versionNotes,
+            MOBILITYDCATAP.assessmentResult,
+            MOBILITYDCATAP.intendedInformationService,
+            DQV.hasQualityAnnotation,
+            DCTERMS.language,
+            DCTERMS.relation,
+            DCTERMS.isReferencedBy,
         }
-        | (
-            DCATDataset.optional_properties
-            - {
-                OWL.versionInfo,
-                ADMS.versionNotes,
-                MOBILITYDCATAP.assessmentResult,
-                MOBILITYDCATAP.intendedInformationService,
-                DQV.hasQualityAnnotation,
-                DCTERMS.language,
-                DCTERMS.relation,
-                DCTERMS.isReferencedBy,
-            }
-        )
     )
 
     all_FOAF_properties = {
