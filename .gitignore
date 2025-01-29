@@ -8,8 +8,6 @@
 !ext/ckanext-digitraffic_theme/*/
 !ext/ckanext-entraid_authenticator
 !ext/ckanext-entraid_authenticator/*/
-!ext/ckanext-digitraffic_validators
-!ext/ckanext-digitraffic_validators/*/
 !ext/ckanext-digitraffic_fluent
 !ext/ckanext-digitraffic_fluent/*/
 !ext/ckanext-scheming
