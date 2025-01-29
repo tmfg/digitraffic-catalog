@@ -12,7 +12,6 @@ services:
       chown -R 92:92 /srv/app/ckanext;
       pip install -r "/srv/app/ckanext/ckanext-digitraffic_theme/dev-requirements.txt";
       pip install -r "/srv/app/ckanext/ckanext-entraid_authenticator/requirements.txt";
-      pip install -r "/srv/app/ckanext/ckanext-digitraffic_validators/requirements.txt";
       pip install -r "/srv/app/ckanext/ckanext-digitraffic_fluent/requirements.txt";
   ckan:
     image: local_catalog_ckan_dev:latest

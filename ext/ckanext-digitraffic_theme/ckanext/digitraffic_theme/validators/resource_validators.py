@@ -1,11 +1,9 @@
 import os
-
-import ckan.plugins as plugins
 import yaml
-from ckan.plugins import SingletonPlugin
+
 
 current_dir = os.path.dirname(__file__)
-yaml_path = os.path.join(current_dir, "schemas/mobility_dcat.yaml")
+yaml_path = os.path.join(current_dir, "..", "schemas/mobility_dcat.yaml")
 
 with open(yaml_path, "r") as file:
     schema = yaml.safe_load(file)
@@ -18,7 +16,7 @@ def find_field(schema, field_name):
     return None
 
 
-# set field format_iri for CKAN extras on the basis of current format label
+# set field format_iri for resource on the basis of current format label
 def set_format_iri(key, data, errors, context):
     if "resources" in key and len(key) > 1:
         format_key = ("resources", key[1], "format")
@@ -35,10 +33,3 @@ def set_format_iri(key, data, errors, context):
                 data[key] = format_iri
                 return True
     return False
-
-
-class DigitrafficValidators(SingletonPlugin):
-    plugins.implements(plugins.IValidators)
-
-    def get_validators(self):
-        return {"set_format_iri": set_format_iri}
