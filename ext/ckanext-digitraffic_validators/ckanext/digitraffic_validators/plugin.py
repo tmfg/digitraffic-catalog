@@ -20,19 +20,20 @@ def find_field(schema, field_name):
 
 # set field format_iri for CKAN extras on the basis of current format label
 def set_format_iri(key, data, errors, context):
-    format_key = ("resources", 0, "format")
-    format_value = data.get(format_key)
-    if format_value:
-        format_iri = None
-        format_field = find_field(schema, "format")
-        if format_field:
-            format_choices = format_field.get("choices", [])
-            for choice in format_choices:
-                if choice["label"] == format_value:
-                    format_iri = choice["iri"]
-        if format_iri:
-            data[key] = format_iri
-            return True
+    if "resources" in key and len(key) > 1:
+        format_key = ("resources", key[1], "format")
+        format_value = data.get(format_key)
+        if format_value:
+            format_iri = None
+            format_field = find_field(schema, "format")
+            if format_field:
+                format_choices = format_field.get("choices", [])
+                for choice in format_choices:
+                    if choice["label"] == format_value:
+                        format_iri = choice["iri"]
+            if format_iri:
+                data[key] = format_iri
+                return True
     return False
 
 
