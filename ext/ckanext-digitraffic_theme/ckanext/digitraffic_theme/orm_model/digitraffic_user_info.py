@@ -2,8 +2,7 @@ from typing import TypedDict, NotRequired, Self, Optional
 
 from ckan.plugins import toolkit
 import sqlalchemy as sa
-from sqlalchemy.orm import relationship
-from ckan.model import meta
+from sqlalchemy.orm import relationship, Session
 
 class DigitrafficUserInfoInput(TypedDict):
     phone: NotRequired[str]
@@ -46,28 +45,34 @@ class DigitrafficUserInfo(toolkit.BaseModel):
         self.street_address = street_address
 
     @classmethod
-    def get(cls, user_id: str) -> Self:
-        return (meta.Session.query(cls)
+    def get(cls, session: Session, user_id: str) -> Self:
+        return (session.query(cls)
                 .filter(cls.user_id == user_id)
                 .first())
 
     @classmethod
-    def update(cls, user_id: str, user_data: DigitrafficUserInfoInput):
-        raise NotImplementedError('User Info update is not implemented yet!')
-
-    @classmethod
-    def create(cls, user_id: str, user_data: DigitrafficUserInfoInput):
-        user_info = cls(
-            user_id,
-            user_data.get("phone"),
-            user_data.get("first_name"),
-            user_data.get("surname"),
-            user_data.get("country_of_residence"),
-            user_data.get("county"),
-            user_data.get("post_code"),
-            user_data.get("city"),
-            user_data.get("street_address")
-        )
-        meta.Session.add(user_info)
-        meta.Session.commit()
+    def upsert(cls, session: Session, user_id: str, user_data: DigitrafficUserInfoInput) -> Self:
+        user_info = DigitrafficUserInfo.get(session, user_id)
+        if user_info is not None:
+            user_info.phone = user_data.get("phone")
+            user_info.first_name = user_data.get("first_name")
+            user_info.surname = user_data.get("surname")
+            user_info.country_of_residence = user_data.get("country_of_residence")
+            user_info.county = user_data.get("county")
+            user_info.post_code = user_data.get("post_code")
+            user_info.city = user_data.get("city")
+            user_info.street_address = user_data.get("street_address")
+        else:
+            user_info = cls(
+                user_id,
+                user_data.get("phone"),
+                user_data.get("first_name"),
+                user_data.get("surname"),
+                user_data.get("country_of_residence"),
+                user_data.get("county"),
+                user_data.get("post_code"),
+                user_data.get("city"),
+                user_data.get("street_address")
+            )
+            session.add(user_info)
         return user_info

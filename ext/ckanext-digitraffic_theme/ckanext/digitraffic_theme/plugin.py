@@ -6,7 +6,7 @@ from typing import Callable
 from ckan.lib.plugins import DefaultTranslation
 from ckan.types import ActionResult, Context, DataDict
 from ckanext.digitraffic_theme.views.user import DigitrafficEditView
-from ckanext.digitraffic_theme.orm_model.digitraffic_user_info import DigitrafficUserInfo
+from ckanext.digitraffic_theme.orm_model.digitraffic_user_info import DigitrafficUserInfo, DigitrafficUserInfoInput
 
 from ckanext.digitraffic_theme.validators.dataset_validators import (
     mobility_theme_sub_validator,
@@ -28,10 +28,11 @@ def user_show(original_action: Callable, context: Context, data_dict: DataDict) 
     TODO: The default authorization is to let any logged-in user to see user info. Should we keep this?
     """
     print("####################### user_show #####################")
+    session = context['session']
     user_data = original_action(context, data_dict)
 
     user_id = context['user_obj'].id
-    digitraffic_user_info = DigitrafficUserInfo.get(user_id)
+    digitraffic_user_info = DigitrafficUserInfo.get(session, user_id)
 
     print(f'user_id: {user_id}')
     print('digitraffic_user_info')
@@ -59,25 +60,26 @@ def user_update(original_action: Callable, context: Context, data_dict: DataDict
     Relies on the CKAN default action to add `user_obj` into context.
     """
     print("####################### user_update #####################")
+    context['defer_commit'] = True
     user_data = original_action(context, data_dict)
     updated_user_id = context['user_obj'].id
+    session = context['session']
 
     print(f'updated_user_id: {updated_user_id}')
     print('data_dict')
     pprint.pprint(data_dict)
-    is_user_info_updated = DigitrafficUserInfo.get(updated_user_id) is not None
-    user_info_input_data = {'phone': data_dict.get('phone'),
-                       'first_name': data_dict.get('first_name'),
-                       'surname': data_dict.get('surname'),
-                       'country_of_residence': data_dict.get('country_of_residence'),
-                       'county': data_dict.get('county'),
-                       'post_code': data_dict.get('post_code'),
-                       'city': data_dict.get('city'),
-                       'street_address': data_dict.get('street_address')}
-    if is_user_info_updated:
-        digitraffic_user_info = DigitrafficUserInfo.update(updated_user_id, user_info_input_data)
-    else:
-        digitraffic_user_info = DigitrafficUserInfo.create(updated_user_id, user_info_input_data)
+    user_info_input_data = DigitrafficUserInfoInput(
+        phone=data_dict.get('phone'),
+        first_name=data_dict.get('first_name'),
+        surname=data_dict.get('surname'),
+        country_of_residence=data_dict.get('country_of_residence'),
+        county=data_dict.get('county'),
+        post_code=data_dict.get('post_code'),
+        city=data_dict.get('city'),
+        street_address=data_dict.get('street_address')
+    )
+    digitraffic_user_info = DigitrafficUserInfo.upsert(session, updated_user_id, user_info_input_data)
+    session.commit()
     digitraffic_user = {
         'digitraffic_user': {
             'phone': getattr(digitraffic_user_info, 'phone', None),
