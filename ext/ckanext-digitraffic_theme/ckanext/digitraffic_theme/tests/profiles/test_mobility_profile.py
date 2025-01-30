@@ -17,7 +17,11 @@ from ckanext.digitraffic_theme.model.location import Location
 from ckanext.digitraffic_theme.model.mobility_data_standard import (
     MobilityDataStandard,
 )
-from ckanext.digitraffic_theme.model.mobility_theme import MobilityTheme, MobilityThemeSub, MOBILITY_THEME_TREE
+from ckanext.digitraffic_theme.model.mobility_theme import (
+    MobilityTheme,
+    MobilityThemeSub,
+    MOBILITY_THEME_TREE,
+)
 from ckanext.digitraffic_theme.model.rights_type import RightsType
 from ckanext.digitraffic_theme.rdf.mobility_dcat_ap import MOBILITYDCATAP
 
@@ -41,10 +45,18 @@ class TestProfile(object):
             "fi": "Suomenkielinen nimi",
             "sv": "Svensk titel",
         }
-        dataset_frequency = Frequency.iris[0]
-        dataset_mobility_theme = str([main_theme for main_theme, sub_themes in MOBILITY_THEME_TREE.items() if len(sub_themes) > 0][0])
-        dataset_mobility_theme_sub = str(list(MOBILITY_THEME_TREE[URIRef(dataset_mobility_theme)])[0])
-        dataset_spatial = Location.iris[0]
+        dataset_frequency = list(Frequency.iris)[0]
+        dataset_mobility_theme = str(
+            [
+                main_theme
+                for main_theme, sub_themes in MOBILITY_THEME_TREE.items()
+                if len(sub_themes) > 0
+            ][0]
+        )
+        dataset_mobility_theme_sub = str(
+            list(MOBILITY_THEME_TREE[URIRef(dataset_mobility_theme)])[0]
+        )
+        dataset_spatial = list(Location.iris)[0]
         dataset = factories.Dataset(
             owner_org=owner_org["id"],
             name=dataset_name,
@@ -56,14 +68,15 @@ class TestProfile(object):
             resources=[
                 {
                     "url": "http://localhost:8080/foo",
-                    "format": Format.labels[0],
+                    "format": list(Format.labels)[0],
                     "mobility_data_standard_version": "3",
-                    "mobility_data_standard": MobilityDataStandard.iris[0],
-                    "rights_type": RightsType.iris[0],
+                    "mobility_data_standard": list(MobilityDataStandard.iris)[0],
+                    "rights_type": list(RightsType.iris)[0],
                 }
             ],
             notes_translated=notes,
             title_translated=titles,
+            is_referenced_by=[],
         )
         serializer = RDFSerializer()
         dataset_ref = serializer.graph_from_dataset(dataset)
@@ -105,6 +118,6 @@ class TestProfile(object):
         assert (dataset_ref, DCTERMS.spatial, Location(dataset_spatial).iri) in g
         assert str(g.value(dataset_ref, DCTERMS.title, None)) == dataset_name
         publisher_ref = g.value(dataset_ref, DCTERMS.publisher, None)
-        assert owner_org["name"] in [
+        assert owner_org["display_name"] in [
             str(name) for name in list(g.objects(publisher_ref, FOAF.name))
         ]

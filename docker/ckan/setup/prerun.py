@@ -159,6 +159,7 @@ def init_datastore_db():
         cursor.close()
         connection.close()
 
+
 def setup_conf():
     print("[prerun] Setup configuration")
     setup_conf_command = [
@@ -167,10 +168,11 @@ def setup_conf():
         ckan_ini,
         "ckan.datastore.write_url = ${CKAN_DATASTORE_WRITE_URL}",
         "ckan.datastore.read.url = ${CKAN_DATASTORE_READ_URL}",
-        "sqlalchemy.url = ${CKAN_SQLALCHEMY_URL}"
+        "sqlalchemy.url = ${CKAN_SQLALCHEMY_URL}",
     ]
     subprocess.call(setup_conf_command)
     print("[prerun] Configuration set")
+
 
 if __name__ == "__main__":
 

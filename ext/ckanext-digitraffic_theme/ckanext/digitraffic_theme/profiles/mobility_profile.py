@@ -2,18 +2,27 @@ from datetime import datetime, timezone
 
 from rdflib import Graph, URIRef, Literal, BNode
 from rdflib.namespace import DCTERMS, DCAT, RDF, XSD
-
 from ckanext.dcat.profiles import RDFProfile
+
+from ckanext.digitraffic_theme.model.organization import Organization
+from ckanext.digitraffic_theme.model.agent import Agent
+from ckanext.digitraffic_theme.rdf.oa import OA
+from ckanext.digitraffic_theme.rdf.cnt import CNT
+from ckanext.digitraffic_theme.rdf.dqv import DQV
+from ckanext.digitraffic_theme.model.location import Location
+from ckanext.digitraffic_theme.model.mobility_data import MobilityData
 from ckanext.digitraffic_theme.profiles.graph_modifiers.adder import (
-    add_class_instance_with_children,
     add_class_instance_values,
+    add_class_instance_with_children,
     add_literal_to_graph,
     add_vocabulary_to_graph,
+    add_uriref_to_graph,
 )
-from ckanext.digitraffic_theme.model.agent import Agent
 from ckanext.digitraffic_theme.model.location import Location
 from ckanext.digitraffic_theme.model.mobility_data import MobilityData
 from ckanext.digitraffic_theme.rdf.mobility_dcat_ap import MOBILITYDCATAP
+from rdflib import BNode, Graph, Literal, URIRef
+from rdflib.namespace import DCAT, DCTERMS, RDF, XSD
 
 
 class MobilityDCATAPProfile(RDFProfile):
@@ -24,23 +33,34 @@ class MobilityDCATAPProfile(RDFProfile):
     def graph_from_dataset(self, dataset_dict, dataset_ref):
         mobility_data: MobilityData = MobilityData(dataset_dict, dataset_ref)
         g: Graph = self.g
+
+        # Namespace prefix mappings
         g.bind("mobilitydcatap", MOBILITYDCATAP)
+        g.bind("oa", OA)
+        g.bind("dqv", DQV)
+        g.bind("cnt", CNT)
 
         self._remove_existing_self_managed_graph_data(dataset_ref)
         self._update_existing_graph_data(dataset_ref, mobility_data)
+
+        # dct:identifier should contain the value of rdf:about (the subject URI)
+        # dataset_ref contains this value
+        add_literal_to_graph(g, dataset_ref, DCTERMS.identifier, Literal(dataset_ref))
 
         # We'll end up adding Dataset metadata when injecting record
         self._inject_record(mobility_data, dataset_ref)
 
     def graph_from_catalog(self, catalog_dict, catalog_ref):
         g: Graph = self.g
+
         # Remove data that we are going to add ourselves
         for obj in g.objects(catalog_ref, DCTERMS.title):
             g.remove((catalog_ref, DCTERMS.title, obj))
         for obj in g.objects(catalog_ref, DCTERMS.language):
             g.remove((catalog_ref, DCTERMS.language, obj))
 
-        # Add the metadata
+        # Mandatory properties
+
         add_literal_to_graph(
             g,
             catalog_ref,
@@ -48,7 +68,10 @@ class MobilityDCATAPProfile(RDFProfile):
             Literal("Digitraffic Catalog description"),
         )
         add_class_instance_with_children(
-            g, catalog_ref, DCTERMS.publisher, Agent(None, "Digitraffic")
+            g,
+            catalog_ref,
+            DCTERMS.publisher,
+            Organization(None, {"name": Literal("Digitraffic")}),
         )
         add_vocabulary_to_graph(
             g,
@@ -60,25 +83,33 @@ class MobilityDCATAPProfile(RDFProfile):
             g, catalog_ref, DCTERMS.title, Literal("Digitraffic Catalog")
         )
 
+        # Recommended properties
+
         # Add all languages supported by the catalog
-        add_literal_to_graph(
+        add_uriref_to_graph(
             g,
             catalog_ref,
             DCTERMS.language,
             URIRef("http://publications.europa.eu/resource/authority/language/ENG"),
         )
-        add_literal_to_graph(
+        add_uriref_to_graph(
             g,
             catalog_ref,
             DCTERMS.language,
             URIRef("http://publications.europa.eu/resource/authority/language/FIN"),
         )
-        add_literal_to_graph(
+        add_uriref_to_graph(
             g,
             catalog_ref,
             DCTERMS.language,
             URIRef("http://publications.europa.eu/resource/authority/language/SWE"),
         )
+
+        # Optional properties
+
+        # dct:identifier should contain the value of rdf:about (the subject URI)
+        # catalog_ref contains this value
+        add_literal_to_graph(g, catalog_ref, DCTERMS.identifier, Literal(catalog_ref))
 
     def _remove_existing_self_managed_graph_data(self, dataset_ref):
         g: Graph = self.g
@@ -91,8 +122,12 @@ class MobilityDCATAPProfile(RDFProfile):
             g.remove((dataset_ref, DCTERMS.accrualPeriodicity, obj))
         for obj in g.objects(dataset_ref, DCTERMS.title):
             g.remove((dataset_ref, DCTERMS.title, obj))
+        for obj in g.objects(dataset_ref, DCTERMS.identifier):
+            g.remove((dataset_ref, DCTERMS.identifier, obj))
         for obj in g.objects(dataset_ref, DCTERMS.description):
             g.remove((dataset_ref, DCTERMS.description, obj))
+        for obj in g.objects(dataset_ref, DCTERMS.relation):
+            g.remove((dataset_ref, DCTERMS.relation, obj))
         for dist in g.objects(dataset_ref, DCAT.distribution):
             for p, o in g.predicate_objects(dist):
                 if (

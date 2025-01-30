@@ -18,14 +18,15 @@ pip_install() {
 # install extensions
 pip install -e "${EXT_DIR}/ckanext-digitraffic_theme"
 pip install -e "${EXT_DIR}/ckanext-entraid_authenticator"
-pip install -e "${EXT_DIR}/ckanext-digitraffic_validators"
 pip install -e "${EXT_DIR}/ckanext-digitraffic_fluent"
 pip install -e "git+https://github.com/ckan/ckanext-dcat.git@v1.7.0#egg=ckanext-dcat"
-pip install -e "git+https://github.com/ckan/ckanext-scheming.git@release-3.0.0#egg=ckanext-scheming"
 
 # install requirements
 pip_install "${EXT_DIR}/ckanext-digitraffic_theme/dev-requirements.txt"
 pip_install "${EXT_DIR}/ckanext-entraid_authenticator/requirements.txt"
-pip_install "${EXT_DIR}/ckanext-digitraffic_validators/requirements.txt"
 pip_install "${EXT_DIR}/ckanext-digitraffic_fluent/requirements.txt"
 pip install -r src/ckanext-dcat/requirements.txt
+
+# We want to install our version of ckanext-scheming last so that the previously installed extensions that
+# use ckanext-scheming, will use our verison of it
+pip install -e "${EXT_DIR}/ckanext-scheming"

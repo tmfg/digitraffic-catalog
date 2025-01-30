@@ -18,7 +18,7 @@ echo "Configuring extensions..."
 
 # scheming
 ckan config-tool $CKAN_INI "scheming.dataset_schemas = ckanext.digitraffic_theme.schemas:mobility_dcat.yaml"
-ckan config-tool $CKAN_INI "scheming.presets = ckanext.scheming:presets.json ckanext.fluent:presets.json"
+ckan config-tool $CKAN_INI "scheming.presets = ckanext.scheming:presets.json ckanext.fluent:presets.json ckanext.digitraffic_theme:presets.json"
 
 # DCAT
 ## Make it possible for MobilityDCAT-AP metadata requester to define in which serialization format the metadata should
@@ -26,5 +26,5 @@ ckan config-tool $CKAN_INI "scheming.presets = ckanext.scheming:presets.json cka
 ckan config-tool $CKAN_INI "ckanext.dcat.enable_content_negotiation = True"
 ## Add mobility_dcat_ap profile
 ckan config-tool $CKAN_INI "ckanext.dcat.rdf.profiles = euro_dcat_ap mobility_dcat_ap"
-## If this is Ture, it will break the package_dict data model
+## If this is True, it will break the package_dict data model
 ckan config-tool $CKAN_INI "ckanext.dcat.translate_keys = False"

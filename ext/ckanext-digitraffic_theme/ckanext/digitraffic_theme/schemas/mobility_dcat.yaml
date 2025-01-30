@@ -144,7 +144,7 @@ dataset_fields:
     label: Filling and charging stations
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/freight-and-logistics
     label: Freight and logistics
-  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/general-information-for-trip-planning-
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/general-information-for-trip-planning
     label: General information for trip-planning
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/other
     label: Other
@@ -383,6 +383,102 @@ dataset_fields:
     label: Vehicle details
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/waiting-time-at-border-crossings-to-non-eu-member-states
     label: Waiting time at border crossings to non-EU Member States
+- field_name: theme
+  label: Theme
+  required: false
+  preset: select
+  form_include_blank_choice: true
+  choices:
+  - value: http://publications.europa.eu/resource/authority/data-theme/AGRI
+    label: Agriculture, fisheries, forestry and food
+  - value: http://publications.europa.eu/resource/authority/data-theme/ECON
+    label: Economy and finance
+  - value: http://publications.europa.eu/resource/authority/data-theme/EDUC
+    label: Education, culture and sport
+  - value: http://publications.europa.eu/resource/authority/data-theme/ENER
+    label: Energy
+  - value: http://publications.europa.eu/resource/authority/data-theme/ENVI
+    label: Environment
+  - value: http://publications.europa.eu/resource/authority/data-theme/GOVE
+    label: Government and public sector
+  - value: http://publications.europa.eu/resource/authority/data-theme/HEAL
+    label: Health
+  - value: http://publications.europa.eu/resource/authority/data-theme/INTR
+    label: International issues
+  - value: http://publications.europa.eu/resource/authority/data-theme/JUST
+    label: Justice, legal system and public safety
+  - value: http://publications.europa.eu/resource/authority/data-theme/SOCI
+    label: Population and society
+  - value: http://publications.europa.eu/resource/authority/data-theme/OP_DATPRO
+    label: Provisional data
+  - value: http://publications.europa.eu/resource/authority/data-theme/REGI
+    label: Regions and cities
+  - value: http://publications.europa.eu/resource/authority/data-theme/TECH
+    label: Science and technology
+  - value: http://publications.europa.eu/resource/authority/data-theme/TRAN
+    label: Transport
+- field_name: start_timestamp
+  label: Start time
+  preset: datetime_tz
+  required: false
+- field_name: end_timestamp
+  label: End time
+  preset: datetime_tz
+  required: false
+- field_name: transport_mode
+  label: Transport Mode
+  required: false
+  preset: select
+  form_include_blank_choice: true
+  choices:
+  - value: https://w3id.org/mobilitydcat-ap/transport-mode/air
+    label: Air
+  - value: https://w3id.org/mobilitydcat-ap/transport-mode/bicycle
+    label: Bicycle
+  - value: https://w3id.org/mobilitydcat-ap/transport-mode/bike-hire
+    label: Bike Hire
+  - value: https://w3id.org/mobilitydcat-ap/transport-mode/bike-sharing
+    label: Bike Sharing
+  - value: https://w3id.org/mobilitydcat-ap/transport-mode/bus
+    label: Bus
+  - value: https://w3id.org/mobilitydcat-ap/transport-mode/car
+    label: Car
+  - value: https://w3id.org/mobilitydcat-ap/transport-mode/car-hire
+    label: Car Hire
+  - value: https://w3id.org/mobilitydcat-ap/transport-mode/car-pooling
+    label: Car Pooling
+  - value: https://w3id.org/mobilitydcat-ap/transport-mode/car-sharing
+    label: Car Sharing
+  - value: https://w3id.org/mobilitydcat-ap/transport-mode/e-scooter
+    label: E-Scooter
+  - value: https://w3id.org/mobilitydcat-ap/transport-mode/long-distance-coach
+    label: Long-distance coach
+  - value: https://w3id.org/mobilitydcat-ap/transport-mode/long-distance-rail
+    label: Long-distance rail
+  - value: https://w3id.org/mobilitydcat-ap/transport-mode/maritime
+    label: Maritime
+  - value: https://w3id.org/mobilitydcat-ap/transport-mode/metro-subway-train
+    label: Metro, Subway train
+  - value: https://w3id.org/mobilitydcat-ap/transport-mode/motorcycle
+    label: Motorcycle
+  - value: https://w3id.org/mobilitydcat-ap/transport-mode/other
+    label: Other
+  - value: https://w3id.org/mobilitydcat-ap/transport-mode/pedestrian
+    label: Pedestrian
+  - value: https://w3id.org/mobilitydcat-ap/transport-mode/regional-and-local-rail
+    label: Regional and local rail
+  - value: https://w3id.org/mobilitydcat-ap/transport-mode/ride-pooling
+    label: Ride Pooling
+  - value: https://w3id.org/mobilitydcat-ap/transport-mode/shuttle-bus
+    label: Shuttle bus
+  - value: https://w3id.org/mobilitydcat-ap/transport-mode/shuttle-ferry
+    label: Shuttle ferry
+  - value: https://w3id.org/mobilitydcat-ap/transport-mode/taxi
+    label: Taxi
+  - value: https://w3id.org/mobilitydcat-ap/transport-mode/tram-light-rail
+    label: Tram, Light rail
+  - value: https://w3id.org/mobilitydcat-ap/transport-mode/truck
+    label: Truck
 - field_name: spatial
   label: Location
   required: true
@@ -1072,7 +1168,6 @@ dataset_fields:
 - field_name: version
   label: Dataset version
   required: false
-  help_text: The value should be URL
 - field_name: version_notes_translated
   label: Version notes
   required: false
@@ -1081,11 +1176,275 @@ dataset_fields:
   - fi
   - en
   - sv
+- field_name: language
+  label: Language
+  required: false
+  preset: select
+  help_text: Language used in content data
+  form_include_blank_choice: true
+  choices:
+  - value: http://publications.europa.eu/resource/authority/language/DAN
+    label: Danish
+  - value: http://publications.europa.eu/resource/authority/language/NLD
+    label: Dutch
+  - value: http://publications.europa.eu/resource/authority/language/ENG
+    label: English
+  - value: http://publications.europa.eu/resource/authority/language/EST
+    label: Estonian
+  - value: http://publications.europa.eu/resource/authority/language/FIN
+    label: Finnish
+  - value: http://publications.europa.eu/resource/authority/language/FRA
+    label: French
+  - value: http://publications.europa.eu/resource/authority/language/DEU
+    label: German
+  - value: http://publications.europa.eu/resource/authority/language/ISL
+    label: Icelandic
+  - value: http://publications.europa.eu/resource/authority/language/LAV
+    label: Latvian
+  - value: http://publications.europa.eu/resource/authority/language/LIT
+    label: Lithuanian
+  - value: http://publications.europa.eu/resource/authority/language/NOR
+    label: Norwegian
+  - value: http://publications.europa.eu/resource/authority/language/POL
+    label: Polish
+  - value: http://publications.europa.eu/resource/authority/language/SPA
+    label: Spanish
+  - value: http://publications.europa.eu/resource/authority/language/SWE
+    label: Swedish
+- field_name: georeferencing_method
+  label: Georeferencing Method
+  required: false
+  preset: select
+  form_include_blank_choice: true
+  choices:
+  - value: https://w3id.org/mobilitydcat-ap/georeferencing-method/alert-c
+    label: ALERT-C
+  - value: https://w3id.org/mobilitydcat-ap/georeferencing-method/gml
+    label: GML
+  - value: https://w3id.org/mobilitydcat-ap/georeferencing-method/geocoordinates
+    label: Geocoordinates
+  - value: https://w3id.org/mobilitydcat-ap/georeferencing-method/iso-19148
+    label: ISO 19148
+  - value: https://w3id.org/mobilitydcat-ap/georeferencing-method/openlr
+    label: OpenLR
+  - value: https://w3id.org/mobilitydcat-ap/georeferencing-method/other
+    label: Other
+  - value: https://w3id.org/mobilitydcat-ap/georeferencing-method/tpeg-loc
+    label: TPEG-LOC
+- field_name: contact_point
+  label: Contact point
+  repeating_subfields:
+  - field_name: has_email
+    label: Email
+    required: false
+    preset: email
+  - field_name: fn
+    label: Full name
+    required: false
+  - field_name: has_telephone
+    label: Phone number
+    required: false
+    preset: phone
+  - field_name: has_url
+    label: Web site
+    required: false
+    preset: url
+  - field_name: country_name
+    label: country name
+    required: false
+  - field_name: locality
+    label: locality
+    required: false
+  - field_name: organization_name
+    label: organization name
+    required: false
+  - field_name: postal_code
+    label: postal code
+    required: false
+  - field_name: region
+    label: region
+    required: false
+  - field_name: street_address
+    label: street address
+    required: false
+- field_name: network_coverage
+  label: Network Coverage
+  required: false
+  preset: select
+  form_include_blank_choice: true
+  choices:
+  - value: https://w3id.org/mobilitydcat-ap/network-coverage/air-network
+    label: Air network
+  - value: https://w3id.org/mobilitydcat-ap/network-coverage/metro-subway-tram-or-light-rail-network
+    label: Metro, subway, tram or light-rail network
+  - value: https://w3id.org/mobilitydcat-ap/network-coverage/motorways
+    label: Motorways
+  - value: https://w3id.org/mobilitydcat-ap/network-coverage/other
+    label: Other
+  - value: https://w3id.org/mobilitydcat-ap/network-coverage/other-public-transport-network
+    label: Other public transport network
+  - value: https://w3id.org/mobilitydcat-ap/network-coverage/rail-network
+    label: Rail network
+  - value: https://w3id.org/mobilitydcat-ap/network-coverage/regional-roads
+    label: Regional roads
+  - value: https://w3id.org/mobilitydcat-ap/network-coverage/state-roads-or-federal-roads
+    label: State roads or federal roads
+  - value: https://w3id.org/mobilitydcat-ap/network-coverage/ten-network
+    label: TEN Network
+  - value: https://w3id.org/mobilitydcat-ap/network-coverage/tern-network
+    label: TERN Network
+  - value: https://w3id.org/mobilitydcat-ap/network-coverage/urban-and-local-roads
+    label: Urban and local roads
+  - value: https://w3id.org/mobilitydcat-ap/network-coverage/waterways
+    label: Waterways
+- field_name: conforms_to
+  label: Spatial Reference System
+  help_text: Value must be an EPSG number
+  required: false
+  preset: iri_fragment
+  input_type: number
+  form_attrs:
+    min: '2000'
+    max: '69036405'
+  validators: scheming_required remove_whitespace ignore_missing spatial_reference_validator
+- field_name: intended_information_service
+  label: Intended information service
+  required: false
+  preset: select
+  form_include_blank_choice: true
+  choices:
+  - value: https://w3id.org/mobilitydcat-ap/intended-information-service/dynamic-information-service
+    label: Dynamic Information service
+  - value: https://w3id.org/mobilitydcat-ap/intended-information-service/dynamic-passing-times-trip-plans-and-auxiliary-information
+    label: Dynamic Passing times, trip plans and auxiliary information
+  - value: https://w3id.org/mobilitydcat-ap/intended-information-service/dynamic-availability-check
+    label: Dynamic availability check
+  - value: https://w3id.org/mobilitydcat-ap/intended-information-service/information-service
+    label: Information service
+  - value: https://w3id.org/mobilitydcat-ap/intended-information-service/location-search
+    label: Location search
+  - value: https://w3id.org/mobilitydcat-ap/intended-information-service/other
+    label: Other
+  - value: https://w3id.org/mobilitydcat-ap/intended-information-service/trip-plan-computation-scheduled-modes-transport
+    label: Trip plan computation scheduled modes transport
+  - value: https://w3id.org/mobilitydcat-ap/intended-information-service/trip-plans
+    label: Trip plans
+  - value: https://w3id.org/mobilitydcat-ap/intended-information-service/trip-plans-auxiliary-information-availability-check
+    label: Trip plans, auxiliary information, availability check
+- field_name: quality_description
+  label: Quality description
+  required: false
+  preset: url
+  help_text: URL for an assessment or notes by the publisher regarding quality of
+    dataset contents
+- field_name: assessment
+  label: Assessment
+  repeating_subfields:
+  - field_name: assessment_date
+    label: Assessment date
+    required: false
+  - field_name: assessment_result
+    label: Assessment result
+    required: false
+    preset: url
+    help_text: URL for the results of an assessment process by some organisation
+- field_name: related_resource
+  label: Related dataset
+  help_text: A related dataset that is somehow referenced, cited, or otherwise pointed
+    to by this dataset.
+  required: false
+  preset: dataset_reference_select
+  choices: ''
+  validators: scheming_required ignore_missing dataset_reference_validator
+- field_name: is_referenced_by
+  label: Is referenced by
+  form_snippet: null
+  required: false
+  validators: is_referenced_by_validator
+- field_name: rights_holder
+  label: Rights holder
+  repeating_subfields:
+  - field_name: type
+    label: Agent type
+    required: false
+    preset: select
+    form_include_blank_choice: true
+    choices:
+    - value: http://purl.org/adms/publishertype/Academia-ScientificOrganisation
+      label: Academia/Scientific organisation
+    - value: http://purl.org/adms/publishertype/Company
+      label: Company
+    - value: http://purl.org/adms/publishertype/IndustryConsortium
+      label: Industry consortium
+    - value: http://purl.org/adms/publishertype/LocalAuthority
+      label: Local Authority
+    - value: http://purl.org/adms/publishertype/NationalAuthority
+      label: National authority
+    - value: http://purl.org/adms/publishertype/NonGovernmentalOrganisation
+      label: Non-Governmental Organisation
+    - value: http://purl.org/adms/publishertype/NonProfitOrganisation
+      label: Non-Profit Organisation
+    - value: http://purl.org/adms/publishertype/PrivateIndividual(s)
+      label: Private Individual(s)
+    - value: http://purl.org/adms/publishertype/RegionalAuthority
+      label: Regional authority
+    - value: http://purl.org/adms/publishertype/StandardisationBody
+      label: Standardisation body
+    - value: http://purl.org/adms/publishertype/SupraNationalAuthority
+      label: Supra-national authority
+  - field_name: mbox
+    label: Email
+    required: false
+    preset: email
+  - field_name: member_of
+    label: Member of
+    repeating_subfields:
+    - field_name: name
+      label: Organization name
+      required: false
+  - field_name: phone
+    label: Phone number
+    required: false
+    preset: phone
+  - field_name: surname
+    label: Surname
+    required: false
+  - field_name: workplace_homepage
+    label: Workplace homepage
+    required: false
+    preset: url
+  - field_name: admin_unit_l1
+    label: admin unit level 1
+    required: false
+  - field_name: admin_unit_l2
+    label: admin unit level 2
+    required: false
+  - field_name: first_name
+    label: firstName
+    required: false
+  - field_name: name
+    label: name
+    required: false
+  - field_name: post_code
+    label: post code
+    required: false
+  - field_name: post_name
+    label: post name
+    required: false
+  - field_name: thoroughfare
+    label: thoroughfare
+    required: false
 resource_fields:
 - field_name: url
-  label: access address
+  label: Access URL
   required: true
-  help_text: The value should be URL
+  help_text: URL that gives access to this Distribution of the Dataset
+  preset: url
+- field_name: download_url
+  label: Download URL
+  required: false
+  help_text: A direct link to a downloadable file of this Distribution
+  preset: url
 - field_name: name_translated
   label: Title
   required: false
@@ -1753,6 +2112,605 @@ resource_fields:
   - value: xz
     label: xz
     iri: http://publications.europa.eu/resource/authority/file-type/XZ
+- field_name: data_grammar
+  label: Data grammar
+  required: false
+  preset: select
+  form_include_blank_choice: true
+  help_text: The technical data grammar format of the delivered content within the
+    Distribution
+  choices:
+  - value: https://w3id.org/mobilitydcat-ap/grammar/asn.1
+    label: ASN.1
+  - value: https://w3id.org/mobilitydcat-ap/grammar/json-schema
+    label: JSON Schema
+  - value: https://w3id.org/mobilitydcat-ap/grammar/other
+    label: Other
+  - value: https://w3id.org/mobilitydcat-ap/grammar/protocol-buffers
+    label: Protocol buffers
+  - value: https://w3id.org/mobilitydcat-ap/grammar/xsd
+    label: XSD
+- field_name: data_format_notes_translated
+  label: Data format notes
+  required: false
+  preset: fluent_core_translated
+  form_languages:
+  - fi
+  - en
+  - sv
+- field_name: character_encoding
+  label: Character encoding
+  required: false
+  preset: select
+  form_include_blank_choice: true
+  choices:
+  - value: ANSI_X3.110-1983
+    label: ANSI_X3.110-1983
+  - value: ASMO_449
+    label: ASMO_449
+  - value: Adobe-Standard-Encoding
+    label: Adobe-Standard-Encoding
+  - value: Adobe-Symbol-Encoding
+    label: Adobe-Symbol-Encoding
+  - value: Amiga-1251
+    label: Amiga-1251
+  - value: BOCU-1
+    label: BOCU-1
+  - value: BRF
+    label: BRF
+  - value: BS_4730
+    label: BS_4730
+  - value: BS_viewdata
+    label: BS_viewdata
+  - value: Big5
+    label: Big5
+  - value: Big5-HKSCS
+    label: Big5-HKSCS
+  - value: CESU-8
+    label: CESU-8
+  - value: CP50220
+    label: CP50220
+  - value: CP51932
+    label: CP51932
+  - value: CSA_Z243.4-1985-1
+    label: CSA_Z243.4-1985-1
+  - value: CSA_Z243.4-1985-2
+    label: CSA_Z243.4-1985-2
+  - value: CSA_Z243.4-1985-gr
+    label: CSA_Z243.4-1985-gr
+  - value: CSN_369103
+    label: CSN_369103
+  - value: DEC-MCS
+    label: DEC-MCS
+  - value: DIN_66003
+    label: DIN_66003
+  - value: DS_2089
+    label: DS_2089
+  - value: EBCDIC-AT-DE
+    label: EBCDIC-AT-DE
+  - value: EBCDIC-AT-DE-A
+    label: EBCDIC-AT-DE-A
+  - value: EBCDIC-CA-FR
+    label: EBCDIC-CA-FR
+  - value: EBCDIC-DK-NO
+    label: EBCDIC-DK-NO
+  - value: EBCDIC-DK-NO-A
+    label: EBCDIC-DK-NO-A
+  - value: EBCDIC-ES
+    label: EBCDIC-ES
+  - value: EBCDIC-ES-A
+    label: EBCDIC-ES-A
+  - value: EBCDIC-ES-S
+    label: EBCDIC-ES-S
+  - value: EBCDIC-FI-SE
+    label: EBCDIC-FI-SE
+  - value: EBCDIC-FI-SE-A
+    label: EBCDIC-FI-SE-A
+  - value: EBCDIC-FR
+    label: EBCDIC-FR
+  - value: EBCDIC-IT
+    label: EBCDIC-IT
+  - value: EBCDIC-PT
+    label: EBCDIC-PT
+  - value: EBCDIC-UK
+    label: EBCDIC-UK
+  - value: EBCDIC-US
+    label: EBCDIC-US
+  - value: ECMA-cyrillic
+    label: ECMA-cyrillic
+  - value: ES
+    label: ES
+  - value: ES2
+    label: ES2
+  - value: EUC-JP
+    label: EUC-JP
+  - value: EUC-KR
+    label: EUC-KR
+  - value: Extended_UNIX_Code_Fixed_Width_for_Japanese
+    label: Extended_UNIX_Code_Fixed_Width_for_Japanese
+  - value: GB18030
+    label: GB18030
+  - value: GB2312
+    label: GB2312
+  - value: GBK
+    label: GBK
+  - value: GB_1988-80
+    label: GB_1988-80
+  - value: GB_2312-80
+    label: GB_2312-80
+  - value: GOST_19768-74
+    label: GOST_19768-74
+  - value: HP-DeskTop
+    label: HP-DeskTop
+  - value: HP-Legal
+    label: HP-Legal
+  - value: HP-Math8
+    label: HP-Math8
+  - value: HP-Pi-font
+    label: HP-Pi-font
+  - value: HZ-GB-2312
+    label: HZ-GB-2312
+  - value: IBM-Symbols
+    label: IBM-Symbols
+  - value: IBM-Thai
+    label: IBM-Thai
+  - value: IBM00858
+    label: IBM00858
+  - value: IBM00924
+    label: IBM00924
+  - value: IBM01140
+    label: IBM01140
+  - value: IBM01141
+    label: IBM01141
+  - value: IBM01142
+    label: IBM01142
+  - value: IBM01143
+    label: IBM01143
+  - value: IBM01144
+    label: IBM01144
+  - value: IBM01145
+    label: IBM01145
+  - value: IBM01146
+    label: IBM01146
+  - value: IBM01147
+    label: IBM01147
+  - value: IBM01148
+    label: IBM01148
+  - value: IBM01149
+    label: IBM01149
+  - value: IBM037
+    label: IBM037
+  - value: IBM038
+    label: IBM038
+  - value: IBM1026
+    label: IBM1026
+  - value: IBM1047
+    label: IBM1047
+  - value: IBM273
+    label: IBM273
+  - value: IBM274
+    label: IBM274
+  - value: IBM275
+    label: IBM275
+  - value: IBM277
+    label: IBM277
+  - value: IBM278
+    label: IBM278
+  - value: IBM280
+    label: IBM280
+  - value: IBM281
+    label: IBM281
+  - value: IBM284
+    label: IBM284
+  - value: IBM285
+    label: IBM285
+  - value: IBM290
+    label: IBM290
+  - value: IBM297
+    label: IBM297
+  - value: IBM420
+    label: IBM420
+  - value: IBM423
+    label: IBM423
+  - value: IBM424
+    label: IBM424
+  - value: IBM437
+    label: IBM437
+  - value: IBM500
+    label: IBM500
+  - value: IBM775
+    label: IBM775
+  - value: IBM850
+    label: IBM850
+  - value: IBM851
+    label: IBM851
+  - value: IBM852
+    label: IBM852
+  - value: IBM855
+    label: IBM855
+  - value: IBM857
+    label: IBM857
+  - value: IBM860
+    label: IBM860
+  - value: IBM861
+    label: IBM861
+  - value: IBM862
+    label: IBM862
+  - value: IBM863
+    label: IBM863
+  - value: IBM864
+    label: IBM864
+  - value: IBM865
+    label: IBM865
+  - value: IBM866
+    label: IBM866
+  - value: IBM868
+    label: IBM868
+  - value: IBM869
+    label: IBM869
+  - value: IBM870
+    label: IBM870
+  - value: IBM871
+    label: IBM871
+  - value: IBM880
+    label: IBM880
+  - value: IBM891
+    label: IBM891
+  - value: IBM903
+    label: IBM903
+  - value: IBM904
+    label: IBM904
+  - value: IBM905
+    label: IBM905
+  - value: IBM918
+    label: IBM918
+  - value: IEC_P27-1
+    label: IEC_P27-1
+  - value: INIS
+    label: INIS
+  - value: INIS-8
+    label: INIS-8
+  - value: INIS-cyrillic
+    label: INIS-cyrillic
+  - value: INVARIANT
+    label: INVARIANT
+  - value: ISO-10646-J-1
+    label: ISO-10646-J-1
+  - value: ISO-10646-UCS-2
+    label: ISO-10646-UCS-2
+  - value: ISO-10646-UCS-4
+    label: ISO-10646-UCS-4
+  - value: ISO-10646-UCS-Basic
+    label: ISO-10646-UCS-Basic
+  - value: ISO-10646-UTF-1
+    label: ISO-10646-UTF-1
+  - value: ISO-10646-Unicode-Latin1
+    label: ISO-10646-Unicode-Latin1
+  - value: ISO-11548-1
+    label: ISO-11548-1
+  - value: ISO-2022-CN
+    label: ISO-2022-CN
+  - value: ISO-2022-CN-EXT
+    label: ISO-2022-CN-EXT
+  - value: ISO-2022-JP
+    label: ISO-2022-JP
+  - value: ISO-2022-JP-2
+    label: ISO-2022-JP-2
+  - value: ISO-2022-KR
+    label: ISO-2022-KR
+  - value: ISO-8859-1
+    label: ISO-8859-1
+  - value: ISO-8859-1-Windows-3.0-Latin-1
+    label: ISO-8859-1-Windows-3.0-Latin-1
+  - value: ISO-8859-1-Windows-3.1-Latin-1
+    label: ISO-8859-1-Windows-3.1-Latin-1
+  - value: ISO-8859-10
+    label: ISO-8859-10
+  - value: ISO-8859-13
+    label: ISO-8859-13
+  - value: ISO-8859-14
+    label: ISO-8859-14
+  - value: ISO-8859-15
+    label: ISO-8859-15
+  - value: ISO-8859-16
+    label: ISO-8859-16
+  - value: ISO-8859-2
+    label: ISO-8859-2
+  - value: ISO-8859-2-Windows-Latin-2
+    label: ISO-8859-2-Windows-Latin-2
+  - value: ISO-8859-3
+    label: ISO-8859-3
+  - value: ISO-8859-4
+    label: ISO-8859-4
+  - value: ISO-8859-5
+    label: ISO-8859-5
+  - value: ISO-8859-6
+    label: ISO-8859-6
+  - value: ISO-8859-6-E
+    label: ISO-8859-6-E
+  - value: ISO-8859-6-I
+    label: ISO-8859-6-I
+  - value: ISO-8859-7
+    label: ISO-8859-7
+  - value: ISO-8859-8
+    label: ISO-8859-8
+  - value: ISO-8859-8-E
+    label: ISO-8859-8-E
+  - value: ISO-8859-8-I
+    label: ISO-8859-8-I
+  - value: ISO-8859-9
+    label: ISO-8859-9
+  - value: ISO-8859-9-Windows-Latin-5
+    label: ISO-8859-9-Windows-Latin-5
+  - value: ISO-Unicode-IBM-1261
+    label: ISO-Unicode-IBM-1261
+  - value: ISO-Unicode-IBM-1264
+    label: ISO-Unicode-IBM-1264
+  - value: ISO-Unicode-IBM-1265
+    label: ISO-Unicode-IBM-1265
+  - value: ISO-Unicode-IBM-1268
+    label: ISO-Unicode-IBM-1268
+  - value: ISO-Unicode-IBM-1276
+    label: ISO-Unicode-IBM-1276
+  - value: ISO_10367-box
+    label: ISO_10367-box
+  - value: ISO_2033-1983
+    label: ISO_2033-1983
+  - value: ISO_5427
+    label: ISO_5427
+  - value: ISO_5427:1981
+    label: ISO_5427:1981
+  - value: ISO_5428:1980
+    label: ISO_5428:1980
+  - value: ISO_646.basic:1983
+    label: ISO_646.basic:1983
+  - value: ISO_646.irv:1983
+    label: ISO_646.irv:1983
+  - value: ISO_6937-2-25
+    label: ISO_6937-2-25
+  - value: ISO_6937-2-add
+    label: ISO_6937-2-add
+  - value: ISO_8859-supp
+    label: ISO_8859-supp
+  - value: IT
+    label: IT
+  - value: JIS_C6220-1969-jp
+    label: JIS_C6220-1969-jp
+  - value: JIS_C6220-1969-ro
+    label: JIS_C6220-1969-ro
+  - value: JIS_C6226-1978
+    label: JIS_C6226-1978
+  - value: JIS_C6226-1983
+    label: JIS_C6226-1983
+  - value: JIS_C6229-1984-a
+    label: JIS_C6229-1984-a
+  - value: JIS_C6229-1984-b
+    label: JIS_C6229-1984-b
+  - value: JIS_C6229-1984-b-add
+    label: JIS_C6229-1984-b-add
+  - value: JIS_C6229-1984-hand
+    label: JIS_C6229-1984-hand
+  - value: JIS_C6229-1984-hand-add
+    label: JIS_C6229-1984-hand-add
+  - value: JIS_C6229-1984-kana
+    label: JIS_C6229-1984-kana
+  - value: JIS_Encoding
+    label: JIS_Encoding
+  - value: JIS_X0201
+    label: JIS_X0201
+  - value: JIS_X0212-1990
+    label: JIS_X0212-1990
+  - value: JUS_I.B1.002
+    label: JUS_I.B1.002
+  - value: JUS_I.B1.003-mac
+    label: JUS_I.B1.003-mac
+  - value: JUS_I.B1.003-serb
+    label: JUS_I.B1.003-serb
+  - value: KOI7-switched
+    label: KOI7-switched
+  - value: KOI8-R
+    label: KOI8-R
+  - value: KOI8-U
+    label: KOI8-U
+  - value: KSC5636
+    label: KSC5636
+  - value: KS_C_5601-1987
+    label: KS_C_5601-1987
+  - value: KZ-1048
+    label: KZ-1048
+  - value: Latin-greek-1
+    label: Latin-greek-1
+  - value: MNEM
+    label: MNEM
+  - value: MNEMONIC
+    label: MNEMONIC
+  - value: MSZ_7795.3
+    label: MSZ_7795.3
+  - value: Microsoft-Publishing
+    label: Microsoft-Publishing
+  - value: NATS-DANO
+    label: NATS-DANO
+  - value: NATS-DANO-ADD
+    label: NATS-DANO-ADD
+  - value: NATS-SEFI
+    label: NATS-SEFI
+  - value: NATS-SEFI-ADD
+    label: NATS-SEFI-ADD
+  - value: NC_NC00-10:81
+    label: NC_NC00-10:81
+  - value: NF_Z_62-010
+    label: NF_Z_62-010
+  - value: NF_Z_62-010_(1973)
+    label: NF_Z_62-010_(1973)
+  - value: NS_4551-1
+    label: NS_4551-1
+  - value: NS_4551-2
+    label: NS_4551-2
+  - value: OSD_EBCDIC_DF03_IRV
+    label: OSD_EBCDIC_DF03_IRV
+  - value: OSD_EBCDIC_DF04_1
+    label: OSD_EBCDIC_DF04_1
+  - value: OSD_EBCDIC_DF04_15
+    label: OSD_EBCDIC_DF04_15
+  - value: PC8-Danish-Norwegian
+    label: PC8-Danish-Norwegian
+  - value: PC8-Turkish
+    label: PC8-Turkish
+  - value: PT
+    label: PT
+  - value: PT2
+    label: PT2
+  - value: PTCP154
+    label: PTCP154
+  - value: SCSU
+    label: SCSU
+  - value: SEN_850200_B
+    label: SEN_850200_B
+  - value: SEN_850200_C
+    label: SEN_850200_C
+  - value: Shift_JIS
+    label: Shift_JIS
+  - value: T.101-G2
+    label: T.101-G2
+  - value: T.61-7bit
+    label: T.61-7bit
+  - value: T.61-8bit
+    label: T.61-8bit
+  - value: TIS-620
+    label: TIS-620
+  - value: TSCII
+    label: TSCII
+  - value: UNICODE-1-1
+    label: UNICODE-1-1
+  - value: UNICODE-1-1-UTF-7
+    label: UNICODE-1-1-UTF-7
+  - value: UNKNOWN-8BIT
+    label: UNKNOWN-8BIT
+  - value: US-ASCII
+    label: US-ASCII
+  - value: UTF-16
+    label: UTF-16
+  - value: UTF-16BE
+    label: UTF-16BE
+  - value: UTF-16LE
+    label: UTF-16LE
+  - value: UTF-32
+    label: UTF-32
+  - value: UTF-32BE
+    label: UTF-32BE
+  - value: UTF-32LE
+    label: UTF-32LE
+  - value: UTF-7
+    label: UTF-7
+  - value: UTF-7-IMAP
+    label: UTF-7-IMAP
+  - value: UTF-8
+    label: UTF-8
+  - value: VIQR
+    label: VIQR
+  - value: VISCII
+    label: VISCII
+  - value: Ventura-International
+    label: Ventura-International
+  - value: Ventura-Math
+    label: Ventura-Math
+  - value: Ventura-US
+    label: Ventura-US
+  - value: Windows-31J
+    label: Windows-31J
+  - value: dk-us
+    label: dk-us
+  - value: greek-ccitt
+    label: greek-ccitt
+  - value: greek7
+    label: greek7
+  - value: greek7-old
+    label: greek7-old
+  - value: hp-roman8
+    label: hp-roman8
+  - value: iso-ir-90
+    label: iso-ir-90
+  - value: latin-greek
+    label: latin-greek
+  - value: latin-lap
+    label: latin-lap
+  - value: macintosh
+    label: macintosh
+  - value: us-dk
+    label: us-dk
+  - value: videotex-suppl
+    label: videotex-suppl
+  - value: windows-1250
+    label: windows-1250
+  - value: windows-1251
+    label: windows-1251
+  - value: windows-1252
+    label: windows-1252
+  - value: windows-1253
+    label: windows-1253
+  - value: windows-1254
+    label: windows-1254
+  - value: windows-1255
+    label: windows-1255
+  - value: windows-1256
+    label: windows-1256
+  - value: windows-1257
+    label: windows-1257
+  - value: windows-1258
+    label: windows-1258
+  - value: windows-874
+    label: windows-874
+- field_name: communication_method
+  label: Communication method
+  required: false
+  preset: select
+  form_include_blank_choice: true
+  choices:
+  - value: https://w3id.org/mobilitydcat-ap/communication-method/pull
+    label: Pull
+  - value: https://w3id.org/mobilitydcat-ap/communication-method/push
+    label: Push
+- field_name: sample
+  label: Sample
+  required: false
+  help_text: A sample Distribution of the Dataset. A data sample allows data users
+    to investigate the data content and data structure, without subscribing to a data
+    feed or downloading a complete data set.
+  preset: url
+- field_name: mobility_data_standard
+  label: Mobility data standard
+  required: true
+  preset: select
+  form_include_blank_choice: true
+  choices:
+  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/c-its
+    label: C-ITS
+  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/datex-II
+    label: DATEX II
+  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/dino
+    label: DINO
+  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/gbfs
+    label: GBFS
+  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/gml
+    label: GML
+  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/gtfs
+    label: GTFS
+  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/gtfs-rt
+    label: GTFS-RT
+  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/inspire
+    label: INSPIRE
+  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/netex
+    label: NeTEx
+  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/ocit-c
+    label: OCIT-C
+  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/other
+    label: Other
+  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/siri
+    label: SIRI
+  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/tn-its
+    label: TN-ITS
+  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/tpegml
+    label: tpegML
 - field_name: rights_type
   label: Conditions for access and usage
   required: true
@@ -1761,12 +2719,20 @@ resource_fields:
   choices:
   - value: https://w3id.org/mobilitydcat-ap/conditions-for-access-and-usage/contractual-arrangement
     label: Contractual arrangement
+  - value: https://w3id.org/mobilitydcat-ap/conditions-for-access-and-usage/contractual-arrangement-fee-required
+    label: Contractual arrangement, fee required
+  - value: https://w3id.org/mobilitydcat-ap/conditions-for-access-and-usage/contractual-arrangement-free-of-charge
+    label: Contractual arrangement, free of charge
   - value: https://w3id.org/mobilitydcat-ap/conditions-for-access-and-usage/fee-required
     label: Fee required
   - value: https://w3id.org/mobilitydcat-ap/conditions-for-access-and-usage/free-of-charge
     label: Free of charge
   - value: https://w3id.org/mobilitydcat-ap/conditions-for-access-and-usage/licence-provided
     label: Licence provided
+  - value: https://w3id.org/mobilitydcat-ap/conditions-for-access-and-usage/licence-provided-fee-required
+    label: Licence provided, fee required
+  - value: https://w3id.org/mobilitydcat-ap/conditions-for-access-and-usage/licence-provided-free-of-charge
+    label: Licence provided, free of charge
   - value: https://w3id.org/mobilitydcat-ap/conditions-for-access-and-usage/other
     label: Other
   - value: https://w3id.org/mobilitydcat-ap/conditions-for-access-and-usage/royalty-free
@@ -2098,40 +3064,44 @@ resource_fields:
     label: Zero-Clause BSD / Free Public License 1.0.0 (0BSD)
   - value: http://publications.europa.eu/resource/authority/licence/ECOS_2_0
     label: eCos License version 2.0
-- field_name: mobility_data_standard
-  label: Mobility data standard
-  required: true
-  preset: select
-  form_include_blank_choice: true
-  choices:
-  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/c-its
-    label: C-ITS
-  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/datex-II
-    label: DATEX II
-  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/dino
-    label: DINO
-  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/gbfs
-    label: GBFS
-  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/gml
-    label: GML
-  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/gtfs
-    label: GTFS
-  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/gtfs-rt
-    label: GTFS-RT
-  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/inspire
-    label: INSPIRE
-  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/netex
-    label: NeTEx
-  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/ocit-c
-    label: OCIT-C
-  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/other
-    label: Other
-  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/siri
-    label: SIRI
-  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/tn-its
-    label: TN-ITS
-  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/tpegml
-    label: tpegML
+- field_name: license_text
+  label: License Text
+  preset: markdown
+  required: false
+- field_name: start_timestamp
+  label: Start time
+  preset: datetime_tz
+  required: false
+- field_name: end_timestamp
+  label: End time
+  preset: datetime_tz
+  required: false
+- field_name: data_service_endpoint_url
+  label: Endpoint URL
+  required: false
+  preset: url
+  help_text: The root location or primary endpoint of the Data Service related to
+    this Distribution
+- field_name: data_service_endpoint_description
+  label: Endpoint description
+  required: false
+  help_text: The value should be URL
+- field_name: data_service_description_translated
+  label: Data service description
+  required: false
+  preset: fluent_core_translated
+  form_languages:
+  - fi
+  - en
+  - sv
+- field_name: data_service_title_translated
+  label: Data service name
+  required: false
+  preset: fluent_core_translated
+  form_languages:
+  - fi
+  - en
+  - sv
 - field_name: format_iri
   required: false
   form_snippet: null
