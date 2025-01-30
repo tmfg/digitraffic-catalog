@@ -45,7 +45,7 @@ class TestProfile(object):
             "fi": "Suomenkielinen nimi",
             "sv": "Svensk titel",
         }
-        dataset_frequency = Frequency.iris[0]
+        dataset_frequency = list(Frequency.iris)[0]
         dataset_mobility_theme = str(
             [
                 main_theme
@@ -56,7 +56,7 @@ class TestProfile(object):
         dataset_mobility_theme_sub = str(
             list(MOBILITY_THEME_TREE[URIRef(dataset_mobility_theme)])[0]
         )
-        dataset_spatial = Location.iris[0]
+        dataset_spatial = list(Location.iris)[0]
         dataset = factories.Dataset(
             owner_org=owner_org["id"],
             name=dataset_name,
@@ -76,6 +76,7 @@ class TestProfile(object):
             ],
             notes_translated=notes,
             title_translated=titles,
+            is_referenced_by=[],
         )
         serializer = RDFSerializer()
         dataset_ref = serializer.graph_from_dataset(dataset)
@@ -117,6 +118,6 @@ class TestProfile(object):
         assert (dataset_ref, DCTERMS.spatial, Location(dataset_spatial).iri) in g
         assert str(g.value(dataset_ref, DCTERMS.title, None)) == dataset_name
         publisher_ref = g.value(dataset_ref, DCTERMS.publisher, None)
-        assert owner_org["name"] in [
+        assert owner_org["display_name"] in [
             str(name) for name in list(g.objects(publisher_ref, FOAF.name))
         ]

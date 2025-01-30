@@ -19,9 +19,13 @@ from rdflib.namespace import (
 from dcat_schema_transpiler.cache.vocabularies import (
     is_local_file_created,
     get_cached_file_path,
-    cache_vocabulary,
+    cache_content,
 )
-from dcat_schema_transpiler.integration.client import get_graph_url, get_serialized_rdf
+from dcat_schema_transpiler.integration.client import (
+    get_csv,
+    get_graph_url,
+    get_serialized_rdf,
+)
 from dcat_schema_transpiler.mobility_dcat_ap.namespace import (
     MOBILITYDCATAP_NS_URL,
     MOBILITYDCATAP,
@@ -78,7 +82,7 @@ CVOCAB_MOBILITY_DCAT_AP_FREQUENCY = Namespace(
 CVOCAB_LANGUAGE = Namespace("http://publications.europa.eu/resource/authority/language")
 # About NUTS: https://ec.europa.eu/eurostat/web/gisco/geodata/statistical-units/territorial-units-statistics
 # Download page: https://data.europa.eu/data/datasets/nuts~~1?locale=en
-CVOCAB_NUTS = Namespace("http://data.europa.eu/nuts/")
+CVOCAB_NUTS = Namespace("http://data.europa.eu/nuts")
 # About LAU: https://ec.europa.eu/eurostat/web/gisco/geodata/statistical-units/local-administrative-units
 CVOCAB_LAU = Namespace("https://w3id.org/stirdata/resource/lau/item/")
 CVOCAB_GEOREFERENCING_METHOD = Namespace(
@@ -94,6 +98,13 @@ CVOCAB_TRANSPORT_MODE = Namespace(
     "https://w3id.org/mobilitydcat-ap/transport-mode#"
 )
 CVOCAB_AGENT_TYPE = Namespace("http://purl.org/adms/publishertype/")
+CVOCAB_INTENDED_INFORMATION_SERVICE = Namespace(
+    "https://w3id.org/mobilitydcat-ap/intended-information-service#"
+)
+
+CNT_CHARACTERENCODING_SETS = (
+    "https://www.iana.org/assignments/character-sets/character-sets-1.csv"
+)
 
 mobility_dcat_namespaces = {
     "adms": ADMS,
@@ -142,6 +153,8 @@ controlled_vocabularies = [
     CVOCAB_GEOREFERENCING_METHOD,
     CVOCAB_NETWORK_COVERAGE,
     CVOCAB_AGENT_TYPE,
+    CVOCAB_INTENDED_INFORMATION_SERVICE,
+    CVOCAB_COMMUNICATION_METHOD,
 ]
 
 
@@ -194,6 +207,9 @@ def mobilitydcatap_fixes(graph):
     graph.add((DCTERMS.temporal, DCAM.domainIncludes, DCAT.Dataset))
     graph.add((DCAT.theme, DCAM.domainIncludes, DCAT.Dataset))
     graph.add((DCAT.theme, RDF.type, OWL.AnnotationProperty))
+    graph.add((DCTERMS.language, DCAM.domainIncludes, DCAT.Dataset))
+    graph.add((DCTERMS.relation, DCAM.domainIncludes, DCAT.Dataset))
+    graph.add((DCTERMS.isReferencedBy, DCAM.domainIncludes, DCAT.Dataset))
 
     graph.add((DCTERMS.created, DCAM.domainIncludes, DCAT.CatalogRecord))
     graph.add((DCTERMS.language, DCAM.domainIncludes, DCAT.CatalogRecord))
@@ -202,6 +218,14 @@ def mobilitydcatap_fixes(graph):
 
     graph.add((DCTERMS.type, DCAM.domainIncludes, FOAF.Agent))
     graph.add((LOCN.address, DCAM.domainIncludes, FOAF.Agent))
+
+    graph.add((DCAT.endpointURL, DCAM.domainIncludes, DCAT.DataService))
+    graph.add((DCTERMS.title, DCAM.domainIncludes, DCAT.DataService))
+    graph.add((DCAT.endpointDescription, DCAM.domainIncludes, DCAT.DataService))
+    graph.add((DCAT.servesDataset, DCAM.domainIncludes, DCAT.DataService))
+    graph.add((DCTERMS.accessRights, DCAM.domainIncludes, DCAT.DataService))
+    graph.add((DCTERMS.description, DCAM.domainIncludes, DCAT.DataService))
+    graph.add((DCTERMS.license, DCAM.domainIncludes, DCAT.DataService))
 
     graph.add((DCAT.dataset, DCAM.domainIncludes, DCAT.Catalog))
     graph.add((DCTERMS.description, DCAM.domainIncludes, DCAT.Catalog))
@@ -214,6 +238,7 @@ def mobilitydcatap_fixes(graph):
     # Range chanages stated in the document but not visible in the serialized format
     graph.add((DCTERMS.format, DCAM.rangeIncludes, DCTERMS.MediaTypeOrExtent))
     graph.add((DCTERMS.description, DCAM.rangeIncludes, RDFS.Literal))
+    graph.add((DCAT.endpointDescription, DCAM.rangeIncludes, RDFS.Resource))
 
     # Resources taken from DCAT-AP version 3
     # graph.add((DCAT_AP.applicableLegislation, RDFS.label, Literal("applicable legislation", lang="en")))
@@ -304,6 +329,8 @@ def fill_mobilitydcatap_graph(ds: Dataset):
         DCTERMS.accrualPeriodicity,
         DCTERMS.spatial,
         DCTERMS.publisher,
+        DCTERMS.relation,
+        DCTERMS.isReferencedBy,
     }
     distribution_property_iris = {
         DCAT.accessURL,
@@ -321,6 +348,12 @@ def fill_mobilitydcatap_graph(ds: Dataset):
         FOAF.primaryTopic,
         DCTERMS.modified,
     }
+    data_service_property_iris = {
+        DCAT.endpointURL,
+        DCAT.endpointDescription,
+        DCAT.servesDataset,
+        DCTERMS.accessRights,
+    }
     other_property_iris = {FOAF.name}
 
     property_union = (
@@ -329,6 +362,7 @@ def fill_mobilitydcatap_graph(ds: Dataset):
         | period_of_time_property_iris
         | other_property_iris
         | catalogue_record_iris
+        | data_service_property_iris
     )
     for property_iri in property_union:
         add_property(ds, URIRef(MOBILITYDCATAP._NS), property_iri)
@@ -357,8 +391,8 @@ def ns_fetch_info(ns: URIRef) -> NsFetchInfo | None:
 
     elif str(ns) == "http://spdx.org/rdf/terms#":
         # The above link won't lead to the serialized resource
-        graph_url = "https://raw.githubusercontent.com/spdx/spdx-spec/development/v2.3/ontology/spdx-ontology.owl.xml"
-        serialization_format = "rdf"
+        graph_url = "https://raw.githubusercontent.com/spdx/spdx-spec/refs/tags/v2.3/ontology/spdx-ontology.owl.ttl"
+        serialization_format = "ttl"
     elif str(ns) == "http://www.w3.org/ns/locn#":
         # The above link won't lead to the serialized resource
         graph_url = (
@@ -393,7 +427,7 @@ def ns_fetch_info(ns: URIRef) -> NsFetchInfo | None:
     elif str(ns) == "http://purl.org/ontology/bibo/":
         # The returned content-type header is set wrong
         graph_url, _ = get_graph_url(ns)
-        serialization_format = "rdf"
+        serialization_format = "ttl"
 
     # VOCABS
     elif str(ns) == "http://publications.europa.eu/resource/authority/file-type/":
@@ -435,8 +469,8 @@ def ns_fetch_info(ns: URIRef) -> NsFetchInfo | None:
     elif str(ns) == "https://w3id.org/mobilitydcat-ap/mobility-theme/":
         graph_url, _ = get_graph_url(ns)
         serialization_format = "ttl"
-    elif str(ns) == "http://data.europa.eu/nuts/":
-        graph_url = "https://data.europa.eu/api/hub/repo/distributions/e02ba91d-0aaa-4af0-b49c-699eda90c902.rdf"
+    elif str(ns) == "http://data.europa.eu/nuts":
+        graph_url = "https://op.europa.eu/o/opportal-service/euvoc-download-handler?cellarURI=http%3A%2F%2Fpublications.europa.eu%2Fresource%2Fdistribution%2Fnuts%2F20241002-0%2Frdf%2Fskos_core%2FNUTS.rdf&fileName=NUTS.rdf"
         serialization_format = "rdf"
     elif str(ns) == "https://w3id.org/stirdata/resource/lau/item/":
         graph_url, _ = get_graph_url(ns)
@@ -450,6 +484,9 @@ def ns_fetch_info(ns: URIRef) -> NsFetchInfo | None:
     elif str(ns) == "http://purl.org/adms/publishertype/":
         graph_url = "https://raw.githubusercontent.com/SEMICeu/ADMS-AP/master/purl.org/ADMS_SKOS_v1.00.rdf"
         serialization_format = "rdf"
+    elif str(ns) == "https://w3id.org/mobilitydcat-ap/intended-information-service#":
+        graph_url, _ = get_graph_url(ns)
+        serialization_format = "ttl"
     else:
         graph_url, mime_format = get_graph_url(ns)
         serialization_format = "ttl" if mime_format == "text/turtle" else "rdf"
@@ -469,11 +506,12 @@ def set_content_for_graph(graph: Graph) -> None:
         return
 
     graph_url = fetch_info.graph_url
-    serialization_format = fetch_info.serialization_format
-    graph.parse(graph_url, format=fetch_info.get_mime_type())
 
-    cache_content = get_serialized_rdf(graph_url, serialization_format)
-    cache_vocabulary(cache_content, ns, serialization_format)
+    serialization_format = fetch_info.serialization_format
+    graph.parse(graph_url, format="xml" if serialization_format == "rdf" else "ttl")
+
+    cacheable_content = get_serialized_rdf(graph_url, serialization_format)
+    cache_content(cacheable_content, ns, serialization_format)
 
 
 def populate_dataset(ds: Dataset, namespace: Namespace) -> None:
@@ -501,15 +539,20 @@ def create_dataset() -> Dataset:
         g_mobility_dcat.parse(get_cached_file_path(URIRef(MOBILITYDCATAP_NS_URL)))
     else:
         g_mobility_dcat.parse(mobility_dcat_v_1_0_1_url)
-        cache_content = get_serialized_rdf(mobility_dcat_v_1_0_1_url, "ttl")
-        cache_vocabulary(cache_content, URIRef(MOBILITYDCATAP_NS_URL), "ttl")
+        cacheable_content = get_serialized_rdf(mobility_dcat_v_1_0_1_url, "ttl")
+        cache_content(cacheable_content, URIRef(MOBILITYDCATAP_NS_URL), "ttl")
 
     if is_local_file_created(URIRef(DCATAP_NS_URL)):
         g_dcat_ap.parse(get_cached_file_path(URIRef(DCATAP_NS_URL)))
     else:
         g_dcat_ap.parse(dcat_ap_v_2_0_1_url)
-        cache_content = get_serialized_rdf(dcat_ap_v_2_0_1_url, "rdf")
-        cache_vocabulary(cache_content, URIRef(DCATAP_NS_URL), "rdf")
+        cacheable_content = get_serialized_rdf(dcat_ap_v_2_0_1_url, "rdf")
+        cache_content(cacheable_content, URIRef(DCATAP_NS_URL), "rdf")
+    # not a standard rdf/ttl vocabulary but represents the range of property cnt:characterEncoding
+    if not is_local_file_created(CNT_CHARACTERENCODING_SETS):
+        print(f" # Fetching {CNT_CHARACTERENCODING_SETS} ...")
+        cacheable_content = get_csv(CNT_CHARACTERENCODING_SETS)
+        cache_content(cacheable_content, URIRef(CNT_CHARACTERENCODING_SETS), "csv")
 
     mobilitydcatap_fixes(g_mobility_dcat)
 

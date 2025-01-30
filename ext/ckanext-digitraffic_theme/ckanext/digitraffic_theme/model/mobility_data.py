@@ -1,3 +1,4 @@
+import json
 from typing import Any, Dict
 from rdflib import URIRef, Literal
 from datetime import datetime
@@ -5,11 +6,17 @@ from datetime import datetime
 from ckanext.dcat.utils import publisher_uri_organization_fallback, resource_uri
 from ckanext.digitraffic_theme.model.address import VCARDAddress, LOCNAddress
 from ckanext.digitraffic_theme.model.agent_type import AgentType
+from ckanext.digitraffic_theme.model.agent import Agent
+from ckanext.digitraffic_theme.model.assessment import Assessment
 from ckanext.digitraffic_theme.model.catalog_record import CatalogRecord
 from ckanext.digitraffic_theme.model.contact_point import ContactPoint
 from ckanext.digitraffic_theme.model.dataset import Dataset
 from ckanext.digitraffic_theme.model.distribution import Distribution
 from ckanext.digitraffic_theme.model.frequency import Frequency
+from ckanext.digitraffic_theme.model.intended_information_service import (
+    IntendedInformationService,
+)
+from ckanext.digitraffic_theme.helpers import helpers
 from ckanext.digitraffic_theme.model.location import Location
 from ckanext.digitraffic_theme.model.rights_statement import RightsStatement
 from ckanext.digitraffic_theme.model.application_layer_protocol import ApplicationLayerProtocol
@@ -27,11 +34,17 @@ from ckanext.digitraffic_theme.model.theme import Theme
 from ckanext.digitraffic_theme.model.transport_mode import TransportMode
 from ckanext.digitraffic_theme.model.georeferencing_method import GeoreferencingMethod
 from ckanext.digitraffic_theme.model.network_coverage import NetworkCoverage
+from ckanext.digitraffic_theme.model.quality_annotation import QualityAnnotation
+from ckanext.digitraffic_theme.model.communication_method import CommunicationMethod
 
 
 from ckanext.digitraffic_theme.model.organization import Organization
+from ckanext.digitraffic_theme.model.data_service import DataService
+
 from ckanext.digitraffic_theme.model.person import Person
 from ckanext.digitraffic_theme.model.period_of_time import PeriodOfTime
+
+from ckanext.digitraffic_theme.helpers.helpers import url_from_dataset_id
 
 
 class MobilityData:
@@ -80,9 +93,64 @@ class MobilityData:
             else {}
         )
 
+        assessments = (
+            {
+                "assessments": [
+                    Assessment(
+                        None,
+                        {
+                            "assessment_date": Literal(
+                                assessment.get("assessment_date")
+                            ),
+                            "assessment_result": URIRef(
+                                assessment.get("assessment_result")
+                            ),
+                            # assessmment_target is not included in the schema - give it the required value here
+                            "assessment_target": URIRef(dataset_ref),
+                        },
+                    )
+                    for assessment in dataset_dict["assessment"]
+                ]
+            }
+            if dataset_dict.get("assessment")
+            else {}
+        )
+
+        # we have left out "quality annotation target" of class dqv:QualityAnnotation from the schema used with CKAN
+        # here the property is added for each language version ("quality annotation resource" is a multilingual field)
+        # for correct RDF representation
+        quality_annotation = (
+            {
+                "quality_annotation": QualityAnnotation(
+                    None,
+                    {
+                        "quality_annotation_resource": URIRef(
+                            dataset_dict.get("quality_description", {})
+                        ),
+                        "quality_annotation_target": dataset_ref,
+                    },
+                )
+            }
+            if dataset_dict.get("quality_description")
+            else {}
+        )
+
+        is_referenced_by = (
+            {
+                "is_referenced_by": [
+                    URIRef(url_from_dataset_id(dataset_id))
+                    for dataset_id in json.loads(dataset_dict["is_referenced_by"])
+                    if dataset_id and helpers.is_dataset_public(dataset_id)
+                ]
+            }
+            if dataset_dict.get("is_referenced_by")
+            else {}
+        )
+
         def create_agent(ref: URIRef | None, agent_data: Dict[str, Any]):
             agent_type = (
-                AgentType(agent_data["type"]) if agent_data.get("type") else None
+                AgentType(agent_data["type"]) if agent_data.get(
+                    "type") else None
             )
             address = LOCNAddress(
                 None,
@@ -117,7 +185,8 @@ class MobilityData:
             ):
                 first_name = Literal(agent_data.get("first_name", ""))
                 surname = Literal(agent_data.get("surname"))
-                workplace_homepage = Literal(agent_data.get("workplace_homepage"))
+                workplace_homepage = Literal(
+                    agent_data.get("workplace_homepage"))
                 return Person(
                     ref,
                     common_input
@@ -130,7 +199,8 @@ class MobilityData:
                 )
             else:
                 return Organization(
-                    ref, common_input | {"name": Literal(agent_data.get("name"))}
+                    ref, common_input | {
+                        "name": Literal(agent_data.get("name"))}
                 )
 
         rights_holder = (
@@ -143,14 +213,34 @@ class MobilityData:
             if dataset_dict.get("rights_holder")
             else {}
         )
-        start_timestamp_str = dataset_dict.get("start_timestamp") + "Z" if dataset_dict.get("start_timestamp") else None
-        end_timestamp_str = dataset_dict.get("end_timestamp") + "Z" if dataset_dict.get("end_timestamp") else None
-        distribution = [
-            Distribution(resource_uri(dist), {
+        start_timestamp_str = dataset_dict.get(
+            "start_timestamp") + "Z" if dataset_dict.get("start_timestamp") else None
+        end_timestamp_str = dataset_dict.get(
+            "end_timestamp") + "Z" if dataset_dict.get("end_timestamp") else None
+
+        def create_distribution(dist: dict) -> Distribution:
+            start_timestamp_str = dist[
+                "start_timestamp"] + "Z" if dist.get("start_timestamp") else None
+            end_timestamp_str = dist[
+                "end_timestamp"] + "Z" if dist.get("end_timestamp") else None
+
+            temporal = (
+                {
+                    "temporal": PeriodOfTime(None, {
+                        **({"start_timestamp": Literal(datetime.fromisoformat(start_timestamp_str))} if start_timestamp_str else {}),
+                        **({"end_timestamp": Literal(datetime.fromisoformat(end_timestamp_str))} if end_timestamp_str else {}),
+                    })
+                }
+                if dist.get("start_timestamp") or dist.get("end_timestamp")
+                else {}
+            )
+
+            return Distribution(resource_uri(dist), {
                 "access_url": Literal(dist["url"]),
                 "format": Format(dist["format_iri"]),
                 "description": [
-                    Literal(dist.get("description_translated", {}).get(key, ""), lang=key)
+                    Literal(dist.get("description_translated",
+                            {}).get(key, ""), lang=key)
                     for key in dist.get("description_translated", {}).keys()
                 ],
                 "mobility_data_standard": MobilityDataStandard(
@@ -163,15 +253,63 @@ class MobilityData:
                 **({"license": LicenseDocument(None, {
                     **({"identifier": StandardLicense(dist.get("license_id"))} if dist.get('license_id') else {}),
                     **({"label": Literal(dist.get("license_text"))} if dist.get('license_text') else {})
-                   })}
-                   if dist.get("license_id") or dist.get("license_text")
-                   else {})
+                })}
+                    if dist.get("license_id") or dist.get("license_text")
+                    else {}),
+                "data_format_notes": [
+                    Literal(dist.get("data_format_notes_translated",
+                            {}).get(key, ""), lang=key)
+                    for key in dist.get("data_format_notes_translated", {}).keys()
+                ],
+                "communication_method": (
+                    CommunicationMethod(dist["communication_method"])
+                    if dist.get("communication_method")
+                    else None
+                ),
+                "character_encoding": (
+                    Literal(dist["character_encoding"])
+                    if dist.get("character_encoding")
+                    else None
+                ),
+                "access_service": DataService(
+                    None,
+                    {
+                        "access_rights": RightsStatement(None, dist["rights_type"]),
+                        "dataset_ref": dataset_ref,
+                        "data_service_description_translated": dist.get(
+                            "data_service_description_translated", None
+                        ),
+                        "data_service_endpoint_description": dist.get(
+                            "data_service_endpoint_description", None
+                        ),
+                        "data_service_title_translated": dist.get(
+                            "data_service_title_translated", None
+                        ),
+                        "data_service_endpoint_url": dist.get(
+                            "data_service_endpoint_url", None
+                        ),
+                    },
+                ),
+                "download_url": (
+                    URIRef(dist["download_url"]) if dist.get(
+                        "download_url") else None
+                ),
+                "data_grammar": (
+                    URIRef(dist["data_grammar"]) if dist.get(
+                        "data_grammar") else None
+                ),
+                "sample": URIRef(dist["sample"]) if dist.get("sample") else None,
+                **temporal
             })
+
+        distribution = [
+            create_distribution(dist)
             for dist in dataset_dict["resources"]
         ]
+
         temporal = (
             {
-                "temporal": PeriodOfTime(None,{
+                "temporal": PeriodOfTime(None, {
                     **({"start_timestamp": Literal(datetime.fromisoformat(start_timestamp_str))} if start_timestamp_str else {}),
                     **({"end_timestamp": Literal(datetime.fromisoformat(end_timestamp_str))} if end_timestamp_str else {}),
                 })
@@ -210,7 +348,8 @@ class MobilityData:
                 "title": Literal(dataset_dict["name"]),
                 "publisher": create_agent(
                     organization_ref,
-                    {"organization_name": dataset_dict["organization"]["name"]},
+                    {"organization_name":
+                        dataset_dict["organization"]["name"]},
                 ),
                 **(
                     {
@@ -241,11 +380,40 @@ class MobilityData:
                 ),
                 **contact_points,
                 **rights_holder,
+                **(
+                    {
+                        "intended_information_service": IntendedInformationService(
+                            dataset_dict["intended_information_service"]
+                        )
+                    }
+                    if dataset_dict.get("intended_information_service")
+                    else {}
+                ),
+                **(
+                    {"language": URIRef(dataset_dict["language"])}
+                    if dataset_dict.get("language")
+                    else {}
+                ),
+                **quality_annotation,
+                **assessments,
+                **(
+                    {
+                        "related_resource": URIRef(
+                            url_from_dataset_id(
+                                dataset_dict.get("related_resource"))
+                        )
+                    }
+                    if dataset_dict.get("related_resource")
+                    and helpers.is_dataset_public(dataset_dict.get("related_resource"))
+                    else {}
+                ),
+                **is_referenced_by,
                 **temporal,
                 **theme,
                 **transport_mode
             },
         )
+
         # Catalog Record
         self.catalog_record = CatalogRecord(
             None,

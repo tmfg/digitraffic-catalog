@@ -9,13 +9,20 @@ from ckan_schema.mobility_dcat_ap_converter.classes.dataset import DCATDataset
 from ckan_schema.mobility_dcat_ap_converter.classes.agent import Agent
 from ckan_schema.mobility_dcat_ap_converter.classes.organization import Organization
 from ckan_schema.mobility_dcat_ap_converter.classes.distribution import Distribution
+from dcat_schema_transpiler.mobility_dcat_ap.dataset import CNT, OA
+
+
 from ckan_schema.mobility_dcat_ap_converter.classes.license_document import (
     LicenseDocument,
 )
 from ckan_schema.mobility_dcat_ap_converter.classes.rights_statement import (
     RightsStatement,
 )
+
+from dcat_schema_transpiler.namespaces.DQV import DQV
+
 from ckan_schema.mobility_dcat_ap_converter.classes.locn_address import LOCNAddress
+
 from dcat_schema_transpiler.namespaces.ADMS import ADMS
 from dcat_schema_transpiler.namespaces.LOCN import LOCN
 from dcat_schema_transpiler.rdfs.rdfs_class import RDFSClass
@@ -71,10 +78,16 @@ def sort_dataset_fields(dataset_fields: List[Dict[str, Any]]):
         "spatial",
         "version",
         "version_notes_translated",
+        "language",
         "georeferencing_method",
         "contact_point",
         "network_coverage",
         "conforms_to",
+        "intended_information_service",
+        "quality_description",
+        "assessment",
+        "related_resource",
+        "is_referenced_by",
     ]
     dataset_fields.sort(key=partial(sort_by_field_name, order))
     sort_repeating_subfields(dataset_fields)
@@ -84,15 +97,28 @@ def sort_dataset_fields(dataset_fields: List[Dict[str, Any]]):
 def sort_resource_fields(resource_fields: List[Dict[str, Any]]):
     order = [
         "url",
+        "download_url",
         "name_translated",
         "description_translated",
         "format",
         "application_layer_protocol",
+        "data_grammar",
+        "data_format_notes_translated",
+        "character_encoding",
+        "communication_method",
+        "sample",
+        "mobility_data_standard",
         "mobility_data_standard_schema",
         "mobility_data_standard_version",
         "rights_type",
         "license_id",
-        "license_text"
+        "license_text",
+        "start_timestamp",
+        "end_timestamp",
+        "data_service_endpoint_url",
+        "data_service_endpoint_description",
+        "data_service_title",
+        "data_service_description_translated",
     ]
     resource_fields.sort(key=partial(sort_by_field_name, order))
     sort_dropdowns(resource_fields)
@@ -104,13 +130,32 @@ def resource_fields(ds: Dataset) -> List:
 
     ckan_defaults = {DCTERMS.license, DCTERMS.title, DCTERMS.description}
 
-    distribution_fields_to_omit = Distribution.optional_properties - ckan_defaults
+    distribution_fields_to_omit = (
+        Distribution.recommended_properties
+        | Distribution.optional_properties
+        - {
+            ADMS.sample,
+            CNT.characterEncoding,
+            DCAT.accessService,
+            DCAT.downloadURL,
+            DCTERMS.temporal,
+            MOBILITYDCATAP.communicationMethod,
+            MOBILITYDCATAP.dataFormatNotes,
+            MOBILITYDCATAP.grammar,
+        }
+    ) - ckan_defaults
 
     class_converter = ClassConverter(distribution, ds)
     resource_fields = class_converter.convert(
         {
             DCAT.Distribution: distribution_fields_to_omit,
             DCTERMS.RightsStatement: RightsStatement.recommended_properties,
+            DCTERMS.LicenseDocument: LicenseDocument.optional_properties,
+            DCAT.DataService: {
+                DCAT.servesDataset,
+                DCTERMS.license,
+                DCTERMS.accessRights,
+            },
         },
         True,
     )
@@ -148,20 +193,23 @@ def dataset_fields(ds: Dataset) -> List:
         DCTERMS.publisher,
     }
 
-    omitted_dataset_fields = (
-        {
-            # Dataset publisher is set to the organization
-            DCTERMS.publisher,
-            # Keywords, i.e. tags, are not implemented
-            DCAT.keyword,
+    omitted_dataset_fields = {
+        # Dataset publisher is set to the organization
+        DCTERMS.publisher,
+        # Keywords, i.e. tags, are not implemented
+        DCAT.keyword,
+    } | (
+        DCATDataset.optional_properties
+        - {
+            OWL.versionInfo,
+            ADMS.versionNotes,
+            MOBILITYDCATAP.assessmentResult,
+            MOBILITYDCATAP.intendedInformationService,
+            DQV.hasQualityAnnotation,
+            DCTERMS.language,
+            DCTERMS.relation,
+            DCTERMS.isReferencedBy,
         }
-        | (
-            DCATDataset.optional_properties
-            - {
-                OWL.versionInfo,
-                ADMS.versionNotes,
-            }
-        )
     )
 
     all_FOAF_properties = {
@@ -202,6 +250,7 @@ def dataset_fields(ds: Dataset) -> List:
             DCAT.CatalogRecord: omitted_catalog_record_fields,
             DCAT.Distribution: "all",
             DCAT.Dataset: omitted_dataset_fields,
+            DQV.QualityAnnotation: {OA.hasTarget},
             FOAF.Agent: omitted_agent_fields,
             ORG.Organization: omitted_organization_fields,
             LOCN.Address: omitted_locn_address_fields,
