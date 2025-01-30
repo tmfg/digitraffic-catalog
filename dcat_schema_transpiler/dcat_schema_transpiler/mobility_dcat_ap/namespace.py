@@ -10,6 +10,7 @@ class MOBILITYDCATAP(DefinedNamespace):
     # Classes
     MobilityDataStandard: URIRef
     Assessment: URIRef
+    QualityAnnotation: URIRef
 
     # Properties
     mobilityTheme: URIRef
@@ -24,3 +25,5 @@ class MOBILITYDCATAP(DefinedNamespace):
     grammar: URIRef
     schema: URIRef
     dataFormatNotes: URIRef
+    hasQualityAnnotation: URIRef
+    relation: URIRef
