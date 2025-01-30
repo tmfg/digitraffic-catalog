@@ -1,0 +1,8 @@
+*.pyc
+ckanext_scheming.egg-info/*
+links/*
+build/*
+dist/*
+.eggs/*
+venv
+.pytest_cache

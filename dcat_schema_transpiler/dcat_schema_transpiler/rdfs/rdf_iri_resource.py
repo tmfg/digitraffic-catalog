@@ -4,17 +4,22 @@ from rdflib.namespace import RDF
 from typing import Any, Dict, Tuple
 import os
 
+from dcat_schema_transpiler.rdflib_util import get_namespace
 from dcat_schema_transpiler.rdfs.resource import Resource
 
 
 class IRIResource(Resource):
-    def __init__(self, namespace: Namespace, iri: URIRef, types: Tuple[URIRef, ...],
-                 additional_properties: Dict[URIRef, Tuple[Tuple[str, Namespace]], ...] = None) -> None:
-        if (namespace is None or
-                iri is None):
-            raise ValueError('Cannot create a resource without namespace or iri')
+    def __init__(
+        self,
+        namespace: Namespace,
+        iri: URIRef,
+        types: Tuple[URIRef, ...],
+        additional_properties: Dict[URIRef, Tuple[Tuple[str, Namespace]], ...] = None,
+    ) -> None:
+        if namespace is None or iri is None:
+            raise ValueError("Cannot create a resource without namespace or iri")
         if not types:
-            raise ValueError('Minimum of one type must be provided for ' + iri)
+            raise ValueError("Minimum of one type must be provided for " + iri)
         self.namespace = namespace
         self.iri = iri
         self.types = types
@@ -49,13 +54,17 @@ class IRIResource(Resource):
         return IRIResource(namespace, iri, types)
 
     @staticmethod
-    def resource_args_from_ds(iri: URIRef, ds: Dataset) -> (Namespace, URIRef, Tuple[URIRef]):
-        namespace = [Namespace(str(g.identifier)) for g in ds.graphs() if iri in Namespace(str(g.identifier))][0]
+    def resource_args_from_ds(
+        iri: URIRef, ds: Dataset
+    ) -> (Namespace, URIRef, Tuple[URIRef]):
+        namespace = get_namespace(ds, iri)
         g = ds.get_graph(URIRef(namespace))
         return namespace, iri, tuple(URIRef(node) for node in g.objects(iri, RDF.type))
 
     @staticmethod
-    def resource_args_from_graph(iri: URIRef, g: Graph) -> (Namespace, URIRef, Tuple[URIRef]):
+    def resource_args_from_graph(
+        iri: URIRef, g: Graph
+    ) -> (Namespace, URIRef, Tuple[URIRef]):
         namespace = Namespace(str(g.identifier))
         return namespace, iri, tuple(URIRef(node) for node in g.objects(iri, RDF.type))
 
@@ -67,25 +76,43 @@ class IRIResource(Resource):
         def objects_list_as_string(predicate: URIRef, objects: Tuple[str, ...]) -> str:
             spaces_p = "   " + " " * len(str(predicate))
             return ("," + os.linesep + spaces_s + spaces_p).join(
-                map(lambda o: ("<" + o + ">") if isinstance(o, IRIResource) else str(o),
-                    objects))
+                map(
+                    lambda o: ("<" + o + ">") if isinstance(o, IRIResource) else str(o),
+                    objects,
+                )
+            )
 
-        def additional_objects_list_as_string(predicate: URIRef, objects: Tuple[Tuple[str, Namespace], ...]) -> str:
+        def additional_objects_list_as_string(
+            predicate: URIRef, objects: Tuple[Tuple[str, Namespace], ...]
+        ) -> str:
             spaces_p = "   " + " " * len(str(predicate))
             return ("," + os.linesep + spaces_s + spaces_p).join(
-                map(lambda o: ("<" + o[0].iri + ">") if isinstance(o[0], IRIResource) else str(o[0]) + ' (' + str(o[1]) + ')',
-                    objects))
+                map(
+                    lambda o: (
+                        ("<" + o[0].iri + ">")
+                        if isinstance(o[0], IRIResource)
+                        else str(o[0]) + " (" + str(o[1]) + ")"
+                    ),
+                    objects,
+                )
+            )
 
         given_properties = map(
-            lambda p_o: '''<{predicate}> {objects}'''.format(predicate=p_o[0], objects=objects_list_as_string(*p_o)),
-            filter(
-                lambda p_o: p_o[1],
-                p_o_tuples))
+            lambda p_o: """<{predicate}> {objects}""".format(
+                predicate=p_o[0], objects=objects_list_as_string(*p_o)
+            ),
+            filter(lambda p_o: p_o[1], p_o_tuples),
+        )
         additional_properties = map(
-            lambda p_o: '''<{predicate}> {objects}'''.format(predicate=p_o[0], objects=additional_objects_list_as_string(*p_o)),
-            self.additional_properties.items())
-        return '''<{subject}> a {types}{properties}{additional_properties} .\
-        '''.format(subject=self.iri,
-                   types=types_str,
-                   properties=linesep.join(given_properties),
-                   additional_properties=linesep.join(additional_properties))
+            lambda p_o: """<{predicate}> {objects}""".format(
+                predicate=p_o[0], objects=additional_objects_list_as_string(*p_o)
+            ),
+            self.additional_properties.items(),
+        )
+        return """<{subject}> a {types}{properties}{additional_properties} .\
+        """.format(
+            subject=self.iri,
+            types=types_str,
+            properties=linesep.join(given_properties),
+            additional_properties=linesep.join(additional_properties),
+        )

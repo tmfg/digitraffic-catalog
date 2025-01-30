@@ -7,16 +7,33 @@ from rdflib.term import Node
 from ckan_schema.mobility_dcat_ap_converter.range_value_converter import (
     RangeValueConverter,
 )
-from mobility_dcat_ap.dataset import CVOCAB_MOBILITY_THEME, CVOCAB_NUTS, CVOCAB_LAU
+from mobility_dcat_ap.dataset import (
+    CVOCAB_MOBILITY_THEME,
+    CVOCAB_NUTS,
+    CVOCAB_LAU,
+    CVOCAB_GEOREFERENCING_METHOD,
+    CVOCAB_NETWORK_COVERAGE,
+    CVOCAB_INTENDED_INFORMATION_SERVICE,
+    CVOCAB_THEME,
+    CVOCAB_TRANSPORT_MODE
+)
 from mobility_dcat_ap.namespace import MOBILITYDCATAP
-from dcat_schema_transpiler.asset_description_metadata_schema.namespace import ADMS
+from dcat_schema_transpiler.namespaces.ADMS import ADMS
+from dcat_schema_transpiler.namespaces.DCAT_AP import DCATAP
+from dcat_schema_transpiler.namespaces.DQV import DQV
 from dcat_schema_transpiler.rdfs.rdfs_class import RDFSClass
 from dcat_schema_transpiler.rdfs.rdfs_property import RDFSProperty
 from dcat_schema_transpiler.rdfs.rdfs_resource import RDFSResource
+from dcat_schema_transpiler.ckan_schema.mobility_dcat_ap_converter.classes.kind import (
+    Kind,
+)
+from dcat_schema_transpiler.ckan_schema.mobility_dcat_ap_converter.classes.agent import (
+    Agent,
+)
 
 
 class DCATDataset(RangeValueConverter):
-
+    iri = DCAT.Dataset
     mandatory_properties = {
         DCTERMS.description,
         DCAT.distribution,
@@ -27,12 +44,40 @@ class DCATDataset(RangeValueConverter):
         DCTERMS.publisher,
     }
 
-    optional_properties = {OWL.versionInfo, ADMS.versionNotes}
+    recommended_properties = {
+        MOBILITYDCATAP.georeferencingMethod,
+        DCAT.contactPoint,
+        DCAT.keyword,
+        MOBILITYDCATAP.networkCoverage,
+        DCTERMS.conformsTo,
+        DCTERMS.rightsHolder,
+        DCAT.theme,
+        DCTERMS.temporal,
+        MOBILITYDCATAP.transportMode,
+    }
+
+    optional_properties = {
+        DCATAP.applicableLegislation,
+        MOBILITYDCATAP.assessmentResult,
+        DCTERMS.hasVersion,
+        DCTERMS.identifier,
+        DCTERMS.isVersionOf,
+        MOBILITYDCATAP.intendedInformationService,
+        DCTERMS.language,
+        ADMS.identifier,
+        DCTERMS.relation,
+        DCTERMS.isReferencedBy,
+        DCTERMS.issued,
+        DCTERMS.modified,
+        OWL.versionInfo,
+        ADMS.versionNotes,
+        DQV.hasQualityAnnotation,
+    }
 
     def __init__(self, clazz: RDFSClass):
         super().__init__(clazz)
 
-    def ckan_field(self, p: RDFSProperty, pointer: str = None) -> str:
+    def ckan_field_by_id(self, p: URIRef, pointer: str = None) -> str:
         mappings = {
             DCTERMS.description: "notes_translated",
             DCTERMS.accrualPeriodicity: "frequency",
@@ -44,8 +89,21 @@ class DCATDataset(RangeValueConverter):
             DCTERMS.spatial: "spatial",
             OWL.versionInfo: "version",
             ADMS.versionNotes: "version_notes_translated",
+            MOBILITYDCATAP.georeferencingMethod: "georeferencing_method",
+            MOBILITYDCATAP.networkCoverage: "network_coverage",
+            DCAT.contactPoint: "contact_point",
+            DCTERMS.conformsTo: "conforms_to",
+            MOBILITYDCATAP.assessmentResult: "assessment_result",
+            MOBILITYDCATAP.intendedInformationService: "intended_information_service",
+            DQV.hasQualityAnnotation: "quality_description",
+            DCTERMS.language: "language",
+            DCTERMS.rightsHolder: "rights_holder",
+            DCTERMS.relation: "related_resource",
+            DCTERMS.isReferencedBy: "is_referenced_by",
+            DCAT.theme: "theme",
+            MOBILITYDCATAP.transportMode: "transport_mode"
         }
-        field_value = mappings.get(p.iri)
+        field_value = mappings.get(p)
         if isinstance(field_value, dict):
             field_name = field_value.get(pointer)
         else:
@@ -55,8 +113,11 @@ class DCATDataset(RangeValueConverter):
             return field_name
         else:
             raise ValueError(
-                f"A mapping was not found between the class {self.clazz.iri} property {p.iri} and CKAN datamodel using pointer {pointer}"
+                f"A mapping was not found between the class {self.clazz.iri} property {p} and CKAN datamodel using pointer {pointer}"
             )
+
+    def ckan_field(self, p: RDFSProperty, pointer: str = None) -> str:
+        return self.ckan_field_by_id(p.iri, pointer)
 
     def get_label(self, p: RDFSProperty, ds: Dataset):
         if p.is_iri(OWL.versionInfo):
@@ -65,32 +126,32 @@ class DCATDataset(RangeValueConverter):
             return "Version notes"
         return super().get_label(p, ds)
 
-    def get_range_value(self, ds: Dataset, clazz_p: RDFSProperty) -> RDFSClass | None:
+    def get_range_value(
+        self, ds: Dataset, clazz_p: RDFSProperty
+    ) -> RDFSClass | RDFSResource | None:
         if clazz_p.is_iri(DCTERMS.publisher):
             r_value = RDFSResource.from_ds(FOAF.Agent, ds)
         else:
             r_value = super().get_range_value(ds, clazz_p)
         return r_value
 
-    def get_schema(self, ds: Dataset, clazz_p: RDFSProperty, is_required: bool = None):
-        is_required_ = (
-            is_required
-            if is_required is not None
-            else clazz_p.iri in DCATDataset.mandatory_properties
-        )
-        if clazz_p.iri in DCATDataset.optional_properties:
-            is_required_ = False
-        properties_union = (
-            DCATDataset.mandatory_properties | DCATDataset.optional_properties
-        )
-
-        """
-        Controlled vocabulary fields.
-        """
-        if clazz_p.is_iri(MOBILITYDCATAP.mobilityTheme) or clazz_p.is_iri(
-            DCTERMS.spatial
+    def get_schema(self, ds: Dataset, clazz_p: RDFSProperty, is_required: bool = False):
+        vocabulary_ranges = [
+            MOBILITYDCATAP.mobilityTheme,
+            DCTERMS.spatial,
+            MOBILITYDCATAP.georeferencingMethod,
+            MOBILITYDCATAP.networkCoverage,
+            MOBILITYDCATAP.intendedInformationService,
+            DCAT.theme,
+            MOBILITYDCATAP.transportMode
+        ]
+        if any(
+            clazz_p.is_iri(vocabulary_range) for vocabulary_range in vocabulary_ranges
         ):
-            return self.controlled_vocab_field(clazz_p, ds, is_required_)
+            """
+            Controlled vocabulary fields.
+            """
+            return self.controlled_vocab_field(clazz_p, ds, is_required)
 
         """
         Multilingual fields should have "required: false" at the field level.
@@ -105,12 +166,42 @@ class DCATDataset(RangeValueConverter):
             return {
                 **(
                     r_value
-                    | RangeValueConverter.get_translated_field_properties(is_required_)
+                    | RangeValueConverter.get_translated_field_properties(is_required)
                 )
             }
-        if clazz_p.iri in properties_union:
-            return super().get_schema(ds, clazz_p, is_required_)
-        return None
+        if clazz_p.is_iri(DCTERMS.conformsTo):
+            return {
+                "field_name": self.ckan_field(clazz_p),
+                "label": "Spatial Reference System",
+                "help_text": "Value must be an EPSG number",
+                "required": is_required,
+                "preset": "iri_fragment",
+                "input_type": "number",
+                "form_attrs": {"min": "2000", "max": "69036405"},
+                "validators": "scheming_required remove_whitespace ignore_missing spatial_reference_validator",
+            }
+        if clazz_p.is_iri(DCTERMS.relation):
+            return {
+                "field_name": self.ckan_field(clazz_p),
+                "label": "Related dataset",
+                "help_text": "A related dataset that is somehow referenced, cited, or otherwise pointed to by this dataset.",
+                "required": is_required,
+                "preset": "dataset_reference_select",
+                "choices": "",
+                "validators": "scheming_required ignore_missing dataset_reference_validator",
+            }
+        if clazz_p.is_iri(DCTERMS.isReferencedBy):
+            return {
+                "field_name": self.ckan_field(clazz_p),
+                "label": "Is referenced by",
+                "form_snippet": None,
+                "required": False,
+                "validators": "is_referenced_by_validator",
+            }
+        if clazz_p.is_iri(DCTERMS.language):
+            return super().get_schema(ds, clazz_p, is_required)
+
+        return super().get_schema(ds, clazz_p, is_required)
 
     def controlled_vocab_field(
         self, p: RDFSProperty, ds: Dataset, is_required: bool
@@ -165,16 +256,15 @@ class DCATDataset(RangeValueConverter):
                     broader_concept = g_nuts.value(concept, SKOS.broader)
                     if broader_concept is not None:
                         return find_top_nuts(broader_concept)
-                    return concept
+                    return concept if concept is not None else URIRef("")
 
                 def is_finnish_nuts(nuts):
+
                     if (nuts, None, None) in g_nuts:
                         return (
                             (
                                 nuts,
-                                URIRef(
-                                    "http://publications.europa.eu/ontology/euvoc#status"
-                                ),
+                                URIRef("http://www.w3.org/ns/adms#status"),
                                 URIRef(
                                     "http://publications.europa.eu/resource/authority/concept-status/CURRENT"
                                 ),
@@ -188,8 +278,9 @@ class DCATDataset(RangeValueConverter):
                                 ),
                             )
                             not in g_nuts
-                            and find_top_nuts(nuts)
-                            == URIRef("http://data.europa.eu/nuts/code/FI")
+                            and str(find_top_nuts(nuts)).startswith(
+                                "http://data.europa.eu/nuts/code/FI"
+                            )
                         )
                     else:
                         return False
@@ -197,7 +288,8 @@ class DCATDataset(RangeValueConverter):
                 def is_finnish_lau(lau: URIRef):
                     if (lau, None, None) in g_lau:
                         lau_nuts = g_lau.value(lau, SKOS.broadMatch)
-                        return find_top_nuts(lau_nuts) == URIRef(
+                        top_nuts = find_top_nuts(lau_nuts)
+                        return top_nuts and str(top_nuts).startswith(
                             "http://data.europa.eu/nuts/code/FI"
                         )
                     return False
@@ -215,3 +307,68 @@ class DCATDataset(RangeValueConverter):
                         g_nuts + g_lau, is_finnish_place
                     ),
                 }
+            case MOBILITYDCATAP.georeferencingMethod:
+                g = ds.get_graph(URIRef(CVOCAB_GEOREFERENCING_METHOD))
+                return {
+                    "field_name": self.ckan_field(p),
+                    "label": "Georeferencing Method",
+                    "required": is_required,
+                    "preset": "select",
+                    "form_include_blank_choice": True,
+                    "choices": RangeValueConverter.vocab_choices(g),
+                }
+            case MOBILITYDCATAP.networkCoverage:
+                g = ds.get_graph(URIRef(CVOCAB_NETWORK_COVERAGE))
+                return {
+                    "field_name": self.ckan_field(p),
+                    "label": "Network Coverage",
+                    "required": is_required,
+                    "preset": "select",
+                    "form_include_blank_choice": True,
+                    "choices": RangeValueConverter.vocab_choices(g),
+                }
+            case DCAT.theme:
+                g = ds.get_graph(URIRef(CVOCAB_THEME))
+                return {
+                    "field_name": self.ckan_field(p),
+                    "label": "Theme",
+                    "required": is_required,
+                    "preset": "select",
+                    "form_include_blank_choice": True,
+                    "choices": RangeValueConverter.vocab_choices(g),
+                }
+            case MOBILITYDCATAP.transportMode:
+                g = ds.get_graph(URIRef(CVOCAB_TRANSPORT_MODE))
+                return {
+                    "field_name": self.ckan_field(p),
+                    "label": "Transport Mode",
+                    "required": is_required,
+                    "preset": "select",
+                    "form_include_blank_choice": True,
+                    "choices": RangeValueConverter.vocab_choices(g),
+			}
+            case MOBILITYDCATAP.intendedInformationService:
+                g = ds.get_graph(URIRef(CVOCAB_INTENDED_INFORMATION_SERVICE))
+                return {
+                    "field_name": self.ckan_field(p),
+                    "label": "Intended information service",
+                    "required": is_required,
+                    "preset": "select",
+                    "form_include_blank_choice": True,
+                    "choices": RangeValueConverter.vocab_choices(g),
+                }
+
+    def post_process_schema(self, schema: List[Dict]):
+        def rename_field_names(field):
+            if field.get("field_name") == Kind.aggregate_field_name:
+                field["field_name"] = self.ckan_field_by_id(DCAT.contactPoint)
+                field["label"] = "Contact point"
+            if field.get("field_name") == Agent.aggregate_field_name:
+                field["field_name"] = self.ckan_field_by_id(DCTERMS.rightsHolder)
+                field["label"] = "Rights holder"
+            return field
+
+        return list(map(rename_field_names, schema))
+
+    def is_property_required(self, property: RDFSProperty) -> bool:
+        return property.iri in DCATDataset.mandatory_properties
