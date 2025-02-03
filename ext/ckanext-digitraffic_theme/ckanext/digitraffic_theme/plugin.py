@@ -5,7 +5,6 @@ from ckan.lib.plugins import DefaultTranslation
 
 import ckanext.digitraffic_theme.actions.digitraffic_user_info as dui_actions
 import ckanext.digitraffic_theme.auth.user as user_auth
-from ckanext.digitraffic_theme.views.user import DigitrafficEditView
 from ckanext.digitraffic_theme.validators.dataset_validators import (
     mobility_theme_sub_validator,
     phone_number_validator,
@@ -22,7 +21,6 @@ class DigitrafficThemePlugin(plugins.SingletonPlugin, DefaultTranslation):
     plugins.implements(plugins.ITranslation)
     plugins.implements(plugins.IValidators)
     plugins.implements(plugins.ITemplateHelpers)
-    plugins.implements(plugins.IBlueprint)
     plugins.implements(plugins.IActions)
     plugins.implements(plugins.IAuthFunctions)
 
@@ -50,12 +48,6 @@ class DigitrafficThemePlugin(plugins.SingletonPlugin, DefaultTranslation):
         # templates.
         toolkit.add_resource("assets", "digitraffic_theme")
         toolkit.add_resource("assets", "digitraffic_web_component")
-
-    def get_blueprint(self):
-        _edit_view = DigitrafficEditView.as_view('edit')
-        digitraffic_blueprint.add_url_rule('/user/edit', view_func=_edit_view)
-        digitraffic_blueprint.add_url_rule('/user/edit/<id>', view_func=_edit_view)
-        return [digitraffic_blueprint]
 
     def get_actions(self):
         return {
