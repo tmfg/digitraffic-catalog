@@ -31,13 +31,14 @@
             {{ form.info(helper_text, classes='info-help-tight') }}
         {% endcall %}
     {% endif %}
-    {{ form.input('first_name', label=_('First name'), id='field-first-name', value=data.digitraffic_user.first_name, error=errors.first_name, placeholder=_('eg. Joe'), classes=['control-medium']) }}
-    {{ form.input('surname', label=_('Surname'), id='field-surname', value=data.digitraffic_user.surname, error=errors.surname, placeholder=_('eg. Bloggs'), classes=['control-medium']) }}
-    {{ form.input('country_of_residence', label=_('Country of recidence'), id='field-country-of-residence', value=data.digitraffic_user.country_of_residence, error=errors.country_of_residence, placeholder=_('eg. Finland'), classes=['control-medium']) }}
-    {{ form.input('county', label=_('County'), id='field-county', value=data.digitraffic_user.county, error=errors.county, placeholder=_('eg. Uusimaa'), classes=['control-medium']) }}
-    {{ form.input('post_code', label=_('Post Code'), id='field-post-code', value=data.digitraffic_user.post_code, error=errors.post_code, placeholder=_('eg. 1234567'), classes=['control-medium']) }}
-    {{ form.input('city', label=_('City'), id='field-city', value=data.digitraffic_user.city, error=errors.city, placeholder=_('eg. Helsinki'), classes=['control-medium']) }}
-    {{ form.input('street_address', label=_('Street Address'), id='field-street-address', value=data.digitraffic_user.street_address, error=errors.street_address, placeholder=_('eg. Testikatu 1'), classes=['control-medium']) }}
+    {{ form.input('dui_first_name', label=_('First name'), id='field-first-name', value=data.dui_first_name, error=errors.first_name, placeholder=_('eg. Joe'), classes=['control-medium']) }}
+    {{ form.input('dui_surname', label=_('Surname'), id='field-surname', value=data.dui_surname, error=errors.surname, placeholder=_('eg. Bloggs'), classes=['control-medium']) }}
+    {{ form.input('dui_phone', label=_('Phone number'), id='field-phone', value=data.dui_phone, error=errors.phone, placeholder=_('eg. +358401234567'), classes=['control-medium']) }}
+    {{ form.input('dui_country_of_residence', label=_('Country of recidence'), id='field-country-of-residence', value=data.dui_country_of_residence, error=errors.country_of_residence, placeholder=_('eg. Finland'), classes=['control-medium']) }}
+    {{ form.input('dui_county', label=_('County'), id='field-county', value=data.dui_county, error=errors.county, placeholder=_('eg. Uusimaa'), classes=['control-medium']) }}
+    {{ form.input('dui_post_code', label=_('Post Code'), id='field-post-code', value=data.dui_post_code, error=errors.post_code, placeholder=_('eg. 1234567'), classes=['control-medium']) }}
+    {{ form.input('dui_city', label=_('City'), id='field-city', value=data.dui_city, error=errors.city, placeholder=_('eg. Helsinki'), classes=['control-medium']) }}
+    {{ form.input('dui_street_address', label=_('Street Address'), id='field-street-address', value=data.dui_street_address, error=errors.street_address, placeholder=_('eg. Testikatu 1'), classes=['control-medium']) }}
 
 {% endblock %}
 
