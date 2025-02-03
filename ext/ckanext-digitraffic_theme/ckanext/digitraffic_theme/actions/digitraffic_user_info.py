@@ -10,8 +10,6 @@ def user_show(original_action: Callable, context: Context, data_dict: DataDict) 
     Adds digitraffic user info to the user data returned by `user_show` action.
 
     Relies on the CKAN default action to add `user_obj` into context.
-
-    TODO: The default authorization is to let any logged-in user to see user info. Should we keep this?
     """
     session = context['session']
     user_data = original_action(context, data_dict)
@@ -55,7 +53,7 @@ def user_update(original_action: Callable, context: Context, data_dict: DataDict
     except toolkit.ValidationError as e:
         _remove_dui_prefix_from_error(e)
         raise e
-    updated_user_id = context['user_obj'].id
+    user_id_of_updated_user = context['user_obj'].id
 
     user_info_input_data = DigitrafficUserInfoInput(
         phone=data_dict.get('dui_phone'),
@@ -67,7 +65,7 @@ def user_update(original_action: Callable, context: Context, data_dict: DataDict
         city=data_dict.get('dui_city'),
         street_address=data_dict.get('dui_street_address')
     )
-    DigitrafficUserInfo.upsert(session, updated_user_id, user_info_input_data)
+    DigitrafficUserInfo.upsert(session, user_id_of_updated_user, user_info_input_data)
     session.commit()
 
     return user_data
