@@ -19,7 +19,9 @@ from ckanext.digitraffic_theme.model.intended_information_service import (
 from ckanext.digitraffic_theme.helpers import helpers
 from ckanext.digitraffic_theme.model.location import Location
 from ckanext.digitraffic_theme.model.rights_statement import RightsStatement
-from ckanext.digitraffic_theme.model.application_layer_protocol import ApplicationLayerProtocol
+from ckanext.digitraffic_theme.model.application_layer_protocol import (
+    ApplicationLayerProtocol,
+)
 from ckanext.digitraffic_theme.model.format import Format
 from ckanext.digitraffic_theme.model.license_document import LicenseDocument
 from ckanext.digitraffic_theme.model.standard_license import StandardLicense
@@ -149,8 +151,7 @@ class MobilityData:
 
         def create_agent(ref: URIRef | None, agent_data: Dict[str, Any]):
             agent_type = (
-                AgentType(agent_data["type"]) if agent_data.get(
-                    "type") else None
+                AgentType(agent_data["type"]) if agent_data.get("type") else None
             )
             address = LOCNAddress(
                 None,
@@ -185,8 +186,7 @@ class MobilityData:
             ):
                 first_name = Literal(agent_data.get("first_name", ""))
                 surname = Literal(agent_data.get("surname"))
-                workplace_homepage = Literal(
-                    agent_data.get("workplace_homepage"))
+                workplace_homepage = Literal(agent_data.get("workplace_homepage"))
                 return Person(
                     ref,
                     common_input
@@ -199,8 +199,7 @@ class MobilityData:
                 )
             else:
                 return Organization(
-                    ref, common_input | {
-                        "name": Literal(agent_data.get("name"))}
+                    ref, common_input | {"name": Literal(agent_data.get("name"))}
                 )
 
         rights_holder = (
@@ -213,121 +212,192 @@ class MobilityData:
             if dataset_dict.get("rights_holder")
             else {}
         )
-        start_timestamp_str = dataset_dict.get(
-            "start_timestamp") + "Z" if dataset_dict.get("start_timestamp") else None
-        end_timestamp_str = dataset_dict.get(
-            "end_timestamp") + "Z" if dataset_dict.get("end_timestamp") else None
+        start_timestamp_str = (
+            dataset_dict.get("start_timestamp") + "Z"
+            if dataset_dict.get("start_timestamp")
+            else None
+        )
+        end_timestamp_str = (
+            dataset_dict.get("end_timestamp") + "Z"
+            if dataset_dict.get("end_timestamp")
+            else None
+        )
 
         def create_distribution(dist: dict) -> Distribution:
-            start_timestamp_str = dist[
-                "start_timestamp"] + "Z" if dist.get("start_timestamp") else None
-            end_timestamp_str = dist[
-                "end_timestamp"] + "Z" if dist.get("end_timestamp") else None
+            start_timestamp_str = (
+                dist["start_timestamp"] + "Z" if dist.get("start_timestamp") else None
+            )
+            end_timestamp_str = (
+                dist["end_timestamp"] + "Z" if dist.get("end_timestamp") else None
+            )
 
             temporal = (
                 {
-                    "temporal": PeriodOfTime(None, {
-                        **({"start_timestamp": Literal(datetime.fromisoformat(start_timestamp_str))} if start_timestamp_str else {}),
-                        **({"end_timestamp": Literal(datetime.fromisoformat(end_timestamp_str))} if end_timestamp_str else {}),
-                    })
+                    "temporal": PeriodOfTime(
+                        None,
+                        {
+                            **(
+                                {
+                                    "start_timestamp": Literal(
+                                        datetime.fromisoformat(start_timestamp_str)
+                                    )
+                                }
+                                if start_timestamp_str
+                                else {}
+                            ),
+                            **(
+                                {
+                                    "end_timestamp": Literal(
+                                        datetime.fromisoformat(end_timestamp_str)
+                                    )
+                                }
+                                if end_timestamp_str
+                                else {}
+                            ),
+                        },
+                    )
                 }
                 if dist.get("start_timestamp") or dist.get("end_timestamp")
                 else {}
             )
 
-            return Distribution(resource_uri(dist), {
-                "access_url": Literal(dist["url"]),
-                "format": Format(dist["format_iri"]),
-                "description": [
-                    Literal(dist.get("description_translated",
-                            {}).get(key, ""), lang=key)
-                    for key in dist.get("description_translated", {}).keys()
-                ],
-                "mobility_data_standard": MobilityDataStandard(
-                    dist["mobility_data_standard"],
-                ),
-                "rights": RightsStatement(None, dist["rights_type"]),
-                **({"application_layer_protocol": ApplicationLayerProtocol(dist.get('application_layer_protocol'))}
-                   if dist.get('application_layer_protocol')
-                   else {}),
-                **({"license": LicenseDocument(None, {
-                    **({"identifier": StandardLicense(dist.get("license_id"))} if dist.get('license_id') else {}),
-                    **({"label": Literal(dist.get("license_text"))} if dist.get('license_text') else {})
-                })}
-                    if dist.get("license_id") or dist.get("license_text")
-                    else {}),
-                "data_format_notes": [
-                    Literal(dist.get("data_format_notes_translated",
-                            {}).get(key, ""), lang=key)
-                    for key in dist.get("data_format_notes_translated", {}).keys()
-                ],
-                "communication_method": (
-                    CommunicationMethod(dist["communication_method"])
-                    if dist.get("communication_method")
-                    else None
-                ),
-                "character_encoding": (
-                    Literal(dist["character_encoding"])
-                    if dist.get("character_encoding")
-                    else None
-                ),
-                "access_service": DataService(
-                    None,
-                    {
-                        "access_rights": RightsStatement(None, dist["rights_type"]),
-                        "dataset_ref": dataset_ref,
-                        "data_service_description_translated": dist.get(
-                            "data_service_description_translated", None
-                        ),
-                        "data_service_endpoint_description": dist.get(
-                            "data_service_endpoint_description", None
-                        ),
-                        "data_service_title_translated": dist.get(
-                            "data_service_title_translated", None
-                        ),
-                        "data_service_endpoint_url": dist.get(
-                            "data_service_endpoint_url", None
-                        ),
-                    },
-                ),
-                "download_url": (
-                    URIRef(dist["download_url"]) if dist.get(
-                        "download_url") else None
-                ),
-                "data_grammar": (
-                    URIRef(dist["data_grammar"]) if dist.get(
-                        "data_grammar") else None
-                ),
-                "sample": URIRef(dist["sample"]) if dist.get("sample") else None,
-                **temporal
-            })
+            return Distribution(
+                resource_uri(dist),
+                {
+                    "access_url": Literal(dist["url"]),
+                    "format": Format(dist["format_iri"]),
+                    "description": [
+                        Literal(
+                            dist.get("description_translated", {}).get(key, ""),
+                            lang=key,
+                        )
+                        for key in dist.get("description_translated", {}).keys()
+                    ],
+                    "mobility_data_standard": MobilityDataStandard(
+                        dist["mobility_data_standard"],
+                    ),
+                    "rights": RightsStatement(None, dist["rights_type"]),
+                    **(
+                        {
+                            "application_layer_protocol": ApplicationLayerProtocol(
+                                dist.get("application_layer_protocol")
+                            )
+                        }
+                        if dist.get("application_layer_protocol")
+                        else {}
+                    ),
+                    **(
+                        {
+                            "license": LicenseDocument(
+                                None,
+                                {
+                                    **(
+                                        {
+                                            "identifier": StandardLicense(
+                                                dist.get("license_id")
+                                            )
+                                        }
+                                        if dist.get("license_id")
+                                        else {}
+                                    ),
+                                    **(
+                                        {"label": Literal(dist.get("license_text"))}
+                                        if dist.get("license_text")
+                                        else {}
+                                    ),
+                                },
+                            )
+                        }
+                        if dist.get("license_id") or dist.get("license_text")
+                        else {}
+                    ),
+                    "data_format_notes": [
+                        Literal(
+                            dist.get("data_format_notes_translated", {}).get(key, ""),
+                            lang=key,
+                        )
+                        for key in dist.get("data_format_notes_translated", {}).keys()
+                    ],
+                    "communication_method": (
+                        CommunicationMethod(dist["communication_method"])
+                        if dist.get("communication_method")
+                        else None
+                    ),
+                    "character_encoding": (
+                        Literal(dist["character_encoding"])
+                        if dist.get("character_encoding")
+                        else None
+                    ),
+                    "access_service": DataService(
+                        None,
+                        {
+                            "access_rights": RightsStatement(None, dist["rights_type"]),
+                            "dataset_ref": dataset_ref,
+                            "data_service_description_translated": dist.get(
+                                "data_service_description_translated", None
+                            ),
+                            "data_service_endpoint_description": dist.get(
+                                "data_service_endpoint_description", None
+                            ),
+                            "data_service_title_translated": dist.get(
+                                "data_service_title_translated", None
+                            ),
+                            "data_service_endpoint_url": dist.get(
+                                "data_service_endpoint_url", None
+                            ),
+                        },
+                    ),
+                    "download_url": (
+                        URIRef(dist["download_url"])
+                        if dist.get("download_url")
+                        else None
+                    ),
+                    "data_grammar": (
+                        URIRef(dist["data_grammar"])
+                        if dist.get("data_grammar")
+                        else None
+                    ),
+                    "sample": URIRef(dist["sample"]) if dist.get("sample") else None,
+                    **temporal,
+                },
+            )
 
-        distribution = [
-            create_distribution(dist)
-            for dist in dataset_dict["resources"]
-        ]
+        distribution = [create_distribution(dist) for dist in dataset_dict["resources"]]
 
         temporal = (
             {
-                "temporal": PeriodOfTime(None, {
-                    **({"start_timestamp": Literal(datetime.fromisoformat(start_timestamp_str))} if start_timestamp_str else {}),
-                    **({"end_timestamp": Literal(datetime.fromisoformat(end_timestamp_str))} if end_timestamp_str else {}),
-                })
+                "temporal": PeriodOfTime(
+                    None,
+                    {
+                        **(
+                            {
+                                "start_timestamp": Literal(
+                                    datetime.fromisoformat(start_timestamp_str)
+                                )
+                            }
+                            if start_timestamp_str
+                            else {}
+                        ),
+                        **(
+                            {
+                                "end_timestamp": Literal(
+                                    datetime.fromisoformat(end_timestamp_str)
+                                )
+                            }
+                            if end_timestamp_str
+                            else {}
+                        ),
+                    },
+                )
             }
             if dataset_dict.get("start_timestamp") or dataset_dict.get("end_timestamp")
             else {}
         )
         theme = (
-            {
-                "theme": Theme(dataset_dict["theme"])
-            }
-            if dataset_dict.get("theme")
-            else {}
+            {"theme": Theme(dataset_dict["theme"])} if dataset_dict.get("theme") else {}
         )
         transport_mode = (
-            {
-                "transport_mode": TransportMode(dataset_dict["transport_mode"])
-            }
+            {"transport_mode": TransportMode(dataset_dict["transport_mode"])}
             if dataset_dict.get("transport_mode")
             else {}
         )
@@ -348,8 +418,7 @@ class MobilityData:
                 "title": Literal(dataset_dict["name"]),
                 "publisher": create_agent(
                     organization_ref,
-                    {"organization_name":
-                        dataset_dict["organization"]["name"]},
+                    {"organization_name": dataset_dict["organization"]["name"]},
                 ),
                 **(
                     {
@@ -399,8 +468,7 @@ class MobilityData:
                 **(
                     {
                         "related_resource": URIRef(
-                            url_from_dataset_id(
-                                dataset_dict.get("related_resource"))
+                            url_from_dataset_id(dataset_dict.get("related_resource"))
                         )
                     }
                     if dataset_dict.get("related_resource")
@@ -410,7 +478,7 @@ class MobilityData:
                 **is_referenced_by,
                 **temporal,
                 **theme,
-                **transport_mode
+                **transport_mode,
             },
         )
 
