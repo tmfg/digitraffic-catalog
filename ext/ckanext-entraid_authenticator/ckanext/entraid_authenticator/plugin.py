@@ -64,6 +64,11 @@ class EntraIdAuthenticator(plugins.SingletonPlugin):
             view_func=self.redirect_to_home,
             methods=["GET"],
         )
+        custom_blueprint.add_url_rule(
+            "/user/reset/<id>",
+            view_func=self.redirect_to_home,
+            methods=["GET"],
+        )
 
         return [custom_blueprint]
 

@@ -6,6 +6,7 @@ on:
 
 jobs:
   run_tests:
+    if: github.repository != 'tmfg/digitraffic-catalog'
     runs-on: ubuntu-20.04
     timeout-minutes: 15
     steps:

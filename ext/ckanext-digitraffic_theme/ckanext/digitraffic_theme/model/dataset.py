@@ -128,6 +128,14 @@ class Dataset(ClassInstance):
                 if self.network_coverage
                 else None
             ),
+            *(
+                [
+                    (DCTERMS.rightsHolder, rights_holder)
+                    for rights_holder in self.rights_holders
+                ]
+                if self.rights_holders
+                else []
+            ),
             (DCTERMS.temporal, self.temporal) if self.temporal else None,
             (DCAT.theme, self.theme) if self.theme else None,
             (
