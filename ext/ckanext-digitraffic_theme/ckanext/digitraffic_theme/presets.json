@@ -29,6 +29,13 @@
         "form_snippet": "iri_fragment_input.html",
         "validators": "scheming_required remove_whitespace ignore_missing"
       }
+    },
+    {
+      "preset_name": "dataset_reference_select",
+      "values": {
+        "form_snippet": "dataset_reference_select.html",
+        "validators": "scheming_required ignore_missing"
+      }
     }
   ]
 }

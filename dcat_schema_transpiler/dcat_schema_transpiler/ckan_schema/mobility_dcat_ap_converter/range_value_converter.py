@@ -1,4 +1,8 @@
 from abc import ABC, abstractmethod
+import csv
+from dcat_schema_transpiler.cache.vocabularies import (
+    get_cached_file_path,
+)
 from mobility_dcat_ap.namespace import MOBILITYDCATAP_NS_URL
 from dcat_schema_transpiler.rdfs.rdfs_resource import RDFSResource
 from dcat_schema_transpiler.rdfs.util import get_rdf_object
@@ -154,9 +158,19 @@ class RangeValueConverter(ABC):
         )
 
     @staticmethod
-    def get_translated_field_properties(is_required: bool):
+    def choices_from_cached_csv(file_name: str, column: str, alternate_column: str):
+        with open(get_cached_file_path(file_name), "r") as file:
+            reader = csv.DictReader(file)
+            column_values = [
+                row[column] if column in row and row[column] else row[alternate_column]
+                for row in reader
+            ]
+            return [{"value": value, "label": value} for value in column_values]
+
+    @staticmethod
+    def get_translated_field_properties(is_required: bool, is_core_field: bool = True):
         translated_field_properties = {
-            "preset": "fluent_core_translated",
+            "preset": "fluent_core_translated" if is_core_field else "fluent_text",
             "form_languages": ["fi", "en", "sv"],
         }
 

@@ -10,6 +10,8 @@ class MOBILITYDCATAP(DefinedNamespace):
     # Classes
     MobilityDataStandard: URIRef
     Assessment: URIRef
+    QualityAnnotation: URIRef
+    DataService: URIRef
 
     # Properties
     mobilityTheme: URIRef

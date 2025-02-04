@@ -24,3 +24,11 @@ def get_serialized_rdf(graph_url: str, serialization_format):
         },
     )
     return r.text
+
+
+def get_csv(url: str):
+    r = httpx.get(
+        url,
+        headers={"Accept": ("text/csv")},
+    )
+    return r.text
