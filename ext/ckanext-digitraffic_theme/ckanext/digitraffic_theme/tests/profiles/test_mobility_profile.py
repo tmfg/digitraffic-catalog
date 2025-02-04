@@ -76,6 +76,7 @@ class TestProfile(object):
             ],
             notes_translated=notes,
             title_translated=titles,
+            is_referenced_by=[],
         )
         serializer = RDFSerializer()
         dataset_ref = serializer.graph_from_dataset(dataset)
@@ -117,6 +118,6 @@ class TestProfile(object):
         assert (dataset_ref, DCTERMS.spatial, Location(dataset_spatial).iri) in g
         assert str(g.value(dataset_ref, DCTERMS.title, None)) == dataset_name
         publisher_ref = g.value(dataset_ref, DCTERMS.publisher, None)
-        assert owner_org["name"] in [
+        assert owner_org["display_name"] in [
             str(name) for name in list(g.objects(publisher_ref, FOAF.name))
         ]

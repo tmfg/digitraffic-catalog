@@ -10,6 +10,8 @@
     'tag_string',
     'license_id',
     'owner_org',
+    'related_resource',
+    'is_referenced_by'
     ] -%}
 
 {% block package_additional_info %}
@@ -36,6 +38,35 @@
         <td class="dataset-details"{%
         if field.display_property %} property="{{ field.display_property
         }}"{% endif %}>{{notes}}</td>
+        </tr>
+    {%- endif -%}
+    {%- if field.field_name == 'related_resource' -%}
+        {# Show full path to dataset #}
+        {% set dataset_reference = h.url_from_dataset_id(pkg_dict.get('related_resource')) if pkg_dict.get('related_resource') and h.is_dataset_public(pkg_dict.get('related_resource'))  else "" %}
+        <tr>
+        <th scope="row" class="dataset-label">{{
+          h.scheming_language_text(field.label) }} 
+        </th>
+        <td class="dataset-details"{%
+        if field.display_property %} property="{{ field.display_property
+        }}"{% endif %}>{{dataset_reference}}</td>
+        </tr>
+    {%- endif -%}
+    {%- if field.field_name == 'is_referenced_by' -%}
+        {# Received value is a JSON array as string. Show full path(s) to dataset(s) #}
+        {% set is_referenced_by = pkg_dict.get('is_referenced_by', '') %}
+        {% set is_referenced_by_list = h.from_json(is_referenced_by) %}
+        <tr>
+        <th scope="row" class="dataset-label">{{
+          h.scheming_language_text(field.label) }} 
+        </th>
+        <td class="dataset-details"{%
+        if field.display_property %} property="{{ field.display_property
+        }}"{% endif %}>  
+          {% for dataset_id in is_referenced_by_list %}
+            {{ h.url_from_dataset_id(dataset_id) if h.is_dataset_public(dataset_id) }}{% if not loop.last %}<br>{% endif %}
+          {% endfor %}
+      </td>
         </tr>
     {%- endif -%}
     {%- if field.field_name not in exclude_fields

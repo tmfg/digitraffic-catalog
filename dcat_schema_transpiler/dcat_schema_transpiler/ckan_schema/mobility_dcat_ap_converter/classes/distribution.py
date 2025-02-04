@@ -8,6 +8,7 @@ from ckan_schema.mobility_dcat_ap_converter.range_value_converter import (
 from mobility_dcat_ap.dataset import (
     CNT,
     ADMS,
+    CNT_CHARACTERENCODING_SETS,
     CVOCAB_COMMUNICATION_METHOD,
     CVOCAB_APPLICATION_LAYER_PROTOCOL,
     CVOCAB_GRAMMAR,
@@ -46,12 +47,20 @@ class Distribution(RangeValueConverter):
     def __init__(self, clazz: RDFSClass):
         super().__init__(clazz)
 
-    def ckan_field(self, p: RDFSProperty, pointer: str = None) -> str:
+    def ckan_field(self, p: RDFSProperty, pointer: str | None = None) -> str:
         mappings = {
             DCAT.accessURL: "url",
             DCTERMS.format: "format",
             DCTERMS.title: "name_translated",
             DCTERMS.description: "description_translated",
+            MOBILITYDCATAP.communicationMethod: "communication_method",
+            CNT.characterEncoding: "character_encoding",
+            DCAT.accessService: "access_service",
+            DCAT.downloadURL: "download_url",
+            MOBILITYDCATAP.dataFormatNotes: "data_format_notes_translated",
+            MOBILITYDCATAP.grammar: "data_grammar",
+            ADMS.sample: "sample",
+            DCTERMS.temporal: "temporal_coverage",
             MOBILITYDCATAP.applicationLayerProtocol: "application_layer_protocol"
         }
         field_name = mappings.get(p.iri)
@@ -65,6 +74,21 @@ class Distribution(RangeValueConverter):
 
     def get_range_value(self, ds: Dataset, clazz_p: RDFSProperty) -> RDFSClass | None:
         return super().get_range_value(ds, clazz_p)
+
+    def get_label(self, p: RDFSProperty, ds: Dataset):
+        if p.is_iri(DCAT.accessURL):
+            return "Access URL"
+        if p.is_iri(MOBILITYDCATAP.communicationMethod):
+            return "Communication method"
+        if p.is_iri(DCAT.downloadURL):
+            return "Download URL"
+        if p.is_iri(MOBILITYDCATAP.dataFormatNotes):
+            return "Data format notes"
+        if p.is_iri(MOBILITYDCATAP.grammar):
+            return "Data grammar"
+        if p.is_iri(ADMS.sample):
+            return "Sample"
+        return super().get_label(p, ds)
 
     def get_schema(self, ds: Dataset, clazz_p: RDFSProperty, is_required: bool = None):
         properties_union = (
@@ -85,11 +109,26 @@ class Distribution(RangeValueConverter):
             ):
                 return self.controlled_vocab_field(clazz_p, ds, is_required)
 
+            if clazz_p.is_iri(CNT.characterEncoding):
+                r_value = super().get_schema(ds, clazz_p, is_required=False)
+                return r_value | {
+                    "preset": "select",
+                    "form_include_blank_choice": True,
+                    # choices are taken from specific csv data set
+                    "choices": super().choices_from_cached_csv(
+                        CNT_CHARACTERENCODING_SETS, "Preferred MIME Name", "Name"
+                    ),
+                }
+
             """
             Multilingual fields should have "required: false" at the field level.
             Required input languages are given in separate field "required_languages".
             """
-            if clazz_p.is_iri(DCTERMS.description):
+            if (
+                clazz_p.is_iri(DCTERMS.description)
+                or clazz_p.is_iri(DCTERMS.title)
+                or clazz_p.is_iri(MOBILITYDCATAP.dataFormatNotes)
+            ):
                 r_value = super().get_schema(ds, clazz_p, is_required=False)
                 return {
                     **(
@@ -99,16 +138,23 @@ class Distribution(RangeValueConverter):
                         )
                     )
                 }
-            if clazz_p.is_iri(DCTERMS.title):
-                r_value = super().get_schema(ds, clazz_p, is_required=False)
-                return {
-                    **(
-                        r_value
-                        | RangeValueConverter.get_translated_field_properties(
-                            is_required
-                        )
-                    )
+
+            if clazz_p.is_iri(DCAT.accessURL):
+                return super().get_schema(ds, clazz_p, is_required) | {
+                    "preset": "url",
+                    "help_text": "URL that gives access to this Distribution of the Dataset",
                 }
+            if clazz_p.is_iri(DCAT.downloadURL):
+                return super().get_schema(ds, clazz_p, is_required) | {
+                    "preset": "url",
+                    "help_text": "A direct link to a downloadable file of this Distribution",
+                }
+            if clazz_p.is_iri(ADMS.sample):
+                return super().get_schema(ds, clazz_p, is_required) | {
+                    "preset": "url",
+                    "help_text": "A sample Distribution of the Dataset. A data sample allows data users to investigate the data content and data structure, without subscribing to a data feed or downloading a complete data set.",
+                }
+
             return super().get_schema(ds, clazz_p, is_required)
         return None
 
@@ -145,6 +191,7 @@ class Distribution(RangeValueConverter):
                     "required": is_required,
                     "preset": "select",
                     "form_include_blank_choice": True,
+                    "help_text": "The technical data grammar format of the delivered content within the Distribution",
                     "choices": RangeValueConverter.vocab_choices(g),
                 }
             case MOBILITYDCATAP.mobilityDataStandard:
@@ -152,6 +199,16 @@ class Distribution(RangeValueConverter):
                 return {
                     "field_name": "mobility_data_standard",
                     "label": "Mobility data standard",
+                    "required": is_required,
+                    "preset": "select",
+                    "form_include_blank_choice": True,
+                    "choices": RangeValueConverter.vocab_choices(g),
+                }
+            case MOBILITYDCATAP.communicationMethod:
+                g = ds.get_graph(URIRef(CVOCAB_COMMUNICATION_METHOD))
+                return {
+                    "field_name": "communication_method",
+                    "label": "Communication method",
                     "required": is_required,
                     "preset": "select",
                     "form_include_blank_choice": True,

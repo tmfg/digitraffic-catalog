@@ -42,16 +42,28 @@ class LinguisticSystem(RangeValueConverter):
                 language_uri("FIN"),
                 language_uri("SWE"),
                 language_uri("ENG"),
+                language_uri("EST"),
+                language_uri("NOR"),
+                language_uri("DAN"),
+                language_uri("DEU"),
+                language_uri("FRA"),
+                language_uri("SPA"),
+                language_uri("LAV"),
+                language_uri("LIT"),
+                language_uri("ISL"),
+                language_uri("POL"),
+                language_uri("NLD"),
             }
             if str(s) in supported_languages:
                 return True
             return False
 
         return {
-            "field_name": "metadata_language",
-            "label": "Metadata Language",
+            "field_name": "language",
+            "label": "Language",
             "required": is_required,
             "preset": "select",
+            "help_text": "Language used in content data",
             "form_include_blank_choice": True,
             "choices": RangeValueConverter.vocab_choices(
                 g, lambda s: is_supported_language(s)

@@ -9,10 +9,20 @@ from ckan_schema.mobility_dcat_ap_converter.range_value_converter import (
     RangeValueConverter,
     AggregateRangeValueConverter,
 )
+from ckan_schema.mobility_dcat_ap_converter.classes.kind import Kind
+from ckan_schema.mobility_dcat_ap_converter.classes.assessment import Assessment
+
+from ckan_schema.mobility_dcat_ap_converter.classes.vcard_address import VCARDAddress
+from ckan_schema.mobility_dcat_ap_converter.classes.quality_annotation import (
+    QualityAnnotation,
+)
 from dcat_schema_transpiler.namespaces.DCAT_AP import DCATAP
-from mobility_dcat_ap.namespace import MOBILITYDCATAP_NS_URL
+from mobility_dcat_ap.namespace import MOBILITYDCATAP, MOBILITYDCATAP_NS_URL
 from dcat_schema_transpiler.rdfs.rdfs_class import RDFSClass
 from dcat_schema_transpiler.rdfs.util import ClassPropertiesAggregator
+from dcat_schema_transpiler.namespaces.VCARD import VCARD
+from dcat_schema_transpiler.namespaces.LOCN import LOCN
+from dcat_schema_transpiler.namespaces.DQV import DQV
 from rdfs.rdfs_property import RDFSProperty
 
 
@@ -76,7 +86,8 @@ class ClassConverter:
         if not all_properties:
             # These are vocabularies
             schema = self._get_vocabulary_schema(converter, is_required)
-            self._append_schema(schema)
+            if schema is not None:
+                self._append_schema(schema)
         elif isinstance(converter, AggregateRangeValueConverter):
             for p in included_properties:
                 schema = self._get_property_schema(p, converter, omit, is_required)
@@ -144,7 +155,7 @@ Trying to find a converter for the property'f's range value {rdf_range.iri}"""
         # We do not want to take into account properties set by DCAT or DCATAP.
         # This is because MobilityDCAT-AP has done some modifications based on those vocabularies, including removal
         # of properties
-        if self.clazz.namespace == DCAT._NS or self.clazz.namespace == DCATAP._NS:
+        if clazz.namespace == DCAT._NS or clazz.namespace == DCATAP._NS:
             clazz_aggregate_clazz = None
         else:
             clazz_aggregate_clazz = self._get_class_properties(
