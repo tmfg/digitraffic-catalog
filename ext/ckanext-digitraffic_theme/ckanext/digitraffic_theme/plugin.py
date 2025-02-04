@@ -18,6 +18,7 @@ from flask import Blueprint
 
 digitraffic_blueprint = Blueprint("digitraffic", __name__, template_folder="templates")
 
+
 class DigitrafficThemePlugin(plugins.SingletonPlugin, DefaultTranslation):
     """Digitraffic theme plugin."""
 
@@ -57,16 +58,12 @@ class DigitrafficThemePlugin(plugins.SingletonPlugin, DefaultTranslation):
 
     def get_actions(self):
         return {
-            'user_show': dui_actions.user_show,
-            'user_update': dui_actions.user_update
+            "user_show": dui_actions.user_show,
+            "user_update": dui_actions.user_update,
         }
 
     def get_auth_functions(self):
-        return {
-            'user_show': user_auth.user_show,
-            'user_update': user_auth.user_update
-        }
-
+        return {"user_show": user_auth.user_show, "user_update": user_auth.user_update}
 
     def get_helpers(self):
         return helpers

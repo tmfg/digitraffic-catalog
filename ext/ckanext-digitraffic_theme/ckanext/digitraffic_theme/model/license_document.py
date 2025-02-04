@@ -16,11 +16,12 @@ class LicenseDocument(ClassInstance):
 
     def __init__(self, iri: str, data: LicenseInput):
         super().__init__(iri, DCTERMS.LicenseDocument)
-        if ((data.get("identifier") is None and
-             data.get("label") is None) or
-            (data.get("identifier") is not None and
-             data.get("label") is not None)):
-            raise ValueError("Identifier xor label must be provided. Both cannot be None, nor can both be provided")
+        if (data.get("identifier") is None and data.get("label") is None) or (
+            data.get("identifier") is not None and data.get("label") is not None
+        ):
+            raise ValueError(
+                "Identifier xor label must be provided. Both cannot be None, nor can both be provided"
+            )
         self.identifier = data.get("identifier")
         self.label = data.get("label")
 
