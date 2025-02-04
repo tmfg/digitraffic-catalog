@@ -27,6 +27,7 @@ on:
 
 jobs:
   build:
+    if: github.repository != 'tmfg/digitraffic-catalog'
     runs-on: ubuntu-20.04
     permissions:
       id-token: write

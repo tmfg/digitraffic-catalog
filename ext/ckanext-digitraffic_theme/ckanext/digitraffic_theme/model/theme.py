@@ -22,7 +22,9 @@ THEME = {
 
 class Theme(Vocabulary):
     iris = THEME
-    namespace = Namespace("http://publications.europa.eu/resource/authority/data-theme/")
+    namespace = Namespace(
+        "http://publications.europa.eu/resource/authority/data-theme/"
+    )
 
     def __init__(self, iri):
         super().__init__(iri)
