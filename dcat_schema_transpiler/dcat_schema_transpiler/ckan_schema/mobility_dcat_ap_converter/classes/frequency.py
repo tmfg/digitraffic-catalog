@@ -43,7 +43,7 @@ class Frequency(RangeValueConverter):
         g = g_mobility_dcat_ap_frequency + g_euv_frequency
         return {
             "field_name": "frequency",
-            "label": "Frequency",
+            "label": {"en": "Frequency", "fi": "Päivitysten tiheys"},
             "required": is_required,
             "preset": "select",
             "form_include_blank_choice": True,

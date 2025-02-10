@@ -36,7 +36,7 @@ class Organization(AggregateRangeValueConverter):
     ):
         schema = super().get_schema(ds, clazz_p, False)
         if clazz_p.is_iri(FOAF.name):
-            schema["label"] = "Organization name"
+            schema["label"] = {"en": "Organization name", "fi": "Organisaation nimi"}
         return schema
 
     def get_aggregate_schema(self) -> Dict:

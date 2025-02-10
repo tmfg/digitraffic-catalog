@@ -40,6 +40,14 @@ def sort_by_label(field: Dict[str, Any]):
     return field["label"]
 
 
+def sort_by_en_label(field: Dict[str, Any]):
+    return (
+        field["label"]["en"]
+        if (not isinstance(field["label"], str) and field.get("label", {}).get("en"))
+        else field["label"]
+    )
+
+
 def sort_location(field: Dict[str, Any]):
     return (
         0 if "http://data.europa.eu/nuts/code" in field["value"] else 1,
@@ -59,7 +67,7 @@ def sort_dropdowns(schemas: List[Dict[str, Any]]):
 def sort_repeating_subfields(schemas: List[Dict[str, Any]]):
     for schema in schemas:
         if schema.get("repeating_subfields") is not None:
-            schema["repeating_subfields"].sort(key=sort_by_label)
+            schema["repeating_subfields"].sort(key=sort_by_en_label)
 
 
 def sort_dataset_fields(dataset_fields: List[Dict[str, Any]]):
