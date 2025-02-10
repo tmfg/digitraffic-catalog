@@ -41,10 +41,16 @@ class QualityAnnotation(RangeValueConverter):
             if clazz_p.is_iri(OA.hasBody):
                 return {
                     "field_name": "quality_description",
-                    "label": "Quality description",
+                    "label": {
+                        "en": "Quality description",
+                        "fi": "Julkaisijan kuvaus laadusta",
+                    },
+                    "help_text": {
+                        "en": "URL for an assessment or notes by the publisher regarding quality of dataset contents.",
+                        "fi": "Julkaisijan laatua koskevaan arvioon tai muihin huomioihin viittaava URL.",
+                    },
                     "required": is_required,
                     "preset": "url",
-                    "help_text": "URL for an assessment or notes by the publisher regarding quality of dataset contents",
                 }
             # oa:hasTarget is not needed in the schema or the CKAN data input form
             if clazz_p.is_iri(OA.hasTarget):
