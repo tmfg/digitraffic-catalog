@@ -1,7 +1,10 @@
 {
   "type": "module",
   "scripts": {
-    "bundle": "rollup -c"
+    "bundle": "rollup -c",
+    "e2e": "playwright test",
+    "e2e-ui": "playwright test --ui",
+    "e2e-codegen": "playwright codegen"
   },
   "dependencies": {
     "@fintraffic/fds-coreui-components": "^0.1.1",
@@ -10,13 +13,15 @@
     "lucide-static": "^0.439.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.50.1",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-terser": "~0.4.4",
     "@rollup/plugin-typescript": "~11.1.6",
     "@types/jquery": "^3.5.30",
-    "jquery": "^3.7.1",
+    "@types/node": "^22.13.1",
     "autoprefixer": "^10.4.20",
     "cssnano": "^7.0.5",
+    "jquery": "^3.7.1",
     "postcss": "^8.4.44",
     "postcss-cli": "^11.0.0",
     "postcss-url": "^10.1.3",
