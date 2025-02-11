@@ -1191,15 +1191,15 @@ dataset_fields:
     en: Version notes
     fi: Version tiedot
   required: false
+  help_text:
+    en: A description of the differences between this version and a previous version
+      of the dataset.
+    fi: Kuvaus tietoaineiston nykyisen ja edeltävän version eroista.
   preset: fluent_core_translated
   form_languages:
   - fi
   - en
   - sv
-  help_text:
-    en: A description of the differences between this version and a previous version
-      of the dataset.
-    fi: Kuvaus tietoaineiston nykyisen ja edeltävän version eroista.
 - field_name: language
   label: Language
   required: false

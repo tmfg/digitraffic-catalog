@@ -121,150 +121,6 @@ class DCATDataset(RangeValueConverter):
     def ckan_field(self, p: RDFSProperty, pointer: str = None) -> str:
         return self.ckan_field_by_id(p.iri, pointer)
 
-    TRANSLATIONS = {
-        ADMS.versionNotes: {
-            "label": {
-                "en": "Version notes",
-                "fi": "Version tiedot"
-            },
-            "help_text": {
-                "en": "A description of the differences between this version and a previous version of the dataset.",
-                "fi": "Kuvaus tietoaineiston nykyisen ja edeltävän version eroista."
-            }
-        },
-        OWL.versionInfo: {
-            "label": {
-                "en": "Dataset version",
-                "fi": "Tietoaineiston versio"
-            }
-        },
-        DCTERMS.conformsTo: {
-            "label": {
-                "en": "Spatial reference system",
-                "fi": "Paikkaviittausjärjestelmä"
-            },
-            "help_text": {
-                "en": "Value must be an EPSG number.",
-                "fi": "Arvon tulee olla EPSG-tunniste."
-            }
-        },
-        DCTERMS.relation: {
-            "label": {
-                "en": "Related dataset",
-                "fi": "Liittyvä tietoaineisto"
-            },
-            "help_text": {
-                "en": "A related dataset that is somehow referenced, cited, or otherwise pointed to by this dataset.",
-                "fi": "Toinen tietoaineisto, johon tämä tietoaineisto jollakin tavalla viittaa tai olennaisesti liittyy."
-            }
-        },
-        DCTERMS.isReferencedBy: {
-            "label": {
-                "en": "Is referenced by",
-                "fi": "Viittaukset muista aineistoista"
-            }
-        },
-        MOBILITYDCATAP.mobilityTheme: {
-            "main": {
-                "label": {
-                    "en": "Data content category",
-                    "fi": "Kategoria"
-                }
-            },
-            "sub": {
-                "label": {
-                    "en": "Data content subcategory",
-                    "fi": "Alakategoria"
-                }
-            }
-        },
-        MOBILITYDCATAP.transportMode: {
-            "label": {
-                "en": "Transport mode",
-                "fi": "Liikennemuoto"
-            }
-        },
-        DCTERMS.spatial: {
-            "label": {
-                "en": "Location",
-                "fi": "Sijainti"
-            },
-        },
-        DCAT.theme: {
-            "label": {
-                "en": "Theme",
-                "fi": "Aihe"
-            },
-        },
-        MOBILITYDCATAP.networkCoverage: {
-            "label": {
-                "en": "Network coverage",
-                "fi": "Liikenneverkko"
-            },
-            "help_text": {
-                "en": "The part of the transport network that is covered by the delivered content.",
-                "fi": "Liikenneverkon osa, jonka tietoaineisto kattaa."
-            }
-        },
-        DCTERMS.rightsHolder: {
-            "label": {
-                "en": "Rights holder",
-                "fi": "Oikeuksien haltija"
-            },
-        },
-        MOBILITYDCATAP.assessmentResult: {
-            "label": {
-                "en": "Assessment",
-                "fi": "Laatuarvio"
-            },
-            "help_text": {
-                "en": "URL for the results of an assessment process by some third party.",
-                "fi": "Kolmannen osapuolen tekemään laatuarvioon viittaava URL."
-            }
-        },
-        DCTERMS.relation: {
-            "label": {
-                "en": "Related dataset",
-                "fi": "Liittyvä tietoaineisto"
-            },
-            "help_text": {
-                "en": "A related dataset that is somehow referenced, cited, or otherwise pointed to by this dataset.",
-                "fi": "Toinen tietoaineisto, johon tämä tietoaineisto jollakin tavalla viittaa tai olennaisesti liittyy."
-            }
-        },
-        DQV.hasQualityAnnotation: {
-            "label": {
-                "en": "Quality description",
-                "fi": "Julkaisijan kuvaus laadusta"
-            },
-            "help_text": {
-                "en": "URL for an assessment or notes by the publisher regarding quality of dataset contents.",
-                "fi": "Julkaisijan laatua koskevaan arvioon tai muihin huomioihin viittaava URL."
-            }
-        },
-        MOBILITYDCATAP.intendedInformationService: {
-            "label": {
-                "en": "Intended information service",
-                "fi": "Hyödyntävä tietopalvelu"
-            },
-            "help_text": {
-                "en": "An information service, which the data content is intended to support.",
-                "fi": "Tietopalvelu, jonka tueksi tietoaineisto on tarkoitettu."
-            }
-        },
-        MOBILITYDCATAP.georeferencingMethod: {
-            "label": {
-                "en": "Georeferencing method",
-                "fi": "Georeferointitapa"
-            }
-        },
-    }
-
-    def get_label_with_help_text(self, p: RDFSProperty, ds: Dataset, pointer: str | None = None) -> dict:
-        translations = self.TRANSLATIONS.get(p.iri, None)
-        if pointer and translations.get(pointer):
-            return translations.get(pointer)
-        return translations if translations else {"label": super().get_label(p, ds)}
 
     def get_range_value(
         self, ds: Dataset, clazz_p: RDFSProperty
@@ -307,13 +163,13 @@ class DCATDataset(RangeValueConverter):
                 **(
                     schema
                     | RangeValueConverter.get_translated_field_properties(is_required)
-                    | self.get_label_with_help_text(clazz_p, ds)
+                    | super().get_label_with_help_text(clazz_p, ds)
                 )
             }
         if clazz_p.is_iri(DCTERMS.conformsTo):
             return {
                 "field_name": self.ckan_field(clazz_p),
-                **self.get_label_with_help_text(clazz_p, ds),
+                **super().get_label_with_help_text(clazz_p, ds),
                 "required": is_required,
                 "preset": "iri_fragment",
                 "input_type": "number",
@@ -323,7 +179,7 @@ class DCATDataset(RangeValueConverter):
         if clazz_p.is_iri(DCTERMS.relation):
             return {
                 "field_name": self.ckan_field(clazz_p),
-                **self.get_label_with_help_text(clazz_p, ds),
+                **super().get_label_with_help_text(clazz_p, ds),
                 "required": is_required,
                 "preset": "dataset_reference_select",
                 "choices": "",
@@ -332,14 +188,14 @@ class DCATDataset(RangeValueConverter):
         if clazz_p.is_iri(DCTERMS.isReferencedBy):
             return {
                 "field_name": self.ckan_field(clazz_p),
-                **self.get_label_with_help_text(clazz_p, ds),
+                **super().get_label_with_help_text(clazz_p, ds),
                 "form_snippet": None,
                 "required": False,
                 "validators": "is_referenced_by_validator",
             }
 
         schema = super().get_schema(ds, clazz_p, is_required)
-        return schema | self.get_label_with_help_text(clazz_p, ds) if schema is not None else None
+        return schema
 
     def controlled_vocab_field(
         self, p: RDFSProperty, ds: Dataset, is_required: bool
@@ -350,7 +206,7 @@ class DCATDataset(RangeValueConverter):
                 return [
                     {
                         "field_name": self.ckan_field(p, "main"),
-                        **self.get_label_with_help_text(p, ds, "main"),
+                        **super().get_label_with_help_text(p, ds, "main"),
                         "required": is_required,
                         "preset": "select",
                         "form_include_blank_choice": True,
@@ -368,7 +224,7 @@ class DCATDataset(RangeValueConverter):
                     },
                     {
                         "field_name": self.ckan_field(p, "sub"),
-                        **self.get_label_with_help_text(p, ds, "sub"),
+                        **super().get_label_with_help_text(p, ds, "sub"),
                         "required": False,
                         "preset": "select",
                         "form_include_blank_choice": True,
@@ -437,7 +293,7 @@ class DCATDataset(RangeValueConverter):
 
                 return {
                     "field_name": self.ckan_field(p),
-                    **self.get_label_with_help_text(p, ds),
+                    **super().get_label_with_help_text(p, ds),
                     "required": is_required,
                     "preset": "select",
                     "form_include_blank_choice": True,
@@ -449,7 +305,7 @@ class DCATDataset(RangeValueConverter):
                 g = ds.get_graph(URIRef(CVOCAB_GEOREFERENCING_METHOD))
                 return {
                     "field_name": self.ckan_field(p),
-                    **self.get_label_with_help_text(p, ds),
+                    **super().get_label_with_help_text(p, ds),
                     "required": is_required,
                     "preset": "select",
                     "form_include_blank_choice": True,
@@ -459,7 +315,7 @@ class DCATDataset(RangeValueConverter):
                 g = ds.get_graph(URIRef(CVOCAB_NETWORK_COVERAGE))
                 return {
                     "field_name": self.ckan_field(p),
-                    **self.get_label_with_help_text(p, ds),
+                    **super().get_label_with_help_text(p, ds),
                     "required": is_required,
                     "preset": "select",
                     "form_include_blank_choice": True,
@@ -469,7 +325,7 @@ class DCATDataset(RangeValueConverter):
                 g = ds.get_graph(URIRef(CVOCAB_THEME))
                 return {
                     "field_name": self.ckan_field(p),
-                    **self.get_label_with_help_text(p, ds),
+                    **super().get_label_with_help_text(p, ds),
                     "required": is_required,
                     "preset": "select",
                     "form_include_blank_choice": True,
@@ -479,7 +335,7 @@ class DCATDataset(RangeValueConverter):
                 g = ds.get_graph(URIRef(CVOCAB_TRANSPORT_MODE))
                 return {
                     "field_name": self.ckan_field(p),
-                    **self.get_label_with_help_text(p, ds),
+                    **super().get_label_with_help_text(p, ds),
                     "required": is_required,
                     "preset": "select",
                     "form_include_blank_choice": True,
@@ -489,7 +345,7 @@ class DCATDataset(RangeValueConverter):
                 g = ds.get_graph(URIRef(CVOCAB_INTENDED_INFORMATION_SERVICE))
                 return {
                     "field_name": self.ckan_field(p),
-                    **self.get_label_with_help_text(p, ds),
+                    **super().get_label_with_help_text(p, ds),
                     "required": is_required,
                     "preset": "select",
                     "form_include_blank_choice": True,

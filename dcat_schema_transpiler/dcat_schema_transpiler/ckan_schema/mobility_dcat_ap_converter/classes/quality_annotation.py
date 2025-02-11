@@ -41,14 +41,7 @@ class QualityAnnotation(RangeValueConverter):
             if clazz_p.is_iri(OA.hasBody):
                 return {
                     "field_name": "quality_description",
-                    "label": {
-                        "en": "Quality description",
-                        "fi": "Julkaisijan kuvaus laadusta",
-                    },
-                    "help_text": {
-                        "en": "URL for an assessment or notes by the publisher regarding quality of dataset contents.",
-                        "fi": "Julkaisijan laatua koskevaan arvioon tai muihin huomioihin viittaava URL.",
-                    },
+                    **super().get_label_with_help_text(clazz_p, ds),
                     "required": is_required,
                     "preset": "url",
                 }

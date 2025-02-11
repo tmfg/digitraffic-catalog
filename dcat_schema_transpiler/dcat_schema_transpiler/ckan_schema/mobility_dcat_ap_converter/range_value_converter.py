@@ -1,23 +1,19 @@
-from abc import ABC, abstractmethod
 import csv
-from dcat_schema_transpiler.cache.vocabularies import (
-    get_cached_file_path,
-)
+from abc import ABC, abstractmethod
+from copy import deepcopy
+from typing import Callable, Dict, List, Set
+
+from ckan_schema.mobility_dcat_ap_converter.i18n.translations import TRANSLATIONS
 from mobility_dcat_ap.namespace import MOBILITYDCATAP_NS_URL
-from dcat_schema_transpiler.rdfs.rdfs_resource import RDFSResource
-from dcat_schema_transpiler.rdfs.util import get_rdf_object
+from rdflib import Dataset, Graph, URIRef
+from rdflib.namespace import DCAM, RDF, RDFS, SKOS
 
-from rdflib import Dataset, URIRef, Graph
-
-from rdflib.namespace import RDF, RDFS, DCAM, SKOS
-
+from dcat_schema_transpiler.cache.vocabularies import get_cached_file_path
 from dcat_schema_transpiler.rdfs.rdfs_class import RDFSClass
 from dcat_schema_transpiler.rdfs.rdfs_literal import RDFSLiteral
 from dcat_schema_transpiler.rdfs.rdfs_property import RDFSProperty
-
-from typing import Callable, List, Dict, Set
-
-from copy import deepcopy
+from dcat_schema_transpiler.rdfs.rdfs_resource import RDFSResource
+from dcat_schema_transpiler.rdfs.util import get_rdf_object
 
 
 class RangeValueConverter(ABC):
@@ -92,7 +88,7 @@ class RangeValueConverter(ABC):
                 "field_name": field_name,
                 "label": label_value,
                 "required": is_required,
-            }
+            } | self.get_label_with_help_text(clazz_p, ds)
         elif isinstance(rdf_range, RDFSResource) and rdf_range.iri == RDFS.Resource:
             # Resurssi tyyppiset näyttää olevan URLeja
             label_value = self.get_label(clazz_p, ds)
@@ -101,7 +97,7 @@ class RangeValueConverter(ABC):
                 "label": label_value,
                 "required": is_required,
                 "help_text": "The value should be URL",
-            }
+            } | self.get_label_with_help_text(clazz_p, ds)
         else:
             return None
 
@@ -181,6 +177,14 @@ class RangeValueConverter(ABC):
             }
         else:
             return deepcopy(translated_field_properties)
+
+    def get_label_with_help_text(
+        self, p: RDFSProperty, ds: Dataset, pointer: str | None = None
+    ) -> dict:
+        translations = TRANSLATIONS.get(self.iri, {}).get(p.iri, None)
+        if pointer and translations.get(pointer):
+            return translations.get(pointer)
+        return translations if translations else {"label": self.get_label(p, ds)}
 
     def post_process_schema(self, schema: List[Dict]) -> List[Dict]:
         """
