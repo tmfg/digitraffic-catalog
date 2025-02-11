@@ -1,6 +1,6 @@
 from mobility_dcat_ap.namespace import MOBILITYDCATAP
-from rdflib.namespace import DCAT, DCTERMS, FOAF, OWL, ORG
-from mobility_dcat_ap.dataset import OA
+from rdflib.namespace import DCAT, DCTERMS, FOAF, OWL, ORG, RDFS
+from mobility_dcat_ap.dataset import OA, CNT
 
 from dcat_schema_transpiler.namespaces.ADMS import ADMS
 from dcat_schema_transpiler.namespaces.DQV import DQV
@@ -96,6 +96,110 @@ TRANSLATIONS = {
         },
         MOBILITYDCATAP.georeferencingMethod: {
             "label": {"en": "Georeferencing method", "fi": "Georeferointitapa"}
+        },
+    },
+    DCAT.Distribution: {
+        DCAT.accessURL: {
+            "label": {"en": "Access URL", "fi": "URL"},
+            "help_text": {
+                "en": "URL that gives access to this Distribution of the Dataset.",
+                "fi": "URL-osoite, josta pääsee tietoaineiston tähän resurssiin. Mikäli tietoaineistoon pääsy vaatii ensin esim. käyttäjäksi rekisteröitymistä, tulee tähän kenttään antaa linkki rekisteröitymistä tarjoavaan palveluun. Muussa tapauksessa anna osoite rajapintaan tai tiedostoon.",
+            },
+        },
+        MOBILITYDCATAP.mobilityDataStandard: {
+            "label": {"en": "Mobility data standard", "fi": "Liikenteen tietostandardi"}
+        },
+        DCTERMS.format: {"label": {"en": "Format", "fi": "Formaatti"}},
+        DCTERMS.rights: {"label": {"en": "", "fi": ""}},
+        MOBILITYDCATAP.applicationLayerProtocol: {
+            "label": {"en": "Application layer protocol", "fi": ""}
+        },
+        DCTERMS.description: {"label": {"en": "Description", "fi": "Kuvaus"}},
+        DCTERMS.license: {"label": {"en": "", "fi": ""}},
+        DCAT.accessService: {"label": {"en": "", "fi": ""}},
+        CNT.characterEncoding: {
+            "label": {"en": "Character encoding", "fi": "Merkistö"}
+        },
+        MOBILITYDCATAP.communicationMethod: {
+            "label": {"en": "Communication method", "fi": "Rajapinnan käyttötapa"}
+        },
+        MOBILITYDCATAP.dataFormatNotes: {
+            "label": {"en": "Data format notes", "fi": "Huomioita formaatista"}
+        },
+        DCAT.downloadURL: {
+            "label": {"en": "Download URL", "fi": "URL (tiedosto)"},
+            "help_text": {
+                "en": "A direct link to a downloadable file of this Distribution.",
+                "fi": "Suora linkki resurssiin ladattavassa tiedostomuodossa.",
+            },
+        },
+        MOBILITYDCATAP.grammar: {
+            "label": {"en": "Data grammar", "fi": "Tietoskeema"},
+            "help_text": {
+                "en": "The technical data grammar format of the delivered content within the Distribution.",
+                "fi": "Tiedon rakenteen määräävä standardi.",
+            },
+        },
+        ADMS.sample: {
+            "label": {"en": "Sample", "fi": "Näyte"},
+            "help_text": {
+                "en": "A sample Distribution of the Dataset. A data sample allows data users to investigate the data content and data structure, without subscribing to a data feed or downloading a complete data set.",
+                "fi": "Ote tietoaineistosta sisällön arviointia varten.",
+            },
+        },
+        DCTERMS.temporal: {"label": {"en": "", "fi": ""}},
+        DCTERMS.title: {"label": {"en": "Title", "fi": "Nimike"}},
+    },
+    DCAT.DataService: {
+        DCAT.endpointURL: {
+            "label": {"en": "Endpoint URL", "fi": "URL (rajapinta)"},
+            "help_text": {
+                "en": "The root location or primary endpoint of the Data Service related to this Distribution",
+                "fi": "URL tietoaineiston tätä resurssia tarjoavaan rajapintaan.",
+            },
+        },
+        DCTERMS.title: {
+            "label": {"en": "Data service name", "fi": "Palvelun nimi"},
+            "help_text": {
+                "en": "Name of the data service the API is a part of, if applicable.",
+                "fi": "Palvelun nimi mikäli rajapinta on osa laajempaa palvelukokonaisuutta.",
+            },
+        },
+        DCAT.endpointDescription: {
+            "label": {"en": "Endpoint description", "fi": "Rajapinnan kuvaus"},
+            "help_text": {
+                "en": "Link to e.g. a Swagger or OpenAPI description.",
+                "fi": "Linkki esim. Swagger tai OpenAPI -kuvaukseen.",
+            },
+        },
+        DCTERMS.description: {
+            "label": {"en": "Data service description", "fi": "Palvelun kuvaus"},
+            "help_text": {
+                "en": "Description of the data service the API is a part of, if applicable.",
+                "fi": "Kuvaus palvelusta mikäli rajapinta on osa laajempaa palvelukokonaisuutta.",
+            },
+        },
+    },
+    DCTERMS.LicenseDocument: {
+        DCTERMS.identifier: {
+            "label": {"en": "", "fi": ""},
+        },
+        RDFS.label: {
+            "label": {"en": "License text", "fi": "Lisenssiteksti"},
+        },
+    },
+    DCTERMS.RightsStatement: {
+        DCTERMS.type: {
+            "label": {
+                "en": "Conditions for access and usage",
+                "fi": "Pääsy- ja käyttöehdot",
+            },
+        },
+        RDFS.label: {
+            "label": {
+                "en": "Additional information for access and usage",
+                "fi": "Lisätietoa pääsystä ja käytöstä",
+            },
         },
     },
     FOAF.Agent: {

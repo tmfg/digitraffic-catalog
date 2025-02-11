@@ -75,21 +75,6 @@ class Distribution(RangeValueConverter):
     def get_range_value(self, ds: Dataset, clazz_p: RDFSProperty) -> RDFSClass | None:
         return super().get_range_value(ds, clazz_p)
 
-    def get_label(self, p: RDFSProperty, ds: Dataset):
-        if p.is_iri(DCAT.accessURL):
-            return "Access URL"
-        if p.is_iri(MOBILITYDCATAP.communicationMethod):
-            return "Communication method"
-        if p.is_iri(DCAT.downloadURL):
-            return "Download URL"
-        if p.is_iri(MOBILITYDCATAP.dataFormatNotes):
-            return "Data format notes"
-        if p.is_iri(MOBILITYDCATAP.grammar):
-            return "Data grammar"
-        if p.is_iri(ADMS.sample):
-            return "Sample"
-        return super().get_label(p, ds)
-
     def get_schema(self, ds: Dataset, clazz_p: RDFSProperty, is_required: bool = None):
         properties_union = (
             Distribution.mandatory_properties
@@ -142,17 +127,17 @@ class Distribution(RangeValueConverter):
             if clazz_p.is_iri(DCAT.accessURL):
                 return super().get_schema(ds, clazz_p, is_required) | {
                     "preset": "url",
-                    "help_text": "URL that gives access to this Distribution of the Dataset",
+                    **super().get_label_with_help_text(clazz_p, ds),
                 }
             if clazz_p.is_iri(DCAT.downloadURL):
                 return super().get_schema(ds, clazz_p, is_required) | {
                     "preset": "url",
-                    "help_text": "A direct link to a downloadable file of this Distribution",
+                    **super().get_label_with_help_text(clazz_p, ds),
                 }
             if clazz_p.is_iri(ADMS.sample):
                 return super().get_schema(ds, clazz_p, is_required) | {
                     "preset": "url",
-                    "help_text": "A sample Distribution of the Dataset. A data sample allows data users to investigate the data content and data structure, without subscribing to a data feed or downloading a complete data set.",
+                    **super().get_label_with_help_text(clazz_p, ds),
                 }
 
             return super().get_schema(ds, clazz_p, is_required)
@@ -167,7 +152,7 @@ class Distribution(RangeValueConverter):
                 g = ds.get_graph(URIRef(CVOCAB_COMMUNICATION_METHOD))
                 return {
                     "field_name": self.ckan_field(p),
-                    "label": label_value,
+                    **super().get_label_with_help_text(p, ds),
                     "required": is_required,
                     "preset": "select",
                     "form_include_blank_choice": True,
@@ -177,7 +162,7 @@ class Distribution(RangeValueConverter):
                 g = ds.get_graph(URIRef(CVOCAB_APPLICATION_LAYER_PROTOCOL))
                 return {
                     "field_name": self.ckan_field(p),
-                    "label": label_value,
+                    **super().get_label_with_help_text(p, ds),
                     "required": is_required,
                     "preset": "select",
                     "form_include_blank_choice": True,
@@ -187,18 +172,17 @@ class Distribution(RangeValueConverter):
                 g = ds.get_graph(URIRef(CVOCAB_GRAMMAR))
                 return {
                     "field_name": self.ckan_field(p),
-                    "label": label_value,
+                    **super().get_label_with_help_text(p, ds),
                     "required": is_required,
                     "preset": "select",
                     "form_include_blank_choice": True,
-                    "help_text": "The technical data grammar format of the delivered content within the Distribution",
                     "choices": RangeValueConverter.vocab_choices(g),
                 }
             case MOBILITYDCATAP.mobilityDataStandard:
                 g = ds.get_graph(URIRef(CVOCAB_MOBILITY_DATA_STANDARD))
                 return {
                     "field_name": "mobility_data_standard",
-                    "label": "Mobility data standard",
+                    **super().get_label_with_help_text(p, ds),
                     "required": is_required,
                     "preset": "select",
                     "form_include_blank_choice": True,
@@ -208,7 +192,7 @@ class Distribution(RangeValueConverter):
                 g = ds.get_graph(URIRef(CVOCAB_COMMUNICATION_METHOD))
                 return {
                     "field_name": "communication_method",
-                    "label": "Communication method",
+                    **super().get_label_with_help_text(p, ds),
                     "required": is_required,
                     "preset": "select",
                     "form_include_blank_choice": True,
