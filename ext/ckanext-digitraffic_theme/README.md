@@ -46,6 +46,25 @@ To install ckanext-digitraffic_theme:
 
      sudo service apache2 reload
 
+## Generating and updating translations
+
+### Generate the translation template
+`python setup.py extract_messages`
+
+Updates the `.pot` file. This is what you need to do if you have added new translatable texts or edited previous ones.
+
+### Generate translation template for a locale
+Locale `fi` used as an example below.
+
+`python setup.py init_catalog --locale fi`
+
+### Update translations for a locale
+Locale `fi` used as an example below.
+
+`python setup.py update_catalog --locale fi`
+
+This retains previous translations but updates `msgid` values from the `.pot` template.
+
 ## Tests
 
 Tests can be run with a bash script found in `local-env` folder.
