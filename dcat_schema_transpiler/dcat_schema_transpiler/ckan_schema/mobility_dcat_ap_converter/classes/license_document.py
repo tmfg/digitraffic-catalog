@@ -34,7 +34,7 @@ class LicenseDocument(RangeValueConverter):
 
     def get_range_value(self, ds: Dataset, clazz_p: RDFSProperty) -> RDFSClass | None:
         if clazz_p.is_iri(DCTERMS.identifier):
-            ## TODO: Vapaateksti pitäisi olla myös mahdollinen listan sijasta
+            # TODO: Vapaateksti pitäisi olla myös mahdollinen listan sijasta
             r_value = RDFSResource.from_ds(SKOS.Concept, ds)
         else:
             r_value = super().get_range_value(ds, clazz_p)
@@ -46,7 +46,7 @@ class LicenseDocument(RangeValueConverter):
         if clazz_p.is_iri(RDFS.label):
             return {
                 "field_name": self.ckan_field(clazz_p),
-                "label": "License Text",
+                **super().get_label_with_help_text(clazz_p, ds),
                 "preset": "markdown",
                 "required": is_required,
             }

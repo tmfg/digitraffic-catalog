@@ -1549,17 +1549,30 @@ dataset_fields:
     preset: url
 resource_fields:
 - field_name: url
-  label: Access URL
+  label:
+    en: Access URL
+    fi: URL
   required: true
-  help_text: URL that gives access to this Distribution of the Dataset
+  help_text:
+    en: URL that gives access to this Distribution of the Dataset.
+    fi: URL-osoite, josta pääsee tietoaineiston tähän resurssiin. Mikäli tietoaineistoon
+      pääsy vaatii ensin esim. käyttäjäksi rekisteröitymistä, tulee tähän kenttään
+      antaa linkki rekisteröitymistä tarjoavaan palveluun. Muussa tapauksessa anna
+      osoite rajapintaan tai tiedostoon.
   preset: url
 - field_name: download_url
-  label: Download URL
+  label:
+    en: Download URL
+    fi: URL (tiedosto)
   required: false
-  help_text: A direct link to a downloadable file of this Distribution
+  help_text:
+    en: A direct link to a downloadable file of this Distribution.
+    fi: Suora linkki resurssiin ladattavassa tiedostomuodossa.
   preset: url
 - field_name: name_translated
-  label: Title
+  label:
+    en: Title
+    fi: Nimike
   required: false
   preset: fluent_core_translated
   form_languages:
@@ -1567,7 +1580,9 @@ resource_fields:
   - en
   - sv
 - field_name: description_translated
-  label: Description
+  label:
+    en: Description
+    fi: Kuvaus
   required: false
   preset: fluent_core_translated
   form_languages:
@@ -2226,12 +2241,15 @@ resource_fields:
     label: xz
     iri: http://publications.europa.eu/resource/authority/file-type/XZ
 - field_name: data_grammar
-  label: Data grammar
+  label:
+    en: Data grammar
+    fi: Tietoskeema
+  help_text:
+    en: The technical data grammar format of the delivered content within the Distribution.
+    fi: Tiedon rakenteen määräävä standardi.
   required: false
   preset: select
   form_include_blank_choice: true
-  help_text: The technical data grammar format of the delivered content within the
-    Distribution
   choices:
   - value: https://w3id.org/mobilitydcat-ap/grammar/asn.1
     label: ASN.1
@@ -2244,7 +2262,9 @@ resource_fields:
   - value: https://w3id.org/mobilitydcat-ap/grammar/xsd
     label: XSD
 - field_name: data_format_notes_translated
-  label: Data format notes
+  label:
+    en: Data format notes
+    fi: Huomioita formaatista
   required: false
   preset: fluent_core_translated
   form_languages:
@@ -2252,7 +2272,9 @@ resource_fields:
   - en
   - sv
 - field_name: character_encoding
-  label: Character encoding
+  label:
+    en: Character encoding
+    fi: Merkistö
   required: false
   preset: select
   form_include_blank_choice: true
@@ -2774,7 +2796,9 @@ resource_fields:
   - value: windows-874
     label: windows-874
 - field_name: communication_method
-  label: Communication method
+  label:
+    en: Communication method
+    fi: Rajapinnan käyttötapa
   required: false
   preset: select
   form_include_blank_choice: true
@@ -2784,14 +2808,20 @@ resource_fields:
   - value: https://w3id.org/mobilitydcat-ap/communication-method/push
     label: Push
 - field_name: sample
-  label: Sample
+  label:
+    en: Sample
+    fi: Näyte
   required: false
-  help_text: A sample Distribution of the Dataset. A data sample allows data users
-    to investigate the data content and data structure, without subscribing to a data
-    feed or downloading a complete data set.
+  help_text:
+    en: A sample Distribution of the Dataset. A data sample allows data users to investigate
+      the data content and data structure, without subscribing to a data feed or downloading
+      a complete data set.
+    fi: Ote tietoaineistosta sisällön arviointia varten.
   preset: url
 - field_name: mobility_data_standard
-  label: Mobility data standard
+  label:
+    en: Mobility data standard
+    fi: Liikenteen tietostandardi
   required: true
   preset: select
   form_include_blank_choice: true
@@ -2825,7 +2855,9 @@ resource_fields:
   - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/tpegml
     label: tpegML
 - field_name: rights_type
-  label: Conditions for access and usage
+  label:
+    en: Conditions for access and usage
+    fi: Pääsy- ja käyttöehdot
   required: true
   preset: select
   form_include_blank_choice: true
@@ -3178,7 +3210,9 @@ resource_fields:
   - value: http://publications.europa.eu/resource/authority/licence/ECOS_2_0
     label: eCos License version 2.0
 - field_name: license_text
-  label: License Text
+  label:
+    en: License text
+    fi: Lisenssiteksti
   preset: markdown
   required: false
 - field_name: start_timestamp
@@ -3194,26 +3228,44 @@ resource_fields:
   preset: datetime_tz
   required: false
 - field_name: data_service_endpoint_url
-  label: Endpoint URL
+  label:
+    en: Endpoint URL
+    fi: URL (rajapinta)
+  help_text:
+    en: The root location or primary endpoint of the Data Service related to this
+      Distribution
+    fi: URL tietoaineiston tätä resurssia tarjoavaan rajapintaan.
   required: false
   preset: url
-  help_text: The root location or primary endpoint of the Data Service related to
-    this Distribution
 - field_name: data_service_endpoint_description
-  label: Endpoint description
+  label:
+    en: Endpoint description
+    fi: Rajapinnan kuvaus
   required: false
-  help_text: The value should be URL
+  help_text:
+    en: Link to e.g. a Swagger or OpenAPI description.
+    fi: Linkki esim. Swagger tai OpenAPI -kuvaukseen.
 - field_name: data_service_description_translated
-  label: Data service description
+  label:
+    en: Data service description
+    fi: Palvelun kuvaus
   required: false
+  help_text:
+    en: Description of the data service the API is a part of, if applicable.
+    fi: Kuvaus palvelusta mikäli rajapinta on osa laajempaa palvelukokonaisuutta.
   preset: fluent_core_translated
   form_languages:
   - fi
   - en
   - sv
 - field_name: data_service_title_translated
-  label: Data service name
+  label:
+    en: Data service name
+    fi: Palvelun nimi
   required: false
+  help_text:
+    en: Name of the data service the API is a part of, if applicable.
+    fi: Palvelun nimi mikäli rajapinta on osa laajempaa palvelukokonaisuutta.
   preset: fluent_core_translated
   form_languages:
   - fi
