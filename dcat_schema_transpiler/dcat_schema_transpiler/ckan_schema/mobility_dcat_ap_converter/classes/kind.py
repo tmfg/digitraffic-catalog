@@ -30,24 +30,6 @@ class Kind(AggregateRangeValueConverter):
         VCARD.hasTelephone,
     }
 
-    TRANSLATIONS = {
-        VCARD.hasEmail: {
-            "label": {"en": "Email", "fi": "Sähköposti"},
-        },
-        VCARD.hasURL: {
-            "label": {"en": "Website", "fi": "Verkkosivu"},
-        },
-        VCARD.hasTelephone: {
-            "label": {"en": "Phone number", "fi": "Puhelinnumero"},
-        },
-        VCARD.fn: {
-            "label": {"en": "Full name", "fi": "Koko nimi"},
-        },
-        VCARD["organization-name"]: {
-            "label": {"en": "Organization name", "fi": "Organisaation nimi"}
-        },
-    }
-
     def __init__(self, clazz: RDFSClass):
         super().__init__(clazz)
         self.__aggregate_schemas = []
@@ -66,40 +48,32 @@ class Kind(AggregateRangeValueConverter):
     def get_range_value(self, ds: Dataset, clazz_p: RDFSProperty) -> RDFSClass | None:
         return super().get_range_value(ds, clazz_p)
 
-    def get_label_with_help_text(
-        self, p: RDFSProperty, ds: Dataset, pointer: str | None = None
-    ) -> dict:
-        translations = self.TRANSLATIONS.get(p.iri, None)
-        if pointer and translations.get(pointer):
-            return translations.get(pointer)
-        return translations if translations else {"label": super().get_label(p, ds)}
-
     def get_schema(
         self, ds: Dataset, clazz_p: RDFSProperty | None, is_required: bool = None
     ):
         if clazz_p.is_iri(VCARD.hasEmail):
             return {
                 "field_name": self.ckan_field(clazz_p, None),
-                **self.get_label_with_help_text(clazz_p, ds),
+                **super().get_label_with_help_text(clazz_p, ds),
                 "required": is_required,
                 "preset": "email",
             }
         if clazz_p.is_iri(VCARD.hasURL):
             return {
                 "field_name": self.ckan_field(clazz_p, None),
-                **self.get_label_with_help_text(clazz_p, ds),
+                **super().get_label_with_help_text(clazz_p, ds),
                 "required": is_required,
                 "preset": "url",
             }
         if clazz_p.is_iri(VCARD.hasTelephone):
             return {
                 "field_name": self.ckan_field(clazz_p, None),
-                **self.get_label_with_help_text(clazz_p, ds),
+                **super().get_label_with_help_text(clazz_p, ds),
                 "required": is_required,
                 "preset": "phone",
             }
         schema = super().get_schema(ds, clazz_p, False)
-        return schema | self.get_label_with_help_text(clazz_p, ds) if schema else schema
+        return schema
 
     def get_aggregate_schema(self) -> Dict:
         return {

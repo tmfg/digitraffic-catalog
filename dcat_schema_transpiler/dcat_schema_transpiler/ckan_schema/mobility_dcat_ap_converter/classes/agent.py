@@ -3,10 +3,7 @@ from typing import Dict, List
 from rdflib import Dataset, URIRef
 from rdflib.namespace import DCTERMS, ORG, FOAF
 
-from ckan_schema.mobility_dcat_ap_converter.range_value_converter import (
-    RangeValueConverter,
-    AggregateRangeValueConverter,
-)
+
 from dcat_schema_transpiler.rdfs.rdfs_class import RDFSClass
 from dcat_schema_transpiler.rdfs.rdfs_property import RDFSProperty
 
@@ -14,7 +11,10 @@ from dcat_schema_transpiler.namespaces.LOCN import LOCN
 from mobility_dcat_ap.dataset import CVOCAB_AGENT_TYPE
 
 from ckan_schema.mobility_dcat_ap_converter.classes.organization import Organization
-
+from ckan_schema.mobility_dcat_ap_converter.range_value_converter import (
+    RangeValueConverter,
+    AggregateRangeValueConverter,
+)
 
 class Agent(AggregateRangeValueConverter):
     iri = FOAF.Agent
@@ -39,33 +39,6 @@ class Agent(AggregateRangeValueConverter):
         FOAF.workplaceHomepage,
     }
 
-    TRANSLATIONS = {
-        FOAF.name: {
-            "label": {"en": "Name", "fi": "Nimi"},
-        },
-        FOAF.firstName: {
-            "label": {"en": "First name", "fi": "Etunimi"},
-        },
-        FOAF.surname: {
-            "label": {"en": "Surname", "fi": "Sukunimi"},
-        },
-        FOAF.mbox: {
-            "label": {"en": "Email", "fi": "Sähköposti"},
-        },
-        FOAF.phone: {
-            "label": {"en": "Phone number", "fi": "Puhelinnumero"},
-        },
-        FOAF.workplaceHomepage: {
-            "label": {"en": "Workplace homepage", "fi": "Työpaikan kotisivu"},
-        },
-        DCTERMS.type: {
-            "label": {"en": "Agent type", "fi": "Toimijan tyyppi"},
-        },
-        ORG.memberOf: {
-            "label": {"en": "Member of", "fi": "Jäsenyydet"}
-        }
-    }
-
     def __init__(self, clazz: RDFSClass):
         super().__init__(clazz)
         self.__aggregate_schemas = []
@@ -87,14 +60,6 @@ class Agent(AggregateRangeValueConverter):
     def ckan_field(self, p: RDFSProperty, pointer: str = None) -> str:
         return self.ckan_field_by_id(p.iri)
 
-    def get_label_with_help_text(
-        self, p: RDFSProperty, ds: Dataset, pointer: str | None = None
-    ) -> dict:
-        translations = self.TRANSLATIONS.get(p.iri, None)
-        if pointer and translations.get(pointer):
-            return translations.get(pointer)
-        return translations if translations else {"label": super().get_label(p, ds)}
-
     def get_range_value(self, ds: Dataset, clazz_p: RDFSProperty) -> RDFSClass | None:
         return super().get_range_value(ds, clazz_p)
 
@@ -106,26 +71,26 @@ class Agent(AggregateRangeValueConverter):
         if clazz_p.is_iri(FOAF.mbox):
             return {
                 "field_name": self.ckan_field(clazz_p, None),
-                **self.get_label_with_help_text(clazz_p, ds),
+                **super().get_label_with_help_text(clazz_p, ds),
                 "required": is_required,
                 "preset": "email",
             }
         if clazz_p.is_iri(FOAF.phone):
             return {
                 "field_name": self.ckan_field(clazz_p, None),
-                **self.get_label_with_help_text(clazz_p, ds),
+                **super().get_label_with_help_text(clazz_p, ds),
                 "required": is_required,
                 "preset": "phone",
             }
         if clazz_p.is_iri(FOAF.workplaceHomepage):
             return {
                 "field_name": self.ckan_field(clazz_p, None),
-                **self.get_label_with_help_text(clazz_p, ds),
+                **super().get_label_with_help_text(clazz_p, ds),
                 "required": is_required,
                 "preset": "url",
             }
         schema = super().get_schema(ds, clazz_p, False)
-        return schema | self.get_label_with_help_text(clazz_p, ds) if schema else schema
+        return schema
 
     def controlled_vocab_field(
         self, p: RDFSProperty, ds: Dataset, is_required: bool
@@ -135,7 +100,7 @@ class Agent(AggregateRangeValueConverter):
                 g = ds.get_graph(URIRef(CVOCAB_AGENT_TYPE))
                 return {
                     "field_name": self.ckan_field(p),
-                    **self.get_label_with_help_text(p, ds),
+                    **super().get_label_with_help_text(p, ds),
                     "required": is_required,
                     "preset": "select",
                     "form_include_blank_choice": True,
