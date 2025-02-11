@@ -21,4 +21,8 @@
 !/ckanext/digitraffic_theme/**/*.*
 !/ckanext/__init__.py
 
+!/src
+!/src/**/
+!/src/**/*.*
+
 __pycache__
