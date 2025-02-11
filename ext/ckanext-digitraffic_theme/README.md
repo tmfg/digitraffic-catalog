@@ -74,7 +74,7 @@ Locale `fi` used as an example below.
 
 `python setup.py update_catalog --locale fi`
 
-This retains previous translations but updates `msgid` values from the `.pot` template. After you have updated the 
+This retains previous translations but updates `msgid` values from the `.pot` template. After you have updated the `.pot` template you need to also update the translation templates for each locale. 
 
 ## Tests
 
