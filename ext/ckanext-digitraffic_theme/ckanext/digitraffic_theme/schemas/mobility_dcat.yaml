@@ -2927,7 +2927,9 @@ resource_fields:
   - value: https://w3id.org/mobilitydcat-ap/conditions-for-access-and-usage/royalty-free
     label: Royalty-free
 - field_name: license_id
-  label: Standard license
+  label:
+    en: Standard license
+    fi: Lisenssi
   required: false
   preset: select
   form_include_blank_choice: true

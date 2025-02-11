@@ -61,7 +61,7 @@ class LicenseDocument(RangeValueConverter):
                 g = ds.get_graph(URIRef(CVOCAB_LICENSE_IDENTIFIER))
                 return {
                     "field_name": self.ckan_field(p),
-                    "label": "Standard license",
+                    **super().get_label_with_help_text(p, ds),
                     "required": is_required,
                     "preset": "select",
                     "form_include_blank_choice": True,

@@ -78,6 +78,11 @@ Locale `fi` used as an example below.
 
 This retains previous translations but updates `msgid` values from the `.pot` template. After you have updated the `.pot` template you need to also update the translation templates for each locale. 
 
+#### Compiling the translations
+If not using an editor (such as poedit) that compiles automatically on save, you will still need to compile the `.po` file into an `.mo file`. Use this command:
+
+`python setup.py compile_catalog --locale fi`
+
 ## Tests
 
 Tests can be run with a bash script found in `local-env` folder.
