@@ -1264,22 +1264,6 @@ dataset_fields:
     en: Contact point
     fi: Yhteyspiste
   repeating_subfields:
-  - field_name: locality
-    label:
-      en: City
-      fi: Kaupunki
-    required: false
-  - field_name: country_name
-    label:
-      en: Country
-      fi: Maa
-    required: false
-  - field_name: has_email
-    label:
-      en: Email
-      fi: Sähköposti
-    required: false
-    preset: email
   - field_name: fn
     label:
       en: Full name
@@ -1290,12 +1274,34 @@ dataset_fields:
       en: Organization name
       fi: Organisaation nimi
     required: false
+  - field_name: has_email
+    label:
+      en: Email
+      fi: Sähköposti
+    required: false
+    preset: email
   - field_name: has_telephone
     label:
       en: Phone number
       fi: Puhelinnumero
     required: false
     preset: phone
+  - field_name: has_url
+    label:
+      en: Website
+      fi: Verkkosivu
+    required: false
+    preset: url
+  - field_name: street_address
+    label:
+      en: Street address
+      fi: Katuosoite
+    required: false
+  - field_name: locality
+    label:
+      en: City
+      fi: Kaupunki
+    required: false
   - field_name: postal_code
     label:
       en: Postal code
@@ -1306,17 +1312,11 @@ dataset_fields:
       en: Region
       fi: Alue
     required: false
-  - field_name: street_address
+  - field_name: country_name
     label:
-      en: Street address
-      fi: Katuosoite
+      en: Country
+      fi: Maa
     required: false
-  - field_name: has_url
-    label:
-      en: Website
-      fi: Verkkosivu
-    required: false
-    preset: url
 - field_name: network_coverage
   label:
     en: Network coverage
@@ -1479,15 +1479,20 @@ dataset_fields:
       label: Standardisation body
     - value: http://purl.org/adms/publishertype/SupraNationalAuthority
       label: Supra-national authority
-  - field_name: post_name
+  - field_name: name
     label:
-      en: City
-      fi: Kaupunki
+      en: Name
+      fi: Nimi
     required: false
-  - field_name: admin_unit_l1
+  - field_name: first_name
     label:
-      en: Country
-      fi: Maa
+      en: First name
+      fi: Etunimi
+    required: false
+  - field_name: surname
+    label:
+      en: Surname
+      fi: Sukunimi
     required: false
   - field_name: mbox
     label:
@@ -1495,32 +1500,22 @@ dataset_fields:
       fi: Sähköposti
     required: false
     preset: email
-  - field_name: first_name
-    label:
-      en: First name
-      fi: Etunimi
-    required: false
-  - field_name: member_of
-    label:
-      en: Member of
-      fi: Jäsenyydet
-    repeating_subfields:
-    - field_name: name
-      label:
-        en: Organization name
-        fi: Organisaation nimi
-      required: false
-  - field_name: name
-    label:
-      en: Name
-      fi: Nimi
-    required: false
   - field_name: phone
     label:
       en: Phone number
       fi: Puhelinnumero
     required: false
     preset: phone
+  - field_name: thoroughfare
+    label:
+      en: Street address
+      fi: Katuosoite
+    required: false
+  - field_name: post_name
+    label:
+      en: City
+      fi: Kaupunki
+    required: false
   - field_name: post_code
     label:
       en: Postal code
@@ -1531,15 +1526,10 @@ dataset_fields:
       en: Region
       fi: Alue
     required: false
-  - field_name: thoroughfare
+  - field_name: admin_unit_l1
     label:
-      en: Street address
-      fi: Katuosoite
-    required: false
-  - field_name: surname
-    label:
-      en: Surname
-      fi: Sukunimi
+      en: Country
+      fi: Maa
     required: false
   - field_name: workplace_homepage
     label:
@@ -1547,6 +1537,16 @@ dataset_fields:
       fi: Työpaikan kotisivu
     required: false
     preset: url
+  - field_name: member_of
+    label:
+      en: Member of
+      fi: Jäsenyydet
+    repeating_subfields:
+    - field_name: name
+      label:
+        en: Organization name
+        fi: Organisaation nimi
+      required: false
 resource_fields:
 - field_name: url
   label:
@@ -1569,6 +1569,24 @@ resource_fields:
     en: A direct link to a downloadable file of this Distribution.
     fi: Suora linkki resurssiin ladattavassa tiedostomuodossa.
   preset: url
+- field_name: data_service_endpoint_url
+  label:
+    en: Endpoint URL
+    fi: URL (rajapinta)
+  help_text:
+    en: The root location or primary endpoint of the Data Service related to this
+      Distribution
+    fi: URL tietoaineiston tätä resurssia tarjoavaan rajapintaan.
+  required: false
+  preset: url
+- field_name: data_service_endpoint_description
+  label:
+    en: Endpoint description
+    fi: Rajapinnan kuvaus
+  required: false
+  help_text:
+    en: Link to e.g. a Swagger or OpenAPI description.
+    fi: Linkki esim. Swagger tai OpenAPI -kuvaukseen.
 - field_name: name_translated
   label:
     en: Title
@@ -2240,6 +2258,32 @@ resource_fields:
   - value: xz
     label: xz
     iri: http://publications.europa.eu/resource/authority/file-type/XZ
+- field_name: data_service_title_translated
+  label:
+    en: Data service name
+    fi: Palvelun nimi
+  required: false
+  help_text:
+    en: Name of the data service the API is a part of, if applicable.
+    fi: Palvelun nimi mikäli rajapinta on osa laajempaa palvelukokonaisuutta.
+  preset: fluent_core_translated
+  form_languages:
+  - fi
+  - en
+  - sv
+- field_name: data_service_description_translated
+  label:
+    en: Data service description
+    fi: Palvelun kuvaus
+  required: false
+  help_text:
+    en: Description of the data service the API is a part of, if applicable.
+    fi: Kuvaus palvelusta mikäli rajapinta on osa laajempaa palvelukokonaisuutta.
+  preset: fluent_core_translated
+  form_languages:
+  - fi
+  - en
+  - sv
 - field_name: data_grammar
   label:
     en: Data grammar
@@ -3227,50 +3271,6 @@ resource_fields:
     fi: Päättymisaika
   preset: datetime_tz
   required: false
-- field_name: data_service_endpoint_url
-  label:
-    en: Endpoint URL
-    fi: URL (rajapinta)
-  help_text:
-    en: The root location or primary endpoint of the Data Service related to this
-      Distribution
-    fi: URL tietoaineiston tätä resurssia tarjoavaan rajapintaan.
-  required: false
-  preset: url
-- field_name: data_service_endpoint_description
-  label:
-    en: Endpoint description
-    fi: Rajapinnan kuvaus
-  required: false
-  help_text:
-    en: Link to e.g. a Swagger or OpenAPI description.
-    fi: Linkki esim. Swagger tai OpenAPI -kuvaukseen.
-- field_name: data_service_description_translated
-  label:
-    en: Data service description
-    fi: Palvelun kuvaus
-  required: false
-  help_text:
-    en: Description of the data service the API is a part of, if applicable.
-    fi: Kuvaus palvelusta mikäli rajapinta on osa laajempaa palvelukokonaisuutta.
-  preset: fluent_core_translated
-  form_languages:
-  - fi
-  - en
-  - sv
-- field_name: data_service_title_translated
-  label:
-    en: Data service name
-    fi: Palvelun nimi
-  required: false
-  help_text:
-    en: Name of the data service the API is a part of, if applicable.
-    fi: Palvelun nimi mikäli rajapinta on osa laajempaa palvelukokonaisuutta.
-  preset: fluent_core_translated
-  form_languages:
-  - fi
-  - en
-  - sv
 - field_name: format_iri
   required: false
   form_snippet: null
