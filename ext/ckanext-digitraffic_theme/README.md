@@ -53,6 +53,8 @@ Translations contained in CKAN HTML templates are managed via gettext (`.po`) fi
 
 You can use a gettext editor such as https://poedit.net/ to edit the `.po` files. 
 
+Translations for the use of the `ckanext-scheming` plugin are managed in the schema transpiler: [../../dcat_schema_transpiler/dcat_schema_transpiler/ckan_schema/mobility_dcat_ap_converter/i18n/translations.py](../../dcat_schema_transpiler/dcat_schema_transpiler/ckan_schema/mobility_dcat_ap_converter/i18n/translations.py)
+
 [CKAN documentation on translations](https://docs.ckan.org/en/2.9/contributing/i18n.html#)
 
 ### Generating and updating translations
