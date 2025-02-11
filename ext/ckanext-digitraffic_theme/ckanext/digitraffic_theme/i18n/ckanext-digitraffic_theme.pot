@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-digitraffic_theme 0.0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-02-06 12:19+0000\n"
+"POT-Creation-Date: 2025-02-11 09:23+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -60,7 +60,7 @@ msgid "Delete"
 msgstr ""
 
 #: ckanext/digitraffic_theme/templates/package/snippets/package_form.html:48
-msgid "Next: Add Data"
+msgid "Next: Add data"
 msgstr ""
 
 #: ckanext/digitraffic_theme/templates/scheming/form_snippets/_organization_select.html:20
@@ -228,8 +228,8 @@ msgstr ""
 
 #: ckanext/digitraffic_theme/templates/user/edit_user_form.html:30
 msgid ""
-"This account is deactivated, if you want to reactivate it, please click on "
-"checkbox."
+"This account is deactivated. If you want to reactivate it, please click on "
+"the checkbox."
 msgstr ""
 
 #: ckanext/digitraffic_theme/templates/user/edit_user_form.html:34
@@ -257,7 +257,7 @@ msgid "eg. +358401234567"
 msgstr ""
 
 #: ckanext/digitraffic_theme/templates/user/edit_user_form.html:37
-msgid "Country of recidence"
+msgid "Country of residence"
 msgstr ""
 
 #: ckanext/digitraffic_theme/templates/user/edit_user_form.html:37
@@ -273,7 +273,7 @@ msgid "eg. Uusimaa"
 msgstr ""
 
 #: ckanext/digitraffic_theme/templates/user/edit_user_form.html:39
-msgid "Post Code"
+msgid "Postal code"
 msgstr ""
 
 #: ckanext/digitraffic_theme/templates/user/edit_user_form.html:39
@@ -289,7 +289,7 @@ msgid "eg. Helsinki"
 msgstr ""
 
 #: ckanext/digitraffic_theme/templates/user/edit_user_form.html:41
-msgid "Street Address"
+msgid "Street address"
 msgstr ""
 
 #: ckanext/digitraffic_theme/templates/user/edit_user_form.html:41
