@@ -182,7 +182,7 @@ TRANSLATIONS = {
     },
     DCTERMS.LicenseDocument: {
         DCTERMS.identifier: {
-            "label": {"en": "", "fi": ""},
+            "label": {"en": "Standard license", "fi": "Lisenssi"},
         },
         RDFS.label: {
             "label": {"en": "License text", "fi": "Lisenssiteksti"},

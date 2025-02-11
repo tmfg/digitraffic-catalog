@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: ckanext-digitraffic_theme 0.0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2025-02-11 09:23+0000\n"
-"PO-Revision-Date: 2025-02-11 11:32+0200\n"
+"PO-Revision-Date: 2025-02-11 13:59+0200\n"
 "Last-Translator: \n"
 "Language-Team: fi <LL@li.org>\n"
 "Language: fi\n"
@@ -169,11 +169,11 @@ msgstr "Ylläpitäjä"
 
 #: ckanext/digitraffic_theme/templates/snippets/dt_header/user_actions.html:27
 msgid "View dashboard"
-msgstr "Näytä kojelauta"
+msgstr "Näytä yhteenveto"
 
 #: ckanext/digitraffic_theme/templates/snippets/dt_header/user_actions.html:29
 msgid "Dashboard"
-msgstr "Kojelauta"
+msgstr "Yhteenveto"
 
 #: ckanext/digitraffic_theme/templates/snippets/dt_header/user_actions.html:33
 #: ckanext/digitraffic_theme/templates/snippets/dt_header/user_actions.html:35
