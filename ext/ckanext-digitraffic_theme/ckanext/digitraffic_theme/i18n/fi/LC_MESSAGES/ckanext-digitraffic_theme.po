@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-digitraffic_theme 0.0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-02-11 09:23+0000\n"
-"PO-Revision-Date: 2025-02-11 13:59+0200\n"
+"POT-Creation-Date: 2025-02-13 09:05+0000\n"
+"PO-Revision-Date: 2025-02-13 11:09+0200\n"
 "Last-Translator: \n"
 "Language-Team: fi <LL@li.org>\n"
 "Language: fi\n"
@@ -23,7 +23,7 @@ msgstr ""
 #: ckanext/digitraffic_theme/templates/package/read.html:8
 #: ckanext/digitraffic_theme/templates/snippets/package_item.html:42
 msgid "Draft"
-msgstr "Luonnos"
+msgstr "Vedos"
 
 #: ckanext/digitraffic_theme/templates/package/read.html:11
 #: ckanext/digitraffic_theme/templates/snippets/package_item.html:44
@@ -42,7 +42,7 @@ msgstr "Tietoaineiston kuvaus:"
 #: ckanext/digitraffic_theme/templates/package/resource_read.html:20
 #, python-format
 msgid "Source: <a href=\"%(url)s\">%(dataset)s</a>"
-msgstr ""
+msgstr "Lähde: <a href=“%(url)s”>%(dataset)s</a>"
 
 #: ckanext/digitraffic_theme/templates/package/snippets/package_form.html:33
 msgid ""
@@ -72,6 +72,14 @@ msgstr "Seuraava: Lisää dataa"
 #: ckanext/digitraffic_theme/templates/scheming/form_snippets/_organization_select.html:20
 msgid "No organization"
 msgstr "Ei organisaatiota"
+
+#: ckanext/digitraffic_theme/templates/scheming/form_snippets/datetime_tz.html:34
+msgid "Time"
+msgstr "Kellonaika"
+
+#: ckanext/digitraffic_theme/templates/scheming/form_snippets/datetime_tz.html:51
+msgid "Timezone"
+msgstr "Aikavyöhyke"
 
 #: ckanext/digitraffic_theme/templates/scheming/form_snippets/iri_fragment_input.html:18
 msgid ""
@@ -215,7 +223,7 @@ msgstr "Sähköposti"
 
 #: ckanext/digitraffic_theme/templates/user/edit_user_form.html:13
 msgid "eg. joe@example.com"
-msgstr "esim. matti@esimerkki.com "
+msgstr "esim. matti@esimerkki.com"
 
 #: ckanext/digitraffic_theme/templates/user/edit_user_form.html:14
 msgid "A little information about yourself"
