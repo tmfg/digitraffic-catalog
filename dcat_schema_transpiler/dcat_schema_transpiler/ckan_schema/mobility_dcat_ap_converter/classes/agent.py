@@ -120,11 +120,7 @@ class Agent(AggregateRangeValueConverter):
     def post_process_schema(self, schema: List[Dict]):
         def rename_field_names(field):
             if field.get("field_name") == Organization.aggregate_field_name:
-                field["field_name"] = self.ckan_field_by_id(ORG.memberOf)
-                texts = self.get_property_label_with_help_text(ORG.memberOf)
-                field["label"] = texts["label"]
-                if texts.get("help_text"):
-                    field["help_text"] = texts["help_text"]
+                field |= {"field_name": self.ckan_field_by_id(ORG.memberOf)} | self.get_property_label_with_help_text(ORG.memberOf)
             return field
 
         for field in schema[0]["repeating_subfields"]:

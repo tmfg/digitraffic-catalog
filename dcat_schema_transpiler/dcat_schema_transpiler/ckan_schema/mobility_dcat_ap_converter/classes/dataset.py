@@ -356,17 +356,11 @@ class DCATDataset(RangeValueConverter):
         
         def rename_field_names(field):
 
-            def set_fields(field, iri):
-                field["field_name"] = self.ckan_field_by_id(iri)
-                texts = self.get_property_label_with_help_text(iri)
-                field["label"] = texts["label"]
-                if texts.get("help_text"):
-                    field["help_text"] = texts["help_text"]
-
             if field.get("field_name") == Kind.aggregate_field_name:
-                set_fields(field, DCAT.contactPoint)
+                field |= {"field_name": self.ckan_field_by_id(DCAT.contactPoint)} | self.get_property_label_with_help_text(DCAT.contactPoint)
+
             if field.get("field_name") == Agent.aggregate_field_name:
-                set_fields(field, DCTERMS.rightsHolder)
+                field |= {"field_name": self.ckan_field_by_id(DCTERMS.rightsHolder)} | self.get_property_label_with_help_text(DCTERMS.rightsHolder)
 
             return field
 
