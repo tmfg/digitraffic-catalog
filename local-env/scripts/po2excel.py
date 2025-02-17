@@ -5,7 +5,7 @@ import sys
 
 
 # Usage: python po2excel.py <source .po or .pot file> <target directory>
-# e.g. python po2excel.py ../ckanext-digitraffic_theme.pot output
+# e.g. python po2excel.py .../ext/ckanext-digitraffic_theme/ckanext/digitraffic_theme/i18n/ output
 
 
 def po_to_excel(po_file_path, excel_file_path):
