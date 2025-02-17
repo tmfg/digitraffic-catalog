@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-digitraffic_theme 0.0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-02-13 09:05+0000\n"
+"POT-Creation-Date: 2025-02-17 13:27+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -67,11 +67,11 @@ msgstr ""
 msgid "No organization"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/scheming/form_snippets/datetime_tz.html:34
+#: ckanext/digitraffic_theme/templates/scheming/form_snippets/datetime_tz.html:35
 msgid "Time"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/scheming/form_snippets/datetime_tz.html:51
+#: ckanext/digitraffic_theme/templates/scheming/form_snippets/datetime_tz.html:53
 msgid "Timezone"
 msgstr ""
 
