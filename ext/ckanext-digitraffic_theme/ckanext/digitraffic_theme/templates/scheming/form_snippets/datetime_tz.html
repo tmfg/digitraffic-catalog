@@ -31,6 +31,7 @@
     {%- snippet 'scheming/form_snippets/help_text.html', field=field -%}
 {% endcall %}
 
+<!-- the gettext() function will look for translations for the current locale in the .po files -->
 {% set time_label=gettext("Time") %}
 
 {% call form.input(
@@ -48,6 +49,7 @@
     {%- snippet 'scheming/form_snippets/help_text.html', field=field -%}
 {% endcall %}
 
+<!-- the gettext() function will look for translations for the current locale in the .po files -->
 {% set tz_label=gettext("Timezone") %}
 {% set tz_list = h.scheming_get_timezones(field) %}
 
