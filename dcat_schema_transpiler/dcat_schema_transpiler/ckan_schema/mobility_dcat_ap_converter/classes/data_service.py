@@ -42,7 +42,7 @@ class DataService(RangeValueConverter):
         if clazz_p.is_iri(DCAT.endpointURL):
             return {
                 "field_name": self.ckan_field(clazz_p),
-                **super().get_label_with_help_text(clazz_p, ds),
+                **super().get_property_label_with_help_text(clazz_p.iri),
                 "required": is_required,
                 "preset": "url",
             }

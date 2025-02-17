@@ -46,7 +46,7 @@ class LicenseDocument(RangeValueConverter):
         if clazz_p.is_iri(RDFS.label):
             return {
                 "field_name": self.ckan_field(clazz_p),
-                **super().get_label_with_help_text(clazz_p, ds),
+                **super().get_property_label_with_help_text(clazz_p.iri),
                 "preset": "markdown",
                 "required": is_required,
             }
@@ -61,7 +61,7 @@ class LicenseDocument(RangeValueConverter):
                 g = ds.get_graph(URIRef(CVOCAB_LICENSE_IDENTIFIER))
                 return {
                     "field_name": self.ckan_field(p),
-                    **super().get_label_with_help_text(p, ds),
+                    **super().get_property_label_with_help_text(p.iri),
                     "required": is_required,
                     "preset": "select",
                     "form_include_blank_choice": True,

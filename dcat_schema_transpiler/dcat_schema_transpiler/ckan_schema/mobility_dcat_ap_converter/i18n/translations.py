@@ -63,6 +63,7 @@ TRANSLATIONS = {
         DCTERMS.rightsHolder: {
             "label": {"en": "Rights holder", "fi": "Oikeuksien haltija"},
         },
+        DCAT.contactPoint: {"label": {"en": "Contact point", "fi": "Yhteyspiste"}},
         MOBILITYDCATAP.assessmentResult: {
             "label": {"en": "Assessment", "fi": "Laatuarvio"},
             "help_text": {
@@ -203,6 +204,7 @@ TRANSLATIONS = {
         },
     },
     FOAF.Agent: {
+        "label": {"en": "Agent", "fi": "Toimija"},
         FOAF.name: {
             "label": {"en": "Name", "fi": "Nimi"},
         },
@@ -227,6 +229,7 @@ TRANSLATIONS = {
         ORG.memberOf: {"label": {"en": "Member of", "fi": "Jäsenyydet"}},
     },
     MOBILITYDCATAP.Assessment: {
+        "label": {"en": "Assessment", "fi": "Arvio"},
         OA.hasBody: {
             "label": {"en": "Assessment result", "fi": "Arvion tulos"},
             "help_text": {
@@ -251,6 +254,7 @@ TRANSLATIONS = {
         }
     },
     VCARD.Kind: {
+        "label": {"en": "", "fi": ""},
         VCARD.hasEmail: {
             "label": {"en": "Email", "fi": "Sähköposti"},
         },
@@ -300,5 +304,9 @@ TRANSLATIONS = {
         LOCN.adminUnitL1: {
             "label": {"en": "Country", "fi": "Maa"},
         },
+    },
+    ORG.Organization: {
+        "label": {"en": "Organization", "fi": "Organisaatio"},
+        FOAF.name: {"label": {"en": "Organization name", "fi": "Organisaation nimi"}},
     },
 }

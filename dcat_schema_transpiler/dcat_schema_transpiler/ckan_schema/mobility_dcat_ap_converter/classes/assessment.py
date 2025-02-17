@@ -47,11 +47,11 @@ class Assessment(AggregateRangeValueConverter):
             if clazz_p.is_iri(DCTERMS.issued):
                 return super().get_schema(
                     ds, clazz_p, is_required
-                ) | super().get_label_with_help_text(clazz_p, ds)
+                ) | super().get_property_label_with_help_text(clazz_p.iri)
             if clazz_p.is_iri(OA.hasBody):
                 return {
                     "field_name": self.ckan_field(clazz_p, ds),
-                    **super().get_label_with_help_text(clazz_p, ds),
+                    **super().get_property_label_with_help_text(clazz_p.iri),
                     "required": is_required,
                     "preset": "url",
                 }
@@ -63,7 +63,7 @@ class Assessment(AggregateRangeValueConverter):
     def get_aggregate_schema(self) -> Dict:
         return {
             "field_name": Assessment.field_name,
-            "label": {"en": "Assessment", "fi": "Arvio"},
+            **super().get_class_label_with_help_text(),
             "repeating_subfields": self.__aggregate_schemas,
         }
 

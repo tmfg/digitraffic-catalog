@@ -71,21 +71,21 @@ class Agent(AggregateRangeValueConverter):
         if clazz_p.is_iri(FOAF.mbox):
             return {
                 "field_name": self.ckan_field(clazz_p, None),
-                **super().get_label_with_help_text(clazz_p, ds),
+                **super().get_property_label_with_help_text(clazz_p.iri),
                 "required": is_required,
                 "preset": "email",
             }
         if clazz_p.is_iri(FOAF.phone):
             return {
                 "field_name": self.ckan_field(clazz_p, None),
-                **super().get_label_with_help_text(clazz_p, ds),
+                **super().get_property_label_with_help_text(clazz_p.iri),
                 "required": is_required,
                 "preset": "phone",
             }
         if clazz_p.is_iri(FOAF.workplaceHomepage):
             return {
                 "field_name": self.ckan_field(clazz_p, None),
-                **super().get_label_with_help_text(clazz_p, ds),
+                **super().get_property_label_with_help_text(clazz_p.iri),
                 "required": is_required,
                 "preset": "url",
             }
@@ -100,7 +100,7 @@ class Agent(AggregateRangeValueConverter):
                 g = ds.get_graph(URIRef(CVOCAB_AGENT_TYPE))
                 return {
                     "field_name": self.ckan_field(p),
-                    **super().get_label_with_help_text(p, ds),
+                    **super().get_property_label_with_help_text(p.iri),
                     "required": is_required,
                     "preset": "select",
                     "form_include_blank_choice": True,
@@ -110,7 +110,7 @@ class Agent(AggregateRangeValueConverter):
     def get_aggregate_schema(self) -> Dict:
         return {
             "field_name": Agent.aggregate_field_name,
-            "label": "Fieldset",
+            **super().get_class_label_with_help_text(),
             "repeating_subfields": self.__aggregate_schemas,
         }
 
@@ -121,7 +121,10 @@ class Agent(AggregateRangeValueConverter):
         def rename_field_names(field):
             if field.get("field_name") == Organization.aggregate_field_name:
                 field["field_name"] = self.ckan_field_by_id(ORG.memberOf)
-                field["label"] = {"en": "Member of", "fi": "Jäsenyydet"}
+                texts = self.get_property_label_with_help_text(ORG.memberOf)
+                field["label"] = texts["label"]
+                if texts.get("help_text"):
+                    field["help_text"] = texts["help_text"]
             return field
 
         for field in schema[0]["repeating_subfields"]:
