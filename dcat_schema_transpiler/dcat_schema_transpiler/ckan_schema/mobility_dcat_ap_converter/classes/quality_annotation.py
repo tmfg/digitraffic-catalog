@@ -41,7 +41,7 @@ class QualityAnnotation(RangeValueConverter):
             if clazz_p.is_iri(OA.hasBody):
                 return {
                     "field_name": "quality_description",
-                    **super().get_label_with_help_text(clazz_p, ds),
+                    **super().get_property_label_with_help_text(clazz_p.iri),
                     "required": is_required,
                     "preset": "url",
                 }

@@ -127,17 +127,17 @@ class Distribution(RangeValueConverter):
             if clazz_p.is_iri(DCAT.accessURL):
                 return super().get_schema(ds, clazz_p, is_required) | {
                     "preset": "url",
-                    **super().get_label_with_help_text(clazz_p, ds),
+                    **super().get_property_label_with_help_text(clazz_p.iri),
                 }
             if clazz_p.is_iri(DCAT.downloadURL):
                 return super().get_schema(ds, clazz_p, is_required) | {
                     "preset": "url",
-                    **super().get_label_with_help_text(clazz_p, ds),
+                    **super().get_property_label_with_help_text(clazz_p.iri),
                 }
             if clazz_p.is_iri(ADMS.sample):
                 return super().get_schema(ds, clazz_p, is_required) | {
                     "preset": "url",
-                    **super().get_label_with_help_text(clazz_p, ds),
+                    **super().get_property_label_with_help_text(clazz_p.iri),
                 }
 
             return super().get_schema(ds, clazz_p, is_required)
@@ -152,7 +152,7 @@ class Distribution(RangeValueConverter):
                 g = ds.get_graph(URIRef(CVOCAB_COMMUNICATION_METHOD))
                 return {
                     "field_name": self.ckan_field(p),
-                    **super().get_label_with_help_text(p, ds),
+                    **super().get_property_label_with_help_text(p.iri),
                     "required": is_required,
                     "preset": "select",
                     "form_include_blank_choice": True,
@@ -162,7 +162,7 @@ class Distribution(RangeValueConverter):
                 g = ds.get_graph(URIRef(CVOCAB_APPLICATION_LAYER_PROTOCOL))
                 return {
                     "field_name": self.ckan_field(p),
-                    **super().get_label_with_help_text(p, ds),
+                    **super().get_property_label_with_help_text(p.iri),
                     "required": is_required,
                     "preset": "select",
                     "form_include_blank_choice": True,
@@ -172,7 +172,7 @@ class Distribution(RangeValueConverter):
                 g = ds.get_graph(URIRef(CVOCAB_GRAMMAR))
                 return {
                     "field_name": self.ckan_field(p),
-                    **super().get_label_with_help_text(p, ds),
+                    **super().get_property_label_with_help_text(p.iri),
                     "required": is_required,
                     "preset": "select",
                     "form_include_blank_choice": True,
@@ -182,7 +182,7 @@ class Distribution(RangeValueConverter):
                 g = ds.get_graph(URIRef(CVOCAB_MOBILITY_DATA_STANDARD))
                 return {
                     "field_name": "mobility_data_standard",
-                    **super().get_label_with_help_text(p, ds),
+                    **super().get_property_label_with_help_text(p.iri),
                     "required": is_required,
                     "preset": "select",
                     "form_include_blank_choice": True,
@@ -192,7 +192,7 @@ class Distribution(RangeValueConverter):
                 g = ds.get_graph(URIRef(CVOCAB_COMMUNICATION_METHOD))
                 return {
                     "field_name": "communication_method",
-                    **super().get_label_with_help_text(p, ds),
+                    **super().get_property_label_with_help_text(p.iri),
                     "required": is_required,
                     "preset": "select",
                     "form_include_blank_choice": True,

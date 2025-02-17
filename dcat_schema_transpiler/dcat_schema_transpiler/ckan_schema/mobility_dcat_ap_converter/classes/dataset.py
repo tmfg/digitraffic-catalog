@@ -163,13 +163,13 @@ class DCATDataset(RangeValueConverter):
                 **(
                     schema
                     | RangeValueConverter.get_translated_field_properties(is_required)
-                    | super().get_label_with_help_text(clazz_p, ds)
+                    | super().get_property_label_with_help_text(clazz_p.iri)
                 )
             }
         if clazz_p.is_iri(DCTERMS.conformsTo):
             return {
                 "field_name": self.ckan_field(clazz_p),
-                **super().get_label_with_help_text(clazz_p, ds),
+                **super().get_property_label_with_help_text(clazz_p.iri),
                 "required": is_required,
                 "preset": "iri_fragment",
                 "input_type": "number",
@@ -179,7 +179,7 @@ class DCATDataset(RangeValueConverter):
         if clazz_p.is_iri(DCTERMS.relation):
             return {
                 "field_name": self.ckan_field(clazz_p),
-                **super().get_label_with_help_text(clazz_p, ds),
+                **super().get_property_label_with_help_text(clazz_p.iri),
                 "required": is_required,
                 "preset": "dataset_reference_select",
                 "choices": "",
@@ -188,7 +188,7 @@ class DCATDataset(RangeValueConverter):
         if clazz_p.is_iri(DCTERMS.isReferencedBy):
             return {
                 "field_name": self.ckan_field(clazz_p),
-                **super().get_label_with_help_text(clazz_p, ds),
+                **super().get_property_label_with_help_text(clazz_p.iri),
                 "form_snippet": None,
                 "required": False,
                 "validators": "is_referenced_by_validator",
@@ -206,7 +206,7 @@ class DCATDataset(RangeValueConverter):
                 return [
                     {
                         "field_name": self.ckan_field(p, "main"),
-                        **super().get_label_with_help_text(p, ds, "main"),
+                        **super().get_property_label_with_help_text(p.iri, "main"),
                         "required": is_required,
                         "preset": "select",
                         "form_include_blank_choice": True,
@@ -224,7 +224,7 @@ class DCATDataset(RangeValueConverter):
                     },
                     {
                         "field_name": self.ckan_field(p, "sub"),
-                        **super().get_label_with_help_text(p, ds, "sub"),
+                        **super().get_property_label_with_help_text(p.iri, "sub"),
                         "required": False,
                         "preset": "select",
                         "form_include_blank_choice": True,
@@ -293,7 +293,7 @@ class DCATDataset(RangeValueConverter):
 
                 return {
                     "field_name": self.ckan_field(p),
-                    **super().get_label_with_help_text(p, ds),
+                    **super().get_property_label_with_help_text(p.iri),
                     "required": is_required,
                     "preset": "select",
                     "form_include_blank_choice": True,
@@ -305,7 +305,7 @@ class DCATDataset(RangeValueConverter):
                 g = ds.get_graph(URIRef(CVOCAB_GEOREFERENCING_METHOD))
                 return {
                     "field_name": self.ckan_field(p),
-                    **super().get_label_with_help_text(p, ds),
+                    **super().get_property_label_with_help_text(p.iri),
                     "required": is_required,
                     "preset": "select",
                     "form_include_blank_choice": True,
@@ -315,7 +315,7 @@ class DCATDataset(RangeValueConverter):
                 g = ds.get_graph(URIRef(CVOCAB_NETWORK_COVERAGE))
                 return {
                     "field_name": self.ckan_field(p),
-                    **super().get_label_with_help_text(p, ds),
+                    **super().get_property_label_with_help_text(p.iri),
                     "required": is_required,
                     "preset": "select",
                     "form_include_blank_choice": True,
@@ -325,7 +325,7 @@ class DCATDataset(RangeValueConverter):
                 g = ds.get_graph(URIRef(CVOCAB_THEME))
                 return {
                     "field_name": self.ckan_field(p),
-                    **super().get_label_with_help_text(p, ds),
+                    **super().get_property_label_with_help_text(p.iri),
                     "required": is_required,
                     "preset": "select",
                     "form_include_blank_choice": True,
@@ -335,7 +335,7 @@ class DCATDataset(RangeValueConverter):
                 g = ds.get_graph(URIRef(CVOCAB_TRANSPORT_MODE))
                 return {
                     "field_name": self.ckan_field(p),
-                    **super().get_label_with_help_text(p, ds),
+                    **super().get_property_label_with_help_text(p.iri),
                     "required": is_required,
                     "preset": "select",
                     "form_include_blank_choice": True,
@@ -345,7 +345,7 @@ class DCATDataset(RangeValueConverter):
                 g = ds.get_graph(URIRef(CVOCAB_INTENDED_INFORMATION_SERVICE))
                 return {
                     "field_name": self.ckan_field(p),
-                    **super().get_label_with_help_text(p, ds),
+                    **super().get_property_label_with_help_text(p.iri),
                     "required": is_required,
                     "preset": "select",
                     "form_include_blank_choice": True,
@@ -353,14 +353,21 @@ class DCATDataset(RangeValueConverter):
                 }
 
     def post_process_schema(self, schema: List[Dict]):
+        
         def rename_field_names(field):
+
+            def set_fields(field, iri):
+                field["field_name"] = self.ckan_field_by_id(iri)
+                texts = self.get_property_label_with_help_text(iri)
+                field["label"] = texts["label"]
+                if texts.get("help_text"):
+                    field["help_text"] = texts["help_text"]
+
             if field.get("field_name") == Kind.aggregate_field_name:
-                field["field_name"] = self.ckan_field_by_id(DCAT.contactPoint)
-                field["label"] = {"en": "Contact point", "fi": "Yhteyspiste"}
+                set_fields(field, DCAT.contactPoint)
             if field.get("field_name") == Agent.aggregate_field_name:
-                field["field_name"] = self.ckan_field_by_id(
-                    DCTERMS.rightsHolder)
-                field["label"] = {"en": "Rights holder", "fi": "Oikeuksien haltija"}
+                set_fields(field, DCTERMS.rightsHolder)
+
             return field
 
         return list(map(rename_field_names, schema))
