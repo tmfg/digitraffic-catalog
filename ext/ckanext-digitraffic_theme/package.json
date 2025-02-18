@@ -1,7 +1,12 @@
 {
   "type": "module",
   "scripts": {
-    "bundle": "rollup -c",
+    "bundle": "npm run bundle-ts & npm run bundle-sass",
+    "bundle-ts": "rollup -c",
+    "bundle-sass": "npm run override-ckan-default-variables && npm run sass-task && npm run postcss-task",
+    "override-ckan-default-variables": "mkdir -p ./tmp/ckan_base && cp -R ./node_modules/ckan/ckan/public/base/* ./tmp/ckan_base && cp ./src/sass/override_ckan/_variables.scss ./tmp/ckan_base/scss",
+    "sass-task": "sass --no-source-map --load-path=node_modules src/sass/digitraffic_theme.scss ckanext/digitraffic_theme/assets/css/digitraffic-theme.css",
+    "postcss-task": "postcss ckanext/digitraffic_theme/assets/css/digitraffic-theme.css --no-map --replace",
     "e2e": "playwright test",
     "e2e-ui": "playwright test --ui",
     "e2e-codegen": "playwright codegen"
@@ -10,7 +15,8 @@
     "@fintraffic/fds-coreui-components": "^0.1.1",
     "@fintraffic/fds-coreui-css": "^0.1.3",
     "ckan": "github:ckan/ckan#ckan-2.10.5",
-    "lucide-static": "^0.439.0"
+    "lucide": "^0.475.0",
+    "lucide-static": "^0.473.0"
   },
   "devDependencies": {
     "@playwright/test": "^1.50.1",
@@ -21,14 +27,13 @@
     "@types/node": "^22.13.1",
     "autoprefixer": "^10.4.20",
     "cssnano": "^7.0.5",
+    "dotenv": "^16.4.7",
     "jquery": "^3.7.1",
     "postcss": "^8.4.44",
     "postcss-cli": "^11.0.0",
     "postcss-url": "^10.1.3",
     "rollup": "^4.24.0",
-    "rollup-plugin-copy": "^3.5.0",
-    "rollup-plugin-styler": "^1.8.0",
-    "sass": "^1.78.0",
+    "sass": "^1.84.0",
     "typescript": "~5.5.4"
   }
 }
