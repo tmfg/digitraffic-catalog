@@ -42,7 +42,8 @@ class LOCNAddress(RangeValueConverter):
     def get_schema(
         self, ds: Dataset, clazz_p: RDFSProperty | None, is_required: bool = None
     ):
-        return super().get_schema(ds, clazz_p, False)
+        schema = super().get_schema(ds, clazz_p, False)
+        return schema
 
     def is_property_required(self, property: RDFSProperty) -> bool:
         return property.iri in LOCNAddress.mandatory_properties

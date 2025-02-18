@@ -14,6 +14,8 @@ from rdfs.rdfs_property import RDFSProperty
 class Assessment(AggregateRangeValueConverter):
     iri = MOBILITYDCATAP.Assessment
 
+    aggregate_field_name = "mobilitydcatap_assessment"
+
     mandatory_properties = {}
 
     recommended_properties = {}
@@ -43,23 +45,17 @@ class Assessment(AggregateRangeValueConverter):
 
         if clazz_p.iri in class_properties:
             if clazz_p.is_iri(DCTERMS.issued):
-                return super().get_schema(ds, clazz_p, is_required)
+                return super().get_schema(
+                    ds, clazz_p, is_required
+                ) | super().get_property_label_with_help_text(clazz_p.iri)
             if clazz_p.is_iri(OA.hasBody):
                 return {
-                    "field_name": self.ckan_field(clazz_p, None),
-                    "label": "Assessment result",
+                    "field_name": self.ckan_field(clazz_p, ds),
+                    **super().get_property_label_with_help_text(clazz_p.iri),
                     "required": is_required,
                     "preset": "url",
-                    "help_text": "URL for the results of an assessment process by some organisation",
                 }
         return None
-
-    def get_label(self, p: RDFSProperty, ds: Dataset):
-        if p.is_iri(DCTERMS.issued):
-            return "Assessment date"
-        if p.is_iri(OA.hasBody):
-            return "Assessment result"
-        return super().get_label(p, ds)
 
     def get_range_value(self, ds: Dataset, clazz_p: RDFSProperty) -> RDFSClass | None:
         return super().get_range_value(ds, clazz_p)
@@ -67,7 +63,7 @@ class Assessment(AggregateRangeValueConverter):
     def get_aggregate_schema(self) -> Dict:
         return {
             "field_name": Assessment.field_name,
-            "label": "Assessment",
+            **super().get_class_label_with_help_text(),
             "repeating_subfields": self.__aggregate_schemas,
         }
 

@@ -54,33 +54,31 @@ class Kind(AggregateRangeValueConverter):
         if clazz_p.is_iri(VCARD.hasEmail):
             return {
                 "field_name": self.ckan_field(clazz_p, None),
-                "label": "Email",
+                **super().get_property_label_with_help_text(clazz_p.iri),
                 "required": is_required,
                 "preset": "email",
             }
         if clazz_p.is_iri(VCARD.hasURL):
             return {
                 "field_name": self.ckan_field(clazz_p, None),
-                "label": "Web site",
+                **super().get_property_label_with_help_text(clazz_p.iri),
                 "required": is_required,
                 "preset": "url",
             }
         if clazz_p.is_iri(VCARD.hasTelephone):
             return {
                 "field_name": self.ckan_field(clazz_p, None),
-                "label": "Phone number",
+                **super().get_property_label_with_help_text(clazz_p.iri),
                 "required": is_required,
                 "preset": "phone",
             }
         schema = super().get_schema(ds, clazz_p, False)
-        if clazz_p.is_iri(VCARD.fn):
-            schema["label"] = "Full name"
         return schema
 
     def get_aggregate_schema(self) -> Dict:
         return {
             "field_name": Kind.aggregate_field_name,
-            "label": "Fieldset",
+            **super().get_class_label_with_help_text(),
             "repeating_subfields": self.__aggregate_schemas,
         }
 

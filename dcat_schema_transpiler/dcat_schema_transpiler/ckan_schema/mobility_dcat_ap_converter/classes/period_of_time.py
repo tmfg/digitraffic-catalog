@@ -39,7 +39,16 @@ class PeriodOfTime(RangeValueConverter):
         if any(clazz_p.is_iri(p) for p in self.__class__.recommended_properties):
             return {
                 "field_name": self.ckan_field(clazz_p),
-                "label": "Start time" if clazz_p.is_iri(DCAT.startDate) else "End time",
+                "label": {
+                    "en": (
+                        "Start time" if clazz_p.is_iri(DCAT.startDate) else "End time"
+                    ),
+                    "fi": (
+                        "Alkamisaika"
+                        if clazz_p.is_iri(DCAT.startDate)
+                        else "Päättymisaika"
+                    ),
+                },
                 "preset": "datetime_tz",
                 "required": is_required,
             }

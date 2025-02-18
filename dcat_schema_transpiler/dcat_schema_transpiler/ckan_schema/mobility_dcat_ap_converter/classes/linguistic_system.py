@@ -63,7 +63,10 @@ class LinguisticSystem(RangeValueConverter):
             "label": "Language",
             "required": is_required,
             "preset": "select",
-            "help_text": "Language used in content data",
+            "help_text": {
+                "en": "Language used in content data.",
+                "fi": "Tietoaineistossa käytetty kieli.",
+            },
             "form_include_blank_choice": True,
             "choices": RangeValueConverter.vocab_choices(
                 g, lambda s: is_supported_language(s)
