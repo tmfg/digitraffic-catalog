@@ -15,6 +15,8 @@
 !rollup.config.js
 !tsconfig.json
 !playwright.config.ts
+!postcss.config.js
+!pnpm-lock.yaml
 
 !/ckanext/
 !/ckanext/digitraffic_theme/

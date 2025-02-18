@@ -1,12 +1,12 @@
 @import '../../tmp/ckan_base/scss/main';
 
-@import '~@fintraffic/fds-coreui-css/dist/tokens';
-@import '~@fintraffic/fds-coreui-css/dist/coreui';
-@import '~@fintraffic/fds-coreui-css/dist/fonts-public-sans';
-@import '~@fintraffic/fds-coreui-css/dist/fonts-public-sans-italic';
+@import '@fintraffic/fds-coreui-css/dist/tokens';
+@import '@fintraffic/fds-coreui-css/dist/coreui';
+@import '@fintraffic/fds-coreui-css/dist/fonts-public-sans';
+@import '@fintraffic/fds-coreui-css/dist/fonts-public-sans-italic';
 
-@import '~@fintraffic/fds-coreui-css/src/scss/tokens';
-@import '~@fintraffic/fds-coreui-css/src/scss/variables';
+@import '@fintraffic/fds-coreui-css/src/scss/tokens';
+@import '@fintraffic/fds-coreui-css/src/scss/variables';
 
 @import 'tokens.css';
 
