@@ -31,7 +31,9 @@ dataset_fields:
   required_languages:
   - en
 - field_name: frequency
-  label: Frequency
+  label:
+    en: Frequency
+    fi: Päivitysten tiheys
   required: true
   preset: select
   form_include_blank_choice: true
@@ -129,7 +131,9 @@ dataset_fields:
   - value: http://publications.europa.eu/resource/authority/frequency/WEEKLY
     label: weekly
 - field_name: mobility_theme
-  label: Data content category
+  label:
+    en: Data content category
+    fi: Kategoria
   required: true
   preset: select
   form_include_blank_choice: true
@@ -173,7 +177,9 @@ dataset_fields:
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/waterways-and-water-bodies
     label: Waterways and water bodies
 - field_name: mobility_theme_sub
-  label: Data content sub category
+  label:
+    en: Data content subcategory
+    fi: Alakategoria
   required: false
   preset: select
   form_include_blank_choice: true
@@ -384,7 +390,9 @@ dataset_fields:
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/waiting-time-at-border-crossings-to-non-eu-member-states
     label: Waiting time at border crossings to non-EU Member States
 - field_name: theme
-  label: Theme
+  label:
+    en: Theme
+    fi: Aihe
   required: false
   preset: select
   form_include_blank_choice: true
@@ -418,15 +426,21 @@ dataset_fields:
   - value: http://publications.europa.eu/resource/authority/data-theme/TRAN
     label: Transport
 - field_name: start_timestamp
-  label: Start time
+  label:
+    en: Start time
+    fi: Alkamisaika
   preset: datetime_tz
   required: false
 - field_name: end_timestamp
-  label: End time
+  label:
+    en: End time
+    fi: Päättymisaika
   preset: datetime_tz
   required: false
 - field_name: transport_mode
-  label: Transport Mode
+  label:
+    en: Transport mode
+    fi: Liikennemuoto
   required: false
   preset: select
   form_include_blank_choice: true
@@ -480,71 +494,13 @@ dataset_fields:
   - value: https://w3id.org/mobilitydcat-ap/transport-mode/truck
     label: Truck
 - field_name: spatial
-  label: Location
+  label:
+    en: Location
+    fi: Sijainti
   required: true
   preset: select
   form_include_blank_choice: true
   choices:
-  - value: http://data.europa.eu/nuts/code/FI
-    label: FI Suomi/Finland
-  - value: http://data.europa.eu/nuts/code/FI1
-    label: FI1 Manner-Suomi
-  - value: http://data.europa.eu/nuts/code/FI19
-    label: FI19 Länsi-Suomi
-  - value: http://data.europa.eu/nuts/code/FI196
-    label: FI196 Satakunta
-  - value: http://data.europa.eu/nuts/code/FI198
-    label: FI198 Keski-Suomi
-  - value: http://data.europa.eu/nuts/code/FI199
-    label: FI199 Etelä-Pohjanmaa
-  - value: http://data.europa.eu/nuts/code/FI19A
-    label: FI19A Pohjanmaa
-  - value: http://data.europa.eu/nuts/code/FI19B
-    label: FI19B Pirkanmaa
-  - value: http://data.europa.eu/nuts/code/FI1B
-    label: FI1B Helsinki-Uusimaa
-  - value: http://data.europa.eu/nuts/code/FI1B1
-    label: FI1B1 Helsinki-Uusimaa
-  - value: http://data.europa.eu/nuts/code/FI1C
-    label: FI1C Etelä-Suomi
-  - value: http://data.europa.eu/nuts/code/FI1C1
-    label: FI1C1 Varsinais-Suomi
-  - value: http://data.europa.eu/nuts/code/FI1C2
-    label: FI1C2 Kanta-Häme
-  - value: http://data.europa.eu/nuts/code/FI1C5
-    label: FI1C5 Etelä-Karjala
-  - value: http://data.europa.eu/nuts/code/FI1C6
-    label: FI1C6 Päijät-Häme
-  - value: http://data.europa.eu/nuts/code/FI1C7
-    label: FI1C7 Kymenlaakso
-  - value: http://data.europa.eu/nuts/code/FI1D
-    label: FI1D Pohjois- ja Itä-Suomi
-  - value: http://data.europa.eu/nuts/code/FI1D5
-    label: FI1D5 Keski-Pohjanmaa
-  - value: http://data.europa.eu/nuts/code/FI1D7
-    label: FI1D7 Lappi
-  - value: http://data.europa.eu/nuts/code/FI1D8
-    label: FI1D8 Kainuu
-  - value: http://data.europa.eu/nuts/code/FI1D9
-    label: FI1D9 Pohjois-Pohjanmaa
-  - value: http://data.europa.eu/nuts/code/FI1DA
-    label: FI1DA Etelä-Savo
-  - value: http://data.europa.eu/nuts/code/FI1DB
-    label: FI1DB Pohjois-Savo
-  - value: http://data.europa.eu/nuts/code/FI1DC
-    label: FI1DC Pohjois-Karjala
-  - value: http://data.europa.eu/nuts/code/FI2
-    label: FI2 Åland
-  - value: http://data.europa.eu/nuts/code/FI20
-    label: FI20 Åland
-  - value: http://data.europa.eu/nuts/code/FI200
-    label: FI200 Åland
-  - value: http://data.europa.eu/nuts/code/FIZ
-    label: FIZ Extra-Regio NUTS 1
-  - value: http://data.europa.eu/nuts/code/FIZZ
-    label: FIZZ Extra-Regio NUTS 2
-  - value: http://data.europa.eu/nuts/code/FIZZZ
-    label: FIZZZ Extra-Regio NUTS 3
   - value: https://w3id.org/stirdata/resource/lau/item/FI_020
     label: Akaa
   - value: https://w3id.org/stirdata/resource/lau/item/FI_005
@@ -1166,11 +1122,19 @@ dataset_fields:
   - value: https://w3id.org/stirdata/resource/lau/item/FI_992
     label: Äänekoski
 - field_name: version
-  label: Dataset version
+  label:
+    en: Dataset version
+    fi: Tietoaineiston versio
   required: false
 - field_name: version_notes_translated
-  label: Version notes
+  label:
+    en: Version notes
+    fi: Version tiedot
   required: false
+  help_text:
+    en: A description of the differences between this version and a previous version
+      of the dataset.
+    fi: Kuvaus tietoaineiston nykyisen ja edeltävän version eroista.
   preset: fluent_core_translated
   form_languages:
   - fi
@@ -1180,7 +1144,9 @@ dataset_fields:
   label: Language
   required: false
   preset: select
-  help_text: Language used in content data
+  help_text:
+    en: Language used in content data.
+    fi: Tietoaineistossa käytetty kieli.
   form_include_blank_choice: true
   choices:
   - value: http://publications.europa.eu/resource/authority/language/DAN
@@ -1212,7 +1178,9 @@ dataset_fields:
   - value: http://publications.europa.eu/resource/authority/language/SWE
     label: Swedish
 - field_name: georeferencing_method
-  label: Georeferencing Method
+  label:
+    en: Georeferencing method
+    fi: Georeferointitapa
   required: false
   preset: select
   form_include_blank_choice: true
@@ -1232,43 +1200,70 @@ dataset_fields:
   - value: https://w3id.org/mobilitydcat-ap/georeferencing-method/tpeg-loc
     label: TPEG-LOC
 - field_name: contact_point
-  label: Contact point
+  label:
+    en: Contact point
+    fi: Yhteyspiste
   repeating_subfields:
+  - field_name: fn
+    label:
+      en: Full name
+      fi: Koko nimi
+    required: false
+  - field_name: organization_name
+    label:
+      en: Organization name
+      fi: Organisaation nimi
+    required: false
   - field_name: has_email
-    label: Email
+    label:
+      en: Email
+      fi: Sähköposti
     required: false
     preset: email
-  - field_name: fn
-    label: Full name
-    required: false
   - field_name: has_telephone
-    label: Phone number
+    label:
+      en: Phone number
+      fi: Puhelinnumero
     required: false
     preset: phone
   - field_name: has_url
-    label: Web site
+    label:
+      en: Website
+      fi: Verkkosivu
     required: false
     preset: url
-  - field_name: country_name
-    label: country name
+  - field_name: street_address
+    label:
+      en: Street address
+      fi: Katuosoite
     required: false
   - field_name: locality
-    label: locality
-    required: false
-  - field_name: organization_name
-    label: organization name
+    label:
+      en: City
+      fi: Kaupunki
     required: false
   - field_name: postal_code
-    label: postal code
+    label:
+      en: Postal code
+      fi: Postinumero
     required: false
   - field_name: region
-    label: region
+    label:
+      en: Region
+      fi: Alue
     required: false
-  - field_name: street_address
-    label: street address
+  - field_name: country_name
+    label:
+      en: Country
+      fi: Maa
     required: false
 - field_name: network_coverage
-  label: Network Coverage
+  label:
+    en: Network coverage
+    fi: Liikenneverkko
+  help_text:
+    en: The part of the transport network that is covered by the delivered content.
+    fi: Liikenneverkon osa, jonka tietoaineisto kattaa.
   required: false
   preset: select
   form_include_blank_choice: true
@@ -1298,8 +1293,12 @@ dataset_fields:
   - value: https://w3id.org/mobilitydcat-ap/network-coverage/waterways
     label: Waterways
 - field_name: conforms_to
-  label: Spatial Reference System
-  help_text: Value must be an EPSG number
+  label:
+    en: Spatial reference system
+    fi: Paikkaviittausjärjestelmä
+  help_text:
+    en: Value must be an EPSG number.
+    fi: Arvon tulee olla EPSG-tunniste.
   required: false
   preset: iri_fragment
   input_type: number
@@ -1308,7 +1307,12 @@ dataset_fields:
     max: '69036405'
   validators: scheming_required remove_whitespace ignore_missing spatial_reference_validator
 - field_name: intended_information_service
-  label: Intended information service
+  label:
+    en: Intended information service
+    fi: Hyödyntävä tietopalvelu
+  help_text:
+    en: An information service, which the data content is intended to support.
+    fi: Tietopalvelu, jonka tueksi tietoaineisto on tarkoitettu.
   required: false
   preset: select
   form_include_blank_choice: true
@@ -1332,40 +1336,63 @@ dataset_fields:
   - value: https://w3id.org/mobilitydcat-ap/intended-information-service/trip-plans-auxiliary-information-availability-check
     label: Trip plans, auxiliary information, availability check
 - field_name: quality_description
-  label: Quality description
+  label:
+    en: Quality description
+    fi: Julkaisijan kuvaus laadusta
+  help_text:
+    en: URL for an assessment or notes by the publisher regarding quality of dataset
+      contents.
+    fi: Julkaisijan laatua koskevaan arvioon tai muihin huomioihin viittaava URL.
   required: false
   preset: url
-  help_text: URL for an assessment or notes by the publisher regarding quality of
-    dataset contents
 - field_name: assessment
-  label: Assessment
+  label:
+    en: Assessment
+    fi: Arvio
   repeating_subfields:
   - field_name: assessment_date
-    label: Assessment date
+    label:
+      en: Assessment date
+      fi: Arvion päivämäärä
     required: false
   - field_name: assessment_result
-    label: Assessment result
+    label:
+      en: Assessment result
+      fi: Arvion tulos
+    help_text:
+      en: URL for the results of an assessment process by some organisation.
+      fi: Kolmannen osapuolen aineistolle tekemään arvioon viittaava URL.
     required: false
     preset: url
-    help_text: URL for the results of an assessment process by some organisation
 - field_name: related_resource
-  label: Related dataset
-  help_text: A related dataset that is somehow referenced, cited, or otherwise pointed
-    to by this dataset.
+  label:
+    en: Related dataset
+    fi: Liittyvä tietoaineisto
+  help_text:
+    en: A related dataset that is somehow referenced, cited, or otherwise pointed
+      to by this dataset.
+    fi: Toinen tietoaineisto, johon tämä tietoaineisto jollakin tavalla viittaa tai
+      olennaisesti liittyy.
   required: false
   preset: dataset_reference_select
   choices: ''
   validators: scheming_required ignore_missing dataset_reference_validator
 - field_name: is_referenced_by
-  label: Is referenced by
+  label:
+    en: Is referenced by
+    fi: Viittaukset muista aineistoista
   form_snippet: null
   required: false
   validators: is_referenced_by_validator
 - field_name: rights_holder
-  label: Rights holder
+  label:
+    en: Rights holder
+    fi: Oikeuksien haltija
   repeating_subfields:
   - field_name: type
-    label: Agent type
+    label:
+      en: Agent type
+      fi: Toimijan tyyppi
     required: false
     preset: select
     form_include_blank_choice: true
@@ -1392,61 +1419,118 @@ dataset_fields:
       label: Standardisation body
     - value: http://purl.org/adms/publishertype/SupraNationalAuthority
       label: Supra-national authority
-  - field_name: mbox
-    label: Email
-    required: false
-    preset: email
-  - field_name: member_of
-    label: Member of
-    repeating_subfields:
-    - field_name: name
-      label: Organization name
-      required: false
-  - field_name: phone
-    label: Phone number
-    required: false
-    preset: phone
-  - field_name: surname
-    label: Surname
-    required: false
-  - field_name: workplace_homepage
-    label: Workplace homepage
-    required: false
-    preset: url
-  - field_name: admin_unit_l1
-    label: admin unit level 1
-    required: false
-  - field_name: admin_unit_l2
-    label: admin unit level 2
+  - field_name: name
+    label:
+      en: Name
+      fi: Nimi
     required: false
   - field_name: first_name
-    label: firstName
+    label:
+      en: First name
+      fi: Etunimi
     required: false
-  - field_name: name
-    label: name
+  - field_name: surname
+    label:
+      en: Surname
+      fi: Sukunimi
     required: false
-  - field_name: post_code
-    label: post code
+  - field_name: mbox
+    label:
+      en: Email
+      fi: Sähköposti
+    required: false
+    preset: email
+  - field_name: phone
+    label:
+      en: Phone number
+      fi: Puhelinnumero
+    required: false
+    preset: phone
+  - field_name: thoroughfare
+    label:
+      en: Street address
+      fi: Katuosoite
     required: false
   - field_name: post_name
-    label: post name
+    label:
+      en: City
+      fi: Kaupunki
     required: false
-  - field_name: thoroughfare
-    label: thoroughfare
+  - field_name: post_code
+    label:
+      en: Postal code
+      fi: Postinumero
     required: false
+  - field_name: admin_unit_l2
+    label:
+      en: Region
+      fi: Alue
+    required: false
+  - field_name: admin_unit_l1
+    label:
+      en: Country
+      fi: Maa
+    required: false
+  - field_name: workplace_homepage
+    label:
+      en: Workplace homepage
+      fi: Työpaikan kotisivu
+    required: false
+    preset: url
+  - field_name: member_of
+    label:
+      en: Member of
+      fi: Jäsenyydet
+    repeating_subfields:
+    - field_name: name
+      label:
+        en: Organization name
+        fi: Organisaation nimi
+      required: false
 resource_fields:
 - field_name: url
-  label: Access URL
+  label:
+    en: Access URL
+    fi: URL
   required: true
-  help_text: URL that gives access to this Distribution of the Dataset
+  help_text:
+    en: URL that gives access to this Distribution of the Dataset.
+    fi: URL-osoite, josta pääsee tietoaineiston tähän resurssiin. Mikäli tietoaineistoon
+      pääsy vaatii ensin esim. käyttäjäksi rekisteröitymistä, tulee tähän kenttään
+      antaa linkki rekisteröitymistä tarjoavaan palveluun. Muussa tapauksessa anna
+      osoite rajapintaan tai tiedostoon.
   preset: url
 - field_name: download_url
-  label: Download URL
+  label:
+    en: Download URL
+    fi: URL (tiedosto)
   required: false
-  help_text: A direct link to a downloadable file of this Distribution
+  help_text:
+    en: A direct link to a downloadable file of this Distribution.
+    fi: Suora linkki resurssiin ladattavassa tiedostomuodossa.
   preset: url
+- field_name: data_service_endpoint_url
+  label:
+    en: Endpoint URL
+    fi: URL (rajapinta)
+  help_text:
+    en: The root location or primary endpoint of the Data Service related to this
+      Distribution
+    fi: URL tietoaineiston tätä resurssia tarjoavaan rajapintaan.
+  required: false
+  preset: url
+- field_name: data_service_endpoint_description
+  label:
+    en: Endpoint description
+    fi: Rajapinnan kuvaus
+  required: false
+  help_text:
+    en: Link to e.g. a Swagger or OpenAPI description.
+    fi: Linkki esim. Swagger tai OpenAPI -kuvaukseen.
 - field_name: name_translated
-  label: Title
+  label:
+    en: Title
+    fi: Nimike
   required: false
   preset: fluent_core_translated
   form_languages:
@@ -1454,7 +1538,9 @@ resource_fields:
   - en
   - sv
 - field_name: description_translated
-  label: Description
+  label:
+    en: Description
+    fi: Kuvaus
   required: false
   preset: fluent_core_translated
   form_languages:
@@ -2112,13 +2198,42 @@ resource_fields:
   - value: xz
     label: xz
     iri: http://publications.europa.eu/resource/authority/file-type/XZ
+- field_name: data_service_title_translated
+  label:
+    en: Data service name
+    fi: Palvelun nimi
+  required: false
+  help_text:
+    en: Name of the data service the API is a part of, if applicable.
+    fi: Palvelun nimi mikäli rajapinta on osa laajempaa palvelukokonaisuutta.
+  preset: fluent_core_translated
+  form_languages:
+  - fi
+  - en
+  - sv
+- field_name: data_service_description_translated
+  label:
+    en: Data service description
+    fi: Palvelun kuvaus
+  required: false
+  help_text:
+    en: Description of the data service the API is a part of, if applicable.
+    fi: Kuvaus palvelusta mikäli rajapinta on osa laajempaa palvelukokonaisuutta.
+  preset: fluent_core_translated
+  form_languages:
+  - fi
+  - en
+  - sv
 - field_name: data_grammar
-  label: Data grammar
+  label:
+    en: Data grammar
+    fi: Tietoskeema
+  help_text:
+    en: The technical data grammar format of the delivered content within the Distribution.
+    fi: Tiedon rakenteen määräävä standardi.
   required: false
   preset: select
   form_include_blank_choice: true
-  help_text: The technical data grammar format of the delivered content within the
-    Distribution
   choices:
   - value: https://w3id.org/mobilitydcat-ap/grammar/asn.1
     label: ASN.1
@@ -2131,7 +2246,9 @@ resource_fields:
   - value: https://w3id.org/mobilitydcat-ap/grammar/xsd
     label: XSD
 - field_name: data_format_notes_translated
-  label: Data format notes
+  label:
+    en: Data format notes
+    fi: Huomioita formaatista
   required: false
   preset: fluent_core_translated
   form_languages:
@@ -2139,7 +2256,9 @@ resource_fields:
   - en
   - sv
 - field_name: character_encoding
-  label: Character encoding
+  label:
+    en: Character encoding
+    fi: Merkistö
   required: false
   preset: select
   form_include_blank_choice: true
@@ -2661,7 +2780,9 @@ resource_fields:
   - value: windows-874
     label: windows-874
 - field_name: communication_method
-  label: Communication method
+  label:
+    en: Communication method
+    fi: Rajapinnan käyttötapa
   required: false
   preset: select
   form_include_blank_choice: true
@@ -2671,14 +2792,20 @@ resource_fields:
   - value: https://w3id.org/mobilitydcat-ap/communication-method/push
     label: Push
 - field_name: sample
-  label: Sample
+  label:
+    en: Sample
+    fi: Näyte
   required: false
-  help_text: A sample Distribution of the Dataset. A data sample allows data users
-    to investigate the data content and data structure, without subscribing to a data
-    feed or downloading a complete data set.
+  help_text:
+    en: A sample Distribution of the Dataset. A data sample allows data users to investigate
+      the data content and data structure, without subscribing to a data feed or downloading
+      a complete data set.
+    fi: Ote tietoaineistosta sisällön arviointia varten.
   preset: url
 - field_name: mobility_data_standard
-  label: Mobility data standard
+  label:
+    en: Mobility data standard
+    fi: Liikenteen tietostandardi
   required: true
   preset: select
   form_include_blank_choice: true
@@ -2712,7 +2839,9 @@ resource_fields:
   - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/tpegml
     label: tpegML
 - field_name: rights_type
-  label: Conditions for access and usage
+  label:
+    en: Conditions for access and usage
+    fi: Pääsy- ja käyttöehdot
   required: true
   preset: select
   form_include_blank_choice: true
@@ -2738,7 +2867,9 @@ resource_fields:
   - value: https://w3id.org/mobilitydcat-ap/conditions-for-access-and-usage/royalty-free
     label: Royalty-free
 - field_name: license_id
-  label: Standard license
+  label:
+    en: Standard license
+    fi: Lisenssi
   required: false
   preset: select
   form_include_blank_choice: true
@@ -3065,43 +3196,23 @@ resource_fields:
   - value: http://publications.europa.eu/resource/authority/licence/ECOS_2_0
     label: eCos License version 2.0
 - field_name: license_text
-  label: License Text
+  label:
+    en: License text
+    fi: Lisenssiteksti
   preset: markdown
   required: false
 - field_name: start_timestamp
-  label: Start time
+  label:
+    en: Start time
+    fi: Alkamisaika
   preset: datetime_tz
   required: false
 - field_name: end_timestamp
-  label: End time
+  label:
+    en: End time
+    fi: Päättymisaika
   preset: datetime_tz
   required: false
-- field_name: data_service_endpoint_url
-  label: Endpoint URL
-  required: false
-  preset: url
-  help_text: The root location or primary endpoint of the Data Service related to
-    this Distribution
-- field_name: data_service_endpoint_description
-  label: Endpoint description
-  required: false
-  help_text: The value should be URL
-- field_name: data_service_description_translated
-  label: Data service description
-  required: false
-  preset: fluent_core_translated
-  form_languages:
-  - fi
-  - en
-  - sv
-- field_name: data_service_title_translated
-  label: Data service name
-  required: false
-  preset: fluent_core_translated
-  form_languages:
-  - fi
-  - en
-  - sv
 - field_name: format_iri
   required: false
   form_snippet: null

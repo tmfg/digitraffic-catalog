@@ -40,6 +40,14 @@ def sort_by_label(field: Dict[str, Any]):
     return field["label"]
 
 
+def sort_by_en_label(field: Dict[str, Any]):
+    return (
+        field["label"]["en"]
+        if (not isinstance(field["label"], str) and field.get("label", {}).get("en"))
+        else field["label"]
+    )
+
+
 def sort_location(field: Dict[str, Any]):
     return (
         0 if "http://data.europa.eu/nuts/code" in field["value"] else 1,
@@ -59,7 +67,7 @@ def sort_dropdowns(schemas: List[Dict[str, Any]]):
 def sort_repeating_subfields(schemas: List[Dict[str, Any]]):
     for schema in schemas:
         if schema.get("repeating_subfields") is not None:
-            schema["repeating_subfields"].sort(key=sort_by_label)
+            schema["repeating_subfields"].sort(key=sort_by_en_label)
 
 
 def sort_dataset_fields(dataset_fields: List[Dict[str, Any]]):
@@ -98,9 +106,13 @@ def sort_resource_fields(resource_fields: List[Dict[str, Any]]):
     order = [
         "url",
         "download_url",
+        "data_service_endpoint_url",
+        "data_service_endpoint_description",
         "name_translated",
         "description_translated",
         "format",
+        "data_service_title_translated",
+        "data_service_description_translated",
         "application_layer_protocol",
         "data_grammar",
         "data_format_notes_translated",
@@ -115,13 +127,46 @@ def sort_resource_fields(resource_fields: List[Dict[str, Any]]):
         "license_text",
         "start_timestamp",
         "end_timestamp",
-        "data_service_endpoint_url",
-        "data_service_endpoint_description",
-        "data_service_title",
-        "data_service_description_translated",
     ]
     resource_fields.sort(key=partial(sort_by_field_name, order))
     sort_dropdowns(resource_fields)
+
+
+def sort_rights_holder_fields(rights_holder_fields: List[Dict[str, Any]]):
+    order = [
+        "type",
+        "name",
+        "first_name",
+        "surname",
+        "mbox",
+        "phone",
+        "thoroughfare",
+        "post_name",
+        "post_code",
+        "admin_unit_l2",
+        "admin_unit_l1",
+        "workplace_homepage",
+        "member_of",
+    ]
+    rights_holder_fields.sort(key=partial(sort_by_field_name, order))
+    sort_dropdowns(rights_holder_fields)
+
+
+def sort_contact_point_fields(contact_point_fields: List[Dict[str, Any]]):
+    order = [
+        "fn",
+        "organization_name",
+        "has_email",
+        "has_telephone",
+        "has_url",
+        "street_address",
+        "locality",
+        "postal_code",
+        "region",
+        "country_name",
+    ]
+    contact_point_fields.sort(key=partial(sort_by_field_name, order))
+    sort_dropdowns(contact_point_fields)
 
 
 def resource_fields(ds: Dataset) -> List:
@@ -277,6 +322,22 @@ def dataset_fields(ds: Dataset) -> List:
     dataset_fields = dataset_fields_required_by_ckan + dataset_fields_schema_map
 
     sort_dataset_fields(dataset_fields)
+
+    # sort rights_holder subfields
+    rights_holder_fields = next(
+        (field for field in dataset_fields if field["field_name"] == "rights_holder"),
+        None,
+    )
+    if rights_holder_fields and rights_holder_fields.get("repeating_subfields"):
+        sort_rights_holder_fields(rights_holder_fields["repeating_subfields"])
+
+    # sort contact_point subfields
+    contact_point_fields = next(
+        (field for field in dataset_fields if field["field_name"] == "contact_point"),
+        None,
+    )
+    if contact_point_fields and contact_point_fields.get("repeating_subfields"):
+        sort_contact_point_fields(contact_point_fields["repeating_subfields"])
 
     print(" # Dataset fields created!")
 

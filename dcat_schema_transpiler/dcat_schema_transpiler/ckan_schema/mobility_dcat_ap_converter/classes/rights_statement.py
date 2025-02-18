@@ -37,7 +37,7 @@ class RightsStatement(RangeValueConverter):
             return dict(
                 field_name=self.ckan_field(clazz_p),
                 required=is_required,
-                label="Additional information for access and usage",
+                **super().get_property_label_with_help_text(clazz_p.iri),
             )
         if clazz_p.iri in DCTERMS.type:
             return self.controlled_vocab_field(clazz_p, ds, is_required)
@@ -51,7 +51,7 @@ class RightsStatement(RangeValueConverter):
                 g = ds.get_graph(URIRef(CVOCAB_RIGHTS_STATEMENT_TYPE))
                 return {
                     "field_name": self.ckan_field(p),
-                    "label": "Conditions for access and usage",
+                    **super().get_property_label_with_help_text(p.iri),
                     "required": is_required,
                     "preset": "select",
                     "form_include_blank_choice": True,

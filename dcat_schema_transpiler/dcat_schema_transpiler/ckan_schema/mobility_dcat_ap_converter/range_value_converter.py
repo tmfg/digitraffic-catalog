@@ -1,23 +1,19 @@
-from abc import ABC, abstractmethod
 import csv
-from dcat_schema_transpiler.cache.vocabularies import (
-    get_cached_file_path,
-)
+from abc import ABC, abstractmethod
+from copy import deepcopy
+from typing import Callable, Dict, List, Set
+
+from ckan_schema.mobility_dcat_ap_converter.i18n.translations import TRANSLATIONS
 from mobility_dcat_ap.namespace import MOBILITYDCATAP_NS_URL
-from dcat_schema_transpiler.rdfs.rdfs_resource import RDFSResource
-from dcat_schema_transpiler.rdfs.util import get_rdf_object
+from rdflib import Dataset, Graph, URIRef
+from rdflib.namespace import DCAM, RDF, RDFS, SKOS
 
-from rdflib import Dataset, URIRef, Graph
-
-from rdflib.namespace import RDF, RDFS, DCAM, SKOS
-
+from dcat_schema_transpiler.cache.vocabularies import get_cached_file_path
 from dcat_schema_transpiler.rdfs.rdfs_class import RDFSClass
 from dcat_schema_transpiler.rdfs.rdfs_literal import RDFSLiteral
 from dcat_schema_transpiler.rdfs.rdfs_property import RDFSProperty
-
-from typing import Callable, List, Dict, Set
-
-from copy import deepcopy
+from dcat_schema_transpiler.rdfs.rdfs_resource import RDFSResource
+from dcat_schema_transpiler.rdfs.util import get_rdf_object
 
 
 class RangeValueConverter(ABC):
@@ -92,7 +88,7 @@ class RangeValueConverter(ABC):
                 "field_name": field_name,
                 "label": label_value,
                 "required": is_required,
-            }
+            } | self.get_property_label_with_help_text(clazz_p.iri)
         elif isinstance(rdf_range, RDFSResource) and rdf_range.iri == RDFS.Resource:
             # Resurssi tyyppiset näyttää olevan URLeja
             label_value = self.get_label(clazz_p, ds)
@@ -101,7 +97,7 @@ class RangeValueConverter(ABC):
                 "label": label_value,
                 "required": is_required,
                 "help_text": "The value should be URL",
-            }
+            } | self.get_property_label_with_help_text(clazz_p.iri)
         else:
             return None
 
@@ -182,6 +178,14 @@ class RangeValueConverter(ABC):
         else:
             return deepcopy(translated_field_properties)
 
+    def get_property_label_with_help_text(
+        self, property_iri: RDFSProperty, pointer: str | None = None
+    ) -> dict:
+        translations = TRANSLATIONS.get(self.iri, {}).get(property_iri, {})
+        if pointer:
+            return translations.get(pointer, {})
+        return translations
+
     def post_process_schema(self, schema: List[Dict]) -> List[Dict]:
         """
         Acts as a hook to post process the complete schema of the class
@@ -197,6 +201,22 @@ class RangeValueConverter(ABC):
 
 
 class AggregateRangeValueConverter(RangeValueConverter):
+
+    def get_class_label_with_help_text(self) -> dict:
+        """
+        In some cases a class name might be used as a header/title under which its
+        property fields are grouped on the input form. In this case we will just return
+        specific fields since there will also be fields representing the properties of the class.
+        """
+        translations = {
+            "label": TRANSLATIONS.get(self.iri, {}).get("label", None),
+            **(
+                {"help_text": TRANSLATIONS.get(self.iri, {}).get("help_text", None)}
+                if TRANSLATIONS.get(self.iri, {}).get("help_text", None)
+                else {}
+            ),
+        }
+        return translations
 
     @abstractmethod
     def get_aggregate_schema(self) -> Dict | None:
