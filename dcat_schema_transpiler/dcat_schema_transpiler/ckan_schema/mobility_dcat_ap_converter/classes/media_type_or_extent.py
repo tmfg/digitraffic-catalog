@@ -38,6 +38,7 @@ class MediaTypeOrExtent(RangeValueConverter):
             "label": "Format",
             "required": is_required,
             "preset": "select",
+            "sorted_choices": True,
             "form_include_blank_choice": True,
             # set the label as both value and label in the YAML for CKAN
             # otherwise, using ckan_scheming, CKAN will store "value" in the database which results

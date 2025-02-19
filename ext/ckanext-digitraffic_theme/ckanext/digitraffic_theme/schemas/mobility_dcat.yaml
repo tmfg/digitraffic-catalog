@@ -36,6 +36,7 @@ dataset_fields:
     fi: Päivitysten tiheys
   required: true
   preset: select
+  sorted_choices: true
   form_include_blank_choice: true
   choices:
   - value: https://w3id.org/mobilitydcat-ap/update-frequency/10min
@@ -274,6 +275,7 @@ dataset_fields:
     fi: Kategoria
   required: true
   preset: select
+  sorted_choices: true
   form_include_blank_choice: true
   choices:
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/air-and-space-travel
@@ -377,6 +379,7 @@ dataset_fields:
     fi: Alakategoria
   required: false
   preset: select
+  sorted_choices: true
   form_include_blank_choice: true
   validators: scheming_required scheming_choices mobility_theme_sub_validator
   choices:
@@ -896,6 +899,7 @@ dataset_fields:
     fi: Aihe
   required: false
   preset: select
+  sorted_choices: true
   form_include_blank_choice: true
   choices:
   - value: http://publications.europa.eu/resource/authority/data-theme/AGRI
@@ -986,6 +990,7 @@ dataset_fields:
     fi: Liikennemuoto
   required: false
   preset: select
+  sorted_choices: true
   form_include_blank_choice: true
   choices:
   - value: https://w3id.org/mobilitydcat-ap/transport-mode/air
@@ -1116,6 +1121,156 @@ dataset_fields:
   preset: select
   form_include_blank_choice: true
   choices:
+  - value: http://data.europa.eu/nuts/code/FI
+    label:
+      en: FI Suomi/Finland
+      fi: FI Suomi/Finland
+      sv: FI Suomi/Finland
+  - value: http://data.europa.eu/nuts/code/FI1
+    label:
+      en: FI1 Manner-Suomi
+      fi: FI1 Manner-Suomi
+      sv: FI1 Manner-Suomi
+  - value: http://data.europa.eu/nuts/code/FI19
+    label:
+      en: FI19 Länsi-Suomi
+      fi: FI19 Länsi-Suomi
+      sv: FI19 Länsi-Suomi
+  - value: http://data.europa.eu/nuts/code/FI196
+    label:
+      en: FI196 Satakunta
+      fi: FI196 Satakunta
+      sv: FI196 Satakunta
+  - value: http://data.europa.eu/nuts/code/FI198
+    label:
+      en: FI198 Keski-Suomi
+      fi: FI198 Keski-Suomi
+      sv: FI198 Keski-Suomi
+  - value: http://data.europa.eu/nuts/code/FI199
+    label:
+      en: FI199 Etelä-Pohjanmaa
+      fi: FI199 Etelä-Pohjanmaa
+      sv: FI199 Etelä-Pohjanmaa
+  - value: http://data.europa.eu/nuts/code/FI19A
+    label:
+      en: FI19A Pohjanmaa
+      fi: FI19A Pohjanmaa
+      sv: FI19A Pohjanmaa
+  - value: http://data.europa.eu/nuts/code/FI19B
+    label:
+      en: FI19B Pirkanmaa
+      fi: FI19B Pirkanmaa
+      sv: FI19B Pirkanmaa
+  - value: http://data.europa.eu/nuts/code/FI1B
+    label:
+      en: FI1B Helsinki-Uusimaa
+      fi: FI1B Helsinki-Uusimaa
+      sv: FI1B Helsinki-Uusimaa
+  - value: http://data.europa.eu/nuts/code/FI1B1
+    label:
+      en: FI1B1 Helsinki-Uusimaa
+      fi: FI1B1 Helsinki-Uusimaa
+      sv: FI1B1 Helsinki-Uusimaa
+  - value: http://data.europa.eu/nuts/code/FI1C
+    label:
+      en: FI1C Etelä-Suomi
+      fi: FI1C Etelä-Suomi
+      sv: FI1C Etelä-Suomi
+  - value: http://data.europa.eu/nuts/code/FI1C1
+    label:
+      en: FI1C1 Varsinais-Suomi
+      fi: FI1C1 Varsinais-Suomi
+      sv: FI1C1 Varsinais-Suomi
+  - value: http://data.europa.eu/nuts/code/FI1C2
+    label:
+      en: FI1C2 Kanta-Häme
+      fi: FI1C2 Kanta-Häme
+      sv: FI1C2 Kanta-Häme
+  - value: http://data.europa.eu/nuts/code/FI1C5
+    label:
+      en: FI1C5 Etelä-Karjala
+      fi: FI1C5 Etelä-Karjala
+      sv: FI1C5 Etelä-Karjala
+  - value: http://data.europa.eu/nuts/code/FI1C6
+    label:
+      en: FI1C6 Päijät-Häme
+      fi: FI1C6 Päijät-Häme
+      sv: FI1C6 Päijät-Häme
+  - value: http://data.europa.eu/nuts/code/FI1C7
+    label:
+      en: FI1C7 Kymenlaakso
+      fi: FI1C7 Kymenlaakso
+      sv: FI1C7 Kymenlaakso
+  - value: http://data.europa.eu/nuts/code/FI1D
+    label:
+      en: FI1D Pohjois- ja Itä-Suomi
+      fi: FI1D Pohjois- ja Itä-Suomi
+      sv: FI1D Pohjois- ja Itä-Suomi
+  - value: http://data.europa.eu/nuts/code/FI1D5
+    label:
+      en: FI1D5 Keski-Pohjanmaa
+      fi: FI1D5 Keski-Pohjanmaa
+      sv: FI1D5 Keski-Pohjanmaa
+  - value: http://data.europa.eu/nuts/code/FI1D7
+    label:
+      en: FI1D7 Lappi
+      fi: FI1D7 Lappi
+      sv: FI1D7 Lappi
+  - value: http://data.europa.eu/nuts/code/FI1D8
+    label:
+      en: FI1D8 Kainuu
+      fi: FI1D8 Kainuu
+      sv: FI1D8 Kainuu
+  - value: http://data.europa.eu/nuts/code/FI1D9
+    label:
+      en: FI1D9 Pohjois-Pohjanmaa
+      fi: FI1D9 Pohjois-Pohjanmaa
+      sv: FI1D9 Pohjois-Pohjanmaa
+  - value: http://data.europa.eu/nuts/code/FI1DA
+    label:
+      en: FI1DA Etelä-Savo
+      fi: FI1DA Etelä-Savo
+      sv: FI1DA Etelä-Savo
+  - value: http://data.europa.eu/nuts/code/FI1DB
+    label:
+      en: FI1DB Pohjois-Savo
+      fi: FI1DB Pohjois-Savo
+      sv: FI1DB Pohjois-Savo
+  - value: http://data.europa.eu/nuts/code/FI1DC
+    label:
+      en: FI1DC Pohjois-Karjala
+      fi: FI1DC Pohjois-Karjala
+      sv: FI1DC Pohjois-Karjala
+  - value: http://data.europa.eu/nuts/code/FI2
+    label:
+      en: FI2 Åland
+      fi: FI2 Åland
+      sv: FI2 Åland
+  - value: http://data.europa.eu/nuts/code/FI20
+    label:
+      en: FI20 Åland
+      fi: FI20 Åland
+      sv: FI20 Åland
+  - value: http://data.europa.eu/nuts/code/FI200
+    label:
+      en: FI200 Åland
+      fi: FI200 Åland
+      sv: FI200 Åland
+  - value: http://data.europa.eu/nuts/code/FIZ
+    label:
+      en: FIZ Extra-Regio NUTS 1
+      fi: FIZ Extra-Regio NUTS 1
+      sv: FIZ Extra-Regio NUTS 1
+  - value: http://data.europa.eu/nuts/code/FIZZ
+    label:
+      en: FIZZ Extra-Regio NUTS 2
+      fi: FIZZ Extra-Regio NUTS 2
+      sv: FIZZ Extra-Regio NUTS 2
+  - value: http://data.europa.eu/nuts/code/FIZZZ
+    label:
+      en: FIZZZ Extra-Regio NUTS 3
+      fi: FIZZZ Extra-Regio NUTS 3
+      sv: FIZZZ Extra-Regio NUTS 3
   - value: https://w3id.org/stirdata/resource/lau/item/FI_020
     label:
       en: Akaa
@@ -2689,6 +2844,7 @@ dataset_fields:
   label: Language
   required: false
   preset: select
+  sorted_choices: true
   help_text:
     en: Language used in content data.
     fi: Tietoaineistossa käytetty kieli.
@@ -2770,6 +2926,7 @@ dataset_fields:
     fi: Georeferointitapa
   required: false
   preset: select
+  sorted_choices: true
   form_include_blank_choice: true
   choices:
   - value: https://w3id.org/mobilitydcat-ap/georeferencing-method/alert-c
@@ -2874,6 +3031,7 @@ dataset_fields:
     fi: Liikenneverkon osa, jonka tietoaineisto kattaa.
   required: false
   preset: select
+  sorted_choices: true
   form_include_blank_choice: true
   choices:
   - value: https://w3id.org/mobilitydcat-ap/network-coverage/air-network
@@ -2959,6 +3117,7 @@ dataset_fields:
     fi: Tietopalvelu, jonka tueksi tietoaineisto on tarkoitettu.
   required: false
   preset: select
+  sorted_choices: true
   form_include_blank_choice: true
   choices:
   - value: https://w3id.org/mobilitydcat-ap/intended-information-service/dynamic-information-service
@@ -3066,6 +3225,7 @@ dataset_fields:
       fi: Toimijan tyyppi
     required: false
     preset: select
+    sorted_choices: true
     form_include_blank_choice: true
     choices:
     - value: http://purl.org/adms/publishertype/Academia-ScientificOrganisation
@@ -3255,6 +3415,7 @@ resource_fields:
   label: Format
   required: true
   preset: select
+  sorted_choices: true
   form_include_blank_choice: true
   choices:
   - value: &id001
@@ -4582,6 +4743,7 @@ resource_fields:
     fi: Tiedon rakenteen määräävä standardi.
   required: false
   preset: select
+  sorted_choices: true
   form_include_blank_choice: true
   choices:
   - value: https://w3id.org/mobilitydcat-ap/grammar/asn.1
@@ -4625,6 +4787,7 @@ resource_fields:
     fi: Merkistö
   required: false
   preset: select
+  sorted_choices: true
   form_include_blank_choice: true
   choices:
   - value: ANSI_X3.110-1983
@@ -5149,6 +5312,7 @@ resource_fields:
     fi: Rajapinnan käyttötapa
   required: false
   preset: select
+  sorted_choices: true
   form_include_blank_choice: true
   choices:
   - value: https://w3id.org/mobilitydcat-ap/communication-method/pull
@@ -5178,6 +5342,7 @@ resource_fields:
     fi: Liikenteen tietostandardi
   required: true
   preset: select
+  sorted_choices: true
   form_include_blank_choice: true
   choices:
   - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/c-its
@@ -5256,6 +5421,7 @@ resource_fields:
     fi: Pääsy- ja käyttöehdot
   required: true
   preset: select
+  sorted_choices: true
   form_include_blank_choice: true
   choices:
   - value: https://w3id.org/mobilitydcat-ap/conditions-for-access-and-usage/contractual-arrangement
@@ -5314,6 +5480,7 @@ resource_fields:
     fi: Lisenssi
   required: false
   preset: select
+  sorted_choices: true
   form_include_blank_choice: true
   choices:
   - value: http://publications.europa.eu/resource/authority/licence/BSD_2_CLAUSE

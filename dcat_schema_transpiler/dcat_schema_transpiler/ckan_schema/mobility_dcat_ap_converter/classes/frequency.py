@@ -46,6 +46,7 @@ class Frequency(RangeValueConverter):
             "label": {"en": "Frequency", "fi": "Päivitysten tiheys"},
             "required": is_required,
             "preset": "select",
+            "sorted_choices": True,
             "form_include_blank_choice": True,
             "choices": RangeValueConverter.vocab_choices(g),
         }
