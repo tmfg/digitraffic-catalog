@@ -17,6 +17,7 @@
 !playwright.config.ts
 !postcss.config.js
 !pnpm-lock.yaml
+!.env.playwright.example
 
 !/ckanext/
 !/ckanext/digitraffic_theme/
