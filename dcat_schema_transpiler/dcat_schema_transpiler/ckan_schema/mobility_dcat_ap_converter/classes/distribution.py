@@ -98,6 +98,7 @@ class Distribution(RangeValueConverter):
                 r_value = super().get_schema(ds, clazz_p, is_required=False)
                 return r_value | {
                     "preset": "select",
+                    "sorted_choices": True,
                     "form_include_blank_choice": True,
                     # choices are taken from specific csv data set
                     "choices": super().choices_from_cached_csv(
@@ -155,6 +156,7 @@ class Distribution(RangeValueConverter):
                     **super().get_property_label_with_help_text(p.iri),
                     "required": is_required,
                     "preset": "select",
+                    "sorted_choices": True,
                     "form_include_blank_choice": True,
                     "choices": RangeValueConverter.vocab_choices(g),
                 }
@@ -165,6 +167,7 @@ class Distribution(RangeValueConverter):
                     **super().get_property_label_with_help_text(p.iri),
                     "required": is_required,
                     "preset": "select",
+                    "sorted_choices": True,
                     "form_include_blank_choice": True,
                     "choices": RangeValueConverter.vocab_choices(g),
                 }
@@ -175,6 +178,7 @@ class Distribution(RangeValueConverter):
                     **super().get_property_label_with_help_text(p.iri),
                     "required": is_required,
                     "preset": "select",
+                    "sorted_choices": True,
                     "form_include_blank_choice": True,
                     "choices": RangeValueConverter.vocab_choices(g),
                 }
@@ -185,6 +189,7 @@ class Distribution(RangeValueConverter):
                     **super().get_property_label_with_help_text(p.iri),
                     "required": is_required,
                     "preset": "select",
+                    "sorted_choices": True,
                     "form_include_blank_choice": True,
                     "choices": RangeValueConverter.vocab_choices(g),
                 }
@@ -195,6 +200,7 @@ class Distribution(RangeValueConverter):
                     **super().get_property_label_with_help_text(p.iri),
                     "required": is_required,
                     "preset": "select",
+                    "sorted_choices": True,
                     "form_include_blank_choice": True,
                     "choices": RangeValueConverter.vocab_choices(g),
                 }

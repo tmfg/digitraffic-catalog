@@ -57,11 +57,11 @@ def sort_location(field: Dict[str, Any]):
 
 def sort_dropdowns(schemas: List[Dict[str, Any]]):
     for schema in schemas:
+        # sort here fields needing a specific order of choices
+        # default alphabetic sorting can be achieved by setting "sorted_choices: true" in the schema
         if schema.get("preset", "") == "select":
             if schema.get("field_name") == "spatial":
                 schema["choices"].sort(key=sort_location)
-            else:
-                schema["choices"].sort(key=sort_by_en_label)
 
 
 def sort_repeating_subfields(schemas: List[Dict[str, Any]]):
