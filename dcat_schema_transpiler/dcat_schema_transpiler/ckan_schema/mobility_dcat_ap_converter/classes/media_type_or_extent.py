@@ -1,6 +1,7 @@
 from typing import Dict
 
 from rdflib import DCTERMS, Dataset, URIRef
+from copy import deepcopy
 
 from ckan_schema.mobility_dcat_ap_converter.range_value_converter import (
     RangeValueConverter,
@@ -45,8 +46,8 @@ class MediaTypeOrExtent(RangeValueConverter):
             # in IRIs displayed in the UI where labels should be
             "choices": [
                 {
-                    "value": choice["label"],
-                    "label": choice["label"],
+                    "value": choice.get("label", {}).get("en", None),  # type: ignore
+                    "label": deepcopy(choice["label"]),
                     "iri": choice["value"],
                 }
                 for choice in RangeValueConverter.vocab_choices(g)
