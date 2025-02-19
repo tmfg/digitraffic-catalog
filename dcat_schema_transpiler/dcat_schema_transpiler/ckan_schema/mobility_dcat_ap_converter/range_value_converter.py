@@ -134,15 +134,32 @@ class RangeValueConverter(ABC):
         def get_label(s):
             labels = [pl for pl in g.objects(s, SKOS.prefLabel)]
             if labels:
-                english = [
-                    pl for pl in labels if pl.language is None or pl.language == "en"
-                ]
-                if english:
-                    picked_label = english[0]
+                english = next(
+                    (
+                        RDFSLiteral(pl).value()
+                        for pl in labels
+                        if pl.language is None or pl.language == "en"
+                    ),
+                    None,
+                )
+                finnish = next(
+                    (RDFSLiteral(pl).value() for pl in labels if pl.language == "fi"),
+                    None,
+                )
+                swedish = next(
+                    (RDFSLiteral(pl).value() for pl in labels if pl.language == "sv"),
+                    None,
+                )
+
+                if english or finnish or swedish:
+                    return {
+                        "en": english,
+                        "fi": finnish if finnish else english,
+                        "sv": swedish if swedish else english,
+                    }
                 else:
-                    picked_label = labels[0]
-                return RDFSLiteral(picked_label).value()
-            print(f"Could not find label for {s}")
+                    print(f"Could not find label for {s}")
+                    return RDFSLiteral(labels[0]).value()
             return None
 
         return list(
