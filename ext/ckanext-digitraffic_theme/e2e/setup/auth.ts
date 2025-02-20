@@ -1,7 +1,8 @@
 /**
  * This module is used to sign in all the test users with different roles. After signing in, the browser state
  * is saved into a cache where it can be used in later tests so that the authentication flow needs to be done
- * only once.
+ * only once. This authentication process follows the guidelines set
+ * [here]{@link https://playwright.dev/docs/auth#multiple-signed-in-roles}
  */
 
 import {expect, IdentitysOptions, test as setup} from '../fixtures/users';

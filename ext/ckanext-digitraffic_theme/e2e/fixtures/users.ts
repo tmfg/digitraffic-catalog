@@ -5,6 +5,8 @@
 import {test as base} from '@playwright/test';
 
 import {User, Identity} from '../users/user'
+// This import is here for the side effects.
+import "../page-object-models";
 
 export * from '@playwright/test';
 

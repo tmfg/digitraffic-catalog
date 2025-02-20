@@ -2,7 +2,10 @@
  * This module defines the constructs that can be used in E2E-tests to take up some known [identity]{@link Identity} as
  * a {@link User}
  */
-import {Page, BrowserContext, Browser} from "@playwright/test";
+import {Browser, BrowserContext, Page} from "@playwright/test";
+import {HomePage, OrganizationPage} from "../page-object-models";
+import {getPom, URL} from "../page-object-models/pages-controller";
+import {existsSync} from 'fs'
 
 /**
  * Identity represents a known user identity. Each member of this enum must have a corresponding test account created
@@ -28,7 +31,7 @@ export class User {
   private browserContext: BrowserContext;
 
   /**
-   * The constructor is marked private as we want to create User objects through {@link User.of} static method. This is
+   * The constructor is made private as we want to create the User objects through {@link User.of} static method. This is
    * because we want to call some asynchronous code when initializing a User.
    * @param identity
    * @param browserContext
@@ -64,13 +67,21 @@ export class User {
    *
    * @param {Identity} identity – The identity to use with the user
    * @param {Browser} browser – Browser to use to create the browser context
+   * @see {@link Identity}
    */
   static async of(identity: Identity, browser: Browser): Promise<User> {
-    const storagePath = User.getIdentityStorageStatePath(identity)
-    const context = await browser.newContext({storageState: storagePath})
+    const browserName = browser.browserType().name()
+    const storagePath = User.getIdentityStorageStatePath(identity, browserName)
+    const cachedAuthStateExists = existsSync(storagePath)
+    const context = await browser.newContext(cachedAuthStateExists ? {storageState: storagePath} : {})
     return new User(identity, context)
   }
 
+  /**
+   * Sets the current browser state as the authentication state for the user identity.
+   *
+   * @see {@link Identity}
+   */
   async setAuthStorageState(): Promise<void> {
     if (await this.isUserLoggedIn()) {
       await this.cacheUserAuthState(this.identity)
@@ -99,14 +110,15 @@ export class User {
 
   async createNewPage(name: string) {
     this.checkPageExists(name)
-    this.pages.set(name, await this.browserContext.newPage())
+    const newPage = await this.browserContext.newPage();
+    this.pages.set(name, newPage)
+    return newPage
   }
 
   async goToNewPage(url: string, options = undefined) {
     const name = options?.name ?? url
     this.checkPageExists(name)
-    await this.createNewPage(name)
-    const newPage = this.getPage(name);
+    const newPage = await this.createNewPage(name)
     await newPage.goto(url);
     return newPage
   }
@@ -121,22 +133,50 @@ export class User {
     }
   }
 
-  private static getIdentityStorageStatePath(identity: Identity): string {
+  /**
+   * This is used to get the cache location of user's authentication state. Each browser has
+   * its own cache so that each browser have to go through the authentication step at least once.
+   * @param {Identity} identity – identity whose cache location is returned
+   * @param {string} browserName – Name of the browser.
+   * @private
+   */
+  private static getIdentityStorageStatePath(identity: Identity, browserName: string): string {
     switch (identity) {
       case Identity.Anonymous:
-        return 'playwright/.auth/anonymous.json'
+        return `playwright/.auth/${browserName}/anonymous.json`
       case Identity.OrganizationMember:
-        return 'playwright/.auth/organization-member.json'
+        return `playwright/.auth/${browserName}/organization-member.json`
       case Identity.OrganizationEditor:
-        return 'playwright/.auth/organization-editor.json'
+        return `playwright/.auth/${browserName}/organization-editor.json`
       case Identity.OrganizationAdmin:
-        return 'playwright/.auth/organization-admin.json'
+        return `playwright/.auth/${browserName}/organization-admin.json`
       case Identity.SysAdmin:
-        return 'playwright/.auth/system-admin.json'
+        return `playwright/.auth/${browserName}/system-admin.json`
     }
   }
 
+  /**
+   * The state is saved into a local filesystem so that it can be used across multiple tests without needing
+   * to re-authenticate each time.
+   * @param identity
+   * @private
+   */
   private async cacheUserAuthState(identity: Identity) {
-    await this.browserContext.storageState({path: User.getIdentityStorageStatePath(identity)})
+    const browserName = this.getDatacatalogPage().context().browser().browserType().name()
+    await this.browserContext.storageState({path: User.getIdentityStorageStatePath(identity, browserName)})
+  }
+
+  async goToHomePage(page: Page):Promise<HomePage> {
+    const homePageConstructor = getPom(URL.Home)
+    const homePage = new homePageConstructor(page) as HomePage
+    await homePage.goto()
+    return homePage
+  }
+
+  async goToOrganizationPage(page: Page):Promise<OrganizationPage> {
+    const organizationPageConstructor = getPom(URL.Organization)
+    const organizationPage = new organizationPageConstructor(page) as OrganizationPage
+    await organizationPage.goto()
+    return organizationPage
   }
 }
