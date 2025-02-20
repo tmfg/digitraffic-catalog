@@ -27,11 +27,7 @@ def set_format_iri(key, data, errors, context):
             if format_field:
                 format_choices = format_field.get("choices", [])
                 for choice in format_choices:
-                    if (
-                        choice["label"]["en"] == format_value
-                        or choice["label"]["fi"] == format_value
-                        or choice["label"]["sv"] == format_value
-                    ):
+                    if choice["label"]["en"] == format_value:
                         format_iri = choice["iri"]
             if format_iri:
                 data[key] = format_iri
