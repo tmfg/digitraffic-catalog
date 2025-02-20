@@ -41,13 +41,24 @@ class MediaTypeOrExtent(RangeValueConverter):
             "preset": "select",
             "sorted_choices": True,
             "form_include_blank_choice": True,
-            # set the label as both value and label in the YAML for CKAN
-            # otherwise, using ckan_scheming, CKAN will store "value" in the database which results
-            # in IRIs displayed in the UI where labels should be
+            # Use the English "label" also as "value".
+            #
+            # "Value" is by default an IRI in this case, and storing it in the database
+            # results in IRIs displayed in the UI where labels should be.
+            #
+            # The IRI is stored in a separate field so that it can be included in the RDF correctly.
+            #
+            # This vocabulary doesn't include translations, but if it eventually does,
+            # "value" should include the translations. There will probably also
+            # have to be a validator that handles the resulting dict value correctly.
             "choices": [
                 {
-                    "value": choice.get("label", {}).get("en", None),  # type: ignore
-                    "label": deepcopy(choice["label"]),
+                    "value": (
+                        choice["label"].get("en", None)
+                        if isinstance(choice["label"], dict)
+                        else None
+                    ),
+                    "label": choice["label"],
                     "iri": choice["value"],
                 }
                 for choice in RangeValueConverter.vocab_choices(g)
