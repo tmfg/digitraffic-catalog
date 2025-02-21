@@ -14,32 +14,44 @@ import {isVisible, isAtUrl} from "../util";
 }*/
 
 setup.use({
-  identitiesToUse: [[Identity.OrganizationAdmin], {scope: 'test'}]
+  identitiesToUse: [[Identity.OrganizationAdmin, Identity.OrganizationEditor], {scope: 'test'}]
 } as IdentitysOptions);
 
 setup('authenticate as an organization admin', async ({ users }: {users: Map<Identity, User>}) => {
-  const organizationAdmin = users.get(Identity.OrganizationAdmin)
-  const page = await organizationAdmin.goToNewPage('/')
+  const credentials = new Map()
+  credentials.set(
+    Identity.OrganizationAdmin, {
+    password: process.env.ORGANIZATION_ADMIN_PASSWORD,
+    username: process.env.ORGANIZATION_ADMIN_USERNAME
+  })
+  credentials.set(
+    Identity.OrganizationEditor, {
+      password: process.env.ORGANIZATION_EDITOR_PASSWORD,
+      username: process.env.ORGANIZATION_EDITOR_USERNAME
+    })
+  for (const [identity, user] of users) {
+    const page = await user.goToNewPage('/')
 
-  const hideDevToolLocator = page.getByRole('link', { name: 'Hide »' })
+    const hideDevToolLocator = page.getByRole('link', { name: 'Hide »' })
 
-  if (await isVisible(hideDevToolLocator)) {
-    await hideDevToolLocator.click();
-  }
-  if (!await organizationAdmin.isUserLoggedIn()) {
-    await page.getByRole('link', { name: 'Kirjaudu sisään' }).click();
-    if (await isAtUrl(page, 'https://login.microsoftonline.com/**')) {
-      await page.locator('input[type="email"]').fill(process.env.ORGANIZATION_ADMIN_USERNAME);
-      await page.getByRole('button', {name: "Next"}).click();
-      // This waits until all hidden password fields are gone
-      await expect(page.locator('input[type="password"][aria-hidden="true"]')).toHaveCount(0);
-      await page.locator('input[type="password"]').fill(process.env.ORGANIZATION_ADMIN_PASSWORD);
-      await page.getByRole('button', {name: "Sign in"}).click();
-      await expect(page.getByRole('heading', {name: 'Stay signed in?'})).toBeVisible();
-      await page.getByRole('button', {name: "Yes"}).click();
+    if (await isVisible(hideDevToolLocator)) {
+      await hideDevToolLocator.click();
     }
-    await expect(page.getByRole('button', { name: 'Datakatalogi-testorganization-admin' })).toBeVisible();
-    await organizationAdmin.setAuthStorageState();
+    if (!await user.isUserLoggedIn()) {
+      await page.getByRole('link', { name: 'Kirjaudu sisään' }).click();
+      if (await isAtUrl(page, 'https://login.microsoftonline.com/**')) {
+        await page.locator('input[type="email"]').fill(credentials.get(identity).username);
+        await page.getByRole('button', {name: "Next"}).click();
+        // This waits until all hidden password fields are gone
+        await expect(page.locator('input[type="password"][aria-hidden="true"]')).toHaveCount(0);
+        await page.locator('input[type="password"]').fill(credentials.get(identity).password);
+        await page.getByRole('button', {name: "Sign in"}).click();
+        await expect(page.getByRole('heading', {name: 'Stay signed in?'})).toBeVisible();
+        await page.getByRole('button', {name: "Yes"}).click();
+      }
+      await expect(page.getByRole('button', { name: identity })).toBeVisible();
+      await user.setAuthStorageState();
+    }
   }
 });
 
