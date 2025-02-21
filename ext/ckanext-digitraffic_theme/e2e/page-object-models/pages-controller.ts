@@ -2,10 +2,12 @@ import {Page} from "@playwright/test";
 
 export enum URL {
   Home = '/',
-  Organization = '/organization/'
+  OrganizationsList = '/organization/',
+  NewOrganization = '/organization/new',
+  Organization = '/organization/{name}'
 }
 export interface POMConstructor {
-  new(page: Page): Object;
+  new(page: Page, ...args): Object;
 }
 const poms = new Map<URL, POMConstructor>()
 
