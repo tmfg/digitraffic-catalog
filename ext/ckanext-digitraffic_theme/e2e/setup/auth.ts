@@ -7,6 +7,7 @@
 
 import {expect, IdentitysOptions, test as setup} from '../fixtures/users';
 import {Identity, User} from '../users/user'
+import {isVisible, isAtUrl} from "../util";
 
 /*if (fs.existsSync(organizationAdminFile)) {
   setup.use({ storageState: organizationAdminFile });
@@ -22,19 +23,21 @@ setup('authenticate as an organization admin', async ({ users }: {users: Map<Ide
 
   const hideDevToolLocator = page.getByRole('link', { name: 'Hide »' })
 
-  if (await hideDevToolLocator.isVisible()) {
+  if (await isVisible(hideDevToolLocator)) {
     await hideDevToolLocator.click();
   }
   if (!await organizationAdmin.isUserLoggedIn()) {
     await page.getByRole('link', { name: 'Kirjaudu sisään' }).click();
-    await page.locator('input[type="email"]').fill(process.env.ORGANIZATION_ADMIN_USERNAME);
-    await page.getByRole('button', { name: "Next" }).click();
-    // This waits until all hidden password fields are gone
-    await expect(page.locator('input[type="password"][aria-hidden="true"]')).toHaveCount(0);
-    await page.locator('input[type="password"]').fill(process.env.ORGANIZATION_ADMIN_PASSWORD);
-    await page.getByRole('button', { name: "Sign in" }).click();
-    await expect(page.getByRole('heading', { name: 'Stay signed in?' })).toBeVisible();
-    await page.getByRole('button', { name: "Yes" }).click();
+    if (await isAtUrl(page, 'https://login.microsoftonline.com/**')) {
+      await page.locator('input[type="email"]').fill(process.env.ORGANIZATION_ADMIN_USERNAME);
+      await page.getByRole('button', {name: "Next"}).click();
+      // This waits until all hidden password fields are gone
+      await expect(page.locator('input[type="password"][aria-hidden="true"]')).toHaveCount(0);
+      await page.locator('input[type="password"]').fill(process.env.ORGANIZATION_ADMIN_PASSWORD);
+      await page.getByRole('button', {name: "Sign in"}).click();
+      await expect(page.getByRole('heading', {name: 'Stay signed in?'})).toBeVisible();
+      await page.getByRole('button', {name: "Yes"}).click();
+    }
     await expect(page.getByRole('button', { name: 'Datakatalogi-testorganization-admin' })).toBeVisible();
     await organizationAdmin.setAuthStorageState();
   }

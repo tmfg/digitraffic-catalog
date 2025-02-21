@@ -1,5 +1,6 @@
 import {expect, Locator, Page} from '@playwright/test'
 import { getPom, URL } from './pages-controller'
+import { isVisible } from '../util'
 
 /**
  * This is the base page object model that contains relevant methods for the header and footer sections of
@@ -28,8 +29,8 @@ export abstract class BasePage {
    */
   abstract async assertPage(): Promise<void>
 
-  async gotoOrganizationPage(): Promise<BasePage> {
-    const organizationPageConstructor = getPom(URL.Organization)
+  async gotoOrganizationsListPage(): Promise<BasePage> {
+    const organizationPageConstructor = getPom(URL.OrganizationsList)
     const organizationPOM = new organizationPageConstructor(this.page) as BasePage
 
     if (!await this.isWideScreen()) {
@@ -57,21 +58,11 @@ export abstract class BasePage {
     if (await this.isWideScreen()) {
       throw new AppNavigationViewportStateError('wide','Cannot interact with app navigation hamburger when wide screen is in use')
     }
-    try {
-      await this.organizationsNavigatior.waitFor({timeout: 1000})
-      return true
-    } catch (e) {
-      return false
-    }
+    return await isVisible(this.organizationsNavigatior)
   }
 
   async isWideScreen():Promise<boolean> {
-    try {
-      await this.appNavigationHamburger.waitFor({timeout: 1000})
-      return false
-    } catch (e) {
-      return true
-    }
+    return !(await isVisible(this.appNavigationHamburger))
   }
 }
 

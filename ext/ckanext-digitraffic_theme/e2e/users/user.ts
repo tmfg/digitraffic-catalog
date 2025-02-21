@@ -3,9 +3,11 @@
  * a {@link User}
  */
 import {Browser, BrowserContext, Page} from "@playwright/test";
-import {HomePage, OrganizationPage} from "../page-object-models";
+import {HomePage, OrganizationsListPage} from "../page-object-models";
 import {getPom, URL} from "../page-object-models/pages-controller";
+import {gotoNewPage} from "../page-object-models/util";
 import {existsSync} from 'fs'
+import {isVisible} from "../util";
 
 /**
  * Identity represents a known user identity. Each member of this enum must have a corresponding test account created
@@ -70,8 +72,7 @@ export class User {
    * @see {@link Identity}
    */
   static async of(identity: Identity, browser: Browser): Promise<User> {
-    const browserName = browser.browserType().name()
-    const storagePath = User.getIdentityStorageStatePath(identity, browserName)
+    const storagePath = User.getIdentityStorageStatePath(identity)
     const cachedAuthStateExists = existsSync(storagePath)
     const context = await browser.newContext(cachedAuthStateExists ? {storageState: storagePath} : {})
     return new User(identity, context)
@@ -93,7 +94,7 @@ export class User {
   async isUserLoggedIn() {
     const page = this.getDatacatalogPage()
     const userActionsLocator = page.locator('header .account button', {hasText: this.identity})
-    return await userActionsLocator.isVisible()
+    return await isVisible(userActionsLocator)
   }
 
   private getDatacatalogPage(): Page {
@@ -134,24 +135,23 @@ export class User {
   }
 
   /**
-   * This is used to get the cache location of user's authentication state. Each browser has
-   * its own cache so that each browser have to go through the authentication step at least once.
+   * This is used to get the cache location of user's authentication state.
    * @param {Identity} identity – identity whose cache location is returned
    * @param {string} browserName – Name of the browser.
    * @private
    */
-  private static getIdentityStorageStatePath(identity: Identity, browserName: string): string {
+  private static getIdentityStorageStatePath(identity: Identity): string {
     switch (identity) {
       case Identity.Anonymous:
-        return `playwright/.auth/${browserName}/anonymous.json`
+        return `playwright/.auth/anonymous.json`
       case Identity.OrganizationMember:
-        return `playwright/.auth/${browserName}/organization-member.json`
+        return `playwright/.auth/organization-member.json`
       case Identity.OrganizationEditor:
-        return `playwright/.auth/${browserName}/organization-editor.json`
+        return `playwright/.auth/organization-editor.json`
       case Identity.OrganizationAdmin:
-        return `playwright/.auth/${browserName}/organization-admin.json`
+        return `playwright/.auth/organization-admin.json`
       case Identity.SysAdmin:
-        return `playwright/.auth/${browserName}/system-admin.json`
+        return `playwright/.auth/system-admin.json`
     }
   }
 
@@ -162,21 +162,22 @@ export class User {
    * @private
    */
   private async cacheUserAuthState(identity: Identity) {
-    const browserName = this.getDatacatalogPage().context().browser().browserType().name()
-    await this.browserContext.storageState({path: User.getIdentityStorageStatePath(identity, browserName)})
+    await this.browserContext.storageState({path: User.getIdentityStorageStatePath(identity)})
   }
 
   async goToHomePage(page: Page):Promise<HomePage> {
-    const homePageConstructor = getPom(URL.Home)
-    const homePage = new homePageConstructor(page) as HomePage
-    await homePage.goto()
-    return homePage
+    return gotoNewPage(
+      page,
+      URL.Home,
+      async (homePagePOM: HomePage) => {await homePagePOM.goto()}
+    )
   }
 
-  async goToOrganizationPage(page: Page):Promise<OrganizationPage> {
-    const organizationPageConstructor = getPom(URL.Organization)
-    const organizationPage = new organizationPageConstructor(page) as OrganizationPage
-    await organizationPage.goto()
-    return organizationPage
+  async goToOrganizationsListPage(page: Page):Promise<OrganizationsListPage> {
+    return gotoNewPage(
+      page,
+      URL.OrganizationsList,
+      async (organizationsListPOM: OrganizationsListPage) => {await organizationsListPOM.goto()}
+    )
   }
 }
