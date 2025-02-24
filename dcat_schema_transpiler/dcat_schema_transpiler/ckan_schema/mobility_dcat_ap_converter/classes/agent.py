@@ -16,6 +16,7 @@ from ckan_schema.mobility_dcat_ap_converter.range_value_converter import (
     AggregateRangeValueConverter,
 )
 
+
 class Agent(AggregateRangeValueConverter):
     iri = FOAF.Agent
     aggregate_field_name = "foaf_agent"
@@ -103,6 +104,7 @@ class Agent(AggregateRangeValueConverter):
                     **super().get_property_label_with_help_text(p.iri),
                     "required": is_required,
                     "preset": "select",
+                    "sorted_choices": True,
                     "form_include_blank_choice": True,
                     "choices": RangeValueConverter.vocab_choices(g),
                 }
@@ -120,7 +122,8 @@ class Agent(AggregateRangeValueConverter):
     def post_process_schema(self, schema: List[Dict]):
         def rename_field_names(field):
             if field.get("field_name") == Organization.aggregate_field_name:
-                field |= {"field_name": self.ckan_field_by_id(ORG.memberOf)} | self.get_property_label_with_help_text(ORG.memberOf)
+                field |= {"field_name": self.ckan_field_by_id(
+                    ORG.memberOf)} | self.get_property_label_with_help_text(ORG.memberOf)
             return field
 
         for field in schema[0]["repeating_subfields"]:

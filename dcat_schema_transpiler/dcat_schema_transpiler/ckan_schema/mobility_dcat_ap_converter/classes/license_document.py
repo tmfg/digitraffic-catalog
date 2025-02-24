@@ -64,6 +64,7 @@ class LicenseDocument(RangeValueConverter):
                     **super().get_property_label_with_help_text(p.iri),
                     "required": is_required,
                     "preset": "select",
+                    "sorted_choices": True,
                     "form_include_blank_choice": True,
                     "choices": RangeValueConverter.vocab_choices(g),
                 }
