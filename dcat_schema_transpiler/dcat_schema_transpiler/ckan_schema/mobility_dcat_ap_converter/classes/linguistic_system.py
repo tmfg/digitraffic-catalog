@@ -63,6 +63,7 @@ class LinguisticSystem(RangeValueConverter):
             "label": "Language",
             "required": is_required,
             "preset": "select",
+            "sorted_choices": True,
             "help_text": {
                 "en": "Language used in content data.",
                 "fi": "Tietoaineistossa käytetty kieli.",

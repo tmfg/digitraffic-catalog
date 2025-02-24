@@ -121,7 +121,6 @@ class DCATDataset(RangeValueConverter):
     def ckan_field(self, p: RDFSProperty, pointer: str = None) -> str:
         return self.ckan_field_by_id(p.iri, pointer)
 
-
     def get_range_value(
         self, ds: Dataset, clazz_p: RDFSProperty
     ) -> RDFSClass | RDFSResource | None:
@@ -209,6 +208,7 @@ class DCATDataset(RangeValueConverter):
                         **super().get_property_label_with_help_text(p.iri, "main"),
                         "required": is_required,
                         "preset": "select",
+                        "sorted_choices": True,
                         "form_include_blank_choice": True,
                         "choices": RangeValueConverter.vocab_choices(
                             g,
@@ -227,6 +227,7 @@ class DCATDataset(RangeValueConverter):
                         **super().get_property_label_with_help_text(p.iri, "sub"),
                         "required": False,
                         "preset": "select",
+                        "sorted_choices": True,
                         "form_include_blank_choice": True,
                         "validators": "scheming_required scheming_choices mobility_theme_sub_validator",
                         "choices": RangeValueConverter.vocab_choices(
@@ -253,7 +254,7 @@ class DCATDataset(RangeValueConverter):
                     return concept if concept is not None else URIRef("")
 
                 def is_finnish_nuts(nuts):
-
+   
                     if (nuts, None, None) in g_nuts:
                         return (
                             (
@@ -308,6 +309,7 @@ class DCATDataset(RangeValueConverter):
                     **super().get_property_label_with_help_text(p.iri),
                     "required": is_required,
                     "preset": "select",
+                    "sorted_choices": True,
                     "form_include_blank_choice": True,
                     "choices": RangeValueConverter.vocab_choices(g),
                 }
@@ -318,6 +320,7 @@ class DCATDataset(RangeValueConverter):
                     **super().get_property_label_with_help_text(p.iri),
                     "required": is_required,
                     "preset": "select",
+                    "sorted_choices": True,
                     "form_include_blank_choice": True,
                     "choices": RangeValueConverter.vocab_choices(g),
                 }
@@ -328,6 +331,7 @@ class DCATDataset(RangeValueConverter):
                     **super().get_property_label_with_help_text(p.iri),
                     "required": is_required,
                     "preset": "select",
+                    "sorted_choices": True,
                     "form_include_blank_choice": True,
                     "choices": RangeValueConverter.vocab_choices(g),
                 }
@@ -338,6 +342,7 @@ class DCATDataset(RangeValueConverter):
                     **super().get_property_label_with_help_text(p.iri),
                     "required": is_required,
                     "preset": "select",
+                    "sorted_choices": True,
                     "form_include_blank_choice": True,
                     "choices": RangeValueConverter.vocab_choices(g),
                 }
@@ -348,19 +353,23 @@ class DCATDataset(RangeValueConverter):
                     **super().get_property_label_with_help_text(p.iri),
                     "required": is_required,
                     "preset": "select",
+                    "sorted_choices": True,
                     "form_include_blank_choice": True,
                     "choices": RangeValueConverter.vocab_choices(g),
                 }
 
     def post_process_schema(self, schema: List[Dict]):
-        
+
+
         def rename_field_names(field):
 
             if field.get("field_name") == Kind.aggregate_field_name:
-                field |= {"field_name": self.ckan_field_by_id(DCAT.contactPoint)} | self.get_property_label_with_help_text(DCAT.contactPoint)
+                field |= {"field_name": self.ckan_field_by_id(
+                    DCAT.contactPoint)} | self.get_property_label_with_help_text(DCAT.contactPoint)
 
             if field.get("field_name") == Agent.aggregate_field_name:
-                field |= {"field_name": self.ckan_field_by_id(DCTERMS.rightsHolder)} | self.get_property_label_with_help_text(DCTERMS.rightsHolder)
+                field |= {"field_name": self.ckan_field_by_id(
+                    DCTERMS.rightsHolder)} | self.get_property_label_with_help_text(DCTERMS.rightsHolder)
 
             return field
 

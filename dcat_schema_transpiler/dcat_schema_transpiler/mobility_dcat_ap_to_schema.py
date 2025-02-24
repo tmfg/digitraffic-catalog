@@ -51,17 +51,20 @@ def sort_by_en_label(field: Dict[str, Any]):
 def sort_location(field: Dict[str, Any]):
     return (
         0 if "http://data.europa.eu/nuts/code" in field["value"] else 1,
-        field["label"],
+        field["label"]["en"],
     )
 
 
 def sort_dropdowns(schemas: List[Dict[str, Any]]):
     for schema in schemas:
+        # sort here fields needing a specific order of choices
         if schema.get("preset", "") == "select":
             if schema.get("field_name") == "spatial":
                 schema["choices"].sort(key=sort_location)
             else:
-                schema["choices"].sort(key=sort_by_label)
+                # default alphabetic sorting of form choices can be achieved by setting "sorted_choices: true" in the schema
+                # sort here for convenience so that field order is not random in the generated schema
+                schema["choices"].sort(key=sort_by_en_label)
 
 
 def sort_repeating_subfields(schemas: List[Dict[str, Any]]):
