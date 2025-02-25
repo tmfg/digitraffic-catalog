@@ -6,8 +6,6 @@ from ckan_schema.mobility_dcat_ap_converter.range_value_converter import (
     RangeValueConverter,
 )
 from mobility_dcat_ap.dataset import (
-    CVOCAB_FORMAT,
-    CVOCAB_MOBILITY_DCAT_AP_FREQUENCY,
     CVOCAB_EUV_FREQUENCY,
 )
 from dcat_schema_transpiler.rdfs.rdfs_class import RDFSClass
@@ -36,14 +34,10 @@ class Frequency(RangeValueConverter):
     def controlled_vocab_field(
         self, p: RDFSProperty, ds: Dataset, is_required: bool
     ) -> Dict:
-        g_mobility_dcat_ap_frequency = ds.get_graph(
-            URIRef(CVOCAB_MOBILITY_DCAT_AP_FREQUENCY)
-        )
-        g_euv_frequency = ds.get_graph(URIRef(CVOCAB_EUV_FREQUENCY))
-        g = g_mobility_dcat_ap_frequency + g_euv_frequency
+        g = ds.get_graph(URIRef(CVOCAB_EUV_FREQUENCY))
         return {
             "field_name": "frequency",
-            "label": {"en": "Frequency", "fi": "Päivitysten tiheys"},
+            **super().get_class_label_with_help_text(),
             "required": is_required,
             "preset": "select",
             "sorted_choices": True,
