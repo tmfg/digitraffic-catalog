@@ -133,9 +133,13 @@ class RangeValueConverter(ABC):
         pass
 
     @staticmethod
-    def vocab_choices(g: Graph, filter: Callable[[URIRef], bool] = lambda s: True):
+    def vocab_choices(
+        graph: Graph,
+        filter: Callable[[URIRef], bool] = lambda s: True,
+        iri: URIRef | None = None,
+    ):
         def get_label(s):
-            labels = [pl for pl in g.objects(s, SKOS.prefLabel)]
+            labels = [pl for pl in graph.objects(s, SKOS.prefLabel)]
             if labels:
                 english = next(
                     (
@@ -160,12 +164,24 @@ class RangeValueConverter(ABC):
                         "fi": (
                             finnish
                             if finnish
-                            else PATCH_TRANSLATIONS.get(english, {}).get("fi", english)
+                            else (
+                                PATCH_TRANSLATIONS.get(iri, {})
+                                .get(english, {})
+                                .get("fi", english)
+                                if iri
+                                else english
+                            )
                         ),
                         "sv": (
                             swedish
                             if swedish
-                            else PATCH_TRANSLATIONS.get(english, {}).get("sv", english)
+                            else (
+                                PATCH_TRANSLATIONS.get(iri, {})
+                                .get(english, {})
+                                .get("sv", english)
+                                if iri
+                                else english
+                            )
                         ),
                     }
                 else:
@@ -176,7 +192,7 @@ class RangeValueConverter(ABC):
         return list(
             [
                 {"value": str(s), "label": get_label(s)}
-                for s, _, _ in g.triples((None, RDF.type, SKOS.Concept))
+                for s, _, _ in graph.triples((None, RDF.type, SKOS.Concept))
                 if filter(URIRef(s))
             ]
         )
