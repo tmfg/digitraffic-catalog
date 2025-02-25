@@ -39,71 +39,6 @@ dataset_fields:
   sorted_choices: true
   form_include_blank_choice: true
   choices:
-  - value: https://w3id.org/mobilitydcat-ap/update-frequency/10min
-    label:
-      en: 10min
-      fi: 10min
-      sv: 10min
-  - value: https://w3id.org/mobilitydcat-ap/update-frequency/12h
-    label:
-      en: 12h
-      fi: 12h
-      sv: 12h
-  - value: https://w3id.org/mobilitydcat-ap/update-frequency/15min
-    label:
-      en: 15min
-      fi: 15min
-      sv: 15min
-  - value: https://w3id.org/mobilitydcat-ap/update-frequency/1h
-    label:
-      en: 1h
-      fi: 1h
-      sv: 1h
-  - value: https://w3id.org/mobilitydcat-ap/update-frequency/1min
-    label:
-      en: 1min
-      fi: 1min
-      sv: 1min
-  - value: https://w3id.org/mobilitydcat-ap/update-frequency/24h
-    label:
-      en: 24h
-      fi: 24h
-      sv: 24h
-  - value: https://w3id.org/mobilitydcat-ap/update-frequency/2h
-    label:
-      en: 2h
-      fi: 2h
-      sv: 2h
-  - value: https://w3id.org/mobilitydcat-ap/update-frequency/3-months
-    label:
-      en: 3 months
-      fi: 3 months
-      sv: 3 months
-  - value: https://w3id.org/mobilitydcat-ap/update-frequency/30min
-    label:
-      en: 30min
-      fi: 30min
-      sv: 30min
-  - value: https://w3id.org/mobilitydcat-ap/update-frequency/3h
-    label:
-      en: 3h
-      fi: 3h
-      sv: 3h
-  - value: https://w3id.org/mobilitydcat-ap/update-frequency/5min
-    label:
-      en: 5min
-      fi: 5min
-      sv: 5min
-  - value: https://w3id.org/mobilitydcat-ap/update-frequency/6-months
-    label:
-      en: 6 months
-      fi: 6 months
-      sv: 6 months
-  - value: https://w3id.org/mobilitydcat-ap/update-frequency/less-than-yearly
-    label:
-      en: Less than yearly
-      fi: Less than yearly
-      sv: Less than yearly
   - value: http://publications.europa.eu/resource/authority/frequency/OP_DATPRO
     label:
       en: Provisional data
@@ -164,6 +99,36 @@ dataset_fields:
       en: decennial
       fi: joka kymmenes vuosi
       sv: vart 10:e år
+  - value: http://publications.europa.eu/resource/authority/frequency/15MIN
+    label:
+      en: every fifteen minutes
+      fi: joka viidestoista minuutti
+      sv: var femtonde minut
+  - value: http://publications.europa.eu/resource/authority/frequency/5MIN
+    label:
+      en: every five minutes
+      fi: joka viides minuutti
+      sv: var femte minut
+  - value: http://publications.europa.eu/resource/authority/frequency/1MIN
+    label:
+      en: every minute
+      fi: joka minuutti
+      sv: en gång i minuten
+  - value: http://publications.europa.eu/resource/authority/frequency/10MIN
+    label:
+      en: every ten minutes
+      fi: joka kymmenes minuutti
+      sv: var tionde minut
+  - value: http://publications.europa.eu/resource/authority/frequency/30MIN
+    label:
+      en: every thirty minutes
+      fi: kerran puolessa tunnissa
+      sv: en gång i halvtimmen
+  - value: http://publications.europa.eu/resource/authority/frequency/12HRS
+    label:
+      en: every twelve hours
+      fi: joka kahdestoista tunti
+      sv: var tolfte timme
   - value: http://publications.europa.eu/resource/authority/frequency/HOURLY
     label:
       en: hourly

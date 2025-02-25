@@ -3,7 +3,10 @@ from abc import ABC, abstractmethod
 from copy import deepcopy
 from typing import Callable, Dict, List, Set
 
-from ckan_schema.mobility_dcat_ap_converter.i18n.translations import TRANSLATIONS
+from ckan_schema.mobility_dcat_ap_converter.i18n.translations import (
+    PATCH_TRANSLATIONS,
+    TRANSLATIONS,
+)
 from mobility_dcat_ap.namespace import MOBILITYDCATAP_NS_URL
 from rdflib import Dataset, Graph, URIRef
 from rdflib.namespace import DCAM, RDF, RDFS, SKOS
@@ -151,11 +154,19 @@ class RangeValueConverter(ABC):
                     None,
                 )
 
-                if english or finnish or swedish:
+                if english:
                     return {
                         "en": english,
-                        "fi": finnish if finnish else english,
-                        "sv": swedish if swedish else english,
+                        "fi": (
+                            finnish
+                            if finnish
+                            else PATCH_TRANSLATIONS.get(english, {}).get("fi", english)
+                        ),
+                        "sv": (
+                            swedish
+                            if swedish
+                            else PATCH_TRANSLATIONS.get(english, {}).get("sv", english)
+                        ),
                     }
                 else:
                     print(f"Could not find label for {s}")
@@ -196,11 +207,27 @@ class RangeValueConverter(ABC):
             return deepcopy(translated_field_properties)
 
     def get_property_label_with_help_text(
-        self, property_iri: RDFSProperty, pointer: str | None = None
+        self, property_iri: URIRef, pointer: str | None = None
     ) -> dict:
         translations = TRANSLATIONS.get(self.iri, {}).get(property_iri, {})
         if pointer:
             return translations.get(pointer, {})
+        return translations
+
+    def get_class_label_with_help_text(self) -> dict:
+        """
+        In some cases a class name might be used as a header/title under which its
+        property fields are grouped on the input form. In this case we will just return
+        specific fields since there will also be fields representing the properties of the class.
+        """
+        translations = {
+            "label": TRANSLATIONS.get(self.iri, {}).get("label", None),
+            **(
+                {"help_text": TRANSLATIONS.get(self.iri, {}).get("help_text", None)}
+                if TRANSLATIONS.get(self.iri, {}).get("help_text", None)
+                else {}
+            ),
+        }
         return translations
 
     def post_process_schema(self, schema: List[Dict]) -> List[Dict]:
@@ -218,22 +245,6 @@ class RangeValueConverter(ABC):
 
 
 class AggregateRangeValueConverter(RangeValueConverter):
-
-    def get_class_label_with_help_text(self) -> dict:
-        """
-        In some cases a class name might be used as a header/title under which its
-        property fields are grouped on the input form. In this case we will just return
-        specific fields since there will also be fields representing the properties of the class.
-        """
-        translations = {
-            "label": TRANSLATIONS.get(self.iri, {}).get("label", None),
-            **(
-                {"help_text": TRANSLATIONS.get(self.iri, {}).get("help_text", None)}
-                if TRANSLATIONS.get(self.iri, {}).get("help_text", None)
-                else {}
-            ),
-        }
-        return translations
 
     @abstractmethod
     def get_aggregate_schema(self) -> Dict | None:
