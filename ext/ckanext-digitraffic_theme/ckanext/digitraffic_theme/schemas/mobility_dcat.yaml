@@ -5503,21 +5503,11 @@ resource_fields:
       en: Apache License, Version 2.0
       fi: Apache License, Version 2.0
       sv: Apache License, Version 2.0
-  - value: http://publications.europa.eu/resource/authority/licence/APACHE_1_1
-    label:
-      en: Apache Software License, version 1.1 (Apache-1.1)
-      fi: Apache Software License, version 1.1 (Apache-1.1)
-      sv: Apache Software License, version 1.1 (Apache-1.1)
   - value: http://publications.europa.eu/resource/authority/licence/APSL_2_0
     label:
       en: Apple Public Source License 2.0
       fi: Apple Public Source License 2.0
       sv: Apple Public Source License 2.0
-  - value: http://publications.europa.eu/resource/authority/licence/ARTISTIC_1_0
-    label:
-      en: Artistic License 1.0 (Artistic-1.0)
-      fi: Artistic License 1.0 (Artistic-1.0)
-      sv: Artistic License 1.0 (Artistic-1.0)
   - value: http://publications.europa.eu/resource/authority/licence/ARTISTIC_2_0
     label:
       en: Artistic License 2.0
@@ -5568,21 +5558,11 @@ resource_fields:
       en: Common Public Attribution License Version 1.0 (CPAL-1.0)
       fi: Common Public Attribution License Version 1.0 (CPAL-1.0)
       sv: Common Public Attribution License Version 1.0 (CPAL-1.0)
-  - value: http://publications.europa.eu/resource/authority/licence/CPL_1_0
-    label:
-      en: Common Public License, version 1.0 (CPL-1.0)
-      fi: Common Public License, version 1.0 (CPL-1.0)
-      sv: Common Public License, version 1.0 (CPL-1.0)
   - value: http://publications.europa.eu/resource/authority/licence/CATOSL_1_1
     label:
       en: Computer Associates Trusted Open Source License 1.1 (CATOSL-1.1)
       fi: Computer Associates Trusted Open Source License 1.1 (CATOSL-1.1)
       sv: Computer Associates Trusted Open Source License 1.1 (CATOSL-1.1)
-  - value: http://publications.europa.eu/resource/authority/licence/CC_BY_1_0
-    label:
-      en: Creative Commons Attribution 1.0 Generic
-      fi: Creative Commons Nimeä 1.0 Yleinen
-      sv: Creative Commons Erkännande 1.0 Generisk
   - value: http://publications.europa.eu/resource/authority/licence/CC_BY_2_0
     label:
       en: Creative Commons Attribution 2.0 Generic
@@ -5598,31 +5578,16 @@ resource_fields:
       en: Creative Commons Attribution 3.0 Unported
       fi: Creative Commons Nimeä 3.0 Ei sovitettu
       sv: Creative Commons Erkännande 3.0 Unported
-  - value: http://publications.europa.eu/resource/authority/licence/CC_BY
-    label:
-      en: Creative Commons Attribution 4.0 International
-      fi: Creative Commons Nimeä 4.0 Kansainvälinen
-      sv: Creative Commons Erkännande 4.0 Internationell
   - value: http://publications.europa.eu/resource/authority/licence/CC_BY_4_0
     label:
       en: Creative Commons Attribution 4.0 International
       fi: Creative Commons Nimeä 4.0 Kansainvälinen
       sv: Creative Commons Erkännande 4.0 Internationell
-  - value: http://publications.europa.eu/resource/authority/licence/CC_BYND
-    label:
-      en: Creative Commons Attribution–NoDerivatives 4.0 International
-      fi: Creative Commons Nimeä–EiMuutoksia 4.0 Kansainvälinen
-      sv: Creative Commons Erkännande–IngaBearbetningar 4.0 Internationell
   - value: http://publications.europa.eu/resource/authority/licence/CC_BYND_4_0
     label:
       en: Creative Commons Attribution–NoDerivatives 4.0 International
       fi: Creative Commons Nimeä–EiMuutoksia 4.0 Kansainvälinen
       sv: Creative Commons Erkännande–IngaBearbetningar 4.0 Internationell
-  - value: http://publications.europa.eu/resource/authority/licence/CC_BYND_1_0
-    label:
-      en: Creative Commons Attribution–NoDerivs 1.0 Generic
-      fi: Creative Commons Nimeä–EiMuutoksia 1.0 Yleinen
-      sv: Creative Commons Erkännande–IngaBearbetningar 1.0 Generisk
   - value: http://publications.europa.eu/resource/authority/licence/CC_BYND_2_0
     label:
       en: Creative Commons Attribution–NoDerivs 2.0 Generic
@@ -5638,16 +5603,6 @@ resource_fields:
       en: Creative Commons Attribution–NoDerivs 3.0 Unported
       fi: Creative Commons Nimeä–EiMuutoksia 3.0 Ei sovitettu
       sv: Creative Commons Erkännande–IngaBearbetningar 3.0 Unported
-  - value: http://publications.europa.eu/resource/authority/licence/CC_BYNCND_1_0
-    label:
-      en: Creative Commons Attribution–NoDerivs–NonCommercial 1.0 Generic
-      fi: Creative Commons Nimeä–EiMuutoksia–EiKaupallinen 1.0 Yleinen
-      sv: Creative Commons Erkännande–IngaBearbetningar–IckeKommersiell 1.0 Generisk
-  - value: http://publications.europa.eu/resource/authority/licence/CC_BYNC_1_0
-    label:
-      en: Creative Commons Attribution–NonCommercial 1.0 Generic
-      fi: Creative Commons Nimeä–EiKaupallinen 1.0 Yleinen
-      sv: Creative Commons Erkännande–IckeKommersiell 1.0 Generisk
   - value: http://publications.europa.eu/resource/authority/licence/CC_BYNC_2_0
     label:
       en: Creative Commons Attribution–NonCommercial 2.0 Generic
@@ -5663,21 +5618,11 @@ resource_fields:
       en: Creative Commons Attribution–NonCommercial 3.0 Unported
       fi: Creative Commons Nimeä–EiKaupallinen 3.0 Ei sovitettu
       sv: Creative Commons Erkännande–IckeKommersiell 3.0 Unported
-  - value: http://publications.europa.eu/resource/authority/licence/CC_BYNC
-    label:
-      en: Creative Commons Attribution–NonCommercial 4.0 International
-      fi: Creative Commons Nimeä–EiKaupallinen 4.0 Kansainvälinen
-      sv: Creative Commons Erkännande–IckeKommersiell 4.0 Internationell
   - value: http://publications.europa.eu/resource/authority/licence/CC_BYNC_4_0
     label:
       en: Creative Commons Attribution–NonCommercial 4.0 International
       fi: Creative Commons Nimeä–EiKaupallinen 4.0 Kansainvälinen
       sv: Creative Commons Erkännande–IckeKommersiell 4.0 Internationell
-  - value: http://publications.europa.eu/resource/authority/licence/CC_BYNCND
-    label:
-      en: Creative Commons Attribution–NonCommercial–NoDerivatives 4.0 International
-      fi: Creative Commons Nimeä–EiKaupallinen–EiMuutoksia 4.0 Kansainvälinen
-      sv: Creative Commons Erkännande–Ickekommersiell–IngaBearbetningar 4.0 Internationell
   - value: http://publications.europa.eu/resource/authority/licence/CC_BYNCND_4_0
     label:
       en: Creative Commons Attribution–NonCommercial–NoDerivatives 4.0 International
@@ -5698,11 +5643,6 @@ resource_fields:
       en: Creative Commons Attribution–NonCommercial–NoDerivs 3.0 Unported
       fi: Creative Commons Nimeä–EiKaupallinen–EiMuutoksia 3.0 Ei sovitettu
       sv: Creative Commons Erkännande–Ickekommersiell–IngaBearbetningar 3.0 Unported
-  - value: http://publications.europa.eu/resource/authority/licence/CC_BYNCSA_1_0
-    label:
-      en: Creative Commons Attribution–NonCommercial–ShareAlike 1.0 Generic
-      fi: Creative Commons Nimeä–EiKaupallinen–JaaSamoin 1.0 Yleinen
-      sv: Creative Commons Erkännande–IckeKommersiell–DelaLika 1.0 Generisk
   - value: http://publications.europa.eu/resource/authority/licence/CC_BYNCSA_2_0
     label:
       en: Creative Commons Attribution–NonCommercial–ShareAlike 2.0 Generic
@@ -5718,21 +5658,11 @@ resource_fields:
       en: Creative Commons Attribution–NonCommercial–ShareAlike 3.0 Unported
       fi: Creative Commons Nimeä–EiKaupallinen–JaaSamoin 3.0 Ei sovitettu
       sv: Creative Commons Erkännande–IckeKommersiell–DelaLika 3.0 Unported
-  - value: http://publications.europa.eu/resource/authority/licence/CC_BYNCSA
-    label:
-      en: Creative Commons Attribution–NonCommercial–ShareAlike 4.0 International
-      fi: Creative Commons Nimeä–EiKaupallinen–JaaSamoin 4.0 Kansainvälinen
-      sv: Creative Commons Erkännande–IckeKommersiell–DelaLika 4.0 Internationell
   - value: http://publications.europa.eu/resource/authority/licence/CC_BYNCSA_4_0
     label:
       en: Creative Commons Attribution–NonCommercial–ShareAlike 4.0 International
       fi: Creative Commons Nimeä–EiKaupallinen–JaaSamoin 4.0 Kansainvälinen
       sv: Creative Commons Erkännande–IckeKommersiell–DelaLika 4.0 Internationell
-  - value: http://publications.europa.eu/resource/authority/licence/CC_BYSA_1_0
-    label:
-      en: Creative Commons Attribution–ShareAlike 1.0 Generic
-      fi: Creative Commons Nimeä–JaaSamoin 1.0 Yleinen
-      sv: Creative Commons Erkännande–DelaLika 1.0 Generisk
   - value: http://publications.europa.eu/resource/authority/licence/CC_BYSA_2_0
     label:
       en: Creative Commons Attribution–ShareAlike 2.0 Generic
@@ -5748,11 +5678,6 @@ resource_fields:
       en: Creative Commons Attribution–ShareAlike 3.0 Unported
       fi: Creative Commons Nimeä–JaaSamoin 3.0 Ei sovitettu
       sv: Creative Commons Erkännande–DelaLika 3.0 Unported
-  - value: http://publications.europa.eu/resource/authority/licence/CC_BYSA
-    label:
-      en: Creative Commons Attribution–ShareAlike 4.0 International
-      fi: Creative Commons Nimeä–JaaSamoin 4.0 Kansainvälinen
-      sv: Creative Commons Erkännande–DelaLika 4.0 Internationell
   - value: http://publications.europa.eu/resource/authority/licence/CC_BYSA_4_0
     label:
       en: Creative Commons Attribution–ShareAlike 4.0 International
@@ -5788,21 +5713,11 @@ resource_fields:
       en: EU DataGrid Software License (EUDatagrid)
       fi: EU DataGrid Software License (EUDatagrid)
       sv: EU DataGrid Software License (EUDatagrid)
-  - value: http://publications.europa.eu/resource/authority/licence/EPL_1_0
-    label:
-      en: Eclipse Public License 1.0 (EPL-1.0)
-      fi: Eclipse Public License 1.0 (EPL-1.0)
-      sv: Eclipse Public License 1.0 (EPL-1.0)
   - value: http://publications.europa.eu/resource/authority/licence/EPL_2_0
     label:
       en: Eclipse Public License version 2.0
       fi: Eclipse Public License version 2.0
       sv: Eclipse Public License version 2.0
-  - value: http://publications.europa.eu/resource/authority/licence/ECL_1_0
-    label:
-      en: Educational Community License version 1.0 (ECL-1.0)
-      fi: Educational Community License version 1.0 (ECL-1.0)
-      sv: Educational Community License version 1.0 (ECL-1.0)
   - value: http://publications.europa.eu/resource/authority/licence/ECL_2_0
     label:
       en: Educational Community License version 2.0 (ECL-2.0)
@@ -5863,21 +5778,6 @@ resource_fields:
       en: GNU Affero General Public License version 3
       fi: GNU Affero General Public License version 3
       sv: GNU Affero General Public License version 3
-  - value: http://publications.europa.eu/resource/authority/licence/GNU_FDL
-    label:
-      en: GNU Free Documentation License
-      fi: GNU Free Documentation License
-      sv: GNU Free Documentation License
-  - value: http://publications.europa.eu/resource/authority/licence/GNU_FDL_1_1
-    label:
-      en: GNU Free Documentation License 1.1
-      fi: GNU Free Documentation License 1.1
-      sv: GNU Free Documentation License 1.1
-  - value: http://publications.europa.eu/resource/authority/licence/GNU_FDL_1_2
-    label:
-      en: GNU Free Documentation License 1.2
-      fi: GNU Free Documentation License 1.2
-      sv: GNU Free Documentation License 1.2
   - value: http://publications.europa.eu/resource/authority/licence/GNU_FDL_1_3
     label:
       en: GNU Free Documentation License 1.3
@@ -5903,11 +5803,6 @@ resource_fields:
       en: GNU Lesser General Public License version 3
       fi: GNU Lesser General Public License version 3
       sv: GNU Lesser General Public License version 3
-  - value: http://publications.europa.eu/resource/authority/licence/HPND
-    label:
-      en: Historical Permission Notice and Disclaimer (HPND)
-      fi: Historical Permission Notice and Disclaimer (HPND)
-      sv: Historical Permission Notice and Disclaimer (HPND)
   - value: http://publications.europa.eu/resource/authority/licence/IPL_1_0
     label:
       en: IBM Public License Version 1.0 (IPL-1.0)
@@ -5923,11 +5818,6 @@ resource_fields:
       en: IPA Font License (IPA)
       fi: IPA Font License (IPA)
       sv: IPA Font License (IPA)
-  - value: http://publications.europa.eu/resource/authority/licence/ISA_OML
-    label:
-      en: ISA Open Metadata Licence 1.1
-      fi: ISA Open Metadata Licence 1.1
-      sv: ISA Open Metadata Licence 1.1
   - value: http://publications.europa.eu/resource/authority/licence/ISA_OML_1_1
     label:
       en: ISA Open Metadata Licence 1.1
@@ -5963,11 +5853,6 @@ resource_fields:
       en: Lucent Public License Version 1.02 (LPL-1.02)
       fi: Lucent Public License Version 1.02 (LPL-1.02)
       sv: Lucent Public License Version 1.02 (LPL-1.02)
-  - value: http://publications.europa.eu/resource/authority/licence/LPL_1_0
-    label:
-      en: Lucent Public License, Plan 9, version 1.0 (LPL-1.0)
-      fi: Lucent Public License, Plan 9, version 1.0 (LPL-1.0)
-      sv: Lucent Public License, Plan 9, version 1.0 (LPL-1.0)
   - value: http://publications.europa.eu/resource/authority/licence/MS_PL
     label:
       en: Microsoft Public License (MS-PL)
@@ -5988,11 +5873,6 @@ resource_fields:
       en: Motosoto Open Source License – Version 0.9.1 (Motosoto)
       fi: Motosoto Open Source License – Version 0.9.1 (Motosoto)
       sv: Motosoto Open Source License – Version 0.9.1 (Motosoto)
-  - value: http://publications.europa.eu/resource/authority/licence/MPL_1_1
-    label:
-      en: Mozilla Public License (MPL), version 1.1 (MPL-1.1)
-      fi: Mozilla Public License (MPL), version 1.1 (MPL-1.1)
-      sv: Mozilla Public License (MPL), version 1.1 (MPL-1.1)
   - value: http://publications.europa.eu/resource/authority/licence/MPL_2_0
     label:
       en: Mozilla Public License (MPL), version 2.0 (MPL-2.0)
@@ -6083,11 +5963,6 @@ resource_fields:
       en: Open Licence – The Republic of Croatia
       fi: Open Licence – The Republic of Croatia
       sv: Open Licence – The Republic of Croatia
-  - value: http://publications.europa.eu/resource/authority/licence/OSL_1_0
-    label:
-      en: Open Software License, version 1.0 (OSL-1.0)
-      fi: Open Software License, version 1.0 (OSL-1.0)
-      sv: Open Software License, version 1.0 (OSL-1.0)
   - value: http://publications.europa.eu/resource/authority/licence/OSL_3_0
     label:
       en: Open Software License, version 3.0 (OSL-3.0)
@@ -6136,11 +6011,6 @@ resource_fields:
       en: Reciprocal Public License 1.5 (RPL-1.5)
       fi: Reciprocal Public License 1.5 (RPL-1.5)
       sv: Reciprocal Public License 1.5 (RPL-1.5)
-  - value: http://publications.europa.eu/resource/authority/licence/RPL_1_1
-    label:
-      en: Reciprocal Public License, version 1.1
-      fi: Reciprocal Public License, version 1.1
-      sv: Reciprocal Public License, version 1.1
   - value: http://publications.europa.eu/resource/authority/licence/OFL_1_1
     label:
       en: SIL Open Font License (OFL-1.1)
@@ -6161,21 +6031,11 @@ resource_fields:
       en: The CNRI portion of the multi-part Python License (CNRI-Python)
       fi: The CNRI portion of the multi-part Python License (CNRI-Python)
       sv: The CNRI portion of the multi-part Python License (CNRI-Python)
-  - value: http://publications.europa.eu/resource/authority/licence/EFL_1_0
-    label:
-      en: The Eiffel Forum License, version 1 (EFL-1.0)
-      fi: The Eiffel Forum License, version 1 (EFL-1.0)
-      sv: The Eiffel Forum License, version 1 (EFL-1.0)
   - value: http://publications.europa.eu/resource/authority/licence/MIT
     label:
       en: The MIT License
       fi: The MIT License
       sv: The MIT License
-  - value: http://publications.europa.eu/resource/authority/licence/MPL_1_0
-    label:
-      en: The Mozilla Public License (MPL), version 1.0 (MPL-1.0)
-      fi: The Mozilla Public License (MPL), version 1.0 (MPL-1.0)
-      sv: The Mozilla Public License (MPL), version 1.0 (MPL-1.0)
   - value: http://publications.europa.eu/resource/authority/licence/NGPL
     label:
       en: The Nethack General Public License (NGPL)
@@ -6196,11 +6056,6 @@ resource_fields:
       en: The Open Group Test Suite License (OGTSL)
       fi: The Open Group Test Suite License (OGTSL)
       sv: The Open Group Test Suite License (OGTSL)
-  - value: http://publications.europa.eu/resource/authority/licence/OSL_2_1
-    label:
-      en: The Open Software License, version 2.1 (OSL-2.1)
-      fi: The Open Software License, version 2.1 (OSL-2.1)
-      sv: The Open Software License, version 2.1 (OSL-2.1)
   - value: http://publications.europa.eu/resource/authority/licence/PHP_3_0
     label:
       en: The PHP License 3.0 (PHP-3.0)
@@ -6251,21 +6106,11 @@ resource_fields:
       en: The W3C Software Notice and License (W3C)
       fi: The W3C Software Notice and License (W3C)
       sv: The W3C Software Notice and License (W3C)
-  - value: http://publications.europa.eu/resource/authority/licence/XNET
-    label:
-      en: The X.Net, Inc. License (Xnet)
-      fi: The X.Net, Inc. License (Xnet)
-      sv: The X.Net, Inc. License (Xnet)
   - value: http://publications.europa.eu/resource/authority/licence/ZPL_2_0
     label:
       en: The Zope Public License Version 2.0 (ZPL-2.0)
       fi: The Zope Public License Version 2.0 (ZPL-2.0)
       sv: The Zope Public License Version 2.0 (ZPL-2.0)
-  - value: http://publications.europa.eu/resource/authority/licence/WXWINDOWS
-    label:
-      en: The wxWindows Library Licence (wxWindows)
-      fi: The wxWindows Library Licence (wxWindows)
-      sv: The wxWindows Library Licence (wxWindows)
   - value: http://publications.europa.eu/resource/authority/licence/ZLIB
     label:
       en: The zlib/libpng License (Zlib)
