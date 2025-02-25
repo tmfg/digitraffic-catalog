@@ -42,7 +42,7 @@ class Frequency(RangeValueConverter):
             "preset": "select",
             "sorted_choices": True,
             "form_include_blank_choice": True,
-            "choices": RangeValueConverter.vocab_choices(g),
+            "choices": RangeValueConverter.vocab_choices(graph=g, iri=self.iri),
         }
 
     def is_property_required(self, property: RDFSProperty) -> bool:
