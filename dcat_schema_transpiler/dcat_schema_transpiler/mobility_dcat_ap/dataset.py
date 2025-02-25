@@ -52,6 +52,7 @@ SKOS_DOC = Namespace("http://www.w3.org/TR/skos-primer/")
 SPDX = Namespace("http://spdx.org/rdf/terms#")
 XML = Namespace("http://www.w3.org/XML/1998/namespace")
 ELI = Namespace("http://data.europa.eu/eli/ontology")
+AT = Namespace("http://publications.europa.eu/ontology/authority/")
 
 CVOCAB_MOBILITY_THEME = Namespace("https://w3id.org/mobilitydcat-ap/mobility-theme/")
 
