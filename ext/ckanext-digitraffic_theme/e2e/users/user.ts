@@ -3,11 +3,14 @@
  * a {@link User}
  */
 import {Browser, BrowserContext, Page} from "@playwright/test";
-import {HomePage, OrganizationsListPage} from "../page-object-models";
+import {HomePage, OrganizationPage, OrganizationsListPage} from "../page-object-models";
 import {getPom, URL} from "../page-object-models/pages-controller";
 import {gotoNewPage} from "../page-object-models/util";
 import {existsSync} from 'fs'
 import {isVisible} from "../util";
+import {UserInfo} from "../models/userInfo";
+import {organization} from "../testdata";
+import {Organization} from "../models/organization";
 
 /**
  * Identity represents a known user identity. Each member of this enum must have a corresponding test account created
@@ -19,7 +22,7 @@ export enum Identity {
   OrganizationMember = 'Datakatalogi-testorganization-member',
   OrganizationEditor = 'Datakatalogi-testorganization-editor',
   OrganizationAdmin = 'Datakatalogi-testorganization-admin',
-  SysAdmin = 'Datakatalogi-test-admin',
+  SysAdmin = 'Datakatalogi-testsystem-admin',
   Anonymous = 'Anonymous'
 }
 
@@ -28,7 +31,8 @@ export enum Identity {
  * with a browser.
  */
 export class User {
-  private identity: Identity;
+  readonly identity: Identity;
+  readonly userInfo: UserInfo;
   private pages: Map<string, Page>;
   private browserContext: BrowserContext;
 
@@ -36,11 +40,13 @@ export class User {
    * The constructor is made private as we want to create the User objects through {@link User.of} static method. This is
    * because we want to call some asynchronous code when initializing a User.
    * @param identity
+   * @param userInfo
    * @param browserContext
    * @private
    */
-  private constructor(identity: Identity, browserContext: BrowserContext) {
+  private constructor(identity: Identity, userInfo: UserInfo, browserContext: BrowserContext) {
     this.identity = identity;
+    this.userInfo = userInfo;
     this.pages = new Map();
     this.browserContext = browserContext
   }
@@ -69,13 +75,23 @@ export class User {
    *
    * @param {Identity} identity – The identity to use with the user
    * @param {Browser} browser – Browser to use to create the browser context
+   * @param {boolean} isUserInfoIncluded – Is user info of authenticated user gathered from UI and added to the User object?
    * @see {@link Identity}
    */
-  static async of(identity: Identity, browser: Browser): Promise<User> {
+  static async of(identity: Identity, browser: Browser, isUserInfoIncluded: boolean = true): Promise<User> {
     const storagePath = User.getIdentityStorageStatePath(identity)
     const cachedAuthStateExists = existsSync(storagePath)
     const context = await browser.newContext(cachedAuthStateExists ? {storageState: storagePath} : {})
-    return new User(identity, context)
+    let userInfo: UserInfo
+    if (cachedAuthStateExists && isUserInfoIncluded) {
+      const page = await context.newPage()
+      await page.goto(URL.Home)
+      if (await User._isUserLoggedIn(page, identity)) {
+        userInfo = await User.gatherUserInfo(page)
+      }
+      await page.close()
+    }
+    return new User(identity, userInfo, context)
   }
 
   /**
@@ -93,7 +109,11 @@ export class User {
 
   async isUserLoggedIn() {
     const page = this.getDatacatalogPage()
-    const userActionsLocator = page.locator('header .account button', {hasText: this.identity})
+    return await User._isUserLoggedIn(page, this.identity)
+  }
+
+  private static async _isUserLoggedIn(page: Page, identity: Identity): Promise<boolean> {
+    const userActionsLocator = page.locator('header .account button', {hasText: identity})
     return await isVisible(userActionsLocator)
   }
 
@@ -134,6 +154,21 @@ export class User {
     }
   }
 
+  private static async gatherUserInfo(page: Page): Promise<UserInfo> {
+    const homePage = await gotoNewPage(
+      page,
+      URL.Home,
+      async (homePagePOM: HomePage) => {await homePagePOM.goto()}
+    )
+    await homePage.makeAccountNavigationOpen()
+    let profileUrl = await homePage.userProfileNavigator.getAttribute('href')
+    profileUrl = profileUrl.replace("/user/", "/user/edit/")
+    await page.goto(profileUrl)
+    const username = await page.getByLabel('Käyttäjätunnus').getAttribute('value')
+    const fullName = await page.getByLabel('Koko nimi').getAttribute('value')
+    return new UserInfo(username, fullName)
+  }
+
   /**
    * This is used to get the cache location of user's authentication state.
    * @param {Identity} identity – identity whose cache location is returned
@@ -165,19 +200,28 @@ export class User {
     await this.browserContext.storageState({path: User.getIdentityStorageStatePath(identity)})
   }
 
-  async goToHomePage(page: Page):Promise<HomePage> {
-    return gotoNewPage(
+  async gotoHomePage(page: Page):Promise<HomePage> {
+    return await gotoNewPage(
       page,
       URL.Home,
       async (homePagePOM: HomePage) => {await homePagePOM.goto()}
     )
   }
 
-  async goToOrganizationsListPage(page: Page):Promise<OrganizationsListPage> {
-    return gotoNewPage(
+  async gotoOrganizationsListPage(page: Page):Promise<OrganizationsListPage> {
+    return await gotoNewPage(
       page,
       URL.OrganizationsList,
       async (organizationsListPOM: OrganizationsListPage) => {await organizationsListPOM.goto()}
+    )
+  }
+
+  async gotoOrganizationPage(page: Page, organization: Organization):Promise<OrganizationPage> {
+    return await gotoNewPage(
+      page,
+      URL.Organization,
+      async (organizationPOM: OrganizationPage) => {await organizationPOM.goto()},
+      organization
     )
   }
 }

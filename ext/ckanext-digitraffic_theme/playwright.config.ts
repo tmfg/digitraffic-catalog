@@ -32,7 +32,8 @@ export default defineConfig({
   projects: [
     // Setup project should be run first by all other projects.
     { name: 'setup',
-      testMatch: /setup\/.*\.ts/
+      testMatch: /setup\/.*\.ts/,
+      fullyParallel: false
     },
     {
       name: 'chromium',
