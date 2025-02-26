@@ -2,9 +2,12 @@ import {Page} from "@playwright/test";
 
 export enum URL {
   Home = '/',
-  OrganizationsList = '/organization/',
+  OrganizationsList = '/organization',
   NewOrganization = '/organization/new',
-  Organization = '/organization/{name}'
+  Organization = '/organization/{name}',
+  EditOrganization = '/organization/edit/{name}',
+  AddOrganizationMember = '/organization/member_new/{name}',
+  User = '/user/{name}'
 }
 export interface POMConstructor {
   new(page: Page, ...args): Object;

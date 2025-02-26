@@ -19,10 +19,12 @@ export async function gotoNewPage<T extends BasePage>(
 }
 
 export function pathParameterURL(url: URL, parameters: {[name: string]: number|string}): string {
-  console.log("PARAMETERS")
-  console.log(parameters)
   return Object.entries(parameters).reduce(
     (resolvedUrl, [parameterName, parameterValue]) => resolvedUrl.replace(`{${parameterName}}`, parameterValue.toString()),
     url
   )
+}
+
+export function urlify(text: string) {
+  return text.trim().toLowerCase().replaceAll(' ', '-')
 }

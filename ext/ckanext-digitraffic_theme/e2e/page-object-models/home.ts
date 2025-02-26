@@ -1,6 +1,7 @@
 import {BasePage} from "./base";
 import {expect, Locator, Page} from "@playwright/test";
 import {setPom, URL} from "./pages-controller";
+import {isVisible} from "../util";
 
 export class HomePage extends BasePage {
   readonly welcomeHeader: Locator
@@ -12,8 +13,8 @@ export class HomePage extends BasePage {
     await this.page.goto(URL.Home);
     return this;
   }
-  async assertPage(): Promise<void> {
-    await expect(this.welcomeHeader).toBeVisible()
+  async isAtPage(): Promise<boolean> {
+    return await isVisible(this.welcomeHeader)
   }
 }
 

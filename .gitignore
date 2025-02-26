@@ -31,3 +31,4 @@
 
 docker/ckan/ckanext
 local-env/.env_entra
+local-env/.env_test_users

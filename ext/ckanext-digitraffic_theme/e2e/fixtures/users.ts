@@ -16,6 +16,7 @@ type UserFixture = {
 
 export type IdentitysOptions = {
   identitiesToUse: Set<Identity>
+  isUserInfoGathered: boolean
 }
 
 /**
@@ -30,10 +31,11 @@ export type IdentitysOptions = {
  */
 export const test = base.extend<UserFixture & IdentitysOptions>({
   identitiesToUse: [new Set([Identity.Anonymous]), {option: true}],
-  users: async ({ browser, identitiesToUse }, use) => {
+  isUserInfoGathered: true,
+  users: async ({ browser, identitiesToUse , isUserInfoGathered}, use) => {
     let users: Map<Identity, User> = new Map()
     for (const identityToUse of identitiesToUse) {
-      const user = await User.of(identityToUse, browser)
+      const user = await User.of(identityToUse, browser, isUserInfoGathered)
       users.set(identityToUse, user)
     }
     await use(users);
