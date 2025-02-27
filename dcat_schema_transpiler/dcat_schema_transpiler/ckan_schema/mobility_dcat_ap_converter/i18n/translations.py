@@ -7,7 +7,6 @@ from dcat_schema_transpiler.namespaces.DQV import DQV
 from dcat_schema_transpiler.namespaces.VCARD import VCARD
 from dcat_schema_transpiler.namespaces.LOCN import LOCN
 
-
 TRANSLATIONS = {
     DCAT.Dataset: {
         ADMS.versionNotes: {
@@ -181,6 +180,9 @@ TRANSLATIONS = {
             },
         },
     },
+    DCTERMS.Frequency: {
+        "label": {"en": "Frequency", "fi": "Päivitysten tiheys"},
+    },
     DCTERMS.LicenseDocument: {
         DCTERMS.identifier: {
             "label": {"en": "Standard license", "fi": "Lisenssi"},
@@ -309,4 +311,16 @@ TRANSLATIONS = {
         "label": {"en": "Organization", "fi": "Organisaatio"},
         FOAF.name: {"label": {"en": "Organization name", "fi": "Organisaation nimi"}},
     },
+}
+
+# for inserting missing translations to vocabularies
+VOCABULARY_PATCH_TRANSLATIONS = {
+    DCTERMS.Frequency: {
+        "every fifteen minutes": {"fi": "joka viidestoista minuutti"},
+        "every five minutes": {"fi": "joka viides minuutti"},
+        "every minute": {"fi": "joka minuutti"},
+        "every ten minutes": {"fi": "joka kymmenes minuutti"},
+        "every thirty minutes": {"fi": "kerran puolessa tunnissa"},
+        "every twelve hours": {"fi": "joka kahdestoista tunti"},
+    }
 }

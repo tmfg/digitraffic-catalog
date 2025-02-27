@@ -1,6 +1,6 @@
 from typing import Dict
 
-from rdflib import Dataset, URIRef
+from rdflib import Dataset, Literal, URIRef
 from rdflib.namespace import DCTERMS, RDFS, SKOS
 
 from ckan_schema.mobility_dcat_ap_converter.range_value_converter import (
@@ -9,7 +9,7 @@ from ckan_schema.mobility_dcat_ap_converter.range_value_converter import (
 from dcat_schema_transpiler.rdfs.rdfs_class import RDFSClass
 from dcat_schema_transpiler.rdfs.rdfs_property import RDFSProperty
 from dcat_schema_transpiler.rdfs.rdfs_resource import RDFSResource
-from mobility_dcat_ap.dataset import CVOCAB_LICENSE_IDENTIFIER
+from mobility_dcat_ap.dataset import CVOCAB_LICENSE_IDENTIFIER, AT
 
 
 class LicenseDocument(RangeValueConverter):
@@ -59,6 +59,10 @@ class LicenseDocument(RangeValueConverter):
         match p.iri:
             case DCTERMS.identifier:
                 g = ds.get_graph(URIRef(CVOCAB_LICENSE_IDENTIFIER))
+                # the vocabulary can contain deprecated entries which also sometimes produce duplicate labels for current definitions
+                deprecated_subjects = list(g.subjects(AT.deprecated, Literal("true")))
+                filter_ = lambda iri: iri not in deprecated_subjects
+
                 return {
                     "field_name": self.ckan_field(p),
                     **super().get_property_label_with_help_text(p.iri),
@@ -66,7 +70,7 @@ class LicenseDocument(RangeValueConverter):
                     "preset": "select",
                     "sorted_choices": True,
                     "form_include_blank_choice": True,
-                    "choices": RangeValueConverter.vocab_choices(g),
+                    "choices": RangeValueConverter.vocab_choices(g, filter_),
                 }
 
     def is_property_required(self, property: RDFSProperty) -> bool:
