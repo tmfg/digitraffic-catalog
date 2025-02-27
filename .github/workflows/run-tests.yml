@@ -23,6 +23,7 @@ jobs:
 
       - name: Wait for containers
         run: >-
+          #!/usr/bin/env bash
           TOTAL_SLEEP=0;
           while [ $(docker inspect --format='{{.State.Health.Status}}' datakatalogi-local-ckan-1) != 'healthy' ];
               do echo "GOIG TO SLEEP";
