@@ -1,4 +1,4 @@
-name: Run tests
+name: Run E2E tests
 
 on:
   workflow_dispatch:
@@ -44,7 +44,7 @@ jobs:
           echo "E2E_SYSADMIN_FULLNAME=${E2E_SYSADMIN_FULLNAME}" >> local-env/.env_test_users
           
           touch ext/ckanext-digitraffic_theme/.env.playwright
-          echo "TEST_SITE_URL=${{vars.CKAN_SITE_URL}}" > ext/ckanext-digitraffic_theme/.env.playwright
+          echo "TEST_SITE_URL=${CKAN_SITE_URL}" > ext/ckanext-digitraffic_theme/.env.playwright
           echo "E2E_SYSADMIN_USERNAME=${E2E_SYSADMIN_USERNAME}" >> ext/ckanext-digitraffic_theme/.env.playwright
           echo "E2E_SYSADMIN_PASSWORD=${E2E_SYSADMIN_PASSWORD}" >> ext/ckanext-digitraffic_theme/.env.playwright
           echo "E2E_ORGANIZATION_ADMIN_USERNAME=${E2E_ORGANIZATION_ADMIN_USERNAME}" >> ext/ckanext-digitraffic_theme/.env.playwright
