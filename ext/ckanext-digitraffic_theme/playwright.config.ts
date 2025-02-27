@@ -1,15 +1,20 @@
 import { defineConfig, devices } from '@playwright/test';
 import dotenv from 'dotenv';
 import path from 'path';
+import fs from 'fs';
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 // Read environmental variables from file
-dotenv.config({path: path.resolve(__dirname, '.env.playwright')});
+dotenv.config({
+  path: path.resolve(__dirname, '.env.playwright'),
+  override: true
+});
 
 console.log("PLAYWRIGHT")
 console.log(`PATH: ${path.resolve(__dirname, '.env.playwright')}`)
+console.log(`FILE EXISTS: ${fs.existsSync(path.resolve(__dirname, '.env.playwright'))}`)
 console.log(`TEST_SITE_URL: ${process.env.TEST_SITE_URL}`)
 
 export default defineConfig({
