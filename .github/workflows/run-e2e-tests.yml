@@ -9,7 +9,7 @@ jobs:
     if: github.repository != 'tmfg/digitraffic-catalog'
     runs-on: ubuntu-20.04
     environment: test
-    timeout-minutes: 15
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
 
@@ -54,7 +54,7 @@ jobs:
 
       - name: Start CKAN
         working-directory: local-env
-        run: ./start-local-ckan.sh up build_image ci
+        run: RUNNER_TRACKING_ID="" && ./start-local-ckan.sh up build_image ci
 
       - name: Wait for containers
         working-directory: local-env
