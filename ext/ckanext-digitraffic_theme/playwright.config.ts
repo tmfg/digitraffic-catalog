@@ -8,6 +8,10 @@ const __dirname = path.dirname(__filename);
 // Read environmental variables from file
 dotenv.config({path: path.resolve(__dirname, '.env.playwright')});
 
+console.log("PLAYWRIGHT")
+console.log(`PATH: ${path.resolve(__dirname, '.env.playwright')}`)
+console.log(`TEST_SITE_URL: ${process.env.TEST_SITE_URL}`)
+
 export default defineConfig({
   testDir: './e2e',
   fullyParallel: true,
