@@ -4,7 +4,7 @@ from copy import deepcopy
 from typing import Callable, Dict, List, Set
 
 from ckan_schema.mobility_dcat_ap_converter.i18n.translations import (
-    PATCH_TRANSLATIONS,
+    VOCABULARY_PATCH_TRANSLATIONS,
     TRANSLATIONS,
 )
 from mobility_dcat_ap.namespace import MOBILITYDCATAP_NS_URL
@@ -159,13 +159,17 @@ class RangeValueConverter(ABC):
                 )
 
                 if english:
+                    """
+                    If the vocabulary itself contains a translation in the appropriate language, use that.
+                    If not, see if there is available a patch translation provided by us. If not, use English.
+                    """
                     return {
                         "en": english,
                         "fi": (
                             finnish
                             if finnish
                             else (
-                                PATCH_TRANSLATIONS.get(iri, {})
+                                VOCABULARY_PATCH_TRANSLATIONS.get(iri, {})
                                 .get(english, {})
                                 .get("fi", english)
                                 if iri
@@ -176,7 +180,7 @@ class RangeValueConverter(ABC):
                             swedish
                             if swedish
                             else (
-                                PATCH_TRANSLATIONS.get(iri, {})
+                                VOCABULARY_PATCH_TRANSLATIONS.get(iri, {})
                                 .get(english, {})
                                 .get("sv", english)
                                 if iri

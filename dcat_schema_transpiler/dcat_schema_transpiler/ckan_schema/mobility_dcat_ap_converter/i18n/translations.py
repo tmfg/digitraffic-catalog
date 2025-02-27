@@ -313,8 +313,8 @@ TRANSLATIONS = {
     },
 }
 
-# for vocabularies with missing translations
-PATCH_TRANSLATIONS = {
+# for inserting missing translations to vocabularies
+VOCABULARY_PATCH_TRANSLATIONS = {
     DCTERMS.Frequency: {
         "every fifteen minutes": {"fi": "joka viidestoista minuutti"},
         "every five minutes": {"fi": "joka viides minuutti"},
