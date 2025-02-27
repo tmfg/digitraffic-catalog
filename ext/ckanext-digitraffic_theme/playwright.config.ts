@@ -12,11 +12,6 @@ dotenv.config({
   override: true
 });
 
-console.log("PLAYWRIGHT")
-console.log(`PATH: ${path.resolve(__dirname, '.env.playwright')}`)
-console.log(`FILE EXISTS: ${fs.existsSync(path.resolve(__dirname, '.env.playwright'))}`)
-console.log(`TEST_SITE_URL: ${process.env.TEST_SITE_URL}`)
-
 export default defineConfig({
   testDir: './e2e',
   fullyParallel: true,

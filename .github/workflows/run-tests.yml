@@ -13,94 +13,21 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Setup environment
-        env:
-          E2E_SYSADMIN_ID: ${{ secrets.E2E_SYSADMIN_ID }}
-          E2E_SYSADMIN_NAME: ${{ secrets.E2E_SYSADMIN_NAME }}
-          E2E_SYSADMIN_EMAIL: ${{ secrets.E2E_SYSADMIN_EMAIL }}
-          E2E_SYSADMIN_FULLNAME: ${{ secrets.E2E_SYSADMIN_FULLNAME }}
-          E2E_SYSADMIN_USERNAME: ${{ secrets.E2E_SYSADMIN_USERNAME }}
-          E2E_SYSADMIN_PASSWORD: ${{ secrets.E2E_SYSADMIN_PASSWORD }}
-          E2E_ORGANIZATION_ADMIN_USERNAME: ${{ secrets.E2E_ORGANIZATION_ADMIN_USERNAME }}
-          E2E_ORGANIZATION_ADMIN_PASSWORD: ${{ secrets.E2E_ORGANIZATION_ADMIN_PASSWORD }}
-          E2E_ORGANIZATION_EDITOR_USERNAME: ${{ secrets.E2E_ORGANIZATION_EDITOR_USERNAME }}
-          E2E_ORGANIZATION_EDITOR_PASSWORD: ${{ secrets.E2E_ORGANIZATION_EDITOR_PASSWORD }}
-          TEST_SITE_URL: ${{ vars.TEST_SITE_URL }}
         run: |
           cp -r ext docker/ckan/ckanext
           cp ext/ckanext-entraid_authenticator/.env.example local-env/.env_entra
-          
-          touch local-env/.env_test_users
-          echo "E2E_SYSADMIN_ID=${E2E_SYSADMIN_ID}" > local-env/.env_test_users
-          echo "E2E_SYSADMIN_NAME=${E2E_SYSADMIN_NAME}" >> local-env/.env_test_users
-          echo "E2E_SYSADMIN_EMAIL=${E2E_SYSADMIN_EMAIL}" >> local-env/.env_test_users
-          echo "E2E_SYSADMIN_FULLNAME=${E2E_SYSADMIN_FULLNAME}" >> local-env/.env_test_users
-          
-          touch ext/ckanext-digitraffic_theme/.env.playwright
-          echo "TEST_SITE_URL=${{vars.TEST_SITE_URL}}" > ext/ckanext-digitraffic_theme/.env.playwright
-          echo "E2E_SYSADMIN_USERNAME=${E2E_SYSADMIN_USERNAME}" >> ext/ckanext-digitraffic_theme/.env.playwright
-          echo "E2E_SYSADMIN_PASSWORD=${E2E_SYSADMIN_PASSWORD}" >> ext/ckanext-digitraffic_theme/.env.playwright
-          echo "E2E_ORGANIZATION_ADMIN_USERNAME=${E2E_ORGANIZATION_ADMIN_USERNAME}" >> ext/ckanext-digitraffic_theme/.env.playwright
-          echo "E2E_ORGANIZATION_ADMIN_PASSWORD=${E2E_ORGANIZATION_ADMIN_PASSWORD}" >> ext/ckanext-digitraffic_theme/.env.playwright
-          echo "E2E_ORGANIZATION_EDITOR_USERNAME=${E2E_ORGANIZATION_EDITOR_USERNAME}" >> ext/ckanext-digitraffic_theme/.env.playwright
-          echo "E2E_ORGANIZATION_EDITOR_PASSWORD=${E2E_ORGANIZATION_EDITOR_PASSWORD}" >> ext/ckanext-digitraffic_theme/.env.playwright
 
       - name: Start CKAN
         working-directory: local-env
         run: ./start-local-ckan.sh up build_image ci
 
       - name: Wait for containers
-        run: >-
-          bash -c '
-          TOTAL_SLEEP=0;
-          while [ "$(docker inspect --format='\''{{.State.Health.Status}}'\'' datakatalogi-local-ckan-1)" != "healthy" ];
-              do sleep 1;
-              ((TOTAL_SLEEP++));
-              if (( TOTAL_SLEEP % 60 == 0 )); then
-                  echo "ENV VARIABLES:";
-                  docker inspect --format="{{range .Config.Env }}{{println (index (split . "\""="\"") 0)}}{{end}}" datakatalogi-local-ckan-1;
-                  echo "HEALTH CHECK INFO:";
-                  docker inspect --format="{{json .Config.Healthcheck}}" datakatalogi-local-ckan-1;
-                  echo "STATUS INFO:";
-                  docker inspect --format="{{json .State}}" datakatalogi-local-ckan-1;
-              fi;
-          done;
-          '
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 10
-
-      - name: Setup Node.js 22.x
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22.x
-          cache: "pnpm"
-          cache-dependency-path: ./ext/ckanext-digitraffic_theme
-
-      - name: Install dependencies for E2E-tests
-        working-directory: ./ext/ckanext-digitraffic_theme
-        run: pnpm install
-
-      - name: Install Playwright Browsers
-        working-directory: ./ext/ckanext-digitraffic_theme
-        run: pnpm dlx playwright install --with-deps
-
-      - name: Run E2E-tests
-        working-directory: ./ext/ckanext-digitraffic_theme
-        run: pnpm run e2e
+        working-directory: local-env
+        run: bash ./wait-for-containers.sh
 
       - name: Run tests
         working-directory: local-env
         run: ./run-digitraffic-theme-tests-on-docker.sh
-
-      - name: Upload Playwright report
-        uses: actions/upload-artifact@v4
-        if: ${{ !cancelled() }}
-        with:
-          name: playwright-report
-          path: ./ext/ckanext-digitraffic_theme/playwright-report/
-          retention-days: 30
 
       - name: Upload Docker logs
         if: always()
