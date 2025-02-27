@@ -49,13 +49,13 @@ setup.describe('Create and log in all the test users', () => {
     const credentials = new Map()
     credentials.set(
       Identity.OrganizationAdmin, {
-        password: process.env.ORGANIZATION_ADMIN_PASSWORD,
-        username: process.env.ORGANIZATION_ADMIN_USERNAME
+        password: process.env.E2E_ORGANIZATION_ADMIN_PASSWORD,
+        username: process.env.E2E_ORGANIZATION_ADMIN_USERNAME
       })
     credentials.set(
       Identity.OrganizationEditor, {
-        password: process.env.ORGANIZATION_EDITOR_PASSWORD,
-        username: process.env.ORGANIZATION_EDITOR_USERNAME
+        password: process.env.E2E_ORGANIZATION_EDITOR_PASSWORD,
+        username: process.env.E2E_ORGANIZATION_EDITOR_USERNAME
       })
     for (const [identity, user] of users) {
       await authenticate(user, identity, credentials.get(identity).username, credentials.get(identity).password)
@@ -73,7 +73,7 @@ setup.describe('Have sysadmin to setup test users', () => {
     const sysAdminIdentity = Identity.SysAdmin
     const sysAdmin = users.get(sysAdminIdentity)
     const organizationMembers = [Identity.OrganizationAdmin, Identity.OrganizationEditor]
-    await authenticate(sysAdmin, sysAdminIdentity, process.env.SYSADMIN_USERNAME, process.env.SYSADMIN_PASSWORD)
+    await authenticate(sysAdmin, sysAdminIdentity, process.env.E2E_SYSADMIN_USERNAME, process.env.E2E_SYSADMIN_PASSWORD)
     const { pom: organizationPage, isRunSuccessful: isOrganizationCreated, error} = await createOrganization(sysAdmin, organization)
     if (isOrganizationCreated || (error instanceof OrganizationCreationError && error.reasons.has("OrganizationAlreadyExists"))) {
       const { pom: editOrganizationPage, isRunSuccessful: isOrganizationAdminAdded, error: organizationAdminCreatedError} = await addMemberToOrganization(sysAdmin, organization, users.get(Identity.OrganizationAdmin), Role.Admin, organizationPage.page)
