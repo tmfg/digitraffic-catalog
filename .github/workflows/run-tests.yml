@@ -16,6 +16,7 @@ jobs:
         run: |
           cp -r ext docker/ckan/ckanext
           cp ext/ckanext-entraid_authenticator/.env.example local-env/.env_entra
+          touch local-env/.env_test_users
 
       - name: Start CKAN
         working-directory: local-env
