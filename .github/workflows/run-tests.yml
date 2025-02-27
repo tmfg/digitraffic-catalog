@@ -17,6 +17,21 @@ jobs:
           cp -r ext docker/ckan/ckanext
           cp ext/ckanext-entraid_authenticator/.env.example local-env/.env_entra
 
+      - name: Setup Node.js 22.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+          cache: "pnpm"
+          cache-dependency-path: ./ext/ckanext-digitraffic_theme
+
+      - name: Install dependencies for E2E-tests
+        working-directory: ./ext/ckanext-digitraffic_theme
+        run: pnpm install
+
+      - name: Install Playwright Browsers
+        working-directory: ./ext/ckanext-digitraffic_theme
+        run: pnpm dlx playwright install --with-deps
+
       - name: Start CKAN
         working-directory: local-env
         run: ./start-local-ckan.sh up build_image ci
@@ -28,3 +43,14 @@ jobs:
       - name: Run tests
         working-directory: local-env
         run: ./run-digitraffic-theme-tests-on-docker.sh
+
+      - name: Run E2E-tests
+        working-directory: ./ext/ckanext-digitraffic_theme
+        run: pnpm run e2e
+
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: playwright-report
+          path: ./ext/ckanext-digitraffic_theme/playwright-report/
+          retention-days: 30
