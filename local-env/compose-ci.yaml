@@ -17,11 +17,7 @@ services:
       - .env_ckan_common
       - .env_ckan
       - .env_entra
-    environment:
-      - E2E_SYSADMIN_ID
-      - E2E_SYSADMIN_NAME
-      - E2E_SYSADMIN_EMAIL
-      - E2E_SYSADMIN_FULLNAME
+      - .env_test_users
   postgresql:
     image: local_catalog_postgresql:latest
     ports:

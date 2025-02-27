@@ -16,6 +16,11 @@ jobs:
         run: |
           cp -r ext docker/ckan/ckanext
           cp ext/ckanext-entraid_authenticator/.env.example local-env/.env_entra
+          touch local-env/.env_test_users
+          echo "E2E_SYSADMIN_ID=${E2E_SYSADMIN_ID}" > local-env/.env_test_users
+          echo "E2E_SYSADMIN_NAME=${E2E_SYSADMIN_NAME}" >> local-env/.env_test_users
+          echo "E2E_SYSADMIN_EMAIL=${E2E_SYSADMIN_EMAIL}" >> local-env/.env_test_users
+          echo "E2E_SYSADMIN_FULLNAME=${E2E_SYSADMIN_FULLNAME}" >> local-env/.env_test_users
 
       - name: Start CKAN
         working-directory: local-env
