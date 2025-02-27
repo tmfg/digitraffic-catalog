@@ -26,11 +26,8 @@ jobs:
           bash -c '
           TOTAL_SLEEP=0;
           while [ "$(docker inspect --format='\''{{.State.Health.Status}}'\'' datakatalogi-local-ckan-1)" != "healthy" ];
-              do echo "GOIG TO SLEEP";
-              sleep 1;
-              echo "INCREASING TOTAL TIME";
+              do sleep 1;
               ((TOTAL_SLEEP++));
-              echo "CHECKING IF A MINUTE HAS PASSED";
               if (( TOTAL_SLEEP % 60 == 0 )); then
                   echo "ENV VARIABLES:";
                   docker inspect --format="{{range .Config.Env }}{{println (index (split . "=") 0)}}{{end}}" datakatalogi-local-ckan-1;
@@ -39,7 +36,6 @@ jobs:
                   echo "STATUS INFO:";
                   docker inspect --format="{{json .State}}" datakatalogi-local-ckan-1;
               fi;
-              echo "LOOPING";
           done;
           '
 
