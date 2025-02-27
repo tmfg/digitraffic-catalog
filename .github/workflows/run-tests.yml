@@ -17,6 +17,11 @@ jobs:
           cp -r ext docker/ckan/ckanext
           cp ext/ckanext-entraid_authenticator/.env.example local-env/.env_entra
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
       - name: Setup Node.js 22.x
         uses: actions/setup-node@v4
         with:
