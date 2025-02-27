@@ -1,0 +1,101 @@
+name: Run tests
+
+on:
+  workflow_dispatch:
+  push:
+
+jobs:
+  run_tests:
+    if: github.repository != 'tmfg/digitraffic-catalog'
+    runs-on: ubuntu-20.04
+    environment: test
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup environment
+        env:
+          E2E_SYSADMIN_ID: ${{ secrets.E2E_SYSADMIN_ID }}
+          E2E_SYSADMIN_NAME: ${{ secrets.E2E_SYSADMIN_NAME }}
+          E2E_SYSADMIN_EMAIL: ${{ secrets.E2E_SYSADMIN_EMAIL }}
+          E2E_SYSADMIN_FULLNAME: ${{ secrets.E2E_SYSADMIN_FULLNAME }}
+          E2E_SYSADMIN_USERNAME: ${{ secrets.E2E_SYSADMIN_USERNAME }}
+          E2E_SYSADMIN_PASSWORD: ${{ secrets.E2E_SYSADMIN_PASSWORD }}
+          E2E_ORGANIZATION_ADMIN_USERNAME: ${{ secrets.E2E_ORGANIZATION_ADMIN_USERNAME }}
+          E2E_ORGANIZATION_ADMIN_PASSWORD: ${{ secrets.E2E_ORGANIZATION_ADMIN_PASSWORD }}
+          E2E_ORGANIZATION_EDITOR_USERNAME: ${{ secrets.E2E_ORGANIZATION_EDITOR_USERNAME }}
+          E2E_ORGANIZATION_EDITOR_PASSWORD: ${{ secrets.E2E_ORGANIZATION_EDITOR_PASSWORD }}
+          ENTRA_CLIENT_ID: ${{ secrets.ENTRA_CLIENT_ID }}
+          ENTRA_CLIENT_SECRET: ${{ secrets.ENTRA_CLIENT_SECRET }}
+          ENTRA_AUTHORITY: ${{ secrets.ENTRA_AUTHORITY }}
+          CKAN_SITE_URL: ${{ vars.CKAN_SITE_URL }}
+        run: |
+          cp -r ext docker/ckan/ckanext
+          touch local-env/.env_entra
+          echo "ENTRA_CLIENT_ID=${ENTRA_CLIENT_ID}" > local-env/.env_entra
+          echo "ENTRA_CLIENT_SECRET=${ENTRA_CLIENT_SECRET}" >> local-env/.env_entra
+          echo "ENTRA_AUTHORITY=${ENTRA_AUTHORITY}" >> local-env/.env_entra
+          echo "CKAN_SITE_URL=${CKAN_SITE_URL}" >> local-env/.env_entra
+          
+          touch local-env/.env_test_users
+          echo "E2E_SYSADMIN_ID=${E2E_SYSADMIN_ID}" > local-env/.env_test_users
+          echo "E2E_SYSADMIN_NAME=${E2E_SYSADMIN_NAME}" >> local-env/.env_test_users
+          echo "E2E_SYSADMIN_EMAIL=${E2E_SYSADMIN_EMAIL}" >> local-env/.env_test_users
+          echo "E2E_SYSADMIN_FULLNAME=${E2E_SYSADMIN_FULLNAME}" >> local-env/.env_test_users
+          
+          touch ext/ckanext-digitraffic_theme/.env.playwright
+          echo "TEST_SITE_URL=${{vars.CKAN_SITE_URL}}" > ext/ckanext-digitraffic_theme/.env.playwright
+          echo "E2E_SYSADMIN_USERNAME=${E2E_SYSADMIN_USERNAME}" >> ext/ckanext-digitraffic_theme/.env.playwright
+          echo "E2E_SYSADMIN_PASSWORD=${E2E_SYSADMIN_PASSWORD}" >> ext/ckanext-digitraffic_theme/.env.playwright
+          echo "E2E_ORGANIZATION_ADMIN_USERNAME=${E2E_ORGANIZATION_ADMIN_USERNAME}" >> ext/ckanext-digitraffic_theme/.env.playwright
+          echo "E2E_ORGANIZATION_ADMIN_PASSWORD=${E2E_ORGANIZATION_ADMIN_PASSWORD}" >> ext/ckanext-digitraffic_theme/.env.playwright
+          echo "E2E_ORGANIZATION_EDITOR_USERNAME=${E2E_ORGANIZATION_EDITOR_USERNAME}" >> ext/ckanext-digitraffic_theme/.env.playwright
+          echo "E2E_ORGANIZATION_EDITOR_PASSWORD=${E2E_ORGANIZATION_EDITOR_PASSWORD}" >> ext/ckanext-digitraffic_theme/.env.playwright
+
+      - name: Start CKAN
+        working-directory: local-env
+        run: ./start-local-ckan.sh up build_image ci
+
+      - name: Wait for containers
+        working-directory: local-env
+        run: bash ./wait-for-containers.sh
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Setup Node.js 22.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+          cache: "pnpm"
+          cache-dependency-path: ./ext/ckanext-digitraffic_theme
+
+      - name: Install dependencies for E2E-tests
+        working-directory: ./ext/ckanext-digitraffic_theme
+        run: pnpm install
+
+      - name: Install Playwright Browsers
+        working-directory: ./ext/ckanext-digitraffic_theme
+        run: pnpm dlx playwright install --with-deps
+
+      - name: Run E2E-tests
+        working-directory: ./ext/ckanext-digitraffic_theme
+        run: pnpm run e2e
+
+      - name: Upload Playwright report
+        uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: playwright-report
+          path: ./ext/ckanext-digitraffic_theme/playwright-report/
+          retention-days: 30
+
+      - name: Upload Docker logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: docker-logs
+          path: ./local-env/docker-logs.txt
+          retention-days: 30
