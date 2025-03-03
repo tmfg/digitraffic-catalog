@@ -15,38 +15,45 @@ import {OrganizationCreationError, OrganizationStateError} from "../page-object-
 
 
 async function authenticate(user: User, identity: Identity, username: string, password: string): Promise<void> {
-  const page = await user.goToNewPage('/')
+  await setup.step(`Authenticate as ${identity}`, async () => {
+    const page = await user.goToNewPage('/')
 
-  const hideDevToolLocator = page.getByRole('link', {name: 'Hide »'})
+    const hideDevToolLocator = page.getByRole('link', {name: 'Hide »'})
 
-  if (await isVisible(hideDevToolLocator)) {
-    await hideDevToolLocator.click();
-  }
-  if (!await user.isUserLoggedIn()) {
-    await page.getByRole('link', {name: 'Kirjaudu sisään'}).click();
-    if (await isAtUrl(page, 'https://login.microsoftonline.com/**')) {
-      await page.locator('input[type="email"]').fill(username);
-      await page.getByRole('button', {name: "Next"}).click();
-      // This waits until all hidden password fields are gone
-      await expect(page.locator('input[type="password"][aria-hidden="true"]')).toHaveCount(0);
-      await page.locator('input[type="password"]').fill(password);
-      await page.getByRole('button', {name: "Sign in"}).click();
-      await expect(page.getByRole('heading', {name: 'Stay signed in?'})).toBeVisible();
-      await page.getByRole('button', {name: "Yes"}).click();
+    if (await isVisible(hideDevToolLocator)) {
+      await hideDevToolLocator.click();
     }
-    await expect(page.getByRole('button', {name: identity})).toBeVisible();
-    await user.setAuthStorageState();
-  }
+    if (!await user.isUserLoggedIn()) {
+      await page.getByRole('link', {name: 'Kirjaudu sisään'}).click();
+      if (await isAtUrl(page, 'https://login.microsoftonline.com/**')) {
+        await page.locator('input[type="email"]').fill(username);
+        await page.getByRole('button', {name: "Next"}).click();
+        // This waits until all hidden password fields are gone
+        await expect(page.locator('input[type="password"][aria-hidden="true"]')).toHaveCount(0);
+        await page.locator('input[type="password"]').fill(password);
+        await page.getByRole('button', {name: "Sign in"}).click();
+        await expect(page.getByRole('heading', {name: 'Stay signed in?'})).toBeVisible();
+        await page.getByRole('button', {name: "Yes"}).click();
+      }
+      await expect(page.getByRole('button', {name: identity})).toBeVisible();
+      await user.setAuthStorageState();
+    }
+  })
 }
 
 setup.describe('Create and log in all the test users', () => {
   setup.use({
-    identitiesToUse: [[Identity.OrganizationAdmin, Identity.OrganizationEditor], {scope: 'test'}],
+    identitiesToUse: [[Identity.SysAdmin, Identity.OrganizationAdmin, Identity.OrganizationEditor], {scope: 'test'}],
     isUserInfoGathered: false
   } as IdentitysOptions);
 
-  setup('authenticate as an organization admin', async ({users}: { users: Map<Identity, User> }) => {
+  setup('authenticate all users', async ({users}: { users: Map<Identity, User> }) => {
     const credentials = new Map()
+    credentials.set(
+      Identity.SysAdmin, {
+        password: process.env.E2E_SYSADMIN_PASSWORD,
+        username: process.env.E2E_SYSADMIN_USERNAME
+      })
     credentials.set(
       Identity.OrganizationAdmin, {
         password: process.env.E2E_ORGANIZATION_ADMIN_PASSWORD,
@@ -72,11 +79,18 @@ setup.describe('Have sysadmin to setup test users', () => {
   setup('Create organization for the test users', async ({users}: { users: Map<Identity, User> }) => {
     const sysAdminIdentity = Identity.SysAdmin
     const sysAdmin = users.get(sysAdminIdentity)
-    const organizationMembers = [Identity.OrganizationAdmin, Identity.OrganizationEditor]
     await authenticate(sysAdmin, sysAdminIdentity, process.env.E2E_SYSADMIN_USERNAME, process.env.E2E_SYSADMIN_PASSWORD)
-    const { pom: organizationPage, isRunSuccessful: isOrganizationCreated, error} = await createOrganization(sysAdmin, organization)
+    const {
+      pom: organizationPage,
+      isRunSuccessful: isOrganizationCreated,
+      error
+    } = await createOrganization(sysAdmin, organization)
     if (isOrganizationCreated || (error instanceof OrganizationCreationError && error.reasons.has("OrganizationAlreadyExists"))) {
-      const { pom: editOrganizationPage, isRunSuccessful: isOrganizationAdminAdded, error: organizationAdminCreatedError} = await addMemberToOrganization(sysAdmin, organization, users.get(Identity.OrganizationAdmin), Role.Admin, organizationPage.page)
+      const {
+        pom: editOrganizationPage,
+        isRunSuccessful: isOrganizationAdminAdded,
+        error: organizationAdminCreatedError
+      } = await addMemberToOrganization(sysAdmin, organization, users.get(Identity.OrganizationAdmin), Role.Admin, organizationPage.page)
       if (isOrganizationAdminAdded) {
         await removeMemberFromOrganization(sysAdmin, organization, sysAdmin, editOrganizationPage.page)
       }
