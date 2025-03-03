@@ -50,16 +50,21 @@ export class EditOrganizationPage extends BasePage {
   }
 
   async removeMember(userInfo: UserInfo): Promise<void> {
+    if (userInfo?.name === undefined) {
+      throw Error("Name of the member to be removed must be provided")
+    }
     await this.selectMembersTab()
     // This is here so that JavaScript is loaded. If JavaScript is not loaded then a confirmation modal is not shown
     // and when clicking the delete button, navigation to a new page happens.
     await this.page.waitForLoadState("networkidle")
-    const userRow = await this.page.getByRole('row')
+    const userRow = this.page.getByRole('row')
       .filter({has: this.page.locator(`a[href~="${pathParameterURL(URL.User, {name: userInfo.name})}"]`)})
-    await userRow
-      .locator('a[title="Poista"]')
-      .click()
-    await this.page.getByRole('button', {name: "Vahvista"}).click()
+    if (await isVisible(userRow)) {
+      await userRow
+        .locator('a[title="Poista"]')
+        .click()
+      await this.page.getByRole('button', {name: "Vahvista"}).click()
+    }
   }
 
   async isAtPage(): Promise<boolean> {

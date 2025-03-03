@@ -54,7 +54,7 @@ jobs:
 
       - name: Start CKAN
         working-directory: local-env
-        run: RUNNER_TRACKING_ID="" && ./start-local-ckan.sh up build_image ci
+        run: ./start-local-ckan.sh up build_image ci
 
       - name: Wait for containers
         working-directory: local-env
