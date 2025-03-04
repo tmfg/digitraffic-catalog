@@ -163,6 +163,12 @@ class RangeValueConverter(ABC):
                     If the vocabulary itself contains a translation in the appropriate language, use that.
                     If not, see if there is available a patch translation provided by us. If not, use English.
                     """
+
+                    # "Other" appears in many vocabularies and might be the only string needing translation in it
+                    # Translate it here to avoid having to separately insert the same string for multiple IRIs
+                    if english == "Other" and not finnish:
+                        finnish = "Muu"
+
                     return {
                         "en": english,
                         "fi": (

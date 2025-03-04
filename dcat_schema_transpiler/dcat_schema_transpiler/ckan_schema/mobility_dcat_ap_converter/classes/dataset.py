@@ -211,8 +211,8 @@ class DCATDataset(RangeValueConverter):
                         "sorted_choices": True,
                         "form_include_blank_choice": True,
                         "choices": RangeValueConverter.vocab_choices(
-                            g,
-                            lambda s: (
+                            graph=g,
+                            filter=lambda s: (
                                 s,
                                 SKOS.broader,
                                 URIRef(
@@ -220,6 +220,7 @@ class DCATDataset(RangeValueConverter):
                                 ),
                             )
                             in g,
+                            iri=p.iri
                         ),
                     },
                     {
@@ -231,8 +232,8 @@ class DCATDataset(RangeValueConverter):
                         "form_include_blank_choice": True,
                         "validators": "scheming_required scheming_choices mobility_theme_sub_validator",
                         "choices": RangeValueConverter.vocab_choices(
-                            g,
-                            lambda s: (
+                            graph=g,
+                            filter=lambda s: (
                                 s,
                                 SKOS.broader,
                                 URIRef(
@@ -240,6 +241,7 @@ class DCATDataset(RangeValueConverter):
                                 ),
                             )
                             in g,
+                            iri=p.iri
                         ),
                     },
                 ]
@@ -311,7 +313,7 @@ class DCATDataset(RangeValueConverter):
                     "preset": "select",
                     "sorted_choices": True,
                     "form_include_blank_choice": True,
-                    "choices": RangeValueConverter.vocab_choices(g),
+                    "choices": RangeValueConverter.vocab_choices(graph=g, iri=p.iri),
                 }
             case MOBILITYDCATAP.networkCoverage:
                 g = ds.get_graph(URIRef(CVOCAB_NETWORK_COVERAGE))
@@ -322,7 +324,7 @@ class DCATDataset(RangeValueConverter):
                     "preset": "select",
                     "sorted_choices": True,
                     "form_include_blank_choice": True,
-                    "choices": RangeValueConverter.vocab_choices(g),
+                    "choices": RangeValueConverter.vocab_choices(graph=g, iri=p.iri),
                 }
             case DCAT.theme:
                 g = ds.get_graph(URIRef(CVOCAB_THEME))
@@ -333,7 +335,7 @@ class DCATDataset(RangeValueConverter):
                     "preset": "select",
                     "sorted_choices": True,
                     "form_include_blank_choice": True,
-                    "choices": RangeValueConverter.vocab_choices(g),
+                    "choices": RangeValueConverter.vocab_choices(graph=g, iri=p.iri),
                 }
             case MOBILITYDCATAP.transportMode:
                 g = ds.get_graph(URIRef(CVOCAB_TRANSPORT_MODE))
@@ -344,7 +346,7 @@ class DCATDataset(RangeValueConverter):
                     "preset": "select",
                     "sorted_choices": True,
                     "form_include_blank_choice": True,
-                    "choices": RangeValueConverter.vocab_choices(g),
+                    "choices": RangeValueConverter.vocab_choices(graph=g, iri=p.iri),
                 }
             case MOBILITYDCATAP.intendedInformationService:
                 g = ds.get_graph(URIRef(CVOCAB_INTENDED_INFORMATION_SERVICE))
@@ -355,7 +357,7 @@ class DCATDataset(RangeValueConverter):
                     "preset": "select",
                     "sorted_choices": True,
                     "form_include_blank_choice": True,
-                    "choices": RangeValueConverter.vocab_choices(g),
+                    "choices": RangeValueConverter.vocab_choices(graph=g, iri=p.iri),
                 }
 
     def post_process_schema(self, schema: List[Dict]):
