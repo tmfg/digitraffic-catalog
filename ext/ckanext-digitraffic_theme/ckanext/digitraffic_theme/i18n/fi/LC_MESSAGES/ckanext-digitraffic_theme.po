@@ -1,16 +1,16 @@
 # Finnish translations for ckanext-digitraffic_theme.
-# Copyright (C) 2024 ORGANIZATION
+# Copyright (C) 2025 ORGANIZATION
 # This file is distributed under the same license as the
 # ckanext-digitraffic_theme project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-digitraffic_theme 0.0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-08-29 06:12+0000\n"
-"PO-Revision-Date: 2024-08-29 06:16+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2025-02-17 13:27+0000\n"
+"PO-Revision-Date: 2025-02-13 11:09+0200\n"
+"Last-Translator: \n"
 "Language: fi\n"
 "Language-Team: fi <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -19,18 +19,311 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.10.3\n"
 
-msgid "Data content category"
-msgstr "Kategoria"
+#: ckanext/digitraffic_theme/templates/package/read.html:8
+#: ckanext/digitraffic_theme/templates/snippets/package_item.html:42
+msgid "Draft"
+msgstr "Vedos"
 
-msgid "Data content sub category"
-msgstr "Alakategoria"
+#: ckanext/digitraffic_theme/templates/package/read.html:11
+#: ckanext/digitraffic_theme/templates/snippets/package_item.html:44
+msgid "Deleted"
+msgstr "Poistettu"
 
-msgid "Metadata Language"
-msgstr "Metadatan kieli"
+#: ckanext/digitraffic_theme/templates/package/resource_read.html:7
+#: ckanext/digitraffic_theme/templates/package/resource_read.html:9
+msgid "URL:"
+msgstr "URL:"
 
-msgid "Frequency"
-msgstr "Päivitysten tiheys"
+#: ckanext/digitraffic_theme/templates/package/resource_read.html:18
+msgid "Dataset description:"
+msgstr "Tietoaineiston kuvaus:"
 
-msgid "Location"
-msgstr "Sijainti"
+#: ckanext/digitraffic_theme/templates/package/resource_read.html:20
+#, python-format
+msgid "Source: <a href=\"%(url)s\">%(dataset)s</a>"
+msgstr "Lähde: <a href=“%(url)s”>%(dataset)s</a>"
+
+#: ckanext/digitraffic_theme/templates/package/snippets/package_form.html:33
+msgid ""
+"The <i>data license</i> you select above only applies to the contents of "
+"any resource files that you add to this dataset. By submitting this form,"
+" you agree to release the <i>metadata</i> values that you enter into the "
+"form under the <a "
+"href=\"http://opendatacommons.org/licenses/odbl/1-0/\">Open Database "
+"License</a>."
+msgstr ""
+"Yllä valitsemasi <i>lisenssi</i> pätee vain tähän tietoaineistoon "
+"lisäämiesi resurssitiedostojen kohdalla. Lähettäessäsi tämän lomakkeen "
+"hyväksyt, että lomakkeelle syöttämäsi <i>metadata</i> julkaistaan <a "
+"href=“http://opendatacommons.org/licenses/odbl/1-0/“>Open Database "
+"License</a>:n alaisena."
+
+#: ckanext/digitraffic_theme/templates/package/snippets/package_form.html:44
+msgid "Are you sure you want to delete this dataset?"
+msgstr "Haluatko varmasti poistaa tämän tietoaineiston?"
+
+#: ckanext/digitraffic_theme/templates/package/snippets/package_form.html:44
+msgid "Delete"
+msgstr "Poista"
+
+#: ckanext/digitraffic_theme/templates/package/snippets/package_form.html:48
+msgid "Next: Add data"
+msgstr "Seuraava: Lisää dataa"
+
+#: ckanext/digitraffic_theme/templates/scheming/form_snippets/_organization_select.html:20
+msgid "No organization"
+msgstr "Ei organisaatiota"
+
+#: ckanext/digitraffic_theme/templates/scheming/form_snippets/datetime_tz.html:35
+msgid "Time"
+msgstr "Kellonaika"
+
+#: ckanext/digitraffic_theme/templates/scheming/form_snippets/datetime_tz.html:53
+msgid "Timezone"
+msgstr "Aikavyöhyke"
+
+#: ckanext/digitraffic_theme/templates/scheming/form_snippets/iri_fragment_input.html:18
+msgid ""
+"With no JavaScript enabled, you need to specify the full IRI for this "
+"field"
+msgstr "Kun JavaScript ei ole käytössä, täytyy tähän kenttään syöttää koko IRI"
+
+#: ckanext/digitraffic_theme/templates/scheming/package/read.html:25
+msgid "XML format"
+msgstr "XML-muoto"
+
+#: ckanext/digitraffic_theme/templates/scheming/package/read.html:26
+msgid "N3 format"
+msgstr "N3-muoto"
+
+#: ckanext/digitraffic_theme/templates/scheming/package/read.html:27
+msgid "TTL format"
+msgstr "TTL-muoto"
+
+#: ckanext/digitraffic_theme/templates/scheming/package/read.html:28
+msgid "JSON format"
+msgstr "JSON-muoto"
+
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/additional_info.html:86
+msgid "State"
+msgstr "Tila"
+
+#: ckanext/digitraffic_theme/templates/snippets/language_selector_base.html:28
+msgid "Go"
+msgstr "Mene"
+
+#: ckanext/digitraffic_theme/templates/snippets/package_item.html:31
+msgid "Private"
+msgstr "Yksityinen"
+
+#: ckanext/digitraffic_theme/templates/snippets/package_item.html:53
+msgid "There is no description for this dataset"
+msgstr "Tälle tietoaineistolle ei ole kuvausta"
+
+#: ckanext/digitraffic_theme/templates/snippets/dt_header/app_navigation.html:5
+msgid "Datasets"
+msgstr "Tietoaineistot"
+
+#: ckanext/digitraffic_theme/templates/snippets/dt_header/app_navigation.html:6
+msgid "Organizations"
+msgstr "Organisaatiot"
+
+#: ckanext/digitraffic_theme/templates/snippets/dt_header/app_navigation.html:7
+msgid "Groups"
+msgstr "Ryhmät"
+
+#: ckanext/digitraffic_theme/templates/snippets/dt_header/app_navigation.html:8
+#: ckanext/digitraffic_theme/templates/user/edit_user_form.html:14
+msgid "About"
+msgstr "Tietoa"
+
+#: ckanext/digitraffic_theme/templates/snippets/dt_header/app_navigation.html:16
+msgid "Menu"
+msgstr "Valikko"
+
+#: ckanext/digitraffic_theme/templates/snippets/dt_header/search_box.html:1
+msgid "E.g. environment"
+msgstr "Esim. ympäristö"
+
+#: ckanext/digitraffic_theme/templates/snippets/dt_header/search_box.html:6
+msgid "Search Datasets..."
+msgstr "Etsi tietoaineistoja..."
+
+#: ckanext/digitraffic_theme/templates/snippets/dt_header/search_box.html:7
+msgid "Search"
+msgstr "Etsi"
+
+#: ckanext/digitraffic_theme/templates/snippets/dt_header/search_box.html:7
+msgid "Search datasets..."
+msgstr "Etsi tietoaineistoja…"
+
+#: ckanext/digitraffic_theme/templates/snippets/dt_header/search_box.html:8
+msgid "Submit"
+msgstr "Lähetä"
+
+#: ckanext/digitraffic_theme/templates/snippets/dt_header/user_actions.html:14
+msgid "View profile"
+msgstr "Näytä profiili"
+
+#: ckanext/digitraffic_theme/templates/snippets/dt_header/user_actions.html:15
+msgid "Profile"
+msgstr "Profiili"
+
+#: ckanext/digitraffic_theme/templates/snippets/dt_header/user_actions.html:20
+msgid "Sysadmin settings"
+msgstr "Ylläpitäjän asetukset"
+
+#: ckanext/digitraffic_theme/templates/snippets/dt_header/user_actions.html:22
+msgid "Admin"
+msgstr "Ylläpitäjä"
+
+#: ckanext/digitraffic_theme/templates/snippets/dt_header/user_actions.html:27
+msgid "View dashboard"
+msgstr "Näytä yhteenveto"
+
+#: ckanext/digitraffic_theme/templates/snippets/dt_header/user_actions.html:29
+msgid "Dashboard"
+msgstr "Yhteenveto"
+
+#: ckanext/digitraffic_theme/templates/snippets/dt_header/user_actions.html:33
+#: ckanext/digitraffic_theme/templates/snippets/dt_header/user_actions.html:35
+msgid "Profile settings"
+msgstr "Profiilin asetukset"
+
+#: ckanext/digitraffic_theme/templates/snippets/dt_header/user_actions.html:39
+#: ckanext/digitraffic_theme/templates/snippets/dt_header/user_actions.html:41
+msgid "Log out"
+msgstr "Kirjaudu ulos"
+
+#: ckanext/digitraffic_theme/templates/snippets/dt_header/user_actions.html:47
+msgid "Account"
+msgstr "Käyttäjätili"
+
+#: ckanext/digitraffic_theme/templates/snippets/dt_header/user_actions.html:49
+msgid "Log in"
+msgstr "Kirjaudu sisään"
+
+#: ckanext/digitraffic_theme/templates/user/edit_user_form.html:10
+msgid "Change details"
+msgstr "Muuta tietoja"
+
+#: ckanext/digitraffic_theme/templates/user/edit_user_form.html:11
+msgid "Username"
+msgstr "Käyttäjänimi"
+
+#: ckanext/digitraffic_theme/templates/user/edit_user_form.html:12
+msgid "Full name"
+msgstr "Koko nimi"
+
+#: ckanext/digitraffic_theme/templates/user/edit_user_form.html:12
+msgid "eg. Joe Bloggs"
+msgstr "esim. Matti Meikäläinen"
+
+#: ckanext/digitraffic_theme/templates/user/edit_user_form.html:13
+msgid "Email"
+msgstr "Sähköposti"
+
+#: ckanext/digitraffic_theme/templates/user/edit_user_form.html:13
+msgid "eg. joe@example.com"
+msgstr "esim. matti@esimerkki.com"
+
+#: ckanext/digitraffic_theme/templates/user/edit_user_form.html:14
+msgid "A little information about yourself"
+msgstr "Hieman tietoa itsestäsi"
+
+#: ckanext/digitraffic_theme/templates/user/edit_user_form.html:19
+msgid "Profile picture"
+msgstr "Profiilikuva"
+
+#: ckanext/digitraffic_theme/templates/user/edit_user_form.html:19
+msgid "Profile picture URL"
+msgstr "Profiilikuvan URL"
+
+#: ckanext/digitraffic_theme/templates/user/edit_user_form.html:29
+msgid "Reactivate User"
+msgstr "Aktivoi käyttäjä uudelleen"
+
+#: ckanext/digitraffic_theme/templates/user/edit_user_form.html:30
+msgid ""
+"This account is deactivated. If you want to reactivate it, please click "
+"on the checkbox."
+msgstr ""
+"Tämä käyttäjätili on deaktivoitu. Jos haluat aktivoida sen uudelleen, "
+"klikkaa valintaruutua."
+
+#: ckanext/digitraffic_theme/templates/user/edit_user_form.html:34
+msgid "First name"
+msgstr "Etunimi"
+
+#: ckanext/digitraffic_theme/templates/user/edit_user_form.html:34
+msgid "eg. Joe"
+msgstr "esim. Matti"
+
+#: ckanext/digitraffic_theme/templates/user/edit_user_form.html:35
+msgid "Surname"
+msgstr "Sukunimi"
+
+#: ckanext/digitraffic_theme/templates/user/edit_user_form.html:35
+msgid "eg. Bloggs"
+msgstr "esim. Meikäläinen"
+
+#: ckanext/digitraffic_theme/templates/user/edit_user_form.html:36
+msgid "Phone number"
+msgstr "Puhelinnumero"
+
+#: ckanext/digitraffic_theme/templates/user/edit_user_form.html:36
+msgid "eg. +358401234567"
+msgstr "esim. +358401234567"
+
+#: ckanext/digitraffic_theme/templates/user/edit_user_form.html:37
+msgid "Country of residence"
+msgstr "Maa"
+
+#: ckanext/digitraffic_theme/templates/user/edit_user_form.html:37
+msgid "eg. Finland"
+msgstr "esim. Suomi"
+
+#: ckanext/digitraffic_theme/templates/user/edit_user_form.html:38
+msgid "County"
+msgstr "Maakunta"
+
+#: ckanext/digitraffic_theme/templates/user/edit_user_form.html:38
+msgid "eg. Uusimaa"
+msgstr "esim. Uusimaa"
+
+#: ckanext/digitraffic_theme/templates/user/edit_user_form.html:39
+msgid "Postal code"
+msgstr "Postinumero"
+
+#: ckanext/digitraffic_theme/templates/user/edit_user_form.html:39
+msgid "eg. 1234567"
+msgstr "esim. 00100"
+
+#: ckanext/digitraffic_theme/templates/user/edit_user_form.html:40
+msgid "City"
+msgstr "Kaupunki"
+
+#: ckanext/digitraffic_theme/templates/user/edit_user_form.html:40
+msgid "eg. Helsinki"
+msgstr "esim. Helsinki"
+
+#: ckanext/digitraffic_theme/templates/user/edit_user_form.html:41
+msgid "Street address"
+msgstr "Katuosoite"
+
+#: ckanext/digitraffic_theme/templates/user/edit_user_form.html:41
+msgid "eg. Testikatu 1"
+msgstr "esim. Testikatu 1"
+
+#: ckanext/digitraffic_theme/validators/dataset_validators.py:41
+msgid ""
+"Phone number is not in a valid format. Make sure it starts with a valid "
+"country code. e.g. +358"
+msgstr ""
+"Puhelinnumero ei ole oikeassa muodossa. Varmista, että se alkaa "
+"maakoodilla, esim. +358"
+
+#: ckanext/digitraffic_theme/validators/dataset_validators.py:54
+msgid "Given spatial reference is not supported"
+msgstr "Annettu paikkaviite ei ole tuettu"
 
