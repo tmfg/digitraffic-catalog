@@ -651,7 +651,7 @@ dataset_fields:
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/park-and-ride-stops
     label:
       en: Park and Ride stops
-      fi: 'Julkisen liikenteen liityntäpysäköinti '
+      fi: Julkisen liikenteen liityntäpysäköinti
       sv: Park and Ride stops
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/passenger-classes
     label:
@@ -996,7 +996,7 @@ dataset_fields:
   - value: https://w3id.org/mobilitydcat-ap/transport-mode/car-pooling
     label:
       en: Car Pooling
-      fi: Kimppakyyti, henkilöauto
+      fi: Kimppakyyti, auto
       sv: Car Pooling
   - value: https://w3id.org/mobilitydcat-ap/transport-mode/car-sharing
     label:
