@@ -6,20 +6,28 @@ const config = (ctx) => {
 
     const cssPlugins = {
         'postcss-url': [
-            // Copies the assets used from node_modules under the assets folder
+            // Changes the ckan url to what CKAN expects
+            {
+                filter: '**/ckan/ckan/public/**/*',
+                url: (asset) => {
+                    return asset.url.replace('ckan/ckan/public/', '../../../')
+                },
+            },
+            // Copies the assets used from node_modules under the assets folder. CKAN assets are not included as
+            // they will be cached by the above setting
             {
                 url: 'copy',
                 basePath: path.resolve('node_modules'),
                 assetsPath: assetsPath,
-                useHash: true
+                useHash: true,
+                multi: true
             },
             // Renames the path to only contain relevant part for the browser
             {
                 url: (asset) => {
                     const publicAssetRegEx = new RegExp("^(\.\./)+public/" + assetsFolder)
                     if (asset.url?.match(publicAssetRegEx)) {
-                        const assetRelativeToAssetsPath = asset.url.replace(publicAssetRegEx, '')
-                        const urlForBrowser = assetsFolder + assetRelativeToAssetsPath
+                        const urlForBrowser = asset.url.replace('/public/', '/')
                         return urlForBrowser
                     }
                     return asset.url
