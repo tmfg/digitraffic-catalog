@@ -1,7 +1,6 @@
 import {BasePage} from "./base";
 import {URL, getPom} from "./pages-controller"
 import {Page} from "@playwright/test";
-import {param} from "jquery";
 
 export async function gotoNewPage<T extends BasePage>(
   page: Page,

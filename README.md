@@ -31,6 +31,17 @@ If you are modifying mobilityDCAT-AP profile for ckanext-dcat plugin, you can fi
 
 Inside `local-env` folder, first start the local env, then run `./run-digitraffic-theme-tests-on-docker.sh` script
 
+## E2E-tests
+
+E2E-tests are written using Playwright. See [E2E-testaus](https://finrail.atlassian.net/wiki/spaces/DT/pages/3710124153/E2E-testaus)
+in Confluence for introduction and reasoning on how E2E-tests are written in this project.
+
+To run the test locally, run `pnpm e2e-ui`.
+
+To debug issues in CI, you can download two artifacts. One contains logs from the Docker container and the other
+contains Playwright report that also contains traces. To see the report and run traces locally, unzip the artifact
+somewhere and run `pnpm dlx playwright show-report REPORT_FOLDER_LOCATION`
+
 ## MobilityDCAT-AP metadata
 
 In order to collect and generate metadata conforming to MobilityDCAT-AP, we first generate the ckanext-scheming
