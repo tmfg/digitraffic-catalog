@@ -127,7 +127,7 @@ const DatasetFormWrapper = {
       const subThemeOptions = subThemes.map(subTheme => {
         const option = document.createElement("option")
         option.value = subTheme
-        const lang = $('html').attr('lang');
+        const lang = $("html").attr("lang");
         option.text = MOBILITY_THEME_LABELS[subTheme][lang] ?? MOBILITY_THEME_LABELS[subTheme]["en"]
         return option
       })
@@ -136,6 +136,7 @@ const DatasetFormWrapper = {
       emptyOption.text = ""
       emptyOption.selected = true
       subThemeOptions.unshift(emptyOption)
+      subThemeOptions.sort((a, b) => a.text.localeCompare(b.text))
 
       return subThemeOptions
     }
