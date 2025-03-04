@@ -477,7 +477,7 @@ VOCABULARY_PATCH_TRANSLATIONS = {
         "Parameters needed to calculate environmental factors": {
             "fi": "Ympäristötekijöiden laskemiseen tarvittavat parametrit"
         },
-        "Park and Ride stops": {"fi": "Julkisen liikenteen liityntäpysäköinti "},
+        "Park and Ride stops": {"fi": "Julkisen liikenteen liityntäpysäköinti"},
         "Passenger classes": {"fi": "Matkustajaluokat"},
         "Payment methods": {"fi": "Maksutavat"},
         "Payment methods for tolls": {"fi": "Tietullien maksutavat"},
@@ -556,7 +556,7 @@ VOCABULARY_PATCH_TRANSLATIONS = {
         "Bus": {"fi": "Bussi"},
         "Car": {"fi": "Auto"},
         "Car Hire": {"fi": "Vuokra-auto"},
-        "Car Pooling": {"fi": "Kimppakyyti, henkilöauto"},
+        "Car Pooling": {"fi": "Kimppakyyti, auto"},
         "Car Sharing": {"fi": "Yhteiskäyttöauto"},
         "E-Scooter": {"fi": "Sähköpotkulauta"},
         "Long-distance coach": {"fi": "Pitkän matkan bussi"},
