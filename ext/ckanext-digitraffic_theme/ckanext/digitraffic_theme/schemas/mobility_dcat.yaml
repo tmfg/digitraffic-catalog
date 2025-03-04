@@ -246,97 +246,97 @@ dataset_fields:
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/air-and-space-travel
     label:
       en: Air and space travel
-      fi: Air and space travel
+      fi: Ilma- ja avaruusmatkailu
       sv: Air and space travel
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/cycle-network-data
     label:
       en: Cycle network data
-      fi: Cycle network data
+      fi: Pyöräilyverkon tiedot
       sv: Cycle network data
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/dynamic-traffic-signs-and-regulations
     label:
       en: Dynamic traffic signs and regulations
-      fi: Dynamic traffic signs and regulations
+      fi: Dynaamiset liikennemerkit ja -säännöt
       sv: Dynamic traffic signs and regulations
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/filling-and-charging-stations
     label:
       en: Filling and charging stations
-      fi: Filling and charging stations
+      fi: Tankkaus- ja latausasemat
       sv: Filling and charging stations
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/freight-and-logistics
     label:
       en: Freight and logistics
-      fi: Freight and logistics
+      fi: Rahti ja logistiikka
       sv: Freight and logistics
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/general-information-for-trip-planning
     label:
       en: General information for trip-planning
-      fi: General information for trip-planning
+      fi: Yleistä tietoa reittisuunnitteluun
       sv: General information for trip-planning
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/other
     label:
       en: Other
-      fi: Other
+      fi: Muu
       sv: Other
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/parking-service-and-rest-area-information
     label:
       en: Parking, service and rest area information
-      fi: Parking, service and rest area information
+      fi: Pysäköinti-, palvelu- ja levähdysalueiden tiedot
       sv: Parking, service and rest area information
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/pedestrian-network-data
     label:
       en: Pedestrian network data
-      fi: Pedestrian network data
+      fi: Jalankulkuverkon tiedot
       sv: Pedestrian network data
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/public-transport-non-scheduled-transport
     label:
       en: Public transport non-scheduled transport
-      fi: Public transport non-scheduled transport
+      fi: Joukkoliikenne, aikatauluttamaton
       sv: Public transport non-scheduled transport
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/public-transport-scheduled-transport
     label:
       en: Public transport scheduled transport
-      fi: Public transport scheduled transport
+      fi: Joukkoliikenne, säännöllinen
       sv: Public transport scheduled transport
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/real-time-traffic-data
     label:
       en: Real-time traffic data
-      fi: Real-time traffic data
+      fi: Reaaliaikaiset liikennetiedot
       sv: Real-time traffic data
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/road-events-and-conditions
     label:
       en: Road events and conditions
-      fi: Road events and conditions
+      fi: Tieolosuhteet ja tapahtumat
       sv: Road events and conditions
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/road-work-information
     label:
       en: Road work information
-      fi: Road work information
+      fi: Tietyötiedot
       sv: Road work information
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/sharing-and-hiring-services
     label:
       en: Sharing and Hiring Services
-      fi: Sharing and Hiring Services
+      fi: Vuokraus- ja yhteiskäyttöpalvelut
       sv: Sharing and Hiring Services
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/static-road-network-data
     label:
       en: Static road network data
-      fi: Static road network data
+      fi: Staattiset tieverkon tiedot
       sv: Static road network data
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/static-traffic-signs-and-regulations
     label:
       en: Static traffic signs and regulations
-      fi: Static traffic signs and regulations
+      fi: Staattiset liikennemerkit ja -säännöt
       sv: Static traffic signs and regulations
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/toll-information
     label:
       en: Toll information
-      fi: Toll information
+      fi: Tietullitiedot
       sv: Toll information
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/waterways-and-water-bodies
     label:
       en: Waterways and water bodies
-      fi: Waterways and water bodies
+      fi: Vesiväylät ja vesistöt
       sv: Waterways and water bodies
 - field_name: mobility_theme_sub
   label:
@@ -351,512 +351,512 @@ dataset_fields:
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/accesibility-information-for-vehicles
     label:
       en: Accesibility information for vehicles
-      fi: Accesibility information for vehicles
+      fi: Ajoneuvojen esteettömyystiedot
       sv: Accesibility information for vehicles
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/accidents-and-incidents
     label:
       en: Accidents and incidents
-      fi: Accidents and incidents
+      fi: Liikenneonnettomuudet ja -häiriöt
       sv: Accidents and incidents
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/address-identifiers
     label:
       en: Address identifiers
-      fi: Address identifiers
+      fi: Osoitetunnisteet
       sv: Address identifiers
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/applicable-road-user-charges-and-payment-methods
     label:
       en: Applicable road user charges and payment methods
-      fi: Applicable road user charges and payment methods
+      fi: Sovellettavat tienkäyttömaksut ja maksutavat
       sv: Applicable road user charges and payment methods
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/availability-of-charging-points-for-electric-vehicles
     label:
       en: Availability of charging points for electric vehicles
-      fi: Availability of charging points for electric vehicles
+      fi: Sähköajoneuvojen latauspisteiden saatavuus
       sv: Availability of charging points for electric vehicles
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/availability-of-delivery-areas
     label:
       en: Availability of delivery areas
-      fi: Availability of delivery areas
+      fi: Lastaus- ja purkauspaikkojen saatavuus
       sv: Availability of delivery areas
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/availability-of-filling-stations
     label:
       en: Availability of filling stations
-      fi: Availability of filling stations
+      fi: Tankkausasemien saatavuus
       sv: Availability of filling stations
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/basic-commercial-conditions
     label:
       en: Basic commercial conditions
-      fi: Basic commercial conditions
+      fi: Kaupalliset perusehdot
       sv: Basic commercial conditions
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/basic-common-standard-fares
     label:
       en: Basic common standard fares
-      fi: Basic common standard fares
+      fi: Yleiset perusmaksut
       sv: Basic common standard fares
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/bike-sharing-availability
     label:
       en: Bike sharing Availability
-      fi: Bike sharing Availability
+      fi: Kaupunkipyörien saatavuus
       sv: Bike sharing Availability
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/bike-hiring-availability
     label:
       en: Bike-hiring Availability
-      fi: Bike-hiring Availability
+      fi: Vuokrapyörien saatavuus
       sv: Bike-hiring Availability
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/bike-hiring-stations
     label:
       en: Bike-hiring Stations
-      fi: Bike-hiring Stations
+      fi: Pyöränvuokrausasemat
       sv: Bike-hiring Stations
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/bike-parking-locations
     label:
       en: Bike-parking locations
-      fi: Bike-parking locations
+      fi: Polkupyöräparkit
       sv: Bike-parking locations
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/bike-sharing-locations-and-stations
     label:
       en: Bike-sharing Locations and stations
-      fi: Bike-sharing Locations and stations
+      fi: Kaupunkipyörien sijainnit ja asemat
       sv: Bike-sharing Locations and stations
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/bridge-access-conditions
     label:
       en: Bridge access conditions
-      fi: Bridge access conditions
+      fi: Siltojen käyttörajoitukset
       sv: Bridge access conditions
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/bridge-closures-and-access-conditions
     label:
       en: Bridge closures and access conditions
-      fi: Bridge closures and access conditions
+      fi: Siltojen sulkemiset ja käyttörajoitukset
       sv: Bridge closures and access conditions
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/car-parking-availability
     label:
       en: Car parking availability
-      fi: Car parking availability
+      fi: Autojen pysäköinnin saatavuus
       sv: Car parking availability
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/car-parking-locations-and-conditions
     label:
       en: Car parking locations and conditions
-      fi: Car parking locations and conditions
+      fi: Autojen pysäköintipaikat ja -olosuhteet
       sv: Car parking locations and conditions
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/car-hiring-availability
     label:
       en: Car-hiring Availability
-      fi: Car-hiring Availability
+      fi: Autonvuokrauksen saatavuus
       sv: Car-hiring Availability
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/car-hiring-stations
     label:
       en: Car-hiring Stations
-      fi: Car-hiring Stations
+      fi: Autonvuokrausasemat
       sv: Car-hiring Stations
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/car-sharing-availability
     label:
       en: Car-sharing Availability
-      fi: Car-sharing Availability
+      fi: Yhteiskäyttöautojen saatavuus
       sv: Car-sharing Availability
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/car-sharing-locations-and-stations
     label:
       en: Car-sharing Locations and stations
-      fi: Car-sharing Locations and stations
+      fi: Yhteiskäyttöautojen sijainnit ja asemat
       sv: Car-sharing Locations and stations
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/common-fare-products
     label:
       en: Common fare products
-      fi: Common fare products
+      fi: Yleiset lipputuotteet
       sv: Common fare products
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/connection-links
     label:
       en: Connection links
-      fi: Connection links
+      fi: Vaihtoyhteydet
       sv: Connection links
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/current-travel-times
     label:
       en: Current travel times
-      fi: Current travel times
+      fi: Ajankohtaiset matka-ajat
       sv: Current travel times
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/direction-of-travel-on-reversible-lanes
     label:
       en: Direction of travel on reversible lanes
-      fi: Direction of travel on reversible lanes
+      fi: Vaihtuvasuuntaisten kaistojen ajosuunta
       sv: Direction of travel on reversible lanes
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/disruptions-delays-cancellations
     label:
       en: Disruptions, delays, cancellations
-      fi: Disruptions, delays, cancellations
+      fi: Häiriöt, viivästykset, peruutukset
       sv: Disruptions, delays, cancellations
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/dynamic-overtaking-bans-on-heavy-goods-vehicles
     label:
       en: Dynamic overtaking bans on heavy goods vehicles
-      fi: Dynamic overtaking bans on heavy goods vehicles
+      fi: Dynaamiset raskaiden ajoneuvojen ohituskiellot
       sv: Dynamic overtaking bans on heavy goods vehicles
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/dynamic-speed-limits
     label:
       en: Dynamic speed limits
-      fi: Dynamic speed limits
+      fi: Dynaamiset nopeusrajoitukset
       sv: Dynamic speed limits
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/e-scooter-sharing-availability
     label:
       en: E-scooter-sharing Availability
-      fi: E-scooter-sharing Availability
+      fi: Yhteiskäyttöisten sähköpotkulautojen saatavuus
       sv: E-scooter-sharing Availability
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/e-scooter-sharing-locations-and-stations
     label:
       en: E-scooter-sharing Locations and stations
-      fi: E-scooter-sharing Locations and stations
+      fi: Yhteiskäyttöisten sähköpotkulautojen sijainnit ja asemat
       sv: E-scooter-sharing Locations and stations
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/environmental-standards-for-vehicles
     label:
       en: Environmental standards for vehicles
-      fi: Environmental standards for vehicles
+      fi: Ajoneuvojen ympäristöstandardit
       sv: Environmental standards for vehicles
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/expected-delays
     label:
       en: Expected delays
-      fi: Expected delays
+      fi: Tiedossa olevat viivästykset
       sv: Expected delays
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/fares
     label:
       en: Fares
-      fi: Fares
+      fi: Maksut ja tariffit
       sv: Fares
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/freight-delivery-regulations
     label:
       en: Freight delivery regulations
-      fi: Freight delivery regulations
+      fi: Rahdinkuljetusmääräykset
       sv: Freight delivery regulations
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/geometry
     label:
       en: Geometry
-      fi: Geometry
+      fi: Geometria
       sv: Geometry
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/gradients
     label:
       en: Gradients
-      fi: Gradients
+      fi: Kaltevuudet
       sv: Gradients
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/hours-of-operation
     label:
       en: Hours of operation
-      fi: Hours of operation
+      fi: Käyttöajat
       sv: Hours of operation
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/identification-of-tolled-roads
     label:
       en: Identification of tolled roads
-      fi: Identification of tolled roads
+      fi: Tietullin alaisten teiden yksilöiminen
       sv: Identification of tolled roads
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/junctions
     label:
       en: Junctions
-      fi: Junctions
+      fi: Liittymät
       sv: Junctions
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/lane-closures-and-access-conditions
     label:
       en: Lane closures and access conditions
-      fi: Lane closures and access conditions
+      fi: Kaistojen sulkemiset ja käyttörajoitukset
       sv: Lane closures and access conditions
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/location-and-conditions-of-charging-points
     label:
       en: Location and conditions of charging points
-      fi: Location and conditions of charging points
+      fi: Latauspisteiden sijainnit ja olosuhteet
       sv: Location and conditions of charging points
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/location-and-conditions-of-filling-stations
     label:
       en: Location and conditions of filling stations
-      fi: Location and conditions of filling stations
+      fi: Tankkausasemien sijainnit ja olosuhteet
       sv: Location and conditions of filling stations
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/location-and-length-of-queues
     label:
       en: Location and length of queues
-      fi: Location and length of queues
+      fi: Jonojen sijainti ja pituus
       sv: Location and length of queues
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/location-of-delivery-areas
     label:
       en: Location of delivery areas
-      fi: Location of delivery areas
+      fi: Lastaus- ja purkausalueiden sijainti
       sv: Location of delivery areas
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/location-of-tolling-stations
     label:
       en: Location of tolling stations
-      fi: Location of tolling stations
+      fi: Tietulliasemien sijainti
       sv: Location of tolling stations
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/locations-and-stations
     label:
       en: Locations and stations
-      fi: Locations and stations
+      fi: Sijainnit ja asemat
       sv: Locations and stations
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/long-term-road-works
     label:
       en: Long-term road works
-      fi: Long-term road works
+      fi: Pitkäaikaiset tietyöt
       sv: Long-term road works
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/network-closures-diversions
     label:
       en: Network closures/diversions
-      fi: Network closures/diversions
+      fi: Verkon suljetut osat ja/tai kiertotiet
       sv: Network closures/diversions
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/network-detailed-attributes
     label:
       en: Network detailed attributes
-      fi: Network detailed attributes
+      fi: Verkon yksityiskohtaiset tiedot
       sv: Network detailed attributes
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/network-geometry-and-lane-character
     label:
       en: Network geometry and lane character
-      fi: Network geometry and lane character
+      fi: Verkkogeometria ja kaistojen luonne
       sv: Network geometry and lane character
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/network-topology-and-routes-lines
     label:
       en: Network topology and routes/lines
-      fi: Network topology and routes/lines
+      fi: 'Verkkotopologia ja reitit/linjat '
       sv: Network topology and routes/lines
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/number-of-lanes
     label:
       en: Number of lanes
-      fi: Number of lanes
+      fi: Kaistojen määrä
       sv: Number of lanes
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/operational-calendar
     label:
       en: Operational Calendar
-      fi: Operational Calendar
+      fi: Operatiivinen kalenteri
       sv: Operational Calendar
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/other-access-restrictions-and-traffic-regulations
     label:
       en: Other access restrictions and traffic regulations
-      fi: Other access restrictions and traffic regulations
+      fi: Muut käyttörajoitukset ja liikennesäännöt
       sv: Other access restrictions and traffic regulations
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/other-static-traffic-signs
     label:
       en: Other static traffic signs
-      fi: Other static traffic signs
+      fi: Muut staattiset liikennemerkit
       sv: Other static traffic signs
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/other-temporary-traffic-management-measures-or-plans
     label:
       en: Other temporary traffic management measures or plans
-      fi: Other temporary traffic management measures or plans
+      fi: Muut tilapäiset liikenteenhallintatoimenpiteet tai -suunnitelmat
       sv: Other temporary traffic management measures or plans
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/other-traffic-regulations
     label:
       en: Other traffic regulations
-      fi: Other traffic regulations
+      fi: Muut liikennesäännöt
       sv: Other traffic regulations
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/parameters-needed-to-calculate-costs
     label:
       en: Parameters needed to calculate costs
-      fi: Parameters needed to calculate costs
+      fi: Kustannusten laskemiseen tarvittavat parametrit
       sv: Parameters needed to calculate costs
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/parameters-needed-to-calculate-environmental-factors
     label:
       en: Parameters needed to calculate environmental factors
-      fi: Parameters needed to calculate environmental factors
+      fi: Ympäristötekijöiden laskemiseen tarvittavat parametrit
       sv: Parameters needed to calculate environmental factors
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/park-and-ride-stops
     label:
       en: Park and Ride stops
-      fi: Park and Ride stops
+      fi: Julkisen liikenteen liityntäpysäköinti
       sv: Park and Ride stops
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/passenger-classes
     label:
       en: Passenger classes
-      fi: Passenger classes
+      fi: Matkustajaluokat
       sv: Passenger classes
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/payment-methods
     label:
       en: Payment methods
-      fi: Payment methods
+      fi: Maksutavat
       sv: Payment methods
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/payment-methods-for-tolls
     label:
       en: Payment methods for tolls
-      fi: Payment methods for tolls
+      fi: Tietullien maksutavat
       sv: Payment methods for tolls
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/pedestrian-accessibility-facilities
     label:
       en: Pedestrian accessibility facilities
-      fi: Pedestrian accessibility facilities
+      fi: Jalankulkijoiden esteettömyyttä tukevat välineet
       sv: Pedestrian accessibility facilities
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/pedestrian-network-geometry
     label:
       en: Pedestrian network geometry
-      fi: Pedestrian network geometry
+      fi: Jalankulkuverkon geometria
       sv: Pedestrian network geometry
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/permanent-access-restrictions
     label:
       en: Permanent access restrictions
-      fi: Permanent access restrictions
+      fi: Pysyvät käyttörajoitukset
       sv: Permanent access restrictions
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/planned-interchanges-between-scheduled-services
     label:
       en: Planned interchanges between scheduled services
-      fi: Planned interchanges between scheduled services
+      fi: Suunnitellut vaihdot säännöllisten palvelujen välillä
       sv: Planned interchanges between scheduled services
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/points-of-interest
     label:
       en: Points of interest
-      fi: Points of interest
+      fi: Kohdepisteet
       sv: Points of interest
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/poor-road-conditions
     label:
       en: Poor road conditions
-      fi: Poor road conditions
+      fi: Huonokuntoiset tiet
       sv: Poor road conditions
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/predicted-travel-times
     label:
       en: Predicted travel times
-      fi: Predicted travel times
+      fi: Ennustetut matka-ajat
       sv: Predicted travel times
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/provider-data
     label:
       en: Provider data
-      fi: Provider data
+      fi: Palveluntarjoajan tiedot
       sv: Provider data
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/purchase-information
     label:
       en: Purchase information
-      fi: Purchase information
+      fi: Ostotiedot
       sv: Purchase information
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/real-time-estimated-departure-and-arrival-times
     label:
       en: Real-time estimated departure and arrival times
-      fi: Real-time estimated departure and arrival times
+      fi: Reaaliaikaiset arvioidut lähtö- ja saapumisajat
       sv: Real-time estimated departure and arrival times
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/reservation-and-purchase-options
     label:
       en: Reservation and purchase options
-      fi: Reservation and purchase options
+      fi: Varaus- ja ostovaihtoehdot
       sv: Reservation and purchase options
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/road-classification
     label:
       en: Road classification
-      fi: Road classification
+      fi: Tien luokitus
       sv: Road classification
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/road-closures-and-access-conditions
     label:
       en: Road closures and access conditions
-      fi: Road closures and access conditions
+      fi: Teiden sulkemiset ja käyttörajoitukset
       sv: Road closures and access conditions
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/road-weather-conditions
     label:
       en: Road weather conditions
-      fi: Road weather conditions
+      fi: Tieolosuhteet
       sv: Road weather conditions
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/road-width
     label:
       en: Road width
-      fi: Road width
+      fi: Teiden leveys
       sv: Road width
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/service-and-rest-area-availability
     label:
       en: Service and rest area availability
-      fi: Service and rest area availability
+      fi: Palvelu- ja levähdysalueiden saatavuus
       sv: Service and rest area availability
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/service-and-rest-area-locations-and-conditions
     label:
       en: Service and rest area locations and conditions
-      fi: Service and rest area locations and conditions
+      fi: Palvelu- ja levähdysalueiden sijainnit ja olosuhteet
       sv: Service and rest area locations and conditions
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/service-areas-and-service-times
     label:
       en: Service areas and service times
-      fi: Service areas and service times
+      fi: Palvelualueet ja palveluajat
       sv: Service areas and service times
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/short-term-road-works
     label:
       en: Short-term road works
-      fi: Short-term road works
+      fi: Lyhytaikaiset tietyöt
       sv: Short-term road works
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/special-fare-products
     label:
       en: Special Fare Products
-      fi: Special Fare Products
+      fi: Erikoismaksutuotteet
       sv: Special Fare Products
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/speed
     label:
       en: Speed
-      fi: Speed
+      fi: Nopeus
       sv: Speed
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/speed-limits
     label:
       en: Speed limits
-      fi: Speed limits
+      fi: Nopeusrajoitukset
       sv: Speed limits
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/stop-facilities-accessibility-and-paths-within-facility
     label:
       en: Stop facilities accessibility and paths within facility
-      fi: Stop facilities accessibility and paths within facility
+      fi: Pysäkkipalveluiden esteettömyys ja reitit
       sv: Stop facilities accessibility and paths within facility
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/stop-facilities-geometry-and-map-layout
     label:
       en: Stop facilities geometry and map layout
-      fi: Stop facilities geometry and map layout
+      fi: Pysäkkipalveluiden geometria ja kartta
       sv: Stop facilities geometry and map layout
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/stop-facilities-location-and-features
     label:
       en: Stop facilities location and features
-      fi: Stop facilities location and features
+      fi: Pysäkkipalveluiden sijainti ja ominaisuudet
       sv: Stop facilities location and features
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/stop-facilities-status-of-features
     label:
       en: Stop facilities status of features
-      fi: Stop facilities status of features
+      fi: Pysäkkipalveluiden ominaisuuksien tila
       sv: Stop facilities status of features
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/timetables-static
     label:
       en: Timetables static
-      fi: Timetables static
+      fi: Aikataulut, staattiset
       sv: Timetables static
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/topographic-places
     label:
       en: Topographic places
-      fi: Topographic places
+      fi: Topografiset paikat
       sv: Topographic places
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/traffic-circulation-plans
     label:
       en: Traffic circulation plans
-      fi: Traffic circulation plans
+      fi: Liikennevirtasuunnitelmat
       sv: Traffic circulation plans
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/traffic-data-at-border-crossings-to-third-countries
     label:
       en: Traffic data at border crossings to third countries
-      fi: Traffic data at border crossings to third countries
+      fi: Liikennetiedot rajanylityspaikoilla kolmansiin maihin
       sv: Traffic data at border crossings to third countries
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/traffic-volume
     label:
       en: Traffic volume
-      fi: Traffic volume
+      fi: Liikenteen määrä
       sv: Traffic volume
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/transport-operators
     label:
       en: Transport operators
-      fi: Transport operators
+      fi: Liikenteenharjoittajat
       sv: Transport operators
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/truck-parking-availability
     label:
       en: Truck parking availability
-      fi: Truck parking availability
+      fi: Kuorma-autopysäköinnin saatavuus
       sv: Truck parking availability
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/truck-parking-locations-and-conditions
     label:
       en: Truck parking locations and conditions
-      fi: Truck parking locations and conditions
+      fi: Kuorma-autojen pysäköintipaikat ja -olosuhteet
       sv: Truck parking locations and conditions
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/tunnel-access-conditions
     label:
       en: Tunnel access conditions
-      fi: Tunnel access conditions
+      fi: Tunneleiden käyttörajoitukset
       sv: Tunnel access conditions
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/tunnel-closures-and-access-conditions
     label:
       en: Tunnel closures and access conditions
-      fi: Tunnel closures and access conditions
+      fi: Tunneleiden sulkemiset ja käyttörajoitukset
       sv: Tunnel closures and access conditions
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/vehicle-details
     label:
       en: Vehicle details
-      fi: Vehicle details
+      fi: Ajoneuvojen tiedot
       sv: Vehicle details
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/waiting-time-at-border-crossings-to-non-eu-member-states
     label:
       en: Waiting time at border crossings to non-EU Member States
-      fi: Waiting time at border crossings to non-EU Member States
+      fi: Odotusaika rajanylityspaikoilla EU:n ulkopuolisiin maihin
       sv: Waiting time at border crossings to non-EU Member States
 - field_name: theme
   label:
@@ -961,122 +961,122 @@ dataset_fields:
   - value: https://w3id.org/mobilitydcat-ap/transport-mode/air
     label:
       en: Air
-      fi: Air
+      fi: Ilmailu
       sv: Air
   - value: https://w3id.org/mobilitydcat-ap/transport-mode/bicycle
     label:
       en: Bicycle
-      fi: Bicycle
+      fi: Polkupyörä
       sv: Bicycle
   - value: https://w3id.org/mobilitydcat-ap/transport-mode/bike-hire
     label:
       en: Bike Hire
-      fi: Bike Hire
+      fi: Vuokrapyörä
       sv: Bike Hire
   - value: https://w3id.org/mobilitydcat-ap/transport-mode/bike-sharing
     label:
       en: Bike Sharing
-      fi: Bike Sharing
+      fi: Kaupunkipyörä
       sv: Bike Sharing
   - value: https://w3id.org/mobilitydcat-ap/transport-mode/bus
     label:
       en: Bus
-      fi: Bus
+      fi: Bussi
       sv: Bus
   - value: https://w3id.org/mobilitydcat-ap/transport-mode/car
     label:
       en: Car
-      fi: Car
+      fi: Auto
       sv: Car
   - value: https://w3id.org/mobilitydcat-ap/transport-mode/car-hire
     label:
       en: Car Hire
-      fi: Car Hire
+      fi: Vuokra-auto
       sv: Car Hire
   - value: https://w3id.org/mobilitydcat-ap/transport-mode/car-pooling
     label:
       en: Car Pooling
-      fi: Car Pooling
+      fi: Kimppakyyti, auto
       sv: Car Pooling
   - value: https://w3id.org/mobilitydcat-ap/transport-mode/car-sharing
     label:
       en: Car Sharing
-      fi: Car Sharing
+      fi: Yhteiskäyttöauto
       sv: Car Sharing
   - value: https://w3id.org/mobilitydcat-ap/transport-mode/e-scooter
     label:
       en: E-Scooter
-      fi: E-Scooter
+      fi: Sähköpotkulauta
       sv: E-Scooter
   - value: https://w3id.org/mobilitydcat-ap/transport-mode/long-distance-coach
     label:
       en: Long-distance coach
-      fi: Long-distance coach
+      fi: Pitkän matkan bussi
       sv: Long-distance coach
   - value: https://w3id.org/mobilitydcat-ap/transport-mode/long-distance-rail
     label:
       en: Long-distance rail
-      fi: Long-distance rail
+      fi: Pitkän matkan juna
       sv: Long-distance rail
   - value: https://w3id.org/mobilitydcat-ap/transport-mode/maritime
     label:
       en: Maritime
-      fi: Maritime
+      fi: Merenkulku
       sv: Maritime
   - value: https://w3id.org/mobilitydcat-ap/transport-mode/metro-subway-train
     label:
       en: Metro, Subway train
-      fi: Metro, Subway train
+      fi: Metro
       sv: Metro, Subway train
   - value: https://w3id.org/mobilitydcat-ap/transport-mode/motorcycle
     label:
       en: Motorcycle
-      fi: Motorcycle
+      fi: Moottoripyörä
       sv: Motorcycle
   - value: https://w3id.org/mobilitydcat-ap/transport-mode/other
     label:
       en: Other
-      fi: Other
+      fi: Muu
       sv: Other
   - value: https://w3id.org/mobilitydcat-ap/transport-mode/pedestrian
     label:
       en: Pedestrian
-      fi: Pedestrian
+      fi: Jalankulku
       sv: Pedestrian
   - value: https://w3id.org/mobilitydcat-ap/transport-mode/regional-and-local-rail
     label:
       en: Regional and local rail
-      fi: Regional and local rail
+      fi: Alueellinen ja paikallinen raideliikenne
       sv: Regional and local rail
   - value: https://w3id.org/mobilitydcat-ap/transport-mode/ride-pooling
     label:
       en: Ride Pooling
-      fi: Ride Pooling
+      fi: Kimppakyyti, muu
       sv: Ride Pooling
   - value: https://w3id.org/mobilitydcat-ap/transport-mode/shuttle-bus
     label:
       en: Shuttle bus
-      fi: Shuttle bus
+      fi: Liityntäbussi
       sv: Shuttle bus
   - value: https://w3id.org/mobilitydcat-ap/transport-mode/shuttle-ferry
     label:
       en: Shuttle ferry
-      fi: Shuttle ferry
+      fi: Liityntälautta
       sv: Shuttle ferry
   - value: https://w3id.org/mobilitydcat-ap/transport-mode/taxi
     label:
       en: Taxi
-      fi: Taxi
+      fi: Taksi
       sv: Taxi
   - value: https://w3id.org/mobilitydcat-ap/transport-mode/tram-light-rail
     label:
       en: Tram, Light rail
-      fi: Tram, Light rail
+      fi: Raitiovaunu, kevyt raideliikenne
       sv: Tram, Light rail
   - value: https://w3id.org/mobilitydcat-ap/transport-mode/truck
     label:
       en: Truck
-      fi: Truck
+      fi: Kuorma-auto
       sv: Truck
 - field_name: spatial
   label:
@@ -2922,7 +2922,7 @@ dataset_fields:
   - value: https://w3id.org/mobilitydcat-ap/georeferencing-method/other
     label:
       en: Other
-      fi: Other
+      fi: Muu
       sv: Other
   - value: https://w3id.org/mobilitydcat-ap/georeferencing-method/tpeg-loc
     label:
@@ -3002,62 +3002,62 @@ dataset_fields:
   - value: https://w3id.org/mobilitydcat-ap/network-coverage/air-network
     label:
       en: Air network
-      fi: Air network
+      fi: Ilmailuverkko
       sv: Air network
   - value: https://w3id.org/mobilitydcat-ap/network-coverage/metro-subway-tram-or-light-rail-network
     label:
       en: Metro, subway, tram or light-rail network
-      fi: Metro, subway, tram or light-rail network
+      fi: Metro, raitiovaunu tai kevyt raideliikenneverkko
       sv: Metro, subway, tram or light-rail network
   - value: https://w3id.org/mobilitydcat-ap/network-coverage/motorways
     label:
       en: Motorways
-      fi: Motorways
+      fi: Moottoritiet
       sv: Motorways
   - value: https://w3id.org/mobilitydcat-ap/network-coverage/other
     label:
       en: Other
-      fi: Other
+      fi: Muu
       sv: Other
   - value: https://w3id.org/mobilitydcat-ap/network-coverage/other-public-transport-network
     label:
       en: Other public transport network
-      fi: Other public transport network
+      fi: Muu joukkoliikenneverkko
       sv: Other public transport network
   - value: https://w3id.org/mobilitydcat-ap/network-coverage/rail-network
     label:
       en: Rail network
-      fi: Rail network
+      fi: Rautatieverkko
       sv: Rail network
   - value: https://w3id.org/mobilitydcat-ap/network-coverage/regional-roads
     label:
       en: Regional roads
-      fi: Regional roads
+      fi: Alueelliset tiet
       sv: Regional roads
   - value: https://w3id.org/mobilitydcat-ap/network-coverage/state-roads-or-federal-roads
     label:
       en: State roads or federal roads
-      fi: State roads or federal roads
+      fi: Valtion tai liittovaltion tiet
       sv: State roads or federal roads
   - value: https://w3id.org/mobilitydcat-ap/network-coverage/ten-network
     label:
       en: TEN Network
-      fi: TEN Network
+      fi: TEN-verkko
       sv: TEN Network
   - value: https://w3id.org/mobilitydcat-ap/network-coverage/tern-network
     label:
       en: TERN Network
-      fi: TERN Network
+      fi: TERN-verkko
       sv: TERN Network
   - value: https://w3id.org/mobilitydcat-ap/network-coverage/urban-and-local-roads
     label:
       en: Urban and local roads
-      fi: Urban and local roads
+      fi: Kaupunkien tiet ja paikalliset tiet
       sv: Urban and local roads
   - value: https://w3id.org/mobilitydcat-ap/network-coverage/waterways
     label:
       en: Waterways
-      fi: Waterways
+      fi: Vesiväylät
       sv: Waterways
 - field_name: conforms_to
   label:
@@ -3088,47 +3088,47 @@ dataset_fields:
   - value: https://w3id.org/mobilitydcat-ap/intended-information-service/dynamic-information-service
     label:
       en: Dynamic Information service
-      fi: Dynamic Information service
+      fi: Dynaaminen tietopalvelu
       sv: Dynamic Information service
   - value: https://w3id.org/mobilitydcat-ap/intended-information-service/dynamic-passing-times-trip-plans-and-auxiliary-information
     label:
       en: Dynamic Passing times, trip plans and auxiliary information
-      fi: Dynamic Passing times, trip plans and auxiliary information
+      fi: Dynaamiset ohitusajat, reittisuunnitelmat ja lisätiedot
       sv: Dynamic Passing times, trip plans and auxiliary information
   - value: https://w3id.org/mobilitydcat-ap/intended-information-service/dynamic-availability-check
     label:
       en: Dynamic availability check
-      fi: Dynamic availability check
+      fi: Dynaaminen saatavuuden tarkistus
       sv: Dynamic availability check
   - value: https://w3id.org/mobilitydcat-ap/intended-information-service/information-service
     label:
       en: Information service
-      fi: Information service
+      fi: Tietopalvelu
       sv: Information service
   - value: https://w3id.org/mobilitydcat-ap/intended-information-service/location-search
     label:
       en: Location search
-      fi: Location search
+      fi: Sijaintihaku
       sv: Location search
   - value: https://w3id.org/mobilitydcat-ap/intended-information-service/other
     label:
       en: Other
-      fi: Other
+      fi: Muu
       sv: Other
   - value: https://w3id.org/mobilitydcat-ap/intended-information-service/trip-plan-computation-scheduled-modes-transport
     label:
       en: Trip plan computation scheduled modes transport
-      fi: Trip plan computation scheduled modes transport
+      fi: Reittisuunnitelman laskenta aikataulutetuilla kuljetusmuodoilla
       sv: Trip plan computation scheduled modes transport
   - value: https://w3id.org/mobilitydcat-ap/intended-information-service/trip-plans
     label:
       en: Trip plans
-      fi: Trip plans
+      fi: Reittisuunnitelmat
       sv: Trip plans
   - value: https://w3id.org/mobilitydcat-ap/intended-information-service/trip-plans-auxiliary-information-availability-check
     label:
       en: Trip plans, auxiliary information, availability check
-      fi: Trip plans, auxiliary information, availability check
+      fi: Reittisuunnitelmat, lisätiedot, saatavuuden tarkistus
       sv: Trip plans, auxiliary information, availability check
 - field_name: quality_description
   label:
@@ -4724,7 +4724,7 @@ resource_fields:
   - value: https://w3id.org/mobilitydcat-ap/grammar/other
     label:
       en: Other
-      fi: Other
+      fi: Muu
       sv: Other
   - value: https://w3id.org/mobilitydcat-ap/grammar/protocol-buffers
     label:
@@ -5363,7 +5363,7 @@ resource_fields:
   - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/other
     label:
       en: Other
-      fi: Other
+      fi: Muu
       sv: Other
   - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/siri
     label:
@@ -5392,52 +5392,52 @@ resource_fields:
   - value: https://w3id.org/mobilitydcat-ap/conditions-for-access-and-usage/contractual-arrangement
     label:
       en: Contractual arrangement
-      fi: Contractual arrangement
+      fi: Sopimusjärjestely
       sv: Contractual arrangement
   - value: https://w3id.org/mobilitydcat-ap/conditions-for-access-and-usage/contractual-arrangement-fee-required
     label:
       en: Contractual arrangement, fee required
-      fi: Contractual arrangement, fee required
+      fi: Sopimusjärjestely, maksu vaaditaan
       sv: Contractual arrangement, fee required
   - value: https://w3id.org/mobilitydcat-ap/conditions-for-access-and-usage/contractual-arrangement-free-of-charge
     label:
       en: Contractual arrangement, free of charge
-      fi: Contractual arrangement, free of charge
+      fi: Sopimusjärjestely, maksuton
       sv: Contractual arrangement, free of charge
   - value: https://w3id.org/mobilitydcat-ap/conditions-for-access-and-usage/fee-required
     label:
       en: Fee required
-      fi: Fee required
+      fi: Maksu vaaditaan
       sv: Fee required
   - value: https://w3id.org/mobilitydcat-ap/conditions-for-access-and-usage/free-of-charge
     label:
       en: Free of charge
-      fi: Free of charge
+      fi: Maksuton
       sv: Free of charge
   - value: https://w3id.org/mobilitydcat-ap/conditions-for-access-and-usage/licence-provided
     label:
       en: Licence provided
-      fi: Licence provided
+      fi: Annettu lisenssi
       sv: Licence provided
   - value: https://w3id.org/mobilitydcat-ap/conditions-for-access-and-usage/licence-provided-fee-required
     label:
       en: Licence provided, fee required
-      fi: Licence provided, fee required
+      fi: Annettu lisenssi, maksu vaaditaan
       sv: Licence provided, fee required
   - value: https://w3id.org/mobilitydcat-ap/conditions-for-access-and-usage/licence-provided-free-of-charge
     label:
       en: Licence provided, free of charge
-      fi: Licence provided, free of charge
+      fi: Annettu lisenssi, maksuton
       sv: Licence provided, free of charge
   - value: https://w3id.org/mobilitydcat-ap/conditions-for-access-and-usage/other
     label:
       en: Other
-      fi: Other
+      fi: Muu
       sv: Other
   - value: https://w3id.org/mobilitydcat-ap/conditions-for-access-and-usage/royalty-free
     label:
       en: Royalty-free
-      fi: Royalty-free
+      fi: Ei tekijänpalkkiota
       sv: Royalty-free
 - field_name: license_id
   label:

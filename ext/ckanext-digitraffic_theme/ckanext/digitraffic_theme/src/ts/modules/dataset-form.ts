@@ -5,6 +5,7 @@ import {
   SUB_MOBILITY_THEMES_T, MOBILITY_THEME_TREE, MOBILITY_THEME_LABELS, SUB_MOBILITY_THEMES
 } from "../model/mobility-theme";
 
+
 type DatasetFormWrapperState = {
   topMobilityTheme?: TOP_MOBILITY_THEMES_T
   subMobilityThemeSelector?: JQuery<HTMLSelectElement>
@@ -126,7 +127,8 @@ const DatasetFormWrapper = {
       const subThemeOptions = subThemes.map(subTheme => {
         const option = document.createElement("option")
         option.value = subTheme
-        option.text = MOBILITY_THEME_LABELS[subTheme]
+        const lang = $('html').attr('lang');
+        option.text = MOBILITY_THEME_LABELS[subTheme][lang] ?? MOBILITY_THEME_LABELS[subTheme]["en"]
         return option
       })
       const emptyOption = document.createElement("option")

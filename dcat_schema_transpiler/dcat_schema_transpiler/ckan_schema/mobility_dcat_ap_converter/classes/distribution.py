@@ -158,7 +158,7 @@ class Distribution(RangeValueConverter):
                     "preset": "select",
                     "sorted_choices": True,
                     "form_include_blank_choice": True,
-                    "choices": RangeValueConverter.vocab_choices(g),
+                    "choices": RangeValueConverter.vocab_choices(graph=g, iri=p.iri),
                 }
             case MOBILITYDCATAP.applicationLayerProtocol:
                 g = ds.get_graph(URIRef(CVOCAB_APPLICATION_LAYER_PROTOCOL))
@@ -169,7 +169,7 @@ class Distribution(RangeValueConverter):
                     "preset": "select",
                     "sorted_choices": True,
                     "form_include_blank_choice": True,
-                    "choices": RangeValueConverter.vocab_choices(g),
+                    "choices": RangeValueConverter.vocab_choices(graph=g, iri=p.iri),
                 }
             case MOBILITYDCATAP.grammar:
                 g = ds.get_graph(URIRef(CVOCAB_GRAMMAR))
@@ -180,7 +180,7 @@ class Distribution(RangeValueConverter):
                     "preset": "select",
                     "sorted_choices": True,
                     "form_include_blank_choice": True,
-                    "choices": RangeValueConverter.vocab_choices(g),
+                    "choices": RangeValueConverter.vocab_choices(graph=g, iri=p.iri),
                 }
             case MOBILITYDCATAP.mobilityDataStandard:
                 g = ds.get_graph(URIRef(CVOCAB_MOBILITY_DATA_STANDARD))
@@ -191,7 +191,7 @@ class Distribution(RangeValueConverter):
                     "preset": "select",
                     "sorted_choices": True,
                     "form_include_blank_choice": True,
-                    "choices": RangeValueConverter.vocab_choices(g),
+                    "choices": RangeValueConverter.vocab_choices(graph=g, iri=p.iri),
                 }
             case MOBILITYDCATAP.communicationMethod:
                 g = ds.get_graph(URIRef(CVOCAB_COMMUNICATION_METHOD))
@@ -202,7 +202,7 @@ class Distribution(RangeValueConverter):
                     "preset": "select",
                     "sorted_choices": True,
                     "form_include_blank_choice": True,
-                    "choices": RangeValueConverter.vocab_choices(g),
+                    "choices": RangeValueConverter.vocab_choices(graph=g, iri=p.iri),
                 }
 
     def is_property_required(self, property: RDFSProperty) -> bool:
