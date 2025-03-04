@@ -185,7 +185,7 @@ export const MOBILITY_THEME_LABELS = {
   "https://w3id.org/mobilitydcat-ap/mobility-theme/car-sharing-availability": { "en": "Car-sharing Availability", "fi": "Yhteiskäyttöautojen saatavuus" },
   "https://w3id.org/mobilitydcat-ap/mobility-theme/car-sharing-locations-and-stations": { "en": "Car-sharing Locations and stations", "fi": "Yhteiskäyttöautojen sijainnit ja asemat" },
   "https://w3id.org/mobilitydcat-ap/mobility-theme/common-fare-products": { "en": "Common fare products", "fi": "Yleiset lipputuotteet" },
-  "https://w3id.org/mobilitydcat-ap/mobility-theme/connection-links": { "en": "Connection links", "fi": "Vaihtoyhteydet ?" },
+  "https://w3id.org/mobilitydcat-ap/mobility-theme/connection-links": { "en": "Connection links", "fi": "Vaihtoyhteydet" },
   "https://w3id.org/mobilitydcat-ap/mobility-theme/current-travel-times": { "en": "Current travel times", "fi": "Ajankohtaiset matka-ajat" },
   "https://w3id.org/mobilitydcat-ap/mobility-theme/cycle-network-data": { "en": "Cycle network data", "fi": "Pyöräilyverkon tiedot" },
   "https://w3id.org/mobilitydcat-ap/mobility-theme/data-content-category": { "en": "Data content category", "fi": "Tietosisällön kategoria" },

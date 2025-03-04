@@ -333,11 +333,11 @@ VOCABULARY_PATCH_TRANSLATIONS = {
         },
         "Fee required": {"fi": "Maksu vaaditaan"},
         "Free of charge": {"fi": "Maksuton"},
-        "Licence provided": {"fi": "Annettu lisenssi ?"},
-        "Licence provided, fee required": {"fi": "Annettu lisenssi ?, maksu vaaditaan"},
-        "Licence provided, free of charge": {"fi": "Annettu lisenssi ?, maksuton"},
+        "Licence provided": {"fi": "Annettu lisenssi"},
+        "Licence provided, fee required": {"fi": "Annettu lisenssi, maksu vaaditaan"},
+        "Licence provided, free of charge": {"fi": "Annettu lisenssi, maksuton"},
         "Other": {"fi": "Muu"},
-        "Royalty-free": {"fi": "Ei tekijänpalkkiota ?"},
+        "Royalty-free": {"fi": "Ei tekijänpalkkiota"},
     },
     MOBILITYDCATAP.mobilityTheme: {
         "Air and space travel": {"fi": "Ilma- ja avaruusmatkailu"},
@@ -408,7 +408,7 @@ VOCABULARY_PATCH_TRANSLATIONS = {
             "fi": "Yhteiskäyttöautojen sijainnit ja asemat"
         },
         "Common fare products": {"fi": "Yleiset lipputuotteet"},
-        "Connection links": {"fi": "Vaihtoyhteydet ?"},
+        "Connection links": {"fi": "Vaihtoyhteydet"},
         "Current travel times": {"fi": "Ajankohtaiset matka-ajat"},
         "Direction of travel on reversible lanes": {
             "fi": "Vaihtuvasuuntaisten kaistojen ajosuunta"
@@ -516,16 +516,16 @@ VOCABULARY_PATCH_TRANSLATIONS = {
         "Speed": {"fi": "Nopeus"},
         "Speed limits": {"fi": "Nopeusrajoitukset"},
         "Stop facilities accessibility and paths within facility": {
-            "fi": "Pysäkkipalveluiden esteettömyys ja reitit ? "
+            "fi": "Pysäkkipalveluiden esteettömyys ja reitit"
         },
         "Stop facilities geometry and map layout": {
-            "fi": "Pysäkkipalveluiden geometria ja kartta ?"
+            "fi": "Pysäkkipalveluiden geometria ja kartta"
         },
         "Stop facilities location and features": {
-            "fi": "Pysäkkipalveluiden sijainti ja ominaisuudet ?"
+            "fi": "Pysäkkipalveluiden sijainti ja ominaisuudet"
         },
         "Stop facilities status of features": {
-            "fi": "Pysäkkipalveluiden ominaisuuksien tila ?"
+            "fi": "Pysäkkipalveluiden ominaisuuksien tila"
         },
         "Timetables static": {"fi": "Aikataulut, staattiset"},
         "Topographic places": {"fi": "Topografiset paikat"},
