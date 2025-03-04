@@ -10,7 +10,7 @@ from dcat_schema_transpiler.rdfs.rdfs_property import RDFSProperty
 class DataService(RangeValueConverter):
     iri = DCAT.DataService
 
-    mandatory_properties = {DCAT.endpointURL, DCAT.title}
+    mandatory_properties = {DCAT.endpointURL, DCTERMS.title}
 
     recommended_properties = {DCAT.endpointDescription}
 
@@ -42,10 +42,9 @@ class DataService(RangeValueConverter):
         if clazz_p.is_iri(DCAT.endpointURL):
             return {
                 "field_name": self.ckan_field(clazz_p),
-                "label": self.get_label(clazz_p, ds),
+                **super().get_property_label_with_help_text(clazz_p.iri),
                 "required": is_required,
                 "preset": "url",
-                "help_text": "The root location or primary endpoint of the Data Service related to this Distribution",
             }
         """
         Multilingual fields should have "required: false" at the field level.
@@ -61,17 +60,6 @@ class DataService(RangeValueConverter):
             }
         schema = super().get_schema(ds, clazz_p, False)
         return schema
-
-    def get_label(self, p: RDFSProperty, ds: Dataset):
-        if p.is_iri(DCAT.endpointURL):
-            return "Endpoint URL"
-        if p.is_iri(DCAT.endpointDescription):
-            return "Endpoint description"
-        if p.is_iri(DCTERMS.description):
-            return "Data service description"
-        if p.is_iri(DCTERMS.title):
-            return "Data service name"
-        return super().get_label(p, ds)
 
     def is_property_required(self, property: RDFSProperty) -> bool:
         return property.iri in DataService.mandatory_properties

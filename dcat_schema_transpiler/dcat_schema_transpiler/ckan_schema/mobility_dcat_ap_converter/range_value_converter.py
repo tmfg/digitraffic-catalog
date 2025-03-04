@@ -1,23 +1,22 @@
-from abc import ABC, abstractmethod
 import csv
-from dcat_schema_transpiler.cache.vocabularies import (
-    get_cached_file_path,
+from abc import ABC, abstractmethod
+from copy import deepcopy
+from typing import Callable, Dict, List, Set
+
+from ckan_schema.mobility_dcat_ap_converter.i18n.translations import (
+    VOCABULARY_PATCH_TRANSLATIONS,
+    TRANSLATIONS,
 )
 from mobility_dcat_ap.namespace import MOBILITYDCATAP_NS_URL
-from dcat_schema_transpiler.rdfs.rdfs_resource import RDFSResource
-from dcat_schema_transpiler.rdfs.util import get_rdf_object
+from rdflib import Dataset, Graph, URIRef
+from rdflib.namespace import DCAM, RDF, RDFS, SKOS
 
-from rdflib import Dataset, URIRef, Graph
-
-from rdflib.namespace import RDF, RDFS, DCAM, SKOS
-
+from dcat_schema_transpiler.cache.vocabularies import get_cached_file_path
 from dcat_schema_transpiler.rdfs.rdfs_class import RDFSClass
 from dcat_schema_transpiler.rdfs.rdfs_literal import RDFSLiteral
 from dcat_schema_transpiler.rdfs.rdfs_property import RDFSProperty
-
-from typing import Callable, List, Dict, Set
-
-from copy import deepcopy
+from dcat_schema_transpiler.rdfs.rdfs_resource import RDFSResource
+from dcat_schema_transpiler.rdfs.util import get_rdf_object
 
 
 class RangeValueConverter(ABC):
@@ -92,7 +91,7 @@ class RangeValueConverter(ABC):
                 "field_name": field_name,
                 "label": label_value,
                 "required": is_required,
-            }
+            } | self.get_property_label_with_help_text(clazz_p.iri)
         elif isinstance(rdf_range, RDFSResource) and rdf_range.iri == RDFS.Resource:
             # Resurssi tyyppiset näyttää olevan URLeja
             label_value = self.get_label(clazz_p, ds)
@@ -101,7 +100,7 @@ class RangeValueConverter(ABC):
                 "label": label_value,
                 "required": is_required,
                 "help_text": "The value should be URL",
-            }
+            } | self.get_property_label_with_help_text(clazz_p.iri)
         else:
             return None
 
@@ -134,25 +133,76 @@ class RangeValueConverter(ABC):
         pass
 
     @staticmethod
-    def vocab_choices(g: Graph, filter: Callable[[URIRef], bool] = lambda s: True):
+    def vocab_choices(
+        graph: Graph,
+        filter: Callable[[URIRef], bool] = lambda s: True,
+        iri: URIRef | None = None,
+    ):
         def get_label(s):
-            labels = [pl for pl in g.objects(s, SKOS.prefLabel)]
+            labels = [pl for pl in graph.objects(s, SKOS.prefLabel)]
             if labels:
-                english = [
-                    pl for pl in labels if pl.language is None or pl.language == "en"
-                ]
+                english = next(
+                    (
+                        RDFSLiteral(pl).value()
+                        for pl in labels
+                        if pl.language is None or pl.language == "en"
+                    ),
+                    None,
+                )
+                finnish = next(
+                    (RDFSLiteral(pl).value() for pl in labels if pl.language == "fi"),
+                    None,
+                )
+                swedish = next(
+                    (RDFSLiteral(pl).value() for pl in labels if pl.language == "sv"),
+                    None,
+                )
+
                 if english:
-                    picked_label = english[0]
+                    """
+                    If the vocabulary itself contains a translation in the appropriate language, use that.
+                    If not, see if there is available a patch translation provided by us. If not, use English.
+                    """
+
+                    # "Other" appears in many vocabularies and might be the only string needing translation in it
+                    # Translate it here to avoid having to separately insert the same string for multiple IRIs
+                    if english == "Other" and not finnish:
+                        finnish = "Muu"
+
+                    return {
+                        "en": english,
+                        "fi": (
+                            finnish
+                            if finnish
+                            else (
+                                VOCABULARY_PATCH_TRANSLATIONS.get(iri, {})
+                                .get(english, {})
+                                .get("fi", english)
+                                if iri
+                                else english
+                            )
+                        ),
+                        "sv": (
+                            swedish
+                            if swedish
+                            else (
+                                VOCABULARY_PATCH_TRANSLATIONS.get(iri, {})
+                                .get(english, {})
+                                .get("sv", english)
+                                if iri
+                                else english
+                            )
+                        ),
+                    }
                 else:
-                    picked_label = labels[0]
-                return RDFSLiteral(picked_label).value()
-            print(f"Could not find label for {s}")
+                    print(f"Could not find label for {s}")
+                    return RDFSLiteral(labels[0]).value()
             return None
 
         return list(
             [
                 {"value": str(s), "label": get_label(s)}
-                for s, _, _ in g.triples((None, RDF.type, SKOS.Concept))
+                for s, _, _ in graph.triples((None, RDF.type, SKOS.Concept))
                 if filter(URIRef(s))
             ]
         )
@@ -181,6 +231,30 @@ class RangeValueConverter(ABC):
             }
         else:
             return deepcopy(translated_field_properties)
+
+    def get_property_label_with_help_text(
+        self, property_iri: URIRef, pointer: str | None = None
+    ) -> dict:
+        translations = TRANSLATIONS.get(self.iri, {}).get(property_iri, {})
+        if pointer:
+            return translations.get(pointer, {})
+        return translations
+
+    def get_class_label_with_help_text(self) -> dict:
+        """
+        In some cases a class name might be used as a header/title under which its
+        property fields are grouped on the input form. In this case we will just return
+        specific fields since there will also be fields representing the properties of the class.
+        """
+        translations = {
+            "label": TRANSLATIONS.get(self.iri, {}).get("label", None),
+            **(
+                {"help_text": TRANSLATIONS.get(self.iri, {}).get("help_text", None)}
+                if TRANSLATIONS.get(self.iri, {}).get("help_text", None)
+                else {}
+            ),
+        }
+        return translations
 
     def post_process_schema(self, schema: List[Dict]) -> List[Dict]:
         """

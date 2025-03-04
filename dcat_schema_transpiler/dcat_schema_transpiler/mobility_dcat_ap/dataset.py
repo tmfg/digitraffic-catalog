@@ -52,6 +52,7 @@ SKOS_DOC = Namespace("http://www.w3.org/TR/skos-primer/")
 SPDX = Namespace("http://spdx.org/rdf/terms#")
 XML = Namespace("http://www.w3.org/XML/1998/namespace")
 ELI = Namespace("http://data.europa.eu/eli/ontology")
+AT = Namespace("http://publications.europa.eu/ontology/authority/")
 
 CVOCAB_MOBILITY_THEME = Namespace("https://w3id.org/mobilitydcat-ap/mobility-theme/")
 
@@ -76,9 +77,7 @@ CVOCAB_LICENSE_IDENTIFIER = Namespace(
 CVOCAB_EUV_FREQUENCY = Namespace(
     "http://publications.europa.eu/resource/authority/frequency"
 )
-CVOCAB_MOBILITY_DCAT_AP_FREQUENCY = Namespace(
-    "https://w3id.org/mobilitydcat-ap/update-frequency"
-)
+
 CVOCAB_LANGUAGE = Namespace("http://publications.europa.eu/resource/authority/language")
 # About NUTS: https://ec.europa.eu/eurostat/web/gisco/geodata/statistical-units/territorial-units-statistics
 # Download page: https://data.europa.eu/data/datasets/nuts~~1?locale=en
@@ -143,7 +142,6 @@ controlled_vocabularies = [
     CVOCAB_RIGHTS_STATEMENT_TYPE,
     CVOCAB_LICENSE_IDENTIFIER,
     CVOCAB_EUV_FREQUENCY,
-    CVOCAB_MOBILITY_DCAT_AP_FREQUENCY,
     CVOCAB_MOBILITY_THEME,
     CVOCAB_LANGUAGE,
     CVOCAB_THEME,
@@ -443,7 +441,7 @@ def ns_fetch_info(ns: URIRef) -> NsFetchInfo | None:
         graph_url = "https://mobilitydcat-ap.github.io/controlled-vocabularies/transport-mode/latest/transport-mode.ttl"
         serialization_format = "ttl"
     elif str(ns) == "http://publications.europa.eu/resource/authority/frequency":
-        graph_url = "https://op.europa.eu/o/opportal-service/euvoc-download-handler?cellarURI=http%3A%2F%2Fpublications.europa.eu%2Fresource%2Fcellar%2Fcc196da1-28d8-11ef-9290-01aa75ed71a1.0001.03%2FDOC_1&fileName=frequencies-skos.rdf"
+        graph_url = "https://op.europa.eu/o/opportal-service/euvoc-download-handler?cellarURI=http%3A%2F%2Fpublications.europa.eu%2Fresource%2Fdistribution%2Ffrequency%2F20241211-0%2Frdf%2Fskos_core%2Ffrequencies-skos.rdf&fileName=frequencies-skos.rdf"
         serialization_format = "rdf"
     elif str(ns) == "http://publications.europa.eu/resource/authority/language":
         graph_url = "https://op.europa.eu/o/opportal-service/euvoc-download-handler?cellarURI=http%3A%2F%2Fpublications.europa.eu%2Fresource%2Fcellar%2F3f407e57-28d9-11ef-9290-01aa75ed71a1.0001.05%2FDOC_1&fileName=languages-skos.rdf"
@@ -470,7 +468,10 @@ def ns_fetch_info(ns: URIRef) -> NsFetchInfo | None:
         graph_url, _ = get_graph_url(ns)
         serialization_format = "ttl"
     elif str(ns) == "http://data.europa.eu/nuts":
-        graph_url = "https://op.europa.eu/o/opportal-service/euvoc-download-handler?cellarURI=http%3A%2F%2Fpublications.europa.eu%2Fresource%2Fdistribution%2Fnuts%2F20241002-0%2Frdf%2Fskos_core%2FNUTS.rdf&fileName=NUTS.rdf"
+        #graph_url = "https://publications.europa.eu/resource/authority/nuts"
+        #graph_url = "http://data.europa.eu/nuts"
+        #graph_url = "https://op.europa.eu/o/opportal-service/euvoc-download-handler?cellarURI=http%3A%2F%2Fpublications.europa.eu%2Fresource%2Fdistribution%2Fnuts%2F20241002-0%2Frdf%2Fskos_core%2FNUTS.rdf&fileName=NUTS.rdf"
+        graph_url = "https://op.europa.eu/o/opportal-service/euvoc-download-handler?cellarURI=http%3A%2F%2Fpublications.europa.eu%2Fresource%2Fdistribution%2Fnuts%2F20250212-0%2Frdf%2Fskos_xl%2FNUTS.rdf&fileName=NUTS.rdf"
         serialization_format = "rdf"
     elif str(ns) == "https://w3id.org/stirdata/resource/lau/item/":
         graph_url, _ = get_graph_url(ns)

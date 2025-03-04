@@ -71,3 +71,48 @@ To install ckanext-digitraffic_theme:
 ## Tests
 
 Tests can be run with a bash script found in `local-env` folder.
+
+## Translation
+
+Translations are managed in two separate places for this project: in gettext files (for the use of CKAN HTML templates) and in the schema transpiler source code (for including translations in the YAML schema used by `ckanext-scheming`).
+
+### Translations for `ckanext-scheming`
+
+Translations for the use of the `ckanext-scheming` plugin are managed in the schema transpiler: [../../dcat_schema_transpiler/dcat_schema_transpiler/ckan_schema/mobility_dcat_ap_converter/i18n/translations.py](../../dcat_schema_transpiler/dcat_schema_transpiler/ckan_schema/mobility_dcat_ap_converter/i18n/translations.py)
+
+### Translations for HTML templates
+
+Translatable texts contained in CKAN HTML templates (marked with the `{% trans %}` tag) are managed via gettext (`.po`) files. This is the default way of managing translations in CKAN, and there are commands for automatically generating translation templates from the translatable texts of the current project (in this case this extension).
+
+You can use a gettext editor such as https://poedit.net/ to edit the `.po` files. 
+
+See also the [CKAN documentation on translating CKAN](https://docs.ckan.org/en/2.10/contributing/i18n.html#)
+
+
+#### Generating and updating translations
+
+The commands need to be run in the container where you are running CKAN. `setup.py` below is the `setup.py` of this extension.
+
+##### Generate the translation template
+`python setup.py extract_messages`
+
+Updates the `.pot` file. This is what you need to do if you have added new translatable texts or edited previous ones in the HTML templates.
+
+##### Generate translation template for a locale
+Locale `fi` used as an example below.
+
+`python setup.py init_catalog --locale fi`
+
+##### Update translations for a locale
+Locale `fi` used as an example below.
+
+`python setup.py update_catalog --locale fi`
+
+This retains previous translations but updates `msgid` values from the `.pot` template. After you have updated the `.pot` template you need to also update the translation templates for each locale using this command. 
+
+##### Compiling the translations
+If not using an editor (such as poedit) that compiles automatically on save, you will still need to compile the `.po` file into an `.mo file`. Use this command:
+
+`python setup.py compile_catalog --locale fi`
+
+
