@@ -128,7 +128,7 @@ const DatasetFormWrapper = {
         const option = document.createElement("option")
         option.value = subTheme
         const lang = $('html').attr('lang');
-        option.text = MOBILITY_THEME_LABELS[subTheme][lang]
+        option.text = MOBILITY_THEME_LABELS[subTheme][lang] ?? MOBILITY_THEME_LABELS[subTheme]["en"]
         return option
       })
       const emptyOption = document.createElement("option")

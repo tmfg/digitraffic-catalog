@@ -466,7 +466,7 @@ dataset_fields:
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/connection-links
     label:
       en: Connection links
-      fi: Vaihtoyhteydet ?
+      fi: Vaihtoyhteydet
       sv: Connection links
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/current-travel-times
     label:
@@ -781,22 +781,22 @@ dataset_fields:
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/stop-facilities-accessibility-and-paths-within-facility
     label:
       en: Stop facilities accessibility and paths within facility
-      fi: 'Pysäkkipalveluiden esteettömyys ja reitit ? '
+      fi: Pysäkkipalveluiden esteettömyys ja reitit
       sv: Stop facilities accessibility and paths within facility
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/stop-facilities-geometry-and-map-layout
     label:
       en: Stop facilities geometry and map layout
-      fi: Pysäkkipalveluiden geometria ja kartta ?
+      fi: Pysäkkipalveluiden geometria ja kartta
       sv: Stop facilities geometry and map layout
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/stop-facilities-location-and-features
     label:
       en: Stop facilities location and features
-      fi: Pysäkkipalveluiden sijainti ja ominaisuudet ?
+      fi: Pysäkkipalveluiden sijainti ja ominaisuudet
       sv: Stop facilities location and features
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/stop-facilities-status-of-features
     label:
       en: Stop facilities status of features
-      fi: Pysäkkipalveluiden ominaisuuksien tila ?
+      fi: Pysäkkipalveluiden ominaisuuksien tila
       sv: Stop facilities status of features
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/timetables-static
     label:
@@ -5417,17 +5417,17 @@ resource_fields:
   - value: https://w3id.org/mobilitydcat-ap/conditions-for-access-and-usage/licence-provided
     label:
       en: Licence provided
-      fi: Annettu lisenssi ?
+      fi: Annettu lisenssi
       sv: Licence provided
   - value: https://w3id.org/mobilitydcat-ap/conditions-for-access-and-usage/licence-provided-fee-required
     label:
       en: Licence provided, fee required
-      fi: Annettu lisenssi ?, maksu vaaditaan
+      fi: Annettu lisenssi, maksu vaaditaan
       sv: Licence provided, fee required
   - value: https://w3id.org/mobilitydcat-ap/conditions-for-access-and-usage/licence-provided-free-of-charge
     label:
       en: Licence provided, free of charge
-      fi: Annettu lisenssi ?, maksuton
+      fi: Annettu lisenssi, maksuton
       sv: Licence provided, free of charge
   - value: https://w3id.org/mobilitydcat-ap/conditions-for-access-and-usage/other
     label:
@@ -5437,7 +5437,7 @@ resource_fields:
   - value: https://w3id.org/mobilitydcat-ap/conditions-for-access-and-usage/royalty-free
     label:
       en: Royalty-free
-      fi: Ei tekijänpalkkiota ?
+      fi: Ei tekijänpalkkiota
       sv: Royalty-free
 - field_name: license_id
   label:
