@@ -14,6 +14,10 @@
 !package-lock.json
 !rollup.config.js
 !tsconfig.json
+!playwright.config.ts
+!postcss.config.js
+!pnpm-lock.yaml
+!.env.playwright.example
 
 !/ckanext/
 !/ckanext/digitraffic_theme/
@@ -21,4 +25,19 @@
 !/ckanext/digitraffic_theme/**/*.*
 !/ckanext/__init__.py
 
+!/src
+!/src/**/
+!/src/**/*
+
+!/e2e
+!/e2e/**/
+!/e2e/**/*
+
 __pycache__
+
+# Playwright
+node_modules/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/

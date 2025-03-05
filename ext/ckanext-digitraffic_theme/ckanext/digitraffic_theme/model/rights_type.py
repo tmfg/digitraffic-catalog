@@ -3,7 +3,7 @@ from ckanext.digitraffic_theme.model.vocabulary import Vocabulary
 
 RIGHTS_TYPE = {
     "https://w3id.org/mobilitydcat-ap/conditions-for-access-and-usage/contractual-arrangement",
-    "https://w3id.org/mobilitydcat-ap/conditions-for-access-and-usage/contractual-arrangement-fee-required"
+    "https://w3id.org/mobilitydcat-ap/conditions-for-access-and-usage/contractual-arrangement-fee-required",
     "https://w3id.org/mobilitydcat-ap/conditions-for-access-and-usage/contractual-arrangement-free-of-charge",
     "https://w3id.org/mobilitydcat-ap/conditions-for-access-and-usage/fee-required",
     "https://w3id.org/mobilitydcat-ap/conditions-for-access-and-usage/free-of-charge",

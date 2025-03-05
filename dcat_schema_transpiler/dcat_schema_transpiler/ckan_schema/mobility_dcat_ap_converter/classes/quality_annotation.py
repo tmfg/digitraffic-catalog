@@ -41,10 +41,9 @@ class QualityAnnotation(RangeValueConverter):
             if clazz_p.is_iri(OA.hasBody):
                 return {
                     "field_name": "quality_description",
-                    "label": "Quality description",
+                    **super().get_property_label_with_help_text(clazz_p.iri),
                     "required": is_required,
                     "preset": "url",
-                    "help_text": "URL for an assessment or notes by the publisher regarding quality of dataset contents",
                 }
             # oa:hasTarget is not needed in the schema or the CKAN data input form
             if clazz_p.is_iri(OA.hasTarget):

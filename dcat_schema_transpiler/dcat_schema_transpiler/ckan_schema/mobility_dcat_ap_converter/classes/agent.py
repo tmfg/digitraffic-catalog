@@ -3,10 +3,7 @@ from typing import Dict, List
 from rdflib import Dataset, URIRef
 from rdflib.namespace import DCTERMS, ORG, FOAF
 
-from ckan_schema.mobility_dcat_ap_converter.range_value_converter import (
-    RangeValueConverter,
-    AggregateRangeValueConverter,
-)
+
 from dcat_schema_transpiler.rdfs.rdfs_class import RDFSClass
 from dcat_schema_transpiler.rdfs.rdfs_property import RDFSProperty
 
@@ -14,6 +11,10 @@ from dcat_schema_transpiler.namespaces.LOCN import LOCN
 from mobility_dcat_ap.dataset import CVOCAB_AGENT_TYPE
 
 from ckan_schema.mobility_dcat_ap_converter.classes.organization import Organization
+from ckan_schema.mobility_dcat_ap_converter.range_value_converter import (
+    RangeValueConverter,
+    AggregateRangeValueConverter,
+)
 
 
 class Agent(AggregateRangeValueConverter):
@@ -71,21 +72,21 @@ class Agent(AggregateRangeValueConverter):
         if clazz_p.is_iri(FOAF.mbox):
             return {
                 "field_name": self.ckan_field(clazz_p, None),
-                "label": "Email",
+                **super().get_property_label_with_help_text(clazz_p.iri),
                 "required": is_required,
                 "preset": "email",
             }
         if clazz_p.is_iri(FOAF.phone):
             return {
                 "field_name": self.ckan_field(clazz_p, None),
-                "label": "Phone number",
+                **super().get_property_label_with_help_text(clazz_p.iri),
                 "required": is_required,
                 "preset": "phone",
             }
         if clazz_p.is_iri(FOAF.workplaceHomepage):
             return {
                 "field_name": self.ckan_field(clazz_p, None),
-                "label": "Workplace homepage",
+                **super().get_property_label_with_help_text(clazz_p.iri),
                 "required": is_required,
                 "preset": "url",
             }
@@ -100,9 +101,10 @@ class Agent(AggregateRangeValueConverter):
                 g = ds.get_graph(URIRef(CVOCAB_AGENT_TYPE))
                 return {
                     "field_name": self.ckan_field(p),
-                    "label": "Agent type",
+                    **super().get_property_label_with_help_text(p.iri),
                     "required": is_required,
                     "preset": "select",
+                    "sorted_choices": True,
                     "form_include_blank_choice": True,
                     "choices": RangeValueConverter.vocab_choices(g),
                 }
@@ -110,7 +112,7 @@ class Agent(AggregateRangeValueConverter):
     def get_aggregate_schema(self) -> Dict:
         return {
             "field_name": Agent.aggregate_field_name,
-            "label": "Fieldset",
+            **super().get_class_label_with_help_text(),
             "repeating_subfields": self.__aggregate_schemas,
         }
 
@@ -120,8 +122,8 @@ class Agent(AggregateRangeValueConverter):
     def post_process_schema(self, schema: List[Dict]):
         def rename_field_names(field):
             if field.get("field_name") == Organization.aggregate_field_name:
-                field["field_name"] = self.ckan_field_by_id(ORG.memberOf)
-                field["label"] = "Member of"
+                field |= {"field_name": self.ckan_field_by_id(
+                    ORG.memberOf)} | self.get_property_label_with_help_text(ORG.memberOf)
             return field
 
         for field in schema[0]["repeating_subfields"]:

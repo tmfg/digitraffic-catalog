@@ -17,6 +17,7 @@ services:
       - .env_ckan_common
       - .env_ckan
       - .env_entra
+      - .env_test_users
   postgresql:
     image: local_catalog_postgresql:latest
     ports:
