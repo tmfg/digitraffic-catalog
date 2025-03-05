@@ -8,7 +8,7 @@ import {User} from "../users/user";
 import {isVisible} from "../util";
 
 export enum Role {
-  Admin = 'Ylläpitäjä - Admin',
+  Admin = 'Ylläpitäjä',
   Editor = 'Muokkaaja - Editor',
   Member = 'Jäsen'
 }

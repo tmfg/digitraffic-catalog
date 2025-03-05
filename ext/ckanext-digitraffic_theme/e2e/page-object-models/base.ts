@@ -23,7 +23,7 @@ export abstract class BasePage {
     this.accountNavigation = this.header.locator('nav.account')
     this.appNavigationHamburger = page.locator('[data-lucide="menu"]')
     this.organizationsNavigatior = this.appNavigation.getByRole('link', {name: "Organisaatiot"})
-    this.userProfileNavigator = this.accountNavigation.getByRole('link', {name: "Profile"})
+    this.userProfileNavigator = this.accountNavigation.getByRole('link', {name: "Profiili", exact: true})
     this.mainContent = page.locator('body > .main')
   }
 

@@ -164,7 +164,7 @@ export class User {
     let profileUrl = await homePage.userProfileNavigator.getAttribute('href')
     profileUrl = profileUrl.replace("/user/", "/user/edit/")
     await page.goto(profileUrl)
-    const username = await page.getByLabel('Käyttäjätunnus').getAttribute('value')
+    const username = await page.getByLabel('Käyttäjänimi').getAttribute('value')
     const fullName = await page.getByLabel('Koko nimi').getAttribute('value')
     return new UserInfo(username, fullName)
   }
