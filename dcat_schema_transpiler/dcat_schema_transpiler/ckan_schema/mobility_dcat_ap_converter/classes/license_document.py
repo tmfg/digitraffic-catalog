@@ -1,6 +1,6 @@
 from typing import Dict
 
-from rdflib import Dataset, URIRef
+from rdflib import Dataset, Literal, URIRef
 from rdflib.namespace import DCTERMS, RDFS, SKOS
 
 from ckan_schema.mobility_dcat_ap_converter.range_value_converter import (
@@ -9,7 +9,7 @@ from ckan_schema.mobility_dcat_ap_converter.range_value_converter import (
 from dcat_schema_transpiler.rdfs.rdfs_class import RDFSClass
 from dcat_schema_transpiler.rdfs.rdfs_property import RDFSProperty
 from dcat_schema_transpiler.rdfs.rdfs_resource import RDFSResource
-from mobility_dcat_ap.dataset import CVOCAB_LICENSE_IDENTIFIER
+from mobility_dcat_ap.dataset import CVOCAB_LICENSE_IDENTIFIER, AT
 
 
 class LicenseDocument(RangeValueConverter):
@@ -34,7 +34,7 @@ class LicenseDocument(RangeValueConverter):
 
     def get_range_value(self, ds: Dataset, clazz_p: RDFSProperty) -> RDFSClass | None:
         if clazz_p.is_iri(DCTERMS.identifier):
-            ## TODO: Vapaateksti pitäisi olla myös mahdollinen listan sijasta
+            # TODO: Vapaateksti pitäisi olla myös mahdollinen listan sijasta
             r_value = RDFSResource.from_ds(SKOS.Concept, ds)
         else:
             r_value = super().get_range_value(ds, clazz_p)
@@ -46,7 +46,7 @@ class LicenseDocument(RangeValueConverter):
         if clazz_p.is_iri(RDFS.label):
             return {
                 "field_name": self.ckan_field(clazz_p),
-                "label": "License Text",
+                **super().get_property_label_with_help_text(clazz_p.iri),
                 "preset": "markdown",
                 "required": is_required,
             }
@@ -59,13 +59,18 @@ class LicenseDocument(RangeValueConverter):
         match p.iri:
             case DCTERMS.identifier:
                 g = ds.get_graph(URIRef(CVOCAB_LICENSE_IDENTIFIER))
+                # the vocabulary can contain deprecated entries which also sometimes produce duplicate labels for current definitions
+                deprecated_subjects = list(g.subjects(AT.deprecated, Literal("true")))
+                filter_ = lambda iri: iri not in deprecated_subjects
+
                 return {
                     "field_name": self.ckan_field(p),
-                    "label": "Standard license",
+                    **super().get_property_label_with_help_text(p.iri),
                     "required": is_required,
                     "preset": "select",
+                    "sorted_choices": True,
                     "form_include_blank_choice": True,
-                    "choices": RangeValueConverter.vocab_choices(g),
+                    "choices": RangeValueConverter.vocab_choices(g, filter_),
                 }
 
     def is_property_required(self, property: RDFSProperty) -> bool:

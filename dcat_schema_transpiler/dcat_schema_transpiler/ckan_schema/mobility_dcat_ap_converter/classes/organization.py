@@ -34,15 +34,12 @@ class Organization(AggregateRangeValueConverter):
     def get_schema(
         self, ds: Dataset, clazz_p: RDFSProperty | None, is_required: bool = None
     ):
-        schema = super().get_schema(ds, clazz_p, False)
-        if clazz_p.is_iri(FOAF.name):
-            schema["label"] = "Organization name"
-        return schema
+        return super().get_schema(ds, clazz_p, False)
 
     def get_aggregate_schema(self) -> Dict:
         return {
             "field_name": Organization.aggregate_field_name,
-            "label": "Fieldset",
+            **super().get_class_label_with_help_text(),
             "repeating_subfields": self.__aggregate_schemas,
         }
 

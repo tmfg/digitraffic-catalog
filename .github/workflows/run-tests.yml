@@ -16,15 +16,24 @@ jobs:
         run: |
           cp -r ext docker/ckan/ckanext
           cp ext/ckanext-entraid_authenticator/.env.example local-env/.env_entra
+          touch local-env/.env_test_users
 
       - name: Start CKAN
         working-directory: local-env
         run: ./start-local-ckan.sh up build_image ci
 
       - name: Wait for containers
-        run: |
-          while [ $(docker inspect --format='{{.State.Health.Status}}' datakatalogi-local-ckan-1) != 'healthy' ]; do sleep 1; done;
+        working-directory: local-env
+        run: bash ./wait-for-containers.sh
 
       - name: Run tests
         working-directory: local-env
         run: ./run-digitraffic-theme-tests-on-docker.sh
+
+      - name: Upload Docker logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: docker-logs
+          path: ./local-env/docker-logs.txt
+          retention-days: 30

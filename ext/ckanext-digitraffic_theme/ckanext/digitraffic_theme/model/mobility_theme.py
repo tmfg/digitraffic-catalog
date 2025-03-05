@@ -71,7 +71,7 @@ MOBILITY_THEME_TREE = {
         ),
     },
     URIRef(
-        "https://w3id.org/mobilitydcat-ap/mobility-theme/general-information-for-trip-planning-"
+        "https://w3id.org/mobilitydcat-ap/mobility-theme/general-information-for-trip-planning"
     ): {
         URIRef("https://w3id.org/mobilitydcat-ap/mobility-theme/address-identifiers"),
         URIRef(
