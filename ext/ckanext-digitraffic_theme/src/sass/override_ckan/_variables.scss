@@ -1,7 +1,7 @@
-@use '~@fintraffic/fds-coreui-css/src/scss/tokens';
+@use '@fintraffic/fds-coreui-css/src/scss/tokens';
 
 // Base variables
-$imagePath: "../../../base/images";
+$imagePath: "ckan/ckan/public/base/images";
 $bgPath: "#{$imagePath}/bg.png";
 
 // Layout Variables
