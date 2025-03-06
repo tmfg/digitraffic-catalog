@@ -2,14 +2,13 @@
  * This module defines the constructs that can be used in E2E-tests to take up some known [identity]{@link Identity} as
  * a {@link User}
  */
-import {Browser, BrowserContext, Page} from "@playwright/test";
+import type {Browser, BrowserContext, Page} from "@playwright/test";
 import {HomePage, OrganizationPage, OrganizationsListPage} from "../page-object-models";
-import {getPom, URL} from "../page-object-models/pages-controller";
+import {URL} from "../page-object-models/pages-controller";
 import {gotoNewPage} from "../page-object-models/util";
 import {existsSync} from 'fs'
-import {isVisible} from "../util";
+import {getEnv, isVisible} from "../util";
 import {UserInfo} from "../models/userInfo";
-import {organization} from "../testdata";
 import {Organization} from "../models/organization";
 
 /**
@@ -32,7 +31,7 @@ export enum Identity {
  */
 export class User {
   readonly identity: Identity;
-  readonly userInfo: UserInfo;
+  readonly userInfo?: UserInfo;
   private pages: Map<string, Page>;
   private browserContext: BrowserContext;
 
@@ -44,7 +43,7 @@ export class User {
    * @param browserContext
    * @private
    */
-  private constructor(identity: Identity, userInfo: UserInfo, browserContext: BrowserContext) {
+  private constructor(identity: Identity, browserContext: BrowserContext, userInfo?: UserInfo) {
     this.identity = identity;
     this.userInfo = userInfo;
     this.pages = new Map();
@@ -82,16 +81,19 @@ export class User {
     const storagePath = User.getIdentityStorageStatePath(identity)
     const cachedAuthStateExists = existsSync(storagePath)
     const context = await browser.newContext(cachedAuthStateExists ? {storageState: storagePath} : {})
-    let userInfo: UserInfo
+    let userInfo: UserInfo | undefined = undefined
     if (cachedAuthStateExists && isUserInfoIncluded) {
       const page = await context.newPage()
       await page.goto(URL.Home)
       if (await User._isUserLoggedIn(page, identity)) {
         userInfo = await User.gatherUserInfo(page)
+        if (userInfo.fullName !== identity) {
+          throw new UserStateError("Wrong identity signed in!")
+        }
       }
       await page.close()
     }
-    return new User(identity, userInfo, context)
+    return new User(identity, context, userInfo)
   }
 
   /**
@@ -109,7 +111,10 @@ export class User {
 
   async isUserLoggedIn() {
     const page = this.getDatacatalogPage()
-    return await User._isUserLoggedIn(page, this.identity)
+    if (page) {
+      return await User._isUserLoggedIn(page, this.identity)
+    }
+    return false
   }
 
   private static async _isUserLoggedIn(page: Page, identity: Identity): Promise<boolean> {
@@ -117,12 +122,13 @@ export class User {
     return await isVisible(userActionsLocator)
   }
 
-  private getDatacatalogPage(): Page {
-    for (let [pageName, page] of this.pages) {
-      if (page.url().startsWith(process.env.TEST_SITE_URL)) {
+  private getDatacatalogPage(): Page | undefined {
+    for (let [_, page] of this.pages) {
+      if (page.url().startsWith(getEnv("TEST_SITE_URL"))) {
         return page
       }
     }
+    return
   }
 
   getPage(name: string) {
@@ -136,7 +142,7 @@ export class User {
     return newPage
   }
 
-  async goToNewPage(url: string, options = undefined) {
+  async goToNewPage(url: string, options?: {name?: string}) {
     const name = options?.name ?? url
     this.checkPageExists(name)
     const newPage = await this.createNewPage(name)
@@ -162,10 +168,19 @@ export class User {
     )
     await homePage.makeAccountNavigationOpen()
     let profileUrl = await homePage.userProfileNavigator.getAttribute('href')
+    if (profileUrl === null) {
+      throw new UserStateError("Is user signed in?")
+    }
     profileUrl = profileUrl.replace("/user/", "/user/edit/")
     await page.goto(profileUrl)
     const username = await page.getByLabel('Käyttäjänimi').getAttribute('value')
     const fullName = await page.getByLabel('Koko nimi').getAttribute('value')
+    if (username === null) {
+      throw new UserStateError("Username cannot be null")
+    }
+    if (fullName === null) {
+      throw new UserStateError("fullName cannot be null")
+    }
     return new UserInfo(username, fullName)
   }
 
@@ -223,5 +238,20 @@ export class User {
       async (organizationPOM: OrganizationPage) => {await organizationPOM.goto()},
       organization
     )
+  }
+
+  getUserAttribute<T extends keyof UserInfo>(property: T): UserInfo[T] {
+    if (this.userInfo === undefined) {
+      throw new UserStateError("userInfo is undefined. Please run gatherUserInfo first.")
+    }
+    return this.userInfo[property]
+  }
+
+}
+
+export class UserStateError extends Error {
+  constructor(message: string = '') {
+    super(message);
+    this.name = 'UserStateError'
   }
 }

@@ -41,3 +41,11 @@ export const test = base.extend<UserFixture & IdentitysOptions>({
     await use(users);
   },
 });
+
+export function getUserOrThrow(users: UserFixture["users"], identity: Identity): User {
+  const user = users.get(identity)
+  if (user !== undefined) {
+    return user
+  }
+  throw Error(`${identity} is not found! Make sure you configured it included it in the identitiesToUse`)
+}

@@ -1,9 +1,10 @@
 import {BasePage} from "./base";
-import {Locator, Page} from "@playwright/test";
+import type {Locator, Page} from "@playwright/test";
 import {setPom, URL} from "./pages-controller";
 import {gotoNewPage} from "./util";
 import {AuthorizationError} from "../models/error";
 import {isVisible} from "../util";
+import type {NewOrganizationPage} from "./new-organization-page";
 
 export class OrganizationsListPage extends BasePage {
   readonly organizationsListPageIntroductionHeader: Locator
@@ -22,13 +23,13 @@ export class OrganizationsListPage extends BasePage {
     return this;
   }
 
-  async gotoNewOrganizationPage(): Promise<BasePage> {
+  async gotoNewOrganizationPage(): Promise<NewOrganizationPage> {
     return await gotoNewPage(
       this.page,
       URL.NewOrganization,
       async () => await this.newOrganizationButton
         .click()
-        .catch(err => {
+        .catch(_ => {
           throw new AuthorizationError("Is not allowed to create a new organization")
         })
     )

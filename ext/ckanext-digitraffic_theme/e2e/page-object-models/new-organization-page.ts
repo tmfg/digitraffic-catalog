@@ -1,9 +1,9 @@
 import {BasePage} from "./base";
-import {expect, Locator, Page} from "@playwright/test";
+import type {Locator, Page} from "@playwright/test";
 import {setPom, URL} from "./pages-controller";
 import {Organization} from "../models/organization";
 import {gotoNewPage, urlify} from "./util";
-import {isAtUrl, isVisible} from "../util";
+import {isVisible} from "../util";
 
 export class NewOrganizationPage extends BasePage {
   readonly newOrganizationPageHeader: Locator

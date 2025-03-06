@@ -1,12 +1,12 @@
 import {BasePage} from "./base";
 import {URL, getPom} from "./pages-controller"
-import {Page} from "@playwright/test";
+import type {Page} from "@playwright/test";
 
 export async function gotoNewPage<T extends BasePage>(
   page: Page,
   url: URL,
   navigationFn: (newPagePOM: T) => Promise<void>,
-  ...pomParameters
+  ...pomParameters: unknown[]
 ): Promise<T> {
   const newPageConstructor = getPom(url)
   const newPagePOM = new newPageConstructor(page, ...pomParameters) as T
@@ -20,7 +20,7 @@ export async function gotoNewPage<T extends BasePage>(
 export function pathParameterURL(url: URL, parameters: {[name: string]: number|string}): string {
   return Object.entries(parameters).reduce(
     (resolvedUrl, [parameterName, parameterValue]) => resolvedUrl.replace(`{${parameterName}}`, parameterValue.toString()),
-    url
+    url.toString()
   )
 }
 

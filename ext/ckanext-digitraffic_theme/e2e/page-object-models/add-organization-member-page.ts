@@ -1,11 +1,12 @@
 import {BasePage} from "./base";
-import {expect, Locator, Page} from "@playwright/test";
+import type {Locator, Page} from "@playwright/test";
 import {setPom, URL} from "./pages-controller";
 import {gotoNewPage, pathParameterURL} from "./util";
 import {Organization} from "../models/organization";
 import {AuthorizationError} from "../models/error";
 import {User} from "../users/user";
 import {isVisible} from "../util";
+import type {EditOrganizationPage} from "./edit-organization-page";
 
 export enum Role {
   Admin = 'Ylläpitäjä',
@@ -40,14 +41,14 @@ export class AddOrganizationMemberPage extends BasePage {
   }
 
   async selectExistingUser(user: User): Promise<void> {
-    await this.existingUserSelector.fill(user.userInfo.name)
+    await this.existingUserSelector.fill(user.getUserAttribute("name"))
   }
 
   async selectRole(role: Role):Promise<void> {
     await this.roleSelector.selectOption(role)
   }
 
-  async pressAdd(): Promise<BasePage> {
+  async pressAdd(): Promise<EditOrganizationPage> {
     return await gotoNewPage(
       this.page,
       URL.EditOrganization,
