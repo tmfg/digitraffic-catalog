@@ -5,13 +5,13 @@
  * [here]{@link https://playwright.dev/docs/auth#multiple-signed-in-roles}
  */
 
-import {expect, IdentitysOptions, test as setup} from '../fixtures/users';
+import {expect, test as setup, getUserOrThrow} from '../fixtures/users';
 import {Identity, User} from '../users/user'
-import {isAtUrl, isVisible} from "../util";
+import {getEnv, isAtUrl, isVisible} from "../util";
 import {organization} from "../testdata";
 import {addMemberToOrganization, createOrganization, removeMemberFromOrganization} from "../user-flows/organization"
 import {Role} from "../page-object-models/add-organization-member-page";
-import {OrganizationCreationError, OrganizationStateError} from "../page-object-models";
+import {OrganizationCreationError} from "../page-object-models";
 
 
 async function authenticate(user: User, identity: Identity, username: string, password: string): Promise<void> {
@@ -43,26 +43,26 @@ async function authenticate(user: User, identity: Identity, username: string, pa
 
 setup.describe('Create and log in all the test users', () => {
   setup.use({
-    identitiesToUse: [[Identity.SysAdmin, Identity.OrganizationAdmin, Identity.OrganizationEditor], {scope: 'test'}],
+    identitiesToUse: [new Set([Identity.SysAdmin, Identity.OrganizationAdmin, Identity.OrganizationEditor]), {scope: 'test'}],
     isUserInfoGathered: false
-  } as IdentitysOptions);
+  });
 
-  setup('authenticate all users', async ({users}: { users: Map<Identity, User> }) => {
+  setup('authenticate all users', async ({users}) => {
     const credentials = new Map()
     credentials.set(
       Identity.SysAdmin, {
-        password: process.env.E2E_SYSADMIN_PASSWORD,
-        username: process.env.E2E_SYSADMIN_USERNAME
+        password: getEnv("E2E_SYSADMIN_PASSWORD"),
+        username: getEnv("E2E_SYSADMIN_USERNAME")
       })
     credentials.set(
       Identity.OrganizationAdmin, {
-        password: process.env.E2E_ORGANIZATION_ADMIN_PASSWORD,
-        username: process.env.E2E_ORGANIZATION_ADMIN_USERNAME
+        password: getEnv("E2E_ORGANIZATION_ADMIN_PASSWORD"),
+        username: getEnv("E2E_ORGANIZATION_ADMIN_USERNAME")
       })
     credentials.set(
       Identity.OrganizationEditor, {
-        password: process.env.E2E_ORGANIZATION_EDITOR_PASSWORD,
-        username: process.env.E2E_ORGANIZATION_EDITOR_USERNAME
+        password: getEnv("E2E_ORGANIZATION_EDITOR_PASSWORD"),
+        username: getEnv("E2E_ORGANIZATION_EDITOR_USERNAME")
       })
     for (const [identity, user] of users) {
       await authenticate(user, identity, credentials.get(identity).username, credentials.get(identity).password)
@@ -73,25 +73,24 @@ setup.describe('Create and log in all the test users', () => {
 setup.describe('Have sysadmin to setup test users', () => {
 
   setup.use({
-    identitiesToUse: [[Identity.SysAdmin, Identity.OrganizationAdmin], {scope: 'test'}]
-  } as IdentitysOptions);
+    identitiesToUse: [new Set([Identity.SysAdmin, Identity.OrganizationAdmin]), {scope: 'test'}]
+  });
 
-  setup('Create organization for the test users', async ({users}: { users: Map<Identity, User> }) => {
+  setup('Create organization for the test users', async ({users}) => {
     const sysAdminIdentity = Identity.SysAdmin
-    const sysAdmin = users.get(sysAdminIdentity)
-    await authenticate(sysAdmin, sysAdminIdentity, process.env.E2E_SYSADMIN_USERNAME, process.env.E2E_SYSADMIN_PASSWORD)
+    const sysAdmin = getUserOrThrow(users, sysAdminIdentity)
+    await authenticate(sysAdmin, sysAdminIdentity, getEnv("E2E_SYSADMIN_USERNAME"), getEnv("E2E_SYSADMIN_PASSWORD"))
     const {
       pom: organizationPage,
       isRunSuccessful: isOrganizationCreated,
       error
     } = await createOrganization(sysAdmin, organization)
-    if (isOrganizationCreated || (error instanceof OrganizationCreationError && error.reasons.has("OrganizationAlreadyExists"))) {
+    if (organizationPage && (isOrganizationCreated || (error instanceof OrganizationCreationError && error.reasons.has("OrganizationAlreadyExists")))) {
       const {
         pom: editOrganizationPage,
         isRunSuccessful: isOrganizationAdminAdded,
-        error: organizationAdminCreatedError
-      } = await addMemberToOrganization(sysAdmin, organization, users.get(Identity.OrganizationAdmin), Role.Admin, organizationPage.page)
-      if (isOrganizationAdminAdded) {
+      } = await addMemberToOrganization(sysAdmin, organization, getUserOrThrow(users, Identity.OrganizationAdmin), Role.Admin, organizationPage.page)
+      if (editOrganizationPage && isOrganizationAdminAdded) {
         await removeMemberFromOrganization(sysAdmin, organization, sysAdmin, editOrganizationPage.page)
       }
     }

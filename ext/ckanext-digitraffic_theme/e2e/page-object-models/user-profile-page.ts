@@ -1,7 +1,7 @@
 import {BasePage} from "./base";
-import {expect, Locator, Page} from "@playwright/test";
+import type {Page} from "@playwright/test";
 import {setPom, URL} from "./pages-controller";
-import {gotoNewPage, pathParameterURL} from "./util";
+import {pathParameterURL} from "./util";
 import {Organization} from "../models/organization";
 
 export class UserProfilePage extends BasePage {
@@ -20,6 +20,7 @@ export class UserProfilePage extends BasePage {
   }
 
   async isAtPage(): Promise<boolean> {
+    throw new Error("Not implemented")
   }
 }
 

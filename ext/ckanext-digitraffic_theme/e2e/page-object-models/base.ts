@@ -1,6 +1,7 @@
-import {expect, Locator, Page} from '@playwright/test'
+import {expect, type Locator, type Page} from '@playwright/test'
 import { getPom, URL } from './pages-controller'
 import { isVisible } from '../util'
+import type {OrganizationsListPage} from "./organizations-list-page";
 
 /**
  * This is the base page object model that contains relevant methods for the header and footer sections of
@@ -30,7 +31,7 @@ export abstract class BasePage {
   /**
    * This function is used to navigate this.page to the page that this POM represents
    */
-  abstract async goto(): Promise<BasePage>
+  abstract goto(): Promise<BasePage>
 
   /**
    * This function is used to assert that this.page is at the page that this POM represents and the page is fully loaded
@@ -39,11 +40,11 @@ export abstract class BasePage {
     expect(await this.isAtPage()).toBeTruthy()
   }
 
-  abstract async isAtPage(): Promise<boolean>
+  abstract isAtPage(): Promise<boolean>
 
-  async gotoOrganizationsListPage(): Promise<BasePage> {
+  async gotoOrganizationsListPage(): Promise<OrganizationsListPage> {
     const organizationPageConstructor = getPom(URL.OrganizationsList)
-    const organizationPOM = new organizationPageConstructor(this.page) as BasePage
+    const organizationPOM = new organizationPageConstructor(this.page) as OrganizationsListPage
 
     if (!await this.isWideScreen()) {
       await this.makeAppNavigationOpen();

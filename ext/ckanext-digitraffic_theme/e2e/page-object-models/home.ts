@@ -1,5 +1,5 @@
 import {BasePage} from "./base";
-import {expect, Locator, Page} from "@playwright/test";
+import type {Locator, Page} from "@playwright/test";
 import {setPom, URL} from "./pages-controller";
 import {isVisible} from "../util";
 
