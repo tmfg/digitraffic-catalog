@@ -1,4 +1,4 @@
-@import '~ckan/ckan/public/base/scss/bootstrap-variables';
+@import 'ckan/ckan/public/base/scss/bootstrap-variables';
 
 .account-masthead {
     @media (min-width: map-get($grid-breakpoints, md)) {
