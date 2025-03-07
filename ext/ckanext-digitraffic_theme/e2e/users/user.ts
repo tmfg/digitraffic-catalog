@@ -135,7 +135,7 @@ export class User {
     return this.pages.get(name)
   };
 
-  async createNewPage(name: string) {
+  async createNewPage(name: string): Promise<Page> {
     this.checkPageExists(name)
     const newPage = await this.browserContext.newPage();
     this.pages.set(name, newPage)
@@ -215,7 +215,10 @@ export class User {
     await this.browserContext.storageState({path: User.getIdentityStorageStatePath(identity)})
   }
 
-  async gotoHomePage(page: Page):Promise<HomePage> {
+  async gotoHomePage(page?: Page):Promise<HomePage> {
+    if (page === undefined) {
+      page = await this.createNewPage("gotoHomePage")
+    }
     return await gotoNewPage(
       page,
       URL.Home,
@@ -223,7 +226,10 @@ export class User {
     )
   }
 
-  async gotoOrganizationsListPage(page: Page):Promise<OrganizationsListPage> {
+  async gotoOrganizationsListPage(page?: Page):Promise<OrganizationsListPage> {
+    if (page === undefined) {
+      page = await this.createNewPage("gotoOrganizationsListPage")
+    }
     return await gotoNewPage(
       page,
       URL.OrganizationsList,
@@ -231,7 +237,10 @@ export class User {
     )
   }
 
-  async gotoOrganizationPage(page: Page, organization: Organization):Promise<OrganizationPage> {
+  async gotoOrganizationPage(organization: Organization, page?: Page):Promise<OrganizationPage> {
+    if (page === undefined) {
+      page = await this.createNewPage("gotoOrganizationPage")
+    }
     return await gotoNewPage(
       page,
       URL.Organization,

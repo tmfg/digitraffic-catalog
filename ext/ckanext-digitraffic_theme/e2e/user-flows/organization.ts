@@ -54,7 +54,7 @@ export async function addMemberToOrganization(user: User, organization: Organiza
   return await test.step(`Add ${userToAdd.identity} to organization ${organization.name} as ${user.identity}`, async () => {
     let pom: BasePage | undefined = undefined
     try {
-      pom = await user.gotoOrganizationPage(page, organization)
+      pom = await user.gotoOrganizationPage(organization, page)
       pom = await (pom as OrganizationPage).gotoEditOrganizationPage()
       pom = await (pom as EditOrganizationPage).gotoAddMemberPage()
       pom = await (pom as AddOrganizationMemberPage).addUserToOrganization(userToAdd, role)
@@ -79,7 +79,7 @@ export async function removeMemberFromOrganization(user: User, organization: Org
   return await test.step(`Remove ${userToRemove.identity} from organization ${organization.name} as ${user.identity}`, async () => {
     let pom: BasePage | undefined = undefined
     try {
-      pom = await user.gotoOrganizationPage(page, organization)
+      pom = await user.gotoOrganizationPage(organization, page)
       pom = await (pom as OrganizationPage).gotoEditOrganizationPage()
       await (pom as EditOrganizationPage).selectMembersTab()
       await (pom as EditOrganizationPage).removeMember(userToRemove.getUserAttribute("name"))

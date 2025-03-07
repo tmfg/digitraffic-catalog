@@ -35,8 +35,10 @@ export const test = base.extend<UserFixture & IdentitysOptions>({
   users: async ({ browser, identitiesToUse , isUserInfoGathered}, use) => {
     let users: Map<Identity, User> = new Map()
     for (const identityToUse of identitiesToUse) {
-      const user = await User.of(identityToUse, browser, isUserInfoGathered)
-      users.set(identityToUse, user)
+      await base.step(`Creating user for identity ${identityToUse}`, async () => {
+        const user = await User.of(identityToUse, browser, isUserInfoGathered)
+        users.set(identityToUse, user)
+      })
     }
     await use(users);
   },

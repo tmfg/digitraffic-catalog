@@ -7,7 +7,8 @@ export enum URL {
   Organization = '/organization/{name}',
   EditOrganization = '/organization/edit/{name}',
   AddOrganizationMember = '/organization/member_new/{name}',
-  User = '/user/{name}'
+  User = '/user/{name}',
+  EditUser = '/user/edit/{name}'
 }
 export interface POMConstructor {
   new(page: Page, ...args: any[]): Object;

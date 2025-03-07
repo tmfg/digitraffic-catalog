@@ -1,5 +1,6 @@
 export * from './add-organization-member-page'
 export * from './edit-organization-page'
+export * from './edit-user-page'
 export * from './home'
 export * from './new-organization-page'
 export * from './organization-page'
