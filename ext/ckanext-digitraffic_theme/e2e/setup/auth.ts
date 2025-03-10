@@ -5,16 +5,16 @@
  * [here]{@link https://playwright.dev/docs/auth#multiple-signed-in-roles}
  */
 
-import {expect, test as setup, getUserOrThrow} from '../fixtures/users';
-import {Identity, User} from '../users/user'
+import {expect, test as setup, getKnownUserOrThrow, getIdentityUserOrThrow} from '../fixtures/users';
+import {IdentityUser} from '../users/identity-user'
+import {Identity} from '../users/identity-user'
 import {getEnv, isAtUrl, isVisible} from "../util";
 import {organization} from "../testdata";
 import {addMemberToOrganization, createOrganization, removeMemberFromOrganization} from "../user-flows/organization"
-import {Role} from "../page-object-models/add-organization-member-page";
-import {OrganizationCreationError} from "../page-object-models";
+import {OrganizationCreationError, Role} from "../page-object-models";
 
 
-async function authenticate(user: User, identity: Identity, username: string, password: string): Promise<void> {
+async function authenticate(user: IdentityUser, identity: Identity, username: string, password: string): Promise<void> {
   await setup.step(`Authenticate as ${identity}`, async () => {
     const page = await user.goToNewPage('/')
 
@@ -64,7 +64,8 @@ setup.describe('Create and log in all the test users', () => {
         password: getEnv("E2E_ORGANIZATION_EDITOR_PASSWORD"),
         username: getEnv("E2E_ORGANIZATION_EDITOR_USERNAME")
       })
-    for (const [identity, user] of users) {
+    for (const identity of users.keys()) {
+      const user = getIdentityUserOrThrow(users, identity)
       await authenticate(user, identity, credentials.get(identity).username, credentials.get(identity).password)
     }
   });
@@ -78,7 +79,7 @@ setup.describe('Have sysadmin to setup test users', () => {
 
   setup('Create organization for the test users', async ({users}) => {
     const sysAdminIdentity = Identity.SysAdmin
-    const sysAdmin = getUserOrThrow(users, sysAdminIdentity)
+    const sysAdmin = getKnownUserOrThrow(users, sysAdminIdentity)
     await authenticate(sysAdmin, sysAdminIdentity, getEnv("E2E_SYSADMIN_USERNAME"), getEnv("E2E_SYSADMIN_PASSWORD"))
     const {
       pom: organizationPage,
@@ -89,7 +90,7 @@ setup.describe('Have sysadmin to setup test users', () => {
       const {
         pom: editOrganizationPage,
         isRunSuccessful: isOrganizationAdminAdded,
-      } = await addMemberToOrganization(sysAdmin, organization, getUserOrThrow(users, Identity.OrganizationAdmin), Role.Admin, organizationPage.page)
+      } = await addMemberToOrganization(sysAdmin, organization, getKnownUserOrThrow(users, Identity.OrganizationAdmin), Role.Admin, organizationPage.page)
       if (editOrganizationPage && isOrganizationAdminAdded) {
         await removeMemberFromOrganization(sysAdmin, organization, sysAdmin, editOrganizationPage.page)
       }

@@ -3,27 +3,27 @@ import type {Page, Locator} from "@playwright/test";
 import {setPom, URL} from "./pages-controller";
 import {gotoNewPage, pathParameterURL} from "./util";
 import type {EditUserPage} from './edit-user-page'
-import {UserInfo} from "../models/userInfo";
 import {AuthorizationError} from "../models/error";
 import {isVisible} from "../util";
 
 export class UserProfilePage extends BasePage {
   readonly pageUrl: string
-  readonly userInfo: UserInfo
+  readonly name: string
   readonly userProfileSide: Locator
   readonly userProfileContent: Locator
-  readonly userFullName: Locator
+  readonly userName: Locator
   readonly editUserButton: Locator
+  readonly userDescription: Locator
 
-  constructor(page: Page, userInfo: UserInfo) {
+  constructor(page: Page, name: string) {
     super(page);
-    this.userInfo = userInfo
-    this.pageUrl = pathParameterURL(URL.User, {'name': userInfo.name})
+    this.name = name
+    this.pageUrl = pathParameterURL(URL.User, {'name': name})
     this.userProfileSide = page.locator('.main aside')
     this.userProfileContent = page.getByRole('main')
-    this.userFullName = this.userProfileSide.getByRole('heading', {name: userInfo.fullName})
+    this.userName = this.userProfileSide.getByText(name)
     this.editUserButton = this.userProfileContent.getByRole('link', {name: 'Hallinnoi'})
-
+    this.userDescription = this.userProfileSide.locator('p:has(+ div.nums)')
   }
 
   async goto(): Promise<UserProfilePage> {
@@ -41,12 +41,12 @@ export class UserProfilePage extends BasePage {
           console.log(err)
           throw new AuthorizationError("Is not allowed to edit the User")
         }),
-      this.userInfo
+      this.name
     )
   }
 
   async isAtPage(): Promise<boolean> {
-    return await isVisible(this.userFullName)
+    return await isVisible(this.userName)
   }
 }
 

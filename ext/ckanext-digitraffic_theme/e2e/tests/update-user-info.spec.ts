@@ -1,6 +1,6 @@
-import {getUserOrThrow, test} from '../fixtures/users'
-import {Identity, User} from '../users/user';
-import {URL} from '../page-object-models/pages-controller'
+import {getKnownUserOrThrow, test} from '../fixtures/users'
+import {Identity} from '../users/identity-user';
+import {expect} from "@playwright/test";
 
 const identitiesToUse = [Identity.OrganizationEditor, Identity.OrganizationAdmin, Identity.SysAdmin] as const
 
@@ -11,18 +11,21 @@ test.describe('User info update tests', () => {
   });
 
   test('Modify user data', async ({users}) => {
-    const organizationEditor = getUserOrThrow(users, Identity.OrganizationEditor)
+    const organizationEditor = getKnownUserOrThrow(users, Identity.OrganizationEditor)
     const homePage = await organizationEditor.gotoHomePage();
-    console.log("#### USER INFO #####")
-    console.log(organizationEditor.userInfo)
-    if (organizationEditor.userInfo !== undefined) {
-      const userProfilePage = await homePage.gotoUserProfilePage(organizationEditor.userInfo);
-      const editUserPage = await userProfilePage.gotoEditUserPage()
-      editUserPage.updateUserInfo(editedUserInfo)
+    const userProfilePage = await homePage.gotoUserProfilePage(organizationEditor.userInfo.name);
+    const editUserPage = await userProfilePage.gotoEditUserPage()
+
+    const newUserInfo = {
+      description: "description"
     }
+    const editedUserInfo = (await editUserPage.getUserInfo()).cloneWith(newUserInfo)
+    const editUserPageAfterUpdate = await editUserPage.updateUserInfo(editedUserInfo)
+
+    await expect(editUserPageAfterUpdate.userDescription).toContainText(newUserInfo.description)
   })
 
-  test('Modifying other user data as admin fails', async ({users}) => {
+  /*test('Modifying other user data as admin fails', async ({users}) => {
 
-  })
+  })*/
 })

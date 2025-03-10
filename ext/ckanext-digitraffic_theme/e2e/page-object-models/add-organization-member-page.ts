@@ -4,9 +4,9 @@ import {setPom, URL} from "./pages-controller";
 import {gotoNewPage, pathParameterURL} from "./util";
 import {Organization} from "../models/organization";
 import {AuthorizationError} from "../models/error";
-import {User} from "../users/user";
 import {isVisible} from "../util";
 import type {EditOrganizationPage} from "./edit-organization-page";
+import {KnownUser} from "../users/known-user";
 
 export enum Role {
   Admin = 'Ylläpitäjä',
@@ -40,7 +40,7 @@ export class AddOrganizationMemberPage extends BasePage {
     return await isVisible(this.addUserHeader)
   }
 
-  async selectExistingUser(user: User): Promise<void> {
+  async selectExistingUser(user: KnownUser): Promise<void> {
     await this.existingUserSelector.fill(user.getUserAttribute("name"))
   }
 
@@ -62,7 +62,7 @@ export class AddOrganizationMemberPage extends BasePage {
     )
   }
 
-  async addUserToOrganization(user: User, role: Role):Promise<BasePage> {
+  async addUserToOrganization(user: KnownUser, role: Role):Promise<BasePage> {
     await this.selectExistingUser(user)
     await this.selectRole(role)
     return await this.pressAdd()

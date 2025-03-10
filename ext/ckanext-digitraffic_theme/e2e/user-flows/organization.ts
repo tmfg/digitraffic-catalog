@@ -1,5 +1,5 @@
 import {test} from '@playwright/test';
-import {User} from "../users/user";
+import {KnownUser} from "../users/known-user";
 import {
   EditOrganizationPage,
   OrganizationPage,
@@ -21,7 +21,7 @@ export type UserFlowResponse = {
   error?: Error,
 }
 
-export async function createOrganization(user: User, organization: Organization, page: Page | undefined = undefined): Promise<UserFlowResponse> {
+export async function createOrganization(user: KnownUser, organization: Organization, page: Page | undefined = undefined): Promise<UserFlowResponse> {
   return await test.step(`Create organization ${organization.name} as user ${user.identity}`, async () => {
     if (!page) {
       page = await user.createNewPage('createOrganizationPage')
@@ -50,7 +50,7 @@ export async function createOrganization(user: User, organization: Organization,
   })
 }
 
-export async function addMemberToOrganization(user: User, organization: Organization, userToAdd: User, role: Role, page: Page) {
+export async function addMemberToOrganization(user: KnownUser, organization: Organization, userToAdd: KnownUser, role: Role, page: Page) {
   return await test.step(`Add ${userToAdd.identity} to organization ${organization.name} as ${user.identity}`, async () => {
     let pom: BasePage | undefined = undefined
     try {
@@ -75,7 +75,7 @@ export async function addMemberToOrganization(user: User, organization: Organiza
   })
 }
 
-export async function removeMemberFromOrganization(user: User, organization: Organization, userToRemove: User, page: Page) {
+export async function removeMemberFromOrganization(user: KnownUser, organization: Organization, userToRemove: KnownUser, page: Page) {
   return await test.step(`Remove ${userToRemove.identity} from organization ${organization.name} as ${user.identity}`, async () => {
     let pom: BasePage | undefined = undefined
     try {
