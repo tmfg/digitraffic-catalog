@@ -3,7 +3,6 @@ import { getPom, URL } from './pages-controller'
 import { isVisible } from '../util'
 import type {OrganizationsListPage} from "./organizations-list-page";
 import type {UserProfilePage} from "./user-profile-page";
-import {UserInfo} from "../models/userInfo";
 
 /**
  * This is the base page object model that contains relevant methods for the header and footer sections of
@@ -56,9 +55,9 @@ export abstract class BasePage {
     return organizationPOM
   }
 
-  async gotoUserProfilePage(userInfo: UserInfo): Promise<UserProfilePage> {
+  async gotoUserProfilePage(name: string): Promise<UserProfilePage> {
     const userProfilePageConstructor = getPom(URL.User)
-    const userProfilePOM = new userProfilePageConstructor(this.page, userInfo) as UserProfilePage
+    const userProfilePOM = new userProfilePageConstructor(this.page, name) as UserProfilePage
 
     if (!await this.isWideScreen()) {
       await this.makeAppNavigationOpen();

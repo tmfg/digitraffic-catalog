@@ -4,9 +4,11 @@
  */
 import {test as base} from '@playwright/test';
 
-import {User, Identity} from '../users/user'
+import {User} from '../users/user'
 // This import is here for the side effects.
 import "../page-object-models";
+import {IdentityUser, Identity} from "../users/identity-user"
+import {KnownUser} from "../users/known-user";
 
 export * from '@playwright/test';
 
@@ -36,8 +38,14 @@ export const test = base.extend<UserFixture & IdentitysOptions>({
     let users: Map<Identity, User> = new Map()
     for (const identityToUse of identitiesToUse) {
       await base.step(`Creating user for identity ${identityToUse}`, async () => {
-        const user = await User.of(identityToUse, browser, isUserInfoGathered)
-        users.set(identityToUse, user)
+        if (identityToUse !== Identity.Anonymous) {
+          const user = await (isUserInfoGathered ? KnownUser.of(identityToUse, browser) : IdentityUser.of(identityToUse, browser))
+          users.set(identityToUse, user)
+        } else {
+          const browserContext = await browser.newContext()
+          const anonymousUser = new User(browserContext)
+          users.set(identityToUse, anonymousUser)
+        }
       })
     }
     await use(users);
@@ -50,4 +58,20 @@ export function getUserOrThrow(users: UserFixture["users"], identity: Identity):
     return user
   }
   throw Error(`${identity} is not found! Make sure you configured it included it in the identitiesToUse`)
+}
+
+export function getIdentityUserOrThrow(users: UserFixture["users"], identity: Identity): IdentityUser {
+  const user = getUserOrThrow(users, identity)
+  if (user instanceof IdentityUser) {
+    return user
+  }
+  throw Error(`Tried to get an anonymous user when known user was neede`)
+}
+
+export function getKnownUserOrThrow(users: UserFixture["users"], identity: Identity): KnownUser {
+  const user = getUserOrThrow(users, identity)
+  if (user instanceof KnownUser) {
+    return user
+  }
+  throw Error(`Tried to get an anonymous user when known user was neede`)
 }
