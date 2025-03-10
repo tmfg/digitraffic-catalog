@@ -28,7 +28,7 @@ on:
 jobs:
   build:
     if: github.repository != 'tmfg/digitraffic-catalog'
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     permissions:
       id-token: write
       contents: read
@@ -79,7 +79,7 @@ jobs:
 
       - name: CKAN build
         if: github.event.inputs.install_ckan == 'true'
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: ./docker/ckan
           file: ./docker/ckan/Dockerfile
@@ -89,7 +89,7 @@ jobs:
 
       - name: Solr build
         if: github.event.inputs.install_solr == 'true'
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: ./docker/solr
           file: ./docker/solr/Dockerfile
@@ -99,7 +99,7 @@ jobs:
 
       - name: Nginx build
         if: github.event.inputs.install_nginx == 'true'
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: ./docker/nginx
           file: ./docker/nginx/Dockerfile
