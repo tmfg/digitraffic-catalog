@@ -14,12 +14,7 @@ import {Organization} from "../models/organization";
 import type {Page} from "@playwright/test";
 import {AuthorizationError} from "../models/error";
 import {BasePage} from "../page-object-models/base";
-
-export type UserFlowResponse = {
-  isRunSuccessful: boolean,
-  pom?: BasePage
-  error?: Error,
-}
+import type {UserFlowResponse} from "./util";
 
 export async function createOrganization(user: KnownUser, organization: Organization, page: Page | undefined = undefined): Promise<UserFlowResponse> {
   return await test.step(`Create organization ${organization.name} as user ${user.identity}`, async () => {

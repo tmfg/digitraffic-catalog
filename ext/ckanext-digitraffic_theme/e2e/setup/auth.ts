@@ -8,7 +8,7 @@
 import {expect, test as setup, getKnownUserOrThrow, getIdentityUserOrThrow} from '../fixtures/users';
 import {IdentityUser} from '../users/identity-user'
 import {Identity} from '../users/identity-user'
-import {getEnv, isAtUrl, isVisible} from "../util";
+import {getVisibleLocator, getEnv, isAtUrl} from "../util";
 import {organization} from "../testdata";
 import {addMemberToOrganization, createOrganization, removeMemberFromOrganization} from "../user-flows/organization"
 import {OrganizationCreationError, Role} from "../page-object-models";
@@ -19,8 +19,11 @@ async function authenticate(user: IdentityUser, identity: Identity, username: st
     const page = await user.goToNewPage('/')
 
     const hideDevToolLocator = page.getByRole('link', {name: 'Hide »'})
+    const showDevToolLocator = page.getByRole('link', { name: '«' })
 
-    if (await isVisible(hideDevToolLocator)) {
+    const devToolLocator = await getVisibleLocator(hideDevToolLocator, showDevToolLocator)
+
+    if (devToolLocator === hideDevToolLocator) {
       await hideDevToolLocator.click();
     }
     if (!await user.isUserLoggedIn()) {
