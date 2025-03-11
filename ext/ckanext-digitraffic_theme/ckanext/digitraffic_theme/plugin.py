@@ -14,6 +14,8 @@ from ckanext.digitraffic_theme.validators.dataset_validators import (
 )
 from ckanext.digitraffic_theme.validators.resource_validators import set_format_iri
 from ckanext.digitraffic_theme.helpers.helpers import helpers
+from ckanext.digitraffic_theme.search.search import before_dataset_index
+
 from flask import Blueprint
 
 digitraffic_blueprint = Blueprint("digitraffic", __name__, template_folder="templates")
@@ -27,6 +29,7 @@ class DigitrafficThemePlugin(plugins.SingletonPlugin, DefaultTranslation):
     plugins.implements(plugins.ITemplateHelpers)
     plugins.implements(plugins.IActions)
     plugins.implements(plugins.IAuthFunctions)
+    plugins.implements(plugins.IPackageController, inherit=True)
 
     # Declare that this class implements IConfigurer.
     plugins.implements(plugins.IConfigurer)
@@ -55,6 +58,9 @@ class DigitrafficThemePlugin(plugins.SingletonPlugin, DefaultTranslation):
         # templates.
         toolkit.add_resource("assets", "digitraffic_theme")
         toolkit.add_resource("assets", "digitraffic_web_component")
+
+    def before_dataset_index(self, data_dict):
+        return before_dataset_index(data_dict)
 
     def get_actions(self):
         return {
