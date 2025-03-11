@@ -3,7 +3,7 @@
  * a {@link User}
  */
 import type {BrowserContext, Page} from "@playwright/test";
-import {HomePage, OrganizationPage, OrganizationsListPage} from "../page-object-models";
+import {EditUserPage, HomePage, OrganizationPage, OrganizationsListPage} from "../page-object-models";
 import {URL} from "../page-object-models/pages-controller";
 import {gotoNewPage} from "../page-object-models/util";
 import {Organization} from "../models/organization";
@@ -89,6 +89,18 @@ export class User {
       page,
       URL.OrganizationsList,
       async (organizationsListPOM: OrganizationsListPage) => {await organizationsListPOM.goto()}
+    )
+  }
+
+  async gotoEditUserPage(name: string, page?: Page): Promise<EditUserPage> {
+    if (page === undefined) {
+      page = await this.createNewPage("gotoEditUserPage")
+    }
+    return await gotoNewPage(
+      page,
+      URL.EditUser,
+      async (editUserPOM: EditUserPage) => {await editUserPOM.goto()},
+      name
     )
   }
 

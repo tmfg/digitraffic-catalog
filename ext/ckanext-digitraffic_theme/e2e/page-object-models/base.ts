@@ -1,6 +1,6 @@
 import {expect, type Locator, type Page} from '@playwright/test'
 import { getPom, URL } from './pages-controller'
-import { isVisible } from '../util'
+import {isVisible, findVisibleLocator, getVisibleLocator} from '../util'
 import type {OrganizationsListPage} from "./organizations-list-page";
 import type {UserProfilePage} from "./user-profile-page";
 
@@ -14,6 +14,9 @@ export abstract class BasePage {
   readonly accountNavigation: Locator
   readonly appNavigation: Locator
   readonly appNavigationHamburger: Locator
+  readonly userIcon: Locator
+  readonly userNavigationChevronDownIcon: Locator
+  readonly userNavigationChevronUpIcon: Locator
   readonly organizationsNavigatior: Locator
   readonly userProfileNavigator: Locator
   readonly mainContent: Locator
@@ -24,8 +27,11 @@ export abstract class BasePage {
     this.appNavigation = this.header.locator('nav#app-navigation')
     this.accountNavigation = this.header.locator('nav.account')
     this.appNavigationHamburger = page.locator('[data-lucide="menu"]')
+    this.userIcon = this.accountNavigation.locator('.lucide-user')
     this.organizationsNavigatior = this.appNavigation.getByRole('link', {name: "Organisaatiot"})
     this.userProfileNavigator = this.accountNavigation.getByRole('link', {name: "Profiili", exact: true})
+    this.userNavigationChevronDownIcon = this.accountNavigation.locator('.lucide-chevron-down')
+    this.userNavigationChevronUpIcon = this.accountNavigation.locator('.lucide-chevron-up')
     this.mainContent = page.locator('body > .main')
   }
 
@@ -107,11 +113,13 @@ export abstract class BasePage {
     if (!await this.isWideScreen()) {
       throw new AppNavigationViewportStateError('narrow','Cannot interact with account navigation when narrow screen is in use')
     }
-    return await isVisible(this.userProfileNavigator)
+    const chevronIcon = await getVisibleLocator(this.userNavigationChevronDownIcon, this.userNavigationChevronUpIcon)
+    return chevronIcon === this.userNavigationChevronUpIcon
   }
 
   async isWideScreen():Promise<boolean> {
-    return !(await isVisible(this.appNavigationHamburger))
+    const visibleLocator = await getVisibleLocator(this.appNavigationHamburger, this.userIcon)
+    return visibleLocator === this.userIcon;
   }
 }
 
