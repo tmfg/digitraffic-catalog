@@ -25,7 +25,7 @@ export default Object.entries(inputs).map(([name, file]) => {
             inlineDynamicImports: true,
             dir: ".",
             entryFileNames: "ckanext/digitraffic_theme/assets/[name].js",
-            format: "es"
+            format: "iife"
         },
 
         plugins: jsPlugins,
