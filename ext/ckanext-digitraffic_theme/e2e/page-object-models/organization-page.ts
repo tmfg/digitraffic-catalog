@@ -4,19 +4,16 @@ import {setPom, URL} from "./pages-controller";
 import {gotoNewPage, pathParameterURL, urlify} from "./util";
 import {Organization} from "../models/organization";
 import {AuthorizationError} from "../models/error";
-import {isVisible} from "../util";
 
 export class OrganizationPage extends BasePage {
   readonly organization: Organization
   readonly pageUrl: string
-  readonly organizationPageNameHeader: Locator
   readonly organizationPageDescriptionText: Locator
   readonly editOrganizationButton: Locator
   constructor(page: Page, organization: Organization) {
-    super(page);
+    super(page, [page.getByRole('heading', {name: organization.name})]);
     this.organization = organization
     this.pageUrl = urlify(pathParameterURL(URL.Organization, {'name': organization.name}))
-    this.organizationPageNameHeader = page.getByRole('heading', {name: organization.name})
     this.organizationPageDescriptionText = page.getByText(organization.description)
     this.editOrganizationButton = page.getByRole('link', {name: 'Hallinnoi'})
   }
@@ -37,10 +34,6 @@ export class OrganizationPage extends BasePage {
         }),
       this.organization
     )
-  }
-
-  async isAtPage(): Promise<boolean> {
-    return await isVisible(this.organizationPageNameHeader)
   }
 }
 

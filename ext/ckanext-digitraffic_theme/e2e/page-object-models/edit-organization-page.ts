@@ -9,16 +9,14 @@ import {isVisible} from "../util";
 export class EditOrganizationPage extends BasePage {
   readonly pageUrl: string
   readonly organization: Organization
-  readonly organizationPageNameHeader: Locator
   readonly organizationPageDescriptionText: Locator
   readonly editorNavigationTabs: Locator
   readonly editorMainContent: Locator
   readonly addMemberButton: Locator
   constructor(page: Page, organization: Organization) {
-    super(page);
+    super(page, [page.getByRole('heading', {name: organization.name})]);
     this.organization = organization
     this.pageUrl = pathParameterURL(URL.EditOrganization, {'name': organization.name})
-    this.organizationPageNameHeader = page.getByRole('heading', {name: organization.name})
     this.organizationPageDescriptionText = page.getByText(organization.description)
     this.editorNavigationTabs = this.mainContent.locator('header .nav')
     this.editorMainContent = this.mainContent.getByRole('article').locator('.module-content')
@@ -64,11 +62,6 @@ export class EditOrganizationPage extends BasePage {
         .click()
       await this.page.getByRole('button', {name: "Vahvista"}).click()
     }
-  }
-
-  async isAtPage(): Promise<boolean> {
-    const isOrganizationNameVisible = await isVisible(this.organizationPageNameHeader)
-    return isOrganizationNameVisible
   }
 }
 

@@ -4,7 +4,6 @@ import {setPom, URL} from "./pages-controller";
 import {gotoNewPage, pathParameterURL} from "./util";
 import {Organization} from "../models/organization";
 import {AuthorizationError} from "../models/error";
-import {isVisible} from "../util";
 import type {EditOrganizationPage} from "./edit-organization-page";
 import {KnownUser} from "../users/known-user";
 
@@ -17,16 +16,14 @@ export enum Role {
 export class AddOrganizationMemberPage extends BasePage {
   readonly organization: Organization
   readonly pageUrl: string
-  readonly addUserHeader: Locator
   readonly existingUserSelector: Locator
   readonly roleSelector: Locator
   readonly addUserButton: Locator
 
   constructor(page: Page, organization: Organization) {
-    super(page);
+    super(page, [page.getByRole('heading', {name: 'Lisää jäsen'})]);
     this.organization = organization
     this.pageUrl = pathParameterURL(URL.AddOrganizationMember, {'name': organization.name})
-    this.addUserHeader = page.getByRole('heading', {name: 'Lisää jäsen'})
     this.existingUserSelector = page.getByLabel('Olemassa oleva käyttäjä')
     this.roleSelector = page.getByLabel('Rooli')
     this.addUserButton = page.getByRole('button', {name: 'Lisää jäsen'})
@@ -34,10 +31,6 @@ export class AddOrganizationMemberPage extends BasePage {
   async goto(): Promise<AddOrganizationMemberPage> {
     await this.page.goto(this.pageUrl);
     return this;
-  }
-
-  async isAtPage(): Promise<boolean> {
-    return await isVisible(this.addUserHeader)
   }
 
   async selectExistingUser(user: KnownUser): Promise<void> {

@@ -1,6 +1,8 @@
 import {BasePage} from "./base";
 import {URL, getPom} from "./pages-controller"
-import type {Page} from "@playwright/test";
+import {Page, test} from "@playwright/test";
+import {cancellableIsVisible, getForbiddenPageLocator} from "../util";
+import {AuthorizationError} from "../models/error";
 
 export async function gotoNewPage<T extends BasePage>(
   page: Page,
@@ -13,7 +15,27 @@ export async function gotoNewPage<T extends BasePage>(
 
   await navigationFn(newPagePOM)
 
-  await newPagePOM.assertPage()
+  await test.step('Check new POM...', async () => {
+    const forbiddenPageLocator = getForbiddenPageLocator(page)
+    const forbiddenPageVisible = cancellableIsVisible(forbiddenPageLocator)
+    const pomVisible = newPagePOM.cancellablePageCheck()
+    const possiblePages = [forbiddenPageVisible, pomVisible]
+    const visiblePageLocator = await Promise.race(possiblePages.map((foo) => {
+      if ('locator' in foo) {
+        return foo.locator
+      }
+      return foo.locators
+    }))
+
+    if (visiblePageLocator === forbiddenPageLocator) {
+      throw new AuthorizationError("User is not authorized to access page")
+    }
+    for (const {cancel} of possiblePages) {
+      cancel()
+    }
+
+    await newPagePOM.assertPage()
+  })
   return newPagePOM
 }
 

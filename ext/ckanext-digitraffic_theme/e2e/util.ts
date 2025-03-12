@@ -1,5 +1,46 @@
 import {type Locator, type Page, test} from "@playwright/test";
 
+export type CancellableLocatorCheck = {
+  locator: Promise<Locator>,
+  cancel: () => void
+}
+
+export class CancellationError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "CancellationError"
+  }
+}
+
+function cancellableWaitFor(locator: Locator): {cancel: () => void, locatorToBeVisible: Promise<Locator>} {
+  let isCancelled = false
+  const cancel = () => {
+    isCancelled = true
+  }
+  const locatorToBeVisible = new Promise<Locator>(async (resolve, reject) => {
+    let totalTimeWaited = 0
+    while (totalTimeWaited < 1000) {
+      if (isCancelled) {
+        reject(new CancellationError("Waiting for locator was cancelled"))
+        break
+      }
+      const isVisible = await locator.isVisible()
+      if (isVisible) {
+        resolve(locator)
+        break
+      }
+      setTimeout(() => {
+      }, 50)
+      totalTimeWaited += 50
+    }
+    reject("Locator is not visible")
+  })
+  return {
+    cancel,
+    locatorToBeVisible
+  }
+}
+
 export async function isVisible(locator: Locator): Promise<boolean> {
   try {
     await locator.waitFor({timeout: 1000})
@@ -9,37 +50,24 @@ export async function isVisible(locator: Locator): Promise<boolean> {
   }
 }
 
+export function cancellableIsVisible(locator: Locator): CancellableLocatorCheck {
+  const {cancel, locatorToBeVisible} = cancellableWaitFor(locator)
+  return {
+    cancel,
+    locator: locatorToBeVisible.then(() => locator)
+  }
+}
+
 export async function findVisibleLocator(...locators: Locator[]):Promise<Locator | undefined> {
   return await test.step('Find Visible Locator', async () => {
-    let isCancelled = false
+    const inspectLocatorsVisible = locators.map(locator => cancellableWaitFor(locator))
     const cancelAll = () => {
-      isCancelled = true
-    }
-    const inspectLocatorsVisible = locators.map(async locator => {
-      return new Promise<Locator>(async (resolve, reject) => {
-        let totalTimeWaited = 0
-        while (totalTimeWaited < 1000) {
-          if (isCancelled) {
-            reject("Cancelled")
-            break
-          }
-          const isVisible = await locator.isVisible()
-          if (isVisible) {
-            resolve(locator)
-            break
-          }
-          setTimeout(() => {
-          }, 50)
-          totalTimeWaited += 50
-        }
-        reject("Locator is not visible")
-      })
-      /*if (await isVisible(locator)) {
-        return locator
+      for (const {cancel} of inspectLocatorsVisible) {
+        cancel()
       }
-      return undefined*/
-    })
-    const visibleLocator = await Promise.race(inspectLocatorsVisible)
+    }
+    const visibleLocator = await Promise.race(inspectLocatorsVisible
+      .map(({ locatorToBeVisible }) => locatorToBeVisible))
     cancelAll()
     return visibleLocator
   })
@@ -74,6 +102,14 @@ export function getEnv(variableName: string): string {
   }
 
   return value
+}
+
+export function getForbiddenPageLocator(page: Page):Locator {
+  return page.getByRole('heading', {name: '403 Forbidden'})
+}
+
+export async function isAtForbiddenPage(page: Page): Promise<boolean> {
+  return await isVisible(getForbiddenPageLocator(page))
 }
 
 /**

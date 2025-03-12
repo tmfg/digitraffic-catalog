@@ -116,10 +116,3 @@ export class User {
     )
   }
 }
-
-export class UserStateError extends Error {
-  constructor(message: string = '') {
-    super(message);
-    this.name = 'UserStateError'
-  }
-}
