@@ -3,6 +3,7 @@ import {Identity} from '../users/identity-user';
 import {expect} from "@playwright/test";
 import {browseToUserEditPage, editUserInfo} from "../user-flows/user";
 import {assertIsSuccessfulResponse} from "../user-flows/util";
+import {AuthorizationError} from "../models/error";
 
 const identitiesToUse = [Identity.OrganizationEditor, Identity.OrganizationAdmin, Identity.SysAdmin] as const
 
@@ -29,7 +30,12 @@ test.describe('User info update tests', () => {
     await expect(userProfilePagePOM.userDescription).toContainText(newUserInfo.description)
   })
 
-  /*test('Modifying other user data as admin fails', async ({users}) => {
-
-  })*/
+  test('Modifying other user data as admin fails', async ({users}) => {
+    const sysAdmin = getKnownUserOrThrow(users, Identity.SysAdmin)
+    const organizationEditor = getKnownUserOrThrow(users, Identity.OrganizationEditor)
+    const newUserInfo = {
+      description: "Sys admin modified"
+    }
+    await expect(editUserInfo(sysAdmin, organizationEditor, newUserInfo)).rejects.toThrowError(AuthorizationError)
+  })
 })

@@ -6,7 +6,6 @@ import {gotoNewPage, urlify} from "./util";
 import {isVisible} from "../util";
 
 export class NewOrganizationPage extends BasePage {
-  readonly newOrganizationPageHeader: Locator
   readonly nameField: Locator
   readonly descriptionField: Locator
   readonly urlField: Locator
@@ -14,8 +13,7 @@ export class NewOrganizationPage extends BasePage {
   readonly errorMessage: Locator
   readonly errorReasons: Locator
   constructor(page: Page) {
-    super(page);
-    this.newOrganizationPageHeader = page.getByRole('heading', {name: 'Luo uusi organisaatio'})
+    super(page, [page.getByRole('heading', {name: 'Luo uusi organisaatio'})]);
     this.nameField = page.getByLabel('Nimi')
     this.urlField = page.getByRole('textbox', {name: '* URL:'})
     this.descriptionField = page.getByLabel('Kuvaus')
@@ -26,10 +24,6 @@ export class NewOrganizationPage extends BasePage {
   async goto(): Promise<NewOrganizationPage> {
     await this.page.goto(URL.NewOrganization);
     return this;
-  }
-
-  async isAtPage(): Promise<boolean> {
-    return await isVisible(this.newOrganizationPageHeader)
   }
 
   async fillForm(organization: Organization): Promise<void> {
@@ -49,7 +43,7 @@ export class NewOrganizationPage extends BasePage {
         await this.createNewOrganizationButton.click()
         const creationFailedConditions = Promise.all([
           organizationPOM.isAtPage().then(isAtPage => !isAtPage),
-          isVisible(this.newOrganizationPageHeader),
+          isVisible(this.isAtPageLocators[0]),
           isVisible(this.errorMessage)
         ])
         const isCreationUnsuccessful = await creationFailedConditions.then(results => {

@@ -7,7 +7,6 @@ import type {
   UsersListPage
 } from '.'
 import {AuthorizationError} from "../models/error";
-import {isVisible} from "../util";
 
 export class UserProfilePage extends BasePage {
   readonly pageUrl: string
@@ -20,7 +19,7 @@ export class UserProfilePage extends BasePage {
   readonly usersListingBreadcrumb: Locator
 
   constructor(page: Page, name: string) {
-    super(page);
+    super(page, [page.locator("Will-be-overridden")]);
     this.name = name
     this.pageUrl = pathParameterURL(URL.User, {'name': name})
     this.userProfileSide = page.locator('.main aside')
@@ -29,6 +28,7 @@ export class UserProfilePage extends BasePage {
     this.editUserButton = this.userProfileContent.getByRole('link', {name: 'Hallinnoi'})
     this.userDescription = this.userProfileSide.locator('p:has(+ div.nums)')
     this.usersListingBreadcrumb = page.locator('.breadcrumb').getByRole('link', {name: 'Käyttäjät'})
+    this.isAtPageLocators = [this.userName]
   }
 
   async goto(): Promise<UserProfilePage> {
@@ -56,10 +56,6 @@ export class UserProfilePage extends BasePage {
       URL.UsersList,
       async () => await this.usersListingBreadcrumb.click()
     )
-  }
-
-  async isAtPage(): Promise<boolean> {
-    return await isVisible(this.userName)
   }
 }
 

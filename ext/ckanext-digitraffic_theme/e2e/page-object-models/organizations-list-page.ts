@@ -4,16 +4,14 @@ import {setPom, URL} from "./pages-controller";
 import {gotoNewPage} from "./util";
 import {AuthorizationError} from "../models/error";
 import {isVisible} from "../util";
-import type {NewOrganizationPage} from "./new-organization-page";
+import  {NewOrganizationPage} from "./new-organization-page";
 
 export class OrganizationsListPage extends BasePage {
-  readonly organizationsListPageIntroductionHeader: Locator
   readonly newOrganizationButton: Locator
   readonly listMainContent: Locator
   readonly organizationsList: Locator
   constructor(page: Page) {
-    super(page);
-    this.organizationsListPageIntroductionHeader = page.getByRole('heading', {name: 'Mitä organisaatiot ovat?'})
+    super(page, [page.getByRole('heading', {name: 'Mitä organisaatiot ovat?'})]);
     this.newOrganizationButton = page.getByRole('link', {name: 'Lisää organisaatio'})
     this.listMainContent = this.mainContent.getByRole('article')
     this.organizationsList = this.listMainContent.locator('ul.media-grid')
@@ -33,10 +31,6 @@ export class OrganizationsListPage extends BasePage {
           throw new AuthorizationError("Is not allowed to create a new organization")
         })
     )
-  }
-
-  async isAtPage(): Promise<boolean> {
-    return await isVisible(this.organizationsListPageIntroductionHeader)
   }
 
   async isOrganizationCreated(organizationName: string): Promise<boolean> {

@@ -5,20 +5,26 @@ export interface SuccessfulUserFlowResponse<T extends BasePage> {
   pom: T
 }
 
-export interface UnsuccessfulUserFlowResponse {
-  pom?: BasePage,
+export interface FailedUserFlowResponse<T extends BasePage> {
+  pom?: T,
   error: Error
 }
 
-export type UserFlowResponse<T extends BasePage> = SuccessfulUserFlowResponse<T> | UnsuccessfulUserFlowResponse
+export type UserFlowResponse<T extends BasePage> = SuccessfulUserFlowResponse<T> | FailedUserFlowResponse<T>
 
 export function isSuccessfulResponse<T extends BasePage>(response: UserFlowResponse<T>): response is SuccessfulUserFlowResponse<T> {
-  return (response as UnsuccessfulUserFlowResponse)?.error === undefined
+  return (response as FailedUserFlowResponse<T>)?.error === undefined
 }
 
 export function assertIsSuccessfulResponse<T extends BasePage>(response: UserFlowResponse<T>): asserts response is SuccessfulUserFlowResponse<T> {
   if (!isSuccessfulResponse<T>(response)) {
-    throw new Error('Is not a successfull response')
+    throw new Error('Is not a successful response')
+  }
+}
+
+export function assertIsFailedResponse<T extends BasePage>(response: UserFlowResponse<T>): asserts response is FailedUserFlowResponse<T> {
+  if (isSuccessfulResponse<T>(response)) {
+    throw new Error('Is not a failed response')
   }
 }
 

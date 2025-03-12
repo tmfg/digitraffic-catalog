@@ -2,7 +2,6 @@ import {BasePage} from "./base";
 import type {Locator, Page} from "@playwright/test";
 import {setPom, URL} from "./pages-controller";
 import {gotoNewPage, pathParameterURL} from "./util";
-import {isVisible} from "../util";
 import {UserInfo} from "../models/userInfo";
 import {UserProfilePage} from "./user-profile-page";
 
@@ -20,12 +19,9 @@ export class EditUserPage extends BasePage {
   readonly lastName: Locator
   readonly phoneNumber: Locator
   readonly saveButton: Locator
-  
-  /*readonly userEditPageNameHeader: Locator
-  readonly userEditFormSection: Locator*/
 
   constructor(page: Page, name: string) {
-    super(page);
+    super(page, [page.locator("Will-be-overridden")]);
     this.pageUrl = pathParameterURL(URL.EditUser, {'name': name})
     this.editUserProfileSide = page.locator('.main aside')
     this.editUserProfileContent = page.getByRole('main')
@@ -39,14 +35,11 @@ export class EditUserPage extends BasePage {
     this.lastName = this.editUserProfileContent.getByLabel('Sukunimi')
     this.phoneNumber = this.editUserProfileContent.getByLabel('Puhelinnumero')
     this.saveButton = this.mainContent.getByRole('button', { name: 'Päivitä profiili' })
+    this.isAtPageLocators = [this.editUserSideHeader, this.editUserMainHeader]
   }
   async goto(): Promise<EditUserPage> {
     await this.page.goto(this.pageUrl);
     return this;
-  }
-
-  async isAtPage(): Promise<boolean> {
-      return await isVisible(this.editUserSideHeader) && isVisible(this.editUserMainHeader)
   }
 
   async getUserInfo(): Promise<UserInfo> {
