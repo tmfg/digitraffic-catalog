@@ -247,11 +247,10 @@ attribute with the form `ckan-X.Y` -->
     <copyField source="res_description" dest="text" />
     <copyField source="maintainer" dest="text" />
     <copyField source="author" dest="text" />
-
-    <!-- Fields added by Digitraffic -->
-    <copyField source="contact_point" dest="text" />
-    <copyField source="rights_holder" dest="text" />
     <copyField source="res_format" dest="text" />
 
+    <!-- Fields added by Digitraffic that need special handling -->
+    <copyField source="contact_point" dest="text" />
+    <copyField source="rights_holder" dest="text" />
 
 </schema>
