@@ -5,10 +5,10 @@
  * [here]{@link https://playwright.dev/docs/auth#multiple-signed-in-roles}
  */
 
-import {expect, test as setup, getKnownUserOrThrow, getIdentityUserOrThrow} from '../fixtures/users';
+import {test as setup, getKnownUserOrThrow, getIdentityUserOrThrow} from '../fixtures/users';
 import {IdentityUser} from '../users/identity-user'
 import {Identity} from '../users/identity-user'
-import {getVisibleLocator, getEnv, isAtUrl} from "../util";
+import {getVisibleLocator, getEnv} from "../util";
 import {organization} from "../testdata";
 import {addMemberToOrganization, createOrganization, removeMemberFromOrganization} from "../user-flows/organization"
 import {OrganizationCreationError, Role} from "../page-object-models";
@@ -27,19 +27,7 @@ async function authenticate(user: IdentityUser, identity: Identity, username: st
       await hideDevToolLocator.click();
     }
     if (!await user.isUserLoggedIn()) {
-      await page.getByRole('link', {name: 'Kirjaudu sisään'}).click();
-      if (await isAtUrl(page, 'https://login.microsoftonline.com/**')) {
-        await page.locator('input[type="email"]').fill(username);
-        await page.getByRole('button', {name: "Next"}).click();
-        // This waits until all hidden password fields are gone
-        await expect(page.locator('input[type="password"][aria-hidden="true"]')).toHaveCount(0);
-        await page.locator('input[type="password"]').fill(password);
-        await page.getByRole('button', {name: "Sign in"}).click();
-        await expect(page.getByRole('heading', {name: 'Stay signed in?'})).toBeVisible();
-        await page.getByRole('button', {name: "Yes"}).click();
-      }
-      await expect(page.getByRole('button', {name: identity})).toBeVisible();
-      await user.setAuthStorageState();
+      await user.authenticateUser(page, username, password)
     }
   })
 }

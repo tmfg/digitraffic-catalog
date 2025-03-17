@@ -1,10 +1,7 @@
-/**
- * This module defines the constructs that can be used in E2E-tests to take up some known [identity]{@link Identity} as
- * a {@link User}
- */
 import type {Browser, BrowserContext, Page} from "@playwright/test";
+import {expect} from "@playwright/test";
 import {existsSync} from 'fs'
-import {getEnv, isVisible} from "../util";
+import {getEnv, isVisible, isAtUrl} from "../util";
 import {User} from "./user";
 
 /**
@@ -22,18 +19,18 @@ export enum Identity {
 }
 
 /**
- * User object is used to take up an [identity]{@Identity} and to provide some useful methods for the user to perform
- * with a browser.
+ * IdentityUser object is used to take up an [identity]{@Identity} and to provide methods to manage the authentication
+ * state of the user
  */
 export class IdentityUser extends User {
   readonly identity: Identity;
 
   /**
-   * The constructor is made private as we want to create the User objects through {@link User.of} static method. This is
-   * because we want to call some asynchronous code when initializing a User.
-   * @param identity
-   * @param browserContext
-   * @private
+   * The constructor is made protected as we want to create the IdentityUser objects through {@link IdentityUser.of}
+   * static method. This is because we want to call some asynchronous code when initializing an IdentityUser.
+   * @param {BrowserContext} browserContext - @see {@link User}
+   * @param {Identity} identity - Identity of the user. @see {@link Identity}
+   * @protected
    */
   protected constructor(browserContext: BrowserContext, identity: Identity) {
     super(browserContext)
@@ -41,7 +38,7 @@ export class IdentityUser extends User {
   }
 
   /**
-   * Creates a {@link User} which has the given {@link Identity}. Note that the identities are meant to represent some
+   * Creates an {@link IdentityUser} which has the given {@link Identity}. Note that the identities are meant to represent some
    * known test user. Therefore, the user objects are also representing this identity. However, when creating a user
    * object with some identity, a new [browser context]{@link https://playwright.dev/docs/api/class-browsercontext}
    * is always created. This means that if you create two user objects with the same {@link Identity}, you'll end up
@@ -52,15 +49,8 @@ export class IdentityUser extends User {
    * the first test. And if you run the tests in parallel, then you might, or you might not, have this extra dataset
    * visible even if it was deleted at the end of the first test.
    *
-   * We do not support a case where new users are created. This would require that it would be possible to dynamically
+   * We do not support a case where a new user is created. This would require that it is possible to dynamically
    * create a user at Azure AD with all the correct settings for a test user.
-   *
-   * The idea of this object is that the User object would own the {@link BrowserContext} it uses and all the actions
-   * done with the said context would go via this object. Like opening a new page or saving the authentication state
-   * into a cache. Of course, the browser context is owned by the browser object that is given as
-   * an argument to this factory method and the context is modified by the actions taken inside the browser. However,
-   * one should not use the context outside the user object methods even though it is possible to do so.
-   * This way we can ensure that the browser state is consistent with the intended {@link Identity}.
    *
    * @param {Identity} identity – The identity to use with the user
    * @param {Browser} browser – Browser to use to create the browser context
@@ -73,6 +63,13 @@ export class IdentityUser extends User {
     return new IdentityUser(context, identity)
   }
 
+  /**
+   * This method is meant for child classes. A child class will want to call the {@link of} static factory
+   * method in order to have a properly set browser context. However, calling the factory method will create a new
+   * IdentityUser object which state the child class will want to use. This method will provide the needed state.
+   * @param authenticatedUser
+   * @protected
+   */
   protected static paramsForSuper(authenticatedUser: IdentityUser):[BrowserContext, Identity] {
     return [authenticatedUser.browserContext, authenticatedUser.identity]
   }
@@ -88,6 +85,22 @@ export class IdentityUser extends User {
     } else {
       throw new Error("Cannot set the authentication state as the user is not logged in")
     }
+  }
+
+  async authenticateUser(page: Page, username: string, password: string): Promise<void> {
+    await page.getByRole('link', {name: 'Kirjaudu sisään'}).click();
+    if (await isAtUrl(page, 'https://login.microsoftonline.com/**')) {
+      await page.locator('input[type="email"]').fill(username);
+      await page.getByRole('button', {name: "Next"}).click();
+      // This waits until all hidden password fields are gone
+      await expect(page.locator('input[type="password"][aria-hidden="true"]')).toHaveCount(0);
+      await page.locator('input[type="password"]').fill(password);
+      await page.getByRole('button', {name: "Sign in"}).click();
+      await expect(page.getByRole('heading', {name: 'Stay signed in?'})).toBeVisible();
+      await page.getByRole('button', {name: "Yes"}).click();
+    }
+    await expect(page.getByRole('button', {name: this.identity})).toBeVisible();
+    await this.setAuthStorageState();
   }
 
   async isUserLoggedIn() {
@@ -141,12 +154,5 @@ export class IdentityUser extends User {
    */
   private async cacheUserAuthState(identity: Identity) {
     await this.browserContext.storageState({path: IdentityUser.getIdentityStorageStatePath(identity)})
-  }
-}
-
-export class UserStateError extends Error {
-  constructor(message: string = '') {
-    super(message);
-    this.name = 'UserStateError'
   }
 }
