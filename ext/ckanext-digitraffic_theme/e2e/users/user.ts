@@ -1,28 +1,30 @@
-/**
- * This module defines the constructs that can be used in E2E-tests to take up some known [identity]{@link Identity} as
- * a {@link User}
- */
-import type {BrowserContext, Page} from "@playwright/test";
+import type {BrowserContext, Page, Browser} from "@playwright/test";
 import {EditUserPage, HomePage, OrganizationPage, OrganizationsListPage} from "../page-object-models";
 import {URL} from "../page-object-models/pages-controller";
 import {gotoNewPage} from "../page-object-models/util";
 import {Organization} from "../models/organization";
 
 /**
- * User object is used to take up an [identity]{@Identity} and to provide some useful methods for the user to perform
- * with a browser.
+ * User class provides basic features for page handling and navigation for a user.
+ * This class is meant to be extended by other classes.
  */
-export class User {
+export abstract class User {
   protected pages: Map<string, Page>;
   protected browserContext: BrowserContext;
 
   /**
-   * The constructor is made private as we want to create the User objects through {@link User.of} static method. This is
-   * because we want to call some asynchronous code when initializing a User.
-   * @param browserContext
+   * Each user should have their own [browser context]{@link https://playwright.dev/docs/api/class-browsercontext}.
+   * The idea is that the user object would own the {@link BrowserContext} it uses and all the actions
+   * done with the said context would go via this object. Like opening a new page or saving the authentication state
+   * into a cache. Of course, the browser context is owned by the [browser object]{@link Browser} that is used
+   * to create the context and the context is modified by the actions taken inside the browser. However,
+   * one should not use the context outside the user object methods even though it is possible to do so.
+   * This way we can ensure that the browser state is consistent with the user.
+   *
+   * @param {BrowserContext} browserContext - Playwright browser context
    * @protected
    */
-  constructor(browserContext: BrowserContext) {
+  protected constructor(browserContext: BrowserContext) {
     this.pages = new Map();
     this.browserContext = browserContext
   }
@@ -38,6 +40,11 @@ export class User {
     return newPage
   }
 
+  /**
+   * Closes the named page and removes the page from the memory
+   *
+   * @param {string} name - Name of the page to be removed
+   */
   async removePage(name: string): Promise<void> {
     if (this.pages.has(name)) {
       await this.getPage(name)?.close()
@@ -45,10 +52,20 @@ export class User {
     }
   }
 
-  async exit(): Promise<void> {
+  /**
+   * Removes all the pages. @see {@link removePage}
+   */
+  async removeAllPages(): Promise<void> {
     for (const name in this.pages) {
       await this.removePage(name)
     }
+  }
+
+  /**
+   * Removes all pages (@see {@link removePage}) and closes the browser context.
+   */
+  async exit(): Promise<void> {
+    await this.removeAllPages()
     await this.browserContext.close()
   }
 
@@ -114,5 +131,12 @@ export class User {
       async (organizationPOM: OrganizationPage) => {await organizationPOM.goto()},
       organization
     )
+  }
+}
+
+export class UserStateError extends Error {
+  constructor(message: string = '') {
+    super(message);
+    this.name = 'UserStateError'
   }
 }

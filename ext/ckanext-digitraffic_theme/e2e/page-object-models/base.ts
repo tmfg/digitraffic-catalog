@@ -1,6 +1,11 @@
 import {expect, type Locator, type Page} from '@playwright/test'
 import { getPom, URL } from './pages-controller'
-import {isVisible, getVisibleLocator, type CancellableLocatorCheck, cancellableIsVisible} from '../util'
+import {
+  isVisible,
+  getVisibleLocator,
+  cancellableIsVisible,
+  type CancellableLocatorsChecks
+} from '../util'
 import type {OrganizationsListPage} from "./organizations-list-page";
 import type {UserProfilePage} from "./user-profile-page";
 
@@ -52,7 +57,7 @@ export abstract class BasePage {
   async isAtPage(): Promise<boolean> {
     return (await Promise.all(this.isAtPageLocators.map(locator => isVisible(locator)))).every(locatorIsVisible => locatorIsVisible)
   }
-  cancellablePageCheck(): {[P in keyof CancellableLocatorCheck as 'locator' extends P ? 'locators' : P]: P extends 'locator' ? (CancellableLocatorCheck[P] extends Promise<infer L> ? Promise<L[]> : never) : CancellableLocatorCheck[P]} {
+  cancellablePageCheck(): CancellableLocatorsChecks {
     const locatorChecks = this.isAtPageLocators.map(locator => cancellableIsVisible(locator))
     const cancelAll = () => {
       for (const { cancel } of locatorChecks) {

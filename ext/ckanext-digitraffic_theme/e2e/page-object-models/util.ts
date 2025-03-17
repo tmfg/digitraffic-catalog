@@ -1,6 +1,6 @@
 import {BasePage} from "./base";
 import {URL, getPom} from "./pages-controller"
-import {Page, test} from "@playwright/test";
+import {type Page, test} from "@playwright/test";
 import {cancellableIsVisible, getForbiddenPageLocator} from "../util";
 import {AuthorizationError} from "../models/error";
 
@@ -20,11 +20,11 @@ export async function gotoNewPage<T extends BasePage>(
     const forbiddenPageVisible = cancellableIsVisible(forbiddenPageLocator)
     const pomVisible = newPagePOM.cancellablePageCheck()
     const possiblePages = [forbiddenPageVisible, pomVisible]
-    const visiblePageLocator = await Promise.race(possiblePages.map((foo) => {
-      if ('locator' in foo) {
-        return foo.locator
+    const visiblePageLocator = await Promise.race(possiblePages.map((pageVisibilityLocator) => {
+      if ('locator' in pageVisibilityLocator) {
+        return pageVisibilityLocator.locator
       }
-      return foo.locators
+      return pageVisibilityLocator.locators
     }))
 
     if (visiblePageLocator === forbiddenPageLocator) {

@@ -4,6 +4,14 @@ import {type Page, test} from "@playwright/test";
 import type {UserFlowOptions, UserFlowResponse} from "./util";
 import {EditUserPage, UserProfilePage} from "../page-object-models";
 
+/**
+ * Browses to the edit page of some user. Browsing in this case means that UI elements are used to go to the edit page
+ * instead of just writing the correct URL to the browser and hitting enter
+ *
+ * @param {KnownUser} user - The user that is used to browse to the edit page
+ * @param {string} userToEditName - Username of the user to whose edit page we want to browse into
+ * @param {Page} page - Page to use
+ */
 export async function browseToUserEditPage(user: KnownUser, userToEditName: string, page: Page | undefined = undefined): Promise<UserFlowResponse<EditUserPage>> {
   return await test.step(`Browsing to user's ${userToEditName} edit page as ${user.identity}`, async () => {
     if (!page) {

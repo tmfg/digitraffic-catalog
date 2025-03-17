@@ -5,6 +5,11 @@ export type CancellableLocatorCheck = {
   cancel: () => void
 }
 
+export type CancellableLocatorsChecks = {
+  locators: Promise<Locator[]>,
+  cancel: () => void
+}
+
 export class CancellationError extends Error {
   constructor(message: string) {
     super(message);
@@ -12,6 +17,11 @@ export class CancellationError extends Error {
   }
 }
 
+/**
+ * Similar to [Playwright locator's waitFor](https://playwright.dev/docs/api/class-locator#locator-wait-for but
+ * here, the waiting can be cancelled with the returned `cancel` function
+ * @param locator
+ */
 function cancellableWaitFor(locator: Locator): {cancel: () => void, locatorToBeVisible: Promise<Locator>} {
   let isCancelled = false
   const cancel = () => {
@@ -41,6 +51,11 @@ function cancellableWaitFor(locator: Locator): {cancel: () => void, locatorToBeV
   }
 }
 
+/**
+ * Checks if the element specified by the locator is visible. Waits for maximum of one second for the element to become
+ * visible before returning
+ * @param locator
+ */
 export async function isVisible(locator: Locator): Promise<boolean> {
   try {
     await locator.waitFor({timeout: 1000})
@@ -50,6 +65,11 @@ export async function isVisible(locator: Locator): Promise<boolean> {
   }
 }
 
+/**
+ * Same as {@link isVisible} but the checking can be cancelled
+ *
+ * @param locator
+ */
 export function cancellableIsVisible(locator: Locator): CancellableLocatorCheck {
   const {cancel, locatorToBeVisible} = cancellableWaitFor(locator)
   return {
@@ -58,6 +78,11 @@ export function cancellableIsVisible(locator: Locator): CancellableLocatorCheck 
   }
 }
 
+/**
+ * Given multiple locators, returns the first locator to become visible or undefined if timeout is reached
+ *
+ * @param locators - varargs of {@link Locator}s
+ */
 export async function findVisibleLocator(...locators: Locator[]):Promise<Locator | undefined> {
   return await test.step('Find Visible Locator', async () => {
     const inspectLocatorsVisible = locators.map(locator => cancellableWaitFor(locator))
@@ -73,6 +98,10 @@ export async function findVisibleLocator(...locators: Locator[]):Promise<Locator
   })
 }
 
+/**
+ * Same as {@link findVisibleLocator} but throws an Error if no locator is found
+ * @param locators
+ */
 export async function getVisibleLocator(...locators: Locator[]):Promise<Locator> {
   const foundLocator = await findVisibleLocator(...locators)
 
@@ -82,6 +111,12 @@ export async function getVisibleLocator(...locators: Locator[]):Promise<Locator>
   return foundLocator
 }
 
+/**
+ * Checks if the page is at the given URL
+ *
+ * @param {Page} page - Page to check for the given URL
+ * @param {string} url
+ */
 export async function isAtUrl(page: Page, url: string):Promise<boolean> {
   try {
     await page.waitForURL(url, {timeout: 5000})
@@ -104,6 +139,12 @@ export function getEnv(variableName: string): string {
   return value
 }
 
+/**
+ * Returns a {@link Locator} for a unique element found in the page that is returned when 403 Forbidden response is
+ * returned from the server.
+ *
+ * @param {Page} page - Page to use for the locator
+ */
 export function getForbiddenPageLocator(page: Page):Locator {
   return page.getByRole('heading', {name: '403 Forbidden'})
 }
@@ -111,10 +152,3 @@ export function getForbiddenPageLocator(page: Page):Locator {
 export async function isAtForbiddenPage(page: Page): Promise<boolean> {
   return await isVisible(getForbiddenPageLocator(page))
 }
-
-/**
- * Given a type (class with properties) returns a type with the optional properties removed
- */
-export type CompulsoryProperties<Type> = {
-  [Property in keyof Type as undefined extends Type[Property] ? never : Property]: Type[Property]
-};
