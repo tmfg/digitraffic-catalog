@@ -28,6 +28,7 @@ INDEXABLE_MULTILINGUAL_RESOURCE_FIELDS = [
     "description_translated",
     "data_service_description_translated",
     "name_translated",
+    "data_format_notes_translated",
 ]
 
 
