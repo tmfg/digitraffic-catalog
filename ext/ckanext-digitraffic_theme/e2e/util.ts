@@ -36,6 +36,7 @@ function cancellableWaitFor(locator: Locator): {cancel: () => Promise<void>, loc
 
   const locatorToBeVisible = new Promise<Locator>(async (resolve, reject) => {
     let totalTimeWaited = 0
+    const increment = 50
     while (totalTimeWaited < 1000) {
       if (isCancelled) {
         reject(new CancellationError("Waiting for locator was cancelled"))
@@ -46,9 +47,8 @@ function cancellableWaitFor(locator: Locator): {cancel: () => Promise<void>, loc
         resolve(locator)
         break
       }
-      setTimeout(() => {
-      }, 50)
-      totalTimeWaited += 50
+      await new Promise(r => setTimeout(r, increment))
+      totalTimeWaited += increment
     }
     cancelResolve()
     reject("Locator is not visible")
