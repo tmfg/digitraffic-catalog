@@ -27,11 +27,10 @@ export async function gotoNewPage<T extends BasePage>(
       return pageVisibilityLocator.locators
     }))
 
+    await Promise.all(possiblePages.map(({cancel}) => cancel()))
+
     if (visiblePageLocator === forbiddenPageLocator) {
       throw new AuthorizationError("User is not authorized to access page")
-    }
-    for (const {cancel} of possiblePages) {
-      cancel()
     }
 
     await newPagePOM.assertPage()

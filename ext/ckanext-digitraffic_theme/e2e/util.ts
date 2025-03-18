@@ -2,12 +2,12 @@ import {type Locator, type Page, test} from "@playwright/test";
 
 export type CancellableLocatorCheck = {
   locator: Promise<Locator>,
-  cancel: () => void
+  cancel: () => Promise<void>
 }
 
 export type CancellableLocatorsChecks = {
   locators: Promise<Locator[]>,
-  cancel: () => void
+  cancel: () => Promise<void>
 }
 
 export class CancellationError extends Error {
@@ -22,11 +22,18 @@ export class CancellationError extends Error {
  * here, the waiting can be cancelled with the returned `cancel` function
  * @param locator
  */
-function cancellableWaitFor(locator: Locator): {cancel: () => void, locatorToBeVisible: Promise<Locator>} {
+function cancellableWaitFor(locator: Locator): {cancel: () => Promise<void>, locatorToBeVisible: Promise<Locator>} {
   let isCancelled = false
+  let cancelResolve: () => void
+  const cancelPromise = new Promise<void>((resolve) => {
+    cancelResolve = resolve
+  })
+
   const cancel = () => {
     isCancelled = true
+    return cancelPromise
   }
+
   const locatorToBeVisible = new Promise<Locator>(async (resolve, reject) => {
     let totalTimeWaited = 0
     while (totalTimeWaited < 1000) {
@@ -43,8 +50,10 @@ function cancellableWaitFor(locator: Locator): {cancel: () => void, locatorToBeV
       }, 50)
       totalTimeWaited += 50
     }
+    cancelResolve()
     reject("Locator is not visible")
   })
+
   return {
     cancel,
     locatorToBeVisible
@@ -58,7 +67,7 @@ function cancellableWaitFor(locator: Locator): {cancel: () => void, locatorToBeV
  */
 export async function isVisible(locator: Locator): Promise<boolean> {
   try {
-    await locator.waitFor({timeout: 1000})
+    await locator.waitFor({timeout: 2000})
     return true
   } catch (e) {
     return false
@@ -86,14 +95,12 @@ export function cancellableIsVisible(locator: Locator): CancellableLocatorCheck 
 export async function findVisibleLocator(...locators: Locator[]):Promise<Locator | undefined> {
   return await test.step('Find Visible Locator', async () => {
     const inspectLocatorsVisible = locators.map(locator => cancellableWaitFor(locator))
-    const cancelAll = () => {
-      for (const {cancel} of inspectLocatorsVisible) {
-        cancel()
-      }
+    const cancelAll = async () => {
+      await Promise.all(inspectLocatorsVisible.map(({cancel}) => cancel()))
     }
     const visibleLocator = await Promise.race(inspectLocatorsVisible
       .map(({ locatorToBeVisible }) => locatorToBeVisible))
-    cancelAll()
+    await cancelAll()
     return visibleLocator
   })
 }
