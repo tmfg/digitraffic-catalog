@@ -59,10 +59,8 @@ export abstract class BasePage {
   }
   cancellablePageCheck(): CancellableLocatorsChecks {
     const locatorChecks = this.isAtPageLocators.map(locator => cancellableIsVisible(locator))
-    const cancelAll = () => {
-      for (const { cancel } of locatorChecks) {
-        cancel()
-      }
+    const cancelAll = async () => {
+      await Promise.all(locatorChecks.map(({ cancel }) => cancel()))
     }
     return {
       cancel: cancelAll,
