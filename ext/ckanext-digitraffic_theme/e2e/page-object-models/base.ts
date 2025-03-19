@@ -1,6 +1,13 @@
-import {expect, Locator, Page} from '@playwright/test'
+import {expect, type Locator, type Page} from '@playwright/test'
 import { getPom, URL } from './pages-controller'
-import { isVisible } from '../util'
+import {
+  isVisible,
+  getVisibleLocator,
+  cancellableIsVisible,
+  type CancellableLocatorsChecks
+} from '../util'
+import type {OrganizationsListPage} from "./organizations-list-page";
+import type {UserProfilePage} from "./user-profile-page";
 
 /**
  * This is the base page object model that contains relevant methods for the header and footer sections of
@@ -12,25 +19,33 @@ export abstract class BasePage {
   readonly accountNavigation: Locator
   readonly appNavigation: Locator
   readonly appNavigationHamburger: Locator
+  readonly userIcon: Locator
+  readonly userNavigationChevronDownIcon: Locator
+  readonly userNavigationChevronUpIcon: Locator
   readonly organizationsNavigatior: Locator
   readonly userProfileNavigator: Locator
   readonly mainContent: Locator
+  protected isAtPageLocators: [Locator, ...Locator[]]
 
-  constructor(page: Page) {
+  protected constructor(page: Page, isAtPageLocators: [Locator, ...Locator[]]) {
     this.page = page
+    this.isAtPageLocators = isAtPageLocators
     this.header = page.locator('header')
     this.appNavigation = this.header.locator('nav#app-navigation')
     this.accountNavigation = this.header.locator('nav.account')
     this.appNavigationHamburger = page.locator('[data-lucide="menu"]')
+    this.userIcon = this.accountNavigation.locator('.lucide-user')
     this.organizationsNavigatior = this.appNavigation.getByRole('link', {name: "Organisaatiot"})
     this.userProfileNavigator = this.accountNavigation.getByRole('link', {name: "Profiili", exact: true})
+    this.userNavigationChevronDownIcon = this.accountNavigation.locator('.lucide-chevron-down')
+    this.userNavigationChevronUpIcon = this.accountNavigation.locator('.lucide-chevron-up')
     this.mainContent = page.locator('body > .main')
   }
 
   /**
    * This function is used to navigate this.page to the page that this POM represents
    */
-  abstract async goto(): Promise<BasePage>
+  abstract goto(): Promise<BasePage>
 
   /**
    * This function is used to assert that this.page is at the page that this POM represents and the page is fully loaded
@@ -39,11 +54,23 @@ export abstract class BasePage {
     expect(await this.isAtPage()).toBeTruthy()
   }
 
-  abstract async isAtPage(): Promise<boolean>
+  async isAtPage(): Promise<boolean> {
+    return (await Promise.all(this.isAtPageLocators.map(locator => isVisible(locator)))).every(locatorIsVisible => locatorIsVisible)
+  }
+  cancellablePageCheck(): CancellableLocatorsChecks {
+    const locatorChecks = this.isAtPageLocators.map(locator => cancellableIsVisible(locator))
+    const cancelAll = async () => {
+      await Promise.all(locatorChecks.map(({ cancel }) => cancel()))
+    }
+    return {
+      cancel: cancelAll,
+      locators: Promise.all(locatorChecks.map(({ locator }) => locator))
+    }
+  }
 
-  async gotoOrganizationsListPage(): Promise<BasePage> {
+  async gotoOrganizationsListPage(): Promise<OrganizationsListPage> {
     const organizationPageConstructor = getPom(URL.OrganizationsList)
-    const organizationPOM = new organizationPageConstructor(this.page) as BasePage
+    const organizationPOM = new organizationPageConstructor(this.page) as OrganizationsListPage
 
     if (!await this.isWideScreen()) {
       await this.makeAppNavigationOpen();
@@ -53,9 +80,9 @@ export abstract class BasePage {
     return organizationPOM
   }
 
-  async gotoUserProfilePage(): Promise<BasePage> {
+  async gotoUserProfilePage(name: string): Promise<UserProfilePage> {
     const userProfilePageConstructor = getPom(URL.User)
-    const userProfilePOM = new userProfilePageConstructor(this.page) as BasePage
+    const userProfilePOM = new userProfilePageConstructor(this.page, name) as UserProfilePage
 
     if (!await this.isWideScreen()) {
       await this.makeAppNavigationOpen();
@@ -105,11 +132,13 @@ export abstract class BasePage {
     if (!await this.isWideScreen()) {
       throw new AppNavigationViewportStateError('narrow','Cannot interact with account navigation when narrow screen is in use')
     }
-    return await isVisible(this.userProfileNavigator)
+    const chevronIcon = await getVisibleLocator(this.userNavigationChevronDownIcon, this.userNavigationChevronUpIcon)
+    return chevronIcon === this.userNavigationChevronUpIcon
   }
 
   async isWideScreen():Promise<boolean> {
-    return !(await isVisible(this.appNavigationHamburger))
+    const visibleLocator = await getVisibleLocator(this.appNavigationHamburger, this.userIcon)
+    return visibleLocator === this.userIcon;
   }
 }
 
