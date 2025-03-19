@@ -1,142 +1,75 @@
-/**
- * This module defines the constructs that can be used in E2E-tests to take up some known [identity]{@link Identity} as
- * a {@link User}
- */
-import {Browser, BrowserContext, Page} from "@playwright/test";
-import {HomePage, OrganizationPage, OrganizationsListPage} from "../page-object-models";
-import {getPom, URL} from "../page-object-models/pages-controller";
+import type {BrowserContext, Page, Browser} from "@playwright/test";
+import {EditUserPage, HomePage, OrganizationPage, OrganizationsListPage} from "../page-object-models";
+import {URL} from "../page-object-models/pages-controller";
 import {gotoNewPage} from "../page-object-models/util";
-import {existsSync} from 'fs'
-import {isVisible} from "../util";
-import {UserInfo} from "../models/userInfo";
-import {organization} from "../testdata";
 import {Organization} from "../models/organization";
 
 /**
- * Identity represents a known user identity. Each member of this enum must have a corresponding test account created
- * in Azure AD so that it can be used to sign in to Datacatalog.
- *
- * @enum {number}
+ * User class provides basic features for page handling and navigation for a user.
+ * This class is meant to be extended by other classes.
  */
-export enum Identity {
-  OrganizationMember = 'Datakatalogi-testorganization-member',
-  OrganizationEditor = 'Datakatalogi-testorganization-editor',
-  OrganizationAdmin = 'Datakatalogi-testorganization-admin',
-  SysAdmin = 'Datakatalogi-testsystem-admin',
-  Anonymous = 'Anonymous'
-}
-
-/**
- * User object is used to take up an [identity]{@Identity} and to provide some useful methods for the user to perform
- * with a browser.
- */
-export class User {
-  readonly identity: Identity;
-  readonly userInfo: UserInfo;
-  private pages: Map<string, Page>;
-  private browserContext: BrowserContext;
+export abstract class User {
+  protected pages: Map<string, Page>;
+  protected browserContext: BrowserContext;
 
   /**
-   * The constructor is made private as we want to create the User objects through {@link User.of} static method. This is
-   * because we want to call some asynchronous code when initializing a User.
-   * @param identity
-   * @param userInfo
-   * @param browserContext
-   * @private
+   * Each user should have their own [browser context]{@link https://playwright.dev/docs/api/class-browsercontext}.
+   * The idea is that the user object would own the {@link BrowserContext} it uses and all the actions
+   * done with the said context would go via this object. Like opening a new page or saving the authentication state
+   * into a cache. Of course, the browser context is owned by the [browser object]{@link Browser} that is used
+   * to create the context and the context is modified by the actions taken inside the browser. However,
+   * one should not use the context outside the user object methods even though it is possible to do so.
+   * This way we can ensure that the browser state is consistent with the user.
+   *
+   * @param {BrowserContext} browserContext - Playwright browser context
+   * @protected
    */
-  private constructor(identity: Identity, userInfo: UserInfo, browserContext: BrowserContext) {
-    this.identity = identity;
-    this.userInfo = userInfo;
+  protected constructor(browserContext: BrowserContext) {
     this.pages = new Map();
     this.browserContext = browserContext
-  }
-
-  /**
-   * Creates a {@link User} which has the given {@link Identity}. Note that the identities are meant to represent some
-   * known test user. Therefore, the user objects are also representing this identity. However, when creating a user
-   * object with some identity, a new [browser context]{@link https://playwright.dev/docs/api/class-browsercontext}
-   * is always created. This means that if you create two user objects with the same {@link Identity}, you'll end up
-   * having two objects that have their own browser state but the state is initialized with the same authentication
-   * state. With this in mind, when running tests, the server state might be different each time depending on the order
-   * in which tests are run. Say, you first run a test that creates a private dataset with some identity. Now, all
-   * the subsequent tests with the same user will have access to this dataset if it was not deleted at the end of
-   * the first test. And if you run the tests in parallel, then you might, or you might not, have this extra dataset
-   * visible even if it was deleted at the end of the first test.
-   *
-   * We do not support a case where new users are created. This would require that it would be possible to dynamically
-   * create a user at Azure AD with all the correct settings for a test user.
-   *
-   * The idea of this object is that the User object would own the {@link BrowserContext} it uses and all the actions
-   * done with the said context would go via this object. Like opening a new page or saving the authentication state
-   * into a cache. Of course, the browser context is owned by the browser object that is given as
-   * an argument to this factory method and the context is modified by the actions taken inside the browser. However,
-   * one should not use the context outside the user object methods even though it is possible to do so.
-   * This way we can ensure that the browser state is consistent with the intended {@link Identity}.
-   *
-   * @param {Identity} identity – The identity to use with the user
-   * @param {Browser} browser – Browser to use to create the browser context
-   * @param {boolean} isUserInfoIncluded – Is user info of authenticated user gathered from UI and added to the User object?
-   * @see {@link Identity}
-   */
-  static async of(identity: Identity, browser: Browser, isUserInfoIncluded: boolean = true): Promise<User> {
-    const storagePath = User.getIdentityStorageStatePath(identity)
-    const cachedAuthStateExists = existsSync(storagePath)
-    const context = await browser.newContext(cachedAuthStateExists ? {storageState: storagePath} : {})
-    let userInfo: UserInfo
-    if (cachedAuthStateExists && isUserInfoIncluded) {
-      const page = await context.newPage()
-      await page.goto(URL.Home)
-      if (await User._isUserLoggedIn(page, identity)) {
-        userInfo = await User.gatherUserInfo(page)
-      }
-      await page.close()
-    }
-    return new User(identity, userInfo, context)
-  }
-
-  /**
-   * Sets the current browser state as the authentication state for the user identity.
-   *
-   * @see {@link Identity}
-   */
-  async setAuthStorageState(): Promise<void> {
-    if (await this.isUserLoggedIn()) {
-      await this.cacheUserAuthState(this.identity)
-    } else {
-      throw new Error("Cannot set the authentication state as the user is not logged in")
-    }
-  }
-
-  async isUserLoggedIn() {
-    const page = this.getDatacatalogPage()
-    return await User._isUserLoggedIn(page, this.identity)
-  }
-
-  private static async _isUserLoggedIn(page: Page, identity: Identity): Promise<boolean> {
-    const userActionsLocator = page.locator('header .account button', {hasText: identity})
-    return await isVisible(userActionsLocator)
-  }
-
-  private getDatacatalogPage(): Page {
-    for (let [pageName, page] of this.pages) {
-      if (page.url().startsWith(process.env.TEST_SITE_URL)) {
-        return page
-      }
-    }
   }
 
   getPage(name: string) {
     return this.pages.get(name)
   };
 
-  async createNewPage(name: string) {
+  async createNewPage(name: string): Promise<Page> {
     this.checkPageExists(name)
     const newPage = await this.browserContext.newPage();
     this.pages.set(name, newPage)
     return newPage
   }
 
-  async goToNewPage(url: string, options = undefined) {
+  /**
+   * Closes the named page and removes the page from the memory
+   *
+   * @param {string} name - Name of the page to be removed
+   */
+  async removePage(name: string): Promise<void> {
+    if (this.pages.has(name)) {
+      await this.getPage(name)?.close()
+      this.pages.delete(name)
+    }
+  }
+
+  /**
+   * Removes all the pages. @see {@link removePage}
+   */
+  async removeAllPages(): Promise<void> {
+    for (const name in this.pages) {
+      await this.removePage(name)
+    }
+  }
+
+  /**
+   * Removes all pages (@see {@link removePage}) and closes the browser context.
+   */
+  async exit(): Promise<void> {
+    await this.removeAllPages()
+    await this.browserContext.close()
+  }
+
+  async goToNewPage(url: string, options?: {name?: string}) {
     const name = options?.name ?? url
     this.checkPageExists(name)
     const newPage = await this.createNewPage(name)
@@ -154,53 +87,10 @@ export class User {
     }
   }
 
-  private static async gatherUserInfo(page: Page): Promise<UserInfo> {
-    const homePage = await gotoNewPage(
-      page,
-      URL.Home,
-      async (homePagePOM: HomePage) => {await homePagePOM.goto()}
-    )
-    await homePage.makeAccountNavigationOpen()
-    let profileUrl = await homePage.userProfileNavigator.getAttribute('href')
-    profileUrl = profileUrl.replace("/user/", "/user/edit/")
-    await page.goto(profileUrl)
-    const username = await page.getByLabel('Käyttäjänimi').getAttribute('value')
-    const fullName = await page.getByLabel('Koko nimi').getAttribute('value')
-    return new UserInfo(username, fullName)
-  }
-
-  /**
-   * This is used to get the cache location of user's authentication state.
-   * @param {Identity} identity – identity whose cache location is returned
-   * @param {string} browserName – Name of the browser.
-   * @private
-   */
-  private static getIdentityStorageStatePath(identity: Identity): string {
-    switch (identity) {
-      case Identity.Anonymous:
-        return `playwright/.auth/anonymous.json`
-      case Identity.OrganizationMember:
-        return `playwright/.auth/organization-member.json`
-      case Identity.OrganizationEditor:
-        return `playwright/.auth/organization-editor.json`
-      case Identity.OrganizationAdmin:
-        return `playwright/.auth/organization-admin.json`
-      case Identity.SysAdmin:
-        return `playwright/.auth/system-admin.json`
+  async gotoHomePage(page?: Page):Promise<HomePage> {
+    if (page === undefined) {
+      page = await this.createNewPage("gotoHomePage")
     }
-  }
-
-  /**
-   * The state is saved into a local filesystem so that it can be used across multiple tests without needing
-   * to re-authenticate each time.
-   * @param identity
-   * @private
-   */
-  private async cacheUserAuthState(identity: Identity) {
-    await this.browserContext.storageState({path: User.getIdentityStorageStatePath(identity)})
-  }
-
-  async gotoHomePage(page: Page):Promise<HomePage> {
     return await gotoNewPage(
       page,
       URL.Home,
@@ -208,7 +98,10 @@ export class User {
     )
   }
 
-  async gotoOrganizationsListPage(page: Page):Promise<OrganizationsListPage> {
+  async gotoOrganizationsListPage(page?: Page):Promise<OrganizationsListPage> {
+    if (page === undefined) {
+      page = await this.createNewPage("gotoOrganizationsListPage")
+    }
     return await gotoNewPage(
       page,
       URL.OrganizationsList,
@@ -216,12 +109,34 @@ export class User {
     )
   }
 
-  async gotoOrganizationPage(page: Page, organization: Organization):Promise<OrganizationPage> {
+  async gotoEditUserPage(name: string, page?: Page): Promise<EditUserPage> {
+    if (page === undefined) {
+      page = await this.createNewPage("gotoEditUserPage")
+    }
+    return await gotoNewPage(
+      page,
+      URL.EditUser,
+      async (editUserPOM: EditUserPage) => {await editUserPOM.goto()},
+      name
+    )
+  }
+
+  async gotoOrganizationPage(organization: Organization, page?: Page):Promise<OrganizationPage> {
+    if (page === undefined) {
+      page = await this.createNewPage("gotoOrganizationPage")
+    }
     return await gotoNewPage(
       page,
       URL.Organization,
       async (organizationPOM: OrganizationPage) => {await organizationPOM.goto()},
       organization
     )
+  }
+}
+
+export class UserStateError extends Error {
+  constructor(message: string = '') {
+    super(message);
+    this.name = 'UserStateError'
   }
 }

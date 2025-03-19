@@ -1,4 +1,4 @@
-import {Page} from "@playwright/test";
+import type {Page} from "@playwright/test"
 
 export enum URL {
   Home = '/',
@@ -7,15 +7,22 @@ export enum URL {
   Organization = '/organization/{name}',
   EditOrganization = '/organization/edit/{name}',
   AddOrganizationMember = '/organization/member_new/{name}',
-  User = '/user/{name}'
+  User = '/user/{name}',
+  EditUser = '/user/edit/{name}',
+  UsersList = '/user'
 }
 export interface POMConstructor {
-  new(page: Page, ...args): Object;
+  new(page: Page, ...args: any[]): Object;
 }
+
 const poms = new Map<URL, POMConstructor>()
 
 export function getPom(relativeURL: URL): POMConstructor {
-  return poms.get(relativeURL)
+  const pom = poms.get(relativeURL)
+  if (pom === undefined) {
+    throw new Error(`POM at "${relativeURL}" is not set`)
+  }
+  return pom
 }
 
 export function setPom(relativeURL: URL, pomConstructor: POMConstructor) {

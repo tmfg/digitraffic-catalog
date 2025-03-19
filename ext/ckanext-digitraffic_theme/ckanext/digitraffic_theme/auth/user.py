@@ -13,9 +13,9 @@ def _is_user_action_allowed(context: Context, data_dict: DataDict) -> bool:
         return False
     acted_on_user_id_or_name = data_dict.get("id")
     acted_on_user = context["model"].User.get(acted_on_user_id_or_name)
-    if user_triggering_action.id != acted_on_user.id:
-        return False
-    return True
+    if user_triggering_action.id == acted_on_user.id:
+        return True
+    return False
 
 
 @toolkit.chained_auth_function
@@ -27,6 +27,7 @@ def user_show(next_auth: Callable, context: Context, data_dict: DataDict):
 
 
 @toolkit.chained_auth_function
+@toolkit.auth_sysadmins_check
 def user_update(next_auth: Callable, context: Context, data_dict: DataDict):
     is_user_action_allowed = _is_user_action_allowed(context, data_dict)
     if is_user_action_allowed:
