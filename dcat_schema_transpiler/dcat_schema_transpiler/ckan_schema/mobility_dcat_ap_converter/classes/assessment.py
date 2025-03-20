@@ -45,9 +45,12 @@ class Assessment(AggregateRangeValueConverter):
 
         if clazz_p.iri in class_properties:
             if clazz_p.is_iri(DCTERMS.issued):
-                return super().get_schema(
-                    ds, clazz_p, is_required
-                ) | super().get_property_label_with_help_text(clazz_p.iri)
+                return (
+                    super().get_schema(ds, clazz_p, is_required)
+                    | super().get_property_label_with_help_text(clazz_p.iri)
+                    | {"preset": "date"}
+                )
+
             if clazz_p.is_iri(OA.hasBody):
                 return {
                     "field_name": self.ckan_field(clazz_p, ds),
