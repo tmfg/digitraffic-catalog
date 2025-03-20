@@ -1,8 +1,8 @@
 from typing import TypedDict, NotRequired, Self, Optional
 
+from ckan.types import AlchemySession
 from ckan.plugins import toolkit
 import sqlalchemy as sa
-from sqlalchemy.orm import relationship, Session
 
 
 class DigitrafficUserInfoInput(TypedDict):
@@ -57,12 +57,12 @@ class DigitrafficUserInfo(toolkit.BaseModel):
         self.street_address = street_address
 
     @classmethod
-    def get(cls, session: Session, user_id: str) -> Self:
+    def get(cls, session: AlchemySession, user_id: str) -> Self:
         return session.query(cls).filter(cls.user_id == user_id).first()
 
     @classmethod
     def upsert(
-        cls, session: Session, user_id: str, user_data: DigitrafficUserInfoInput
+        cls, session: AlchemySession, user_id: str, user_data: DigitrafficUserInfoInput
     ) -> Self:
         user_info = DigitrafficUserInfo.get(session, user_id)
         if user_info is not None:

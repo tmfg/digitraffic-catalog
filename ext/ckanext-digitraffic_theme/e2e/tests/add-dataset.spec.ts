@@ -1,10 +1,10 @@
-import {IdentitysOptions, test} from '../fixtures/users'
-import {Identity, User} from '../users/user';
+import {test} from '../fixtures/users'
+import {Identity} from "../users/identity-user";
 
 test.use({
-  identitiesToUse: [[Identity.OrganizationAdmin], {scope: 'test'}]
-} as IdentitysOptions);
+  identitiesToUse: [new Set([Identity.OrganizationAdmin]), {scope: 'test'}]
+});
 
-test('Add dataset', async ({ users }: {users: Map<Identity, User>}) => {
+test('Add dataset', async ({ users }) => {
   // TODO
 })
