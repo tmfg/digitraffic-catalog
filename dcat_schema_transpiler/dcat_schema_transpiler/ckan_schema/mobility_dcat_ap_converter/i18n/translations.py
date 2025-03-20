@@ -47,7 +47,7 @@ TRANSLATIONS = {
             "label": {"en": "Transport mode", "fi": "Liikennemuoto"}
         },
         DCTERMS.spatial: {
-            "label": {"en": "Location", "fi": "Sijainti"},
+            "label": {"en": "Regional coverage", "fi": "Alueellinen kattavuus"},
         },
         DCAT.theme: {
             "label": {"en": "Theme", "fi": "Aihe"},
