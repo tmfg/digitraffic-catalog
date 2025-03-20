@@ -31,7 +31,6 @@ pytestmark = [
                 "scheming_groups",
                 "scheming_organizations",
                 "scheming_test_plugin",
-                "scheming_nerf_index",
                 "scheming_test_validation",
             ]
         ),

@@ -5,7 +5,6 @@ import {
   SUB_MOBILITY_THEMES_T, MOBILITY_THEME_TREE, MOBILITY_THEME_LABELS, SUB_MOBILITY_THEMES
 } from "../model/mobility-theme";
 
-
 type DatasetFormWrapperState = {
   topMobilityTheme?: TOP_MOBILITY_THEMES_T
   subMobilityThemeSelector?: JQuery<HTMLSelectElement>
@@ -23,7 +22,6 @@ const DatasetFormWrapper = {
     this.state = {
       topMobilityTheme: this._getInitialMobilityTheme()
     };
-
     const topMobilityThemeSelector = this._getTopMobilityThemeSelector()
 
     topMobilityThemeSelector.on('change', this._onTopMobilityThemeChanged)
@@ -42,8 +40,20 @@ const DatasetFormWrapper = {
       return undefined
     }
   },
+  _getInitialSubMobilityTheme(): SUB_MOBILITY_THEMES_T | undefined {
+    const formSubMobilityTheme = this._getInitialSubMobilityThemeSelector().val();
+    if (SUB_MOBILITY_THEMES.has(formSubMobilityTheme)) {
+      return formSubMobilityTheme as SUB_MOBILITY_THEMES_T;
+    } else {
+      return undefined;
+    }
+  },
   _getTopMobilityThemeSelector(): JQuery<HTMLSelectElement> {
     return this.$("#field-mobility_theme")
+  },
+  // the existing value of mobility theme sub category is stored in a separate element for the use of this script
+  _getInitialSubMobilityThemeSelector(): JQuery<HTMLSelectElement> {
+    return this.$("#mobility_theme_sub_value")
   },
   _getSubMobilityThemeSelector(): JQuery<HTMLSelectElement> {
     return this.$("#field-mobility_theme_sub")
@@ -123,18 +133,23 @@ const DatasetFormWrapper = {
       return typeof state === 'object' && !!state.subMobilityThemeSelectorParent && !!state.subMobilityThemeSelector
     }
 
-    function _buildSubThemeOptions(subThemes: SUB_MOBILITY_THEMES_T[]) {
+    function _buildSubThemeOptions(subThemes: SUB_MOBILITY_THEMES_T[], selectedSubTheme?: SUB_MOBILITY_THEMES_T) {
       const subThemeOptions = subThemes.map(subTheme => {
         const option = document.createElement("option")
         option.value = subTheme
         const lang = $("html").attr("lang");
         option.text = MOBILITY_THEME_LABELS[subTheme][lang] ?? MOBILITY_THEME_LABELS[subTheme]["en"]
+        if (subTheme === selectedSubTheme) {
+          option.selected = true;
+        }
         return option
       })
       const emptyOption = document.createElement("option")
       emptyOption.value = ""
       emptyOption.text = ""
-      emptyOption.selected = true
+      if (!selectedSubTheme) {
+        emptyOption.selected = true;
+      }
       subThemeOptions.unshift(emptyOption)
       subThemeOptions.sort((a, b) => a.text.localeCompare(b.text))
 
@@ -189,9 +204,10 @@ const DatasetFormWrapper = {
     const isRenderNeeded = isInitialRender || isMobilityThemeChanged
     if (isRenderNeeded) {
       const subThemes = MOBILITY_THEME_TREE[state.topMobilityTheme]
+      const initialSubMobilityTheme = this._getInitialSubMobilityTheme();
       if (subThemes?.length > 0) {
         _addSubThemeSelector.apply(this)
-        const subThemeOptions = _buildSubThemeOptions.apply(this, [subThemes])
+        const subThemeOptions = _buildSubThemeOptions.apply(this, [subThemes, initialSubMobilityTheme])
         _changeSubThemeOptions.apply(this, [subThemeOptions])
       } else {
         _removeSubThemeSelector.apply(this)
