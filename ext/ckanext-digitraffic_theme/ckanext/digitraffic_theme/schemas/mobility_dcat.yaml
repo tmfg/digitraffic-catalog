@@ -1080,8 +1080,8 @@ dataset_fields:
       sv: Truck
 - field_name: spatial
   label:
-    en: Location
-    fi: Sijainti
+    en: Regional coverage
+    fi: Alueellinen kattavuus
   required: true
   preset: select
   form_include_blank_choice: true
@@ -3150,6 +3150,7 @@ dataset_fields:
       en: Assessment date
       fi: Arvion päivämäärä
     required: false
+    preset: date
   - field_name: assessment_result
     label:
       en: Assessment result
