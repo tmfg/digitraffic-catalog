@@ -2935,7 +2935,7 @@ dataset_fields:
       en: TPEG-LOC
       fi: TPEG-LOC
       sv: TPEG-LOC
-  validators: geo_referencing_method_validator
+  validators: georeferencing_method_validator
 - field_name: contact_point
   label:
     en: Contact point

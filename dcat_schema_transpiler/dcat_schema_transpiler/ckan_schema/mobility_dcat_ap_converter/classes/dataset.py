@@ -316,7 +316,7 @@ class DCATDataset(RangeValueConverter):
                     "sorted_choices": True,
                     "form_include_blank_choice": True,
                     "choices": RangeValueConverter.vocab_choices(graph=g, iri=p.iri),
-                    "validators": "geo_referencing_method_validator",
+                    "validators": "georeferencing_method_validator",
                 }
             case MOBILITYDCATAP.networkCoverage:
                 g = ds.get_graph(URIRef(CVOCAB_NETWORK_COVERAGE))
