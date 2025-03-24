@@ -234,6 +234,7 @@ dataset_fields:
       en: weekly
       fi: viikoittainen
       sv: veckovis
+  validators: frequency_validator
 - field_name: mobility_theme
   label:
     en: Data content category
@@ -242,6 +243,7 @@ dataset_fields:
   preset: select
   sorted_choices: true
   form_include_blank_choice: true
+  validators: mobility_theme_validator
   choices:
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/air-and-space-travel
     label:
@@ -937,6 +939,7 @@ dataset_fields:
       en: Transport
       fi: Liikenne
       sv: Transport
+  validators: theme_validator
 - field_name: start_timestamp
   label:
     en: Start time
@@ -1078,6 +1081,7 @@ dataset_fields:
       en: Truck
       fi: Kuorma-auto
       sv: Truck
+  validators: transport_mode_validator
 - field_name: spatial
   label:
     en: Regional coverage
@@ -2786,6 +2790,7 @@ dataset_fields:
       en: Äänekoski
       fi: Äänekoski
       sv: Äänekoski
+  validators: location_validator
 - field_name: version
   label:
     en: Dataset version
@@ -2885,6 +2890,7 @@ dataset_fields:
       en: Swedish
       fi: ruotsi
       sv: svenska
+  validators: language_validator
 - field_name: georeferencing_method
   label:
     en: Georeferencing method
@@ -2929,6 +2935,7 @@ dataset_fields:
       en: TPEG-LOC
       fi: TPEG-LOC
       sv: TPEG-LOC
+  validators: geo_referencing_method_validator
 - field_name: contact_point
   label:
     en: Contact point
@@ -3059,6 +3066,7 @@ dataset_fields:
       en: Waterways
       fi: Vesiväylät
       sv: Waterways
+  validators: network_coverage_validator
 - field_name: conforms_to
   label:
     en: Spatial reference system
@@ -3130,6 +3138,7 @@ dataset_fields:
       en: Trip plans, auxiliary information, availability check
       fi: Reittisuunnitelmat, lisätiedot, saatavuuden tarkistus
       sv: Trip plans, auxiliary information, availability check
+  validators: intended_information_service_validator
 - field_name: quality_description
   label:
     en: Quality description

@@ -11,6 +11,9 @@ from ckanext.digitraffic_theme.validators.dataset_validators import (
     spatial_reference_validator,
     dataset_reference_validator,
     is_referenced_by_validator,
+    mobility_theme_validator,
+    frequency_validator,
+    transport_mode_validator,
 )
 from ckanext.digitraffic_theme.validators.resource_validators import set_format_iri
 from ckanext.digitraffic_theme.helpers.helpers import helpers
@@ -40,8 +43,11 @@ class DigitrafficThemePlugin(plugins.SingletonPlugin, DefaultTranslation):
             "phone_number_validator": phone_number_validator,
             "spatial_reference_validator": spatial_reference_validator,
             "dataset_reference_validator": dataset_reference_validator,
+            "mobility_theme_validator": mobility_theme_validator,
             "is_referenced_by_validator": is_referenced_by_validator,
             "set_format_iri": set_format_iri,
+            "frequency_validator": frequency_validator,
+            "transport_mode_validator": transport_mode_validator,
         }
 
     def update_config(self, config):
