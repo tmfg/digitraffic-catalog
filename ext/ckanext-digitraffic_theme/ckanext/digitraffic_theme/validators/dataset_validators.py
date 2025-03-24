@@ -11,8 +11,21 @@ from ckanext.digitraffic_theme.model.mobility_theme import (
     MobilityTheme,
     MobilityThemeSub,
     is_valid_mobility_theme_sub,
+    is_valid_mobility_theme,
 )
 from ckanext.digitraffic_theme.model.spatial_reference import SpatialReference
+from ckanext.digitraffic_theme.model.frequency import Frequency
+from ckanext.digitraffic_theme.model.vocabulary import Vocabulary
+from ckanext.digitraffic_theme.model.transport_mode import TransportMode
+from ckanext.digitraffic_theme.model.theme import Theme
+from ckanext.digitraffic_theme.model.location import Location
+from ckanext.digitraffic_theme.model.language import Language
+from ckanext.digitraffic_theme.model.georeferencing_method import GeoreferencingMethod
+from ckanext.digitraffic_theme.model.network_coverage import NetworkCoverage
+from ckanext.digitraffic_theme.model.intended_information_service import (
+    IntendedInformationService,
+)
+
 
 logger = logging.getLogger(__name__)
 
@@ -21,8 +34,20 @@ def mobility_theme_sub_validator(key, data, errors, context):
     if data.get(key):
         mobility_theme_sub = MobilityThemeSub(data.get(key))
         mobility_theme = MobilityTheme(data[("mobility_theme",)])
-        return is_valid_mobility_theme_sub(mobility_theme, mobility_theme_sub)
-    return True
+        if is_valid_mobility_theme_sub(mobility_theme, mobility_theme_sub):
+            return data
+        else:
+            raise Invalid(_("Invalid value of mobility theme sub category"))
+    return data
+
+
+def mobility_theme_validator(value, context):
+    if value:
+        if is_valid_mobility_theme(MobilityTheme(value)):
+            return value
+        else:
+            raise Invalid(_("Invalid value of mobility theme category"))
+    return value
 
 
 def phone_number_validator(value: Any, context: Context):
@@ -45,6 +70,13 @@ def phone_number_validator(value: Any, context: Context):
     return value
 
 
+def vocabulary_validator(value: str, _class: type):
+    if issubclass(_class, Vocabulary) and _class.is_known_iri(value):
+        return value
+    else:
+        raise Invalid(_(f"Invalid value of {_class.namespace}"))
+
+
 def spatial_reference_validator(value: Any, context: Context):
     if value:
         if not SpatialReference.is_known_iri(value):
@@ -53,6 +85,38 @@ def spatial_reference_validator(value: Any, context: Context):
                 return value_with_prefix
             raise Invalid(_("Given spatial reference is not supported"))
     return value
+
+
+def frequency_validator(value: Any, context: Context):
+    return vocabulary_validator(value, Frequency)
+
+
+def transport_mode_validator(value: Any, context: Context):
+    return vocabulary_validator(value, TransportMode)
+
+
+def theme_validator(value: Any, context: Context):
+    return vocabulary_validator(value, Theme)
+
+
+def location_validator(value: Any, context: Context):
+    return vocabulary_validator(value, Location)
+
+
+def language_validator(value: Any, context: Context):
+    return vocabulary_validator(value, Language)
+
+
+def georeferencing_method_validator(value: Any, context: Context):
+    return vocabulary_validator(value, GeoreferencingMethod)
+
+
+def network_coverage_validator(value: Any, context: Context):
+    return vocabulary_validator(value, NetworkCoverage)
+
+
+def intended_information_service_validator(value: Any, context: Context):
+    return vocabulary_validator(value, IntendedInformationService)
 
 
 def is_referenced_by_validator(value: Any, context: Context):

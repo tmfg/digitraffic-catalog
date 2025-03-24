@@ -72,6 +72,7 @@ class LinguisticSystem(RangeValueConverter):
             "choices": RangeValueConverter.vocab_choices(
                 g, lambda s: is_supported_language(s)
             ),
+            "validators": "language_validator",
         }
 
     def is_property_required(self, property: RDFSProperty) -> bool:
