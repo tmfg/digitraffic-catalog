@@ -4712,7 +4712,7 @@ resource_fields:
 - field_name: application_layer_protocol
   label:
     en: Application layer protocol
-    fi: ''
+    fi: Sovelluskerroksen protokolla
   required: false
   preset: select
   sorted_choices: true
