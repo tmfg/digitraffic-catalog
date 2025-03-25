@@ -41,7 +41,7 @@ def mobility_theme_sub_validator(key, data, errors, context):
     return data
 
 
-def mobility_theme_validator(value, context):
+def mobility_theme_validator(value: Any, context: Context):
     if value:
         if is_valid_mobility_theme(MobilityTheme(value)):
             return value
@@ -70,11 +70,13 @@ def phone_number_validator(value: Any, context: Context):
     return value
 
 
-def vocabulary_validator(value: str, _class: type):
-    if issubclass(_class, Vocabulary) and _class.is_known_iri(value):
-        return value
-    else:
-        raise Invalid(_(f"Invalid value of {_class.namespace}"))
+def vocabulary_validator(value: Any, _class: type):
+    if value:
+        if issubclass(_class, Vocabulary) and _class.is_known_iri(value):
+            return value
+        else:
+            raise Invalid(_(f"{value} does not belong to {_class.namespace}"))
+    return value
 
 
 def spatial_reference_validator(value: Any, context: Context):

@@ -4709,6 +4709,66 @@ resource_fields:
   - fi
   - en
   - sv
+- field_name: application_layer_protocol
+  label:
+    en: Application layer protocol
+    fi: ''
+  required: false
+  preset: select
+  sorted_choices: true
+  form_include_blank_choice: true
+  choices:
+  - value: https://w3id.org/mobilitydcat-ap/application-layer-protocol/amqp
+    label:
+      en: AMQP
+      fi: AMQP
+      sv: AMQP
+  - value: https://w3id.org/mobilitydcat-ap/application-layer-protocol/ftp
+    label:
+      en: FTP
+      fi: FTP
+      sv: FTP
+  - value: https://w3id.org/mobilitydcat-ap/application-layer-protocol/http-https
+    label:
+      en: HTTP HTTPS
+      fi: HTTP HTTPS
+      sv: HTTP HTTPS
+  - value: https://w3id.org/mobilitydcat-ap/application-layer-protocol/mqtt
+    label:
+      en: MQTT
+      fi: MQTT
+      sv: MQTT
+  - value: https://w3id.org/mobilitydcat-ap/application-layer-protocol/ocit
+    label:
+      en: OCIT
+      fi: OCIT
+      sv: OCIT
+  - value: https://w3id.org/mobilitydcat-ap/application-layer-protocol/ots2
+    label:
+      en: OTS2
+      fi: OTS2
+      sv: OTS2
+  - value: https://w3id.org/mobilitydcat-ap/application-layer-protocol/other
+    label:
+      en: Other
+      fi: Muu
+      sv: Other
+  - value: https://w3id.org/mobilitydcat-ap/application-layer-protocol/rss
+    label:
+      en: RSS
+      fi: RSS
+      sv: RSS
+  - value: https://w3id.org/mobilitydcat-ap/application-layer-protocol/soap
+    label:
+      en: SOAP
+      fi: SOAP
+      sv: SOAP
+  - value: https://w3id.org/mobilitydcat-ap/application-layer-protocol/grpc
+    label:
+      en: gRPC
+      fi: gRPC
+      sv: gRPC
+  validators: application_layer_protocol_validator
 - field_name: data_grammar
   label:
     en: Data grammar
@@ -4746,6 +4806,7 @@ resource_fields:
       en: XSD
       fi: XSD
       sv: XSD
+  validators: data_grammar_validator
 - field_name: data_format_notes_translated
   label:
     en: Data format notes
@@ -5300,6 +5361,7 @@ resource_fields:
       en: Push
       fi: Push
       sv: Push
+  validators: communication_method_validator
 - field_name: sample
   label:
     en: Sample
@@ -5390,6 +5452,7 @@ resource_fields:
       en: tpegML
       fi: tpegML
       sv: tpegML
+  validators: mobility_data_standard_validator
 - field_name: rights_type
   label:
     en: Conditions for access and usage
@@ -5449,6 +5512,7 @@ resource_fields:
       en: Royalty-free
       fi: Ei tekijänpalkkiota
       sv: Royalty-free
+  validators: rights_type_validator
 - field_name: license_id
   label:
     en: Standard license
@@ -6106,6 +6170,7 @@ resource_fields:
       en: eCos License version 2.0
       fi: eCos License version 2.0
       sv: eCos License version 2.0
+  validators: standard_license_validator
 - field_name: license_text
   label:
     en: License text
