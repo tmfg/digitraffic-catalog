@@ -446,3 +446,7 @@ class Format(Vocabulary):
 
     def __init__(self, iri):
         super().__init__(iri)
+
+
+def is_valid_format_label(label: str):
+    return label in LABEL

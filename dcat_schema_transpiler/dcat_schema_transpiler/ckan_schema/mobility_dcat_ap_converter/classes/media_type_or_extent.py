@@ -41,7 +41,6 @@ class MediaTypeOrExtent(RangeValueConverter):
             "preset": "select",
             "sorted_choices": True,
             "form_include_blank_choice": True,
-            "validators": "format_validator",
             # Use the English "label" also as "value".
             #
             # "Value" is by default an IRI in this case, and storing it in the database

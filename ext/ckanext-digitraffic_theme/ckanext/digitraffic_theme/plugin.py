@@ -23,7 +23,12 @@ from ckanext.digitraffic_theme.validators.dataset_validators import (
 )
 from ckanext.digitraffic_theme.validators.resource_validators import (
     set_format_iri,
-    format_validator,
+    data_grammar_validator,
+    standard_license_validator,
+    communication_method_validator,
+    rights_type_validator,
+    mobility_data_standard_validator,
+    application_layer_protocol_validator,
 )
 from ckanext.digitraffic_theme.helpers.helpers import helpers
 from ckanext.digitraffic_theme.search.search import before_dataset_index
@@ -57,13 +62,18 @@ class DigitrafficThemePlugin(plugins.SingletonPlugin, DefaultTranslation):
             "set_format_iri": set_format_iri,
             "frequency_validator": frequency_validator,
             "transport_mode_validator": transport_mode_validator,
-            "format_validator": format_validator,
             "intended_information_service_validator": intended_information_service_validator,
             "georeferencing_method_validator": georeferencing_method_validator,
             "language_validator": language_validator,
             "location_validator": location_validator,
             "theme_validator": theme_validator,
             "network_coverage_validator": network_coverage_validator,
+            "data_grammar_validator": data_grammar_validator,
+            "mobility_data_standard_validator": mobility_data_standard_validator,
+            "rights_type_validator": rights_type_validator,
+            "communication_method_validator": communication_method_validator,
+            "standard_license_validator": standard_license_validator,
+            "application_layer_protocol_validator": application_layer_protocol_validator,
         }
 
     def update_config(self, config):
