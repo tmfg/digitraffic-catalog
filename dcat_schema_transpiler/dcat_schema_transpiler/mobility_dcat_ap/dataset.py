@@ -90,20 +90,19 @@ CVOCAB_GEOREFERENCING_METHOD = Namespace(
 CVOCAB_NETWORK_COVERAGE = Namespace(
     "https://w3id.org/mobilitydcat-ap/network-coverage#"
 )
-CVOCAB_THEME = Namespace(
-    "http://publications.europa.eu/resource/authority/data-theme/"
-)
-CVOCAB_TRANSPORT_MODE = Namespace(
-    "https://w3id.org/mobilitydcat-ap/transport-mode#"
-)
+CVOCAB_THEME = Namespace("http://publications.europa.eu/resource/authority/data-theme/")
+CVOCAB_TRANSPORT_MODE = Namespace("https://w3id.org/mobilitydcat-ap/transport-mode#")
 CVOCAB_AGENT_TYPE = Namespace("http://purl.org/adms/publishertype/")
 CVOCAB_INTENDED_INFORMATION_SERVICE = Namespace(
     "https://w3id.org/mobilitydcat-ap/intended-information-service#"
 )
+CVOCAB_COUNTRY = Namespace("https://publications.europa.eu/resource/authority/country")
+
 
 CNT_CHARACTERENCODING_SETS = (
     "https://www.iana.org/assignments/character-sets/character-sets-1.csv"
 )
+
 
 mobility_dcat_namespaces = {
     "adms": ADMS,
@@ -153,6 +152,7 @@ controlled_vocabularies = [
     CVOCAB_AGENT_TYPE,
     CVOCAB_INTENDED_INFORMATION_SERVICE,
     CVOCAB_COMMUNICATION_METHOD,
+    CVOCAB_COUNTRY,
 ]
 
 
@@ -468,9 +468,9 @@ def ns_fetch_info(ns: URIRef) -> NsFetchInfo | None:
         graph_url, _ = get_graph_url(ns)
         serialization_format = "ttl"
     elif str(ns) == "http://data.europa.eu/nuts":
-        #graph_url = "https://publications.europa.eu/resource/authority/nuts"
-        #graph_url = "http://data.europa.eu/nuts"
-        #graph_url = "https://op.europa.eu/o/opportal-service/euvoc-download-handler?cellarURI=http%3A%2F%2Fpublications.europa.eu%2Fresource%2Fdistribution%2Fnuts%2F20241002-0%2Frdf%2Fskos_core%2FNUTS.rdf&fileName=NUTS.rdf"
+        # graph_url = "https://publications.europa.eu/resource/authority/nuts"
+        # graph_url = "http://data.europa.eu/nuts"
+        # graph_url = "https://op.europa.eu/o/opportal-service/euvoc-download-handler?cellarURI=http%3A%2F%2Fpublications.europa.eu%2Fresource%2Fdistribution%2Fnuts%2F20241002-0%2Frdf%2Fskos_core%2FNUTS.rdf&fileName=NUTS.rdf"
         graph_url = "https://op.europa.eu/o/opportal-service/euvoc-download-handler?cellarURI=http%3A%2F%2Fpublications.europa.eu%2Fresource%2Fdistribution%2Fnuts%2F20250212-0%2Frdf%2Fskos_xl%2FNUTS.rdf&fileName=NUTS.rdf"
         serialization_format = "rdf"
     elif str(ns) == "https://w3id.org/stirdata/resource/lau/item/":
@@ -488,6 +488,9 @@ def ns_fetch_info(ns: URIRef) -> NsFetchInfo | None:
     elif str(ns) == "https://w3id.org/mobilitydcat-ap/intended-information-service#":
         graph_url, _ = get_graph_url(ns)
         serialization_format = "ttl"
+    elif str(ns) == "https://publications.europa.eu/resource/authority/country":
+        graph_url = "https://op.europa.eu/o/opportal-service/euvoc-download-handler?cellarURI=http%3A%2F%2Fpublications.europa.eu%2Fresource%2Fdistribution%2Fcountry%2F20250319-0%2Frdf%2Fskos_core%2Fcountries-skos.rdf&fileName=countries-skos.rdf"
+        serialization_format = "rdf"
     else:
         graph_url, mime_format = get_graph_url(ns)
         serialization_format = "ttl" if mime_format == "text/turtle" else "rdf"
