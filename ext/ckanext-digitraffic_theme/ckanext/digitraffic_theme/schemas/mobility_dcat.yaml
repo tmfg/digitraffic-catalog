@@ -2994,6 +2994,150 @@ dataset_fields:
       en: Country
       fi: Maa
     required: false
+    preset: select
+    form_include_blank_choice: true
+    sorted_choices: true
+    choices:
+    - value: http://publications.europa.eu/resource/authority/country/AUT
+      label:
+        en: Austria
+        fi: Itävalta
+        sv: Österrike
+    - value: http://publications.europa.eu/resource/authority/country/BEL
+      label:
+        en: Belgium
+        fi: Belgia
+        sv: Belgien
+    - value: http://publications.europa.eu/resource/authority/country/BGR
+      label:
+        en: Bulgaria
+        fi: Bulgaria
+        sv: Bulgarien
+    - value: http://publications.europa.eu/resource/authority/country/HRV
+      label:
+        en: Croatia
+        fi: Kroatia
+        sv: Kroatien
+    - value: http://publications.europa.eu/resource/authority/country/CYP
+      label:
+        en: Cyprus
+        fi: Kypros
+        sv: Cypern
+    - value: http://publications.europa.eu/resource/authority/country/CZE
+      label:
+        en: Czechia
+        fi: Tšekki
+        sv: Tjeckien
+    - value: http://publications.europa.eu/resource/authority/country/DNK
+      label:
+        en: Denmark
+        fi: Tanska
+        sv: Danmark
+    - value: http://publications.europa.eu/resource/authority/country/EST
+      label:
+        en: Estonia
+        fi: Viro
+        sv: Estland
+    - value: http://publications.europa.eu/resource/authority/country/FIN
+      label:
+        en: Finland
+        fi: Suomi
+        sv: Finland
+    - value: http://publications.europa.eu/resource/authority/country/FRA
+      label:
+        en: France
+        fi: Ranska
+        sv: Frankrike
+    - value: http://publications.europa.eu/resource/authority/country/DEU
+      label:
+        en: Germany
+        fi: Saksa
+        sv: Tyskland
+    - value: http://publications.europa.eu/resource/authority/country/GRC
+      label:
+        en: Greece
+        fi: Kreikka
+        sv: Grekland
+    - value: http://publications.europa.eu/resource/authority/country/HUN
+      label:
+        en: Hungary
+        fi: Unkari
+        sv: Ungern
+    - value: http://publications.europa.eu/resource/authority/country/IRL
+      label:
+        en: Ireland
+        fi: Irlanti
+        sv: Irland
+    - value: http://publications.europa.eu/resource/authority/country/ITA
+      label:
+        en: Italy
+        fi: Italia
+        sv: Italien
+    - value: http://publications.europa.eu/resource/authority/country/LVA
+      label:
+        en: Latvia
+        fi: Latvia
+        sv: Lettland
+    - value: http://publications.europa.eu/resource/authority/country/LTU
+      label:
+        en: Lithuania
+        fi: Liettua
+        sv: Litauen
+    - value: http://publications.europa.eu/resource/authority/country/LUX
+      label:
+        en: Luxembourg
+        fi: Luxemburg
+        sv: Luxemburg
+    - value: http://publications.europa.eu/resource/authority/country/MLT
+      label:
+        en: Malta
+        fi: Malta
+        sv: Malta
+    - value: http://publications.europa.eu/resource/authority/country/NLD
+      label:
+        en: Netherlands
+        fi: Alankomaat
+        sv: Nederländerna
+    - value: http://publications.europa.eu/resource/authority/country/NOR
+      label:
+        en: Norway
+        fi: Norja
+        sv: Norge
+    - value: http://publications.europa.eu/resource/authority/country/POL
+      label:
+        en: Poland
+        fi: Puola
+        sv: Polen
+    - value: http://publications.europa.eu/resource/authority/country/PRT
+      label:
+        en: Portugal
+        fi: Portugali
+        sv: Portugal
+    - value: http://publications.europa.eu/resource/authority/country/ROU
+      label:
+        en: Romania
+        fi: Romania
+        sv: Rumänien
+    - value: http://publications.europa.eu/resource/authority/country/SVK
+      label:
+        en: Slovakia
+        fi: Slovakia
+        sv: Slovakien
+    - value: http://publications.europa.eu/resource/authority/country/SVN
+      label:
+        en: Slovenia
+        fi: Slovenia
+        sv: Slovenien
+    - value: http://publications.europa.eu/resource/authority/country/ESP
+      label:
+        en: Spain
+        fi: Espanja
+        sv: Spanien
+    - value: http://publications.europa.eu/resource/authority/country/SWE
+      label:
+        en: Sweden
+        fi: Ruotsi
+        sv: Sverige
 - field_name: network_coverage
   label:
     en: Network coverage
@@ -3310,6 +3454,150 @@ dataset_fields:
       en: Country
       fi: Maa
     required: false
+    preset: select
+    sorted_choices: true
+    form_include_blank_choice: true
+    choices:
+    - value: http://publications.europa.eu/resource/authority/country/AUT
+      label:
+        en: Austria
+        fi: Itävalta
+        sv: Österrike
+    - value: http://publications.europa.eu/resource/authority/country/BEL
+      label:
+        en: Belgium
+        fi: Belgia
+        sv: Belgien
+    - value: http://publications.europa.eu/resource/authority/country/BGR
+      label:
+        en: Bulgaria
+        fi: Bulgaria
+        sv: Bulgarien
+    - value: http://publications.europa.eu/resource/authority/country/HRV
+      label:
+        en: Croatia
+        fi: Kroatia
+        sv: Kroatien
+    - value: http://publications.europa.eu/resource/authority/country/CYP
+      label:
+        en: Cyprus
+        fi: Kypros
+        sv: Cypern
+    - value: http://publications.europa.eu/resource/authority/country/CZE
+      label:
+        en: Czechia
+        fi: Tšekki
+        sv: Tjeckien
+    - value: http://publications.europa.eu/resource/authority/country/DNK
+      label:
+        en: Denmark
+        fi: Tanska
+        sv: Danmark
+    - value: http://publications.europa.eu/resource/authority/country/EST
+      label:
+        en: Estonia
+        fi: Viro
+        sv: Estland
+    - value: http://publications.europa.eu/resource/authority/country/FIN
+      label:
+        en: Finland
+        fi: Suomi
+        sv: Finland
+    - value: http://publications.europa.eu/resource/authority/country/FRA
+      label:
+        en: France
+        fi: Ranska
+        sv: Frankrike
+    - value: http://publications.europa.eu/resource/authority/country/DEU
+      label:
+        en: Germany
+        fi: Saksa
+        sv: Tyskland
+    - value: http://publications.europa.eu/resource/authority/country/GRC
+      label:
+        en: Greece
+        fi: Kreikka
+        sv: Grekland
+    - value: http://publications.europa.eu/resource/authority/country/HUN
+      label:
+        en: Hungary
+        fi: Unkari
+        sv: Ungern
+    - value: http://publications.europa.eu/resource/authority/country/IRL
+      label:
+        en: Ireland
+        fi: Irlanti
+        sv: Irland
+    - value: http://publications.europa.eu/resource/authority/country/ITA
+      label:
+        en: Italy
+        fi: Italia
+        sv: Italien
+    - value: http://publications.europa.eu/resource/authority/country/LVA
+      label:
+        en: Latvia
+        fi: Latvia
+        sv: Lettland
+    - value: http://publications.europa.eu/resource/authority/country/LTU
+      label:
+        en: Lithuania
+        fi: Liettua
+        sv: Litauen
+    - value: http://publications.europa.eu/resource/authority/country/LUX
+      label:
+        en: Luxembourg
+        fi: Luxemburg
+        sv: Luxemburg
+    - value: http://publications.europa.eu/resource/authority/country/MLT
+      label:
+        en: Malta
+        fi: Malta
+        sv: Malta
+    - value: http://publications.europa.eu/resource/authority/country/NLD
+      label:
+        en: Netherlands
+        fi: Alankomaat
+        sv: Nederländerna
+    - value: http://publications.europa.eu/resource/authority/country/NOR
+      label:
+        en: Norway
+        fi: Norja
+        sv: Norge
+    - value: http://publications.europa.eu/resource/authority/country/POL
+      label:
+        en: Poland
+        fi: Puola
+        sv: Polen
+    - value: http://publications.europa.eu/resource/authority/country/PRT
+      label:
+        en: Portugal
+        fi: Portugali
+        sv: Portugal
+    - value: http://publications.europa.eu/resource/authority/country/ROU
+      label:
+        en: Romania
+        fi: Romania
+        sv: Rumänien
+    - value: http://publications.europa.eu/resource/authority/country/SVK
+      label:
+        en: Slovakia
+        fi: Slovakia
+        sv: Slovakien
+    - value: http://publications.europa.eu/resource/authority/country/SVN
+      label:
+        en: Slovenia
+        fi: Slovenia
+        sv: Slovenien
+    - value: http://publications.europa.eu/resource/authority/country/ESP
+      label:
+        en: Spain
+        fi: Espanja
+        sv: Spanien
+    - value: http://publications.europa.eu/resource/authority/country/SWE
+      label:
+        en: Sweden
+        fi: Ruotsi
+        sv: Sverige
   - field_name: workplace_homepage
     label:
       en: Workplace homepage

@@ -1,6 +1,9 @@
 from typing import Dict
 
-from rdflib import DCTERMS, Dataset, URIRef
+from dcat_schema_transpiler.mobility_dcat_ap.dataset import (
+    CVOCAB_COUNTRY,
+)
+from rdflib import DCTERMS, Dataset, URIRef, SKOS, RDF
 
 from ckan_schema.mobility_dcat_ap_converter.range_value_converter import (
     RangeValueConverter,
@@ -42,6 +45,23 @@ class VCARDAddress(RangeValueConverter):
     def get_schema(
         self, ds: Dataset, clazz_p: RDFSProperty | None, is_required: bool = None
     ):
+        if clazz_p.is_iri(VCARD["country-name"]):
+
+            g_countries = ds.get_graph(URIRef(CVOCAB_COUNTRY))
+
+            return {
+                "field_name": self.ckan_field(clazz_p),
+                **super().get_property_label_with_help_text(clazz_p.iri),
+                "required": is_required,
+                "preset": "select",
+                "form_include_blank_choice": True,
+                "sorted_choices": True,
+                "choices": RangeValueConverter.vocab_choices(
+                    g_countries, RangeValueConverter.country_filter
+                ),
+                # "validators": "country_validator",
+            }
+
         return super().get_schema(ds, clazz_p, False)
 
     def is_property_required(self, property: RDFSProperty) -> bool:
