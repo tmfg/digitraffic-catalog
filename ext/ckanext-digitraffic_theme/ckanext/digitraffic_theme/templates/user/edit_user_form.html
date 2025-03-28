@@ -17,10 +17,6 @@
         {% set is_url = data.image_url and data.image_url.startswith('http') %}
 
         {{ form.image_upload(data, errors, is_upload_enabled=h.uploads_enabled(), is_url=is_url, is_upload=is_upload, upload_label=_('Profile picture'), url_label=_('Profile picture URL') ) }}
-        <!-- Send empty values to backend, missing keys in request produce a KeyError after password change form has been removed -->
-        <input type="hidden" name="password1" value="" />
-        <input type="hidden" name="password2" value="" />
-        <input type="hidden" name="old_password" value="" />
     </fieldset>
 {% endblock %}
 
