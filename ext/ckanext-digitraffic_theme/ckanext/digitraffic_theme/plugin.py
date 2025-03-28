@@ -1,7 +1,11 @@
 # encoding: utf-8
+from typing import Union, Optional
+from werkzeug.datastructures import MultiDict, ImmutableMultiDict
+
 import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
 from ckan.lib.plugins import DefaultTranslation
+from flask.views import MethodView
 
 import ckanext.digitraffic_theme.actions.digitraffic_user_info as dui_actions
 import ckanext.digitraffic_theme.auth.user as user_auth
@@ -14,10 +18,13 @@ from ckanext.digitraffic_theme.validators.dataset_validators import (
 )
 from ckanext.digitraffic_theme.validators.resource_validators import set_format_iri
 from ckanext.digitraffic_theme.helpers.helpers import helpers
-from flask import Blueprint
+from flask import Blueprint, Response
 
-digitraffic_blueprint = Blueprint("digitraffic", __name__, template_folder="templates")
+from node_modules_backup.ckan.ckan.views.user import EditView
 
+remove_routes_blueprint = Blueprint('digitraffic_remove_routes', __name__, template_folder="templates")
+
+password_routes_blueprint = Blueprint('digitraffic_password_routes', __name__, template_folder="templates")
 
 class DigitrafficThemePlugin(plugins.SingletonPlugin, DefaultTranslation):
     """Digitraffic theme plugin."""
@@ -27,6 +34,7 @@ class DigitrafficThemePlugin(plugins.SingletonPlugin, DefaultTranslation):
     plugins.implements(plugins.ITemplateHelpers)
     plugins.implements(plugins.IActions)
     plugins.implements(plugins.IAuthFunctions)
+    plugins.implements(plugins.IBlueprint)
 
     # Declare that this class implements IConfigurer.
     plugins.implements(plugins.IConfigurer)
@@ -67,3 +75,47 @@ class DigitrafficThemePlugin(plugins.SingletonPlugin, DefaultTranslation):
 
     def get_helpers(self):
         return helpers
+
+    def get_blueprint(self) -> Union[list[Blueprint], Blueprint]:
+        # Override CKAN's default blueprint for /ckan-admin as defined in https://github.com/ckan/ckan/blob/d9a9f8a2cc8ed637cf26f244d3f46877000a4757/ckan/views/admin.py
+        remove_routes_blueprint.add_url_rule(
+            "/ckan-admin/config",
+            view_func=RemovedView.as_view("remove_admin_config"),
+            methods=["GET"],
+        )
+        remove_routes_blueprint.add_url_rule(
+            "/ckan-admin/reset_config",
+            view_func=RemovedView.as_view("remove_admin_reset_config"),
+            methods=["GET"],
+        )
+        if not toolkit.asbool(toolkit.config.get("debug", False)):
+            remove_routes_blueprint.add_url_rule(
+                "/testing/primer",
+                view_func=RemovedView.as_view("remove_testing_primer"),
+                methods=["GET"],
+            )
+
+
+        _edit_view = DigitrafficEditView.as_view("edit_user")
+
+        password_routes_blueprint.add_url_rule('/user/edit', view_func=_edit_view)
+        password_routes_blueprint.add_url_rule('/user/edit/<id>', view_func=_edit_view)
+        return [remove_routes_blueprint, password_routes_blueprint]
+
+class RemovedView(MethodView):
+    def get(self):
+        http_code = 410
+        extra_vars = {
+            'code': http_code,
+            'content': 'The page you are looking for has been removed.',
+            'name': 'Page is removed',
+            'show_login_redirect_link': False
+        }
+        return toolkit.render("error_document_template.html", extra_vars), http_code
+
+class DigitrafficEditView(EditView):
+    def post(self, id: Optional[str] = None) -> Union[Response, str]:
+        form_data = MultiDict(toolkit.request.form)
+        form_data.update({"password1": "", "password2": "", "old_password": ""})
+        toolkit.request.form = ImmutableMultiDict(form_data)
+        return super().post(id)
