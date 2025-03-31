@@ -58,7 +58,7 @@ class LOCNAddress(RangeValueConverter):
                 "choices": RangeValueConverter.vocab_choices(
                     g_countries, RangeValueConverter.country_filter
                 ),
-                # "validators": "country_validator",
+                "validators": "country_validator ignore_missing",
             }
 
         schema = super().get_schema(ds, clazz_p, False)

@@ -9,6 +9,7 @@ from ckanext.digitraffic_theme.model.data_grammar import DataGrammar
 from ckanext.digitraffic_theme.model.mobility_data_standard import MobilityDataStandard
 from ckanext.digitraffic_theme.model.communication_method import CommunicationMethod
 from ckanext.digitraffic_theme.model.rights_type import RightsType
+from ckanext.digitraffic_theme.model.character_encoding import CharacterEncoding
 from ckanext.digitraffic_theme.model.standard_license import StandardLicense
 from ckanext.digitraffic_theme.model.application_layer_protocol import (
     ApplicationLayerProtocol,
@@ -57,6 +58,15 @@ def standard_license_validator(value: Any, context: Context):
 
 def application_layer_protocol_validator(value: Any, context: Context):
     return vocabulary_validator(value, ApplicationLayerProtocol)
+
+
+def character_encoding_validator(value: Any, context: Context):
+    if value:
+        if CharacterEncoding(value):
+            return value
+        else:
+            raise Invalid(_(f"{value} is not a valid character encoding"))
+    return value
 
 
 # set field format_iri for resource on the basis of current format label if it passes validation

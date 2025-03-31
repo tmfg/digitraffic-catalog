@@ -104,6 +104,7 @@ class Distribution(RangeValueConverter):
                     "choices": super().choices_from_cached_csv(
                         CNT_CHARACTERENCODING_SETS, "Preferred MIME Name", "Name"
                     ),
+                    "validators": "character_encoding_validator ignore_missing",
                 }
 
             """

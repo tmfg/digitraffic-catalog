@@ -3143,6 +3143,7 @@ dataset_fields:
         en: Sweden
         fi: Ruotsi
         sv: Sverige
+    validators: country_validator ignore_missing
 - field_name: network_coverage
   label:
     en: Network coverage
@@ -3608,6 +3609,7 @@ dataset_fields:
         en: Sweden
         fi: Ruotsi
         sv: Sverige
+    validators: country_validator ignore_missing
   - field_name: workplace_homepage
     label:
       en: Workplace homepage
@@ -5640,6 +5642,7 @@ resource_fields:
     label: windows-1258
   - value: windows-874
     label: windows-874
+  validators: character_encoding_validator ignore_missing
 - field_name: communication_method
   label:
     en: Communication method
