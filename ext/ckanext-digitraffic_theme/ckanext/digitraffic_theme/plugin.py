@@ -20,6 +20,7 @@ from ckanext.digitraffic_theme.validators.dataset_validators import (
     georeferencing_method_validator,
     intended_information_service_validator,
     network_coverage_validator,
+    country_validator,
 )
 from ckanext.digitraffic_theme.validators.resource_validators import (
     set_format_iri,
@@ -29,6 +30,7 @@ from ckanext.digitraffic_theme.validators.resource_validators import (
     rights_type_validator,
     mobility_data_standard_validator,
     application_layer_protocol_validator,
+    character_encoding_validator,
 )
 from ckanext.digitraffic_theme.helpers.helpers import helpers
 from ckanext.digitraffic_theme.search.search import before_dataset_index
@@ -74,6 +76,8 @@ class DigitrafficThemePlugin(plugins.SingletonPlugin, DefaultTranslation):
             "communication_method_validator": communication_method_validator,
             "standard_license_validator": standard_license_validator,
             "application_layer_protocol_validator": application_layer_protocol_validator,
+            "character_encoding_validator": character_encoding_validator,
+            "country_validator": country_validator,
         }
 
     def update_config(self, config):

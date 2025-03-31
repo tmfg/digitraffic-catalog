@@ -20,11 +20,13 @@ from ckanext.digitraffic_theme.model.transport_mode import TransportMode
 from ckanext.digitraffic_theme.model.theme import Theme
 from ckanext.digitraffic_theme.model.location import Location
 from ckanext.digitraffic_theme.model.language import Language
+from ckanext.digitraffic_theme.model.country import Country
 from ckanext.digitraffic_theme.model.georeferencing_method import GeoreferencingMethod
 from ckanext.digitraffic_theme.model.network_coverage import NetworkCoverage
 from ckanext.digitraffic_theme.model.intended_information_service import (
     IntendedInformationService,
 )
+from ckan.lib.navl.dictization_functions import Invalid
 
 
 logger = logging.getLogger(__name__)
@@ -119,6 +121,10 @@ def network_coverage_validator(value: Any, context: Context):
 
 def intended_information_service_validator(value: Any, context: Context):
     return vocabulary_validator(value, IntendedInformationService)
+
+
+def country_validator(value: Any, context: Context):
+    return vocabulary_validator(value, Country)
 
 
 def is_referenced_by_validator(value: Any, context: Context):

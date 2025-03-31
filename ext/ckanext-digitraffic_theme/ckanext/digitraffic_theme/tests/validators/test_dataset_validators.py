@@ -138,5 +138,10 @@ class TestDatasetValidators:
 
         helpers.call_action("package_update", **dataset_1)
 
-        with pytest.raises(ValidationError, match="weekly does not belong to"):
+        assert (
+            helpers.call_action("package_show", id=dataset_1["id"])["frequency"]
+            == "http://publications.europa.eu/resource/authority/frequency/WEEKLY"
+        )
+
+        with pytest.raises(ValidationError, match="does not belong to"):
             helpers.call_action("package_update", **dataset_2)
