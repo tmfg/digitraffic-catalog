@@ -939,7 +939,7 @@ dataset_fields:
       en: Transport
       fi: Liikenne
       sv: Transport
-  validators: theme_validator
+  validators: theme_validator ignore_missing
 - field_name: start_timestamp
   label:
     en: Start time
@@ -1081,7 +1081,7 @@ dataset_fields:
       en: Truck
       fi: Kuorma-auto
       sv: Truck
-  validators: transport_mode_validator
+  validators: transport_mode_validator ignore_missing
 - field_name: spatial
   label:
     en: Regional coverage
@@ -2790,7 +2790,7 @@ dataset_fields:
       en: Äänekoski
       fi: Äänekoski
       sv: Äänekoski
-  validators: location_validator
+  validators: location_validator ignore_missing
 - field_name: version
   label:
     en: Dataset version
@@ -2890,7 +2890,7 @@ dataset_fields:
       en: Swedish
       fi: ruotsi
       sv: svenska
-  validators: language_validator
+  validators: language_validator ignore_missing
 - field_name: georeferencing_method
   label:
     en: Georeferencing method
@@ -2935,7 +2935,7 @@ dataset_fields:
       en: TPEG-LOC
       fi: TPEG-LOC
       sv: TPEG-LOC
-  validators: georeferencing_method_validator
+  validators: georeferencing_method_validator ignore_missing
 - field_name: contact_point
   label:
     en: Contact point
@@ -3063,6 +3063,11 @@ dataset_fields:
         en: Hungary
         fi: Unkari
         sv: Ungern
+    - value: http://publications.europa.eu/resource/authority/country/ISL
+      label:
+        en: Iceland
+        fi: Islanti
+        sv: Island
     - value: http://publications.europa.eu/resource/authority/country/IRL
       label:
         en: Ireland
@@ -3210,7 +3215,7 @@ dataset_fields:
       en: Waterways
       fi: Vesiväylät
       sv: Waterways
-  validators: network_coverage_validator
+  validators: network_coverage_validator ignore_missing
 - field_name: conforms_to
   label:
     en: Spatial reference system
@@ -3282,7 +3287,7 @@ dataset_fields:
       en: Trip plans, auxiliary information, availability check
       fi: Reittisuunnitelmat, lisätiedot, saatavuuden tarkistus
       sv: Trip plans, auxiliary information, availability check
-  validators: intended_information_service_validator
+  validators: intended_information_service_validator ignore_missing
 - field_name: quality_description
   label:
     en: Quality description
@@ -3523,6 +3528,11 @@ dataset_fields:
         en: Hungary
         fi: Unkari
         sv: Ungern
+    - value: http://publications.europa.eu/resource/authority/country/ISL
+      label:
+        en: Iceland
+        fi: Islanti
+        sv: Island
     - value: http://publications.europa.eu/resource/authority/country/IRL
       label:
         en: Ireland
@@ -5056,7 +5066,7 @@ resource_fields:
       en: gRPC
       fi: gRPC
       sv: gRPC
-  validators: application_layer_protocol_validator
+  validators: application_layer_protocol_validator ignore_missing
 - field_name: data_grammar
   label:
     en: Data grammar
@@ -5094,7 +5104,7 @@ resource_fields:
       en: XSD
       fi: XSD
       sv: XSD
-  validators: data_grammar_validator
+  validators: data_grammar_validator ignore_missing
 - field_name: data_format_notes_translated
   label:
     en: Data format notes
@@ -5649,7 +5659,7 @@ resource_fields:
       en: Push
       fi: Push
       sv: Push
-  validators: communication_method_validator
+  validators: communication_method_validator ignore_missing
 - field_name: sample
   label:
     en: Sample
@@ -5740,7 +5750,7 @@ resource_fields:
       en: tpegML
       fi: tpegML
       sv: tpegML
-  validators: mobility_data_standard_validator
+  validators: mobility_data_standard_validator ignore_missing
 - field_name: rights_type
   label:
     en: Conditions for access and usage
@@ -6458,7 +6468,7 @@ resource_fields:
       en: eCos License version 2.0
       fi: eCos License version 2.0
       sv: eCos License version 2.0
-  validators: standard_license_validator
+  validators: standard_license_validator ignore_missing
 - field_name: license_text
   label:
     en: License text

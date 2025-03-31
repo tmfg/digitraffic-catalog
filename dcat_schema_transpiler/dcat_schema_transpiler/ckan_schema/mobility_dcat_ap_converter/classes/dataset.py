@@ -251,6 +251,7 @@ class DCATDataset(RangeValueConverter):
                 g_lau = ds.get_graph(URIRef(CVOCAB_LAU))
 
                 def find_top_nuts(concept: Node) -> Node:
+
                     broader_concept = g_nuts.value(concept, SKOS.broader)
                     if broader_concept is not None:
                         return find_top_nuts(broader_concept)
@@ -304,7 +305,7 @@ class DCATDataset(RangeValueConverter):
                     "choices": RangeValueConverter.vocab_choices(
                         g_nuts + g_lau, is_finnish_place
                     ),
-                    "validators": "location_validator",
+                    "validators": "location_validator ignore_missing",
                 }
             case MOBILITYDCATAP.georeferencingMethod:
                 g = ds.get_graph(URIRef(CVOCAB_GEOREFERENCING_METHOD))
@@ -316,7 +317,7 @@ class DCATDataset(RangeValueConverter):
                     "sorted_choices": True,
                     "form_include_blank_choice": True,
                     "choices": RangeValueConverter.vocab_choices(graph=g, iri=p.iri),
-                    "validators": "georeferencing_method_validator",
+                    "validators": "georeferencing_method_validator ignore_missing",
                 }
             case MOBILITYDCATAP.networkCoverage:
                 g = ds.get_graph(URIRef(CVOCAB_NETWORK_COVERAGE))
@@ -328,7 +329,7 @@ class DCATDataset(RangeValueConverter):
                     "sorted_choices": True,
                     "form_include_blank_choice": True,
                     "choices": RangeValueConverter.vocab_choices(graph=g, iri=p.iri),
-                    "validators": "network_coverage_validator",
+                    "validators": "network_coverage_validator ignore_missing",
                 }
             case DCAT.theme:
                 g = ds.get_graph(URIRef(CVOCAB_THEME))
@@ -340,7 +341,7 @@ class DCATDataset(RangeValueConverter):
                     "sorted_choices": True,
                     "form_include_blank_choice": True,
                     "choices": RangeValueConverter.vocab_choices(graph=g, iri=p.iri),
-                    "validators": "theme_validator",
+                    "validators": "theme_validator ignore_missing",
                 }
             case MOBILITYDCATAP.transportMode:
                 g = ds.get_graph(URIRef(CVOCAB_TRANSPORT_MODE))
@@ -352,7 +353,7 @@ class DCATDataset(RangeValueConverter):
                     "sorted_choices": True,
                     "form_include_blank_choice": True,
                     "choices": RangeValueConverter.vocab_choices(graph=g, iri=p.iri),
-                    "validators": "transport_mode_validator",
+                    "validators": "transport_mode_validator ignore_missing",
                 }
             case MOBILITYDCATAP.intendedInformationService:
                 g = ds.get_graph(URIRef(CVOCAB_INTENDED_INFORMATION_SERVICE))
@@ -364,7 +365,7 @@ class DCATDataset(RangeValueConverter):
                     "sorted_choices": True,
                     "form_include_blank_choice": True,
                     "choices": RangeValueConverter.vocab_choices(graph=g, iri=p.iri),
-                    "validators": "intended_information_service_validator",
+                    "validators": "intended_information_service_validator ignore_missing",
                 }
 
     def post_process_schema(self, schema: List[Dict]):

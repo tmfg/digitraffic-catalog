@@ -3,6 +3,7 @@ import ckan.tests.factories as factories
 import pytest
 from ckan.tests import factories, helpers
 from ckan.tests.factories import Organization
+from ckan.logic import ValidationError
 from ckanext.digitraffic_theme.model.frequency import Frequency
 from ckanext.digitraffic_theme.model.location import Location
 from ckanext.digitraffic_theme.model.mobility_theme import MOBILITY_THEME_TREE
@@ -121,3 +122,21 @@ class TestDatasetValidators:
         assert len(json.loads(updated_dataset_3.get("is_referenced_by"))) == 2
         assert dataset_1["id"] in updated_dataset_3.get("is_referenced_by")
         assert dataset_2["id"] in updated_dataset_3.get("is_referenced_by")
+
+    def test_vocabulary_validation(self):
+
+        organization = factories.Organization()
+
+        dataset_1 = create_dataset(organization)
+        dataset_2 = create_dataset(organization)
+
+        dataset_1["frequency"] = (
+            "http://publications.europa.eu/resource/authority/frequency/WEEKLY"
+        )
+
+        dataset_2["frequency"] = "weekly"
+
+        helpers.call_action("package_update", **dataset_1)
+
+        with pytest.raises(ValidationError, match="weekly does not belong to"):
+            helpers.call_action("package_update", **dataset_2)
