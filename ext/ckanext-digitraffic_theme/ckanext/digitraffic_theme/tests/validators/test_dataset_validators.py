@@ -45,6 +45,123 @@ def create_dataset(org: Organization):
 @pytest.mark.usefixtures("clean_db", "clean_index", "with_plugins")
 class TestDatasetValidators:
 
+    def vocabulary_test(self, field_name, valid_value, invalid_value, match_message):
+        """
+        Generic test function for vocabulary validation.
+
+        :param field_name: The name of the field being validated.
+        :param valid_value: A valid value for the field.
+        :param invalid_value: An invalid value for the field.
+        :param match_message: The error message to match for invalid values.
+        """
+        organization = factories.Organization()
+        dataset = create_dataset(organization)
+
+        dataset[field_name] = valid_value
+        helpers.call_action("package_update", **dataset)
+
+        assert (
+            helpers.call_action("package_show", id=dataset["id"])[field_name]
+            == valid_value
+        )
+
+        dataset[field_name] = invalid_value
+        with pytest.raises(ValidationError, match=match_message):
+            helpers.call_action("package_update", **dataset)
+
+    def test_frequency_validator(self):
+        self.vocabulary_test(
+            field_name="frequency",
+            valid_value="http://publications.europa.eu/resource/authority/frequency/WEEKLY",
+            invalid_value="weekly",
+            match_message="does not belong to",
+        )
+
+    def test_spatial_reference_validator(self):
+        self.vocabulary_test(
+            field_name="conforms_to",
+            valid_value="https://www.opengis.net/def/crs/EPSG/0/4326",
+            invalid_value="gps",
+            match_message="Given spatial reference is not supported",
+        )
+
+    def test_location_validator(self):
+        self.vocabulary_test(
+            field_name="spatial",
+            valid_value="http://data.europa.eu/nuts/code/FI",
+            invalid_value="suomi",
+            match_message="does not belong to",
+        )
+
+    def test_transport_mode_validator(self):
+        self.vocabulary_test(
+            field_name="transport_mode",
+            valid_value="https://w3id.org/mobilitydcat-ap/transport-mode/car",
+            invalid_value="car",
+            match_message="does not belong to",
+        )
+
+    def test_language_validator(self):
+        self.vocabulary_test(
+            field_name="language",
+            valid_value="http://publications.europa.eu/resource/authority/language/ENG",
+            invalid_value="gothic",
+            match_message="does not belong to",
+        )
+
+    def test_georeferencing_method_validator(self):
+        self.vocabulary_test(
+            field_name="georeferencing_method",
+            valid_value="https://w3id.org/mobilitydcat-ap/georeferencing-method/gml",
+            invalid_value="gps",
+            match_message="does not belong to",
+        )
+
+    def test_network_coverage_validator(self):
+        self.vocabulary_test(
+            field_name="network_coverage",
+            valid_value="https://w3id.org/mobilitydcat-ap/network-coverage/air-network",
+            invalid_value="roads",
+            match_message="does not belong to",
+        )
+
+    def test_intended_information_service_validator(self):
+        self.vocabulary_test(
+            field_name="intended_information_service",
+            valid_value="https://w3id.org/mobilitydcat-ap/intended-information-service/trip-plans",
+            invalid_value="trip planner",
+            match_message="does not belong to",
+        )
+
+    def test_country_validator(self):
+        organization = factories.Organization()
+        dataset = create_dataset(organization)
+
+        dataset["contact_point"] = [
+            {
+                "country_name": "http://publications.europa.eu/resource/authority/country/FIN"
+            }
+        ]
+        dataset["rights_holder"] = [
+            {
+                "admin_unit_l1": "http://publications.europa.eu/resource/authority/country/ESP"
+            }
+        ]
+        helpers.call_action("package_update", **dataset)
+
+        assert (
+            helpers.call_action("package_show", id=dataset["id"])["contact_point"][0][
+                "country_name"
+            ]
+            == "http://publications.europa.eu/resource/authority/country/FIN"
+        )
+
+        dataset["contact_point"] = [{"country_name": "phrygia"}]
+        dataset["rights_holder"] = [{"admin_unit_l1": "persia"}]
+
+        with pytest.raises(ValidationError, match="does not belong to"):
+            helpers.call_action("package_update", **dataset)
+
     def test_add_and_remove_reference(self):
         organization = factories.Organization()
 
@@ -122,26 +239,3 @@ class TestDatasetValidators:
         assert len(json.loads(updated_dataset_3.get("is_referenced_by"))) == 2
         assert dataset_1["id"] in updated_dataset_3.get("is_referenced_by")
         assert dataset_2["id"] in updated_dataset_3.get("is_referenced_by")
-
-    def test_vocabulary_validation(self):
-
-        organization = factories.Organization()
-
-        dataset_1 = create_dataset(organization)
-        dataset_2 = create_dataset(organization)
-
-        dataset_1["frequency"] = (
-            "http://publications.europa.eu/resource/authority/frequency/WEEKLY"
-        )
-
-        dataset_2["frequency"] = "weekly"
-
-        helpers.call_action("package_update", **dataset_1)
-
-        assert (
-            helpers.call_action("package_show", id=dataset_1["id"])["frequency"]
-            == "http://publications.europa.eu/resource/authority/frequency/WEEKLY"
-        )
-
-        with pytest.raises(ValidationError, match="does not belong to"):
-            helpers.call_action("package_update", **dataset_2)
