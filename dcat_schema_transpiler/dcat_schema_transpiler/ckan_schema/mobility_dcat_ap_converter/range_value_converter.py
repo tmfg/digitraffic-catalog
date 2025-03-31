@@ -136,7 +136,9 @@ class RangeValueConverter(ABC):
     @staticmethod
     def vocab_choices(
         graph: Graph,
-        filter: Callable[..., bool] = lambda *args: True,
+        filter: Union[
+            Callable[[URIRef], bool], Callable[[URIRef, Graph], bool]
+        ] = lambda s: True,
         iri: URIRef | None = None,
     ):
         def get_label(s):
@@ -248,11 +250,12 @@ class RangeValueConverter(ABC):
 
         # list here included countries that are not EU members
         included = {
-            URIRef("http://publications.europa.eu/resource/authority/country/NOR")
+            URIRef("http://publications.europa.eu/resource/authority/country/ISL"),
+            URIRef("http://publications.europa.eu/resource/authority/country/NOR"),
         }
 
         excluded = {
-            # not sure what this but it sure is not a country
+            # not sure what this is but it's not a country
             URIRef("http://publications.europa.eu/resource/authority/country/OP_DATPRO")
         }
 
