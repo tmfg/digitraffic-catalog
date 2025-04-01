@@ -3,9 +3,8 @@ import logging
 from typing import Any
 
 import phonenumbers
-from ckan.common import _, config
-from ckan.lib.navl.dictization_functions import Invalid
-from ckan.logic import get_action
+from ckan.common import _
+from ckan.logic import get_action, ValidationError
 from ckan.types import Context
 from ckanext.digitraffic_theme.model.mobility_theme import (
     MobilityTheme,
@@ -26,7 +25,6 @@ from ckanext.digitraffic_theme.model.network_coverage import NetworkCoverage
 from ckanext.digitraffic_theme.model.intended_information_service import (
     IntendedInformationService,
 )
-from ckan.lib.navl.dictization_functions import Invalid
 
 
 logger = logging.getLogger(__name__)
@@ -39,7 +37,7 @@ def mobility_theme_sub_validator(key, data, errors, context):
         if is_valid_mobility_theme_sub(mobility_theme, mobility_theme_sub):
             return data
         else:
-            raise Invalid(_("Invalid value of mobility theme sub category"))
+            raise ValidationError(_("Invalid value of mobility theme sub category"))
     return data
 
 
@@ -48,7 +46,7 @@ def mobility_theme_validator(value: Any, context: Context):
         if is_valid_mobility_theme(MobilityTheme(value)):
             return value
         else:
-            raise Invalid(_("Invalid value of mobility theme category"))
+            raise ValidationError(_("Invalid value of mobility theme category"))
     return value
 
 
@@ -64,7 +62,7 @@ def phone_number_validator(value: Any, context: Context):
         except:
             is_valid = False
         if not is_valid:
-            raise Invalid(
+            raise ValidationError(
                 _(
                     "Phone number is not in a valid format. Make sure it starts with a valid country code. e.g. +358"
                 )
@@ -77,7 +75,7 @@ def vocabulary_validator(value: Any, _class: type):
         if issubclass(_class, Vocabulary) and _class.is_known_iri(value):
             return value
         else:
-            raise Invalid(_(f"{value} does not belong to {_class.namespace}"))
+            raise ValidationError(_(f"{value} does not belong to {_class.namespace}"))
     return value
 
 
@@ -87,7 +85,7 @@ def spatial_reference_validator(value: Any, context: Context):
             value_with_prefix = str(SpatialReference.namespace[value])
             if SpatialReference.is_known_iri(value_with_prefix):
                 return value_with_prefix
-            raise Invalid(_("Given spatial reference is not supported"))
+            raise ValidationError(_("Given spatial reference is not supported"))
     return value
 
 

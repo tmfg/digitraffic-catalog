@@ -6,6 +6,15 @@ from ckan.tests.factories import Organization
 from ckan.logic import ValidationError
 from ckanext.digitraffic_theme.model.frequency import Frequency
 from ckanext.digitraffic_theme.model.location import Location
+from ckanext.digitraffic_theme.model.transport_mode import TransportMode
+from ckanext.digitraffic_theme.model.intended_information_service import (
+    IntendedInformationService,
+)
+from ckanext.digitraffic_theme.model.language import Language
+from ckanext.digitraffic_theme.model.georeferencing_method import GeoreferencingMethod
+from ckanext.digitraffic_theme.model.network_coverage import NetworkCoverage
+
+
 from ckanext.digitraffic_theme.model.mobility_theme import MOBILITY_THEME_TREE
 
 
@@ -47,8 +56,6 @@ class TestDatasetValidators:
 
     def vocabulary_test(self, field_name, valid_value, invalid_value, match_message):
         """
-        Generic test function for vocabulary validation.
-
         :param field_name: The name of the field being validated.
         :param valid_value: A valid value for the field.
         :param invalid_value: An invalid value for the field.
@@ -72,7 +79,7 @@ class TestDatasetValidators:
     def test_frequency_validator(self):
         self.vocabulary_test(
             field_name="frequency",
-            valid_value="http://publications.europa.eu/resource/authority/frequency/WEEKLY",
+            valid_value=list(Frequency.iris)[0],
             invalid_value="weekly",
             match_message="does not belong to",
         )
@@ -88,7 +95,7 @@ class TestDatasetValidators:
     def test_location_validator(self):
         self.vocabulary_test(
             field_name="spatial",
-            valid_value="http://data.europa.eu/nuts/code/FI",
+            valid_value=list(Location.iris)[0],
             invalid_value="suomi",
             match_message="does not belong to",
         )
@@ -96,7 +103,7 @@ class TestDatasetValidators:
     def test_transport_mode_validator(self):
         self.vocabulary_test(
             field_name="transport_mode",
-            valid_value="https://w3id.org/mobilitydcat-ap/transport-mode/car",
+            valid_value=list(TransportMode.iris)[0],
             invalid_value="car",
             match_message="does not belong to",
         )
@@ -104,7 +111,7 @@ class TestDatasetValidators:
     def test_language_validator(self):
         self.vocabulary_test(
             field_name="language",
-            valid_value="http://publications.europa.eu/resource/authority/language/ENG",
+            valid_value=list(Language.iris)[0],
             invalid_value="gothic",
             match_message="does not belong to",
         )
@@ -112,7 +119,7 @@ class TestDatasetValidators:
     def test_georeferencing_method_validator(self):
         self.vocabulary_test(
             field_name="georeferencing_method",
-            valid_value="https://w3id.org/mobilitydcat-ap/georeferencing-method/gml",
+            valid_value=list(GeoreferencingMethod.iris)[0],
             invalid_value="gps",
             match_message="does not belong to",
         )
@@ -120,7 +127,7 @@ class TestDatasetValidators:
     def test_network_coverage_validator(self):
         self.vocabulary_test(
             field_name="network_coverage",
-            valid_value="https://w3id.org/mobilitydcat-ap/network-coverage/air-network",
+            valid_value=list(NetworkCoverage.iris)[0],
             invalid_value="roads",
             match_message="does not belong to",
         )
@@ -128,7 +135,7 @@ class TestDatasetValidators:
     def test_intended_information_service_validator(self):
         self.vocabulary_test(
             field_name="intended_information_service",
-            valid_value="https://w3id.org/mobilitydcat-ap/intended-information-service/trip-plans",
+            valid_value=list(IntendedInformationService.iris)[0],
             invalid_value="trip planner",
             match_message="does not belong to",
         )
