@@ -179,8 +179,7 @@ def resource_fields(ds: Dataset) -> List:
     ckan_defaults = {DCTERMS.license, DCTERMS.title, DCTERMS.description}
 
     distribution_fields_to_omit = (
-        Distribution.recommended_properties
-        | Distribution.optional_properties
+        (Distribution.recommended_properties | Distribution.optional_properties)
         - {
             ADMS.sample,
             CNT.characterEncoding,
@@ -190,6 +189,7 @@ def resource_fields(ds: Dataset) -> List:
             MOBILITYDCATAP.communicationMethod,
             MOBILITYDCATAP.dataFormatNotes,
             MOBILITYDCATAP.grammar,
+            MOBILITYDCATAP.applicationLayerProtocol,
         }
     ) - ckan_defaults
 

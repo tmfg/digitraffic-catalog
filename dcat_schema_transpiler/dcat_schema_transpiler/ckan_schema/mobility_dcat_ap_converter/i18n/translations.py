@@ -112,7 +112,10 @@ TRANSLATIONS = {
         DCTERMS.format: {"label": {"en": "Format", "fi": "Formaatti"}},
         DCTERMS.rights: {"label": {"en": "", "fi": ""}},
         MOBILITYDCATAP.applicationLayerProtocol: {
-            "label": {"en": "Application layer protocol", "fi": ""}
+            "label": {
+                "en": "Application layer protocol",
+                "fi": "Sovelluskerroksen protokolla",
+            }
         },
         DCTERMS.description: {"label": {"en": "Description", "fi": "Kuvaus"}},
         DCTERMS.license: {"label": {"en": "", "fi": ""}},

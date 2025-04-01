@@ -17,7 +17,7 @@ from mobility_dcat_ap.dataset import (
     CVOCAB_NETWORK_COVERAGE,
     CVOCAB_INTENDED_INFORMATION_SERVICE,
     CVOCAB_THEME,
-    CVOCAB_TRANSPORT_MODE
+    CVOCAB_TRANSPORT_MODE,
 )
 from mobility_dcat_ap.namespace import MOBILITYDCATAP
 from dcat_schema_transpiler.namespaces.ADMS import ADMS
@@ -103,7 +103,7 @@ class DCATDataset(RangeValueConverter):
             DCTERMS.relation: "related_resource",
             DCTERMS.isReferencedBy: "is_referenced_by",
             DCAT.theme: "theme",
-            MOBILITYDCATAP.transportMode: "transport_mode"
+            MOBILITYDCATAP.transportMode: "transport_mode",
         }
         field_value = mappings.get(p)
         if isinstance(field_value, dict):
@@ -138,7 +138,7 @@ class DCATDataset(RangeValueConverter):
             MOBILITYDCATAP.networkCoverage,
             MOBILITYDCATAP.intendedInformationService,
             DCAT.theme,
-            MOBILITYDCATAP.transportMode
+            MOBILITYDCATAP.transportMode,
         ]
         if any(
             clazz_p.is_iri(vocabulary_range) for vocabulary_range in vocabulary_ranges
@@ -210,6 +210,7 @@ class DCATDataset(RangeValueConverter):
                         "preset": "select",
                         "sorted_choices": True,
                         "form_include_blank_choice": True,
+                        "validators": "mobility_theme_validator",
                         "choices": RangeValueConverter.vocab_choices(
                             graph=g,
                             filter=lambda s: (
@@ -220,7 +221,7 @@ class DCATDataset(RangeValueConverter):
                                 ),
                             )
                             in g,
-                            iri=p.iri
+                            iri=p.iri,
                         ),
                     },
                     {
@@ -241,7 +242,7 @@ class DCATDataset(RangeValueConverter):
                                 ),
                             )
                             in g,
-                            iri=p.iri
+                            iri=p.iri,
                         ),
                     },
                 ]
@@ -250,13 +251,14 @@ class DCATDataset(RangeValueConverter):
                 g_lau = ds.get_graph(URIRef(CVOCAB_LAU))
 
                 def find_top_nuts(concept: Node) -> Node:
+
                     broader_concept = g_nuts.value(concept, SKOS.broader)
                     if broader_concept is not None:
                         return find_top_nuts(broader_concept)
                     return concept if concept is not None else URIRef("")
 
                 def is_finnish_nuts(nuts):
-   
+
                     if (nuts, None, None) in g_nuts:
                         return (
                             (
@@ -303,6 +305,7 @@ class DCATDataset(RangeValueConverter):
                     "choices": RangeValueConverter.vocab_choices(
                         g_nuts + g_lau, is_finnish_place
                     ),
+                    "validators": "location_validator ignore_missing",
                 }
             case MOBILITYDCATAP.georeferencingMethod:
                 g = ds.get_graph(URIRef(CVOCAB_GEOREFERENCING_METHOD))
@@ -314,6 +317,7 @@ class DCATDataset(RangeValueConverter):
                     "sorted_choices": True,
                     "form_include_blank_choice": True,
                     "choices": RangeValueConverter.vocab_choices(graph=g, iri=p.iri),
+                    "validators": "georeferencing_method_validator ignore_missing",
                 }
             case MOBILITYDCATAP.networkCoverage:
                 g = ds.get_graph(URIRef(CVOCAB_NETWORK_COVERAGE))
@@ -325,6 +329,7 @@ class DCATDataset(RangeValueConverter):
                     "sorted_choices": True,
                     "form_include_blank_choice": True,
                     "choices": RangeValueConverter.vocab_choices(graph=g, iri=p.iri),
+                    "validators": "network_coverage_validator ignore_missing",
                 }
             case DCAT.theme:
                 g = ds.get_graph(URIRef(CVOCAB_THEME))
@@ -336,6 +341,7 @@ class DCATDataset(RangeValueConverter):
                     "sorted_choices": True,
                     "form_include_blank_choice": True,
                     "choices": RangeValueConverter.vocab_choices(graph=g, iri=p.iri),
+                    "validators": "theme_validator ignore_missing",
                 }
             case MOBILITYDCATAP.transportMode:
                 g = ds.get_graph(URIRef(CVOCAB_TRANSPORT_MODE))
@@ -347,6 +353,7 @@ class DCATDataset(RangeValueConverter):
                     "sorted_choices": True,
                     "form_include_blank_choice": True,
                     "choices": RangeValueConverter.vocab_choices(graph=g, iri=p.iri),
+                    "validators": "transport_mode_validator ignore_missing",
                 }
             case MOBILITYDCATAP.intendedInformationService:
                 g = ds.get_graph(URIRef(CVOCAB_INTENDED_INFORMATION_SERVICE))
@@ -358,20 +365,22 @@ class DCATDataset(RangeValueConverter):
                     "sorted_choices": True,
                     "form_include_blank_choice": True,
                     "choices": RangeValueConverter.vocab_choices(graph=g, iri=p.iri),
+                    "validators": "intended_information_service_validator ignore_missing",
                 }
 
     def post_process_schema(self, schema: List[Dict]):
 
-
         def rename_field_names(field):
 
             if field.get("field_name") == Kind.aggregate_field_name:
-                field |= {"field_name": self.ckan_field_by_id(
-                    DCAT.contactPoint)} | self.get_property_label_with_help_text(DCAT.contactPoint)
+                field |= {
+                    "field_name": self.ckan_field_by_id(DCAT.contactPoint)
+                } | self.get_property_label_with_help_text(DCAT.contactPoint)
 
             if field.get("field_name") == Agent.aggregate_field_name:
-                field |= {"field_name": self.ckan_field_by_id(
-                    DCTERMS.rightsHolder)} | self.get_property_label_with_help_text(DCTERMS.rightsHolder)
+                field |= {
+                    "field_name": self.ckan_field_by_id(DCTERMS.rightsHolder)
+                } | self.get_property_label_with_help_text(DCTERMS.rightsHolder)
 
             return field
 
