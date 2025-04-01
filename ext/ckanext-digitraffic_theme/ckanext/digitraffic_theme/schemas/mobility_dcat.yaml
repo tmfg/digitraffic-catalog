@@ -234,6 +234,7 @@ dataset_fields:
       en: weekly
       fi: viikoittainen
       sv: veckovis
+  validators: frequency_validator
 - field_name: mobility_theme
   label:
     en: Data content category
@@ -242,6 +243,7 @@ dataset_fields:
   preset: select
   sorted_choices: true
   form_include_blank_choice: true
+  validators: mobility_theme_validator
   choices:
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/air-and-space-travel
     label:
@@ -937,6 +939,7 @@ dataset_fields:
       en: Transport
       fi: Liikenne
       sv: Transport
+  validators: theme_validator ignore_missing
 - field_name: start_timestamp
   label:
     en: Start time
@@ -1078,10 +1081,11 @@ dataset_fields:
       en: Truck
       fi: Kuorma-auto
       sv: Truck
+  validators: transport_mode_validator ignore_missing
 - field_name: spatial
   label:
-    en: Location
-    fi: Sijainti
+    en: Regional coverage
+    fi: Alueellinen kattavuus
   required: true
   preset: select
   form_include_blank_choice: true
@@ -2786,6 +2790,7 @@ dataset_fields:
       en: Äänekoski
       fi: Äänekoski
       sv: Äänekoski
+  validators: location_validator ignore_missing
 - field_name: version
   label:
     en: Dataset version
@@ -2885,6 +2890,7 @@ dataset_fields:
       en: Swedish
       fi: ruotsi
       sv: svenska
+  validators: language_validator ignore_missing
 - field_name: georeferencing_method
   label:
     en: Georeferencing method
@@ -2929,6 +2935,7 @@ dataset_fields:
       en: TPEG-LOC
       fi: TPEG-LOC
       sv: TPEG-LOC
+  validators: georeferencing_method_validator ignore_missing
 - field_name: contact_point
   label:
     en: Contact point
@@ -2987,6 +2994,156 @@ dataset_fields:
       en: Country
       fi: Maa
     required: false
+    preset: select
+    form_include_blank_choice: true
+    sorted_choices: true
+    choices:
+    - value: http://publications.europa.eu/resource/authority/country/AUT
+      label:
+        en: Austria
+        fi: Itävalta
+        sv: Österrike
+    - value: http://publications.europa.eu/resource/authority/country/BEL
+      label:
+        en: Belgium
+        fi: Belgia
+        sv: Belgien
+    - value: http://publications.europa.eu/resource/authority/country/BGR
+      label:
+        en: Bulgaria
+        fi: Bulgaria
+        sv: Bulgarien
+    - value: http://publications.europa.eu/resource/authority/country/HRV
+      label:
+        en: Croatia
+        fi: Kroatia
+        sv: Kroatien
+    - value: http://publications.europa.eu/resource/authority/country/CYP
+      label:
+        en: Cyprus
+        fi: Kypros
+        sv: Cypern
+    - value: http://publications.europa.eu/resource/authority/country/CZE
+      label:
+        en: Czechia
+        fi: Tšekki
+        sv: Tjeckien
+    - value: http://publications.europa.eu/resource/authority/country/DNK
+      label:
+        en: Denmark
+        fi: Tanska
+        sv: Danmark
+    - value: http://publications.europa.eu/resource/authority/country/EST
+      label:
+        en: Estonia
+        fi: Viro
+        sv: Estland
+    - value: http://publications.europa.eu/resource/authority/country/FIN
+      label:
+        en: Finland
+        fi: Suomi
+        sv: Finland
+    - value: http://publications.europa.eu/resource/authority/country/FRA
+      label:
+        en: France
+        fi: Ranska
+        sv: Frankrike
+    - value: http://publications.europa.eu/resource/authority/country/DEU
+      label:
+        en: Germany
+        fi: Saksa
+        sv: Tyskland
+    - value: http://publications.europa.eu/resource/authority/country/GRC
+      label:
+        en: Greece
+        fi: Kreikka
+        sv: Grekland
+    - value: http://publications.europa.eu/resource/authority/country/HUN
+      label:
+        en: Hungary
+        fi: Unkari
+        sv: Ungern
+    - value: http://publications.europa.eu/resource/authority/country/ISL
+      label:
+        en: Iceland
+        fi: Islanti
+        sv: Island
+    - value: http://publications.europa.eu/resource/authority/country/IRL
+      label:
+        en: Ireland
+        fi: Irlanti
+        sv: Irland
+    - value: http://publications.europa.eu/resource/authority/country/ITA
+      label:
+        en: Italy
+        fi: Italia
+        sv: Italien
+    - value: http://publications.europa.eu/resource/authority/country/LVA
+      label:
+        en: Latvia
+        fi: Latvia
+        sv: Lettland
+    - value: http://publications.europa.eu/resource/authority/country/LTU
+      label:
+        en: Lithuania
+        fi: Liettua
+        sv: Litauen
+    - value: http://publications.europa.eu/resource/authority/country/LUX
+      label:
+        en: Luxembourg
+        fi: Luxemburg
+        sv: Luxemburg
+    - value: http://publications.europa.eu/resource/authority/country/MLT
+      label:
+        en: Malta
+        fi: Malta
+        sv: Malta
+    - value: http://publications.europa.eu/resource/authority/country/NLD
+      label:
+        en: Netherlands
+        fi: Alankomaat
+        sv: Nederländerna
+    - value: http://publications.europa.eu/resource/authority/country/NOR
+      label:
+        en: Norway
+        fi: Norja
+        sv: Norge
+    - value: http://publications.europa.eu/resource/authority/country/POL
+      label:
+        en: Poland
+        fi: Puola
+        sv: Polen
+    - value: http://publications.europa.eu/resource/authority/country/PRT
+      label:
+        en: Portugal
+        fi: Portugali
+        sv: Portugal
+    - value: http://publications.europa.eu/resource/authority/country/ROU
+      label:
+        en: Romania
+        fi: Romania
+        sv: Rumänien
+    - value: http://publications.europa.eu/resource/authority/country/SVK
+      label:
+        en: Slovakia
+        fi: Slovakia
+        sv: Slovakien
+    - value: http://publications.europa.eu/resource/authority/country/SVN
+      label:
+        en: Slovenia
+        fi: Slovenia
+        sv: Slovenien
+    - value: http://publications.europa.eu/resource/authority/country/ESP
+      label:
+        en: Spain
+        fi: Espanja
+        sv: Spanien
+    - value: http://publications.europa.eu/resource/authority/country/SWE
+      label:
+        en: Sweden
+        fi: Ruotsi
+        sv: Sverige
+    validators: country_validator ignore_missing
 - field_name: network_coverage
   label:
     en: Network coverage
@@ -3059,6 +3216,7 @@ dataset_fields:
       en: Waterways
       fi: Vesiväylät
       sv: Waterways
+  validators: network_coverage_validator ignore_missing
 - field_name: conforms_to
   label:
     en: Spatial reference system
@@ -3130,6 +3288,7 @@ dataset_fields:
       en: Trip plans, auxiliary information, availability check
       fi: Reittisuunnitelmat, lisätiedot, saatavuuden tarkistus
       sv: Trip plans, auxiliary information, availability check
+  validators: intended_information_service_validator ignore_missing
 - field_name: quality_description
   label:
     en: Quality description
@@ -3150,6 +3309,7 @@ dataset_fields:
       en: Assessment date
       fi: Arvion päivämäärä
     required: false
+    preset: date
   - field_name: assessment_result
     label:
       en: Assessment result
@@ -3300,6 +3460,156 @@ dataset_fields:
       en: Country
       fi: Maa
     required: false
+    preset: select
+    sorted_choices: true
+    form_include_blank_choice: true
+    choices:
+    - value: http://publications.europa.eu/resource/authority/country/AUT
+      label:
+        en: Austria
+        fi: Itävalta
+        sv: Österrike
+    - value: http://publications.europa.eu/resource/authority/country/BEL
+      label:
+        en: Belgium
+        fi: Belgia
+        sv: Belgien
+    - value: http://publications.europa.eu/resource/authority/country/BGR
+      label:
+        en: Bulgaria
+        fi: Bulgaria
+        sv: Bulgarien
+    - value: http://publications.europa.eu/resource/authority/country/HRV
+      label:
+        en: Croatia
+        fi: Kroatia
+        sv: Kroatien
+    - value: http://publications.europa.eu/resource/authority/country/CYP
+      label:
+        en: Cyprus
+        fi: Kypros
+        sv: Cypern
+    - value: http://publications.europa.eu/resource/authority/country/CZE
+      label:
+        en: Czechia
+        fi: Tšekki
+        sv: Tjeckien
+    - value: http://publications.europa.eu/resource/authority/country/DNK
+      label:
+        en: Denmark
+        fi: Tanska
+        sv: Danmark
+    - value: http://publications.europa.eu/resource/authority/country/EST
+      label:
+        en: Estonia
+        fi: Viro
+        sv: Estland
+    - value: http://publications.europa.eu/resource/authority/country/FIN
+      label:
+        en: Finland
+        fi: Suomi
+        sv: Finland
+    - value: http://publications.europa.eu/resource/authority/country/FRA
+      label:
+        en: France
+        fi: Ranska
+        sv: Frankrike
+    - value: http://publications.europa.eu/resource/authority/country/DEU
+      label:
+        en: Germany
+        fi: Saksa
+        sv: Tyskland
+    - value: http://publications.europa.eu/resource/authority/country/GRC
+      label:
+        en: Greece
+        fi: Kreikka
+        sv: Grekland
+    - value: http://publications.europa.eu/resource/authority/country/HUN
+      label:
+        en: Hungary
+        fi: Unkari
+        sv: Ungern
+    - value: http://publications.europa.eu/resource/authority/country/ISL
+      label:
+        en: Iceland
+        fi: Islanti
+        sv: Island
+    - value: http://publications.europa.eu/resource/authority/country/IRL
+      label:
+        en: Ireland
+        fi: Irlanti
+        sv: Irland
+    - value: http://publications.europa.eu/resource/authority/country/ITA
+      label:
+        en: Italy
+        fi: Italia
+        sv: Italien
+    - value: http://publications.europa.eu/resource/authority/country/LVA
+      label:
+        en: Latvia
+        fi: Latvia
+        sv: Lettland
+    - value: http://publications.europa.eu/resource/authority/country/LTU
+      label:
+        en: Lithuania
+        fi: Liettua
+        sv: Litauen
+    - value: http://publications.europa.eu/resource/authority/country/LUX
+      label:
+        en: Luxembourg
+        fi: Luxemburg
+        sv: Luxemburg
+    - value: http://publications.europa.eu/resource/authority/country/MLT
+      label:
+        en: Malta
+        fi: Malta
+        sv: Malta
+    - value: http://publications.europa.eu/resource/authority/country/NLD
+      label:
+        en: Netherlands
+        fi: Alankomaat
+        sv: Nederländerna
+    - value: http://publications.europa.eu/resource/authority/country/NOR
+      label:
+        en: Norway
+        fi: Norja
+        sv: Norge
+    - value: http://publications.europa.eu/resource/authority/country/POL
+      label:
+        en: Poland
+        fi: Puola
+        sv: Polen
+    - value: http://publications.europa.eu/resource/authority/country/PRT
+      label:
+        en: Portugal
+        fi: Portugali
+        sv: Portugal
+    - value: http://publications.europa.eu/resource/authority/country/ROU
+      label:
+        en: Romania
+        fi: Romania
+        sv: Rumänien
+    - value: http://publications.europa.eu/resource/authority/country/SVK
+      label:
+        en: Slovakia
+        fi: Slovakia
+        sv: Slovakien
+    - value: http://publications.europa.eu/resource/authority/country/SVN
+      label:
+        en: Slovenia
+        fi: Slovenia
+        sv: Slovenien
+    - value: http://publications.europa.eu/resource/authority/country/ESP
+      label:
+        en: Spain
+        fi: Espanja
+        sv: Spanien
+    - value: http://publications.europa.eu/resource/authority/country/SWE
+      label:
+        en: Sweden
+        fi: Ruotsi
+        sv: Sverige
+    validators: country_validator ignore_missing
   - field_name: workplace_homepage
     label:
       en: Workplace homepage
@@ -4699,6 +5009,66 @@ resource_fields:
   - fi
   - en
   - sv
+- field_name: application_layer_protocol
+  label:
+    en: Application layer protocol
+    fi: Sovelluskerroksen protokolla
+  required: false
+  preset: select
+  sorted_choices: true
+  form_include_blank_choice: true
+  choices:
+  - value: https://w3id.org/mobilitydcat-ap/application-layer-protocol/amqp
+    label:
+      en: AMQP
+      fi: AMQP
+      sv: AMQP
+  - value: https://w3id.org/mobilitydcat-ap/application-layer-protocol/ftp
+    label:
+      en: FTP
+      fi: FTP
+      sv: FTP
+  - value: https://w3id.org/mobilitydcat-ap/application-layer-protocol/http-https
+    label:
+      en: HTTP HTTPS
+      fi: HTTP HTTPS
+      sv: HTTP HTTPS
+  - value: https://w3id.org/mobilitydcat-ap/application-layer-protocol/mqtt
+    label:
+      en: MQTT
+      fi: MQTT
+      sv: MQTT
+  - value: https://w3id.org/mobilitydcat-ap/application-layer-protocol/ocit
+    label:
+      en: OCIT
+      fi: OCIT
+      sv: OCIT
+  - value: https://w3id.org/mobilitydcat-ap/application-layer-protocol/ots2
+    label:
+      en: OTS2
+      fi: OTS2
+      sv: OTS2
+  - value: https://w3id.org/mobilitydcat-ap/application-layer-protocol/other
+    label:
+      en: Other
+      fi: Muu
+      sv: Other
+  - value: https://w3id.org/mobilitydcat-ap/application-layer-protocol/rss
+    label:
+      en: RSS
+      fi: RSS
+      sv: RSS
+  - value: https://w3id.org/mobilitydcat-ap/application-layer-protocol/soap
+    label:
+      en: SOAP
+      fi: SOAP
+      sv: SOAP
+  - value: https://w3id.org/mobilitydcat-ap/application-layer-protocol/grpc
+    label:
+      en: gRPC
+      fi: gRPC
+      sv: gRPC
+  validators: application_layer_protocol_validator ignore_missing
 - field_name: data_grammar
   label:
     en: Data grammar
@@ -4736,6 +5106,7 @@ resource_fields:
       en: XSD
       fi: XSD
       sv: XSD
+  validators: data_grammar_validator ignore_missing
 - field_name: data_format_notes_translated
   label:
     en: Data format notes
@@ -5271,6 +5642,7 @@ resource_fields:
     label: windows-1258
   - value: windows-874
     label: windows-874
+  validators: character_encoding_validator ignore_missing
 - field_name: communication_method
   label:
     en: Communication method
@@ -5290,6 +5662,7 @@ resource_fields:
       en: Push
       fi: Push
       sv: Push
+  validators: communication_method_validator ignore_missing
 - field_name: sample
   label:
     en: Sample
@@ -5380,6 +5753,7 @@ resource_fields:
       en: tpegML
       fi: tpegML
       sv: tpegML
+  validators: mobility_data_standard_validator ignore_missing
 - field_name: rights_type
   label:
     en: Conditions for access and usage
@@ -5439,6 +5813,7 @@ resource_fields:
       en: Royalty-free
       fi: Ei tekijänpalkkiota
       sv: Royalty-free
+  validators: rights_type_validator
 - field_name: license_id
   label:
     en: Standard license
@@ -6096,6 +6471,7 @@ resource_fields:
       en: eCos License version 2.0
       fi: eCos License version 2.0
       sv: eCos License version 2.0
+  validators: standard_license_validator ignore_missing
 - field_name: license_text
   label:
     en: License text

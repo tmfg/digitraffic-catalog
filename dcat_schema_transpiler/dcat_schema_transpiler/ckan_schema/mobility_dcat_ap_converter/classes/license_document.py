@@ -21,8 +21,7 @@ class LicenseDocument(RangeValueConverter):
         super().__init__(clazz)
 
     def ckan_field(self, p: RDFSProperty, pointer: str = None) -> str:
-        mappings = {DCTERMS.identifier: "license_id",
-                    RDFS.label: "license_text"}
+        mappings = {DCTERMS.identifier: "license_id", RDFS.label: "license_text"}
         field_name = mappings.get(p.iri)
 
         if field_name is not None:
@@ -71,6 +70,7 @@ class LicenseDocument(RangeValueConverter):
                     "sorted_choices": True,
                     "form_include_blank_choice": True,
                     "choices": RangeValueConverter.vocab_choices(g, filter_),
+                    "validators": "standard_license_validator ignore_missing",
                 }
 
     def is_property_required(self, property: RDFSProperty) -> bool:
