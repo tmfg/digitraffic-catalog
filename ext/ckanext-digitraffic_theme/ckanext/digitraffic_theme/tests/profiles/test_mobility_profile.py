@@ -1,6 +1,4 @@
-import pprint
-
-from rdflib import Graph, URIRef, RDF, DCAT, FOAF, DCTERMS, Literal
+from rdflib import URIRef, RDF, DCAT, FOAF, DCTERMS
 
 import pytest
 
@@ -8,11 +6,9 @@ from ckanext.dcat.processors import RDFSerializer
 
 import ckan.tests.factories as factories
 
-from ckan.common import request, config
 
 from ckanext.digitraffic_theme.model.format import Format
 from ckanext.digitraffic_theme.model.frequency import Frequency
-from ckanext.digitraffic_theme.model.language import Language
 from ckanext.digitraffic_theme.model.location import Location
 from ckanext.digitraffic_theme.model.mobility_data_standard import (
     MobilityDataStandard,
@@ -27,9 +23,9 @@ from ckanext.digitraffic_theme.rdf.mobility_dcat_ap import MOBILITYDCATAP
 
 
 # @pytest.mark.ckan_config('ckan.plugins', 'digitraffic_theme')
-@pytest.mark.usefixtures("clean_db", "with_plugins", "with_request_context")
-class TestProfile(object):
-    def test_graph_from_dataset(self, app):
+@pytest.mark.usefixtures("clean_db", "with_plugins")
+class TestProfile:
+    def test_graph_from_dataset(self):
         user = factories.User()
         owner_org = factories.Organization(
             users=[{"name": user["id"], "capacity": "admin"}]
