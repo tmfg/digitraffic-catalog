@@ -227,7 +227,7 @@ class DCATDataset(RangeValueConverter):
                         "field_name": self.ckan_field(p, "sub"),
                         **super().get_property_label_with_help_text(p.iri, "sub"),
                         "required": False,
-                        "preset": "select",
+                        "preset": "select_mobility_sub_theme",
                         "sorted_choices": True,
                         "form_include_blank_choice": True,
                         "validators": "scheming_required scheming_choices mobility_theme_sub_validator",

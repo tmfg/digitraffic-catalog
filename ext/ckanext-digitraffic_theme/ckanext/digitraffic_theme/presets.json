@@ -36,6 +36,13 @@
         "form_snippet": "dataset_reference_select.html",
         "validators": "scheming_required ignore_missing"
       }
+    },
+    {
+      "preset_name": "select_mobility_sub_theme",
+      "values": {
+        "form_snippet": "select_mobility_sub_theme.html",
+        "validators": "scheming_required scheming_choices"
+      }
     }
   ]
 }
