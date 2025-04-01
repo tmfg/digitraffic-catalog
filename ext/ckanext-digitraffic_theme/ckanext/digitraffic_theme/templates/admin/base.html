@@ -1,0 +1,7 @@
+{% ckan_extends %}
+
+<!-- Remove config tab from admin view -->
+{% block content_primary_nav %}
+    {{ h.build_nav_icon('admin.index', _('Sysadmins'), icon='gavel') }}
+    {{ h.build_nav_icon('admin.trash', _('Trash'), icon='trash') }}
+{% endblock %}
