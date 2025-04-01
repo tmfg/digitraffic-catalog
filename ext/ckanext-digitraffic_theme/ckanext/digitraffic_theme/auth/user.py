@@ -44,14 +44,14 @@ def _get_acting_and_acted_on_user(context: Context, data_dict: DataDict) -> (Use
 
 def _is_user_action_allowed(context: Context, data_dict: DataDict, user_action: UserAction) -> bool:
     try:
-         user_triggering_action, acted_on_user = _get_acting_and_acted_on_user(context, data_dict)
-         if user_action in {UserAction.SHOW, UserAction.SHOW_UPDATE}:
-             return _is_user_accessing_own_data(user_triggering_action, acted_on_user)
-         if user_action == UserAction.UPDATE:
-             print(context)
-             return (_is_user_accessing_own_data(user_triggering_action, acted_on_user) and
-                     _is_fixed_fields_unmodified(acted_on_user))
-         return False
+        user_triggering_action, acted_on_user = _get_acting_and_acted_on_user(context, data_dict)
+        if user_action in {UserAction.SHOW, UserAction.SHOW_UPDATE}:
+            return _is_user_accessing_own_data(user_triggering_action, acted_on_user)
+        if user_action == UserAction.UPDATE:
+            print(context)
+            return (_is_user_accessing_own_data(user_triggering_action, acted_on_user) and
+                    _is_fixed_fields_unmodified(acted_on_user))
+        return False
     except ValueError:
         return False
 
@@ -68,7 +68,7 @@ def user_show(next_auth: Callable, context: Context, data_dict: DataDict):
 @toolkit.chained_auth_function
 @toolkit.auth_sysadmins_check
 def user_update(next_auth: Callable, context: Context, data_dict: DataDict):
-    if toolkit.request.method == "GET" and context.get('save') == False:
+    if toolkit.request.method == "GET" and context.get('save', False) == False:
         user_action = UserAction.SHOW_UPDATE
     else:
         user_action = UserAction.UPDATE
