@@ -266,5 +266,6 @@ class CharacterEncoding:
     def __init__(self, label):
         self.label = label
 
-    def is_known_label(self, label: str):
-        return label in self.labels
+    @classmethod
+    def is_known_label(cls, label: str):
+        return label in cls.labels

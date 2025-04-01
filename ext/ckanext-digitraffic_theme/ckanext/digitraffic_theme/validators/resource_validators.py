@@ -20,6 +20,7 @@ from ckanext.digitraffic_theme.validators.dataset_validators import vocabulary_v
 
 from ckan.lib.navl.dictization_functions import Invalid
 from ckan.common import _
+from ckan.logic import ValidationError
 
 
 current_dir = os.path.dirname(__file__)
@@ -62,10 +63,10 @@ def application_layer_protocol_validator(value: Any, context: Context):
 
 def character_encoding_validator(value: Any, context: Context):
     if value:
-        if CharacterEncoding(value):
+        if CharacterEncoding.is_known_label(value):
             return value
         else:
-            raise Invalid(_(f"{value} is not a valid character encoding"))
+            raise ValidationError(_(f"{value} is not a valid character encoding"))
     return value
 
 
