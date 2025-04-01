@@ -140,6 +140,22 @@ class TestDatasetValidators:
             match_message="does not belong to",
         )
 
+    def test_phone_number_validation(self):
+        organization = factories.Organization()
+        dataset = create_dataset(organization)
+
+        dataset["rights_holder"] = [{"phone": "+358123"}]
+        with pytest.raises(
+            ValidationError, match="Phone number is not in a valid format"
+        ):
+            helpers.call_action("package_update", **dataset)
+
+        dataset["contact_point"] = [{"has_telephone": "1234567"}]
+        with pytest.raises(
+            ValidationError, match="Phone number is not in a valid format"
+        ):
+            helpers.call_action("package_update", **dataset)
+
     def test_country_validator(self):
         organization = factories.Organization()
         dataset = create_dataset(organization)
@@ -156,11 +172,14 @@ class TestDatasetValidators:
         ]
         helpers.call_action("package_update", **dataset)
 
+        updated_dataset = helpers.call_action("package_show", id=dataset["id"])
         assert (
-            helpers.call_action("package_show", id=dataset["id"])["contact_point"][0][
-                "country_name"
-            ]
+            updated_dataset["contact_point"][0]["country_name"]
             == "http://publications.europa.eu/resource/authority/country/FIN"
+        )
+        assert (
+            updated_dataset["rights_holder"][0]["admin_unit_l1"]
+            == "http://publications.europa.eu/resource/authority/country/ESP"
         )
 
         dataset["contact_point"] = [{"country_name": "phrygia"}]
