@@ -7,6 +7,7 @@ from ckanext.digitraffic_theme.model.mobility_data_standard import MobilityDataS
 from ckanext.digitraffic_theme.model.data_grammar import DataGrammar
 from ckanext.digitraffic_theme.model.communication_method import CommunicationMethod
 from ckanext.digitraffic_theme.model.rights_type import RightsType
+from ckanext.digitraffic_theme.model.format import Format
 from ckanext.digitraffic_theme.model.application_layer_protocol import (
     ApplicationLayerProtocol,
 )
@@ -18,9 +19,9 @@ def create_resource(package_id):
     resource = factories.Resource(
         package_id=package_id,
         url=url,
-        format="7z",
-        mobility_data_standard="https://w3id.org/mobilitydcat-ap/mobility-data-standard/other",
-        rights_type="https://w3id.org/mobilitydcat-ap/conditions-for-access-and-usage/other",
+        format=list(Format.labels)[0],
+        mobility_data_standard=list(MobilityDataStandard.iris)[0],
+        rights_type=list(RightsType.iris)[0],
     )
 
     return resource
