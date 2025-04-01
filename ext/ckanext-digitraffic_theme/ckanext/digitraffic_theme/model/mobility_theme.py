@@ -330,3 +330,7 @@ def is_valid_mobility_theme_sub(
     mobility_theme: MobilityTheme, mobility_theme_sub: MobilityThemeSub
 ) -> bool:
     return mobility_theme_sub.iri in MOBILITY_THEME_TREE[mobility_theme.iri]
+
+
+def is_valid_mobility_theme(mobility_theme: MobilityTheme):
+    return mobility_theme.iri in MOBILITY_THEME_TREE

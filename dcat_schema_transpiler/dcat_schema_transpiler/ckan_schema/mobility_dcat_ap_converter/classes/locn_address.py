@@ -1,4 +1,7 @@
-from rdflib import Dataset
+from dcat_schema_transpiler.mobility_dcat_ap.dataset import (
+    CVOCAB_COUNTRY,
+)
+from rdflib import Dataset, URIRef
 
 from ckan_schema.mobility_dcat_ap_converter.range_value_converter import (
     RangeValueConverter,
@@ -42,6 +45,22 @@ class LOCNAddress(RangeValueConverter):
     def get_schema(
         self, ds: Dataset, clazz_p: RDFSProperty | None, is_required: bool = None
     ):
+        if clazz_p.is_iri(LOCN.adminUnitL1):
+            g_countries = ds.get_graph(URIRef(CVOCAB_COUNTRY))
+
+            return {
+                "field_name": self.ckan_field(clazz_p),
+                **super().get_property_label_with_help_text(clazz_p.iri),
+                "required": is_required,
+                "preset": "select",
+                "sorted_choices": True,
+                "form_include_blank_choice": True,
+                "choices": RangeValueConverter.vocab_choices(
+                    g_countries, RangeValueConverter.country_filter
+                ),
+                "validators": "country_validator ignore_missing",
+            }
+
         schema = super().get_schema(ds, clazz_p, False)
         return schema
 

@@ -5,6 +5,17 @@ LANGUAGES = {
     "http://publications.europa.eu/resource/authority/language/ENG",
     "http://publications.europa.eu/resource/authority/language/FIN",
     "http://publications.europa.eu/resource/authority/language/SWE",
+    "http://publications.europa.eu/resource/authority/language/EST",
+    "http://publications.europa.eu/resource/authority/language/NOR",
+    "http://publications.europa.eu/resource/authority/language/DAN",
+    "http://publications.europa.eu/resource/authority/language/DEU",
+    "http://publications.europa.eu/resource/authority/language/FRA",
+    "http://publications.europa.eu/resource/authority/language/SPA",
+    "http://publications.europa.eu/resource/authority/language/LAV",
+    "http://publications.europa.eu/resource/authority/language/LIT",
+    "http://publications.europa.eu/resource/authority/language/ISL",
+    "http://publications.europa.eu/resource/authority/language/POL",
+    "http://publications.europa.eu/resource/authority/language/NLD",
 }
 
 

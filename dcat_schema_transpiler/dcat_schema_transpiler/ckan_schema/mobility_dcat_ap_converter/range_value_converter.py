@@ -1,7 +1,8 @@
 import csv
 from abc import ABC, abstractmethod
 from copy import deepcopy
-from typing import Callable, Dict, List, Set
+from inspect import signature
+from typing import Callable, Dict, List, Optional, Set, Union
 
 from ckan_schema.mobility_dcat_ap_converter.i18n.translations import (
     VOCABULARY_PATCH_TRANSLATIONS,
@@ -135,7 +136,9 @@ class RangeValueConverter(ABC):
     @staticmethod
     def vocab_choices(
         graph: Graph,
-        filter: Callable[[URIRef], bool] = lambda s: True,
+        filter: Union[
+            Callable[[URIRef], bool], Callable[[URIRef, Graph], bool]
+        ] = lambda s: True,
         iri: URIRef | None = None,
     ):
         def get_label(s):
@@ -199,11 +202,17 @@ class RangeValueConverter(ABC):
                     return RDFSLiteral(labels[0]).value()
             return None
 
+        filter_arg_count = len(signature(filter).parameters)
+
         return list(
             [
                 {"value": str(s), "label": get_label(s)}
                 for s, _, _ in graph.triples((None, RDF.type, SKOS.Concept))
-                if filter(URIRef(s))
+                if (
+                    filter(URIRef(s), graph)
+                    if filter_arg_count == 2
+                    else filter(URIRef(s))
+                )
             ]
         )
 
@@ -231,6 +240,41 @@ class RangeValueConverter(ABC):
             }
         else:
             return deepcopy(translated_field_properties)
+
+    @staticmethod
+    def country_filter(country: URIRef, graph: Graph):
+        """
+        Filters member states from an EU vocabulary of countries and includes or excludes other
+        separately specified country IRIs.
+        """
+
+        # list here included countries that are not EU members
+        included = {
+            URIRef("http://publications.europa.eu/resource/authority/country/ISL"),
+            URIRef("http://publications.europa.eu/resource/authority/country/NOR"),
+        }
+
+        excluded = {
+            # not sure what this is but it's not a country
+            URIRef("http://publications.europa.eu/resource/authority/country/OP_DATPRO")
+        }
+
+        # add EU members here
+        for _, _, obj in graph.triples(
+            (
+                # describes EU member countries
+                URIRef("http://publications.europa.eu/resource/authority/country/0005"),
+                SKOS.hasTopConcept,
+                None,
+            )
+        ):
+            if obj == country and obj not in excluded:
+                included.add(obj)
+
+        if country in included:
+            return True
+
+        return False
 
     def get_property_label_with_help_text(
         self, property_iri: URIRef, pointer: str | None = None
