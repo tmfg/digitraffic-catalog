@@ -343,7 +343,7 @@ dataset_fields:
     en: Data content subcategory
     fi: Alakategoria
   required: false
-  preset: select
+  preset: select_mobility_sub_theme
   sorted_choices: true
   form_include_blank_choice: true
   validators: scheming_required scheming_choices mobility_theme_sub_validator
@@ -393,11 +393,6 @@ dataset_fields:
       en: Basic common standard fares
       fi: Yleiset perusmaksut
       sv: Basic common standard fares
-  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/bike-sharing-availability
-    label:
-      en: Bike sharing Availability
-      fi: Kaupunkipyörien saatavuus
-      sv: Bike sharing Availability
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/bike-hiring-availability
     label:
       en: Bike-hiring Availability
@@ -413,6 +408,11 @@ dataset_fields:
       en: Bike-parking locations
       fi: Polkupyöräparkit
       sv: Bike-parking locations
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/bike-sharing-availability
+    label:
+      en: Bike sharing Availability
+      fi: Kaupunkipyörien saatavuus
+      sv: Bike sharing Availability
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/bike-sharing-locations-and-stations
     label:
       en: Bike-sharing Locations and stations
@@ -428,16 +428,6 @@ dataset_fields:
       en: Bridge closures and access conditions
       fi: Siltojen sulkemiset ja käyttörajoitukset
       sv: Bridge closures and access conditions
-  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/car-parking-availability
-    label:
-      en: Car parking availability
-      fi: Autojen pysäköinnin saatavuus
-      sv: Car parking availability
-  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/car-parking-locations-and-conditions
-    label:
-      en: Car parking locations and conditions
-      fi: Autojen pysäköintipaikat ja -olosuhteet
-      sv: Car parking locations and conditions
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/car-hiring-availability
     label:
       en: Car-hiring Availability
@@ -448,6 +438,16 @@ dataset_fields:
       en: Car-hiring Stations
       fi: Autonvuokrausasemat
       sv: Car-hiring Stations
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/car-parking-availability
+    label:
+      en: Car parking availability
+      fi: Autojen pysäköinnin saatavuus
+      sv: Car parking availability
+  - value: https://w3id.org/mobilitydcat-ap/mobility-theme/car-parking-locations-and-conditions
+    label:
+      en: Car parking locations and conditions
+      fi: Autojen pysäköintipaikat ja -olosuhteet
+      sv: Car parking locations and conditions
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/car-sharing-availability
     label:
       en: Car-sharing Availability
