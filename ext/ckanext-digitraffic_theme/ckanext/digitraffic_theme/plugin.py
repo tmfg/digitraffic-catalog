@@ -119,20 +119,21 @@ class DigitrafficThemePlugin(plugins.SingletonPlugin, DefaultTranslation):
 
     def get_blueprint(self) -> Union[list[Blueprint], Blueprint]:
         # Override CKAN's default blueprint for /ckan-admin as defined in https://github.com/ckan/ckan/blob/d9a9f8a2cc8ed637cf26f244d3f46877000a4757/ckan/views/admin.py
+        _removed_view = RemovedView.as_view("removed")
         _remove_routes_blueprint.add_url_rule(
             "/ckan-admin/config",
-            view_func=RemovedView.as_view("remove_admin_config"),
+            view_func=_removed_view,
             methods=["GET"],
         )
         _remove_routes_blueprint.add_url_rule(
             "/ckan-admin/reset_config",
-            view_func=RemovedView.as_view("remove_admin_reset_config"),
+            view_func=_removed_view,
             methods=["GET"],
         )
         if not toolkit.asbool(toolkit.config.get("debug", False)):
             _remove_routes_blueprint.add_url_rule(
                 "/testing/primer",
-                view_func=RemovedView.as_view("remove_testing_primer"),
+                view_func=_removed_view,
                 methods=["GET"],
             )
 
