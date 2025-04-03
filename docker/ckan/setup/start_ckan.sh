@@ -33,6 +33,8 @@ then
     done
 fi
 
+export OTEL_PYTHON_LOGGING_AUTO_INSTRUMENTATION_ENABLED=true
+
 # Set the common uwsgi options
 UWSGI_OPTS="--plugins http,python \
             --socket /tmp/uwsgi.sock \
@@ -50,7 +52,12 @@ then
     # Start supervisord
     supervisord --configuration /etc/supervisord.d/supervisord.conf &
     # Start uwsgi
-    uwsgi $UWSGI_OPTS
+    opentelemetry-instrument \
+        --traces_exporter otlp \
+        --metrics_exporter otlp \
+        --logs_exporter otlp \
+        --service_name ckan \
+        uwsgi $UWSGI_OPTS
 else
   echo "[prerun] failed...not starting CKAN."
 fi

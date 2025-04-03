@@ -87,6 +87,11 @@ RUN addgroup -g 92 -S ckan && \
 RUN mkdir -p ${CKAN_STORAGE_PATH} && \
     chown -R ckan:ckan ${CKAN_STORAGE_PATH}
 
+# Install OpenTelemetry
+RUN pip3 install opentelemetry-distro
+RUN pip3 install opentelemetry-exporter-otlp==1.31.1
+RUN opentelemetry-bootstrap -a install
+
 COPY setup/prerun.py ${APP_DIR}
 COPY setup/start_ckan.sh ${APP_DIR}
 COPY setup/install_extensions.sh ${APP_DIR}
