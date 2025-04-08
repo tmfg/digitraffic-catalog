@@ -4,17 +4,24 @@ services:
     image: local_catalog_ckan_dev:latest
     user: root
     group_add:
-      - "92"
+      - ckan
     volumes:
       - ckanext:/srv/app/ckanext
-    command: |
-      ls -la /srv/app/ckanext;
-      chown -R 92:92 /srv/app/ckanext;
-      pip install -r "/srv/app/ckanext/ckanext-digitraffic_theme/dev-requirements.txt";
-      pip install -r "/srv/app/ckanext/ckanext-entraid_authenticator/requirements.txt";
-      pip install -r "/srv/app/ckanext/ckanext-digitraffic_fluent/requirements.txt";
+      - ckan-logs:/srv/app/logs
+    command: /bin/bash -c "
+      mkdir -p /srv/app/logs
+      && touch /srv/app/logs/ckan.log
+      && touch /srv/app/logs/ckan_other.log
+      && chown -R ckan:ckan /srv/app/logs
+      && pip install -r "/srv/app/ckanext/ckanext-digitraffic_theme/dev-requirements.txt"
+      && pip install -r "/srv/app/ckanext/ckanext-entraid_authenticator/requirements.txt"
+      && pip install -r "/srv/app/ckanext/ckanext-digitraffic_fluent/requirements.txt"
+      && ls -al /srv/app/logs
+      "
   ckan:
     image: local_catalog_ckan_dev:latest
+    group_add:
+      - ckan
     ports:
       - "${CKAN_PORT}:${CKAN_PORT}"
       - "${CKAN_DATAPUSHER_PORT}:${CKAN_DATAPUSHER_PORT}"
@@ -38,6 +45,7 @@ services:
       - .env_test_users
     volumes:
       - ckanext:/srv/app/ckanext
+      - ckan-logs:/srv/app/logs
   postgresql:
     image: local_catalog_postgresql:latest
     ports:
@@ -65,6 +73,7 @@ services:
     image: otel/opentelemetry-collector:latest
     volumes:
       - ./otel-collector-config.yaml:/etc/otel-collector-config.yaml
+      #- ckan-logs:/var/log/ckan:ro
     ports:
       - "14317:4317"
       - "14318:4318"
@@ -89,3 +98,4 @@ volumes:
       o: bind
       type: none
       device: ../ext
+  ckan-logs:
