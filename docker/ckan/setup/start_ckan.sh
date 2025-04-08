@@ -34,11 +34,14 @@ then
 fi
 
 export OTEL_PYTHON_LOGGING_AUTO_INSTRUMENTATION_ENABLED=true
+export OTEL_PYTHON_LOG_CORRELATION=true
+export OTEL_PYTHON_LOG_LEVEL=DEBUG
 
 # Set the common uwsgi options
 UWSGI_OPTS="--plugins http,python \
             --socket /tmp/uwsgi.sock \
             --wsgi-file /srv/app/wsgi.py \
+            --pythonpath /srv/app \
             --module wsgi:application \
             --uid 92 --gid 92 \
             --http 0.0.0.0:5000 \
@@ -57,7 +60,7 @@ then
         --metrics_exporter otlp \
         --logs_exporter otlp \
         --service_name ckan \
-        uwsgi $UWSGI_OPTS
+        ./uwsgi $UWSGI_OPTS
 else
   echo "[prerun] failed...not starting CKAN."
 fi

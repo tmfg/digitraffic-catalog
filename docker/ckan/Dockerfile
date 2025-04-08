@@ -16,6 +16,7 @@ ENV PIP_BREAK_SYSTEM_PACKAGES 1
 
 # UWSGI options
 ENV UWSGI_HARAKIRI=50
+ENV PYTHONPATH=/srv/app
 
 WORKDIR ${APP_DIR}
 
@@ -28,12 +29,7 @@ RUN apk add --no-cache tzdata \
     libxml2 \
     libxslt \
     musl-dev \
-    uwsgi \
-    uwsgi-http \
-    uwsgi-corerouter \
-    uwsgi-python \
     py3-gevent \
-    uwsgi-gevent \
     libmagic \
     curl \
     patch \
@@ -87,9 +83,27 @@ RUN addgroup -g 92 -S ckan && \
 RUN mkdir -p ${CKAN_STORAGE_PATH} && \
     chown -R ckan:ckan ${CKAN_STORAGE_PATH}
 
+# Install UWSGI
+RUN apk add build-base
+RUN cd /opt && \
+    git clone --depth 1 --branch 2.0.28 https://github.com/unbit/uwsgi.git && \
+    cd uwsgi && \
+    python uwsgiconfig.py --build core && \
+    python uwsgiconfig.py --plugin plugins/python core && \
+    python uwsgiconfig.py --plugin plugins/http core && \
+    python uwsgiconfig.py --plugin plugins/corerouter core && \
+    python uwsgiconfig.py --plugin plugins/gevent core
+RUN cd /opt/uwsgi && \
+    mv uwsgi "${APP_DIR}" && \
+    mv python_plugin.so "${APP_DIR}" && \
+    mv http_plugin.so "${APP_DIR}" && \
+    mv corerouter_plugin.so "${APP_DIR}" && \
+    mv gevent_plugin.so "${APP_DIR}"
+
 # Install OpenTelemetry
 RUN pip3 install opentelemetry-distro
 RUN pip3 install opentelemetry-exporter-otlp==1.31.1
+RUN pip3 install opentelemetry-instrumentation-logging==0.52b1
 RUN opentelemetry-bootstrap -a install
 
 COPY setup/prerun.py ${APP_DIR}
@@ -99,6 +113,9 @@ COPY setup/setup_extensions.sh ${APP_DIR}
 
 ADD https://raw.githubusercontent.com/ckan/ckan/${GIT_BRANCH}/wsgi.py ${APP_DIR}
 RUN chmod 644 ${APP_DIR}/wsgi.py
+
+COPY setup/catalog_log_config.py ${APP_DIR}
+RUN chmod -R 644 ${APP_DIR}/catalog_log_config.py
 
 # copy extensions
 RUN mkdir -p ${EXT_DIR}
