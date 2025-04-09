@@ -106,7 +106,7 @@
   <!-- render field groups -->
   {% snippet 'package/snippets/field_groups.html',
     field_groups=field_groups,
-    schema=schema,
+    schema_fields=schema.dataset_fields,
     data=data,
     errors=errors,
     dataset_type=dataset_type
