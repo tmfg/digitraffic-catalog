@@ -84,6 +84,9 @@ RUN mkdir -p ${CKAN_STORAGE_PATH} && \
     chown -R ckan:ckan ${CKAN_STORAGE_PATH}
 
 # Install UWSGI
+## Building from the source is the recommended way to install uWSGI
+## Also, there are issues with PYTHONPATH when installing uWSGI using
+## distribution packages (see https://github.com/unbit/uwsgi/issues/2341)
 RUN apk add build-base
 RUN cd /opt && \
     git clone --depth 1 --branch 2.0.28 https://github.com/unbit/uwsgi.git && \
@@ -101,10 +104,11 @@ RUN cd /opt/uwsgi && \
     mv gevent_plugin.so "${APP_DIR}"
 
 # Install OpenTelemetry
-RUN pip3 install opentelemetry-distro
-RUN pip3 install opentelemetry-exporter-otlp==1.31.1
-RUN pip3 install opentelemetry-instrumentation-logging==0.52b1
-RUN opentelemetry-bootstrap -a install
+
+## Explicitly installing typing-extensions as aws-opentelemetry-distro
+## requires it to be installed in the same environment
+RUN pip3 install typing-extensions==4.13.1
+RUN pip3 install aws-opentelemetry-distro
 
 COPY setup/prerun.py ${APP_DIR}
 COPY setup/start_ckan.sh ${APP_DIR}

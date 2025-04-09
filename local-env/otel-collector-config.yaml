@@ -1,3 +1,6 @@
+extensions:
+  health_check:
+
 receivers:
   otlp:
     protocols:
@@ -12,19 +15,29 @@ exporters:
     endpoint: jaeger:4317
     tls:
       insecure: true
+  debug/foo:
+    verbosity: basic
+    sampling_initial: 1
+    sampling_thereafter: 0
 processors:
   batch:
+  batch/metrics:
+    timeout: 60s
+  batch/traces:
+    timeout: 1s
+    send_batch_size: 50
 service:
   pipelines:
     traces:
       receivers: [otlp]
-      exporters: [otlp/jaeger, debug]
-      processors: [batch]
+      exporters: [otlp/jaeger, debug/foo]
+      processors: [batch/traces]
     metrics:
       receivers: [otlp]
-      exporters: [debug]
-      processors: [batch]
+      exporters: [debug/foo]
+      processors: [batch/metrics]
     logs:
       receivers: [otlp]
       exporters: [debug]
       processors: [batch]
+  extensions: [health_check]

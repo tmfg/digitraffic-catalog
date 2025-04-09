@@ -1,0 +1,1 @@
+FROM public.ecr.aws/aws-observability/aws-otel-collector:v0.43.1

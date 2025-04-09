@@ -33,9 +33,12 @@ then
     done
 fi
 
-export OTEL_PYTHON_LOGGING_AUTO_INSTRUMENTATION_ENABLED=true
-export OTEL_PYTHON_LOG_CORRELATION=true
-export OTEL_PYTHON_LOG_LEVEL=DEBUG
+# Use AWS Distro of OpenTelemetry
+export OTEL_PYTHON_DISTRO="aws_distro"
+export OTEL_PYTHON_CONFIGURATOR="aws_configurator"
+
+# We don't want to get system metrics
+export OTEL_PYTHON_DISABLED_INSTRUMENTATIONS="system_metrics"
 
 # Set the common uwsgi options
 UWSGI_OPTS="--plugins http,python \
@@ -60,6 +63,7 @@ then
         --metrics_exporter otlp \
         --logs_exporter otlp \
         --service_name ckan \
+        --exporter_otlp_endpoint http://otel-collector:4317 \
         ./uwsgi $UWSGI_OPTS
 else
   echo "[prerun] failed...not starting CKAN."
