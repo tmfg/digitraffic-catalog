@@ -75,7 +75,11 @@ def vocabulary_validator(value: Any, _class: type):
         if issubclass(_class, Vocabulary) and _class.is_known_iri(value):
             return value
         else:
-            raise ValidationError(_(f"{value} does not belong to {_class.namespace}"))
+            raise ValidationError(
+                _("{value} does not belong to {namespace}").format(
+                    value=value, namespace=_class.namespace
+                )
+            )
     return value
 
 

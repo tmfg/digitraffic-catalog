@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-digitraffic_theme 0.0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-02-17 13:27+0000\n"
+"POT-Creation-Date: 2025-04-08 09:04+0000\n"
 "PO-Revision-Date: 2025-02-06 14:01+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: sv\n"
@@ -18,6 +18,14 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.10.3\n"
+
+#: ckanext/digitraffic_theme/templates/admin/base.html:5
+msgid "Sysadmins"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/admin/base.html:6
+msgid "Trash"
+msgstr ""
 
 #: ckanext/digitraffic_theme/templates/package/read.html:8
 #: ckanext/digitraffic_theme/templates/snippets/package_item.html:42
@@ -101,6 +109,28 @@ msgstr ""
 
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/additional_info.html:86
 msgid "State"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:5
+msgid "General"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:6
+msgid "Provide basic information about the dataset."
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:38
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:42
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:44
+msgid "Add data"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:145
+msgid "Update {page}"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:147
+msgid "Next"
 msgstr ""
 
 #: ckanext/digitraffic_theme/templates/snippets/language_selector_base.html:28
@@ -234,88 +264,108 @@ msgstr ""
 msgid "Profile picture URL"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/user/edit_user_form.html:29
+#: ckanext/digitraffic_theme/templates/user/edit_user_form.html:25
 msgid "Reactivate User"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/user/edit_user_form.html:30
+#: ckanext/digitraffic_theme/templates/user/edit_user_form.html:26
 msgid ""
 "This account is deactivated. If you want to reactivate it, please click "
 "on the checkbox."
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/user/edit_user_form.html:34
+#: ckanext/digitraffic_theme/templates/user/edit_user_form.html:30
 msgid "First name"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/user/edit_user_form.html:34
+#: ckanext/digitraffic_theme/templates/user/edit_user_form.html:30
 msgid "eg. Joe"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/user/edit_user_form.html:35
+#: ckanext/digitraffic_theme/templates/user/edit_user_form.html:31
 msgid "Surname"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/user/edit_user_form.html:35
+#: ckanext/digitraffic_theme/templates/user/edit_user_form.html:31
 msgid "eg. Bloggs"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/user/edit_user_form.html:36
+#: ckanext/digitraffic_theme/templates/user/edit_user_form.html:32
 msgid "Phone number"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/user/edit_user_form.html:36
+#: ckanext/digitraffic_theme/templates/user/edit_user_form.html:32
 msgid "eg. +358401234567"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/user/edit_user_form.html:37
+#: ckanext/digitraffic_theme/templates/user/edit_user_form.html:33
 msgid "Country of residence"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/user/edit_user_form.html:37
+#: ckanext/digitraffic_theme/templates/user/edit_user_form.html:33
 msgid "eg. Finland"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/user/edit_user_form.html:38
+#: ckanext/digitraffic_theme/templates/user/edit_user_form.html:34
 msgid "County"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/user/edit_user_form.html:38
+#: ckanext/digitraffic_theme/templates/user/edit_user_form.html:34
 msgid "eg. Uusimaa"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/user/edit_user_form.html:39
+#: ckanext/digitraffic_theme/templates/user/edit_user_form.html:35
 msgid "Postal code"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/user/edit_user_form.html:39
+#: ckanext/digitraffic_theme/templates/user/edit_user_form.html:35
 msgid "eg. 1234567"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/user/edit_user_form.html:40
+#: ckanext/digitraffic_theme/templates/user/edit_user_form.html:36
 msgid "City"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/user/edit_user_form.html:40
+#: ckanext/digitraffic_theme/templates/user/edit_user_form.html:36
 msgid "eg. Helsinki"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/user/edit_user_form.html:41
+#: ckanext/digitraffic_theme/templates/user/edit_user_form.html:37
 msgid "Street address"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/user/edit_user_form.html:41
+#: ckanext/digitraffic_theme/templates/user/edit_user_form.html:37
 msgid "eg. Testikatu 1"
 msgstr ""
 
-#: ckanext/digitraffic_theme/validators/dataset_validators.py:41
+#: ckanext/digitraffic_theme/validators/dataset_validators.py:40
+msgid "Invalid value of mobility theme sub category"
+msgstr ""
+
+#: ckanext/digitraffic_theme/validators/dataset_validators.py:49
+msgid "Invalid value of mobility theme category"
+msgstr ""
+
+#: ckanext/digitraffic_theme/validators/dataset_validators.py:66
 msgid ""
 "Phone number is not in a valid format. Make sure it starts with a valid "
 "country code. e.g. +358"
 msgstr ""
 
-#: ckanext/digitraffic_theme/validators/dataset_validators.py:54
+#: ckanext/digitraffic_theme/validators/dataset_validators.py:79
+msgid "{value} does not belong to {namespace}"
+msgstr ""
+
+#: ckanext/digitraffic_theme/validators/dataset_validators.py:92
 msgid "Given spatial reference is not supported"
+msgstr ""
+
+#: ckanext/digitraffic_theme/validators/resource_validators.py:70
+msgid "{value} is not a valid character encoding"
+msgstr ""
+
+#: ckanext/digitraffic_theme/validators/resource_validators.py:95
+msgid "Value does not belong to {namespace}"
 msgstr ""
 
 #~ msgid "Next: Add Data"
