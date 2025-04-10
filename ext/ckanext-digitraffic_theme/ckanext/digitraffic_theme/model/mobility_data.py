@@ -271,7 +271,7 @@ class MobilityData:
                             dist.get("description_translated", {}).get(key, ""),
                             lang=key,
                         )
-                        for key in dist.get("description_translated", {}).keys()
+                        for key in (dist.get("description_translated") or {}).keys()
                     ],
                     "mobility_data_standard": MobilityDataStandard(
                         dist["mobility_data_standard"],
@@ -316,7 +316,9 @@ class MobilityData:
                             dist.get("data_format_notes_translated", {}).get(key, ""),
                             lang=key,
                         )
-                        for key in dist.get("data_format_notes_translated", {}).keys()
+                        for key in (
+                            dist.get("data_format_notes_translated") or {}
+                        ).keys()
                     ],
                     "communication_method": (
                         CommunicationMethod(dist["communication_method"])
@@ -409,7 +411,7 @@ class MobilityData:
                     Literal(
                         dataset_dict.get("notes_translated", {}).get(key, ""), lang=key
                     )
-                    for key in dataset_dict.get("notes_translated", {}).keys()
+                    for key in (dataset_dict.get("notes_translated") or {}).keys()
                 ],
                 "distribution": distribution,
                 "accrualPeriodicity": Frequency(dataset_dict["frequency"]),

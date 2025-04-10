@@ -33,7 +33,7 @@ class DataService(ClassInstance):
             Literal(
                 input.get("data_service_title_translated", {}).get(key, ""), lang=key
             )
-            for key in input.get("data_service_title_translated", {}).keys()
+            for key in (input.get("data_service_title_translated") or {}).keys()
         ]
         self.endpoint_url = (
             URIRef(input.get("data_service_endpoint_url", ""))
@@ -51,7 +51,7 @@ class DataService(ClassInstance):
                 input.get("data_service_description_translated", {}).get(key, ""),
                 lang=key,
             )
-            for key in input.get("data_service_description_translated", {}).keys()
+            for key in (input.get("data_service_description_translated") or {}).keys()
         ]
         self.access_rights = input.get("access_rights")
 
