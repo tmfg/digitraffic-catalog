@@ -7,9 +7,8 @@ $select-error-area: error;
 .controls:has(> select) {
     position: relative;
     display: grid;
-    grid-template-areas:
-        "#{$select-dropdown-area}"
-        "#{$select-error-area}";
+    grid-template-areas: "#{$select-dropdown-area}"
+    "#{$select-error-area}";
     align-items: center;
 
     select {
@@ -61,4 +60,25 @@ $select-error-area: error;
         bottom: .5rem;
         pointer-events: none;
     }
+}
+
+/* remove ":" after form label */
+.radio-group label::after {
+    content: none;
+}
+
+/* display radio group items on same row */
+.radio-group .form-check {
+    display: inline-flex;
+    align-items: center;
+    margin-right: 1rem;
+}
+
+.radio-group .form-check-label {
+    margin-left: 0.5rem;
+}
+
+label[for="field-private"] {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
 }
