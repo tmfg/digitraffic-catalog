@@ -74,6 +74,9 @@ services:
     env_file:
       - .env_solr_common
       - .env_solr
+    depends_on:
+      otel-collector:
+        condition: service_started
   nginx:
     image: local_catalog_nginx:latest
     ports:
@@ -81,6 +84,9 @@ services:
     env_file:
       - .env_ckan_common
       - .env_nginx
+    depends_on:
+      otel-collector:
+        condition: service_started
   redis:
     image: redis:7.4
   otel-collector:
