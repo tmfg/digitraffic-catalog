@@ -26,39 +26,36 @@ Example:
 
 #}
 
-{% for group_key, group_details in field_groups.items() %}
-  <div class="field-group">
-    <h3>{{ group_details.label }}</h3>
-    <p class="help-text">{{ group_details.help_text }}</p>
-    <div class="field-group-content">
-      {% for field_name in group_details.fields %}
-        {% set field = schema_fields | selectattr('field_name', 'equalto', field_name) | first %}
-        {% if field %}
-          {%- if field.form_snippet is not none -%}
-            {%- if field.field_name not in data %}
-              {# Set the field default value before rendering but only if
-              it doesn't already exist in data which would mean the form
-              has been submitted. #}
-              {% if field.default_jinja2 %}
-                {% do data.__setitem__(
-                  field.field_name,
-                  h.scheming_render_from_string(field.default_jinja2)) %}
-              {% elif field.default %}
-                {% do data.__setitem__(field.field_name, field.default) %}
-              {% endif %}
-            {% endif %}
-            {%- snippet 'scheming/snippets/form_field.html',
-                field=field,
-                data=data,
-                errors=errors,
-                licenses=c.licenses,
-                entity_type='dataset',
-                object_type=dataset_type,
-                package_id=package_id if package_id is defined else None
-              -%}
-          {% endif %}
-        {% endif %}
+{% for group_key, group in field_groups.items() %}
+  <div class="form-field-group">
+    <h3>{{ group.label }}</h3>
+    <p class="help-text">{{ group.help_text }}</p>
+      {%- snippet 'package/snippets/form_field_renderer.html',
+        fields=group.fields,
+        schema_fields=schema_fields,
+        data=data,
+        errors=errors,
+        dataset_type=dataset_type,
+        package_id=package_id if package_id is defined else None
+    -%}
+    <!-- for additional groupings of fields under a smaller header inside the main group -->
+    {% if group.subgroups %}
+      {% for subgroup_name, subgroup in group.subgroups.items() %}
+        <div class="form-field-subgroup">
+          <h6>{{ subgroup.label }}</h6>
+          <p class="help-text">{{ subgroup.help_text }}</p>
+          {%- snippet 'package/snippets/form_field_renderer.html',
+            fields=subgroup.fields,
+            schema_fields=schema_fields,
+            data=data,
+            errors=errors,
+            dataset_type=dataset_type,
+            package_id=package_id if package_id is defined else None
+          -%}
+        </div>
       {% endfor %}
-    </div>
+    {% endif %}
   </div>
 {% endfor %}
+
+
