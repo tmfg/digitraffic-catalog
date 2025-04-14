@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-digitraffic_theme 0.0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-04-10 06:29+0000\n"
-"PO-Revision-Date: 2025-04-10 12:24+0300\n"
+"POT-Creation-Date: 2025-04-14 12:23+0000\n"
+"PO-Revision-Date: 2025-04-14 15:40+0300\n"
 "Last-Translator: \n"
 "Language-Team: fi <LL@li.org>\n"
 "Language: fi\n"
@@ -22,9 +22,8 @@ msgstr ""
 
 # | msgid "Sysadmin settings"
 #: ckanext/digitraffic_theme/templates/admin/base.html:5
-#, fuzzy
 msgid "Sysadmins"
-msgstr "Ylläpitäjän asetukset"
+msgstr "Ylläpitäjät"
 
 #: ckanext/digitraffic_theme/templates/admin/base.html:6
 msgid "Trash"
@@ -83,11 +82,11 @@ msgstr "Seuraava: Lisää dataa"
 msgid "No organization"
 msgstr "Ei organisaatiota"
 
-#: ckanext/digitraffic_theme/templates/scheming/form_snippets/datetime_tz.html:35
+#: ckanext/digitraffic_theme/templates/scheming/form_snippets/datetime_tz.html:40
 msgid "Time"
 msgstr "Kellonaika"
 
-#: ckanext/digitraffic_theme/templates/scheming/form_snippets/datetime_tz.html:53
+#: ckanext/digitraffic_theme/templates/scheming/form_snippets/datetime_tz.html:58
 msgid "Timezone"
 msgstr "Aikavyöhyke"
 
@@ -95,6 +94,19 @@ msgstr "Aikavyöhyke"
 msgid ""
 "With no JavaScript enabled, you need to specify the full IRI for this field"
 msgstr "Kun JavaScript ei ole käytössä, täytyy tähän kenttään syöttää koko IRI"
+
+#: ckanext/digitraffic_theme/templates/scheming/form_snippets/organization.html:25
+msgid "Visibility"
+msgstr "Näkyvyys"
+
+#: ckanext/digitraffic_theme/templates/scheming/form_snippets/organization.html:27
+#: ckanext/digitraffic_theme/templates/snippets/package_item.html:31
+msgid "Private"
+msgstr "Yksityinen"
+
+#: ckanext/digitraffic_theme/templates/scheming/form_snippets/organization.html:27
+msgid "Public"
+msgstr "Julkinen"
 
 #: ckanext/digitraffic_theme/templates/scheming/package/read.html:25
 msgid "XML format"
@@ -125,61 +137,70 @@ msgid "Provide basic information about the dataset."
 msgstr "Anna tietoaineiston perustiedot."
 
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:10
+msgid "Temporal coverage"
+msgstr "Ajallinen kattavuus"
+
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:11
+msgid "Describe here the time period covered by the dataset, if applicable."
+msgstr ""
+"Tässä osiossa kuvaillaan tietoaineiston ajallinen kattavuus, jos se on "
+"määritettävissä."
+
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:17
 msgid "Versioning"
 msgstr "Versiointi"
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:11
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:18
 msgid "Fill in versioning details where applicable."
 msgstr "Tietoaineiston versiotiedot."
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:15
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:22
 msgid "Assessment"
 msgstr "Arvio"
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:16
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:23
 msgid "Fill in assessment details where applicable."
 msgstr "Mahdollisen laatuarvion tiedot."
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:20
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:27
 msgid "Additional information"
 msgstr "Lisätiedot"
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:21
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:28
 msgid "Additional details concerning the dataset."
 msgstr "Lisätietoja tietoaineistoon liittyen."
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:25
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:32
 msgid "Contact point"
 msgstr "Yhteyspiste"
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:26
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:33
 msgid "Contact details for a person or organization."
 msgstr "Henkilön tai organisaation yhteystiedot."
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:30
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:37
 msgid "Rights holder"
 msgstr "Oikeuksien haltija"
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:31
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:38
 msgid "Contact details for the rights holder."
 msgstr "Oikeuksien haltijan yhteystiedot."
 
 # | msgid "Next: Add data"
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:63
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:67
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:69
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:70
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:74
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:76
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:50
-#, fuzzy
 msgid "Add data"
-msgstr "Seuraava: Lisää dataa"
+msgstr "Lisää dataa"
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:131
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:138
 msgid "Update {page}"
-msgstr ""
+msgstr "Päivitä {page}"
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:133
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:140
 msgid "Next"
-msgstr ""
+msgstr "Seuraava"
 
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:5
 msgid "Resource URLs"
@@ -202,7 +223,7 @@ msgid "Format"
 msgstr "Formaatti"
 
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:16
-msgid "Additional information concerning related formats and data standards"
+msgid "Additional information concerning related formats and data standards."
 msgstr "Lisätietoa resurssiin liittyvistä formaateista ja tietostandardeista."
 
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:20
@@ -215,19 +236,15 @@ msgstr "Resurssin käyttöön ja saatavuuteen liittyvät ehdot ja lisenssit."
 
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:25
 msgid "Time range"
-msgstr "Alkamis- ja päättymisrajat"
+msgstr "Alkamis- ja päättymisajat"
 
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:26
-msgid "Period during which resource is available"
-msgstr "Ajanjakso, jonka aikana data on saatavilla."
+msgid "Period during which resource is available."
+msgstr "Ajanjakso, jonka aikana resurssi on saatavilla."
 
 #: ckanext/digitraffic_theme/templates/snippets/language_selector_base.html:28
 msgid "Go"
 msgstr "Mene"
-
-#: ckanext/digitraffic_theme/templates/snippets/package_item.html:31
-msgid "Private"
-msgstr "Yksityinen"
 
 #: ckanext/digitraffic_theme/templates/snippets/package_item.html:53
 msgid "There is no description for this dataset"
