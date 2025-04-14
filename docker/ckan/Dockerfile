@@ -103,19 +103,13 @@ RUN cd /opt/uwsgi && \
     mv corerouter_plugin.so "${APP_DIR}" && \
     mv gevent_plugin.so "${APP_DIR}"
 
-# Install OpenTelemetry
-
-## Explicitly installing typing-extensions as aws-opentelemetry-distro
-## requires it to be installed in the same environment
-RUN pip3 install typing-extensions==4.13.1
-RUN pip3 install aws-opentelemetry-distro
-
 COPY setup/prerun.py ${APP_DIR}
 COPY setup/start_ckan.sh ${APP_DIR}
 COPY setup/install_extensions.sh ${APP_DIR}
 COPY setup/setup_extensions.sh ${APP_DIR}
 
-ADD https://raw.githubusercontent.com/ckan/ckan/${GIT_BRANCH}/wsgi.py ${APP_DIR}
+# wsgi.py file is from https://raw.githubusercontent.com/ckan/ckan/${GIT_BRANCH}/wsgi.py
+COPY setup/wsgi.py ${APP_DIR}
 RUN chmod 644 ${APP_DIR}/wsgi.py
 
 COPY setup/catalog_log_config.py ${APP_DIR}
@@ -127,6 +121,7 @@ COPY ckanext/ckanext-digitraffic_theme "${EXT_DIR}/ckanext-digitraffic_theme"
 COPY ckanext/ckanext-entraid_authenticator "${EXT_DIR}/ckanext-entraid_authenticator"
 COPY ckanext/ckanext-digitraffic_fluent "${EXT_DIR}/ckanext-digitraffic_fluent"
 COPY ckanext/ckanext-scheming "${EXT_DIR}/ckanext-scheming"
+COPY ckanext/ckanext-digitraffic_opentelemetry "${EXT_DIR}/ckanext-digitraffic_opentelemetry"
 RUN chown -R ckan:ckan "${EXT_DIR}"
 
 # install extensions

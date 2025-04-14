@@ -17,6 +17,19 @@ fi
 ckan config-tool $CKAN_INI "ckan.locale_default=fi"
 ckan config-tool $CKAN_INI "ckan.locales_offered=fi en sv"
 
+# Format logging
+ckan config-tool "${CKAN_INI}" -s formatter_generic 'format = '\''{"asctime": ${asctime}, "name": ${name}, "levelname": ${levelname}, "message": ${message}, "SpanID": ${otelSpanID}, "TraceID": ${otelTraceID}, "otelServiceName": ${otelServiceName}, "otelTraceSampled": ${otelTraceSampled}}'\'''
+ckan config-tool "${CKAN_INI}" -s formatter_generic "style = $"
+ckan config-tool "${CKAN_INI}" -s formatter_generic "class = catalog_log_config.CustomFormatter"
+
+ckan config-tool "${CKAN_INI}" -s handlers "keys = console"
+ckan config-tool "${CKAN_INI}" -s handler_console "formatter = generic"
+
+ckan config-tool "${CKAN_INI}" -s logger_root "handlers = console"
+ckan config-tool "${CKAN_INI}" -s logger_ckan "handlers = console"
+ckan config-tool "${CKAN_INI}" -s logger_ckanext "handlers = console"
+ckan config-tool "${CKAN_INI}" -s logger_werkzeug "handlers = console"
+
 # Run the prerun script to init CKAN
 python3 prerun.py
 
@@ -33,13 +46,6 @@ then
     done
 fi
 
-# Use AWS Distro of OpenTelemetry
-export OTEL_PYTHON_DISTRO="aws_distro"
-export OTEL_PYTHON_CONFIGURATOR="aws_configurator"
-
-# We don't want to get system metrics
-export OTEL_PYTHON_DISABLED_INSTRUMENTATIONS="system_metrics"
-
 # Set the common uwsgi options
 UWSGI_OPTS="--plugins http,python \
             --socket /tmp/uwsgi.sock \
@@ -50,7 +56,8 @@ UWSGI_OPTS="--plugins http,python \
             --http 0.0.0.0:5000 \
             --master --enable-threads \
             --lazy-apps \
-            -p 2 -L -b 32768 --vacuum \
+            --processes 2 \
+            -b 32768 --vacuum \
             --harakiri $UWSGI_HARAKIRI"
 
 if [ $? -eq 0 ]
@@ -58,13 +65,7 @@ then
     # Start supervisord
     supervisord --configuration /etc/supervisord.d/supervisord.conf &
     # Start uwsgi
-    opentelemetry-instrument \
-        --traces_exporter otlp \
-        --metrics_exporter otlp \
-        --logs_exporter otlp \
-        --service_name ckan \
-        --exporter_otlp_endpoint http://otel-collector:4317 \
-        ./uwsgi $UWSGI_OPTS
+    ./uwsgi $UWSGI_OPTS
 else
   echo "[prerun] failed...not starting CKAN."
 fi
