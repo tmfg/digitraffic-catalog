@@ -109,7 +109,7 @@ jobs:
           context: ./docker/adot-collector
           file: ./docker/adot-collector/Dockerfile
           push: true
-          platforms: linux/arm64
+          platforms: linux/arm64,linux/amd64
           tags: ${{ secrets.ECR_URL }}/dt-adot-collector-repository:${{ github.sha }}
 
       - name: Nginx build
