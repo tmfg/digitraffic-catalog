@@ -2,15 +2,35 @@ services:
   # This init service is needed in order to change the localy bind volume's ownership to ckan user
   ckan-init:
     image: local_catalog_ckan_dev:latest
-    user: root
+    user: ckan
     group_add:
       - ckan
     volumes:
       - ckanext:/srv/app/ckanext
-    command: /bin/bash -c "
-      pip install -r "/srv/app/ckanext/ckanext-digitraffic_theme/dev-requirements.txt"
-      && pip install -r "/srv/app/ckanext/ckanext-entraid_authenticator/requirements.txt"
-      && pip install -r "/srv/app/ckanext/ckanext-digitraffic_fluent/requirements.txt"
+    command: |
+      /bin/bash -c "
+      run_python_install() {
+          set -euo pipefail
+          echo $$1
+          PATH_TO_EXT=$$1
+          PYTHON_VIRTUAL_ENV_DIR='venv'
+          cd $$PATH_TO_EXT
+          echo $$PATH_TO_EXT
+          pwd
+          if [ ! -d $$PYTHON_VIRTUAL_ENV_DIR ]; then
+              python -m venv $$PYTHON_VIRTUAL_ENV_DIR
+          fi
+          source venv/bin/activate
+          pip install -e .
+          if [ -f requirements.txt ]; then
+              pip install -r requirements.txt
+          fi
+          deactivate
+      };
+      #run_python_install '/srv/app/ckanext/ckanext-entraid_authenticator';
+      #run_python_install '/srv/app/ckanext/ckanext-digitraffic_theme';
+      #run_python_install '/srv/app/ckanext/ckanext-digitraffic_fluent';
+      #run_python_install '/srv/app/ckanext/ckanext-digitraffic_opentelemetry';
       "
   ckan:
     image: local_catalog_ckan_dev:latest
@@ -53,6 +73,7 @@ services:
       - "${SOLR_PORT}:${SOLR_PORT}"
     env_file:
       - .env_solr_common
+      - .env_solr
   nginx:
     image: local_catalog_nginx:latest
     ports:
