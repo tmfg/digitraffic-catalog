@@ -26,6 +26,9 @@ server {
     location / {
         proxy_pass $ckan_target;
 
+        otel_trace on;
+        otel_trace_context propagate;
+
         # common security headers
         include /etc/nginx/security_headers.conf;
         # always enforce same origin policy

@@ -1,0 +1,3 @@
+otel_exporter {
+    endpoint otel-collector:4317;
+}

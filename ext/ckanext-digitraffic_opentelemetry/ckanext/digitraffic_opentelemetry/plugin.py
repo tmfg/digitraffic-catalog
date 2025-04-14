@@ -1,7 +1,7 @@
 import os
 import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
-from opentelemetry import trace
+from opentelemetry import trace, context
 from opentelemetry import propagate
 from opentelemetry.sdk.resources import (
     SERVICE_NAME,
@@ -13,13 +13,16 @@ from opentelemetry.sdk.trace import TracerProvider
 from opentelemetry.sdk.trace.export import (
     BatchSpanProcessor,
 )
+from opentelemetry.trace.propagation.tracecontext import TraceContextTextMapPropagator
 from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import OTLPSpanExporter
 from opentelemetry.instrumentation.logging import LoggingInstrumentor
 #from opentelemetry.instrumentation.wsgi import OpenTelemetryMiddleware
+from opentelemetry.propagators import textmap
 
 from opentelemetry.sdk.extension.aws.trace import AwsXRayIdGenerator
 from opentelemetry.sdk.extension.aws.resource.ecs import AwsEcsResourceDetector
 from opentelemetry.propagators.aws import AwsXRayPropagator
+from opentelemetry.propagators.composite import CompositePropagator
 
 from opentelemetry.instrumentation.flask import FlaskInstrumentor
 from opentelemetry.instrumentation.urllib3 import URLLib3Instrumentor
@@ -74,9 +77,15 @@ class DigitrafficOpentelemetryPlugin(plugins.SingletonPlugin):
 
     def _propagate_trace_headers(self):
         """
-        Configure the span context to propagate downstream when CKAN makes calls to other AWS services.
+        Configure how context is handled. Propagatros are used to extract and inject context into the headers of HTTP requests.
         """
-        propagate.set_global_textmap(AwsXRayPropagator())
+        # The AWS X-Ray propagator is called when trying to find the trace context in the incoming request. It is
+        # also used to set the trace header. It assumes that the trace header is "X-Amzn-Trace-Id".
+        aws_xray_propagator = AwsXRayPropagator()
+        # The W3C Extractor is used to only extract the trace context from the incoming request. It assumes that the
+        # trace header is "traceparent" and "tracestate".
+        w3c_extractor = W3CExtractorPropagator()
+        propagate.set_global_textmap(CompositePropagator([aws_xray_propagator, w3c_extractor]))
 
     def _add_trace_to_logging(self):
         """
@@ -85,7 +94,11 @@ class DigitrafficOpentelemetryPlugin(plugins.SingletonPlugin):
         LoggingInstrumentor().instrument(set_logging_format=True)
 
     def _add_WSGI_instrumentation(self, app):
-        #app.wsgi_app = OpenTelemetryMiddleware(app.wsgi_app)
+        """
+        Instruments the Flask requests. Also, is responsible for extracting the request context from the incoming request.
+        It does so by using propagators. The propagators are given the whole Flask request environment to pick the
+        correct headers from.
+        """
         FlaskInstrumentor().instrument_app(app, enable_commenter=False, commenter_options={})
 
     def _add_request_instrumentation(self):
@@ -95,3 +108,15 @@ class DigitrafficOpentelemetryPlugin(plugins.SingletonPlugin):
         """
         URLLib3Instrumentor().instrument()
         RequestsInstrumentor().instrument()
+
+class W3CExtractorPropagator(TraceContextTextMapPropagator):
+    """
+    Only do the extraction part of the TraceContextTextMapPropagator.
+    """
+    def inject(
+            self,
+            carrier: textmap.CarrierT,
+            context = None,
+            setter: textmap.Setter[textmap.CarrierT] = textmap.default_setter,
+    ) -> None:
+        pass
