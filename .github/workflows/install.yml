@@ -24,6 +24,10 @@ on:
         required: true
         type: boolean
         default: true
+      install_adot:
+        required: true
+        type: boolean
+        default: true
 
 jobs:
   build:
@@ -97,6 +101,16 @@ jobs:
           push: true
           platforms: linux/arm64
           tags: ${{ secrets.ECR_URL }}/dt-solr-repository:${{ github.sha }}
+
+      - name: Adot build
+        if: github.event.inputs.install_adot == 'true'
+        uses: docker/build-push-action@v6
+        with:
+          context: ./docker/adot-collector
+          file: ./docker/adot-collector/Dockerfile
+          push: true
+          platforms: linux/arm64
+          tags: ${{ secrets.ECR_URL }}/dt-adot-collector-repository:${{ github.sha }}
 
       - name: Nginx build
         if: github.event.inputs.install_nginx == 'true'
