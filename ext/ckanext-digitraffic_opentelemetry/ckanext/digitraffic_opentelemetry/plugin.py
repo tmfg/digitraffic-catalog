@@ -22,6 +22,8 @@ from opentelemetry.sdk.extension.aws.resource.ecs import AwsEcsResourceDetector
 from opentelemetry.propagators.aws import AwsXRayPropagator
 
 from opentelemetry.instrumentation.flask import FlaskInstrumentor
+from opentelemetry.instrumentation.urllib3 import URLLib3Instrumentor
+from opentelemetry.instrumentation.requests import RequestsInstrumentor
 
 
 class DigitrafficOpentelemetryPlugin(plugins.SingletonPlugin):
@@ -32,6 +34,7 @@ class DigitrafficOpentelemetryPlugin(plugins.SingletonPlugin):
         self._propagate_trace_headers()
         self._add_trace_to_logging()
         self._add_WSGI_instrumentation(app)
+        self._add_request_instrumentation()
         return app
 
     def make_error_log_middleware(self, app, config):
@@ -84,4 +87,11 @@ class DigitrafficOpentelemetryPlugin(plugins.SingletonPlugin):
     def _add_WSGI_instrumentation(self, app):
         #app.wsgi_app = OpenTelemetryMiddleware(app.wsgi_app)
         FlaskInstrumentor().instrument_app(app, enable_commenter=False, commenter_options={})
-    
+
+    def _add_request_instrumentation(self):
+        """
+        Instrument the requests and urllib3 libraries to automatically create spans for HTTP requests. These are needed
+        for the trace header to propagate to the downstream services.
+        """
+        URLLib3Instrumentor().instrument()
+        RequestsInstrumentor().instrument()
