@@ -5,9 +5,16 @@ Example:
 
 {% set field_groups = {
   "general": {
-      "label": _("General"),
-      "help_text": _("Provide basic information about the dataset."),
-      "fields": ["owner_org", "title_translated", "name", "frequency", "location", "mobility_theme", "notes_translated", "category", "start_timestamp", "end_timestamp", "transport_mode"]
+    "label": _("General"),
+    "help_text": _("Provide basic information about the dataset."),
+    "fields": ["owner_org", "title_translated", "name", "frequency", "spatial", "mobility_theme", "notes_translated", "category", "transport_mode"],
+    "subgroups": {
+      "time_range": {
+        "label": _("Temporal coverage"),
+        "help_text": _("The time period covered by the dataset."),
+        "fields": ["start_timestamp", "end_timestamp"]
+      }
+    }
   },
   "versioning" : {
     "label": _("Versioning"),

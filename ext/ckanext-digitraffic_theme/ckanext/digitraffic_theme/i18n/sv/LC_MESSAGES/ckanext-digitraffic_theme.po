@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-digitraffic_theme 0.0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-04-10 06:29+0000\n"
+"POT-Creation-Date: 2025-04-14 12:23+0000\n"
 "PO-Revision-Date: 2025-02-06 14:01+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: sv\n"
@@ -77,11 +77,11 @@ msgstr ""
 msgid "No organization"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/scheming/form_snippets/datetime_tz.html:35
+#: ckanext/digitraffic_theme/templates/scheming/form_snippets/datetime_tz.html:40
 msgid "Time"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/scheming/form_snippets/datetime_tz.html:53
+#: ckanext/digitraffic_theme/templates/scheming/form_snippets/datetime_tz.html:58
 msgid "Timezone"
 msgstr ""
 
@@ -89,6 +89,19 @@ msgstr ""
 msgid ""
 "With no JavaScript enabled, you need to specify the full IRI for this "
 "field"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/scheming/form_snippets/organization.html:25
+msgid "Visibility"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/scheming/form_snippets/organization.html:27
+#: ckanext/digitraffic_theme/templates/snippets/package_item.html:31
+msgid "Private"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/scheming/form_snippets/organization.html:27
+msgid "Public"
 msgstr ""
 
 #: ckanext/digitraffic_theme/templates/scheming/package/read.html:25
@@ -120,57 +133,65 @@ msgid "Provide basic information about the dataset."
 msgstr ""
 
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:10
-msgid "Versioning"
+msgid "Temporal coverage"
 msgstr ""
 
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:11
+msgid "Describe here the time period covered by the dataset, if applicable."
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:17
+msgid "Versioning"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:18
 msgid "Fill in versioning details where applicable."
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:15
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:22
 msgid "Assessment"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:16
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:23
 msgid "Fill in assessment details where applicable."
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:20
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:27
 msgid "Additional information"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:21
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:28
 msgid "Additional details concerning the dataset."
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:25
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:32
 msgid "Contact point"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:26
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:33
 msgid "Contact details for a person or organization."
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:30
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:37
 msgid "Rights holder"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:31
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:38
 msgid "Contact details for the rights holder."
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:63
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:67
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:69
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:70
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:74
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:76
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:50
 msgid "Add data"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:131
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:138
 msgid "Update {page}"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:133
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:140
 msgid "Next"
 msgstr ""
 
@@ -195,7 +216,7 @@ msgid "Format"
 msgstr ""
 
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:16
-msgid "Additional information concerning related formats and data standards"
+msgid "Additional information concerning related formats and data standards."
 msgstr ""
 
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:20
@@ -211,15 +232,11 @@ msgid "Time range"
 msgstr ""
 
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:26
-msgid "Period during which resource is available"
+msgid "Period during which resource is available."
 msgstr ""
 
 #: ckanext/digitraffic_theme/templates/snippets/language_selector_base.html:28
 msgid "Go"
-msgstr ""
-
-#: ckanext/digitraffic_theme/templates/snippets/package_item.html:31
-msgid "Private"
 msgstr ""
 
 #: ckanext/digitraffic_theme/templates/snippets/package_item.html:53
@@ -465,5 +482,14 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Street Address"
+#~ msgstr ""
+
+#~ msgid "The time period covered by the dataset."
+#~ msgstr ""
+
+#~ msgid "Additional information concerning related formats and data standards"
+#~ msgstr ""
+
+#~ msgid "Period during which resource is available"
 #~ msgstr ""
 
