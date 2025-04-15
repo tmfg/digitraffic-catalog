@@ -18,7 +18,7 @@ ckan config-tool $CKAN_INI "ckan.locale_default=fi"
 ckan config-tool $CKAN_INI "ckan.locales_offered=fi en sv"
 
 # Format logging
-ckan config-tool "${CKAN_INI}" -s formatter_generic 'format = '\''{"asctime": ${asctime}, "name": ${name}, "levelname": ${levelname}, "message": ${message}, "SpanID": ${otelSpanID}, "TraceID": ${otelTraceID}, "otelServiceName": ${otelServiceName}, "otelTraceSampled": ${otelTraceSampled}}'\'''
+ckan config-tool "${CKAN_INI}" -s formatter_generic 'format = {"asctime": ${asctime}, "name": ${name}, "levelname": ${levelname}, "message": ${message}, "span_id": ${otelSpanID}, "trace_id": ${otelTraceID}, "otel_service_name": ${otelServiceName}, "otel_trace_sampled": ${otelTraceSampled}}'
 ckan config-tool "${CKAN_INI}" -s formatter_generic "style = $"
 ckan config-tool "${CKAN_INI}" -s formatter_generic "class = catalog_log_config.CustomFormatter"
 
