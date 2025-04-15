@@ -38,7 +38,8 @@ ENV SOLR_OPTS="-javaagent:/opt/aws-opentelemetry-agent.jar \
   -Dotel.instrumentation.log4j-context-data.enabled=true \
   -Dotel.instrumentation.aws-log4j.enabled=true \
   -Dotel.instrumentation.jetty.enabled=true \
-  -Dotel.instrumentation.jetty-httpclient.enabled=true"
+  -Dotel.instrumentation.jetty-httpclient.enabled=true \
+  -Dotel.java.experimental.span-attributes.copy-from-baggage.include=*"
 
 # create core.properties
 RUN echo name=$SOLR_CORE > $SOLR_HOME/$SOLR_CORE/core.properties
