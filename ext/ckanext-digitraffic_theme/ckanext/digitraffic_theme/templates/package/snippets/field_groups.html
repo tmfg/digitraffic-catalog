@@ -1,0 +1,68 @@
+{# 
+Generates given groupings of fields under headers.
+
+Example:
+
+{% set field_groups = {
+  "general": {
+    "label": _("General"),
+    "help_text": _("Provide basic information about the dataset."),
+    "fields": ["owner_org", "title_translated", "name", "frequency", "spatial", "mobility_theme", "notes_translated", "category", "transport_mode"],
+    "subgroups": {
+      "time_range": {
+        "label": _("Temporal coverage"),
+        "help_text": _("The time period covered by the dataset."),
+        "fields": ["start_timestamp", "end_timestamp"]
+      }
+    }
+  },
+  "versioning" : {
+    "label": _("Versioning"),
+    "help_text": _("Fill in versioning details where applicable."),
+    "fields": ["version", "version_notes_translated"]
+  }
+} %}
+
+{% snippet 'package/snippets/field_group.html',
+  field_groups=field_groups,
+  schema_fields=schema.resource_fields,
+  data=data,
+  errors=errors,
+  dataset_type=dataset_type
+-%}
+
+#}
+
+{% for group_key, group in field_groups.items() %}
+  <div class="form-field-group">
+    <h3>{{ group.label }}</h3>
+    <p class="help-text">{{ group.help_text }}</p>
+      {%- snippet 'package/snippets/form_field_renderer.html',
+        fields=group.fields,
+        schema_fields=schema_fields,
+        data=data,
+        errors=errors,
+        dataset_type=dataset_type,
+        package_id=package_id if package_id is defined else None
+    -%}
+    <!-- for additional groupings of fields under a smaller header inside the main group -->
+    {% if group.subgroups %}
+      {% for subgroup_name, subgroup in group.subgroups.items() %}
+        <div class="form-field-subgroup">
+          <h6>{{ subgroup.label }}</h6>
+          <p class="help-text">{{ subgroup.help_text }}</p>
+          {%- snippet 'package/snippets/form_field_renderer.html',
+            fields=subgroup.fields,
+            schema_fields=schema_fields,
+            data=data,
+            errors=errors,
+            dataset_type=dataset_type,
+            package_id=package_id if package_id is defined else None
+          -%}
+        </div>
+      {% endfor %}
+    {% endif %}
+  </div>
+{% endfor %}
+
+
