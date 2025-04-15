@@ -66,7 +66,9 @@ def character_encoding_validator(value: Any, context: Context):
         if CharacterEncoding.is_known_label(value):
             return value
         else:
-            raise ValidationError(_(f"{value} is not a valid character encoding"))
+            raise ValidationError(
+                _("{value} is not a valid character encoding").format(value=value)
+            )
     return value
 
 
@@ -89,5 +91,9 @@ def set_format_iri(key, data, errors, context):
                     data[key] = format_iri
                     return True
             else:
-                raise Invalid(_(f"Value does not belong to {Format.namespace}"))
+                raise Invalid(
+                    _("Value does not belong to {namespace}").format(
+                        namespace=Format.namespace
+                    )
+                )
     return False

@@ -1,0 +1,11 @@
+.datetime-row {
+    display: flex;
+    gap: 1rem;
+    /* Add spacing between the fields */
+    align-items: flex-start;
+}
+
+.datetime-field {
+    flex: 1;
+    /* Ensure fields take equal width */
+}

@@ -103,12 +103,14 @@ Locale `fi` used as an example below.
 
 `python setup.py init_catalog --locale fi`
 
-##### Update translations for a locale
-Locale `fi` used as an example below.
+##### Update translations for locales
+`python setup.py update_catalog`
+This updates all locales.
 
 `python setup.py update_catalog --locale fi`
+Updates a specific locale.
 
-This retains previous translations but updates `msgid` values from the `.pot` template. After you have updated the `.pot` template you need to also update the translation templates for each locale using this command. 
+The `upcate_catalog` command retains previous translations but updates `msgid` values from the `.pot` template. After you have updated the `.pot` template, you need to also update the translation templates for each locale using this command. 
 
 ##### Compiling the translations
 If not using an editor (such as poedit) that compiles automatically on save, you will still need to compile the `.po` file into an `.mo file`. Use this command:
