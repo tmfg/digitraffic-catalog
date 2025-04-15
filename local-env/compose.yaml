@@ -90,7 +90,7 @@ services:
   redis:
     image: redis:7.4
   otel-collector:
-    image: otel/opentelemetry-collector:latest
+    image: otel/opentelemetry-collector-contrib:latest
     volumes:
       - ./otel-collector-config.yaml:/etc/otel-collector-config.yaml
     ports:
