@@ -1,7 +1,7 @@
 import os
 import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
-from opentelemetry import trace, context
+from opentelemetry import trace, context, baggage
 from opentelemetry import propagate
 from opentelemetry.sdk.resources import (
     SERVICE_NAME,
@@ -9,7 +9,7 @@ from opentelemetry.sdk.resources import (
     Resource,
     get_aggregated_resources
 )
-from opentelemetry.sdk.trace import TracerProvider
+from opentelemetry.sdk.trace import TracerProvider, SpanProcessor
 from opentelemetry.sdk.trace.export import (
     BatchSpanProcessor,
 )
@@ -18,6 +18,7 @@ from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import OTLPSpanExport
 from opentelemetry.instrumentation.logging import LoggingInstrumentor
 #from opentelemetry.instrumentation.wsgi import OpenTelemetryMiddleware
 from opentelemetry.propagators import textmap
+from opentelemetry.baggage.propagation import W3CBaggagePropagator
 
 from opentelemetry.sdk.extension.aws.trace import AwsXRayIdGenerator
 from opentelemetry.sdk.extension.aws.resource.ecs import AwsEcsResourceDetector
@@ -27,6 +28,7 @@ from opentelemetry.propagators.composite import CompositePropagator
 from opentelemetry.instrumentation.flask import FlaskInstrumentor
 from opentelemetry.instrumentation.urllib3 import URLLib3Instrumentor
 from opentelemetry.instrumentation.requests import RequestsInstrumentor
+from opentelemetry.processor.baggage import BaggageSpanProcessor, ALLOW_ALL_BAGGAGE_KEYS
 
 
 class DigitrafficOpentelemetryPlugin(plugins.SingletonPlugin):
@@ -49,14 +51,9 @@ class DigitrafficOpentelemetryPlugin(plugins.SingletonPlugin):
         """
         resource = self._get_resource_attributes()
 
-        otel_endpoint = os.environ["OTEL_EXPORTER_OTLP_ENDPOINT"]
-
-        if not otel_endpoint:
-            raise ValueError("OTEL_EXPORTER_OTLP_ENDPOINT environment variable is not set.")
-
         provider = TracerProvider(resource=resource, id_generator=AwsXRayIdGenerator())
-        processor = BatchSpanProcessor(OTLPSpanExporter(endpoint=otel_endpoint))
-        provider.add_span_processor(processor)
+        self._add_baggage_to_attributes(provider)
+        self._send_traces_to_collector(provider)
 
         # Sets the global default tracer provider
         trace.set_tracer_provider(provider)
@@ -85,7 +82,10 @@ class DigitrafficOpentelemetryPlugin(plugins.SingletonPlugin):
         # The W3C Extractor is used to only extract the trace context from the incoming request. It assumes that the
         # trace header is "traceparent" and "tracestate".
         w3c_extractor = W3CExtractorPropagator()
-        propagate.set_global_textmap(CompositePropagator([aws_xray_propagator, w3c_extractor]))
+        # BaggagePropagator is used to extract and inject baggage from and into the headers of HTTP requests. It assumes that
+        # the baggage header is "baggage".
+        baggage_propagator = W3CBaggagePropagator()
+        propagate.set_global_textmap(CompositePropagator([aws_xray_propagator, w3c_extractor, baggage_propagator]))
 
     def _add_trace_to_logging(self):
         """
@@ -108,6 +108,19 @@ class DigitrafficOpentelemetryPlugin(plugins.SingletonPlugin):
         """
         URLLib3Instrumentor().instrument()
         RequestsInstrumentor().instrument()
+
+    def _add_baggage_to_attributes(self, provider: TracerProvider):
+        baggage_processor = BaggageSpanProcessor(ALLOW_ALL_BAGGAGE_KEYS)
+        provider.add_span_processor(baggage_processor)
+
+    def _send_traces_to_collector(self, provider: TracerProvider):
+        otel_endpoint = os.environ["OTEL_EXPORTER_OTLP_ENDPOINT"]
+        if not otel_endpoint:
+            raise ValueError("OTEL_EXPORTER_OTLP_ENDPOINT environment variable is not set.")
+        processor = BatchSpanProcessor(OTLPSpanExporter(endpoint=otel_endpoint))
+        provider.add_span_processor(processor)
+
+
 
 class W3CExtractorPropagator(TraceContextTextMapPropagator):
     """
