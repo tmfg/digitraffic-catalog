@@ -28,12 +28,15 @@ processors:
     send_batch_size: 50
   batch/logs:
     timeout: 1s
+  transform/traces:
+    trace_statements:
+      - set(span.attributes["w3c.trace_id"], span.trace_id.string) where IsMatch(span.trace_id.string, "^[0-9a-f]{32}$")
 service:
   pipelines:
     traces:
       receivers: [otlp]
-      exporters: [otlp/jaeger, debug/foo]
-      processors: [batch/traces]
+      exporters: [otlp/jaeger]
+      processors: [transform/traces, batch/traces]
     metrics:
       receivers: [otlp]
       exporters: [debug/foo]
