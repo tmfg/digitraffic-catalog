@@ -40,7 +40,7 @@ def _add_user_to_baggage(span: Span, flask_request_environ):
     """
     Add the user ID to the baggage of the span. This is used to propagate the user ID.
     """
-    user_id_attribute = "user.oid"
+    user_id_attribute = "user.id"
     if span.is_recording():
         # Set the user ID as an attribute to the currently running span
         span.set_attribute(user_id_attribute, toolkit.g.get('user'))
