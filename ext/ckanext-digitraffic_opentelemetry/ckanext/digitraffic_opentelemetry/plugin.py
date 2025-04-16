@@ -128,7 +128,9 @@ class DigitrafficOpentelemetryPlugin(plugins.SingletonPlugin):
         RequestsInstrumentor().instrument()
 
     def _add_baggage_to_span_attributes(self, provider: TracerProvider):
-        baggage_processor = BaggageSpanProcessor(ALLOW_ALL_BAGGAGE_KEYS)
+        baggage_keys_to_propagate = {"w3c.trace_id","aws.cf.id","user.id"}
+        is_baggage_key_propagated = lambda baggage_key: baggage_key in baggage_keys_to_propagate
+        baggage_processor = BaggageSpanProcessor(is_baggage_key_propagated)
         provider.add_span_processor(baggage_processor)
 
     def _send_traces_to_collector(self, provider: TracerProvider):

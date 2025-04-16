@@ -20,6 +20,11 @@ processors:
 
 exporters:
   awsxray:
+    indexed_attributes:
+      - user.id
+      - w3c.trace_id
+      - aws.cf.id
+      - otel.resource.service.name
 
 service:
   pipelines:
