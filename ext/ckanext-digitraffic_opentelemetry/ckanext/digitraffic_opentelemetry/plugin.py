@@ -38,7 +38,7 @@ from opentelemetry.processor.baggage import BaggageSpanProcessor, ALLOW_ALL_BAGG
 
 def _add_user_to_baggage(span: Span, flask_request_environ):
     """
-    Add the user ID to the baggage of the span. This is used to propagate the user ID.
+    Add the user ID to the baggage. This is used to propagate the user ID across services.
     """
     user_id_attribute = "user.id"
     if span.is_recording():
