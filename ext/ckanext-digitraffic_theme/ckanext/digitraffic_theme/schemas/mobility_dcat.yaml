@@ -3662,10 +3662,11 @@ resource_fields:
   label:
     en: Endpoint description
     fi: Rajapinnan kuvaus
-  required: false
   help_text:
     en: Link to e.g. a Swagger or OpenAPI description.
     fi: Linkki esim. Swagger tai OpenAPI -kuvaukseen.
+  required: false
+  preset: url
 - field_name: name_translated
   label:
     en: Title
