@@ -17,16 +17,6 @@ processors:
     send_batch_size: 50
   batch/metrics:
     timeout: 60s
-  transform/traces:
-    # Relevant documentation for processors:
-    # https://opentelemetry.io/docs/collector/configuration/#processors
-    # Relevant documentation for transform:
-    # https://github.com/open-telemetry/opentelemetry-collector-contrib/blob/main/processor/transformprocessor/README.md
-    # https://github.com/open-telemetry/opentelemetry-collector-contrib/blob/main/pkg/ottl/README.md#getting-started
-    # https://github.com/open-telemetry/opentelemetry-collector-contrib/blob/main/pkg/ottl/LANGUAGE.md
-    trace_statements:
-      # AWS Collector turns W3C Trace ID into the X-Ray Trace ID. We want to keep the W3C Trace ID around as an attribute.
-      - set(span.attributes["w3c.trace_id"], span.trace_id.string) where IsMatch(span.trace_id.string, "^[0-9a-f]{32}$")
 
 exporters:
   awsxray:
@@ -35,7 +25,7 @@ service:
   pipelines:
     traces:
       receivers: [otlp,awsxray]
-      processors: [transform/traces, batch/traces]
+      processors: [batch/traces]
       exporters: [awsxray]
 
   extensions: [health_check]

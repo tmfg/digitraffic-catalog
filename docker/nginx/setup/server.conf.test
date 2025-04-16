@@ -36,8 +36,9 @@ server {
         # content type options https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options
         add_header X-Content-Type-Options "nosniff" always;
 
-        proxy_set_header baggage aws.cf.id=$http_x_amz_cf_id;
-        otel_span_attr aws.cf.id $http_x_amz_cf_id
+        proxy_set_header baggage "w3c.trace_id=$otel_trace_id, aws.cf.id=$http_x_amz_cf_id";
+        otel_span_attr aws.cf.id $http_x_amz_cf_id;
+        otel_span_attr w3c.trace_id $otel_trace_id;
 
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
