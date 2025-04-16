@@ -46,6 +46,13 @@ class DataService(RangeValueConverter):
                 "required": is_required,
                 "preset": "url",
             }
+        if clazz_p.is_iri(DCAT.endpointDescription):
+            return {
+                "field_name": self.ckan_field(clazz_p),
+                **super().get_property_label_with_help_text(clazz_p.iri),
+                "required": is_required,
+                "preset": "url",
+            }
         """
         Multilingual fields should have "required: false" at the field level.
         Required input languages are given in separate field "required_languages".
