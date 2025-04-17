@@ -33,35 +33,39 @@ Example:
 
 #}
 
-{% for group_key, group in field_groups.items() %}
-  <div class="form-field-group">
-    <h3>{{ group.label }}</h3>
-    <p class="help-text">{{ group.help_text }}</p>
-      {%- snippet 'package/snippets/form_field_renderer.html',
-        fields=group.fields,
-        schema_fields=schema_fields,
-        data=data,
-        errors=errors,
-        dataset_type=dataset_type,
-        package_id=package_id if package_id is defined else None
-    -%}
-    <!-- for additional groupings of fields under a smaller header inside the main group -->
-    {% if group.subgroups %}
-      {% for subgroup_name, subgroup in group.subgroups.items() %}
-        <div class="form-field-subgroup">
-          <h6>{{ subgroup.label }}</h6>
-          <p class="help-text">{{ subgroup.help_text }}</p>
-          {%- snippet 'package/snippets/form_field_renderer.html',
-            fields=subgroup.fields,
-            schema_fields=schema_fields,
-            data=data,
-            errors=errors,
-            dataset_type=dataset_type,
-            package_id=package_id if package_id is defined else None
-          -%}
-        </div>
-      {% endfor %}
-    {% endif %}
+{% for position, groups in field_groups.items() %}
+  <div class="{{position}} field-group-cell">
+    {% for group_key, group in groups.items() %}
+    <div class="field-group">
+      <h3>{{ group.label }}</h3>
+      <p class="help-text">{{ group.help_text }}</p>
+        {%- snippet 'package/snippets/form_field_renderer.html',
+          fields=group.fields,
+          schema_fields=schema_fields,
+          data=data,
+          errors=errors,
+          dataset_type=dataset_type,
+          package_id=package_id if package_id is defined else None
+      -%}
+      <!-- for additional groupings of fields under a smaller header inside the main group -->
+      {% if group.subgroups %}
+        {% for subgroup_name, subgroup in group.subgroups.items() %}
+          <div class="form-field-subgroup">
+            <h6>{{ subgroup.label }}</h6>
+            <p class="help-text">{{ subgroup.help_text }}</p>
+            {%- snippet 'package/snippets/form_field_renderer.html',
+              fields=subgroup.fields,
+              schema_fields=schema_fields,
+              data=data,
+              errors=errors,
+              dataset_type=dataset_type,
+              package_id=package_id if package_id is defined else None
+            -%}
+          </div>
+        {% endfor %}
+      {% endif %}
+    </div>
+    {% endfor %}
   </div>
 {% endfor %}
 
