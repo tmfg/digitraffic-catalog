@@ -1,0 +1,16 @@
+{% extends "package/edit_base.html" %}
+
+{% block secondary %}
+{% endblock %}
+
+{% block primary %}
+  <div class="primary col-md-14 col-xs-14" role="main">
+    {% block primary_content %}
+      {# Include the parent template's content (e.g., links at the top) #}
+      {{ super() }}
+      {% block form %}
+        {{- h.snippet(form_snippet, pkg_dict=pkg_dict, **form_vars) -}}
+      {% endblock %}
+    {% endblock %}
+  </div>
+{% endblock %}
