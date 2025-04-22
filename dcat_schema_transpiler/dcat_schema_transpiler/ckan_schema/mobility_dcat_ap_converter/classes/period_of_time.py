@@ -39,6 +39,7 @@ class PeriodOfTime(RangeValueConverter):
         if any(clazz_p.is_iri(p) for p in self.__class__.recommended_properties):
             return {
                 "field_name": self.ckan_field(clazz_p),
+                **super().get_necessity_mapping(clazz_p.iri),
                 "label": {
                     "en": (
                         "Start time" if clazz_p.is_iri(DCAT.startDate) else "End time"
