@@ -13,6 +13,8 @@
 !ext/ckanext-scheming
 !ext/ckanext-scheming/*
 !ext/ckanext-scheming/**/*
+!ext/ckanext-digitraffic_opentelemetry
+!ext/ckanext-digitraffic_opentelemetry/*/
 
 !local-env
 !local-env/**
