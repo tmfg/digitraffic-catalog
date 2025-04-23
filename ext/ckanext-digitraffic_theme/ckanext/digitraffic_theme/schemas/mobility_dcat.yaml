@@ -4,8 +4,8 @@ dataset_fields:
 - field_name: owner_org
   label: Organization
   preset: dataset_organization
-  required: true
   necessity: mandatory
+  required: true
 - field_name: title_translated
   label: Title
   required: false
@@ -21,8 +21,8 @@ dataset_fields:
   label: URL
   preset: dataset_slug
   form_placeholder: eg. my-dataset
-  required: true
   necessity: mandatory
+  required: true
 - field_name: notes_translated
   label: Description
   required: false
@@ -956,8 +956,8 @@ dataset_fields:
   preset: datetime_tz
   required: false
   classes:
-    - control-medium
-    - hide-necessity
+  - control-medium
+  - hide-necessity
 - field_name: end_timestamp
   necessity: recommended
   label:
@@ -966,8 +966,8 @@ dataset_fields:
   preset: datetime_tz
   required: false
   classes:
-    - control-medium
-    - hide-necessity
+  - control-medium
+  - hide-necessity
 - field_name: transport_mode
   label:
     en: Transport mode
@@ -6544,6 +6544,13 @@ resource_fields:
       sv: eCos License version 2.0
   validators: standard_license_validator ignore_missing
   necessity: mandatory
+- field_name: license_text
+  label:
+    en: License text
+    fi: Lisenssiteksti
+  preset: markdown
+  required: false
+  necessity: optional
 - field_name: start_timestamp
   necessity: recommended
   label:
@@ -6551,6 +6558,9 @@ resource_fields:
     fi: Alkamisaika
   preset: datetime_tz
   required: false
+  classes:
+  - control-medium
+  - hide-necessity
 - field_name: end_timestamp
   necessity: recommended
   label:
@@ -6558,6 +6568,9 @@ resource_fields:
     fi: Päättymisaika
   preset: datetime_tz
   required: false
+  classes:
+  - control-medium
+  - hide-necessity
 - field_name: format_iri
   required: false
   form_snippet: null

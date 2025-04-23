@@ -199,7 +199,6 @@ def resource_fields(ds: Dataset) -> List:
         {
             DCAT.Distribution: distribution_fields_to_omit,
             DCTERMS.RightsStatement: RightsStatement.recommended_properties,
-            DCTERMS.LicenseDocument: LicenseDocument.optional_properties,
             DCAT.DataService: {
                 DCAT.servesDataset,
                 DCTERMS.license,

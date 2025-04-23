@@ -52,6 +52,7 @@ class PeriodOfTime(RangeValueConverter):
                 },
                 "preset": "datetime_tz",
                 "required": is_required,
+                "classes": ["control-medium", "hide-necessity"]
             }
         return None
 
