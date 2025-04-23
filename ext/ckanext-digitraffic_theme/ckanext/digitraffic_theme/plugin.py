@@ -1,5 +1,6 @@
 # encoding: utf-8
 from typing import Union
+import logging
 
 import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
@@ -56,8 +57,6 @@ class DigitrafficThemePlugin(plugins.SingletonPlugin, DefaultTranslation):
     plugins.implements(plugins.IAuthFunctions)
     plugins.implements(plugins.IBlueprint)
     plugins.implements(plugins.IPackageController, inherit=True)
-
-    # Declare that this class implements IConfigurer.
     plugins.implements(plugins.IConfigurer)
 
     def get_validators(self):
