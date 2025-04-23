@@ -11,6 +11,8 @@ services:
         condition: service_started
       redis:
         condition: service_started
+    environment:
+      CI: true
     env_file:
       - .env_postgresql_common
       - .env_solr_common

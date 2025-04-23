@@ -4,12 +4,12 @@
   "left-1": {
     "general": {
       "label": _("General"),
-      "help_text": _("Provide basic information about the dataset."),
+      "help_text": _("This section provides basic information about the dataset."),
       "fields": ["owner_org", "title_translated", "name", "frequency", "spatial", "mobility_theme", "notes_translated", "category", "transport_mode"],
       "subgroups": {
         "time_range": {
           "label": _("Temporal coverage"),
-          "help_text": _("Describe here the time period covered by the dataset, if applicable."),
+          "help_text": _("This section describes the temporal coverage of the dataset, if applicable. May be left empty for continuously updated data."),
           "fields": ["start_timestamp", "end_timestamp"],
           "module": "digitraffic_theme_temporal_coverage"
         }
@@ -17,22 +17,22 @@
     }
   },
   "right-1": {
-  "versioning" : {
-    "label": _("Versioning"),
-    "help_text": _("Fill in versioning details where applicable."),
-    "fields": ["version", "version_notes_translated"]
+    "versioning" : {
+      "label": _("Versioning"),
+      "help_text": _("This section provides information regarding the dataset version. Mostly applicable for static datasets."),
+      "fields": ["version", "version_notes_translated"]
+    },
+    "assessment": {
+      "label": _("Assessment"),
+      "help_text": _("This section describes the result and date of an assessment or assessments made by a third party or parties. The assessment of data sets under EU delegated regulations is usually carried out by a national supervisory authority."),
+      "fields": ["assessment"]
+    },
+    "additional_information": {
+      "label": _("Additional information"),
+      "help_text": _("Additional details concerning the dataset."),
+      "fields": ["language", "georeferencing_method", "network_coverage", "conforms_to", "intended_information_service", "quality_description", "related_resource"]
+    },
   },
-  "assessment": {
-    "label": _("Assessment"),
-    "help_text": _("Fill in assessment details where applicable."),
-    "fields": ["assessment"]
-  },
-  "additional_information": {
-    "label": _("Additional information"),
-    "help_text": _("Additional details concerning the dataset."),
-    "fields": ["language", "georeferencing_method", "network_coverage", "conforms_to", "intended_information_service", "quality_description", "related_resource"]
-  },
-},
   "left-2": {
     "contact_point": {
       "label": _("Contact point"),
@@ -41,11 +41,11 @@
     },
   },
   "right-2": {
-  "rights_holder": {
-    "label": _("Rights holder"),
-    "help_text": _("Contact details for the rights holder."),
-    "fields": ["rights_holder"]
-  }
+    "rights_holder": {
+      "label": _("Rights holder"),
+      "help_text": _("Contact details for the rights holder."),
+      "fields": ["rights_holder"]
+    }
 }
 } %}
 

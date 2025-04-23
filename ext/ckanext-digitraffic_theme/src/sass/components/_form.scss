@@ -37,6 +37,10 @@
     }
 
     .form-actions {
+        margin-top: 30px;
+    }
+
+    .form-actions-spacer {
         clear: both;
     }
 
@@ -82,4 +86,10 @@
 .form-check-input[type=radio] {
     margin-top: 0;
     appearance: auto;
+}
+// wrapper around dataset/resource edit form
+.row.wrapper.no-nav {
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
 }
