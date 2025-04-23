@@ -1,5 +1,11 @@
 import { initialize } from "../module-constructs/module";
 
+/**
+ * This module makes UI changes to the temporal coverage form when JS is enabled.
+ * The changes include:
+ * - Show only one time zone field and move it to the end of the temporal coverage block.
+ * - Show the necessity labels
+ */
 const TemporalConverage = {
   START_TIMESTAMP_TZ_CSS_QUERY: "#field-start_timestamp-tz",
   END_TIMESTAMP_TZ_CSS_QUERY: "#field-end_timestamp-tz",
