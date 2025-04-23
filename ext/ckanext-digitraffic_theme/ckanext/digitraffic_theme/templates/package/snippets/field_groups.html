@@ -50,7 +50,7 @@ Example:
       <!-- for additional groupings of fields under a smaller header inside the main group -->
       {% if group.subgroups %}
         {% for subgroup_name, subgroup in group.subgroups.items() %}
-          <div class="form-field-subgroup">
+          <div class="form-field-subgroup"{%- if subgroup.module -%} data-module="{{ subgroup.module }}"{%- endif -%}>
             <h6>{{ subgroup.label }}</h6>
             <p class="help-text">{{ subgroup.help_text }}</p>
             {%- snippet 'package/snippets/form_field_renderer.html',

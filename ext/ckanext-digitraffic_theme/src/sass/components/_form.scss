@@ -69,7 +69,17 @@
         color: var(--fds-color-neutral-400);
         background-color: var(--fds-color-neutral-50);
     }
+    &.hide-necessity {
+        .form-necessity {
+            display: none;
+        }
+    }
     input {
         width: 100%;
     }
+}
+
+.form-check-input[type=radio] {
+    margin-top: 0;
+    appearance: auto;
 }

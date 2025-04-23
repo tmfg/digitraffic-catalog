@@ -5,6 +5,7 @@ dataset_fields:
   label: Organization
   preset: dataset_organization
   required: true
+  necessity: mandatory
 - field_name: title_translated
   label: Title
   required: false
@@ -21,6 +22,7 @@ dataset_fields:
   preset: dataset_slug
   form_placeholder: eg. my-dataset
   required: true
+  necessity: mandatory
 - field_name: notes_translated
   label: Description
   required: false
@@ -953,6 +955,9 @@ dataset_fields:
     fi: Alkamisaika
   preset: datetime_tz
   required: false
+  classes:
+    - control-medium
+    - hide-necessity
 - field_name: end_timestamp
   necessity: recommended
   label:
@@ -960,6 +965,9 @@ dataset_fields:
     fi: Päättymisaika
   preset: datetime_tz
   required: false
+  classes:
+    - control-medium
+    - hide-necessity
 - field_name: transport_mode
   label:
     en: Transport mode
