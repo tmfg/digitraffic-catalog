@@ -1,0 +1,45 @@
+extensions:
+  health_check:
+
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: 0.0.0.0:4317
+      http:
+        endpoint: 0.0.0.0:4318
+exporters:
+  debug:
+    verbosity: detailed
+  otlp/jaeger:
+    endpoint: jaeger:4317
+    tls:
+      insecure: true
+  debug/foo:
+    verbosity: basic
+    sampling_initial: 1
+    sampling_thereafter: 0
+processors:
+  batch:
+  batch/metrics:
+    timeout: 30s
+  batch/traces:
+    timeout: 1s
+    send_batch_size: 50
+  batch/logs:
+    timeout: 1s
+service:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      exporters: [otlp/jaeger]
+      processors: [batch/traces]
+    metrics:
+      receivers: [otlp]
+      exporters: [debug/foo]
+      processors: [batch/metrics]
+    logs:
+      receivers: [otlp]
+      exporters: [debug]
+      processors: [batch/logs]
+  extensions: [health_check]

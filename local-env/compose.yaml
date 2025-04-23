@@ -2,19 +2,40 @@ services:
   # This init service is needed in order to change the localy bind volume's ownership to ckan user
   ckan-init:
     image: local_catalog_ckan_dev:latest
-    user: root
+    user: ckan
     group_add:
-      - "92"
+      - ckan
     volumes:
       - ckanext:/srv/app/ckanext
     command: |
-      ls -la /srv/app/ckanext;
-      chown -R 92:92 /srv/app/ckanext;
-      pip install -r "/srv/app/ckanext/ckanext-digitraffic_theme/dev-requirements.txt";
-      pip install -r "/srv/app/ckanext/ckanext-entraid_authenticator/requirements.txt";
-      pip install -r "/srv/app/ckanext/ckanext-digitraffic_fluent/requirements.txt";
+      /bin/bash -c "
+      run_python_install() {
+          set -euo pipefail
+          echo $$1
+          PATH_TO_EXT=$$1
+          PYTHON_VIRTUAL_ENV_DIR='venv'
+          cd $$PATH_TO_EXT
+          echo $$PATH_TO_EXT
+          pwd
+          if [ ! -d $$PYTHON_VIRTUAL_ENV_DIR ]; then
+              python -m venv $$PYTHON_VIRTUAL_ENV_DIR
+          fi
+          source venv/bin/activate
+          pip install -e .
+          if [ -f requirements.txt ]; then
+              pip install -r requirements.txt
+          fi
+          deactivate
+      };
+      #run_python_install '/srv/app/ckanext/ckanext-entraid_authenticator';
+      #run_python_install '/srv/app/ckanext/ckanext-digitraffic_theme';
+      #run_python_install '/srv/app/ckanext/ckanext-digitraffic_fluent';
+      #run_python_install '/srv/app/ckanext/ckanext-digitraffic_opentelemetry';
+      "
   ckan:
     image: local_catalog_ckan_dev:latest
+    group_add:
+      - ckan
     ports:
       - "${CKAN_PORT}:${CKAN_PORT}"
       - "${CKAN_DATAPUSHER_PORT}:${CKAN_DATAPUSHER_PORT}"
@@ -27,6 +48,8 @@ services:
         condition: service_started
       ckan-init:
         condition: service_completed_successfully
+      otel-collector:
+        condition: service_started
     env_file:
       - .env_postgresql_common
       - .env_solr_common
@@ -50,6 +73,10 @@ services:
       - "${SOLR_PORT}:${SOLR_PORT}"
     env_file:
       - .env_solr_common
+      - .env_solr
+    depends_on:
+      otel-collector:
+        condition: service_started
   nginx:
     image: local_catalog_nginx:latest
     ports:
@@ -57,8 +84,32 @@ services:
     env_file:
       - .env_ckan_common
       - .env_nginx
+    depends_on:
+      otel-collector:
+        condition: service_started
   redis:
     image: redis:7.4
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:latest
+    volumes:
+      - ./otel-collector-config.yaml:/etc/otel-collector-config.yaml
+    ports:
+      - "14317:4317"
+      - "14318:4318"
+    command: ["--config", "/etc/otel-collector-config.yaml"]
+    depends_on:
+      jaeger:
+        condition: service_started
+  jaeger:
+    image: jaegertracing/jaeger:2.4.0
+    ports:
+      - "16686:16686"
+      - "4317:4317"
+      - "4318:4318"
+      - "5778:5778"
+      - "9411:9411"
+    environment:
+      - COLLECTOR_OTLP_ENABLED=true
 volumes:
   ckanext:
     driver: local

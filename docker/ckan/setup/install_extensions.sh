@@ -19,12 +19,14 @@ pip_install() {
 pip install -e "${EXT_DIR}/ckanext-digitraffic_theme"
 pip install -e "${EXT_DIR}/ckanext-entraid_authenticator"
 pip install -e "${EXT_DIR}/ckanext-digitraffic_fluent"
+pip install -e "${EXT_DIR}/ckanext-digitraffic_opentelemetry"
 pip install -e "git+https://github.com/ckan/ckanext-dcat.git@v1.7.0#egg=ckanext-dcat"
 
 # install requirements
 pip_install "${EXT_DIR}/ckanext-digitraffic_theme/dev-requirements.txt"
 pip_install "${EXT_DIR}/ckanext-entraid_authenticator/requirements.txt"
 pip_install "${EXT_DIR}/ckanext-digitraffic_fluent/requirements.txt"
+pip_install "${EXT_DIR}/ckanext-digitraffic_opentelemetry/requirements.txt"
 pip install -r src/ckanext-dcat/requirements.txt
 
 # We want to install our version of ckanext-scheming last so that the previously installed extensions that
