@@ -16,8 +16,8 @@
 
     .field-group-cell {
         width: calc(50% - 2*var(--used-margin));
-        background-color: rgb(245, 245, 245);
-        padding: 20px;
+        background-color: var(--fds-color-neutral-50);
+        padding: var(--digitraffic-data-form-cell-padding);
     }
 
     .left-1 {

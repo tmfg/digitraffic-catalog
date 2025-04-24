@@ -73,6 +73,13 @@ msgstr ""
 msgid "Next: Add data"
 msgstr ""
 
+#: ckanext/digitraffic_theme/templates/package/snippets/package_form.html:97
+msgid ""
+"In CKAN, a dataset refers to a collection of resources (e.g., files) "
+"along with their descriptions and other metadata, such as a permanent "
+"URL."
+msgstr ""
+
 #: ckanext/digitraffic_theme/templates/scheming/form_snippets/_organization_select.html:20
 msgid "No organization"
 msgstr ""
