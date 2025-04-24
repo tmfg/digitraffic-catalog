@@ -16,13 +16,21 @@
     value=data[field.field_name + '-' + lang]
         or data.get(field.field_name, {})[lang],
     error=errors[field.field_name + '-' + lang],
-    classes=['control-medium', lang != "en" and "hidden" or ""], 
+    classes=['control-medium', lang != "en" and "hidden" or "", "multilingual"], 
     attrs=field.form_attrs if 'form_attrs' in field else {},
     is_required=lang in h.fluent_required_languages(field)
     ) %}
+    {% if lang != "en" %}
+        <svg id="{{field.field_name}}-{{lang}}" class="hide-language-input" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M18 6L6 18" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M6 6L18 18" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+    {%- endif -%}
     {%- snippet 'scheming/form_snippets/fluent_help_text.html',
       field=field,
       lang=lang -%}
+
+        
   {% endcall %}
 {%- endfor -%}
 

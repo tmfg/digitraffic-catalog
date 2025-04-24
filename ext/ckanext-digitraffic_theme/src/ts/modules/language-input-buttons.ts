@@ -5,8 +5,8 @@ const LanguageButtons: ckan.Module<HTMLDivElement> = {
   initialize(this) {
     initialize.apply(this);
 
-    const buttons = this._getButtons();
-    buttons.children(".language-input-button").each((_index, element) => {
+    const openButtons = this._getOpenButtons();
+    openButtons.children(".language-input-button").each((_index, element) => {
       const button = $(element);
       const buttonId = button.attr("id")
 
@@ -16,12 +16,32 @@ const LanguageButtons: ckan.Module<HTMLDivElement> = {
         button.hide();
       });
     });
+
+    const closeButtons = this._getCloseButtons();
+    closeButtons.each((_index, element) => { 
+      const button = $(element);
+      const buttonId = button.attr("id")
+      button.on("click", (event) => {
+        event.preventDefault();
+        const openButton = $(`#${buttonId}.language-input-button`)
+        openButton.show();
+        button.parent().parent().addClass("hidden");
+      });
+       
+  });
+
   },
 
-  _getButtons(): JQuery<HTMLElement> {
+_getOpenButtons(): JQuery<HTMLElement> {
     return this.$(".language-input-buttons");
   },
+
+_getCloseButtons(): JQuery<HTMLElement> {
+  return this.$(".hide-language-input");
+  },
+
 };
+
 
 ckan.module("digitraffic_theme_language_input_buttons", function ($) {
   return LanguageButtons;
