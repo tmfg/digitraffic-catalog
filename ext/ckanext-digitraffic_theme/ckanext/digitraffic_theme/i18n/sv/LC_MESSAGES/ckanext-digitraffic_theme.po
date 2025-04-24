@@ -485,6 +485,15 @@ msgstr ""
 msgid "Value does not belong to {namespace}"
 msgstr ""
 
+msgid "Mandatory"
+msgstr ""
+
+msgid "Recommended"
+msgstr ""
+
+msgid "Optional"
+msgstr ""
+
 #~ msgid "Next: Add Data"
 #~ msgstr ""
 
