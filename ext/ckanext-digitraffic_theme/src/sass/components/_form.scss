@@ -52,3 +52,47 @@
     border-radius: 0;
     box-shadow: none;
 }
+
+
+.language-input-buttons {
+    margin-bottom: 25px;
+}
+
+.language-input-buttons button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    /* Space between icon and text */
+    padding: 0.3rem 0.5rem;
+    font-size: 0.8rem;
+    color: var(--fds-color-text-1000);
+    background-color: var(--fds-color-background);
+    border: 1px solid #000;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    white-space: nowrap;
+    margin-right: 10px;
+}
+
+.language-input-buttons button:hover {
+    background-color: var(--fds-color-interactive-100);
+    border-color: #333;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.language-input-buttons button:focus {
+    outline: 2px solid var(--fds-color-interactive-100);
+    outline-offset: 2px;
+}
+
+.language-input-buttons button svg {
+    width: 1rem;
+    height: 1rem;
+    fill: currentColor;
+}
+
+.hidden {
+    display: none;
+}

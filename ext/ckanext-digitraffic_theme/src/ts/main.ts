@@ -4,6 +4,7 @@ import "./modules/user-actions";
 import "./modules/dataset-form";
 import './modules/iri-fragment-input'
 import "./modules/language-menu";
+import "./modules/language-input-buttons"
 import {
   createIcons,
   ExternalLink,
