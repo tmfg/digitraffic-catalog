@@ -269,6 +269,12 @@ msgstr "Alkamis- ja päättymisajat"
 msgid "Period during which resource is available."
 msgstr "Ajanjakso, jonka aikana resurssi on saatavilla."
 
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:64
+msgid "A resource is any file or a link to a file that contains useful data."
+msgstr ""
+"Resurssi on mikä tahansa tiedosto tai linkki tiedostoon, jossa on "
+"hyödyllistä dataa."
+
 #: ckanext/digitraffic_theme/templates/snippets/language_selector_base.html:28
 msgid "Go"
 msgstr "Mene"

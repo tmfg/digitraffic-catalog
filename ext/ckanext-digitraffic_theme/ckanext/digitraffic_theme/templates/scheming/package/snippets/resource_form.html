@@ -59,6 +59,14 @@
   {%- endif -%}
 {% endblock %}
 
+{% block introduction %}
+<p class="package-introduction">
+  {%- trans -%}
+  A resource is any file or a link to a file that contains useful data.
+  {%- endtrans -%}
+</p>
+{% endblock %}
+
 {% block errors %}
   {%- if errors -%}
     {%- set schema = h.scheming_get_dataset_schema(dataset_type) -%}

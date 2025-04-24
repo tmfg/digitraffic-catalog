@@ -250,6 +250,10 @@ msgstr ""
 msgid "Period during which resource is available."
 msgstr ""
 
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:64
+msgid "A resource is any file or a link to a file that contains useful data."
+msgstr ""
+
 #: ckanext/digitraffic_theme/templates/snippets/language_selector_base.html:28
 msgid "Go"
 msgstr ""
