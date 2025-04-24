@@ -40,7 +40,7 @@ dataset_fields:
     fi: Päivitysten tiheys
   necessity: mandatory
   required: true
-  preset: select
+  preset: multi_select
   sorted_choices: true
   form_include_blank_choice: true
   choices:
