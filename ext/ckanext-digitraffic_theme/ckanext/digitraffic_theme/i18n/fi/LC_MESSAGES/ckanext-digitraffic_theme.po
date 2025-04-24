@@ -494,6 +494,15 @@ msgstr ""
 msgid "Value does not belong to {namespace}"
 msgstr ""
 
+msgid "Mandatory"
+msgstr "Pakollinen"
+
+msgid "Recommended"
+msgstr "Suositeltava"
+
+msgid "Optional"
+msgstr "Valinnainen"
+
 #~ msgid "Describe here the time period covered by the dataset, if applicable."
 #~ msgstr ""
 #~ "Tässä osiossa kuvaillaan tietoaineiston "
