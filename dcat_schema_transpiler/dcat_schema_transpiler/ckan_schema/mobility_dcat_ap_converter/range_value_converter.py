@@ -230,7 +230,7 @@ class RangeValueConverter(ABC):
     def get_translated_field_properties(is_required: bool, is_core_field: bool = True):
         translated_field_properties = {
             "preset": "fluent_core_translated" if is_core_field else "fluent_text",
-            "form_languages": ["fi", "en", "sv"],
+            "form_languages": ["en", "fi", "sv"],
         }
 
         if is_required:
