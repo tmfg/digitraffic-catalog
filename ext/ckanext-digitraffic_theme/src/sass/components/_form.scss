@@ -55,7 +55,7 @@
 
 
 .language-input-buttons {
-    margin-bottom: 25px;
+    margin-bottom: 30px;
 }
 
 .language-input-buttons button {
@@ -95,4 +95,13 @@
 
 .hidden {
     display: none;
+}
+
+.hide-language-input {
+    cursor: pointer;
+}
+
+
+.form-group.control-medium.multilingual {
+    margin-bottom: 15px;
 }
