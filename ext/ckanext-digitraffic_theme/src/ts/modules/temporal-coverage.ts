@@ -15,11 +15,8 @@ const TemporalConverage = {
     const startTimstampTZ = this._getStartTimestampTZ();
     const endTimestampTZ = this._getEndTimestampTZ();
 
-    console.log("startTimestampTZ", startTimstampTZ);
-
     this._moveToEnd(startTimstampTZ);
     startTimstampTZ.find(this.START_TIMESTAMP_TZ_CSS_QUERY).on("change", (e: JQuery.TriggeredEvent) => {
-      console.log("startTimestampTZ", e.target.value);
       const value = e.target.value;
       endTimestampTZ.find(this.END_TIMESTAMP_TZ_CSS_QUERY).val(value);
     });
