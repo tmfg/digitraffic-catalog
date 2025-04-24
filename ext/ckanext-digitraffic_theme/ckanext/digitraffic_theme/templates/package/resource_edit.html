@@ -1,0 +1,22 @@
+{# The modifications to the original template hide the secondary content column #}
+
+{% extends "package/resource_edit_base.html" %}
+
+{% block secondary %}
+{% endblock %}
+
+{% block primary %}
+  <div class="primary col-md-12 col-xs-12" role="main">
+    {% block primary_content %}
+      {{ super() }}
+      {% snippet 'package/snippets/resource_edit_form.html',
+        data=data,
+        errors=errors,
+        error_summary=error_summary,
+        pkg_name=pkg.name,
+        form_action=form_action,
+        resource_form_snippet=resource_form_snippet,
+        dataset_type=dataset_type %}
+    {% endblock %}
+  </div>
+{% endblock %}

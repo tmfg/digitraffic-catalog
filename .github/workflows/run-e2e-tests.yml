@@ -80,6 +80,10 @@ jobs:
         working-directory: ./ext/ckanext-digitraffic_theme
         run: pnpm dlx playwright install --with-deps
 
+      - name: Update Playwright
+        working-directory: ./ext/ckanext-digitraffic_theme
+        run: pnpm exec playwright install
+
       - name: Run E2E-tests
         working-directory: ./ext/ckanext-digitraffic_theme
         run: pnpm run e2e
