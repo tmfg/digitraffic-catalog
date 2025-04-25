@@ -1,32 +1,35 @@
 {% extends 'package/snippets/resource_form.html' %}
 
 {% set field_groups = {
-  "resource_urls": {
+  "left-1": {
+    "resource_urls": {
       "label": _("Resource URLs"),
       "help_text": _("URLs giving access to the resource."),
       "fields": ["url", "download_url", "data_service_endpoint_url"]
-  },
-  "resource_description": {
+    },
+    "resource_description": {
       "label": _("Resource description"),
       "help_text": _("Description of the resource."),
       "fields": ["format", "data_service_endpoint_description", "name_translated", "description_translated", "data_service_title_translated", "data_service_description_title_translated", "communication_method", "sample"]
+    },
   },
-  "format": {
-    "label": _("Format"),
-    "help_text": _("Additional information concerning related formats and data standards."),
-    "fields": ["mobility_data_standard", "data_grammar", "data_format_notes_translated", "character_encoding"]
-  },
-  "terms_and_licenses": {
-    "label": _("Licenses and terms of use"),
-    "help_text": _("Licenses and terms of use pertaining to this resource."),
-    "fields": ["rights_type", "license_id", "license_text"]
-  },
-  "dates": {
-    "label": _("Time range"),
-    "help_text": _("Period during which resource is available."),
-    "fields": ["start_timestamp", "end_timestamp"]
+  "right-1": {
+    "format": {
+      "label": _("Format"),
+      "help_text": _("Additional information concerning related formats and data standards."),
+      "fields": ["mobility_data_standard", "data_grammar", "data_format_notes_translated", "character_encoding"]
+    },
+    "terms_and_licenses": {
+      "label": _("Licenses and terms of use"),
+      "help_text": _("Licenses and terms of use pertaining to this resource."),
+      "fields": ["rights_type", "license_id", "license_text"]
+    },
+    "dates": {
+      "label": _("Time range"),
+      "help_text": _("Period during which resource is available."),
+      "fields": ["start_timestamp", "end_timestamp"]
+    }
   }
-  
 } %}
 
 {% block stages %}
@@ -77,17 +80,19 @@
 
   {%- set schema = h.scheming_get_dataset_schema(dataset_type) -%}
 
-  {# Render field groups.
-     We pass pkg_name as the package_id because that's the only
-     variable available in this snippet #}
-  {% snippet 'package/snippets/field_groups.html',
-    field_groups=field_groups,
-    schema_fields=schema.resource_fields,
-    data=data,
-    errors=errors,
-    dataset_type=dataset_type,
-    package_id=pkg_name
-  -%}
+  <div class="field-group-cell-container">
+    {# Render field groups.
+       We pass pkg_name as the package_id because that's the only
+      variable available in this snippet #}
+    {% snippet 'package/snippets/field_groups.html',
+      field_groups=field_groups,
+      schema_fields=schema.resource_fields,
+      data=data,
+      errors=errors,
+      dataset_type=dataset_type,
+      package_id=pkg_name
+    -%}
+  </div>
 
 {% endblock %}
 
