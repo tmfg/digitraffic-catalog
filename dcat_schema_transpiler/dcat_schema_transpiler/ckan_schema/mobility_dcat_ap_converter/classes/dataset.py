@@ -161,7 +161,9 @@ class DCATDataset(RangeValueConverter):
             return {
                 **(
                     schema
-                    | RangeValueConverter.get_translated_field_properties(is_required)
+                    | RangeValueConverter.get_translated_field_properties(
+                        schema.get("label", {}) if schema else {}, is_required
+                    )
                     | super().get_property_label_with_help_text(clazz_p.iri)
                 )
             }

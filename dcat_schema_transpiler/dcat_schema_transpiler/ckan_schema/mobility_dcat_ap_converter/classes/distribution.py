@@ -116,12 +116,12 @@ class Distribution(RangeValueConverter):
                 or clazz_p.is_iri(DCTERMS.title)
                 or clazz_p.is_iri(MOBILITYDCATAP.dataFormatNotes)
             ):
-                r_value = super().get_schema(ds, clazz_p, is_required=False)
+                schema = super().get_schema(ds, clazz_p, is_required=False)
                 return {
                     **(
-                        r_value
+                        schema
                         | RangeValueConverter.get_translated_field_properties(
-                            is_required
+                            schema.get("label", {}) if schema else {}, is_required
                         )
                     )
                 }
