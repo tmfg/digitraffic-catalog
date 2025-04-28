@@ -62,7 +62,9 @@ class DataService(RangeValueConverter):
             return {
                 **(
                     schema
-                    | RangeValueConverter.get_translated_field_properties(is_required)
+                    | RangeValueConverter.get_translated_field_properties(
+                        schema.get("label", {}) if schema else {}, is_required
+                    )
                 )
             }
         schema = super().get_schema(ds, clazz_p, False)
