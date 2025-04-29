@@ -1,12 +1,12 @@
 {% import 'macros/form.html' as form %}
 
-{% set language_input_button_texts = {
+{% set language_toggle_button_texts = {
         "fi": _("Add Finnish"),
         "sv": _("Add Swedish")
   } %}
 
 
-<div data-module="digitraffic_theme_language_input_buttons">
+<div data-module="digitraffic_theme_language_toggle_buttons">
 {%- for lang in h.fluent_form_languages(field, entity_type, object_type, schema) -%}
   {% call form.input(
     field.field_name + '-' + lang,
@@ -34,10 +34,10 @@
   {% endcall %}
 {%- endfor -%}
 
-<div class="language-input-buttons">
+<div class="language-toggle-buttons">
     {%- for lang in h.fluent_form_languages(field, entity_type, object_type, schema) -%}
         {% if lang != "en" %}
-            <div class="language-input-button" id="{{field.field_name}}-{{lang}}">
+            <div class="language-toggle-button" id="{{field.field_name}}-{{lang}}">
                 <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path d="M5 8L11 14" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
                     <path d="M4 14L10 8L12 5" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
@@ -46,7 +46,7 @@
                     <path d="M22 22L17 12L12 22" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
                     <path d="M14 18H20" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
                 </svg>
-                {{language_input_button_texts[lang]}}</div>
+                {{language_toggle_button_texts[lang]}}</div>
         {%- endif -%}
     {%- endfor -%}
 </div>
