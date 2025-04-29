@@ -16,7 +16,7 @@
     value=data[field.field_name + '-' + lang]
         or data.get(field.field_name, {})[lang],
     error=errors[field.field_name + '-' + lang],
-    classes=['control-medium', lang != "en" and "hidden" or "", "multilingual"], 
+    classes=['control-medium', (lang != "en" and not (data[field.field_name + '-' + lang] or data.get(field.field_name, {})[lang])) and "hidden" or "", "multilingual"], 
     attrs=field.form_attrs if 'form_attrs' in field else {},
     is_required=lang in h.fluent_required_languages(field)
     ) %}
@@ -37,7 +37,8 @@
 <div class="language-toggle-buttons">
     {%- for lang in h.fluent_form_languages(field, entity_type, object_type, schema) -%}
         {% if lang != "en" %}
-            <div class="language-toggle-button" id="{{field.field_name}}-{{lang}}">
+            {# Hide language toggle button if related field has a value - in this case the input field must be visible on render #}
+            <div class="language-toggle-button {{(data[field.field_name + '-' + lang] or data.get(field.field_name, {})[lang]) and 'hidden' or ''}}" id="{{field.field_name}}-{{lang}}">
                 <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path d="M5 8L11 14" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
                     <path d="M4 14L10 8L12 5" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
