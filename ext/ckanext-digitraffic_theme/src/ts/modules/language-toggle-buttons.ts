@@ -1,18 +1,19 @@
 import type * as ckan from "../ckan";
 import { initialize } from "../module-constructs/module";
 
-const LanguageButtons: ckan.Module<HTMLDivElement> = {
+const LanguageToggleButtons: ckan.Module<HTMLDivElement> = {
   initialize(this) {
     initialize.apply(this);
 
-    const openButtons = this._getOpenButtons();
-    openButtons.children(".language-input-button").each((_index, element) => {
+    const toggleButtons = this._getToggleButtons();
+    toggleButtons.children(".language-toggle-button").each((_index, element) => {
       const button = $(element);
       const buttonId = button.attr("id")
 
       button.on("click", (event) => {
         event.preventDefault();
-        this.$(`#field-${buttonId}`).parent().parent().removeClass("hidden");
+        const inputField = this.$(`#field-${buttonId}`)
+        inputField.parent().parent().removeClass("hidden");
         button.hide();
       });
     });
@@ -21,10 +22,11 @@ const LanguageButtons: ckan.Module<HTMLDivElement> = {
     closeButtons.each((_index, element) => { 
       const button = $(element);
       const buttonId = button.attr("id")
+      
       button.on("click", (event) => {
         event.preventDefault();
-        const openButton = $(`#${buttonId}.language-input-button`)
-        openButton.show();
+        const toggleButton = $(`#${buttonId}.language-toggle-button`)
+        toggleButton.show();
         button.parent().parent().addClass("hidden");
       });
        
@@ -32,8 +34,8 @@ const LanguageButtons: ckan.Module<HTMLDivElement> = {
 
   },
 
-_getOpenButtons(): JQuery<HTMLElement> {
-    return this.$(".language-input-buttons");
+_getToggleButtons(): JQuery<HTMLElement> {
+    return this.$(".language-toggle-buttons");
   },
 
 _getCloseButtons(): JQuery<HTMLElement> {
@@ -43,6 +45,6 @@ _getCloseButtons(): JQuery<HTMLElement> {
 };
 
 
-ckan.module("digitraffic_theme_language_input_buttons", function ($) {
-  return LanguageButtons;
+ckan.module("digitraffic_theme_language_toggle_buttons", function ($) {
+  return LanguageToggleButtons;
 });

@@ -54,16 +54,15 @@
 }
 
 
-.language-input-buttons {
+.language-toggle-buttons {
     margin-bottom: 30px;
 }
 
-.language-input-button {
+.language-toggle-button {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    /* Space between icon and text */
     padding: 0.3rem 0.5rem;
     font-size: 0.8rem;
     color: var(--fds-color-text-1000);
@@ -76,21 +75,20 @@
     margin-right: 10px;
 }
 
-.language-input-button:hover {
+.language-toggle-button:hover {
     background-color: var(--fds-color-interactive-100);
     border-color: #333;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.language-input-button:focus {
+.language-toggle-button:focus {
     outline: 2px solid var(--fds-color-interactive-100);
     outline-offset: 2px;
 }
 
-.language-input-button svg {
+.language-toggle-button svg {
     width: 1rem;
     height: 1rem;
-    fill: currentColor;
 }
 
 .hidden {
@@ -100,7 +98,6 @@
 .hide-language-input {
     cursor: pointer;
 }
-
 
 .form-group.control-medium.multilingual {
     margin-bottom: 15px;
