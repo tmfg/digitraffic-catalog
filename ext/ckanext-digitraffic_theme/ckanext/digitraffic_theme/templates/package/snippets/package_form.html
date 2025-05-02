@@ -1,5 +1,8 @@
 {# This is a copy of https://github.com/ckan/ckan/blob/2.10/ckan/templates/package/snippets/package_form.html with
-   only change being that the form is wrapped inside the div with digitraffic_theme_dataset_form_wrapper data-module#}
+   change being:
+     - The form is wrapped inside the div with digitraffic_theme_dataset_form_wrapper data-module
+     - "introduction" block is added
+#}
 {% import 'macros/form.html' as form %}
 {% set action = g.form_action or '' %}
 
@@ -17,6 +20,9 @@
     {# pkg_name used in 3 stage edit #}
     <input type="hidden" name="pkg_name" value="{{ data.id }}" />
     {% block errors %}{{ form.errors(error_summary) }}{% endblock %}
+
+    {% block introduction %}
+    {% endblock %}
 
     {% block basic_fields %}
     {% snippet 'package/snippets/package_basic_fields.html', data=data, errors=errors %}

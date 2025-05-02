@@ -16,6 +16,9 @@
 
   {% block errors %}{{ form.errors(error_summary) }}{% endblock %}
 
+  {% block introduction %}
+  {% endblock %}
+
   <input name="id" value="{{ data.id }}" type="hidden"/>
 
   {% block basic_fields %}

@@ -3,7 +3,7 @@ from typing import Dict
 from rdflib import DCTERMS, Dataset, URIRef
 
 from ckan_schema.mobility_dcat_ap_converter.range_value_converter import (
-    RangeValueConverter,
+    RangeValueConverter, Necessity,
 )
 from dcat_schema_transpiler.rdfs.rdfs_class import RDFSClass
 from dcat_schema_transpiler.rdfs.rdfs_property import RDFSProperty
@@ -64,6 +64,7 @@ class LinguisticSystem(RangeValueConverter):
             "required": is_required,
             "preset": "select",
             "sorted_choices": True,
+            "necessity": Necessity.OPTIONAL.value,
             "help_text": {
                 "en": "Language used in content data.",
                 "fi": "Tietoaineistossa käytetty kieli.",
