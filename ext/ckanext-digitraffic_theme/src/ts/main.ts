@@ -2,8 +2,9 @@ import "./modules/top-navigation";
 import "./modules/app-navigation";
 import "./modules/user-actions";
 import "./modules/dataset-form";
-import './modules/iri-fragment-input'
+import './modules/iri-fragment-input';
 import "./modules/language-menu";
+import "./modules/temporal-coverage";
 import {
   createIcons,
   ExternalLink,

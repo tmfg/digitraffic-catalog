@@ -9,6 +9,7 @@ from ckan_schema.mobility_dcat_ap_converter.classes.dataset import DCATDataset
 from ckan_schema.mobility_dcat_ap_converter.classes.agent import Agent
 from ckan_schema.mobility_dcat_ap_converter.classes.organization import Organization
 from ckan_schema.mobility_dcat_ap_converter.classes.distribution import Distribution
+from ckan_schema.mobility_dcat_ap_converter.range_value_converter import Necessity
 from dcat_schema_transpiler.mobility_dcat_ap.dataset import CNT, OA
 
 
@@ -198,7 +199,6 @@ def resource_fields(ds: Dataset) -> List:
         {
             DCAT.Distribution: distribution_fields_to_omit,
             DCTERMS.RightsStatement: RightsStatement.recommended_properties,
-            DCTERMS.LicenseDocument: LicenseDocument.optional_properties,
             DCAT.DataService: {
                 DCAT.servesDataset,
                 DCTERMS.license,
@@ -311,6 +311,7 @@ def dataset_fields(ds: Dataset) -> List:
             "field_name": "owner_org",
             "label": "Organization",
             "preset": "dataset_organization",
+            "necessity": Necessity.MANDATORY.value,
             "required": True,
         },
         {
@@ -318,6 +319,7 @@ def dataset_fields(ds: Dataset) -> List:
             "label": "URL",
             "preset": "dataset_slug",
             "form_placeholder": "eg. my-dataset",
+            "necessity": Necessity.MANDATORY.value,
             "required": True,
         },
     ]

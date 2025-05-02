@@ -1,6 +1,9 @@
+{# Copied from scheming extension. Changed:
+- the dropdown to be a normal select instead of BS
+- Pass down necessity argument#}
+
 {% import 'macros/form.html' as form %}
 
-{# Copied from scheming extension. Changed the dropdown to be a normal select instead of BS #}
 
 {# this snippet is meant to be called from organization.html,
 not used as a form_snippet directly #}
@@ -13,6 +16,7 @@ error=errors[field.field_name],
 is_required=org_required,
 classes=field.classes if 'classes' in field else ['form-group', 'control-medium'],
 extra_html=caller() if caller,
+necessity=field.get('necessity', None),
 ) %}
 <select id="field-organizations" class="form-control" name="owner_org" >
 {% if not org_required or field.get('form_include_blank_choice', false) %}
