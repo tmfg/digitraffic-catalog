@@ -3,7 +3,7 @@ from typing import Dict
 from rdflib import DCTERMS, Dataset, URIRef
 
 from ckan_schema.mobility_dcat_ap_converter.range_value_converter import (
-    RangeValueConverter,
+    RangeValueConverter, Necessity,
 )
 from mobility_dcat_ap.dataset import (
     CVOCAB_EUV_FREQUENCY,
@@ -38,6 +38,7 @@ class Frequency(RangeValueConverter):
         return {
             "field_name": "frequency",
             **super().get_class_label_with_help_text(),
+            "necessity": Necessity.MANDATORY.value,
             "required": is_required,
             "preset": "select",
             "sorted_choices": True,

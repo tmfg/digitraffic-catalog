@@ -1,8 +1,9 @@
 import csv
 from abc import ABC, abstractmethod
 from copy import deepcopy
+from enum import Enum
 from inspect import signature
-from typing import Callable, Dict, List, Optional, Set, Union
+from typing import Callable, Dict, List, Optional, Set, Union, Literal
 
 from ckan_schema.mobility_dcat_ap_converter.i18n.translations import (
     VOCABULARY_PATCH_TRANSLATIONS,
@@ -19,10 +20,18 @@ from dcat_schema_transpiler.rdfs.rdfs_property import RDFSProperty
 from dcat_schema_transpiler.rdfs.rdfs_resource import RDFSResource
 from dcat_schema_transpiler.rdfs.util import get_rdf_object
 
+class Necessity(Enum):
+    MANDATORY = "mandatory"
+    RECOMMENDED = "recommended"
+    OPTIONAL = "optional"
 
 class RangeValueConverter(ABC):
     sub_classes: Set[URIRef] = None
     iri: URIRef
+
+    mandatory_properties: Set[URIRef] = set()
+    recommended_properties: Set[URIRef] = set()
+    optional_properties: Set[URIRef] = set()
 
     def __init__(self, clazz: RDFSClass):
         if not clazz.is_iri(self.__class__.iri):
@@ -77,6 +86,23 @@ class RangeValueConverter(ABC):
         )
         return r_ordered[0] if len(r_ordered) > 0 else None
 
+    @classmethod
+    def get_necessity_mapping(cls, property: URIRef) -> Dict[Literal['necessity'], str]:
+        """
+        Returns the necessity mapping for the given property.
+        """
+        if property in cls.mandatory_properties:
+            return {"necessity": Necessity.MANDATORY.value}
+        elif property in cls.recommended_properties:
+            return {"necessity": Necessity.RECOMMENDED.value}
+        elif property in cls.optional_properties:
+            return {"necessity": Necessity.OPTIONAL.value}
+        else:
+            print(f'mandatory_properties: {cls.mandatory_properties}')
+            print(f'recommended_properties: {cls.recommended_properties}')
+            print(f'optional_properties: {cls.optional_properties}')
+            raise ValueError(f"Property {property} is not defined in class {cls.__name__}")
+
     @abstractmethod
     def get_schema(
         self, ds: Dataset, clazz_p: RDFSProperty | None, is_required: bool = False
@@ -92,6 +118,7 @@ class RangeValueConverter(ABC):
                 "field_name": field_name,
                 "label": label_value,
                 "required": is_required,
+                **self.get_necessity_mapping(clazz_p.iri),
             } | self.get_property_label_with_help_text(clazz_p.iri)
         elif isinstance(rdf_range, RDFSResource) and rdf_range.iri == RDFS.Resource:
             # Resurssi tyyppiset näyttää olevan URLeja
@@ -101,6 +128,7 @@ class RangeValueConverter(ABC):
                 "label": label_value,
                 "required": is_required,
                 "help_text": "The value should be URL",
+                **self.get_necessity_mapping(clazz_p.iri),
             } | self.get_property_label_with_help_text(clazz_p.iri)
         else:
             return None

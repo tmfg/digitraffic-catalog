@@ -141,4 +141,4 @@ export const Dropdown = <T extends HTMLElement>(): ckan.Module<T> => ({
   _getMenu(): JQuery<HTMLElement> {
     throw Error('No menu')
   }
-} as ckan.Module<T>)
+} as unknown as ckan.Module<T>)

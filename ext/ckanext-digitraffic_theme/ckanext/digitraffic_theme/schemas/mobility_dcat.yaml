@@ -4,10 +4,12 @@ dataset_fields:
 - field_name: owner_org
   label: Organization
   preset: dataset_organization
+  necessity: mandatory
   required: true
 - field_name: title_translated
   label: Title
   required: false
+  necessity: mandatory
   preset: fluent_core_translated
   form_languages:
   - fi
@@ -19,10 +21,12 @@ dataset_fields:
   label: URL
   preset: dataset_slug
   form_placeholder: eg. my-dataset
+  necessity: mandatory
   required: true
 - field_name: notes_translated
   label: Description
   required: false
+  necessity: mandatory
   preset: fluent_core_translated
   form_languages:
   - fi
@@ -34,6 +38,7 @@ dataset_fields:
   label:
     en: Frequency
     fi: Päivitysten tiheys
+  necessity: mandatory
   required: true
   preset: select
   sorted_choices: true
@@ -340,6 +345,7 @@ dataset_fields:
       en: Waterways and water bodies
       fi: Vesiväylät ja vesistöt
       sv: Waterways and water bodies
+  necessity: mandatory
 - field_name: mobility_theme_sub
   label:
     en: Data content subcategory
@@ -860,6 +866,7 @@ dataset_fields:
       en: Waiting time at border crossings to non-EU Member States
       fi: Odotusaika rajanylityspaikoilla EU:n ulkopuolisiin maihin
       sv: Waiting time at border crossings to non-EU Member States
+  necessity: mandatory
 - field_name: theme
   label:
     en: Theme
@@ -940,18 +947,27 @@ dataset_fields:
       fi: Liikenne
       sv: Transport
   validators: theme_validator ignore_missing
+  necessity: recommended
 - field_name: start_timestamp
+  necessity: recommended
   label:
     en: Start time
     fi: Alkamisaika
   preset: datetime_tz
   required: false
+  classes:
+  - control-medium
+  - hide-necessity
 - field_name: end_timestamp
+  necessity: recommended
   label:
     en: End time
     fi: Päättymisaika
   preset: datetime_tz
   required: false
+  classes:
+  - control-medium
+  - hide-necessity
 - field_name: transport_mode
   label:
     en: Transport mode
@@ -1082,6 +1098,7 @@ dataset_fields:
       fi: Kuorma-auto
       sv: Truck
   validators: transport_mode_validator ignore_missing
+  necessity: recommended
 - field_name: spatial
   label:
     en: Regional coverage
@@ -2791,16 +2808,19 @@ dataset_fields:
       fi: Äänekoski
       sv: Äänekoski
   validators: location_validator ignore_missing
+  necessity: mandatory
 - field_name: version
   label:
     en: Dataset version
     fi: Tietoaineiston versio
   required: false
+  necessity: optional
 - field_name: version_notes_translated
   label:
     en: Version notes
     fi: Version tiedot
   required: false
+  necessity: optional
   help_text:
     en: A description of the differences between this version and a previous version
       of the dataset.
@@ -2815,6 +2835,7 @@ dataset_fields:
   required: false
   preset: select
   sorted_choices: true
+  necessity: optional
   help_text:
     en: Language used in content data.
     fi: Tietoaineistossa käytetty kieli.
@@ -2936,6 +2957,7 @@ dataset_fields:
       fi: TPEG-LOC
       sv: TPEG-LOC
   validators: georeferencing_method_validator ignore_missing
+  necessity: recommended
 - field_name: contact_point
   label:
     en: Contact point
@@ -2946,49 +2968,58 @@ dataset_fields:
       en: Full name
       fi: Koko nimi
     required: false
+    necessity: mandatory
   - field_name: organization_name
     label:
       en: Organization name
       fi: Organisaation nimi
     required: false
+    necessity: optional
   - field_name: has_email
     label:
       en: Email
       fi: Sähköposti
     required: false
     preset: email
+    necessity: mandatory
   - field_name: has_telephone
     label:
       en: Phone number
       fi: Puhelinnumero
     required: false
     preset: phone
+    necessity: optional
   - field_name: has_url
     label:
       en: Website
       fi: Verkkosivu
     required: false
     preset: url
+    necessity: recommended
   - field_name: street_address
     label:
       en: Street address
       fi: Katuosoite
     required: false
+    necessity: optional
   - field_name: locality
     label:
       en: City
       fi: Kaupunki
     required: false
+    necessity: optional
   - field_name: postal_code
     label:
       en: Postal code
       fi: Postinumero
     required: false
+    necessity: optional
   - field_name: region
     label:
       en: Region
       fi: Alue
     required: false
+    necessity: optional
   - field_name: country_name
     label:
       en: Country
@@ -3144,6 +3175,7 @@ dataset_fields:
         fi: Ruotsi
         sv: Sverige
     validators: country_validator ignore_missing
+    necessity: optional
 - field_name: network_coverage
   label:
     en: Network coverage
@@ -3217,6 +3249,7 @@ dataset_fields:
       fi: Vesiväylät
       sv: Waterways
   validators: network_coverage_validator ignore_missing
+  necessity: recommended
 - field_name: conforms_to
   label:
     en: Spatial reference system
@@ -3231,6 +3264,7 @@ dataset_fields:
     min: '2000'
     max: '69036405'
   validators: scheming_required remove_whitespace ignore_missing spatial_reference_validator
+  necessity: recommended
 - field_name: intended_information_service
   label:
     en: Intended information service
@@ -3289,7 +3323,9 @@ dataset_fields:
       fi: Reittisuunnitelmat, lisätiedot, saatavuuden tarkistus
       sv: Trip plans, auxiliary information, availability check
   validators: intended_information_service_validator ignore_missing
+  necessity: optional
 - field_name: quality_description
+  necessity: optional
   label:
     en: Quality description
     fi: Julkaisijan kuvaus laadusta
@@ -3309,6 +3345,7 @@ dataset_fields:
       en: Assessment date
       fi: Arvion päivämäärä
     required: false
+    necessity: optional
     preset: date
   - field_name: assessment_result
     label:
@@ -3317,6 +3354,7 @@ dataset_fields:
     help_text:
       en: URL for the results of an assessment process by some organisation.
       fi: Kolmannen osapuolen aineistolle tekemään arvioon viittaava URL.
+    necessity: optional
     required: false
     preset: url
 - field_name: related_resource
@@ -3332,6 +3370,7 @@ dataset_fields:
   preset: dataset_reference_select
   choices: ''
   validators: scheming_required ignore_missing dataset_reference_validator
+  necessity: optional
 - field_name: is_referenced_by
   label:
     en: Is referenced by
@@ -3339,15 +3378,13 @@ dataset_fields:
   form_snippet: null
   required: false
   validators: is_referenced_by_validator
+  necessity: optional
 - field_name: rights_holder
   label:
     en: Rights holder
     fi: Oikeuksien haltija
   repeating_subfields:
   - field_name: type
-    label:
-      en: Agent type
-      fi: Toimijan tyyppi
     required: false
     preset: select
     sorted_choices: true
@@ -3408,53 +3445,66 @@ dataset_fields:
         en: Supra-national authority
         fi: Supra-national authority
         sv: Supra-national authority
+    label:
+      en: Agent type
+      fi: Toimijan tyyppi
+    necessity: recommended
   - field_name: name
     label:
       en: Name
       fi: Nimi
     required: false
+    necessity: mandatory
   - field_name: first_name
     label:
       en: First name
       fi: Etunimi
     required: false
+    necessity: optional
   - field_name: surname
     label:
       en: Surname
       fi: Sukunimi
     required: false
+    necessity: optional
   - field_name: mbox
+    required: false
+    preset: email
     label:
       en: Email
       fi: Sähköposti
-    required: false
-    preset: email
+    necessity: optional
   - field_name: phone
+    required: false
+    preset: phone
     label:
       en: Phone number
       fi: Puhelinnumero
-    required: false
-    preset: phone
+    necessity: optional
   - field_name: thoroughfare
     label:
       en: Street address
       fi: Katuosoite
     required: false
+    necessity: recommended
   - field_name: post_name
     label:
       en: City
       fi: Kaupunki
     required: false
+    necessity: recommended
   - field_name: post_code
     label:
       en: Postal code
       fi: Postinumero
     required: false
+    necessity: recommended
   - field_name: admin_unit_l2
     label:
       en: Region
       fi: Alue
     required: false
+    necessity: recommended
   - field_name: admin_unit_l1
     label:
       en: Country
@@ -3610,12 +3660,14 @@ dataset_fields:
         fi: Ruotsi
         sv: Sverige
     validators: country_validator ignore_missing
+    necessity: recommended
   - field_name: workplace_homepage
+    required: false
+    preset: url
     label:
       en: Workplace homepage
       fi: Työpaikan kotisivu
-    required: false
-    preset: url
+    necessity: optional
   - field_name: member_of
     label:
       en: Member of
@@ -3626,6 +3678,7 @@ dataset_fields:
         en: Organization name
         fi: Organisaation nimi
       required: false
+      necessity: mandatory
 resource_fields:
 - field_name: url
   label:
@@ -3638,6 +3691,7 @@ resource_fields:
       pääsy vaatii ensin esim. käyttäjäksi rekisteröitymistä, tulee tähän kenttään
       antaa linkki rekisteröitymistä tarjoavaan palveluun. Muussa tapauksessa anna
       osoite rajapintaan tai tiedostoon.
+  necessity: mandatory
   preset: url
 - field_name: download_url
   label:
@@ -3647,6 +3701,7 @@ resource_fields:
   help_text:
     en: A direct link to a downloadable file of this Distribution.
     fi: Suora linkki resurssiin ladattavassa tiedostomuodossa.
+  necessity: optional
   preset: url
 - field_name: data_service_endpoint_url
   label:
@@ -3656,6 +3711,7 @@ resource_fields:
     en: The root location or primary endpoint of the Data Service related to this
       Distribution
     fi: URL tietoaineiston tätä resurssia tarjoavaan rajapintaan.
+  necessity: mandatory
   required: false
   preset: url
 - field_name: data_service_endpoint_description
@@ -3665,6 +3721,7 @@ resource_fields:
   help_text:
     en: Link to e.g. a Swagger or OpenAPI description.
     fi: Linkki esim. Swagger tai OpenAPI -kuvaukseen.
+  necessity: recommended
   required: false
   preset: url
 - field_name: name_translated
@@ -3672,6 +3729,7 @@ resource_fields:
     en: Title
     fi: Nimike
   required: false
+  necessity: optional
   preset: fluent_core_translated
   form_languages:
   - fi
@@ -3682,6 +3740,7 @@ resource_fields:
     en: Description
     fi: Kuvaus
   required: false
+  necessity: recommended
   preset: fluent_core_translated
   form_languages:
   - fi
@@ -3692,6 +3751,7 @@ resource_fields:
   required: true
   preset: select
   sorted_choices: true
+  necessity: mandatory
   form_include_blank_choice: true
   choices:
   - value: 7z
@@ -4989,6 +5049,7 @@ resource_fields:
     en: Data service name
     fi: Palvelun nimi
   required: false
+  necessity: mandatory
   help_text:
     en: Name of the data service the API is a part of, if applicable.
     fi: Palvelun nimi mikäli rajapinta on osa laajempaa palvelukokonaisuutta.
@@ -5002,6 +5063,7 @@ resource_fields:
     en: Data service description
     fi: Palvelun kuvaus
   required: false
+  necessity: optional
   help_text:
     en: Description of the data service the API is a part of, if applicable.
     fi: Kuvaus palvelusta mikäli rajapinta on osa laajempaa palvelukokonaisuutta.
@@ -5070,6 +5132,7 @@ resource_fields:
       fi: gRPC
       sv: gRPC
   validators: application_layer_protocol_validator ignore_missing
+  necessity: recommended
 - field_name: data_grammar
   label:
     en: Data grammar
@@ -5108,11 +5171,13 @@ resource_fields:
       fi: XSD
       sv: XSD
   validators: data_grammar_validator ignore_missing
+  necessity: optional
 - field_name: data_format_notes_translated
   label:
     en: Data format notes
     fi: Huomioita formaatista
   required: false
+  necessity: optional
   preset: fluent_core_translated
   form_languages:
   - fi
@@ -5123,6 +5188,7 @@ resource_fields:
     en: Character encoding
     fi: Merkistö
   required: false
+  necessity: optional
   preset: select
   sorted_choices: true
   form_include_blank_choice: true
@@ -5664,6 +5730,7 @@ resource_fields:
       fi: Push
       sv: Push
   validators: communication_method_validator ignore_missing
+  necessity: optional
 - field_name: sample
   label:
     en: Sample
@@ -5674,6 +5741,7 @@ resource_fields:
       the data content and data structure, without subscribing to a data feed or downloading
       a complete data set.
     fi: Ote tietoaineistosta sisällön arviointia varten.
+  necessity: optional
   preset: url
 - field_name: mobility_data_standard
   label:
@@ -5755,6 +5823,7 @@ resource_fields:
       fi: tpegML
       sv: tpegML
   validators: mobility_data_standard_validator ignore_missing
+  necessity: mandatory
 - field_name: rights_type
   label:
     en: Conditions for access and usage
@@ -5815,6 +5884,7 @@ resource_fields:
       fi: Ei tekijänpalkkiota
       sv: Royalty-free
   validators: rights_type_validator
+  necessity: mandatory
 - field_name: license_id
   label:
     en: Standard license
@@ -6473,24 +6543,34 @@ resource_fields:
       fi: eCos License version 2.0
       sv: eCos License version 2.0
   validators: standard_license_validator ignore_missing
+  necessity: mandatory
 - field_name: license_text
   label:
     en: License text
     fi: Lisenssiteksti
   preset: markdown
   required: false
+  necessity: optional
 - field_name: start_timestamp
+  necessity: recommended
   label:
     en: Start time
     fi: Alkamisaika
   preset: datetime_tz
   required: false
+  classes:
+  - control-medium
+  - hide-necessity
 - field_name: end_timestamp
+  necessity: recommended
   label:
     en: End time
     fi: Päättymisaika
   preset: datetime_tz
   required: false
+  classes:
+  - control-medium
+  - hide-necessity
 - field_name: format_iri
   required: false
   form_snippet: null

@@ -34,14 +34,21 @@ class RightsStatement(RangeValueConverter):
 
     def get_schema(self, ds: Dataset, clazz_p: RDFSProperty, is_required: bool = False):
         if clazz_p.is_iri(RDFS.label):
-            return dict(
+            schema = dict(
                 field_name=self.ckan_field(clazz_p),
                 required=is_required,
                 **super().get_property_label_with_help_text(clazz_p.iri),
             )
-        if clazz_p.iri in DCTERMS.type:
-            return self.controlled_vocab_field(clazz_p, ds, is_required)
-        return super().get_schema(ds, clazz_p, is_required)
+        elif clazz_p.iri in DCTERMS.type:
+            schema = self.controlled_vocab_field(clazz_p, ds, is_required)
+        else:
+            schema = super().get_schema(ds, clazz_p, is_required)
+        if schema is None:
+            return None
+        return {
+            **schema,
+            **super().get_necessity_mapping(clazz_p.iri),
+        }
 
     def controlled_vocab_field(
         self, p: RDFSProperty, ds: Dataset, is_required: bool

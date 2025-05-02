@@ -16,8 +16,8 @@
 
     .field-group-cell {
         width: calc(50% - 2*var(--used-margin));
-        background-color: rgb(245, 245, 245);
-        padding: 20px;
+        background-color: var(--fds-color-neutral-50);
+        padding: var(--digitraffic-data-form-cell-padding);
     }
 
     .left-1 {
@@ -46,9 +46,61 @@
 
 }
 
+.form-group {
+    .form-necessity {
+        float: right;
+        border: 1px solid;
+        padding: 0 6px;
+        border-radius: 4px;
+        font-weight: var(--fds-typography-emphasis-default-font-weight);
+        font-size: var(--fds-typography-body-small-font-size);
+    }
+
+    .form-necessity-mandatory {
+        border-color: var(--fds-color-danger-100);
+        color: var(--fds-color-danger-400);
+        background-color: var(--fds-color-danger-50);
+    }
+
+    .form-necessity-recommended {
+        border-color: var(--fds-color-warning-100);
+        color: var(--fds-color-warning-400);
+        background-color: var(--fds-color-warning-50);
+    }
+
+    .form-necessity-optional {
+        border-color: var(--fds-color-neutral-100);
+        color: var(--fds-color-neutral-400);
+        background-color: var(--fds-color-neutral-50);
+    }
+    &.hide-necessity {
+        .form-necessity {
+            display: none;
+        }
+    }
+    input {
+        width: 100%;
+    }
+}
+
+.form-check-input[type=radio] {
+    margin-top: 0;
+    appearance: auto;
+}
 // wrapper around dataset/resource edit form
 .row.wrapper.no-nav {
     border: none;
     border-radius: 0;
     box-shadow: none;
+}
+
+[data-module="scheming-repeating-subfields"] {
+    .panel-heading {
+        padding: 2px 0;
+
+        .btn.btn-danger.btn-repeating-remove {
+            top: 0;
+            right: 0;
+        }
+    }
 }

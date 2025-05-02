@@ -67,33 +67,40 @@ class Agent(AggregateRangeValueConverter):
     def get_schema(
         self, ds: Dataset, clazz_p: RDFSProperty | None, is_required: bool = None
     ):
-        if clazz_p.is_iri(DCTERMS.type):
-            return self.controlled_vocab_field(clazz_p, ds, is_required)
-        if clazz_p.is_iri(FOAF.mbox):
+        def common_fields():
             return {
                 "field_name": self.ckan_field(clazz_p, None),
-                **super().get_property_label_with_help_text(clazz_p.iri),
                 "required": is_required,
+            }
+        if clazz_p.is_iri(DCTERMS.type):
+            schema = self._controlled_vocab_field(clazz_p, ds, is_required)
+        elif clazz_p.is_iri(FOAF.mbox):
+            schema = {
+                **common_fields(),
                 "preset": "email",
             }
-        if clazz_p.is_iri(FOAF.phone):
-            return {
-                "field_name": self.ckan_field(clazz_p, None),
-                **super().get_property_label_with_help_text(clazz_p.iri),
-                "required": is_required,
+        elif clazz_p.is_iri(FOAF.phone):
+            schema = {
+                **common_fields(),
                 "preset": "phone",
             }
-        if clazz_p.is_iri(FOAF.workplaceHomepage):
-            return {
-                "field_name": self.ckan_field(clazz_p, None),
-                **super().get_property_label_with_help_text(clazz_p.iri),
-                "required": is_required,
+        elif clazz_p.is_iri(FOAF.workplaceHomepage):
+            schema = {
+                **common_fields(),
                 "preset": "url",
             }
-        schema = super().get_schema(ds, clazz_p, False)
-        return schema
+        else:
+            schema = super().get_schema(ds, clazz_p, False)
 
-    def controlled_vocab_field(
+        if schema is None:
+            return None
+        return {
+            **schema,
+            **super().get_property_label_with_help_text(clazz_p.iri),
+            **super().get_necessity_mapping(clazz_p.iri),
+        }
+
+    def _controlled_vocab_field(
         self, p: RDFSProperty, ds: Dataset, is_required: bool
     ) -> List | Dict:
         match p.iri:
@@ -101,7 +108,6 @@ class Agent(AggregateRangeValueConverter):
                 g = ds.get_graph(URIRef(CVOCAB_AGENT_TYPE))
                 return {
                     "field_name": self.ckan_field(p),
-                    **super().get_property_label_with_help_text(p.iri),
                     "required": is_required,
                     "preset": "select",
                     "sorted_choices": True,
