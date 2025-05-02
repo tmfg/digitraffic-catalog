@@ -133,7 +133,7 @@ RUN ${APP_DIR}/setup_extensions.sh
 # Create entrypoint directory for children image scripts
 ONBUILD RUN mkdir /docker-entrypoint.d
 # Need to declare volumes used for writing so that we can set the root filesystem as read only
-VOLUME ["/srv/app/data", "/tmp"]
+VOLUME ["/srv/app/data", "/srv/app/src", "/srv/app/ckanext", "/tmp"]
 
 EXPOSE 5000
 
