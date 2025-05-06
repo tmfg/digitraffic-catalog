@@ -9,6 +9,10 @@ from dcat_schema_transpiler.namespaces.LOCN import LOCN
 
 TRANSLATIONS = {
     DCAT.Dataset: {
+        DCTERMS.title: {"label": {"en": "Title", "fi": "Nimike", "sv": "Titel"}},
+        DCTERMS.description: {
+            "label": {"en": "Description", "fi": "Kuvaus", "sv": "Beskrivning"}
+        },
         ADMS.versionNotes: {
             "label": {"en": "Version notes", "fi": "Version tiedot"},
             "help_text": {
