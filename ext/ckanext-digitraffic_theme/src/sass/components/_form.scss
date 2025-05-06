@@ -73,13 +73,20 @@
         color: var(--fds-color-neutral-400);
         background-color: var(--fds-color-neutral-50);
     }
+
     &.hide-necessity {
         .form-necessity {
             display: none;
         }
     }
+
     input {
         width: 100%;
+    }
+
+    input[id$="translated-fi"],
+    input[id$="translated-sv"] {
+        width: 90%
     }
 }
 
@@ -87,6 +94,7 @@
     margin-top: 0;
     appearance: auto;
 }
+
 // wrapper around dataset/resource edit form
 .row.wrapper.no-nav {
     border: none;

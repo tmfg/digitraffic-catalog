@@ -18,7 +18,8 @@
     error=errors[field.field_name + '-' + lang],
     classes=['control-medium', (lang != "en" and not (data[field.field_name + '-' + lang] or data.get(field.field_name, {})[lang])) and "hidden" or "", "multilingual"], 
     attrs=field.form_attrs if 'form_attrs' in field else {},
-    is_required=lang in h.fluent_required_languages(field)
+    is_required=lang in h.fluent_required_languages(field),
+    necessity="recommended" if field.get('necessity', None) == "mandatory" and lang != "en" else field.get('necessity', None)
     ) %}
     {% if lang != "en" %}
         <svg id="{{field.field_name}}-{{lang}}" class="hide-language-input" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
