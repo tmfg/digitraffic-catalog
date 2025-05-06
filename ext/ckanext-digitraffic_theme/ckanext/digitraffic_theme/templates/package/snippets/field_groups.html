@@ -58,7 +58,7 @@ Example:
 {% for position, groups in field_groups.items() %}
   <div class="{{position}} field-group-cell">
     {% for group_key, group in groups.items() %}
-    <div class="field-group">
+    <div class="field-group"{%- if group.module -%} data-module="{{ group.module }}"{%- endif -%}>
       <h3>{{ group.label }}</h3>
       <p class="help-text">{{ group.help_text }}</p>
         {%- snippet 'package/snippets/form_field_renderer.html',
@@ -72,7 +72,7 @@ Example:
       <!-- for additional groupings of fields under a smaller header inside the main group -->
       {% if group.subgroups %}
         {% for subgroup_name, subgroup in group.subgroups.items() %}
-          <div class="form-field-subgroup">
+          <div class="form-field-subgroup"{%- if subgroup.module -%} data-module="{{ subgroup.module }}"{%- endif -%}>
             <h6>{{ subgroup.label }}</h6>
             <p class="help-text">{{ subgroup.help_text }}</p>
             {%- snippet 'package/snippets/form_field_renderer.html',

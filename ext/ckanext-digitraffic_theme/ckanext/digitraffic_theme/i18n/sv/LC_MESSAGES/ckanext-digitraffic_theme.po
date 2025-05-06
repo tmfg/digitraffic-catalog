@@ -94,6 +94,11 @@ msgstr ""
 msgid "Next: Add data"
 msgstr ""
 
+#: ckanext/digitraffic_theme/templates/package/snippets/package_form.html:97
+msgid ""
+"In CKAN, a dataset refers to a collection of resources (e.g., files) "
+"along with their descriptions and other metadata, such as a permanent "
+"URL."
 #: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:30
 msgid "URL"
 msgstr ""
@@ -355,6 +360,10 @@ msgstr ""
 msgid "Period during which resource is available."
 msgstr ""
 
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:64
+msgid "A resource is any file or a link to a file that contains useful data."
+msgstr ""
+
 #: ckanext/digitraffic_theme/templates/snippets/language_selector_base.html:28
 msgid "Go"
 msgstr ""
@@ -584,6 +593,15 @@ msgstr ""
 
 #: ckanext/digitraffic_theme/validators/resource_validators.py:95
 msgid "Value does not belong to {namespace}"
+msgstr ""
+
+msgid "Mandatory"
+msgstr ""
+
+msgid "Recommended"
+msgstr ""
+
+msgid "Optional"
 msgstr ""
 
 #~ msgid "Next: Add Data"

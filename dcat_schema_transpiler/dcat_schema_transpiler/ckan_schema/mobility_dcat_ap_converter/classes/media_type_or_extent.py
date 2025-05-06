@@ -4,7 +4,7 @@ from rdflib import DCTERMS, Dataset, URIRef
 from copy import deepcopy
 
 from ckan_schema.mobility_dcat_ap_converter.range_value_converter import (
-    RangeValueConverter,
+    RangeValueConverter, Necessity,
 )
 from mobility_dcat_ap.dataset import CVOCAB_FORMAT
 from dcat_schema_transpiler.rdfs.rdfs_class import RDFSClass
@@ -40,6 +40,7 @@ class MediaTypeOrExtent(RangeValueConverter):
             "required": is_required,
             "preset": "select",
             "sorted_choices": True,
+            "necessity": Necessity.MANDATORY.value,
             "form_include_blank_choice": True,
             # Use the English "label" also as "value".
             #

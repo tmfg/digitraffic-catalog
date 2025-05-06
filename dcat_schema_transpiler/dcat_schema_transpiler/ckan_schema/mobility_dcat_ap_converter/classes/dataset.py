@@ -146,19 +146,18 @@ class DCATDataset(RangeValueConverter):
             """
             Controlled vocabulary fields.
             """
-            return self.controlled_vocab_field(clazz_p, ds, is_required)
-
-        """
-        Multilingual fields should have "required: false" at the field level.
-        Required input languages are given in separate field "required_languages".
-        """
-        if (
+            schema = self.controlled_vocab_field(clazz_p, ds, is_required)
+        elif (
             clazz_p.is_iri(DCTERMS.title)
             or clazz_p.is_iri(DCTERMS.description)
             or clazz_p.is_iri(ADMS.versionNotes)
         ):
-            schema = super().get_schema(ds, clazz_p, is_required=False)
-            return {
+            """
+            Multilingual fields should have "required: false" at the field level.
+            Required input languages are given in separate field "required_languages".
+            """
+            super_schema = super().get_schema(ds, clazz_p, is_required=False)
+            schema = {
                 **(
                     schema
                     | RangeValueConverter.get_translated_field_properties(
@@ -167,8 +166,8 @@ class DCATDataset(RangeValueConverter):
                     | super().get_property_label_with_help_text(clazz_p.iri)
                 )
             }
-        if clazz_p.is_iri(DCTERMS.conformsTo):
-            return {
+        elif clazz_p.is_iri(DCTERMS.conformsTo):
+            schema = {
                 "field_name": self.ckan_field(clazz_p),
                 **super().get_property_label_with_help_text(clazz_p.iri),
                 "required": is_required,
@@ -177,8 +176,8 @@ class DCATDataset(RangeValueConverter):
                 "form_attrs": {"min": "2000", "max": "69036405"},
                 "validators": "scheming_required remove_whitespace ignore_missing spatial_reference_validator",
             }
-        if clazz_p.is_iri(DCTERMS.relation):
-            return {
+        elif clazz_p.is_iri(DCTERMS.relation):
+            schema = {
                 "field_name": self.ckan_field(clazz_p),
                 **super().get_property_label_with_help_text(clazz_p.iri),
                 "required": is_required,
@@ -186,17 +185,25 @@ class DCATDataset(RangeValueConverter):
                 "choices": "",
                 "validators": "scheming_required ignore_missing dataset_reference_validator",
             }
-        if clazz_p.is_iri(DCTERMS.isReferencedBy):
-            return {
+        elif clazz_p.is_iri(DCTERMS.isReferencedBy):
+            schema = {
                 "field_name": self.ckan_field(clazz_p),
                 **super().get_property_label_with_help_text(clazz_p.iri),
                 "form_snippet": None,
                 "required": False,
                 "validators": "is_referenced_by_validator",
             }
-
-        schema = super().get_schema(ds, clazz_p, is_required)
-        return schema
+        else:
+            schema = super().get_schema(ds, clazz_p, is_required)
+        if schema is None:
+            return None
+        necessity_mapping = super().get_necessity_mapping(clazz_p.iri)
+        if isinstance(schema, list):
+            return list(map(lambda schema: {**schema, **necessity_mapping}, schema))
+        return {
+            **schema,
+            **necessity_mapping,
+        }
 
     def controlled_vocab_field(
         self, p: RDFSProperty, ds: Dataset, is_required: bool

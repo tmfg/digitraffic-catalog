@@ -43,6 +43,7 @@ class DataService(RangeValueConverter):
             return {
                 "field_name": self.ckan_field(clazz_p),
                 **super().get_property_label_with_help_text(clazz_p.iri),
+                **super().get_necessity_mapping(clazz_p.iri),
                 "required": is_required,
                 "preset": "url",
             }
@@ -50,6 +51,7 @@ class DataService(RangeValueConverter):
             return {
                 "field_name": self.ckan_field(clazz_p),
                 **super().get_property_label_with_help_text(clazz_p.iri),
+                **super().get_necessity_mapping(clazz_p.iri),
                 "required": is_required,
                 "preset": "url",
             }
