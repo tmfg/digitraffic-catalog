@@ -7,14 +7,30 @@ dataset_fields:
   necessity: mandatory
   required: true
 - field_name: title_translated
-  label: Title
+  label:
+    en: Title
+    fi: Nimike
+    sv: Titel
   required: false
   necessity: mandatory
   preset: fluent_core_translated
   form_languages:
-  - fi
   - en
+  - fi
   - sv
+  fluent_form_label:
+    en:
+      en: Title in English
+      fi: Nimike englanniksi
+      sv: Titel på engelska
+    fi:
+      en: Title in Finnish
+      fi: Nimike suomeksi
+      sv: Titel på finska
+    sv:
+      en: Title in Swedish
+      fi: Nimike ruotsiksi
+      sv: Titel på svenska
   required_languages:
   - en
 - field_name: name
@@ -24,14 +40,30 @@ dataset_fields:
   necessity: mandatory
   required: true
 - field_name: notes_translated
-  label: Description
+  label:
+    en: Description
+    fi: Kuvaus
+    sv: Beskrivning
   required: false
   necessity: mandatory
   preset: fluent_core_translated
   form_languages:
-  - fi
   - en
+  - fi
   - sv
+  fluent_form_label:
+    en:
+      en: Description in English
+      fi: Kuvaus englanniksi
+      sv: Beskrivning på engelska
+    fi:
+      en: Description in Finnish
+      fi: Kuvaus suomeksi
+      sv: Beskrivning på finska
+    sv:
+      en: Description in Swedish
+      fi: Kuvaus ruotsiksi
+      sv: Beskrivning på svenska
   required_languages:
   - en
 - field_name: frequency
@@ -2827,9 +2859,22 @@ dataset_fields:
     fi: Kuvaus tietoaineiston nykyisen ja edeltävän version eroista.
   preset: fluent_core_translated
   form_languages:
-  - fi
   - en
+  - fi
   - sv
+  fluent_form_label:
+    en:
+      en: Version notes in English
+      fi: Version tiedot englanniksi
+      sv: Version notes in English
+    fi:
+      en: Version notes in Finnish
+      fi: Version tiedot suomeksi
+      sv: Version notes in Finnish
+    sv:
+      en: Version notes in Swedish
+      fi: Version tiedot ruotsiksi
+      sv: Version notes in Swedish
 - field_name: language
   label: Language
   required: false
@@ -3732,9 +3777,22 @@ resource_fields:
   necessity: optional
   preset: fluent_core_translated
   form_languages:
-  - fi
   - en
+  - fi
   - sv
+  fluent_form_label:
+    en:
+      en: Title in English
+      fi: Nimike englanniksi
+      sv: Title in English
+    fi:
+      en: Title in Finnish
+      fi: Nimike suomeksi
+      sv: Title in Finnish
+    sv:
+      en: Title in Swedish
+      fi: Nimike ruotsiksi
+      sv: Title in Swedish
 - field_name: description_translated
   label:
     en: Description
@@ -3743,9 +3801,22 @@ resource_fields:
   necessity: recommended
   preset: fluent_core_translated
   form_languages:
-  - fi
   - en
+  - fi
   - sv
+  fluent_form_label:
+    en:
+      en: Description in English
+      fi: Kuvaus englanniksi
+      sv: Description in English
+    fi:
+      en: Description in Finnish
+      fi: Kuvaus suomeksi
+      sv: Description in Finnish
+    sv:
+      en: Description in Swedish
+      fi: Kuvaus ruotsiksi
+      sv: Description in Swedish
 - field_name: format
   label: Format
   required: true
@@ -5055,9 +5126,22 @@ resource_fields:
     fi: Palvelun nimi mikäli rajapinta on osa laajempaa palvelukokonaisuutta.
   preset: fluent_core_translated
   form_languages:
-  - fi
   - en
+  - fi
   - sv
+  fluent_form_label:
+    en:
+      en: Data service name in English
+      fi: Palvelun nimi englanniksi
+      sv: Data service name in English
+    fi:
+      en: Data service name in Finnish
+      fi: Palvelun nimi suomeksi
+      sv: Data service name in Finnish
+    sv:
+      en: Data service name in Swedish
+      fi: Palvelun nimi ruotsiksi
+      sv: Data service name in Swedish
 - field_name: data_service_description_translated
   label:
     en: Data service description
@@ -5069,9 +5153,22 @@ resource_fields:
     fi: Kuvaus palvelusta mikäli rajapinta on osa laajempaa palvelukokonaisuutta.
   preset: fluent_core_translated
   form_languages:
-  - fi
   - en
+  - fi
   - sv
+  fluent_form_label:
+    en:
+      en: Data service description in English
+      fi: Palvelun kuvaus englanniksi
+      sv: Data service description in English
+    fi:
+      en: Data service description in Finnish
+      fi: Palvelun kuvaus suomeksi
+      sv: Data service description in Finnish
+    sv:
+      en: Data service description in Swedish
+      fi: Palvelun kuvaus ruotsiksi
+      sv: Data service description in Swedish
 - field_name: application_layer_protocol
   label:
     en: Application layer protocol
@@ -5180,9 +5277,22 @@ resource_fields:
   necessity: optional
   preset: fluent_core_translated
   form_languages:
-  - fi
   - en
+  - fi
   - sv
+  fluent_form_label:
+    en:
+      en: Data format notes in English
+      fi: Huomioita formaatista englanniksi
+      sv: Data format notes in English
+    fi:
+      en: Data format notes in Finnish
+      fi: Huomioita formaatista suomeksi
+      sv: Data format notes in Finnish
+    sv:
+      en: Data format notes in Swedish
+      fi: Huomioita formaatista ruotsiksi
+      sv: Data format notes in Swedish
 - field_name: character_encoding
   label:
     en: Character encoding
