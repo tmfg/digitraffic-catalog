@@ -1,3 +1,5 @@
+{% set necessity_translatable_texts = [_("Mandatory"), _("Recommended"), _("Optional")] %}
+
 {%- if necessity is not none -%}
 <span class="form-necessity form-necessity-{{necessity}}">{{_(necessity|capitalize)}}</span>
 {%- endif -%}
