@@ -3,10 +3,15 @@ services:
   ckan-init:
     image: local_catalog_ckan_dev:latest
     user: ckan
+    read_only: true
     group_add:
       - ckan
     volumes:
       - ckanext:/srv/app/ckanext
+      - ckan_storage:/var/lib/ckan
+      - ckan_config:/srv/app/config
+      - ckan_src:/srv/app/src
+      - supervisord:/tmp
     command: |
       /bin/bash -c "
       run_python_install() {
@@ -59,6 +64,10 @@ services:
       - .env_test_users
     volumes:
       - ckanext:/srv/app/ckanext
+      - ckan_storage:/var/lib/ckan
+      - ckan_config:/srv/app/config
+      - ckan_src:/srv/app/src
+      - supervisord:/tmp
   postgresql:
     image: local_catalog_postgresql:latest
     ports:
@@ -117,3 +126,7 @@ volumes:
       o: bind
       type: none
       device: ../ext
+  ckan_storage:
+  ckan_config:
+  ckan_src:
+  supervisord:

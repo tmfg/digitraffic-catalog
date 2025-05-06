@@ -14,7 +14,7 @@ import time
 import re
 import json
 
-ckan_ini = os.environ.get("CKAN_INI", "/srv/app/ckan.ini")
+ckan_ini = os.environ.get("CKAN_INI", "/srv/app/config/ckan.ini")
 
 RETRY = 5
 
@@ -103,13 +103,12 @@ def init_db():
         subprocess.check_output(db_command, stderr=subprocess.STDOUT)
         print("[prerun] Initializing or upgrading db - end")
     except subprocess.CalledProcessError as e:
+        print(e.output)
         if "OperationalError" in e.output:
-            print(e.output)
             print("[prerun] Database not ready, waiting a bit before exit...")
             time.sleep(5)
             sys.exit(1)
         else:
-            print(e.output)
             raise e
 
 
