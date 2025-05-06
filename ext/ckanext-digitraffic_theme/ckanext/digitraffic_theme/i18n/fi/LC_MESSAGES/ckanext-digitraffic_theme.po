@@ -101,6 +101,15 @@ msgstr "Poista"
 msgid "Next: Add data"
 msgstr "Seuraava: Lisää dataa"
 
+#: ckanext/digitraffic_theme/templates/package/snippets/package_form.html:97
+msgid ""
+"In CKAN, a dataset refers to a collection of resources (e.g., files) "
+"along with their descriptions and other metadata, such as a permanent "
+"URL."
+msgstr ""
+"Tietoaineisto tarkoittaa CKAN:issa kokoelmaa resursseja (esim. "
+"tiedostoja) sekä niihin liittyvää kuvausta ja muuta metatietoa, kuten "
+"pysyvää URL-osoitetta."
 #: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:30
 msgid "URL"
 msgstr ""
@@ -380,6 +389,12 @@ msgstr "Alkamis- ja päättymisajat"
 msgid "Period during which resource is available."
 msgstr "Ajanjakso, jonka aikana resurssi on saatavilla."
 
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:64
+msgid "A resource is any file or a link to a file that contains useful data."
+msgstr ""
+"Resurssi on mikä tahansa tiedosto tai linkki tiedostoon, jossa on "
+"hyödyllistä dataa."
+
 #: ckanext/digitraffic_theme/templates/snippets/language_selector_base.html:28
 msgid "Go"
 msgstr "Mene"
@@ -614,6 +629,15 @@ msgstr ""
 #: ckanext/digitraffic_theme/validators/resource_validators.py:95
 msgid "Value does not belong to {namespace}"
 msgstr ""
+
+msgid "Mandatory"
+msgstr "Pakollinen"
+
+msgid "Recommended"
+msgstr "Suositeltava"
+
+msgid "Optional"
+msgstr "Valinnainen"
 
 #~ msgid "Describe here the time period covered by the dataset, if applicable."
 #~ msgstr ""
