@@ -159,9 +159,10 @@ class DCATDataset(RangeValueConverter):
             super_schema = super().get_schema(ds, clazz_p, is_required=False)
             schema = {
                 **(
-                    schema
+                    super_schema
                     | RangeValueConverter.get_translated_field_properties(
-                        schema.get("label", {}) if schema else {}, is_required
+                        super_schema.get("label", {}) if super_schema else {},
+                        is_required,
                     )
                     | super().get_property_label_with_help_text(clazz_p.iri)
                 )

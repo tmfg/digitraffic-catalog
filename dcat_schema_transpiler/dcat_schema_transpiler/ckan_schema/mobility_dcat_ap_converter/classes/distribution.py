@@ -114,12 +114,13 @@ class Distribution(RangeValueConverter):
                 Multilingual fields should have "required: false" at the field level.
                 Required input languages are given in separate field "required_languages".
                 """
-                r_value = super().get_schema(ds, clazz_p, is_required=False)
+                super_schema = super().get_schema(ds, clazz_p, is_required=False)
                 schema = {
                     **(
-                        schema
+                        super_schema
                         | RangeValueConverter.get_translated_field_properties(
-                            schema.get("label", {}) if schema else {}, is_required
+                            super_schema.get("label", {}) if super_schema else {},
+                            is_required,
                         )
                     )
                 }
