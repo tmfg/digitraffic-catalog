@@ -3,9 +3,10 @@ ARG CKAN_VERSION=ckan-2.10.4
 
 # Internals, you probably don't need to change these
 ENV APP_DIR=/srv/app
+ENV CKAN_CONFIG_DIR=${APP_DIR}/config
 ENV SRC_DIR=/srv/app/src
 ENV EXT_DIR=${APP_DIR}/ckanext
-ENV CKAN_INI=${APP_DIR}/ckan.ini
+ENV CKAN_INI=${CKAN_CONFIG_DIR}/ckan.ini
 ENV PIP_SRC=${SRC_DIR}
 ENV CKAN_STORAGE_PATH=/var/lib/ckan
 ENV GIT_URL=https://github.com/ckan/ckan.git
@@ -19,6 +20,8 @@ ENV UWSGI_HARAKIRI=50
 ENV PYTHONPATH=/srv/app
 
 WORKDIR ${APP_DIR}
+
+RUN mkdir -p ${CKAN_CONFIG_DIR}
 
 # Install necessary packages to run CKAN
 RUN apk add --no-cache tzdata \
@@ -132,6 +135,12 @@ RUN ${APP_DIR}/setup_extensions.sh
 
 # Create entrypoint directory for children image scripts
 ONBUILD RUN mkdir /docker-entrypoint.d
+
+# Need to declare volumes used for writing so that we can set the root filesystem as read only
+# - It would be better if /srv/app/src did not need writing, but the ckan version 3.10 writes
+#   i18n translations into this directory. In newer CKAN version the translations are written into
+#   CKAN_STORAGE_PATH
+VOLUME ["/srv/app/data", "/srv/app/src", "/srv/app/config", "/tmp"]
 
 EXPOSE 5000
 

@@ -52,28 +52,34 @@ class Kind(AggregateRangeValueConverter):
         self, ds: Dataset, clazz_p: RDFSProperty | None, is_required: bool = None
     ):
         if clazz_p.is_iri(VCARD.hasEmail):
-            return {
+            schema = {
                 "field_name": self.ckan_field(clazz_p, None),
                 **super().get_property_label_with_help_text(clazz_p.iri),
                 "required": is_required,
                 "preset": "email",
             }
-        if clazz_p.is_iri(VCARD.hasURL):
-            return {
+        elif clazz_p.is_iri(VCARD.hasURL):
+            schema = {
                 "field_name": self.ckan_field(clazz_p, None),
                 **super().get_property_label_with_help_text(clazz_p.iri),
                 "required": is_required,
                 "preset": "url",
             }
-        if clazz_p.is_iri(VCARD.hasTelephone):
-            return {
+        elif clazz_p.is_iri(VCARD.hasTelephone):
+            schema = {
                 "field_name": self.ckan_field(clazz_p, None),
                 **super().get_property_label_with_help_text(clazz_p.iri),
                 "required": is_required,
                 "preset": "phone",
             }
-        schema = super().get_schema(ds, clazz_p, False)
-        return schema
+        else:
+            schema = super().get_schema(ds, clazz_p, False)
+        if schema is None:
+            return None
+        return {
+            **schema,
+            **super().get_necessity_mapping(clazz_p.iri),
+        }
 
     def get_aggregate_schema(self) -> Dict:
         return {

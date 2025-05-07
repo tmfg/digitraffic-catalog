@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-digitraffic_theme 0.0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-04-22 10:20+0000\n"
-"PO-Revision-Date: 2025-02-06 14:01+0000\n"
+"POT-Creation-Date: 2025-05-06 09:31+0000\n"
+"PO-Revision-Date: 2025-05-06 06:53+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: sv\n"
 "Language-Team: sv <LL@li.org>\n"
@@ -25,6 +25,30 @@ msgstr ""
 
 #: ckanext/digitraffic_theme/templates/admin/base.html:6
 msgid "Trash"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/macros/form/input_block.html:27
+msgid "Custom"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/package/edit_base.html:11
+msgid "Edit"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/package/edit_base.html:16
+msgid "View dataset"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/package/edit_base.html:20
+msgid "Edit metadata"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/package/edit_base.html:21
+msgid "Reorder resources"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/package/edit_base.html:23
+msgid "Collaborators"
 msgstr ""
 
 #: ckanext/digitraffic_theme/templates/package/read.html:8
@@ -51,7 +75,7 @@ msgstr ""
 msgid "Source: <a href=\"%(url)s\">%(dataset)s</a>"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/package/snippets/package_form.html:33
+#: ckanext/digitraffic_theme/templates/package/snippets/package_form.html:40
 msgid ""
 "The <i>data license</i> you select above only applies to the contents of "
 "any resource files that you add to this dataset. By submitting this form,"
@@ -61,31 +85,127 @@ msgid ""
 "License</a>."
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/package/snippets/package_form.html:44
+#: ckanext/digitraffic_theme/templates/package/snippets/package_form.html:51
 msgid "Are you sure you want to delete this dataset?"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/package/snippets/package_form.html:44
+#: ckanext/digitraffic_theme/templates/package/snippets/package_form.html:51
+#: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:77
 msgid "Delete"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/package/snippets/package_form.html:48
+#: ckanext/digitraffic_theme/templates/package/snippets/package_form.html:55
 msgid "Next: Add data"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/scheming/form_snippets/_organization_select.html:20
+#: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:33
+msgid "URL"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:34
+msgid "File"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:35
+msgid "http://example.com/external-data.csv"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:39
+msgid "Name"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:39
+msgid "eg. January 2011 Gold Prices"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:43
+msgid "Description"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:43
+msgid "Some useful notes about the data"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:48
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:18
+msgid "Format"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:48
+msgid "eg. CSV, XML or JSON"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:51
+msgid "This will be guessed automatically. Leave blank if you wish"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:62
+msgid "Last Modified"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:62
+msgid "eg. 2012-06-05"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:64
+msgid "File Size"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:64
+msgid "eg. 1024"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:66
+#: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:68
+msgid "MIME Type"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:66
+#: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:68
+msgid "eg. application/json"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:77
+msgid "Are you sure you want to delete this resource?"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:83
+msgid "Previous"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:87
+msgid "Save & add another"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:91
+msgid "Finish"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:95
+msgid "Add"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/scheming/form_snippets/_organization_select.html:24
 msgid "No organization"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/scheming/form_snippets/datetime_tz.html:40
+#: ckanext/digitraffic_theme/templates/scheming/form_snippets/datetime_tz.html:41
 msgid "Time"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/scheming/form_snippets/datetime_tz.html:58
+#: ckanext/digitraffic_theme/templates/scheming/form_snippets/datetime_tz.html:60
 msgid "Timezone"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/scheming/form_snippets/iri_fragment_input.html:18
+#: ckanext/digitraffic_theme/templates/scheming/form_snippets/fluent_text.html:4
+msgid "Add Finnish"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/scheming/form_snippets/fluent_text.html:5
+msgid "Add Swedish"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/scheming/form_snippets/iri_fragment_input.html:19
 msgid ""
 "With no JavaScript enabled, you need to specify the full IRI for this "
 "field"
@@ -95,12 +215,12 @@ msgstr ""
 msgid "Visibility"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/scheming/form_snippets/organization.html:27
+#: ckanext/digitraffic_theme/templates/scheming/form_snippets/organization.html:28
 #: ckanext/digitraffic_theme/templates/snippets/package_item.html:31
 msgid "Private"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/scheming/form_snippets/organization.html:27
+#: ckanext/digitraffic_theme/templates/scheming/form_snippets/organization.html:28
 msgid "Public"
 msgstr ""
 
@@ -142,21 +262,21 @@ msgid ""
 "applicable. May be left empty for continuously updated data."
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:20
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:21
 msgid "Versioning"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:21
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:22
 msgid ""
 "This section provides information regarding the dataset version. Mostly "
 "applicable for static datasets."
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:25
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:26
 msgid "Assessment"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:26
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:27
 msgid ""
 "This section describes the result and date of an assessment or "
 "assessments made by a third party or parties. The assessment of data sets"
@@ -164,87 +284,106 @@ msgid ""
 "supervisory authority."
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:30
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:31
 msgid "Additional information"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:31
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:32
 msgid "Additional details concerning the dataset."
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:37
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:38
 msgid "Contact point"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:38
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:39
 msgid "Contact details for a person or organization."
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:44
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:45
 msgid "Rights holder"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:45
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:46
 msgid "Contact details for the rights holder."
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:77
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:81
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:83
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:50
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:78
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:82
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:84
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:54
 msgid "Add data"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:147
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:97
+msgid ""
+"In CKAN, a dataset refers to a collection of resources (e.g., files) "
+"along with their descriptions and other metadata, such as a permanent "
+"URL."
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:158
 msgid "Update {page}"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:149
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:160
 msgid "Next"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:5
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:6
 msgid "Resource URLs"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:6
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:7
 msgid "URLs giving access to the resource."
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:10
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:11
 msgid "Resource description"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:11
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:12
 msgid "Description of the resource."
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:15
-msgid "Format"
-msgstr ""
-
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:16
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:19
 msgid "Additional information concerning related formats and data standards."
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:20
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:23
 msgid "Licenses and terms of use"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:21
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:24
 msgid "Licenses and terms of use pertaining to this resource."
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:25
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:28
 msgid "Time range"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:26
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:29
 msgid "Period during which resource is available."
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:64
+msgid "A resource is any file or a link to a file that contains useful data."
 msgstr ""
 
 #: ckanext/digitraffic_theme/templates/snippets/language_selector_base.html:28
 msgid "Go"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/snippets/necessity_tag.html:1
+msgid "Mandatory"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/snippets/necessity_tag.html:1
+msgid "Recommended"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/snippets/necessity_tag.html:1
+msgid "Optional"
 msgstr ""
 
 #: ckanext/digitraffic_theme/templates/snippets/package_item.html:53
@@ -473,43 +612,4 @@ msgstr ""
 #: ckanext/digitraffic_theme/validators/resource_validators.py:95
 msgid "Value does not belong to {namespace}"
 msgstr ""
-
-#~ msgid "Next: Add Data"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "This account is deactivated, if you "
-#~ "want to reactivate it, please click "
-#~ "on checkbox."
-#~ msgstr ""
-
-#~ msgid "Country of recidence"
-#~ msgstr ""
-
-#~ msgid "Post Code"
-#~ msgstr ""
-
-#~ msgid "Street Address"
-#~ msgstr ""
-
-#~ msgid "The time period covered by the dataset."
-#~ msgstr ""
-
-#~ msgid "Additional information concerning related formats and data standards"
-#~ msgstr ""
-
-#~ msgid "Period during which resource is available"
-#~ msgstr ""
-
-#~ msgid "Provide basic information about the dataset."
-#~ msgstr ""
-
-#~ msgid "Describe here the time period covered by the dataset, if applicable."
-#~ msgstr ""
-
-#~ msgid "Fill in versioning details where applicable."
-#~ msgstr ""
-
-#~ msgid "Fill in assessment details where applicable."
-#~ msgstr ""
 
