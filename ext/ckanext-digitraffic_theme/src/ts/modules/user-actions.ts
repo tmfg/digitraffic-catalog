@@ -1,6 +1,6 @@
-import { Dropdown } from "../module-constructs/dropdown";
+import {Dropdown, type DropdownMO} from "../module-constructs/dropdown";
 
-const UserActions: ckan.Module<HTMLElement> = {
+const UserActions: ckan.Module<HTMLElement, DropdownMO> = {
   ...Dropdown(),
   _getMenuController(): JQuery<HTMLButtonElement> {
     return $("#user-action-select")
@@ -10,4 +10,4 @@ const UserActions: ckan.Module<HTMLElement> = {
   }
 }
 
-ckan.module('digitraffic_theme_user_actions', function ($) { return UserActions})
+ckan.module('digitraffic_theme_user_actions', UserActions)

@@ -1,22 +1,37 @@
 import { initialize } from "../module-constructs/module";
 import {
-  TOP_MOBILITY_THEMES_T,
+  type TOP_MOBILITY_THEMES_T,
   isTopMobilityTheme,
-  SUB_MOBILITY_THEMES_T, MOBILITY_THEME_TREE, MOBILITY_THEME_LABELS, SUB_MOBILITY_THEMES
+  type SUB_MOBILITY_THEMES_T, MOBILITY_THEME_TREE, MOBILITY_THEME_LABELS, isSubMobilityTheme
 } from "../model/mobility-theme";
 
 type DatasetFormWrapperState = {
   topMobilityTheme?: TOP_MOBILITY_THEMES_T
   subMobilityThemeSelector?: JQuery<HTMLSelectElement>
-  subMobilityThemeSelectorParent?: JQuery<HTMLSelectElement>
+  subMobilityThemeSelectorParent?: JQuery<HTMLElement>
 }
 
-interface DatasetFormWrapperModule extends ckan.Module<HTMLSelectElement> {
+type DatasetFormWrapperMO = {
   state: DatasetFormWrapperState,
   _stateListeners?: ((oldState: DatasetFormWrapperState, changedKeys: Set<keyof DatasetFormWrapperState>) => void)[]
+  teardown: () => void,
+  _getInitialMobilityTheme: () => TOP_MOBILITY_THEMES_T | undefined,
+  _getInitialSubMobilityTheme: () => SUB_MOBILITY_THEMES_T | undefined,
+  _getTopMobilityThemeSelector: () => JQuery<HTMLSelectElement>,
+  _getInitialSubMobilityThemeSelector: () => JQuery<HTMLSelectElement>,
+  _getSubMobilityThemeSelector: () => JQuery<HTMLSelectElement>,
+  _onTopMobilityThemeChanged: (event: Event) => void,
+  _stateChangedKeys: (oldState: DatasetFormWrapperState, newState: DatasetFormWrapperState) => Set<keyof DatasetFormWrapperState>,
+  _triggerListeners: (oldState: DatasetFormWrapperState, changedKeys: Set<keyof DatasetFormWrapperState>) => void,
+  _updateState: (newState: DatasetFormWrapperState) => DatasetFormWrapperState,
+  _mergeState: (partialNewState: Partial<DatasetFormWrapperState>) => DatasetFormWrapperState,
+  _onStateUpdate: (fn: (oldState: DatasetFormWrapperState, changedKeys: Set<keyof DatasetFormWrapperState>) => void) => ()=>void,
+  _handleTopMobilityThemeChanged: (oldState: DatasetFormWrapperState, changedKeys: Set<keyof DatasetFormWrapperState>) => void,
+  _subThemeSelectorViewUpdate: (oldState: DatasetFormWrapperState | undefined, state: DatasetFormWrapperState) => void
 }
 
-const DatasetFormWrapper = {
+const DatasetFormWrapper: ckan.Module<HTMLSelectElement, DatasetFormWrapperMO> = {
+  state: {},
   initialize(this) {
     initialize.apply(this);
     this.state = {
@@ -42,8 +57,8 @@ const DatasetFormWrapper = {
   },
   _getInitialSubMobilityTheme(): SUB_MOBILITY_THEMES_T | undefined {
     const formSubMobilityTheme = this._getInitialSubMobilityThemeSelector().val();
-    if (SUB_MOBILITY_THEMES.has(formSubMobilityTheme)) {
-      return formSubMobilityTheme as SUB_MOBILITY_THEMES_T;
+    if (isSubMobilityTheme(formSubMobilityTheme)) {
+      return formSubMobilityTheme;
     } else {
       return undefined;
     }
@@ -59,26 +74,31 @@ const DatasetFormWrapper = {
     return this.$("#field-mobility_theme_sub")
   },
   _onTopMobilityThemeChanged(event) {
-    const selectedMobilityTheme = event.target.value;
-    this._mergeState({topMobilityTheme: selectedMobilityTheme})
+    if (event.target instanceof HTMLSelectElement) {
+      const selectedMobilityTheme = event.target.value;
+      if (!isTopMobilityTheme(selectedMobilityTheme)) {
+        throw new Error(`Invalid mobility theme: ${selectedMobilityTheme}`);
+      }
+      this._mergeState({topMobilityTheme: selectedMobilityTheme})
+    }
   },
-  _stateChangedKeys(oldState: DatasetFormWrapperState, newState: DatasetFormWrapperState) {
-    const changedKeys = new Set()
+  _stateChangedKeys(oldState: DatasetFormWrapperState, newState: DatasetFormWrapperState): Set<keyof DatasetFormWrapperState> {
+    const changedKeys = new Set<keyof DatasetFormWrapperState>()
     for (const key in oldState) {
       if (key in newState) {
         // Check if an existing key's value has changed
-        if (oldState[key] !== newState[key]) {
-          changedKeys.add(key)
+        if (oldState[(key as keyof DatasetFormWrapperState)] !== newState[(key as keyof DatasetFormWrapperState)]) {
+          changedKeys.add((key as keyof DatasetFormWrapperState))
         }
         // If the key was deleted
       } else {
-        changedKeys.add(key)
+        changedKeys.add((key as keyof DatasetFormWrapperState))
       }
     }
     for (const key in newState) {
       // If a new key was added
       if (!(key in oldState)) {
-        changedKeys.add(key)
+        changedKeys.add((key as keyof DatasetFormWrapperState))
       }
     }
     return changedKeys
@@ -137,8 +157,8 @@ const DatasetFormWrapper = {
       const subThemeOptions = subThemes.map(subTheme => {
         const option = document.createElement("option")
         option.value = subTheme
-        const lang = $("html").attr("lang");
-        option.text = MOBILITY_THEME_LABELS[subTheme][lang] ?? MOBILITY_THEME_LABELS[subTheme]["en"]
+        const lang = $("html").attr("lang") ?? "en";
+        option.text = MOBILITY_THEME_LABELS[subTheme][(lang as "fi"|"en")] ?? MOBILITY_THEME_LABELS[subTheme]["en"]
         if (subTheme === selectedSubTheme) {
           option.selected = true;
         }
@@ -155,11 +175,11 @@ const DatasetFormWrapper = {
 
       return subThemeOptions
     }
-    function _changeSubThemeOptions(subThemeOptions: HTMLOptionElement[]) {
+    function _changeSubThemeOptions(this: ckan.CkanThis<HTMLSelectElement, DatasetFormWrapperMO>, subThemeOptions: HTMLOptionElement[]) {
       this._getSubMobilityThemeSelector().empty().append(subThemeOptions)
     }
 
-    function _toggleSubMobilityThemeVisibility() {
+    function _toggleSubMobilityThemeVisibility(this: ckan.CkanThis<HTMLSelectElement, DatasetFormWrapperMO>) {
       const formGroup = this._getSubMobilityThemeSelector().parentsUntil('form')
         .filter('div.form-group')
       const display = formGroup.css('display')
@@ -172,7 +192,7 @@ const DatasetFormWrapper = {
       }
     }
 
-    function _removeSubThemeSelector() {
+    function _removeSubThemeSelector(this: ckan.CkanThis<HTMLSelectElement, DatasetFormWrapperMO>) {
       if (!(isSubMobilityThemeSelectorRemoved(state))) {
         _toggleSubMobilityThemeVisibility.apply(this)
         const subMobilityThemeSelectorParent = this._getSubMobilityThemeSelector().parent()
@@ -184,7 +204,7 @@ const DatasetFormWrapper = {
       }
     }
 
-    function _addSubThemeSelector() {
+    function _addSubThemeSelector(this: ckan.CkanThis<HTMLSelectElement, DatasetFormWrapperMO>) {
       if (isSubMobilityThemeSelectorRemoved(state)) {
         state.subMobilityThemeSelectorParent.append(state.subMobilityThemeSelector)
         _toggleSubMobilityThemeVisibility.apply(this)
@@ -192,18 +212,19 @@ const DatasetFormWrapper = {
         const keysToRemove = new Set(["subMobilityThemeSelector", "subMobilityThemeSelectorParent"])
         const newState = Object.keys(currentState).reduce((state, key) => {
           if (!(keysToRemove.has(key))) {
+            // @ts-ignore
             state[key] = currentState[key]
           }
           return state
-        }, {})
+        }, {} as typeof state)
         this._updateState(newState)
       }
     }
     const isInitialRender = oldState === undefined
     const isMobilityThemeChanged = oldState?.topMobilityTheme !== state.topMobilityTheme
     const isRenderNeeded = isInitialRender || isMobilityThemeChanged
-    if (isRenderNeeded) {
-      const subThemes = MOBILITY_THEME_TREE[state.topMobilityTheme]
+    if (isRenderNeeded && state.topMobilityTheme) {
+      const subThemes = MOBILITY_THEME_TREE[state.topMobilityTheme].map(subTheme => subTheme)
       const initialSubMobilityTheme = this._getInitialSubMobilityTheme();
       if (subThemes?.length > 0) {
         _addSubThemeSelector.apply(this)
@@ -214,6 +235,6 @@ const DatasetFormWrapper = {
       }
     }
   }
-} as DatasetFormWrapperModule
+}
 
-ckan.module('digitraffic_theme_dataset_form_wrapper', function ($) { return DatasetFormWrapper})
+ckan.module('digitraffic_theme_dataset_form_wrapper', DatasetFormWrapper)

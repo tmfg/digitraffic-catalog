@@ -1,14 +1,17 @@
 import { initialize } from "../module-constructs/module";
 
+type SelectSwitchMO = {
+}
+
 /**
  * CKAN has a select-switch module (https://github.com/ckan/ckan/blob/master/ckan/public/base/javascript/modules/select-switch.js)
  * that does not work well with Windows Chrome keyboard navigation. This module is basically the same as select-switch
  * but tries to make sure that the change event is fired only when user means it.
  */
-export const SelectSwitch = {
-  initialize(this) {
+export const SelectSwitch: ckan.Module<HTMLFormElement, SelectSwitchMO> = {
+  initialize() {
     initialize.apply(this);
-    this.el.on('keyup', 'select', (event) => {
+    this.el.on('keyup', 'select', (event: KeyboardEvent) => {
       const key = event.key;
       const pickerOpenerKeys = new Set(['ArrowDown', 'ArrowUp', "Space"])
       const isPickerOpenerPressed = pickerOpenerKeys.has(key)
@@ -19,13 +22,15 @@ export const SelectSwitch = {
       // dispatched.
       if (isPickerOpenerPressed && isShowPickerSupported) {
         event.preventDefault();
-        event.target.showPicker();
+        if (event.target instanceof HTMLSelectElement) {
+          event.target.showPicker();
+        }
       }
     });
-    this.el.on('change', 'select', (event) => {
+    this.el.on('change', 'select', () => {
       this.el.submit()
     });
   }
-} as ckan.Module<HTMLFormElement>
+}
 
-ckan.module('digitraffic_theme_select_switch', function ($) { return SelectSwitch})
+ckan.module('digitraffic_theme_select_switch', SelectSwitch)
