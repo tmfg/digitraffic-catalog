@@ -48,6 +48,7 @@ class Assessment(AggregateRangeValueConverter):
                 return (
                     super().get_schema(ds, clazz_p, is_required)
                     | super().get_property_label_with_help_text(clazz_p.iri)
+                    | super().get_necessity_mapping(clazz_p.iri)
                     | {"preset": "date"}
                 )
 
@@ -55,6 +56,7 @@ class Assessment(AggregateRangeValueConverter):
                 return {
                     "field_name": self.ckan_field(clazz_p, ds),
                     **super().get_property_label_with_help_text(clazz_p.iri),
+                    **super().get_necessity_mapping(clazz_p.iri),
                     "required": is_required,
                     "preset": "url",
                 }

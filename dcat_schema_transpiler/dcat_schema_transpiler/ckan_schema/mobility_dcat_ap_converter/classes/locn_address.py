@@ -48,7 +48,7 @@ class LOCNAddress(RangeValueConverter):
         if clazz_p.is_iri(LOCN.adminUnitL1):
             g_countries = ds.get_graph(URIRef(CVOCAB_COUNTRY))
 
-            return {
+            schema = {
                 "field_name": self.ckan_field(clazz_p),
                 **super().get_property_label_with_help_text(clazz_p.iri),
                 "required": is_required,
@@ -60,9 +60,14 @@ class LOCNAddress(RangeValueConverter):
                 ),
                 "validators": "country_validator ignore_missing",
             }
-
-        schema = super().get_schema(ds, clazz_p, False)
-        return schema
+        else:
+            schema = super().get_schema(ds, clazz_p, False)
+        if schema is None:
+            return None
+        return {
+            **schema,
+            **super().get_necessity_mapping(clazz_p.iri),
+        }
 
     def is_property_required(self, property: RDFSProperty) -> bool:
         return property.iri in LOCNAddress.mandatory_properties

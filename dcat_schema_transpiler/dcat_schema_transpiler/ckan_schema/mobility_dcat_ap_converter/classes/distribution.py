@@ -92,11 +92,10 @@ class Distribution(RangeValueConverter):
                 clazz_p.is_iri(vocabulary_range)
                 for vocabulary_range in vocabulary_ranges
             ):
-                return self.controlled_vocab_field(clazz_p, ds, is_required)
-
-            if clazz_p.is_iri(CNT.characterEncoding):
+                schema = self.controlled_vocab_field(clazz_p, ds, is_required)
+            elif clazz_p.is_iri(CNT.characterEncoding):
                 r_value = super().get_schema(ds, clazz_p, is_required=False)
-                return r_value | {
+                schema = r_value | {
                     "preset": "select",
                     "sorted_choices": True,
                     "form_include_blank_choice": True,
@@ -106,43 +105,49 @@ class Distribution(RangeValueConverter):
                     ),
                     "validators": "character_encoding_validator ignore_missing",
                 }
-
-            """
-            Multilingual fields should have "required: false" at the field level.
-            Required input languages are given in separate field "required_languages".
-            """
-            if (
+            elif (
                 clazz_p.is_iri(DCTERMS.description)
                 or clazz_p.is_iri(DCTERMS.title)
                 or clazz_p.is_iri(MOBILITYDCATAP.dataFormatNotes)
             ):
-                r_value = super().get_schema(ds, clazz_p, is_required=False)
-                return {
+                """
+                Multilingual fields should have "required: false" at the field level.
+                Required input languages are given in separate field "required_languages".
+                """
+                super_schema = super().get_schema(ds, clazz_p, is_required=False)
+                schema = {
                     **(
-                        r_value
+                        super_schema
                         | RangeValueConverter.get_translated_field_properties(
-                            is_required
+                            super_schema.get("label", {}) if super_schema else {},
+                            is_required,
                         )
                     )
                 }
 
-            if clazz_p.is_iri(DCAT.accessURL):
-                return super().get_schema(ds, clazz_p, is_required) | {
+            elif clazz_p.is_iri(DCAT.accessURL):
+                schema = super().get_schema(ds, clazz_p, is_required) | {
                     "preset": "url",
                     **super().get_property_label_with_help_text(clazz_p.iri),
                 }
-            if clazz_p.is_iri(DCAT.downloadURL):
-                return super().get_schema(ds, clazz_p, is_required) | {
+            elif clazz_p.is_iri(DCAT.downloadURL):
+                schema = super().get_schema(ds, clazz_p, is_required) | {
                     "preset": "url",
                     **super().get_property_label_with_help_text(clazz_p.iri),
                 }
-            if clazz_p.is_iri(ADMS.sample):
-                return super().get_schema(ds, clazz_p, is_required) | {
+            elif clazz_p.is_iri(ADMS.sample):
+                schema = super().get_schema(ds, clazz_p, is_required) | {
                     "preset": "url",
                     **super().get_property_label_with_help_text(clazz_p.iri),
                 }
-
-            return super().get_schema(ds, clazz_p, is_required)
+            else:
+                schema = super().get_schema(ds, clazz_p, is_required)
+            if schema is None:
+                return None
+            return {
+                **schema,
+                **super().get_necessity_mapping(clazz_p.iri),
+            }
         return None
 
     def controlled_vocab_field(

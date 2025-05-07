@@ -10,3 +10,5 @@ declare namespace ckan {
   // 'translate' and 'i18n' are deprecated
   export function module<T>(name: string, properties: ((jQuery: import('ckan/ckan/public/base/vendor/jquery').jQuery) => Module<T>) | Module<T>): void;
 }
+
+declare const ckan: typeof ckan;
