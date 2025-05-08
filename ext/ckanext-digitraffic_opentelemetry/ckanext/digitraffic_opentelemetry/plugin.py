@@ -2,10 +2,10 @@ import os
 import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
 from ckan.model.meta import engine
-from typing import Optional
+from ckan.config.declaration import Declaration, Key
 from opentelemetry import trace, context, baggage
 from opentelemetry import propagate
-#from opentelemetry.context import Context
+from opentelemetry.context.context import Context
 from opentelemetry.sdk.resources import (
     SERVICE_NAME,
     SERVICE_NAMESPACE,
@@ -14,8 +14,7 @@ from opentelemetry.sdk.resources import (
 )
 from opentelemetry.sdk.trace import TracerProvider, Span
 from opentelemetry.sdk.trace.export import (
-    BatchSpanProcessor,
-    SpanProcessor
+    BatchSpanProcessor
 )
 from opentelemetry.trace.propagation.tracecontext import TraceContextTextMapPropagator
 from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import OTLPSpanExporter
@@ -35,8 +34,19 @@ from opentelemetry.instrumentation.sqlalchemy import SQLAlchemyInstrumentor
 from opentelemetry.instrumentation.redis import RedisInstrumentor
 from opentelemetry.processor.baggage import BaggageSpanProcessor, ALLOW_ALL_BAGGAGE_KEYS
 
+from opentelemetry._logs import set_logger_provider
+from opentelemetry.exporter.otlp.proto.grpc._log_exporter import (
+    OTLPLogExporter,
+)
+from opentelemetry.sdk._logs import LoggerProvider, LoggingHandler
+from opentelemetry.sdk._logs.export import BatchLogRecordProcessor
 
-def _add_user_to_baggage(span: Span, flask_request_environ):
+import logging
+
+logger = logging.getLogger(__name__)
+otel_logger = logging.getLogger("otel")
+
+def _add_user_to_baggage(span: Span, context: Context) -> Context:
     """
     Add the user ID to the baggage. This is used to propagate the user ID across services.
     """
@@ -44,15 +54,23 @@ def _add_user_to_baggage(span: Span, flask_request_environ):
     if span.is_recording():
         # Set the user ID as an attribute to the currently running span
         span.set_attribute(user_id_attribute, toolkit.g.get('user'))
-    new_context = baggage.set_baggage(user_id_attribute, toolkit.g.get('user'))
+    return baggage.set_baggage(user_id_attribute, toolkit.g.get('user'), context)
+
+def _set_logging_context(span: Span, flask_request_environ):
+    context_span = trace.set_span_in_context(span)
+    new_context = _add_user_to_baggage(span, context_span)
     context.attach(new_context)
+
 
 class DigitrafficOpentelemetryPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IMiddleware)
+    plugins.implements(plugins.IConfigDeclaration)
 
     def make_middleware(self, app, config):
         self._configure_traces()
         self._propagate_trace_headers()
+        self._setup_otel_logging()
+        self._setup_loggers_for_events()
         self._add_trace_to_logging()
         self._add_flask_instrumentation(app)
         self._add_request_instrumentation()
@@ -117,7 +135,7 @@ class DigitrafficOpentelemetryPlugin(plugins.SingletonPlugin):
         It does so by using propagators. The propagators are given the whole Flask request environment to pick the
         correct headers from.
         """
-        FlaskInstrumentor().instrument_app(app, enable_commenter=False, commenter_options={}, request_hook=_add_user_to_baggage)
+        FlaskInstrumentor().instrument_app(app, enable_commenter=False, commenter_options={}, request_hook=_set_logging_context)
 
     def _add_request_instrumentation(self):
         """
@@ -152,6 +170,49 @@ class DigitrafficOpentelemetryPlugin(plugins.SingletonPlugin):
         """
         RedisInstrumentor().instrument()
 
+    def _setup_otel_logging(self):
+        """
+        Set up the logging so that anything logged with 'otel' logger is sent to the OpenTelemetry Collector.
+        """
+        logger_provider = LoggerProvider()
+        set_logger_provider(logger_provider)
+        otel_endpoint = os.environ["OTEL_EXPORTER_OTLP_ENDPOINT"]
+        if not otel_endpoint:
+            raise ValueError("OTEL_EXPORTER_OTLP_ENDPOINT environment variable is not set.")
+        exporter = OTLPLogExporter(endpoint=otel_endpoint, insecure=True)
+        logger_provider.add_log_record_processor(BatchLogRecordProcessor(exporter))
+        handler = LoggingHandler(level=logging.NOTSET, logger_provider=logger_provider)
+
+        otel_logger.addHandler(handler)
+
+    def _setup_loggers_for_events(self):
+        """
+        Set up the loggers to add events to the current span.
+        """
+        loggers_to_set_events = toolkit.config.get("digitraffic_opentelemetry.loggers_to_set_events", [])
+        for logger_name in loggers_to_set_events:
+            logger.info(f"Adding SpanEventFilter to logger: {logger_name}")
+            configured_logger = logging.getLogger(logger_name)
+            event_handler = SpanEventHandler()
+            configured_logger.addHandler(event_handler)
+
+    def declare_config_options(self, declaration: Declaration, key: Key):
+        declaration.declare_list(key.digitraffic_opentelemetry.loggers_to_set_events, default=[])
+
+class SpanEventHandler(logging.Handler):
+    """
+    Handler to add the log message into current span as event
+    """
+    def emit(self, record: logging.LogRecord) -> None:
+        span = trace.get_current_span()
+        if span.is_recording():
+            span.add_event(
+                name=record.getMessage(),
+                attributes={
+                    "logger_name": record.name,
+                    "level": record.levelname,
+                },
+            )
 
 class W3CExtractorPropagator(TraceContextTextMapPropagator):
     """
