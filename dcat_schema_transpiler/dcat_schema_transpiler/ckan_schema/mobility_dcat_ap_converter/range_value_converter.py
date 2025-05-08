@@ -20,10 +20,12 @@ from dcat_schema_transpiler.rdfs.rdfs_property import RDFSProperty
 from dcat_schema_transpiler.rdfs.rdfs_resource import RDFSResource
 from dcat_schema_transpiler.rdfs.util import get_rdf_object
 
+
 class Necessity(Enum):
     MANDATORY = "mandatory"
     RECOMMENDED = "recommended"
     OPTIONAL = "optional"
+
 
 class RangeValueConverter(ABC):
     sub_classes: Set[URIRef] = None
@@ -87,7 +89,7 @@ class RangeValueConverter(ABC):
         return r_ordered[0] if len(r_ordered) > 0 else None
 
     @classmethod
-    def get_necessity_mapping(cls, property: URIRef) -> Dict[Literal['necessity'], str]:
+    def get_necessity_mapping(cls, property: URIRef) -> Dict[Literal["necessity"], str]:
         """
         Returns the necessity mapping for the given property.
         """
@@ -98,10 +100,12 @@ class RangeValueConverter(ABC):
         elif property in cls.optional_properties:
             return {"necessity": Necessity.OPTIONAL.value}
         else:
-            print(f'mandatory_properties: {cls.mandatory_properties}')
-            print(f'recommended_properties: {cls.recommended_properties}')
-            print(f'optional_properties: {cls.optional_properties}')
-            raise ValueError(f"Property {property} is not defined in class {cls.__name__}")
+            print(f"mandatory_properties: {cls.mandatory_properties}")
+            print(f"recommended_properties: {cls.recommended_properties}")
+            print(f"optional_properties: {cls.optional_properties}")
+            raise ValueError(
+                f"Property {property} is not defined in class {cls.__name__}"
+            )
 
     @abstractmethod
     def get_schema(
@@ -301,6 +305,11 @@ class RangeValueConverter(ABC):
             }
         else:
             return deepcopy(translated_field_properties)
+
+    @staticmethod
+    def get_validators(validators: List[str]):
+        validators.insert(0, "scheming_required")
+        return " ".join(validators)
 
     @staticmethod
     def country_filter(country: URIRef, graph: Graph):

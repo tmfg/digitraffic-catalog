@@ -3,7 +3,8 @@ from typing import Dict
 from rdflib import DCTERMS, Dataset, URIRef
 
 from ckan_schema.mobility_dcat_ap_converter.range_value_converter import (
-    RangeValueConverter, Necessity,
+    RangeValueConverter,
+    Necessity,
 )
 from mobility_dcat_ap.dataset import (
     CVOCAB_EUV_FREQUENCY,
@@ -44,7 +45,7 @@ class Frequency(RangeValueConverter):
             "sorted_choices": True,
             "form_include_blank_choice": True,
             "choices": RangeValueConverter.vocab_choices(graph=g, iri=self.iri),
-            "validators": "frequency_validator",
+            "validators": super().get_validators(["frequency_validator"]),
         }
 
     def is_property_required(self, property: RDFSProperty) -> bool:

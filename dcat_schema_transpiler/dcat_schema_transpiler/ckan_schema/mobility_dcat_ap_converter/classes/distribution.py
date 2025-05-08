@@ -103,7 +103,9 @@ class Distribution(RangeValueConverter):
                     "choices": super().choices_from_cached_csv(
                         CNT_CHARACTERENCODING_SETS, "Preferred MIME Name", "Name"
                     ),
-                    "validators": "character_encoding_validator ignore_missing",
+                    "validators": super().get_validators(
+                        ["character_encoding_validator"]
+                    ),
                 }
             elif (
                 clazz_p.is_iri(DCTERMS.description)
@@ -164,7 +166,9 @@ class Distribution(RangeValueConverter):
                     "sorted_choices": True,
                     "form_include_blank_choice": True,
                     "choices": RangeValueConverter.vocab_choices(graph=g, iri=p.iri),
-                    "validators": "communication_method_validator ignore_missing",
+                    "validators": super().get_validators(
+                        ["communication_method_validator"]
+                    ),
                 }
             case MOBILITYDCATAP.applicationLayerProtocol:
                 g = ds.get_graph(URIRef(CVOCAB_APPLICATION_LAYER_PROTOCOL))
@@ -176,7 +180,9 @@ class Distribution(RangeValueConverter):
                     "sorted_choices": True,
                     "form_include_blank_choice": True,
                     "choices": RangeValueConverter.vocab_choices(graph=g, iri=p.iri),
-                    "validators": "application_layer_protocol_validator ignore_missing",
+                    "validators": super().get_validators(
+                        ["application_layer_protocol_validator"]
+                    ),
                 }
             case MOBILITYDCATAP.grammar:
                 g = ds.get_graph(URIRef(CVOCAB_GRAMMAR))
@@ -188,7 +194,7 @@ class Distribution(RangeValueConverter):
                     "sorted_choices": True,
                     "form_include_blank_choice": True,
                     "choices": RangeValueConverter.vocab_choices(graph=g, iri=p.iri),
-                    "validators": "data_grammar_validator ignore_missing",
+                    "validators": super().get_validators(["data_grammar_validator"]),
                 }
             case MOBILITYDCATAP.mobilityDataStandard:
                 g = ds.get_graph(URIRef(CVOCAB_MOBILITY_DATA_STANDARD))
@@ -200,7 +206,9 @@ class Distribution(RangeValueConverter):
                     "sorted_choices": True,
                     "form_include_blank_choice": True,
                     "choices": RangeValueConverter.vocab_choices(graph=g, iri=p.iri),
-                    "validators": "mobility_data_standard_validator ignore_missing",
+                    "validators": super().get_validators(
+                        ["mobility_data_standard_validator"]
+                    ),
                 }
             case MOBILITYDCATAP.communicationMethod:
                 g = ds.get_graph(URIRef(CVOCAB_COMMUNICATION_METHOD))
@@ -212,7 +220,9 @@ class Distribution(RangeValueConverter):
                     "sorted_choices": True,
                     "form_include_blank_choice": True,
                     "choices": RangeValueConverter.vocab_choices(graph=g, iri=p.iri),
-                    "validators": "communication_method_validator ignore_missing",
+                    "validators": super().get_validators(
+                        ["communication_method_validator"]
+                    ),
                 }
 
     def is_property_required(self, property: RDFSProperty) -> bool:
