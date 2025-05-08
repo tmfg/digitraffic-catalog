@@ -18,6 +18,8 @@ ckan config-tool $CKAN_INI "ckan.locale_default=fi"
 ckan config-tool $CKAN_INI "ckan.locales_offered=fi en sv"
 
 # Format logging
+ckan config-tool "${CKAN_INI}" -s loggers "keys = root, ckan, ckanext, werkzeug, otel"
+
 ckan config-tool "${CKAN_INI}" -s formatter_generic 'format = {"asctime": ${asctime}, "name": ${name}, "levelname": ${levelname}, "message": ${message}, "span_id": ${otelSpanID}, "trace_id": ${otelTraceID}, "otel_service_name": ${otelServiceName}, "otel_trace_sampled": ${otelTraceSampled}}'
 ckan config-tool "${CKAN_INI}" -s formatter_generic "style = $"
 ckan config-tool "${CKAN_INI}" -s formatter_generic "class = catalog_log_config.CustomFormatter"
@@ -29,6 +31,11 @@ ckan config-tool "${CKAN_INI}" -s logger_root "handlers = console"
 ckan config-tool "${CKAN_INI}" -s logger_ckan "handlers = console"
 ckan config-tool "${CKAN_INI}" -s logger_ckanext "handlers = console"
 ckan config-tool "${CKAN_INI}" -s logger_werkzeug "handlers = console"
+
+ckan config-tool "${CKAN_INI}" -s logger_otel "propagate = 0"
+ckan config-tool "${CKAN_INI}" -s logger_otel "level = INFO"
+ckan config-tool "${CKAN_INI}" -s logger_otel "qualname = otel"
+ckan config-tool "${CKAN_INI}" -s logger_otel "handlers = console"
 
 # Run the prerun script to init CKAN
 python3 prerun.py
