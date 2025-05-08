@@ -13,6 +13,16 @@ log = logging.getLogger(__name__)
 
 
 @toolkit.chained_action
+def package_update(
+    original_action: Callable, context: Context, data_dict: DataDict
+) -> ActionResult.PackageUpdate:
+    # prevent user from updating 'name' of package
+    if "name" in data_dict:
+        del data_dict["name"]
+    return original_action(context, data_dict)
+
+
+@toolkit.chained_action
 def package_create(
     original_action: Callable, context: Context, data_dict: DataDict
 ) -> ActionResult.PackageCreate:

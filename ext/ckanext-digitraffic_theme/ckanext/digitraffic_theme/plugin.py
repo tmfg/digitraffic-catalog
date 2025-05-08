@@ -115,6 +115,7 @@ class DigitrafficThemePlugin(plugins.SingletonPlugin, DefaultTranslation):
             "user_show": dui_actions.user_show,
             "user_update": dui_actions.user_update,
             "package_create": package_actions.package_create,
+            "package_update": package_actions.package_update,
         }
 
     def get_auth_functions(self):
