@@ -59,7 +59,7 @@ class VCARDAddress(RangeValueConverter):
                 "choices": RangeValueConverter.vocab_choices(
                     g_countries, RangeValueConverter.country_filter
                 ),
-                "validators": "country_validator ignore_missing",
+                "validators": super().get_validators(["country_validator"]),
             }
         else:
             schema = super().get_schema(ds, clazz_p, False)
