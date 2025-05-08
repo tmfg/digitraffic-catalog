@@ -6,8 +6,7 @@ import ckan.model as model
 import ckan.lib.plugins as lib_plugins
 import ckan.logic as logic
 import logging
-from ckan.plugins import PluginImplementations, get_plugin
-from ckanext.scheming.plugins import SchemingDatasetsPlugin
+from ckan.plugins import get_plugin
 
 
 log = logging.getLogger(__name__)
@@ -26,15 +25,20 @@ def package_create(
     When the dataset creation form is submitted with corrected data after receiving validation errors,
     _and id or name exists_, package_update will be called instead of package_create.
     In this case, the corresponding package will not be found since it will not have been saved
-    in the database yet. This will make it impossible to submit the dataset after
-    validation errors.
+    in the database yet. This makes it impossible to submit the dataset after
+    validation errors, so we validate here first.
     """
     package_plugin = lib_plugins.lookup_package_plugin()
     scheming = get_plugin("scheming_datasets")
     schema: Schema = context.get("schema") or package_plugin.create_package_schema()
+
+    # Both 'name' and 'id' use the same uuid. 'id' is assigned after validation - new packages should not have an id at this stage.
+    package_name = uuid.uuid4()
+    data_dict["name"] = str(package_name)
+
     data, errors = scheming.validate(context, data_dict, schema, "package_create")
 
-    # this is copy-paste from the default package_create
+    # This is copy-pasted from the default package_create so logging is consistent.
     log.debug(
         "package_create validate_errs=%r user=%s package=%s data=%r",
         errors,
@@ -47,8 +51,7 @@ def package_create(
         model.Session.rollback()
         raise logic.ValidationError(errors)
 
-    package_id = uuid.uuid4()
-    data_dict["id"] = str(package_id)
-    # the name/url of a dataset has been specified to follow the format {package_id}-{title in English}
-    data_dict["name"] = f"{package_id}-{data_dict['title_translated-en']}"
+    # Both 'name' and 'id' use the same uuid.
+    data_dict["id"] = str(package_name)
+
     return original_action(context, data_dict)

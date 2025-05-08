@@ -33,12 +33,6 @@ dataset_fields:
       sv: Titel på svenska
   required_languages:
   - en
-- field_name: name
-  label: URL
-  preset: dataset_slug
-  form_placeholder: eg. my-dataset
-  necessity: mandatory
-  required: true
 - field_name: notes_translated
   label:
     en: Description
