@@ -37,6 +37,10 @@ ckan config-tool "${CKAN_INI}" -s logger_otel "level = INFO"
 ckan config-tool "${CKAN_INI}" -s logger_otel "qualname = otel"
 ckan config-tool "${CKAN_INI}" -s logger_otel "handlers = console"
 
+# Configure OpenTelemetry plugin
+ckan config-tool "${CKAN_INI}" "digitraffic_opentelemetry.baggage_keys = w3c.trace_id aws.cf.id user.id"
+ckan config-tool "${CKAN_INI}" "digitraffic_opentelemetry.otel_logger_name = otel"
+
 # Run the prerun script to init CKAN
 python3 prerun.py
 
