@@ -16,7 +16,7 @@ log = logging.getLogger(__name__)
 def package_update(
     original_action: Callable, context: Context, data_dict: DataDict
 ) -> ActionResult.PackageUpdate:
-    # prevent user from updating 'name' of package
+    # prevent user from updating 'name' (in practice the url) of package
     if "name" in data_dict:
         del data_dict["name"]
     return original_action(context, data_dict)
@@ -43,8 +43,8 @@ def package_create(
     schema: Schema = context.get("schema") or package_plugin.create_package_schema()
 
     # Both 'name' and 'id' use the same uuid. 'id' is assigned after validation - new packages should not have an id at this stage.
-    package_name = uuid.uuid4()
-    data_dict["name"] = str(package_name)
+    package_name_and_id = str(uuid.uuid4())
+    data_dict["name"] = package_name_and_id
 
     data, errors = scheming.validate(context, data_dict, schema, "package_create")
 
@@ -62,6 +62,6 @@ def package_create(
         raise logic.ValidationError(errors)
 
     # Both 'name' and 'id' use the same uuid.
-    data_dict["id"] = str(package_name)
+    data_dict["id"] = package_name_and_id
 
     return original_action(context, data_dict)
