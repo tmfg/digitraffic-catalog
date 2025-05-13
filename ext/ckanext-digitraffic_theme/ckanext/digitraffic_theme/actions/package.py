@@ -37,12 +37,14 @@ def package_create(
     original_action: Callable, context: Context, data_dict: DataDict
 ) -> ActionResult.PackageCreate:
     """
-    We need to first validate the dataset using the validation function
-    of the scheming extension.
+    This overrides the default package_create action to generate an UUID and use it as the value
+    of both 'id' and 'name' (in practice the URL identifier of the dataset).
+    First we validate the dataset using the validation function of the extension ckanext-scheming.
+    If validation passes, assign id and call original package_create.
 
     Since we create the id and name ourselves, passing them on to the original action along
-    with an invalid data_dict will lead to issues.
-    When the dataset creation form is submitted with corrected data after receiving validation errors,
+    with an invalid data_dict will lead to issues. That is why validation is required also here.
+    If the dataset creation form is submitted with corrected data after receiving validation errors,
     _and id or name exists_, package_update will be called instead of package_create.
     In this case, the corresponding package will not be found since it will not have been saved
     in the database yet. This makes it impossible to submit the dataset after
@@ -55,6 +57,19 @@ def package_create(
     # Both 'name' and 'id' use the same uuid. 'id' is assigned after validation - new packages should not have an id at this stage.
     package_id = str(uuid.uuid4())
     data_dict["name"] = package_id
+
+    # This block is copied from the default action. 'type' should be set before validation.
+    if "type" not in data_dict:
+        try:
+            # use first type as default if user didn't provide type
+            package_type = package_plugin.package_types()[0]
+        except (AttributeError, IndexError):
+            package_type = "dataset"
+            # in case a 'dataset' plugin was registered w/o fallback
+            package_plugin = lib_plugins.lookup_package_plugin(package_type)
+        data_dict["type"] = package_type
+    else:
+        package_plugin = lib_plugins.lookup_package_plugin(data_dict["type"])
 
     data, errors = scheming.validate(context, data_dict, schema, "package_create")
 
