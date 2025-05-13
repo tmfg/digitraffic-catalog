@@ -7,6 +7,9 @@ class SpanEventHandler(logging.Handler):
     """
     def emit(self, record: logging.LogRecord) -> None:
         span = trace.get_current_span()
+        if record.exc_info:
+            span.set_status(trace.status.Status(trace.status.StatusCode.ERROR))
+            span.record_exception(record.exc_info[1])
         if span.is_recording():
             span.add_event(
                 name=record.getMessage(),
