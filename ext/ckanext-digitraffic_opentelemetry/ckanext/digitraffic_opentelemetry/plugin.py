@@ -16,6 +16,7 @@ from ckanext.digitraffic_opentelemetry.log import configure as configure_logs, L
 from ckanext.digitraffic_opentelemetry.instrumentation import instrument_all
 
 import logging
+import sys
 
 logger = logging.getLogger(__name__)
 otel_logger = logging.getLogger("otel")
@@ -49,6 +50,8 @@ class DigitrafficOpentelemetryPlugin(plugins.SingletonPlugin):
         configure_logs(resource, log_config)
         instrument_all(app, engine)
 
+        sys.excepthook = handle_all_uncaught_exceptions
+
         return app
 
     def make_error_log_middleware(self, app, config):
@@ -74,3 +77,8 @@ class DigitrafficOpentelemetryPlugin(plugins.SingletonPlugin):
         declaration.declare(key.digitraffic_opentelemetry.otel_logger_name, default="root")
 
 
+def handle_all_uncaught_exceptions(type, value, traceback):
+    """
+    This function is called when an uncaught exception is raised.
+    """
+    logger.critical("Software crashed!", exc_info=(type, value, traceback))
