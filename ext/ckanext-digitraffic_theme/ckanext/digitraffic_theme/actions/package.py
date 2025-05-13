@@ -23,6 +23,16 @@ def package_update(
 
 
 @toolkit.chained_action
+def package_patch(
+    original_action: Callable, context: Context, data_dict: DataDict
+) -> ActionResult.PackagePatch:
+    # prevent user from updating 'name' (in practice the url) of package
+    if "name" in data_dict:
+        del data_dict["name"]
+    return original_action(context, data_dict)
+
+
+@toolkit.chained_action
 def package_create(
     original_action: Callable, context: Context, data_dict: DataDict
 ) -> ActionResult.PackageCreate:
@@ -43,8 +53,8 @@ def package_create(
     schema: Schema = context.get("schema") or package_plugin.create_package_schema()
 
     # Both 'name' and 'id' use the same uuid. 'id' is assigned after validation - new packages should not have an id at this stage.
-    package_name_and_id = str(uuid.uuid4())
-    data_dict["name"] = package_name_and_id
+    package_id = str(uuid.uuid4())
+    data_dict["name"] = package_id
 
     data, errors = scheming.validate(context, data_dict, schema, "package_create")
 
@@ -62,6 +72,6 @@ def package_create(
         raise logic.ValidationError(errors)
 
     # Both 'name' and 'id' use the same uuid.
-    data_dict["id"] = package_name_and_id
+    data_dict["id"] = package_id
 
     return original_action(context, data_dict)
