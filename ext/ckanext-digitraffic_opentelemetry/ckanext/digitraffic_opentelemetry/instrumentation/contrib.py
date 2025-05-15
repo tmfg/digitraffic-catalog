@@ -3,7 +3,7 @@ This module contains functions to instrument various libraries and frameworks wi
 """
 import ckan.plugins.toolkit as toolkit
 from sqlalchemy.engine import Engine
-from flask import Flask
+from flask import Flask, request
 
 from opentelemetry import trace, context, baggage
 from opentelemetry.sdk.trace import Span
