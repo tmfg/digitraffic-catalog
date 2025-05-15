@@ -19,9 +19,6 @@ logger.setLevel(logging.DEBUG)
 
 toolkit = plugins.toolkit
 
-# for registering custom routes in the application
-custom_blueprint = Blueprint("custom", __name__, template_folder="templates")
-
 
 class EntraIdAuthenticator(plugins.SingletonPlugin):
     """
@@ -44,6 +41,8 @@ class EntraIdAuthenticator(plugins.SingletonPlugin):
         logger.info(f"Redirect URI: {app_config.HOST}{app_config.REDIRECT_PATH}")
 
     def get_blueprint(self):
+        # for registering custom routes in the application
+        custom_blueprint = Blueprint("custom", __name__, template_folder="templates")
         # add route to application for handling Entra ID auth redirects
         custom_blueprint.add_url_rule(
             app_config.REDIRECT_PATH,
