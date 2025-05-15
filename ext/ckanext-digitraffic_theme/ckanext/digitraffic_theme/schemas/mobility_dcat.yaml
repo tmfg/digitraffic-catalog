@@ -33,12 +33,6 @@ dataset_fields:
       sv: Titel på svenska
   required_languages:
   - en
-- field_name: name
-  label: URL
-  preset: dataset_slug
-  form_placeholder: eg. my-dataset
-  necessity: mandatory
-  required: true
 - field_name: notes_translated
   label:
     en: Description
@@ -271,7 +265,7 @@ dataset_fields:
       en: weekly
       fi: viikoittainen
       sv: veckovis
-  validators: frequency_validator
+  validators: scheming_required frequency_validator
 - field_name: mobility_theme
   label:
     en: Data content category
@@ -280,7 +274,7 @@ dataset_fields:
   preset: select
   sorted_choices: true
   form_include_blank_choice: true
-  validators: mobility_theme_validator
+  validators: scheming_required mobility_theme_validator
   choices:
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/air-and-space-travel
     label:
@@ -978,7 +972,7 @@ dataset_fields:
       en: Transport
       fi: Liikenne
       sv: Transport
-  validators: theme_validator ignore_missing
+  validators: scheming_required theme_validator
   necessity: recommended
 - field_name: start_timestamp
   necessity: recommended
@@ -1129,7 +1123,7 @@ dataset_fields:
       en: Truck
       fi: Kuorma-auto
       sv: Truck
-  validators: transport_mode_validator ignore_missing
+  validators: scheming_required transport_mode_validator
   necessity: recommended
 - field_name: spatial
   label:
@@ -2839,7 +2833,7 @@ dataset_fields:
       en: Äänekoski
       fi: Äänekoski
       sv: Äänekoski
-  validators: location_validator ignore_missing
+  validators: scheming_required location_validator
   necessity: mandatory
 - field_name: version
   label:
@@ -2956,7 +2950,7 @@ dataset_fields:
       en: Swedish
       fi: ruotsi
       sv: svenska
-  validators: language_validator ignore_missing
+  validators: scheming_required language_validator
 - field_name: georeferencing_method
   label:
     en: Georeferencing method
@@ -3001,7 +2995,7 @@ dataset_fields:
       en: TPEG-LOC
       fi: TPEG-LOC
       sv: TPEG-LOC
-  validators: georeferencing_method_validator ignore_missing
+  validators: scheming_required georeferencing_method_validator
   necessity: recommended
 - field_name: contact_point
   label:
@@ -3219,7 +3213,7 @@ dataset_fields:
         en: Sweden
         fi: Ruotsi
         sv: Sverige
-    validators: country_validator ignore_missing
+    validators: scheming_required country_validator
     necessity: optional
 - field_name: network_coverage
   label:
@@ -3293,7 +3287,7 @@ dataset_fields:
       en: Waterways
       fi: Vesiväylät
       sv: Waterways
-  validators: network_coverage_validator ignore_missing
+  validators: scheming_required network_coverage_validator
   necessity: recommended
 - field_name: conforms_to
   label:
@@ -3308,7 +3302,7 @@ dataset_fields:
   form_attrs:
     min: '2000'
     max: '69036405'
-  validators: scheming_required remove_whitespace ignore_missing spatial_reference_validator
+  validators: scheming_required remove_whitespace spatial_reference_validator
   necessity: recommended
 - field_name: intended_information_service
   label:
@@ -3367,7 +3361,7 @@ dataset_fields:
       en: Trip plans, auxiliary information, availability check
       fi: Reittisuunnitelmat, lisätiedot, saatavuuden tarkistus
       sv: Trip plans, auxiliary information, availability check
-  validators: intended_information_service_validator ignore_missing
+  validators: scheming_required intended_information_service_validator
   necessity: optional
 - field_name: quality_description
   necessity: optional
@@ -3414,7 +3408,7 @@ dataset_fields:
   required: false
   preset: dataset_reference_select
   choices: ''
-  validators: scheming_required ignore_missing dataset_reference_validator
+  validators: scheming_required dataset_reference_validator
   necessity: optional
 - field_name: is_referenced_by
   label:
@@ -3422,7 +3416,7 @@ dataset_fields:
     fi: Viittaukset muista aineistoista
   form_snippet: null
   required: false
-  validators: is_referenced_by_validator
+  validators: scheming_required is_referenced_by_validator
   necessity: optional
 - field_name: rights_holder
   label:
@@ -3704,7 +3698,7 @@ dataset_fields:
         en: Sweden
         fi: Ruotsi
         sv: Sverige
-    validators: country_validator ignore_missing
+    validators: scheming_required country_validator
     necessity: recommended
   - field_name: workplace_homepage
     required: false
@@ -5228,7 +5222,7 @@ resource_fields:
       en: gRPC
       fi: gRPC
       sv: gRPC
-  validators: application_layer_protocol_validator ignore_missing
+  validators: scheming_required application_layer_protocol_validator
   necessity: recommended
 - field_name: data_grammar
   label:
@@ -5267,7 +5261,7 @@ resource_fields:
       en: XSD
       fi: XSD
       sv: XSD
-  validators: data_grammar_validator ignore_missing
+  validators: scheming_required data_grammar_validator
   necessity: optional
 - field_name: data_format_notes_translated
   label:
@@ -5819,7 +5813,7 @@ resource_fields:
     label: windows-1258
   - value: windows-874
     label: windows-874
-  validators: character_encoding_validator ignore_missing
+  validators: scheming_required character_encoding_validator
 - field_name: communication_method
   label:
     en: Communication method
@@ -5839,7 +5833,7 @@ resource_fields:
       en: Push
       fi: Push
       sv: Push
-  validators: communication_method_validator ignore_missing
+  validators: scheming_required communication_method_validator
   necessity: optional
 - field_name: sample
   label:
@@ -5932,7 +5926,7 @@ resource_fields:
       en: tpegML
       fi: tpegML
       sv: tpegML
-  validators: mobility_data_standard_validator ignore_missing
+  validators: scheming_required mobility_data_standard_validator
   necessity: mandatory
 - field_name: rights_type
   label:
@@ -5993,7 +5987,7 @@ resource_fields:
       en: Royalty-free
       fi: Ei tekijänpalkkiota
       sv: Royalty-free
-  validators: rights_type_validator
+  validators: scheming_required rights_type_validator
   necessity: mandatory
 - field_name: license_id
   label:
@@ -6652,7 +6646,7 @@ resource_fields:
       en: eCos License version 2.0
       fi: eCos License version 2.0
       sv: eCos License version 2.0
-  validators: standard_license_validator ignore_missing
+  validators: scheming_required standard_license_validator
   necessity: mandatory
 - field_name: license_text
   label:

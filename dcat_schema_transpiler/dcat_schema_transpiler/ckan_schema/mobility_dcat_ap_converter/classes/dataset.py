@@ -175,7 +175,12 @@ class DCATDataset(RangeValueConverter):
                 "preset": "iri_fragment",
                 "input_type": "number",
                 "form_attrs": {"min": "2000", "max": "69036405"},
-                "validators": "scheming_required remove_whitespace ignore_missing spatial_reference_validator",
+                "validators": super().get_validators(
+                    [
+                        "remove_whitespace",
+                        "spatial_reference_validator",
+                    ]
+                ),
             }
         elif clazz_p.is_iri(DCTERMS.relation):
             schema = {
@@ -184,7 +189,11 @@ class DCATDataset(RangeValueConverter):
                 "required": is_required,
                 "preset": "dataset_reference_select",
                 "choices": "",
-                "validators": "scheming_required ignore_missing dataset_reference_validator",
+                "validators": super().get_validators(
+                    [
+                        "dataset_reference_validator",
+                    ]
+                ),
             }
         elif clazz_p.is_iri(DCTERMS.isReferencedBy):
             schema = {
@@ -192,7 +201,7 @@ class DCATDataset(RangeValueConverter):
                 **super().get_property_label_with_help_text(clazz_p.iri),
                 "form_snippet": None,
                 "required": False,
-                "validators": "is_referenced_by_validator",
+                "validators": super().get_validators(["is_referenced_by_validator"]),
             }
         else:
             schema = super().get_schema(ds, clazz_p, is_required)
@@ -220,7 +229,9 @@ class DCATDataset(RangeValueConverter):
                         "preset": "select",
                         "sorted_choices": True,
                         "form_include_blank_choice": True,
-                        "validators": "mobility_theme_validator",
+                        "validators": super().get_validators(
+                            ["mobility_theme_validator"]
+                        ),
                         "choices": RangeValueConverter.vocab_choices(
                             graph=g,
                             filter=lambda s: (
@@ -241,7 +252,12 @@ class DCATDataset(RangeValueConverter):
                         "preset": "select_mobility_sub_theme",
                         "sorted_choices": True,
                         "form_include_blank_choice": True,
-                        "validators": "scheming_required scheming_choices mobility_theme_sub_validator",
+                        "validators": super().get_validators(
+                            [
+                                "scheming_choices",
+                                "mobility_theme_sub_validator",
+                            ]
+                        ),
                         "choices": RangeValueConverter.vocab_choices(
                             graph=g,
                             filter=lambda s: (
@@ -315,7 +331,7 @@ class DCATDataset(RangeValueConverter):
                     "choices": RangeValueConverter.vocab_choices(
                         g_nuts + g_lau, is_finnish_place
                     ),
-                    "validators": "location_validator ignore_missing",
+                    "validators": super().get_validators(["location_validator"]),
                 }
             case MOBILITYDCATAP.georeferencingMethod:
                 g = ds.get_graph(URIRef(CVOCAB_GEOREFERENCING_METHOD))
@@ -327,7 +343,9 @@ class DCATDataset(RangeValueConverter):
                     "sorted_choices": True,
                     "form_include_blank_choice": True,
                     "choices": RangeValueConverter.vocab_choices(graph=g, iri=p.iri),
-                    "validators": "georeferencing_method_validator ignore_missing",
+                    "validators": super().get_validators(
+                        ["georeferencing_method_validator"]
+                    ),
                 }
             case MOBILITYDCATAP.networkCoverage:
                 g = ds.get_graph(URIRef(CVOCAB_NETWORK_COVERAGE))
@@ -339,7 +357,9 @@ class DCATDataset(RangeValueConverter):
                     "sorted_choices": True,
                     "form_include_blank_choice": True,
                     "choices": RangeValueConverter.vocab_choices(graph=g, iri=p.iri),
-                    "validators": "network_coverage_validator ignore_missing",
+                    "validators": super().get_validators(
+                        ["network_coverage_validator"]
+                    ),
                 }
             case DCAT.theme:
                 g = ds.get_graph(URIRef(CVOCAB_THEME))
@@ -351,7 +371,7 @@ class DCATDataset(RangeValueConverter):
                     "sorted_choices": True,
                     "form_include_blank_choice": True,
                     "choices": RangeValueConverter.vocab_choices(graph=g, iri=p.iri),
-                    "validators": "theme_validator ignore_missing",
+                    "validators": super().get_validators(["theme_validator"]),
                 }
             case MOBILITYDCATAP.transportMode:
                 g = ds.get_graph(URIRef(CVOCAB_TRANSPORT_MODE))
@@ -363,7 +383,7 @@ class DCATDataset(RangeValueConverter):
                     "sorted_choices": True,
                     "form_include_blank_choice": True,
                     "choices": RangeValueConverter.vocab_choices(graph=g, iri=p.iri),
-                    "validators": "transport_mode_validator ignore_missing",
+                    "validators": super().get_validators(["transport_mode_validator"]),
                 }
             case MOBILITYDCATAP.intendedInformationService:
                 g = ds.get_graph(URIRef(CVOCAB_INTENDED_INFORMATION_SERVICE))
@@ -375,7 +395,9 @@ class DCATDataset(RangeValueConverter):
                     "sorted_choices": True,
                     "form_include_blank_choice": True,
                     "choices": RangeValueConverter.vocab_choices(graph=g, iri=p.iri),
-                    "validators": "intended_information_service_validator ignore_missing",
+                    "validators": super().get_validators(
+                        ["intended_information_service_validator"]
+                    ),
                 }
 
     def post_process_schema(self, schema: List[Dict]):

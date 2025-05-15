@@ -112,7 +112,8 @@ class TestProfile:
             MobilityThemeSub(dataset_mobility_theme_sub).iri,
         ) in g
         assert (dataset_ref, DCTERMS.spatial, Location(dataset_spatial).iri) in g
-        assert str(g.value(dataset_ref, DCTERMS.title, None)) == dataset_name
+        assert str(g.value(dataset_ref, DCTERMS.title, None)) != dataset_name
+        assert dataset["id"] == dataset["name"]
         publisher_ref = g.value(dataset_ref, DCTERMS.publisher, None)
         assert owner_org["display_name"] in [
             str(name) for name in list(g.objects(publisher_ref, FOAF.name))
