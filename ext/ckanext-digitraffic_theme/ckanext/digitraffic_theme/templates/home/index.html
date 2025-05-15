@@ -1,0 +1,56 @@
+{% extends "page.html" %}
+
+
+
+{% block content %}
+<div class="custom-homepage">
+    <section class="frontpage-hero">
+        <div class="hero-content">
+            <h1>Datalle näkyvyyttä ja käyttäjiä</h1>
+            <p>Liikennedatakatalogi on liikennetiedon avoin kansallinen yhteyspiste (National Access Point, NAP), johon tiedon tuottajat toimittavat tietoja tarjoamastaan liikennedatasta ja rajapinnoista. Liikennedatan hyödyntäjille katalogi tarjoaa näkymän tarjolla oleviin datalähteisiin ja niiden tuottajiin, käyttötapoihin ja ehtoihin.</p>
+            <div class="hero-buttons">
+                <a href="/user/register" class="btn btn-primary">Rekisteröidy</a>
+                <a href="/user/login" class="btn btn-secondary">Kirjaudu sisään</a>
+            </div>
+        </div>
+        <div class="hero-image">
+            <img src="/images/hero_image.jpg" alt="Hero Image">
+        </div>
+    </section>
+
+    <section class="steps">
+        <h2>Miten pääsen syöttämään tietoaineistoni katalogiin?</h2>
+        <div class="step-cards">
+            <div class="step-card">01<br>Luo käyttäjä/organisaatio</div>
+            <div class="step-card">02<br>Luo tietoaineisto</div>
+            <div class="step-card">03<br>Lisää resurssi(t)</div>
+            <div class="step-card">04<br>Julkaise tietoaineisto</div>
+        </div>
+    </section>
+
+    <section class="search">
+        <h2>Etsi tietoaineistoja</h2>
+        <input type="text" placeholder="Kirjoita esim. raideliikenne">
+    </section>
+
+    <section class="organizations">
+        <h2>Organisaatiot joilla on tietoaineistoja katalogissa</h2>
+        <div class="organization-tags">
+            <span>Tampereen kaupunki (52)</span>
+            <span>Helsingin kaupunki (34)</span>
+            <span>HSL (13)</span>
+        </div>
+    </section>
+
+    <section class="progress">
+        <h2>Kehityspolku</h2>
+        <div class="progress-steps">
+            <div class="progress-step">1<br>Otsikko</div>
+            <div class="progress-step">2<br>Otsikko</div>
+            <div class="progress-step">3<br>Otsikko</div>
+            <div class="progress-step">4<br>Otsikko</div>
+            <div class="progress-step">5<br>Otsikko</div>
+        </div>
+    </section>
+</div>
+{% endblock %}

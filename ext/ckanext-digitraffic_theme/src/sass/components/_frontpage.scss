@@ -1,0 +1,147 @@
+/* Hero Section */
+.frontpage-hero {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    background-color: rgb(30, 35, 61);
+    color: white;
+}
+
+.hero-content {
+    max-width: 50%;
+    padding: 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.hero-content h1 {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 40px;
+}
+
+.hero-content p {
+    font-size: 1.2rem;
+    line-height: 1.5;
+    margin-bottom: 30px;
+}
+
+.hero-buttons .btn {
+    padding: 15px;
+    margin-right: 15px;
+    text-decoration: none;
+    color: white;
+    background-color: rgb(30, 35, 61);
+    border: none;
+    font-size: 1rem;
+    box-shadow: none;
+}
+
+.hero-buttons .btn:hover {
+    background-color: white;
+    color: black
+}
+
+.hero-image img {
+    width: 100%;
+    /* Ensure the image fills the width */
+    height: 100%;
+    /* Ensure the image fills the height */
+    object-fit: cover;
+    /* Maintain aspect ratio while covering the area */
+    border-radius: 0px;
+    /* Optional: Add rounded corners */
+}
+
+.hero-image {
+    flex: 1;
+    /* Take up all available space on the right */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Steps Section */
+.steps {
+    text-align: center;
+    padding: 50px;
+    background-color: #f8f9fa;
+}
+
+.steps h2 {
+    margin-bottom: 30px;
+}
+
+.step-cards {
+    display: flex;
+    justify-content: space-around;
+}
+
+.step-card {
+    background-color: #007bff;
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 20%;
+    text-align: center;
+    font-size: 1.2rem;
+}
+
+/* Search Section */
+.search {
+    text-align: center;
+    padding: 50px;
+    background-color: #1a1a2e;
+    color: white;
+}
+
+.search input {
+    padding: 10px;
+    width: 50%;
+    border-radius: 5px;
+    border: none;
+}
+
+/* Organizations Section */
+.organizations {
+    text-align: center;
+    padding: 50px;
+    background-color: #f8f9fa;
+}
+
+.organization-tags span {
+    display: inline-block;
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    margin: 5px;
+    border-radius: 20px;
+}
+
+/* Progress Section */
+.progress {
+    text-align: center;
+    padding: 50px;
+    background-color: #1a1a2e;
+    color: white;
+}
+
+.progress-steps {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.progress-step {
+    background-color: #007bff;
+    color: white;
+    padding: 20px;
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1rem;
+}
