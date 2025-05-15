@@ -7,6 +7,7 @@ from .contrib import (
     add_sqlalchemy_instrumentation,
     add_redis_instrumentation,
 )
+from .ckan_instrumentation import instrument as ckan_instrument
 
 
 def instrument_all(app: Flask, engine: Engine):
@@ -15,3 +16,4 @@ def instrument_all(app: Flask, engine: Engine):
     add_request_instrumentation()
     add_sqlalchemy_instrumentation(engine)
     add_redis_instrumentation()
+    ckan_instrument()

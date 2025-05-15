@@ -75,6 +75,8 @@ class DigitrafficOpentelemetryPlugin(plugins.SingletonPlugin):
         declaration.declare_list(key.digitraffic_opentelemetry.loggers_to_set_events, default=[])
         declaration.declare_list(key.digitraffic_opentelemetry.baggage_keys, default=[])
         declaration.declare(key.digitraffic_opentelemetry.otel_logger_name, default="root")
+        declaration.declare_bool(key.digitraffic_opentelemetry.enter_pdb_on_error, default=False)
+        declaration.declare_bool(key.digitraffic_opentelemetry.instrument_ckan_alpha, default=False)
 
 
 def handle_all_uncaught_exceptions(type, value, traceback):
