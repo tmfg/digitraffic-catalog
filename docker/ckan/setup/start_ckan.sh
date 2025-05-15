@@ -55,26 +55,12 @@ then
     done
 fi
 
-# Set the common uwsgi options
-UWSGI_OPTS="--plugins http,python \
-            --socket /tmp/uwsgi.sock \
-            --wsgi-file /srv/app/wsgi.py \
-            --pythonpath /srv/app \
-            --module wsgi:application \
-            --uid 92 --gid 92 \
-            --http 0.0.0.0:5000 \
-            --master --enable-threads \
-            --lazy-apps \
-            --processes 2 \
-            -b 32768 --vacuum \
-            --harakiri $UWSGI_HARAKIRI"
-
 if [ $? -eq 0 ]
 then
     # Start supervisord
     supervisord --configuration /etc/supervisord.d/supervisord.conf &
     # Start uwsgi
-    ./uwsgi $UWSGI_OPTS
+    ./uwsgi --ini uwsgi.ini
 else
   echo "[prerun] failed...not starting CKAN."
 fi

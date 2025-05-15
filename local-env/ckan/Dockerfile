@@ -6,3 +6,4 @@ COPY ./dev-setup.sh /docker-entrypoint.d/dev-setup.sh
 COPY ./run-migrations.sh /docker-entrypoint.d/run-migrations.sh
 COPY ./test-users.sh /docker-entrypoint.d/test-users.sh
 COPY ./ci.sh /docker-entrypoint.d/ci.sh
+COPY uwsgi_dev.ini ${APP_DIR}/uwsgi.ini
