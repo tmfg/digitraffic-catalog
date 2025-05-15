@@ -314,14 +314,6 @@ def dataset_fields(ds: Dataset) -> List:
             "necessity": Necessity.MANDATORY.value,
             "required": True,
         },
-        {
-            "field_name": "name",
-            "label": "URL",
-            "preset": "dataset_slug",
-            "form_placeholder": "eg. my-dataset",
-            "necessity": Necessity.MANDATORY.value,
-            "required": True,
-        },
     ]
 
     dataset_fields = dataset_fields_required_by_ckan + dataset_fields_schema_map

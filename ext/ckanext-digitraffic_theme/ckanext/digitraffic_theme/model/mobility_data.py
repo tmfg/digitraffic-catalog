@@ -417,7 +417,12 @@ class MobilityData:
                 "accrualPeriodicity": Frequency(dataset_dict["frequency"]),
                 "mobility_theme": MobilityTheme(dataset_dict["mobility_theme"]),
                 "spatial": Location(dataset_dict["spatial"]),
-                "title": Literal(dataset_dict["name"]),
+                "title": [
+                    Literal(
+                        dataset_dict.get("title_translated", {}).get(key, ""), lang=key
+                    )
+                    for key in (dataset_dict.get("title_translated") or {}).keys()
+                ],
                 "publisher": create_agent(
                     organization_ref,
                     {"organization_name": dataset_dict["organization"]["name"]},
