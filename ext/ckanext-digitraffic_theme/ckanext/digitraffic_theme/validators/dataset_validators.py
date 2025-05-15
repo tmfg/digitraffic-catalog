@@ -1,6 +1,6 @@
 import json
 import logging
-from typing import Any
+from typing import Any, Callable, TypeVar, Type
 
 import phonenumbers
 from ckan.common import _
@@ -92,9 +92,39 @@ def spatial_reference_validator(value: Any, context: Context):
             raise ValidationError(_("Given spatial reference is not supported"))
     return value
 
+ValueType = TypeVar("ValueType")
+
+def multiple_values_converter(validator: Callable[[Type[ValueType], ...], Any], value: list[Type[ValueType]] | str, *args, **kwargs):
+    if not value:
+        return value
+    def json_to_list(value: str) -> list[Type[ValueType]]:
+        if isinstance(value, str):
+            # If the value is a string, assume it to be a JSON list
+            try:
+                value = json.loads(value)
+                return [
+                    validator(item, *args, **kwargs)
+                    for item
+                    in value
+                ]
+            except json.JSONDecodeError:
+                raise ValidationError(_("Value must be a JSON list"))
+        raise ValidationError(_("Value must be a JSON list"))
+    def list_to_json(value: list[Type[ValueType]]) -> str:
+        return json.dumps([
+            validator(item, *args, **kwargs)
+            for item
+            in value
+        ])
+    # determine which converter to use and call it
+    if isinstance(value, str):
+        return json_to_list(value)
+    if isinstance(value, list):
+        return list_to_json(value)
+    raise ValidationError(_("Value must either be a JSON list (str) or a list"))
 
 def frequency_validator(value: Any, context: Context):
-    return vocabulary_validator(value, Frequency)
+    return multiple_values_converter(vocabulary_validator, value,Frequency)
 
 
 def transport_mode_validator(value: Any, context: Context):
