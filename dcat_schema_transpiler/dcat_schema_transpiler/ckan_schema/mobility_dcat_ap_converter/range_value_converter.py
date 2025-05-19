@@ -20,10 +20,12 @@ from dcat_schema_transpiler.rdfs.rdfs_property import RDFSProperty
 from dcat_schema_transpiler.rdfs.rdfs_resource import RDFSResource
 from dcat_schema_transpiler.rdfs.util import get_rdf_object
 
+
 class Necessity(Enum):
     MANDATORY = "mandatory"
     RECOMMENDED = "recommended"
     OPTIONAL = "optional"
+
 
 class RangeValueConverter(ABC):
     sub_classes: Set[URIRef] = None
@@ -87,7 +89,7 @@ class RangeValueConverter(ABC):
         return r_ordered[0] if len(r_ordered) > 0 else None
 
     @classmethod
-    def get_necessity_mapping(cls, property: URIRef) -> Dict[Literal['necessity'], str]:
+    def get_necessity_mapping(cls, property: URIRef) -> Dict[Literal["necessity"], str]:
         """
         Returns the necessity mapping for the given property.
         """
@@ -98,10 +100,12 @@ class RangeValueConverter(ABC):
         elif property in cls.optional_properties:
             return {"necessity": Necessity.OPTIONAL.value}
         else:
-            print(f'mandatory_properties: {cls.mandatory_properties}')
-            print(f'recommended_properties: {cls.recommended_properties}')
-            print(f'optional_properties: {cls.optional_properties}')
-            raise ValueError(f"Property {property} is not defined in class {cls.__name__}")
+            print(f"mandatory_properties: {cls.mandatory_properties}")
+            print(f"recommended_properties: {cls.recommended_properties}")
+            print(f"optional_properties: {cls.optional_properties}")
+            raise ValueError(
+                f"Property {property} is not defined in class {cls.__name__}"
+            )
 
     @abstractmethod
     def get_schema(
@@ -255,10 +259,43 @@ class RangeValueConverter(ABC):
             return [{"value": value, "label": value} for value in column_values]
 
     @staticmethod
-    def get_translated_field_properties(is_required: bool, is_core_field: bool = True):
+    def get_translated_field_properties(
+        labels: dict,
+        is_required: bool,
+        is_core_field: bool = True,
+    ):
+        en_label = labels["en"]
+        fi_label = labels.get("fi")
+        sv_label = labels.get("sv")
+
+        # labels for multilingual input fields
+        fluent_form_label = {
+            "en": {
+                "en": f"{en_label} in English",
+                "fi": (
+                    f"{fi_label} englanniksi" if fi_label else f"{en_label} in English"
+                ),
+                "sv": (
+                    f"{sv_label} på engelska" if sv_label else f"{en_label} in English"
+                ),
+            },
+            "fi": {
+                "en": f"{en_label} in Finnish",
+                "fi": f"{fi_label} suomeksi" if fi_label else f"{en_label} in Finnish",
+                "sv": f"{sv_label} på finska" if sv_label else f"{en_label} in Finnish",
+            },
+            "sv": {
+                "en": f"{en_label} in Swedish",
+                "fi": f"{fi_label} ruotsiksi" if fi_label else f"{en_label} in Swedish",
+                "sv": (
+                    f"{sv_label} på svenska" if sv_label else f"{en_label} in Swedish"
+                ),
+            },
+        }
         translated_field_properties = {
             "preset": "fluent_core_translated" if is_core_field else "fluent_text",
-            "form_languages": ["fi", "en", "sv"],
+            "form_languages": ["en", "fi", "sv"],
+            "fluent_form_label": fluent_form_label,
         }
 
         if is_required:
@@ -268,6 +305,11 @@ class RangeValueConverter(ABC):
             }
         else:
             return deepcopy(translated_field_properties)
+
+    @staticmethod
+    def get_validators(validators: List[str]):
+        validators.insert(0, "scheming_required")
+        return " ".join(validators)
 
     @staticmethod
     def country_filter(country: URIRef, graph: Graph):

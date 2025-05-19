@@ -3,7 +3,8 @@ from typing import Dict
 from rdflib import DCTERMS, Dataset, URIRef
 
 from ckan_schema.mobility_dcat_ap_converter.range_value_converter import (
-    RangeValueConverter, Necessity,
+    RangeValueConverter,
+    Necessity,
 )
 from dcat_schema_transpiler.rdfs.rdfs_class import RDFSClass
 from dcat_schema_transpiler.rdfs.rdfs_property import RDFSProperty
@@ -73,7 +74,7 @@ class LinguisticSystem(RangeValueConverter):
             "choices": RangeValueConverter.vocab_choices(
                 g, lambda s: is_supported_language(s)
             ),
-            "validators": "language_validator ignore_missing",
+            "validators": super().get_validators(["language_validator"]),
         }
 
     def is_property_required(self, property: RDFSProperty) -> bool:

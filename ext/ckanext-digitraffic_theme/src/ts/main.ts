@@ -6,6 +6,7 @@ import './modules/iri-fragment-input';
 import "./modules/language-menu";
 import "./modules/temporal-coverage";
 import "./modules/multi-select"
+import "./modules/language-toggle-buttons";
 import {
   createIcons,
   ExternalLink,

@@ -2,9 +2,10 @@ import json
 import pprint
 from ckan.logic import get_action, check_access
 import ckan.model as model
-from typing import Any, cast
+from typing import Any, Union, cast
 from ckan.common import current_user, config
 from ckan.types import Context
+from ckan.lib.helpers import get_translated
 
 
 def print_field_and_data(field_name: str, data: dict):
@@ -55,10 +56,25 @@ def from_json(string: str) -> Any:
     return {}
 
 
+# This is otherwise the same function as the one in the CKAN core,
+# except that it will return 'title' in place of 'name' if translation is not found.
+def dataset_display_name(
+    package_or_package_dict: Union[dict[str, Any], model.Package],
+) -> str:
+    if isinstance(package_or_package_dict, dict):
+        return (
+            get_translated(package_or_package_dict, "title")
+            or package_or_package_dict["title"]
+        )
+    else:
+        return package_or_package_dict.title or package_or_package_dict.name
+
+
 helpers = {
     "print_field_and_data": print_field_and_data,
     "get_datasets_as_form_choices": get_datasets_as_form_choices,
     "url_from_dataset_id": url_from_dataset_id,
     "from_json": from_json,
     "is_dataset_public": is_dataset_public,
+    "dataset_display_name": dataset_display_name,
 }
