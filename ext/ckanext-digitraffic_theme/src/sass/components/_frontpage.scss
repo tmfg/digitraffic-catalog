@@ -67,6 +67,7 @@
     text-align: center;
     padding: 50px;
     background-color: #f8f9fa;
+    margin: 0 50px;
 }
 
 .steps h2 {
@@ -75,17 +76,60 @@
 
 .step-cards {
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 40px;
 }
 
 .step-card {
-    background-color: #007bff;
-    color: white;
-    padding: 20px;
-    border-radius: 10px;
-    width: 20%;
-    text-align: center;
+    width: 370px;
+    min-height: 340px;
+    box-sizing: border-box;
+    padding: 48px 32px 32px 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    border-radius: 0;
+    text-align: left;
+}
+
+.step-card.blue {
+    background: #2342f5;
+    color: #fff;
+}
+
+.step-card.black {
+    background: #000;
+    color: #fff;
+}
+
+.step-header {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 0;
+    min-height: 64px;
+}
+
+.step-number {
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 8px;
+}
+
+.step-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0;
+    line-height: 1.1;
+}
+
+.step-desc {
+    margin-top: 20px;
     font-size: 1.2rem;
+    line-height: 1.4;
 }
 
 /* Search Section */
