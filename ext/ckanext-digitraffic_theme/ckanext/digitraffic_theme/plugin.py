@@ -7,6 +7,7 @@ import ckan.plugins.toolkit as toolkit
 from ckan.lib.plugins import DefaultTranslation
 
 import ckanext.digitraffic_theme.actions.digitraffic_user_info as dui_actions
+import ckanext.digitraffic_theme.actions.package as package_actions
 import ckanext.digitraffic_theme.auth.user as user_auth
 from ckanext.digitraffic_theme.validators.dataset_validators import (
     mobility_theme_sub_validator,
@@ -42,6 +43,7 @@ from flask import Blueprint
 
 from ckanext.digitraffic_theme.views.digitraffic_edit_view import DigitrafficEditView
 from ckanext.digitraffic_theme.views.removed_view import RemovedView
+
 
 class DigitrafficThemePlugin(plugins.SingletonPlugin, DefaultTranslation):
     """Digitraffic theme plugin."""
@@ -104,6 +106,9 @@ class DigitrafficThemePlugin(plugins.SingletonPlugin, DefaultTranslation):
         return {
             "user_show": dui_actions.user_show,
             "user_update": dui_actions.user_update,
+            "package_create": package_actions.package_create,
+            "package_update": package_actions.package_update,
+            "package_patch": package_actions.package_patch,
         }
 
     def get_auth_functions(self):
@@ -134,9 +139,8 @@ class DigitrafficThemePlugin(plugins.SingletonPlugin, DefaultTranslation):
                 methods=["GET"],
             )
 
-
         _edit_view = DigitrafficEditView.as_view("edit_user")
 
-        _password_routes_blueprint.add_url_rule('/user/edit', view_func=_edit_view)
-        _password_routes_blueprint.add_url_rule('/user/edit/<id>', view_func=_edit_view)
+        _password_routes_blueprint.add_url_rule("/user/edit", view_func=_edit_view)
+        _password_routes_blueprint.add_url_rule("/user/edit/<id>", view_func=_edit_view)
         return [_remove_routes_blueprint, _password_routes_blueprint]

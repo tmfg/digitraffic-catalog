@@ -76,7 +76,9 @@ class LicenseDocument(RangeValueConverter):
                     "sorted_choices": True,
                     "form_include_blank_choice": True,
                     "choices": RangeValueConverter.vocab_choices(g, filter_),
-                    "validators": "standard_license_validator ignore_missing",
+                    "validators": super().get_validators(
+                        ["standard_license_validator"]
+                    ),
                 }
 
     def is_property_required(self, property: RDFSProperty) -> bool:

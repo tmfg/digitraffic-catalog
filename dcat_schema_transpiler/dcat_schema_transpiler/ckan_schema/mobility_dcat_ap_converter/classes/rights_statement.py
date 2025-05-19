@@ -64,7 +64,7 @@ class RightsStatement(RangeValueConverter):
                     "sorted_choices": True,
                     "form_include_blank_choice": True,
                     "choices": RangeValueConverter.vocab_choices(graph=g, iri=self.iri),
-                    "validators": "rights_type_validator",
+                    "validators": super().get_validators(["rights_type_validator"]),
                 }
 
     def is_property_required(self, property: RDFSProperty) -> bool:

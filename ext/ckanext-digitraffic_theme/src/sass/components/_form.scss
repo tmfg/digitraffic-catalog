@@ -75,13 +75,20 @@
         color: var(--fds-color-neutral-400);
         background-color: var(--fds-color-neutral-50);
     }
+
     &.hide-necessity {
         .form-necessity {
             display: none;
         }
     }
+
     input {
         width: 100%;
+    }
+
+    input[id$="translated-fi"],
+    input[id$="translated-sv"] {
+        width: 90%
     }
 }
 
@@ -89,11 +96,62 @@
     margin-top: 0;
     appearance: auto;
 }
+
 // wrapper around dataset/resource edit form
 .row.wrapper.no-nav {
     border: none;
     border-radius: 0;
     box-shadow: none;
+}
+
+
+.language-toggle-buttons {
+    margin-bottom: 30px;
+}
+
+.language-toggle-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.3rem 0.5rem;
+    font-size: 0.8rem;
+    color: var(--fds-color-text-1000);
+    background-color: var(--fds-color-background);
+    border: 1px solid #000;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    white-space: nowrap;
+    margin-right: 10px;
+}
+
+.language-toggle-button:hover {
+    background-color: var(--fds-color-interactive-100);
+    border-color: #333;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.language-toggle-button:focus {
+    outline: 2px solid var(--fds-color-interactive-100);
+    outline-offset: 2px;
+}
+
+.language-toggle-button svg {
+    width: 1rem;
+    height: 1rem;
+}
+
+.hidden {
+    display: none;
+}
+
+.hide-language-input {
+    cursor: pointer;
+}
+
+.form-group.control-medium.multilingual {
+    margin-bottom: 15px;
 }
 
 [data-module="scheming-repeating-subfields"] {
