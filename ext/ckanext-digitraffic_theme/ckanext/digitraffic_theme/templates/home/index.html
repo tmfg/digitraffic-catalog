@@ -1,7 +1,5 @@
 {% extends "page.html" %}
 
-
-
 {% block content %}
 <div class="custom-homepage">
     <section class="frontpage-hero">
@@ -22,32 +20,24 @@
     <h2>Miten pääsen syöttämään tietoaineistoni katalogiin?</h2>
     <div class="step-cards">
         <div class="step-card blue">
-            <div class="step-header">
-                <div class="step-number">01</div>
-                <div class="step-title">Luo käyttäjä/<br>organisaatio</div>
-            </div>
-            <div class="step-desc">Lorem ipsum dolor sit amet consectetur.</div>
+            <div class="step-number">01</div>
+            <div class="step-title">Rekisteröidy ja luo organisaatio</div>
+            <div class="step-desc">Tietoaineistot ja niiden kuvailu liittyvät aina organisaatioon.</div>
         </div>
         <div class="step-card black">
-            <div class="step-header">
-                <div class="step-number">02</div>
-                <div class="step-title">Luo tietoaineisto</div>
-            </div>
-            <div class="step-desc">Lorem ipsum dolor sit amet consectetur.</div>
+            <div class="step-number">02</div>
+            <div class="step-title">Luo tietoaineisto</div>
+            <div class="step-desc">Syötä tietoaineistosi metatiedot lomakkeen ohjeistuksen mukaisesti.</div>
         </div>
         <div class="step-card blue">
-            <div class="step-header">
-                <div class="step-number">03</div>
-                <div class="step-title">Lisää resurssi(t)</div>
-            </div>
-            <div class="step-desc">Lorem ipsum dolor sit amet consectetur.</div>
+            <div class="step-number">03</div>
+            <div class="step-title">Lisää datalähteet (resurssit)</div>
+            <div class="step-desc">Lisää kuvaukseen eri tavat, joilla kyseiseen tietoaineistoon pääsee käsiksi.</div>
         </div>
         <div class="step-card black">
-            <div class="step-header">
-                <div class="step-number">04</div>
-                <div class="step-title">Julkaise tietoaineisto</div>
-            </div>
-            <div class="step-desc">Lorem ipsum dolor sit amet consectetur. Turpis egestas vel netus posuere arcu et faucibus..</div>
+            <div class="step-number">04</div>
+            <div class="step-title">Julkaise tietoaineistosi</div>
+            <div class="step-desc">Julkaistut tietoaineistokuvaukset ovat käyttäjien selailtavissa katalogin hakutoiminnoilla.</div>
         </div>
     </div>
     <div class="steps-info-btn">
@@ -65,26 +55,47 @@
 </section>
     <section class="search">
         <h2>Etsi tietoaineistoja</h2>
-        <input type="text" placeholder="Kirjoita esim. raideliikenne">
+        {% snippet "snippets/dt_header/search_box.html" %}  
+</form>
     </section>
 
     <section class="organizations">
-        <h2>Organisaatiot joilla on tietoaineistoja katalogissa</h2>
+        <h2>Näillä organisaatioilla on tietoaineistoja katalogissa</h2>
         <div class="organization-tags">
-            <span>Tampereen kaupunki (52)</span>
-            <span>Helsingin kaupunki (34)</span>
-            <span>HSL (13)</span>
+            <a href="/organization/tampereen-kaupunki">Tampereen kaupunki (52)</a>
+            <a href="/organization/helsingin-kaupunki">Helsingin kaupunki (34)</a>
+            <a href="/organization/hsl">HSL (13)</a>
         </div>
     </section>
 
-    <section class="progress">
-        <h2>Kehityspolku</h2>
-        <div class="progress-steps">
-            <div class="progress-step">1<br>Otsikko</div>
-            <div class="progress-step">2<br>Otsikko</div>
-            <div class="progress-step">3<br>Otsikko</div>
-            <div class="progress-step">4<br>Otsikko</div>
-            <div class="progress-step">5<br>Otsikko</div>
+    <section class="development-progress">
+        <h2 class="development-progress-title">Kehityspolku</h2>
+        <div class="progress-step-wrapper">
+          <div class="progress-step completed">
+            <div class="step-counter">1</div>
+            <h2 class="step-title">Katalogin julkaisu</h2>
+            <div class="step-name"></div>
+          </div>
+          <div class="progress-step completed">
+            <div class="step-counter">2</div>
+            <h2 class="step-title">Tiedonkeruu</h2>
+            <div class="step-name">Olemassaolevien tietoaineistojen kuvailu katalogiin</div>
+          </div>
+          <div class="progress-step active">
+            <div class="step-counter">3</div>
+            <h2 class="step-title">Vakiintunut käyttö</h2>
+            <div class="step-name">Tietoaineistojen tietoja ylläpidetään ja uusia tietoaineistoja lisätään</div>
+          </div>
+          <div class="progress-step">
+            <div class="step-counter">4</div>
+            <h2 class="step-title">Integraatiot</h2>
+            <div class="step-name">Metadatan välitys muihin katalogeihin ja harvestointi muista katalogeista</div>
+          </div>
+            <div class="progress-step">
+            <div class="step-counter">5</div>
+            <h2 class="step-title">Single NAP</h2>
+            <div class="step-name">Katalogin täydentäminen liikkumispalveluiden tiedoilla, yhden kansallisen yhteyspisteen malli</div>
+          </div>
         </div>
     </section>
 </div>
