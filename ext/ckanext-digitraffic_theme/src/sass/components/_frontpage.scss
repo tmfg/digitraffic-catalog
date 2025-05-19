@@ -45,9 +45,7 @@
 
 .hero-image img {
     width: 100%;
-    /* Ensure the image fills the width */
     height: 100%;
-    /* Ensure the image fills the height */
     object-fit: cover;
     /* Maintain aspect ratio while covering the area */
     border-radius: 0px;
@@ -130,6 +128,38 @@
     margin-top: 20px;
     font-size: 1.2rem;
     line-height: 1.4;
+}
+
+.steps-info-btn {
+    display: flex;
+    justify-content: center;
+    margin-top: 48px;
+    margin-bottom: 30px;
+}
+
+.steps-info-btn button {
+    background: #000;
+    color: #fff;
+    font-size: 1.5rem;
+    font-weight: 400;
+    padding: 20px 40px;
+    border: none;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.steps-info-btn button:hover {
+    background: #222;
+}
+
+.steps-info-btn .icon {
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
 }
 
 /* Search Section */
