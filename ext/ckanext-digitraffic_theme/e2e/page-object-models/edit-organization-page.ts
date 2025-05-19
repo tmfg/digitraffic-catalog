@@ -60,7 +60,7 @@ export class EditOrganizationPage extends BasePage {
       await userRow
         .locator('a[title="Poista"]')
         .click()
-      await this.page.getByRole('button', {name: "Vahvista"}).click()
+      await this.page.getByRole('button', {name: "Confirm"}).click()
     }
   }
 }
