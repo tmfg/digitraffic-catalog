@@ -2,19 +2,36 @@
 
 {% block content %}
 <div class="digitraffic-catalog-homepage">
-    <section class="homepage-hero">
-        <div class="hero-content">
-            <h1>{% trans %}Visibility and users for your data{% endtrans %}</h1>
-            <p>{% trans %}The Traffic Data Catalog is an open national access point (NAP) for traffic data, where traffic data providers submit information about the data and APIs they offer. For data users, the catalog provides an overview of available data sources, their providers, usage methods, and terms.{% endtrans %}</p>
-            <div class="hero-buttons">
-                <a href="/user/register" class="btn btn-primary">{% trans %}Register{% endtrans %}</a>
-                <a href="/user/login" class="btn btn-secondary">{% trans %}Log in{% endtrans %}</a>
+        {% if c.user %}
+            <section class="homepage-hero logged-in">
+                <div class="hero-content logged-in">
+                        <h1>{% trans %}Visibility and users for your data{% endtrans %}</h1>
+                        <p>{% trans %}The Traffic Data Catalog is an open national access point (NAP) for traffic data, where traffic data providers submit information about the data and APIs they offer. For data users, the catalog provides an overview of available data sources, their providers, usage methods, and terms.{% endtrans %}</p>
+                </div>
+                <div class="hero-logged-in-box">
+                    <div class="logged-in-message">
+                        {% trans %}You are logged in as{% endtrans %} <strong>{{ c.user }}</strong>
+                    </div>
+                    <a href="/dataset/new" class="btn btn-primary create-dataset ">{% trans %}Create new dataset{% endtrans %}</a>
+                    <a href="/dashboard/datasets" class="btn btn-primary browse-datasets ">{% trans %}Browse my datasets{% endtrans %}</a>
+                </div>
+             </section>
+        {% else %}
+        <section class="homepage-hero default">
+            <div class="hero-content default">
+                <h1>{% trans %}Visibility and users for your data{% endtrans %}</h1>
+                <p>{% trans %}The Traffic Data Catalog is an open national access point (NAP) for traffic data, where traffic data providers submit information about the data and APIs they offer. For data users, the catalog provides an overview of available data sources, their providers, usage methods, and terms.{% endtrans %}</p>
+                <div class="hero-buttons">
+                    <a href="/user/register" class="btn btn-primary">{% trans %}Register{% endtrans %}</a>
+                    <a href="/user/login" class="btn btn-secondary">{% trans %}Log in{% endtrans %}</a>
+                </div>
             </div>
-        </div>
-        <div class="hero-image">
-            <img src="/images/hero_image.jpg" alt="Hero Image">
-        </div>
-    </section>
+            <div class="hero-image">
+                <img src="/images/hero_image.jpg" alt="Hero Image">
+            </div>
+                </section>
+
+        {% endif %}
 
 <section class="steps">
     <h2>{% trans %}How do I submit my dataset to the catalog?{% endtrans %}</h2>
