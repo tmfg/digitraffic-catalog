@@ -41,7 +41,7 @@ class TestProfile:
             "fi": "Suomenkielinen nimi",
             "sv": "Svensk titel",
         }
-        dataset_frequency = Frequency.iris[:1]
+        dataset_frequency = list(Frequency.iris)[:1]
         dataset_mobility_theme = str(
             [
                 main_theme
