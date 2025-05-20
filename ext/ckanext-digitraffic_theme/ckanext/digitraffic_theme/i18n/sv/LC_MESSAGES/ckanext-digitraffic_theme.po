@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-digitraffic_theme 0.0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-05-06 09:31+0000\n"
+"POT-Creation-Date: 2025-05-20 07:15+0000\n"
 "PO-Revision-Date: 2025-05-06 06:53+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: sv\n"
@@ -25,6 +25,120 @@ msgstr ""
 
 #: ckanext/digitraffic_theme/templates/admin/base.html:6
 msgid "Trash"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/home/index.html:7
+msgid "Visibility and users for your data"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/home/index.html:8
+msgid ""
+"The Traffic Data Catalog is an open national access point (NAP) for "
+"traffic data, where traffic data providers submit information about the "
+"data and APIs they offer. For data users, the catalog provides an "
+"overview of available data sources, their providers, usage methods, and "
+"terms."
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/home/index.html:10
+msgid "Register"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/home/index.html:11
+#: ckanext/digitraffic_theme/templates/snippets/dt_header/user_actions.html:49
+msgid "Log in"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/home/index.html:20
+msgid "How do I submit my dataset to the catalog?"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/home/index.html:24
+msgid "Register and create an organization"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/home/index.html:25
+msgid "Datasets and their descriptions are always linked to an organization."
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/home/index.html:29
+msgid "Create a dataset"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/home/index.html:30
+msgid "Enter your dataset's metadata according to the instructions on the form."
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/home/index.html:34
+msgid "Add data sources (resources)"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/home/index.html:35
+msgid "Add to the description the different ways to access the dataset."
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/home/index.html:39
+msgid "Publish your dataset"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/home/index.html:40
+msgid ""
+"Published dataset descriptions can be browsed by users via the catalog's "
+"search functions."
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/home/index.html:52
+msgid "Read more about creating datasets"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/home/index.html:57
+msgid "Search for datasets"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/home/index.html:63
+msgid "Organizations with datasets in the catalog"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/home/index.html:72
+msgid "Development path"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/home/index.html:76
+msgid "Launch"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/home/index.html:81
+msgid "Data collection"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/home/index.html:82
+msgid "Describing existing datasets in the catalog"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/home/index.html:86
+msgid "Established use"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/home/index.html:87
+msgid "Dataset information is maintained and new datasets are added"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/home/index.html:91
+msgid "Integrations"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/home/index.html:92
+msgid "Metadata transfer to other catalogs and harvesting from other catalogs"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/home/index.html:96
+msgid "Single NAP"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/home/index.html:97
+msgid ""
+"Completing the catalog with mobility service information, a single "
+"national access point model"
 msgstr ""
 
 #: ckanext/digitraffic_theme/templates/macros/form/input_block.html:27
@@ -467,10 +581,6 @@ msgstr ""
 
 #: ckanext/digitraffic_theme/templates/snippets/dt_header/user_actions.html:47
 msgid "Account"
-msgstr ""
-
-#: ckanext/digitraffic_theme/templates/snippets/dt_header/user_actions.html:49
-msgid "Log in"
 msgstr ""
 
 #: ckanext/digitraffic_theme/templates/user/edit_user_form.html:10
