@@ -22,7 +22,7 @@
         <div class="step-card blue">
             <div class="step-number">01</div>
             <div class="step-title">Rekisteröidy ja luo organisaatio</div>
-            <div class="step-desc">Tietoaineistot ja niiden kuvailu liittyvät aina organisaatioon.</div>
+            <div class="step-desc">Tietoaineistot ja niiden kuvailut liittyvät aina organisaatioon.</div>
         </div>
         <div class="step-card black">
             <div class="step-number">02</div>
@@ -62,9 +62,9 @@
     <section class="organizations">
         <h2>Näillä organisaatioilla on tietoaineistoja katalogissa</h2>
         <div class="organization-tags">
-            <a href="/organization/tampereen-kaupunki">Tampereen kaupunki (52)</a>
-            <a href="/organization/helsingin-kaupunki">Helsingin kaupunki (34)</a>
-            <a href="/organization/hsl">HSL (13)</a>
+            {% for org in h.get_organization_dataset_counts() %}
+                <a href="/organization/{{ org.name }}">{{ org.title }} ({{ org.dataset_count }})</a>
+            {% endfor %}
         </div>
     </section>
 
