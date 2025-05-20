@@ -80,7 +80,7 @@ class TestDatasetValidators:
         self.vocabulary_test(
             field_name="frequency",
             valid_value=list(Frequency.iris)[:1],
-            invalid_value="weekly",
+            invalid_value=["weekly"],
             match_message="does not belong to",
         )
 
