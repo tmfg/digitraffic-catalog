@@ -1,20 +1,52 @@
 .digitraffic-catalog-homepage {
 
     /* Hero section */
-    .homepage-hero {
+    .homepage-hero.default {
         display: flex;
         justify-content: space-between;
         align-items: stretch;
         background-color: rgb(30, 35, 61);
         color: white;
+
+        .hero-content.default {
+            max-width: 50%;
+            padding: 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
     }
 
-    .hero-content {
-        max-width: 50%;
-        padding: 80px;
+    .homepage-hero.logged-in {
+        background: url(/images/hero_image.jpg);
         display: flex;
-        flex-direction: column;
         justify-content: center;
+        align-items: center;
+
+        .hero-content.logged-in {
+            max-width: 50%;
+            padding: 80px;
+            color: white;
+        }
+
+        @media (max-width: 900px) {
+            flex-direction: column;
+            align-items: stretch;
+
+            .hero-content.logged-in,
+            .hero-logged-in-box {
+                max-width: 100%;
+                width: 100%;
+                padding: 32px 16px;
+                margin: 0;
+            }
+
+            .hero-logged-in-box {
+                border-radius: 0;
+                box-shadow: none;
+            }
+        }
     }
 
     .hero-content h1 {
@@ -51,6 +83,52 @@
         object-fit: cover;
         /* Maintain aspect ratio while covering the area */
         border-radius: 0px;
+    }
+
+
+
+
+    .hero-logged-in-box {
+        flex: 0 0 480px;
+        max-width: 480px;
+        min-width: 340px;
+        background: #f4f4f4;
+        color: #000;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 48px 32px;
+        margin: 32px 32px 32px 0;
+        border-radius: 0px;
+        box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
+        text-align: center;
+        align-self: center;
+    }
+
+    .hero-logged-in-box {
+        .btn {
+            width: 100%;
+            margin: 12px 0 0 0;
+            display: block;
+        }
+
+        .btn.browse-datasets {
+            background-color: white;
+            color: black;
+
+            &:hover {
+                background-color: rgb(44, 110, 240) !important;
+                color: white;
+            }
+
+        }
+    }
+
+    .logged-in-message {
+        font-size: 1.2rem;
+        margin-bottom: 24px;
+        font-weight: 600;
     }
 
     .hero-image {
@@ -281,6 +359,7 @@
     .development-progress-title {
         text-align: center;
         margin-bottom: 30px;
+        margin-top: 20px
     }
 
     .progress-step-wrapper {
