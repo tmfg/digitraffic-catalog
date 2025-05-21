@@ -86,7 +86,7 @@ const LanguageMenu: ckan.Module<HTMLElement, LanguageMenuMO> = {
   },
 
   _getForm(): JQuery<HTMLFormElement> {
-    return this.$("#language-menu-form");
+    return this.$<HTMLFormElement>("#language-menu-form");
   },
   _getFormInput(): JQuery<HTMLElement> {
     return this.$("#language-option-hidden");

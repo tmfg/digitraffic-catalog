@@ -3001,7 +3001,27 @@ dataset_fields:
   label:
     en: Contact point
     fi: Yhteyspiste
+  form_attrs:
+    data-module: digitraffic_theme_contact_detail
   repeating_subfields:
+  - field_name: contact_point_type
+    label:
+      en: Contact point type
+      fi: Yhteyspisteen tyyppi
+    required: true
+    preset: select
+    form_include_blank_choice: false
+    sorted_choices: true
+    default: http://www.w3.org/2006/vcard/ns#Organization
+    choices:
+    - value: http://www.w3.org/2006/vcard/ns#Organization
+      label:
+        en: Organization
+        fi: Organisaatio
+    - value: http://www.w3.org/2006/vcard/ns#Individual
+      label:
+        en: Person
+        fi: Henkilö
   - field_name: fn
     label:
       en: Full name

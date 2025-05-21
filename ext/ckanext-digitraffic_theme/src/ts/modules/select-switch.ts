@@ -11,6 +11,7 @@ type SelectSwitchMO = {
 export const SelectSwitch: ckan.Module<HTMLFormElement, SelectSwitchMO> = {
   initialize() {
     initialize.apply(this);
+    // @ts-ignore
     this.el.on('keyup', 'select', (event: KeyboardEvent) => {
       const key = event.key;
       const pickerOpenerKeys = new Set(['ArrowDown', 'ArrowUp', "Space"])

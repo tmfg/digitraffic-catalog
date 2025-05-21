@@ -28,17 +28,22 @@ const MultiSelect: ckan.Module<FdsDropdown<string>, MultiselectMO>  = {
       )
       fdsMultiSelect.multiple = true
       fdsMultiSelect.setAttribute('id', this.el[0].id)
-      fdsMultiSelect.setAttribute('name', this.el[0].name)
+      if (this.el[0].name) {
+        fdsMultiSelect.setAttribute('name', this.el[0].name)
+      }
 
       this.el.replaceWith(fdsMultiSelect);
     });
   },
   _getOptionValues(): OptionValues[] {
-    const optionElements = this.$("option");
+    const optionElements = this.$<HTMLOptionElement>("option");
     return optionElements.toArray()
-      .map((element: HTMLOptionElement) => {
+      .map((element) => {
+        if (element.textContent === null) {
+            throw new Error("Option element does not have text content");
+        }
         return {
-            label: element.textContent?.trim(),
+            label: element.textContent.trim(),
             value: element.value,
             selected: element.getAttribute("selected") === "selected",
         };
