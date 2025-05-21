@@ -1,4 +1,4 @@
 
 export function initialize(this: ckan.ModulePreSet<HTMLElement>): void {
-  ($ as ckan.CkanJquery).proxyAll(this, /^_/);
+  ($ as ckan.$).proxyAll(this, /^_/);
 }
