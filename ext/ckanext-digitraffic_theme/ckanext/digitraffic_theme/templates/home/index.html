@@ -10,7 +10,7 @@
                 </div>
                 <div class="hero-logged-in-box">
                     <div class="logged-in-message">
-                        {% trans %}You are logged in as{% endtrans %} <strong>{{ c.user }}</strong>
+                        {% trans %}You are logged in as{% endtrans %}<br> <strong>{{ c.userobj.display_name }}</strong>
                     </div>
                     <a href="/dataset/new" class="btn btn-primary create-dataset ">{% trans %}Create new dataset{% endtrans %}</a>
                     <a href="/dashboard/datasets" class="btn btn-primary browse-datasets ">{% trans %}Browse my datasets{% endtrans %}</a>
@@ -72,6 +72,7 @@
 </section>
     <section class="search">
         <h2>{% trans %}Search for datasets{% endtrans %}</h2>
+        <p>{% trans %}Datasets will be added to the catalog as the service is adopted more widely.{% endtrans %}</p>
         {% snippet "snippets/dt_header/search_box.html" %}  
 </form>
     </section>
@@ -93,7 +94,7 @@
             <h2 class="step-title">{% trans %}Launch{% endtrans %}</h2>
             <div class="step-name"></div>
           </div>
-          <div class="progress-step active">
+          <div class="progress-step">
             <div class="step-counter">2</div>
             <h2 class="step-title">{% trans %}Data collection{% endtrans %}</h2>
             <div class="step-name">{% trans %}Describing existing datasets in the catalog{% endtrans %}</div>
