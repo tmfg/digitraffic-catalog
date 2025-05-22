@@ -215,6 +215,7 @@
         margin-bottom: 0;
         line-height: 1.1;
         min-height: 80px;
+        text-align: left;
     }
 
     .step-desc {
@@ -392,10 +393,6 @@
         flex-direction: column;
         align-items: center;
         flex: 1;
-
-        @media (max-width: 900px) {
-            font-size: 12px;
-        }
     }
 
     .progress-step::before {
@@ -474,8 +471,115 @@
         content: none;
     }
 
-    .progress-step .step-name {
+    .progress-step .step-description {
         text-align: center;
         max-width: 150px;
     }
+
+    .step-texts {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    @media (max-width: 900px) {
+
+        .progress-step .step-counter {
+            position: relative;
+            z-index: 5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 30px;
+            height: 30px;
+            min-width: 30px;
+            min-height: 30px;
+
+            border-radius: 50%;
+            background: black;
+            color: white;
+            margin-bottom: 6px;
+        }
+
+        .progress-step-wrapper {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .progress-step {
+            flex-direction: row;
+            align-items: flex-start;
+            margin-left: 10px;
+            margin-bottom: 20px;
+            position: relative;
+            min-height: 60px; // ensure enough height for the line
+        }
+
+        .progress-step.completed::after {
+            content: "";
+            position: absolute;
+            left: 14.5px; // center of the step-counter (adjust if needed)
+            top: 40%;
+            width: 2px;
+            height: 100%;
+            background: black;
+            border: none;
+            z-index: 1;
+            transform: translateY(-10%)
+        }
+
+        .progress-step::before {
+            content: "";
+            position: absolute;
+            left: 14.5px; // center of the step-counter (adjust if needed)
+            top: 0;
+            width: 2px;
+            height: 50%;
+            background: black;
+            border: none;
+            z-index: 1;
+        }
+
+        .progress-step::after {
+            content: "";
+            position: absolute;
+            left: 14.5px; // center of the step-counter (adjust if needed)
+            top: 50%;
+            width: 2px;
+            height: 100%;
+            background: black;
+            border: none;
+            z-index: 1;
+            transform: translateY(-10%)
+        }
+
+        .progress-step:last-child::before {
+            display: none
+        }
+
+
+        .progress-step:last-child::after {
+            display: none;
+        }
+
+        .step-texts {
+            display: flex;
+            flex-direction: column;
+            align-items: start;
+            margin-left: 20px;
+        }
+
+        .progress-step .step-description {
+            text-align: left;
+            max-width: 300px;
+        }
+
+
+        .progress-step .step-title {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+    }
+
 }
