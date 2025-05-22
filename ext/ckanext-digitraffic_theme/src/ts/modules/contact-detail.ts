@@ -1,18 +1,15 @@
 import { initialize } from "../module-constructs/module";
 
 type ContactDetailMO = {
-  _initializeContactPoint: (element: ContactPointEl) => void;
-  _getContactPointTypeEl: (contactPointEl: ContactPointEl) => JQuery<HTMLSelectElement>;
-  _getContactPointIndex: (contactPointEl: ContactPointEl) => number;
-  _getAllContactPointFields: (contactPointEl: ContactPointEl) => JQuery<HTMLElement>;
-  _getContactPointTypeFields: (contactPointEl: ContactPointEl, contactPointType: ContactPointType) => JQuery<HTMLElement>;
-  _getContactPointFields: (contactPointEl: ContactPointEl, fieldNames: Set<string>) => JQuery<HTMLElement>;
+  _getContactPointTypeEl: () => JQuery<HTMLSelectElement>;
+  _getContactPointIndex: () => number;
+  _getAllContactPointFields: () => JQuery<HTMLElement>;
+  _getContactPointTypeFields: (contactPointType: ContactPointType) => JQuery<HTMLElement>;
+  _getContactPointFields: (fieldNames: Set<string>) => JQuery<HTMLElement>;
   _getAllContactPointFieldNames: (i: number) => Set<string>;
   _getParentFormGroup: (el: JQuery<HTMLElement>) => JQuery<HTMLElement>;
-  _onlyShowContactPointTypeFields: (contactPointEl: ContactPointEl, contactPointType: ContactPointType) => void;
+  _onlyShowContactPointTypeFields: (contactPointType: ContactPointType) => void;
 }
-
-type ContactPointEl = JQuery<HTMLDivElement>
 
 enum ContactPointType {
     PERSON = "http://www.w3.org/2006/vcard/ns#Individual",
@@ -21,29 +18,20 @@ enum ContactPointType {
 
 const ContactDetail: ckan.Module<HTMLDivElement, ContactDetailMO>  = {
   initialize() {
+    console.log("INITIALIZINIIINGNGN")
     initialize.apply(this);
 
-
-    const contactPoints: ckan.CkanJquery<HTMLElement> = this.$("[data-field='contact_point']")
-    const contactDetailModule = this
-    if (contactPoints.length > 0) {
-      contactPoints.each(function (this: HTMLElement) {
-        contactDetailModule._initializeContactPoint($(this as HTMLDivElement))
-      })
-    }
-  },
-  _initializeContactPoint(element: ContactPointEl): void {
-    const contactPointTypeField = this._getContactPointTypeEl(element)
+    const contactPointTypeField = this._getContactPointTypeEl()
     const contactPointType = contactPointTypeField.val() as ContactPointType
-    this._onlyShowContactPointTypeFields(element, contactPointType)
+    this._onlyShowContactPointTypeFields(contactPointType)
     contactPointTypeField.on("change", (event: JQuery.ChangeEvent) => {
       const selectedValue = event.target.value as ContactPointType
-      this._onlyShowContactPointTypeFields(element, selectedValue)
+      this._onlyShowContactPointTypeFields(selectedValue)
     })
   },
-  _onlyShowContactPointTypeFields(contactPointEl: ContactPointEl, contactPointType: ContactPointType): void {
-    const contactPointTypeFields = this._getContactPointTypeFields(contactPointEl, contactPointType)
-    const allContactPointFields = this._getAllContactPointFields(contactPointEl)
+  _onlyShowContactPointTypeFields(contactPointType: ContactPointType): void {
+    const contactPointTypeFields = this._getContactPointTypeFields(contactPointType)
+    const allContactPointFields = this._getAllContactPointFields()
     const fieldsToHide = allContactPointFields.not(contactPointTypeFields)
     const formGroupsToHide = fieldsToHide.map((_, el) => this._getParentFormGroup($(el))[0])
     const formGroupsToShow = contactPointTypeFields.map((_, el) => this._getParentFormGroup($(el))[0])
@@ -51,25 +39,30 @@ const ContactDetail: ckan.Module<HTMLDivElement, ContactDetailMO>  = {
     formGroupsToHide.addClass("display-none")
     formGroupsToShow.removeClass("display-none")
   },
-  _getContactPointTypeEl(contactPointEl: ContactPointEl): JQuery<HTMLSelectElement> {
-    const contactPointIndex = this._getContactPointIndex(contactPointEl)
+  _getContactPointTypeEl(): JQuery<HTMLSelectElement> {
+    const contactPointIndex = this._getContactPointIndex()
 
     const contactPointTypeName = `contact_point-${contactPointIndex}-contact_point_type`
-    const contactPointTypeEl = contactPointEl.find<HTMLSelectElement>(`select[name='${contactPointTypeName}']`)
+    const contactPointTypeEl = this.el.find<HTMLSelectElement>(`select[name='${contactPointTypeName}']`)
     if (contactPointTypeEl.length === 0) {
       throw new Error(`Contact point type element not found for index ${contactPointIndex}`)
     }
     return contactPointTypeEl
   },
-  _getContactPointIndex(contactPointEl: ContactPointEl): number {
+  _getContactPointIndex(): number {
+    const contactPointEl = this.el.closest("[data-field='contact_point']")
+    if (contactPointEl.length !== 1) {
+      throw new Error("Contact point element not found")
+    }
+
     const i = contactPointEl.attr("data-group-index")
     if (i === undefined) {
       throw new Error("Contact point index not found")
     }
     return parseInt(i)
   },
-  _getContactPointTypeFields(contactPointEl: ContactPointEl, contactPointType: ContactPointType): JQuery<HTMLElement> {
-    const i = this._getContactPointIndex(contactPointEl)
+  _getContactPointTypeFields(contactPointType: ContactPointType): JQuery<HTMLElement> {
+    const i = this._getContactPointIndex()
     const allFieldNames = this._getAllContactPointFieldNames(i)
     let typeFieldNames: Set<string> | undefined = undefined
     if (contactPointType === ContactPointType.PERSON) {
@@ -84,17 +77,17 @@ const ContactDetail: ckan.Module<HTMLDivElement, ContactDetailMO>  = {
     if (typeFieldNames === undefined) {
         throw new Error(`Contact point type field names not found for type ${contactPointType}`)
     }
-    return this._getContactPointFields(contactPointEl, typeFieldNames)
+    return this._getContactPointFields(typeFieldNames)
   },
-  _getAllContactPointFields(contactPointEl: ContactPointEl): JQuery<HTMLElement> {
-    const i = this._getContactPointIndex(contactPointEl)
+  _getAllContactPointFields(): JQuery<HTMLElement> {
+    const i = this._getContactPointIndex()
     const allFieldNames = this._getAllContactPointFieldNames(i)
-    return this._getContactPointFields(contactPointEl, allFieldNames)
+    return this._getContactPointFields(allFieldNames)
   },
-  _getContactPointFields(contactPointEl: ContactPointEl, fieldNames: Set<string>): JQuery<HTMLElement> {
+  _getContactPointFields(fieldNames: Set<string>): JQuery<HTMLElement> {
     let fields = $()
     for (const fieldName of fieldNames) {
-      const fieldEl = contactPointEl.find(`[name='${fieldName}']`)
+      const fieldEl = this.el.find(`[name='${fieldName}']`)
       if (fieldEl.length === 0) {
         throw new Error(`Contact point field element not found for field ${fieldName}`)
       }

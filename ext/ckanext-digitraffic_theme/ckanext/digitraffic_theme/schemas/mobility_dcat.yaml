@@ -3001,8 +3001,9 @@ dataset_fields:
   label:
     en: Contact point
     fi: Yhteyspiste
-  form_attrs:
+  subfield_form_attrs:
     data-module: digitraffic_theme_contact_detail
+  form_blanks: 0
   repeating_subfields:
   - field_name: contact_point_type
     label:
@@ -3026,7 +3027,7 @@ dataset_fields:
     label:
       en: Full name
       fi: Koko nimi
-    required: false
+    required: true
     necessity: mandatory
   - field_name: organization_name
     label:
@@ -3038,7 +3039,7 @@ dataset_fields:
     label:
       en: Email
       fi: Sähköposti
-    required: false
+    required: true
     preset: email
     necessity: mandatory
   - field_name: has_telephone
@@ -3398,6 +3399,7 @@ dataset_fields:
   label:
     en: Assessment
     fi: Arvio
+  form_blanks: 0
   repeating_subfields:
   - field_name: assessment_date
     label:
@@ -3442,6 +3444,7 @@ dataset_fields:
   label:
     en: Rights holder
     fi: Oikeuksien haltija
+  form_blanks: 0
   repeating_subfields:
   - field_name: type
     required: false

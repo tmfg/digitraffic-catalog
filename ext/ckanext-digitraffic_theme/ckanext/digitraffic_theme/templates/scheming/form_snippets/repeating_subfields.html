@@ -5,7 +5,7 @@
 
 {% macro repeating_panel(index, index1) %}
   <div class="scheming-subfield-group" data-field="{{ field.field_name }}" data-group-index="{{ index }}">
-    <div class="panel panel-default">
+    <div class="panel panel-default" {{ form.attributes(field.get('subfield_form_attrs', {})) }}>
       {% block repeating_panel_header %}
         <header class="panel-heading">
           {% block field_removal_button%}
@@ -32,11 +32,6 @@
       </div>
       <div class="panel-body fields-removed-notice" style="display:none">
         {% block removal_text %}
-          {% if 'id' in data %}
-            {{ _('These fields have been removed, click update below to save your changes.') }}
-          {% else %}
-            {{ _('These fields have been removed.') }}
-          {% endif %}
         {% endblock %}
       </div>
     </div>
