@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-digitraffic_theme 0.0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-05-20 07:15+0000\n"
-"PO-Revision-Date: 2025-05-20 10:27+0300\n"
+"POT-Creation-Date: 2025-05-22 10:31+0000\n"
+"PO-Revision-Date: 2025-05-22 13:33+0300\n"
 "Last-Translator: \n"
 "Language-Team: fi <LL@li.org>\n"
 "Language: fi\n"
@@ -29,124 +29,146 @@ msgstr "Ylläpitäjät"
 msgid "Trash"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/home/index.html:7
+#: ckanext/digitraffic_theme/templates/home/index.html:8
+#: ckanext/digitraffic_theme/templates/home/index.html:22
 msgid "Visibility and users for your data"
 msgstr "Datalle näkyvyyttä ja käyttäjiä"
 
-#: ckanext/digitraffic_theme/templates/home/index.html:8
+#: ckanext/digitraffic_theme/templates/home/index.html:9
+#: ckanext/digitraffic_theme/templates/home/index.html:23
 msgid ""
 "The Traffic Data Catalog is an open national access point (NAP) for traffic "
 "data, where traffic data providers submit information about the data and APIs "
-"they offer. For data users, the catalog provides an overview of available "
-"data sources, their providers, usage methods, and terms."
+"they offer. For data users, the catalog provides an overview of available data "
+"sources, their providers, usage methods, and terms."
 msgstr ""
-"Liikennedatakatalogi on liikennetiedon avoin kansallinen yhteyspiste "
-"(National Access Point, NAP), johon tiedon tuottajat toimittavat tietoja "
-"tarjoamastaan liikennedatasta ja rajapinnoista. Liikennedatan hyödyntäjille "
-"katalogi tarjoaa näkymän tarjolla oleviin datalähteisiin ja niiden "
-"tuottajiin, käyttötapoihin ja ehtoihin."
+"Liikennedatakatalogi on liikennetiedon avoin kansallinen yhteyspiste (National "
+"Access Point, NAP), johon tiedon tuottajat toimittavat tietoja tarjoamastaan "
+"liikennedatasta ja rajapinnoista. Liikennedatan hyödyntäjille katalogi tarjoaa "
+"näkymän tarjolla oleviin datalähteisiin ja niiden tuottajiin, käyttötapoihin ja "
+"ehtoihin."
 
-#: ckanext/digitraffic_theme/templates/home/index.html:10
+#: ckanext/digitraffic_theme/templates/home/index.html:13
+msgid "You are logged in as"
+msgstr "Olet kirjautunut sisään käyttäjänä"
+
+# | msgid "Search datasets..."
+#: ckanext/digitraffic_theme/templates/home/index.html:15
+msgid "Create new dataset"
+msgstr "Luo uusi tietoaineisto"
+
+# | msgid "Search datasets..."
+#: ckanext/digitraffic_theme/templates/home/index.html:16
+msgid "Browse my datasets"
+msgstr "Selaa omia tietoaineistoja"
+
+#: ckanext/digitraffic_theme/templates/home/index.html:25
 msgid "Register"
 msgstr "Rekisteröidy"
 
-#: ckanext/digitraffic_theme/templates/home/index.html:11
+#: ckanext/digitraffic_theme/templates/home/index.html:26
 #: ckanext/digitraffic_theme/templates/snippets/dt_header/user_actions.html:49
 msgid "Log in"
 msgstr "Kirjaudu sisään"
 
-#: ckanext/digitraffic_theme/templates/home/index.html:20
+#: ckanext/digitraffic_theme/templates/home/index.html:37
 msgid "How do I submit my dataset to the catalog?"
 msgstr "Miten pääsen syöttämään tietoaineistoni katalogiin?"
 
-#: ckanext/digitraffic_theme/templates/home/index.html:24
+#: ckanext/digitraffic_theme/templates/home/index.html:41
 msgid "Register and create an organization"
 msgstr "Rekisteröidy ja luo organisaatio"
 
-#: ckanext/digitraffic_theme/templates/home/index.html:25
+#: ckanext/digitraffic_theme/templates/home/index.html:42
 msgid "Datasets and their descriptions are always linked to an organization."
 msgstr "Tietoaineistot ja niiden kuvailut liittyvät aina organisaatioon."
 
 # | msgid "Search datasets..."
-#: ckanext/digitraffic_theme/templates/home/index.html:29
+#: ckanext/digitraffic_theme/templates/home/index.html:46
 msgid "Create a dataset"
 msgstr "Luo tietoaineisto"
 
-#: ckanext/digitraffic_theme/templates/home/index.html:30
+#: ckanext/digitraffic_theme/templates/home/index.html:47
 msgid "Enter your dataset's metadata according to the instructions on the form."
 msgstr "Syötä tietoaineistosi metatiedot lomakkeen ohjeistuksen mukaisesti."
 
-#: ckanext/digitraffic_theme/templates/home/index.html:34
+#: ckanext/digitraffic_theme/templates/home/index.html:51
 msgid "Add data sources (resources)"
 msgstr "Lisää datalähteet (resurssit)"
 
-#: ckanext/digitraffic_theme/templates/home/index.html:35
+#: ckanext/digitraffic_theme/templates/home/index.html:52
 msgid "Add to the description the different ways to access the dataset."
 msgstr ""
 "Lisää kuvaukseen eri tavat, joilla kyseiseen tietoaineistoon pääsee käsiksi."
 
-#: ckanext/digitraffic_theme/templates/home/index.html:39
+#: ckanext/digitraffic_theme/templates/home/index.html:56
 msgid "Publish your dataset"
 msgstr "Julkaise tietoaineistosi"
 
-#: ckanext/digitraffic_theme/templates/home/index.html:40
+#: ckanext/digitraffic_theme/templates/home/index.html:57
 msgid ""
-"Published dataset descriptions can be browsed by users via the catalog's "
-"search functions."
+"Published dataset descriptions can be browsed by users via the catalog's search "
+"functions."
 msgstr ""
 "Julkaistut tietoaineistokuvaukset ovat käyttäjien selailtavissa katalogin "
 "hakutoiminnoilla."
 
-#: ckanext/digitraffic_theme/templates/home/index.html:52
+#: ckanext/digitraffic_theme/templates/home/index.html:69
 msgid "Read more about creating datasets"
 msgstr "Lue lisää aineistojen luomisesta"
 
-#: ckanext/digitraffic_theme/templates/home/index.html:57
+#: ckanext/digitraffic_theme/templates/home/index.html:74
 msgid "Search for datasets"
 msgstr "Etsi tietoaineistoja"
 
-#: ckanext/digitraffic_theme/templates/home/index.html:63
+#: ckanext/digitraffic_theme/templates/home/index.html:75
+msgid ""
+"Datasets will be added to the catalog as the service is adopted more widely."
+msgstr ""
+"Katalogiin lisätään tietoaineistoja sitä mukaa, kun palvelua otetaan laajemmin "
+"käyttöön."
+
+#: ckanext/digitraffic_theme/templates/home/index.html:81
 msgid "Organizations with datasets in the catalog"
 msgstr "Näillä organisaatioilla on tietoaineistoja katalogissa"
 
-#: ckanext/digitraffic_theme/templates/home/index.html:72
+#: ckanext/digitraffic_theme/templates/home/index.html:90
 msgid "Development path"
 msgstr "Kehityspolku"
 
-#: ckanext/digitraffic_theme/templates/home/index.html:76
+#: ckanext/digitraffic_theme/templates/home/index.html:95
 msgid "Launch"
 msgstr "Katalogin julkaisu"
 
-#: ckanext/digitraffic_theme/templates/home/index.html:81
+#: ckanext/digitraffic_theme/templates/home/index.html:102
 msgid "Data collection"
 msgstr "Tiedonkeruu"
 
-#: ckanext/digitraffic_theme/templates/home/index.html:82
+#: ckanext/digitraffic_theme/templates/home/index.html:103
 msgid "Describing existing datasets in the catalog"
 msgstr "Olemassaolevien tietoaineistojen kuvailu katalogiin"
 
-#: ckanext/digitraffic_theme/templates/home/index.html:86
+#: ckanext/digitraffic_theme/templates/home/index.html:109
 msgid "Established use"
 msgstr "Vakiintunut käyttö"
 
-#: ckanext/digitraffic_theme/templates/home/index.html:87
+#: ckanext/digitraffic_theme/templates/home/index.html:110
 msgid "Dataset information is maintained and new datasets are added"
 msgstr "Tietoaineistojen tietoja ylläpidetään ja uusia tietoaineistoja lisätään"
 
-#: ckanext/digitraffic_theme/templates/home/index.html:91
+#: ckanext/digitraffic_theme/templates/home/index.html:116
 msgid "Integrations"
 msgstr "Integraatiot"
 
-#: ckanext/digitraffic_theme/templates/home/index.html:92
+#: ckanext/digitraffic_theme/templates/home/index.html:117
 msgid "Metadata transfer to other catalogs and harvesting from other catalogs"
-msgstr ""
-"Metadatan välitys muihin katalogeihin ja harvestointi muista katalogeista"
+msgstr "Metadatan välitys muihin katalogeihin ja harvestointi muista katalogeista"
 
-#: ckanext/digitraffic_theme/templates/home/index.html:96
+#: ckanext/digitraffic_theme/templates/home/index.html:123
 msgid "Single NAP"
 msgstr "Single NAP"
 
-#: ckanext/digitraffic_theme/templates/home/index.html:97
+#: ckanext/digitraffic_theme/templates/home/index.html:124
 msgid ""
 "Completing the catalog with mobility service information, a single national "
 "access point model"
@@ -207,10 +229,10 @@ msgstr "Lähde: <a href=“%(url)s”>%(dataset)s</a>"
 #: ckanext/digitraffic_theme/templates/package/snippets/package_form.html:40
 msgid ""
 "The <i>data license</i> you select above only applies to the contents of any "
-"resource files that you add to this dataset. By submitting this form, you "
-"agree to release the <i>metadata</i> values that you enter into the form "
-"under the <a href=\"http://opendatacommons.org/licenses/odbl/1-0/\">Open "
-"Database License</a>."
+"resource files that you add to this dataset. By submitting this form, you agree "
+"to release the <i>metadata</i> values that you enter into the form under the <a "
+"href=\"http://opendatacommons.org/licenses/odbl/1-0/\">Open Database License</"
+"a>."
 msgstr ""
 "Yllä valitsemasi <i>lisenssi</i> pätee vain tähän tietoaineistoon lisäämiesi "
 "resurssitiedostojen kohdalla. Lähettäessäsi tämän lomakkeen hyväksyt, että "
@@ -399,8 +421,8 @@ msgstr "Ajallinen kattavuus"
 
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:12
 msgid ""
-"This section describes the temporal coverage of the dataset, if applicable. "
-"May be left empty for continuously updated data."
+"This section describes the temporal coverage of the dataset, if applicable. May "
+"be left empty for continuously updated data."
 msgstr ""
 "Tässä osiossa kuvaillaan tietoaineiston ajallinen kattavuus, jos se on "
 "määriteltävissä. Jatkuvasti päivittyville tiedoille tämän voi jättää tyhjäksi."
@@ -423,10 +445,9 @@ msgstr "Arvio"
 
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:27
 msgid ""
-"This section describes the result and date of an assessment or assessments "
-"made by a third party or parties. The assessment of data sets under EU "
-"delegated regulations is usually carried out by a national supervisory "
-"authority."
+"This section describes the result and date of an assessment or assessments made "
+"by a third party or parties. The assessment of data sets under EU delegated "
+"regulations is usually carried out by a national supervisory authority."
 msgstr ""
 "Tähän osioon kuvataan ulkopuolisen tahon suorittaman arvioinnin päivämäärä ja "
 "tulos. EU:n delegoitujen asetusten mukaisten tietoaineistojen arvioinnin "
@@ -466,12 +487,11 @@ msgstr "Lisää dataa"
 
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:97
 msgid ""
-"In CKAN, a dataset refers to a collection of resources (e.g., files) along "
-"with their descriptions and other metadata, such as a permanent URL."
+"In CKAN, a dataset refers to a collection of resources (e.g., files) along with "
+"their descriptions and other metadata, such as a permanent URL."
 msgstr ""
-"Tietoaineisto tarkoittaa CKAN:issa kokoelmaa resursseja (esim. tiedostoja) "
-"sekä niihin liittyvää kuvausta ja muuta metatietoa, kuten pysyvää URL-"
-"osoitetta."
+"Tietoaineisto tarkoittaa CKAN:issa kokoelmaa resursseja (esim. tiedostoja) sekä "
+"niihin liittyvää kuvausta ja muuta metatietoa, kuten pysyvää URL-osoitetta."
 
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:158
 msgid "Update {page}"
@@ -664,8 +684,8 @@ msgstr "Aktivoi käyttäjä uudelleen"
 
 #: ckanext/digitraffic_theme/templates/user/edit_user_form.html:26
 msgid ""
-"This account is deactivated. If you want to reactivate it, please click on "
-"the checkbox."
+"This account is deactivated. If you want to reactivate it, please click on the "
+"checkbox."
 msgstr ""
 "Tämä käyttäjätili on deaktivoitu. Jos haluat aktivoida sen uudelleen, klikkaa "
 "valintaruutua."
@@ -744,8 +764,8 @@ msgstr ""
 
 #: ckanext/digitraffic_theme/validators/dataset_validators.py:66
 msgid ""
-"Phone number is not in a valid format. Make sure it starts with a valid "
-"country code. e.g. +358"
+"Phone number is not in a valid format. Make sure it starts with a valid country "
+"code. e.g. +358"
 msgstr ""
 "Puhelinnumero ei ole oikeassa muodossa. Varmista, että se alkaa maakoodilla, "
 "esim. +358"
@@ -777,5 +797,5 @@ msgstr ""
 #~ msgid "Fill in assessment details where applicable."
 #~ msgstr ""
 #~ "Tähän osioon kuvataan ulkopuolisen tahon suorittaman arvioinnin päivämäärä "
-#~ "ja tulos. EU:n delegoitujen asetusten mukaisten tietoaineistojen "
-#~ "arvioinnin suorittaa yleensä kansallinen valvova viranomainen."
+#~ "ja tulos. EU:n delegoitujen asetusten mukaisten tietoaineistojen arvioinnin "
+#~ "suorittaa yleensä kansallinen valvova viranomainen."
