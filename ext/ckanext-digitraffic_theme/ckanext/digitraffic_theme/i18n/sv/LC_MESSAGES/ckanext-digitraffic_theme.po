@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-digitraffic_theme 0.0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-05-20 07:15+0000\n"
+"POT-Creation-Date: 2025-05-22 10:31+0000\n"
 "PO-Revision-Date: 2025-05-06 06:53+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: sv\n"
@@ -27,11 +27,13 @@ msgstr ""
 msgid "Trash"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/home/index.html:7
+#: ckanext/digitraffic_theme/templates/home/index.html:8
+#: ckanext/digitraffic_theme/templates/home/index.html:22
 msgid "Visibility and users for your data"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/home/index.html:8
+#: ckanext/digitraffic_theme/templates/home/index.html:9
+#: ckanext/digitraffic_theme/templates/home/index.html:23
 msgid ""
 "The Traffic Data Catalog is an open national access point (NAP) for "
 "traffic data, where traffic data providers submit information about the "
@@ -40,102 +42,120 @@ msgid ""
 "terms."
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/home/index.html:10
+#: ckanext/digitraffic_theme/templates/home/index.html:13
+msgid "You are logged in as"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/home/index.html:15
+msgid "Create new dataset"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/home/index.html:16
+msgid "Browse my datasets"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/home/index.html:25
 msgid "Register"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/home/index.html:11
+#: ckanext/digitraffic_theme/templates/home/index.html:26
 #: ckanext/digitraffic_theme/templates/snippets/dt_header/user_actions.html:49
 msgid "Log in"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/home/index.html:20
+#: ckanext/digitraffic_theme/templates/home/index.html:37
 msgid "How do I submit my dataset to the catalog?"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/home/index.html:24
+#: ckanext/digitraffic_theme/templates/home/index.html:41
 msgid "Register and create an organization"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/home/index.html:25
+#: ckanext/digitraffic_theme/templates/home/index.html:42
 msgid "Datasets and their descriptions are always linked to an organization."
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/home/index.html:29
+#: ckanext/digitraffic_theme/templates/home/index.html:46
 msgid "Create a dataset"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/home/index.html:30
+#: ckanext/digitraffic_theme/templates/home/index.html:47
 msgid "Enter your dataset's metadata according to the instructions on the form."
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/home/index.html:34
+#: ckanext/digitraffic_theme/templates/home/index.html:51
 msgid "Add data sources (resources)"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/home/index.html:35
+#: ckanext/digitraffic_theme/templates/home/index.html:52
 msgid "Add to the description the different ways to access the dataset."
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/home/index.html:39
+#: ckanext/digitraffic_theme/templates/home/index.html:56
 msgid "Publish your dataset"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/home/index.html:40
+#: ckanext/digitraffic_theme/templates/home/index.html:57
 msgid ""
 "Published dataset descriptions can be browsed by users via the catalog's "
 "search functions."
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/home/index.html:52
+#: ckanext/digitraffic_theme/templates/home/index.html:69
 msgid "Read more about creating datasets"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/home/index.html:57
+#: ckanext/digitraffic_theme/templates/home/index.html:74
 msgid "Search for datasets"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/home/index.html:63
-msgid "Organizations with datasets in the catalog"
-msgstr ""
-
-#: ckanext/digitraffic_theme/templates/home/index.html:72
-msgid "Development path"
-msgstr ""
-
-#: ckanext/digitraffic_theme/templates/home/index.html:76
-msgid "Launch"
+#: ckanext/digitraffic_theme/templates/home/index.html:75
+msgid ""
+"Datasets will be added to the catalog as the service is adopted more "
+"widely."
 msgstr ""
 
 #: ckanext/digitraffic_theme/templates/home/index.html:81
+msgid "Organizations with datasets in the catalog"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/home/index.html:90
+msgid "Development path"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/home/index.html:95
+msgid "Launch"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/home/index.html:102
 msgid "Data collection"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/home/index.html:82
+#: ckanext/digitraffic_theme/templates/home/index.html:103
 msgid "Describing existing datasets in the catalog"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/home/index.html:86
+#: ckanext/digitraffic_theme/templates/home/index.html:109
 msgid "Established use"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/home/index.html:87
+#: ckanext/digitraffic_theme/templates/home/index.html:110
 msgid "Dataset information is maintained and new datasets are added"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/home/index.html:91
+#: ckanext/digitraffic_theme/templates/home/index.html:116
 msgid "Integrations"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/home/index.html:92
+#: ckanext/digitraffic_theme/templates/home/index.html:117
 msgid "Metadata transfer to other catalogs and harvesting from other catalogs"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/home/index.html:96
+#: ckanext/digitraffic_theme/templates/home/index.html:123
 msgid "Single NAP"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/home/index.html:97
+#: ckanext/digitraffic_theme/templates/home/index.html:124
 msgid ""
 "Completing the catalog with mobility service information, a single "
 "national access point model"
