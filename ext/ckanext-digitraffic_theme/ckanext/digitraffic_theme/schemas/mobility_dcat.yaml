@@ -3727,17 +3727,6 @@ dataset_fields:
       en: Workplace homepage
       fi: Työpaikan kotisivu
     necessity: optional
-  - field_name: member_of
-    label:
-      en: Member of
-      fi: Jäsenyydet
-    repeating_subfields:
-    - field_name: name
-      label:
-        en: Organization name
-        fi: Organisaation nimi
-      required: false
-      necessity: mandatory
 resource_fields:
 - field_name: url
   label:
