@@ -81,7 +81,9 @@
         <h2>{% trans %}Organizations with datasets in the catalog{% endtrans %}</h2>
         <div class="organization-tags">
             {% for org in h.get_organization_dataset_counts() %}
-                <a href="/organization/{{ org.name }}">{{ org.title }} ({{ org.dataset_count }})</a>
+                {% if org.dataset_count > 0 %}
+                    <a href="/organization/{{ org.name }}">{{ org.title }} ({{ org.dataset_count }})</a>
+                {% endif %}
             {% endfor %}
         </div>
     </section>
