@@ -1,15 +1,6 @@
-import { initialize } from "../module-constructs/module";
+import { RepeatingSubfieldWithTypeFields, type RepeatingSubfieldWithTypeFieldsMO } from "../module-constructs/repeating-subfields";
 
-type RightsHolderMO = {
-  _getTypeEl: () => JQuery<HTMLSelectElement>;
-  _getIndex: () => number;
-  _getAllFields: () => JQuery<HTMLElement>;
-  _getTypeFields: (rightsHolderType: RightsHolderType) => JQuery<HTMLElement>;
-  _getFields: (fieldNames: Set<string>) => JQuery<HTMLElement>;
-  _getAllFieldNames: (i: number) => Set<string>;
-  _getParentFormGroup: (el: JQuery<HTMLElement>) => JQuery<HTMLElement>;
-  _onlyShowTypeFields: (rightsHolderType: RightsHolderType) => void;
-}
+type RightsHolderMO = RepeatingSubfieldWithTypeFieldsMO<RightsHolderType>
 
 enum RightsHolderType {
   ACADEMIA = "http://purl.org/adms/publishertype/Academia-ScientificOrganisation",
@@ -26,50 +17,9 @@ enum RightsHolderType {
 }
 
 const RightsHolder: ckan.Module<HTMLDivElement, RightsHolderMO>  = {
-  initialize() {
-    console.log("INITIALIZINIIINGNGN RIGHTS HOLDER")
-    initialize.apply(this);
-
-    const rightsHolderTypeField = this._getTypeEl()
-    const rightsHolderType = rightsHolderTypeField.val() as RightsHolderType
-    this._onlyShowTypeFields(rightsHolderType)
-    rightsHolderTypeField.on("change", (event: JQuery.ChangeEvent) => {
-      const selectedValue = event.target.value as RightsHolderType
-      this._onlyShowTypeFields(selectedValue)
-    })
-  },
-  _onlyShowTypeFields(rightsHolderType: RightsHolderType): void {
-    const rightsHolderTypeFields = this._getTypeFields(rightsHolderType)
-    const allFields = this._getAllFields()
-    const fieldsToHide = allFields.not(rightsHolderTypeFields)
-    const formGroupsToHide = fieldsToHide.map((_, el) => this._getParentFormGroup($(el))[0])
-    const formGroupsToShow = rightsHolderTypeFields.map((_, el) => this._getParentFormGroup($(el))[0])
-
-    formGroupsToHide.addClass("display-none")
-    formGroupsToShow.removeClass("display-none")
-  },
-  _getTypeEl(): JQuery<HTMLSelectElement> {
-    const index = this._getIndex()
-
-    const rightsHolderTypeName = `rights_holder-${index}-type`
-    const rightsHolderTypeEl = this.el.find<HTMLSelectElement>(`select[name='${rightsHolderTypeName}']`)
-    if (rightsHolderTypeEl.length === 0) {
-      throw new Error(`Rights holder type element not found for index ${index}`)
-    }
-    return rightsHolderTypeEl
-  },
-  _getIndex(): number {
-    const rightsHolderEl = this.el.closest("[data-field='rights_holder']")
-    if (rightsHolderEl.length !== 1) {
-      throw new Error("Rights holder element not found")
-    }
-
-    const i = rightsHolderEl.attr("data-group-index")
-    if (i === undefined) {
-      throw new Error("Rights holder index not found")
-    }
-    return parseInt(i)
-  },
+  ...RepeatingSubfieldWithTypeFields<RightsHolderType>(),
+  fieldName: "rights_holder",
+  typeFieldName: "type",
   _getTypeFields(rightsHolderType: RightsHolderType): JQuery<HTMLElement> {
     const i = this._getIndex()
     const allFieldNames = this._getAllFieldNames(i)
@@ -102,22 +52,6 @@ const RightsHolder: ckan.Module<HTMLDivElement, RightsHolderMO>  = {
     }
     return this._getFields(typeFieldNames)
   },
-  _getAllFields(): JQuery<HTMLElement> {
-    const i = this._getIndex()
-    const allFieldNames = this._getAllFieldNames(i)
-    return this._getFields(allFieldNames)
-  },
-  _getFields(fieldNames: Set<string>): JQuery<HTMLElement> {
-    let fields = $()
-    for (const fieldName of fieldNames) {
-      const fieldEl = this.el.find(`[name='${fieldName}']`)
-      if (fieldEl.length === 0) {
-        throw new Error(`Rights holder field element not found for field ${fieldName}`)
-      }
-      fields = fields.add(fieldEl)
-    }
-    return fields
-  },
   _getAllFieldNames(i: number): Set<string>  {
     return new Set([
       `rights_holder-${i}-type`,
@@ -133,13 +67,6 @@ const RightsHolder: ckan.Module<HTMLDivElement, RightsHolderMO>  = {
       `rights_holder-${i}-admin_unit_l1`,
       `rights_holder-${i}-workplace_homepage`,
     ])
-  },
-  _getParentFormGroup(el: JQuery<HTMLElement>): JQuery<HTMLElement> {
-    const formGroup = el.closest(".form-group")
-    if (formGroup.length === 0) {
-      throw new Error("Parent form group not found")
-    }
-    return formGroup
   }
 };
 
