@@ -11,7 +11,7 @@ server {
     include errorpages.conf;
 
     # use route53 resolver
-    resolver 10.208.240.2;
+    resolver 10.208.244.2;
 
     set $ckan_target "http://ckan.catalog-prod-catalog-ns:5000";
 
