@@ -3444,13 +3444,17 @@ dataset_fields:
   label:
     en: Rights holder
     fi: Oikeuksien haltija
+  subfield_form_attrs:
+    data-module: digitraffic_theme_rights_holder
   form_blanks: 0
   repeating_subfields:
   - field_name: type
-    required: false
+    required: true
     preset: select
     sorted_choices: true
-    form_include_blank_choice: true
+    form_include_blank_choice: false
+    necessity: mandatory
+    default: http://purl.org/adms/publishertype/Company
     choices:
     - value: http://purl.org/adms/publishertype/Academia-ScientificOrganisation
       label:
@@ -3510,12 +3514,11 @@ dataset_fields:
     label:
       en: Agent type
       fi: Toimijan tyyppi
-    necessity: recommended
   - field_name: name
     label:
       en: Name
       fi: Nimi
-    required: false
+    required: true
     necessity: mandatory
   - field_name: first_name
     label:

@@ -5,9 +5,10 @@ import "./modules/dataset-form";
 import './modules/iri-fragment-input';
 import "./modules/language-menu";
 import "./modules/temporal-coverage";
-import "./modules/multi-select"
+import "./modules/multi-select";
 import "./modules/language-toggle-buttons";
-import "./modules/contact-detail"
+import "./modules/contact-detail";
+import "./modules/rights-holder";
 import {
   createIcons,
   ExternalLink,
