@@ -11,6 +11,13 @@ type ContactDetailMO = {
   _onlyShowContactPointTypeFields: (contactPointType: ContactPointType) => void;
 }
 
+class TemplateError extends Error {
+    constructor(message: string) {
+        super(message);
+        this.name = "TemplateError";
+    }
+}
+
 enum ContactPointType {
     PERSON = "http://www.w3.org/2006/vcard/ns#Individual",
     ORGANIZATION = "http://www.w3.org/2006/vcard/ns#Organization",
@@ -18,16 +25,21 @@ enum ContactPointType {
 
 const ContactDetail: ckan.Module<HTMLDivElement, ContactDetailMO>  = {
   initialize() {
-    console.log("INITIALIZINIIINGNGN")
     initialize.apply(this);
-
-    const contactPointTypeField = this._getContactPointTypeEl()
-    const contactPointType = contactPointTypeField.val() as ContactPointType
-    this._onlyShowContactPointTypeFields(contactPointType)
-    contactPointTypeField.on("change", (event: JQuery.ChangeEvent) => {
-      const selectedValue = event.target.value as ContactPointType
-      this._onlyShowContactPointTypeFields(selectedValue)
-    })
+    try {
+      const contactPointTypeField = this._getContactPointTypeEl()
+      const contactPointType = contactPointTypeField.val() as ContactPointType
+      this._onlyShowContactPointTypeFields(contactPointType)
+      contactPointTypeField.on("change", (event: JQuery.ChangeEvent) => {
+        const selectedValue = event.target.value as ContactPointType
+        this._onlyShowContactPointTypeFields(selectedValue)
+      })
+    } catch (e) {
+        if (e instanceof TemplateError) {
+          return
+        }
+        throw e
+    }
   },
   _onlyShowContactPointTypeFields(contactPointType: ContactPointType): void {
     const contactPointTypeFields = this._getContactPointTypeFields(contactPointType)
@@ -58,6 +70,9 @@ const ContactDetail: ckan.Module<HTMLDivElement, ContactDetailMO>  = {
     const i = contactPointEl.attr("data-group-index")
     if (i === undefined) {
       throw new Error("Contact point index not found")
+    }
+    if (i.startsWith("REPEATING-INDEX")) {
+        throw new TemplateError("Template")
     }
     return parseInt(i)
   },
