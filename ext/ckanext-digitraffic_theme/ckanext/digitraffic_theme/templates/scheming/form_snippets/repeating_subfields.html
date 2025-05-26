@@ -12,6 +12,7 @@
             <a class="btn btn-danger btn-repeating-remove" name="repeating-remove" href="javascript:;"
               >{% block delete_button_text %}{{ _('Remove') }}{% endblock %}</a>
           {% endblock %}
+          <p>{{ h.scheming_language_text(field.repeating_label or field.label) }} {{ index1 }}</p>
         </header>
       {% endblock %}
       <div class="panel-body fields-content">

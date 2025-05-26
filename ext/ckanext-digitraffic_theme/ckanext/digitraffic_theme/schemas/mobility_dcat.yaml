@@ -2999,8 +2999,8 @@ dataset_fields:
   necessity: recommended
 - field_name: contact_point
   label:
-    en: Contact point
-    fi: Yhteyspiste
+    en: Contact points
+    fi: Yhteyspisteet
   subfield_form_attrs:
     data-module: digitraffic_theme_contact_detail
   form_blanks: 0
@@ -3442,8 +3442,8 @@ dataset_fields:
   necessity: optional
 - field_name: rights_holder
   label:
-    en: Rights holder
-    fi: Oikeuksien haltija
+    en: Rights holders
+    fi: Oikeuksien haltijat
   subfield_form_attrs:
     data-module: digitraffic_theme_rights_holder
   form_blanks: 0
