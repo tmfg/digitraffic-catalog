@@ -89,19 +89,17 @@
 
   {%- set schema = h.scheming_get_dataset_schema(dataset_type) -%}
 
-  <div class="field-group-cell-container">
-    {# Render field groups.
-       We pass pkg_name as the package_id because that's the only
-      variable available in this snippet #}
-    {% snippet 'package/snippets/field_groups.html',
-      field_groups=field_groups,
-      schema_fields=schema.resource_fields,
-      data=data,
-      errors=errors,
-      dataset_type=dataset_type,
-      package_id=pkg_name
-    -%}
-  </div>
+  {# Render field groups.
+     We pass pkg_name as the package_id because that's the only
+    variable available in this snippet #}
+  {% snippet 'package/snippets/field_groups.html',
+    field_groups=field_groups,
+    schema_fields=schema.resource_fields,
+    data=data,
+    errors=errors,
+    dataset_type=dataset_type,
+    package_id=pkg_name
+  -%}
 
 {% endblock %}
 

@@ -33,9 +33,3 @@ body {
     }
 }
 
-@media (max-width: map-get($grid-breakpoints, md) - 1) {
-    #content {
-        // Tällä korjataan toolbaarin väärä väri kun näyttö on pieni
-        background-color: var(--fds-color-brand-black);
-    }
-}
