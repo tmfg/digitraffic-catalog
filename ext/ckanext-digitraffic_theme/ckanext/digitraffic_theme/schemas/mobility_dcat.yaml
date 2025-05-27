@@ -273,7 +273,6 @@ dataset_fields:
   required: true
   preset: select
   sorted_choices: true
-  form_include_blank_choice: true
   validators: scheming_required mobility_theme_validator
   choices:
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/air-and-space-travel
