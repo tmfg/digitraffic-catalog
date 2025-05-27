@@ -223,16 +223,18 @@ const DatasetFormWrapper: ckan.Module<HTMLSelectElement, DatasetFormWrapperMO> =
     const isInitialRender = oldState === undefined
     const isMobilityThemeChanged = oldState?.topMobilityTheme !== state.topMobilityTheme
     const isRenderNeeded = isInitialRender || isMobilityThemeChanged
-    if (isRenderNeeded && state.topMobilityTheme) {
-      const subThemes = MOBILITY_THEME_TREE[state.topMobilityTheme].map(subTheme => subTheme)
-      const initialSubMobilityTheme = this._getInitialSubMobilityTheme();
-      if (subThemes?.length > 0) {
-        _addSubThemeSelector.apply(this)
-        const subThemeOptions = _buildSubThemeOptions.apply(this, [subThemes, initialSubMobilityTheme])
-        _changeSubThemeOptions.apply(this, [subThemeOptions])
-      } else {
-        _removeSubThemeSelector.apply(this)
+    if (isRenderNeeded) {
+      if (state.topMobilityTheme) {
+        const subThemes = MOBILITY_THEME_TREE[state.topMobilityTheme].map(subTheme => subTheme)
+        const initialSubMobilityTheme = this._getInitialSubMobilityTheme();
+        if (subThemes?.length > 0) {
+          _addSubThemeSelector.apply(this)
+          const subThemeOptions = _buildSubThemeOptions.apply(this, [subThemes, initialSubMobilityTheme])
+          _changeSubThemeOptions.apply(this, [subThemeOptions])
+          return
+        }
       }
+      _removeSubThemeSelector.apply(this)
     }
   }
 }
