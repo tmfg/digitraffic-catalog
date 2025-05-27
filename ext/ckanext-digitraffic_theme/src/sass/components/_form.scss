@@ -1,49 +1,61 @@
-/* mobile single-column layout */
-@media (max-width: 767px) {
-    .field-group-cell-container {
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-    }
+.field-group-cell-container {
+    display: grid;
+    column-gap: 1rem;
+    row-gap: 1rem;
+    grid-template-areas:
+        "left-1"
+        "left-2"
+        "left-3"
+        "left-4";
+}
+
+.left-1 {
+    grid-area: left-1;
+}
+
+.left-2 {
+    grid-area: left-3;
+}
+
+.right-1 {
+    grid-area: left-2;
+}
+
+.right-2 {
+    grid-area: left-4;
 }
 
 /* two-column layout for larger screens */
 @media (min-width: 768px) {
     .field-group-cell-container {
-        --used-padding: 6px;
-        --used-margin: 6px;
+        grid-template-areas:
+        "left-1 right-1"
+        "left-2 right-2";
     }
 
     .field-group-cell {
-        width: calc(50% - 2*var(--used-margin));
         background-color: var(--fds-color-neutral-50);
         padding: var(--digitraffic-data-form-cell-padding);
     }
 
     .left-1 {
-        float: left;
+        grid-area: left-1;
     }
 
     .left-2 {
-        float: left;
-        margin-top: 20px;
+        grid-area: left-2;
     }
 
     .right-1 {
-        float: right;
+        grid-area: right-1;
     }
 
     .right-2 {
-        float: right;
-        margin-top: 20px;
+        grid-area: right-2;
     }
 
     .form-actions {
         margin-top: 30px;
-    }
-
-    .form-actions-spacer {
-        clear: both;
     }
 
 }

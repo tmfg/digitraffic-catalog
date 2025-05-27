@@ -128,7 +128,6 @@
     {%- set fields = schema.dataset_fields -%}
   {%- endif -%}
 
-  <div class="field-group-cell-container">
   <!-- render field groups -->
   {% snippet 'package/snippets/field_groups.html',
     field_groups=field_groups,
@@ -137,7 +136,6 @@
     errors=errors,
     dataset_type=dataset_type
   -%}
-</div>
 
   {%- if pages -%}
     <input type="hidden" name="_ckan_phase" value="{{ active_page }}" />
