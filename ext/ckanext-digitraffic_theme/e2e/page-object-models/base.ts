@@ -158,6 +158,14 @@ export abstract class BasePage {
   }
 }
 
+export interface JSLoadedInterface<T extends BasePage> {
+  ensurePageJsLoaded: () => Promise<T>
+}
+
+export function implementsJSLoadedInterface<T extends BasePage>(pom: T): pom is T & JSLoadedInterface<T> {
+    return 'ensurePageJsLoaded' in pom && typeof pom.ensurePageJsLoaded === 'function';
+}
+
 class AppNavigationViewportStateError extends Error {
   constructor(viewportIs: 'wide' | 'narrow', userMessage: string = '') {
     const message = `Trying to interact with app navigation as if it was ${viewportIs}. It is not. ${userMessage}`

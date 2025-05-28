@@ -12,6 +12,7 @@ export enum URL {
   UsersList = '/user',
   DatasetsList = '/dataset',
   NewDataset = '/dataset/new',
+  NewResource = '/dataset/{datasetId}/resource/new',
 }
 export interface POMConstructor {
   new(page: Page, ...args: any[]): Object;
