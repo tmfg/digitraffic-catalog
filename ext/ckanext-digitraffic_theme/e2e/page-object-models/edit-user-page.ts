@@ -2,7 +2,7 @@ import {BasePage} from "./base";
 import type {Locator, Page} from "@playwright/test";
 import {setPom, URL} from "./pages-controller";
 import {gotoNewPage, pathParameterURL} from "./util";
-import {UserInfo} from "../models/userInfo";
+import {UserInfo} from "../models/user-info";
 import {UserProfilePage} from "./user-profile-page";
 
 export class EditUserPage extends BasePage {

@@ -7,6 +7,7 @@ import {
   type CancellableLocatorsChecks
 } from '../util'
 import type {OrganizationsListPage} from "./organizations-list-page";
+import type {DatasetsListPage} from "./datasets-list-page";
 import type {UserProfilePage} from "./user-profile-page";
 
 /**
@@ -24,6 +25,7 @@ export abstract class BasePage {
   readonly userNavigationChevronUpIcon: Locator
   readonly organizationsNavigatior: Locator
   readonly userProfileNavigator: Locator
+  readonly datasetsNavigator: Locator
   readonly mainContent: Locator
   protected isAtPageLocators: [Locator, ...Locator[]]
 
@@ -39,6 +41,7 @@ export abstract class BasePage {
     this.userProfileNavigator = this.accountNavigation.getByRole('link', {name: "Profiili", exact: true})
     this.userNavigationChevronDownIcon = this.accountNavigation.locator('.lucide-chevron-down')
     this.userNavigationChevronUpIcon = this.accountNavigation.locator('.lucide-chevron-up')
+    this.datasetsNavigator = this.appNavigation.getByRole('link', {name: "Tietoaineistot"})
     this.mainContent = page.locator('body > .main')
   }
 
@@ -92,6 +95,19 @@ export abstract class BasePage {
     await this.userProfileNavigator.click()
     await userProfilePOM.assertPage()
     return userProfilePOM
+  }
+
+  async gotoDatasetsListPage(): Promise<DatasetsListPage> {
+    const datasetsListPageConstructor = getPom(URL.DatasetsList);
+    const datasetsListPOM = new datasetsListPageConstructor(this.page) as DatasetsListPage;
+
+    if (!await this.isWideScreen()) {
+      await this.makeAppNavigationOpen();
+    }
+
+    await this.datasetsNavigator.click();
+    await datasetsListPOM.assertPage();
+    return datasetsListPOM;
   }
 
   async makeAppNavigationOpen(): Promise<void> {
