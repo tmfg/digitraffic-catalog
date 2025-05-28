@@ -6,6 +6,7 @@ from typing import Any, Union, cast
 from ckan.common import current_user, config
 from ckan.types import Context
 from ckan.lib.helpers import get_translated
+from ckan.plugins import toolkit
 
 
 def print_field_and_data(field_name: str, data: dict):
@@ -101,6 +102,16 @@ def get_organization_dataset_counts():
     return sorted(results, key=lambda result: result["dataset_count"], reverse=True)
 
 
+def get_site_title():
+    titles = {
+        "en": "Transport Data Catalog",
+        "fi": "Liikennedatakatalogi",
+        "sv": "Trafikdatakatalog",
+    }
+    lang = toolkit.h.lang()
+    return titles.get(lang, config.get("ckan.site_title", "CKAN"))
+
+
 helpers = {
     "print_field_and_data": print_field_and_data,
     "get_datasets_as_form_choices": get_datasets_as_form_choices,
@@ -109,4 +120,5 @@ helpers = {
     "is_dataset_public": is_dataset_public,
     "dataset_display_name": dataset_display_name,
     "get_organization_dataset_counts": get_organization_dataset_counts,
+    "get_site_title": get_site_title,
 }
