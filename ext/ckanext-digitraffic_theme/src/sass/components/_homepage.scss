@@ -18,24 +18,49 @@
             @media (max-width: 900px) {
                 max-width: 100%;
             }
+        }
 
+        .hero-image {
+            width: 50%;
+            background: url(/images/hero_image.jpg) center center/cover no-repeat;
+            display: block;
+
+            @media (max-width: 900px) {
+                display: none;
+            }
         }
     }
 
     .homepage-hero.logged-in {
-        background: url(/images/hero_image.jpg);
         display: flex;
         justify-content: center;
-        align-items: center;
+        background-color: rgb(30, 35, 61);
+        color: white;
+
 
         .hero-content.logged-in {
             max-width: 50%;
             padding: 80px;
-            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+
+            @media (max-width: 900px) {
+                max-width: 100%;
+            }
+        }
+
+        .hero-image {
+            width: 50%;
+            background: url(/images/hero_image.jpg) center center/cover no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         @media (max-width: 900px) {
             flex-direction: column;
+            align-items: center;
 
             .hero-content.logged-in,
             .hero-logged-in-box {
@@ -49,7 +74,11 @@
                 border-radius: 0;
                 box-shadow: none;
                 flex: auto;
-                margin-bottom: 50px;
+            }
+
+            .hero-image {
+                width: 100%;
+                min-height: 400px;
             }
         }
     }
@@ -82,22 +111,10 @@
         color: black
     }
 
-    .hero-image img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        /* Maintain aspect ratio while covering the area */
-        border-radius: 0px;
-
-        @media (max-width: 900px) {
-            display: none;
-        }
-    }
-
 
 
     .hero-logged-in-box {
-        flex: 0 0 480px;
+        flex: 0 0 420px;
         max-width: 480px;
         min-width: 340px;
         background: #f4f4f4;
@@ -107,7 +124,6 @@
         justify-content: center;
         align-items: center;
         padding: 48px 32px;
-        margin: 32px 32px 32px 0;
         border-radius: 0px;
         box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
         text-align: center;
@@ -120,12 +136,13 @@
             margin: 12px 0 0 0;
             display: block;
             border-radius: 5px;
+            border: 2px solid black;
+
         }
 
         .btn.browse-datasets {
             background-color: white;
             color: black;
-            border: 2px solid black;
         }
 
         .btn:hover {
@@ -140,13 +157,6 @@
         font-weight: 600;
     }
 
-    .hero-image {
-        flex: 1;
-        /* Take up all available space on the right */
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
 
     /* Steps section */
     .steps {
