@@ -2,7 +2,7 @@ import type {Browser, BrowserContext, Page} from "@playwright/test";
 import {HomePage, EditUserPage} from "../page-object-models";
 import {URL} from "../page-object-models/pages-controller";
 import {gotoNewPage} from "../page-object-models/util";
-import {UserInfo} from "../models/userInfo";
+import {UserInfo} from "../models/user-info";
 import {IdentityUser, Identity} from "./identity-user";
 import {UserStateError} from "./user";
 

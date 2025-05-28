@@ -1,5 +1,5 @@
 import {KnownUser} from "../users/known-user";
-import {UserInfo} from "../models/userInfo";
+import {UserInfo} from "../models/user-info";
 import {type Page, test} from "@playwright/test";
 import type {UserFlowOptions, UserFlowResponse} from "./util";
 import {EditUserPage, UserProfilePage} from "../page-object-models";
