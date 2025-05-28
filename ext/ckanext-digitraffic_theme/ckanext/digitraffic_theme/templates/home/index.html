@@ -1,12 +1,15 @@
 {% extends "page.html" %}
 
+{% set hero_title_text = _("Visibility and users for your data") %}
+{% set hero_text =_("The Transport Data Catalog is an open national access point (NAP) for traffic data, where traffic data providers submit information about the data and APIs they offer. For data users, the catalog provides an overview of available data sources, their providers, usage methods, and terms.") %}
+
 {% block content %}
 <div class="digitraffic-catalog-homepage">
         {% if c.user %}
             <section class="homepage-hero logged-in">
                 <div class="hero-content logged-in">
-                        <h1>{% trans %}Visibility and users for your data{% endtrans %}</h1>
-                        <p>{% trans %}The Traffic Data Catalog is an open national access point (NAP) for traffic data, where traffic data providers submit information about the data and APIs they offer. For data users, the catalog provides an overview of available data sources, their providers, usage methods, and terms.{% endtrans %}</p>
+                    <h1>{{hero_title_text}}</h1>
+                    <p>{{hero_text}}</p>
                 </div>
                 <div class="hero-image">
                     <div class="hero-logged-in-box">
@@ -21,8 +24,8 @@
         {% else %}
         <section class="homepage-hero default">
             <div class="hero-content default">
-                <h1>{% trans %}Visibility and users for your data{% endtrans %}</h1>
-                <p>{% trans %}The Traffic Data Catalog is an open national access point (NAP) for traffic data, where traffic data providers submit information about the data and APIs they offer. For data users, the catalog provides an overview of available data sources, their providers, usage methods, and terms.{% endtrans %}</p>
+                    <h1>{{hero_title_text}}</h1>
+                    <p>{{hero_text}}</p>
                 <div class="hero-buttons">
                     <a href="/user/register" class="btn btn-primary">{% trans %}Register{% endtrans %}</a>
                     <a href="/user/login" class="btn btn-secondary">{% trans %}Log in{% endtrans %}</a>
