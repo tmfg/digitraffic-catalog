@@ -1,5 +1,5 @@
 import type {Locator, Page} from "@playwright/test";
-import {BasePage, JSLoadedInterface} from './base';
+import {BasePage, type JSLoadedInterface} from './base';
 import {setPom, URL} from "./pages-controller";
 import {DatasetInfo} from '../models/dataset-info';
 import {gotoNewPage} from "./util";
@@ -52,24 +52,21 @@ export class NewDatasetPage extends BasePage implements JSLoadedInterface<NewDat
   }
 
   async fillForm(datasetInfo: DatasetInfo) {
-    if (datasetInfo.title) {
-      if (datasetInfo.visibility === 'public') {
-        await this.visibilityFieldPublic.check();
-      }
-      if (datasetInfo.visibility === 'private') {
-        await this.visibilityFieldPrivate.check();
-      }
-      await this.titleField.fill(datasetInfo.title)
-      await this.frequencyField.click()
-      for (const frequency of datasetInfo.frequencies) {
-        await this.page.getByText(frequency.label).click()
-      }
-      await this.frequencyField.click()
-        //.selectOption(datasetInfo.frequency)
-      await this.regionalCoverageField.selectOption(datasetInfo.regionalCoverage)
-      await this.dataContentCategoryField.selectOption(datasetInfo.dataContentCategory)
-      await this.descriptionField.fill(datasetInfo.description)
+    if (datasetInfo.visibility === 'public') {
+      await this.visibilityFieldPublic.check();
     }
+    if (datasetInfo.visibility === 'private') {
+      await this.visibilityFieldPrivate.check();
+    }
+    await this.titleField.fill(datasetInfo.title)
+    await this.frequencyField.click()
+    for (const frequency of datasetInfo.frequencies) {
+      await this.page.getByText(frequency.label).click()
+    }
+    await this.frequencyField.click()
+    await this.regionalCoverageField.selectOption(datasetInfo.regionalCoverage)
+    await this.dataContentCategoryField.selectOption(datasetInfo.dataContentCategory)
+    await this.descriptionField.fill(datasetInfo.description)
   }
 
   async setDatasetInfo(datasetInfo: DatasetInfo): Promise<NewResourcePage> {
@@ -88,6 +85,7 @@ export class NewDatasetPage extends BasePage implements JSLoadedInterface<NewDat
         if (!datasetIdMatch || datasetIdMatch.length < 2) {
           throw new Error("Couldn't extract dataset ID from the URL");
         }
+        console.log(`Dataset ID: ${datasetIdMatch[1]}`);
         newResourcePOM.setDatasetId(datasetIdMatch[1] as string);
       }
     )

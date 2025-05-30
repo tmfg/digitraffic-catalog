@@ -8,7 +8,7 @@
 import {test as setup, getKnownUserOrThrow, getIdentityUserOrThrow} from '../fixtures/users';
 import {IdentityUser} from '../users/identity-user'
 import {Identity} from '../users/identity-user'
-import {getVisibleLocator, getEnv} from "../util";
+import {hideDevTools, getEnv} from "../util";
 import {organization} from "../testdata";
 import {addMemberToOrganization, createOrganization, removeMemberFromOrganization} from "../user-flows/organization"
 import {OrganizationCreationError, Role} from "../page-object-models";
@@ -18,14 +18,7 @@ async function authenticate(user: IdentityUser, identity: Identity, username: st
   await setup.step(`Authenticate as ${identity}`, async () => {
     const page = await user.goToNewPage('/')
 
-    const hideDevToolLocator = page.getByRole('link', {name: 'Hide »'})
-    const showDevToolLocator = page.getByRole('link', { name: '«' })
-
-    const devToolLocator = await getVisibleLocator(hideDevToolLocator, showDevToolLocator)
-
-    if (devToolLocator === hideDevToolLocator) {
-      await hideDevToolLocator.click();
-    }
+    await hideDevTools(page)
     if (!await user.isUserLoggedIn()) {
       await user.authenticateUser(page, username, password)
     }

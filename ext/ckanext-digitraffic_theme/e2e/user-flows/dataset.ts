@@ -1,8 +1,11 @@
 import {KnownUser} from "../users/known-user";
 import {DatasetInfo} from "../models/dataset-info";
+import {ResourceInfo} from "../models/resource-info";
 import {type Page, test} from "@playwright/test";
 import type {UserFlowOptions, UserFlowResponse} from "./util";
 import {NewDatasetPage} from "../page-object-models/new-dataset-page";
+import {NewResourcePage} from "../page-object-models";
+import {DatasetPage} from "../page-object-models/dataset-page";
 
 /**
  * Navigates to the new dataset page using UI elements
@@ -34,7 +37,7 @@ export async function browseToNewDatasetPage(user: KnownUser, page: Page | undef
  * @param {DatasetInfo} newDatasetInfo - Information for the new dataset
  * @param {UserFlowOptions} options - Optional parameters
  */
-export async function setNewDatasetInfo(user: KnownUser, newDatasetInfo: DatasetInfo, options?: UserFlowOptions): Promise<UserFlowResponse<NewDatasetPage>> {
+export async function setNewDatasetInfo(user: KnownUser, newDatasetInfo: DatasetInfo, options?: UserFlowOptions): Promise<UserFlowResponse<NewResourcePage>> {
   return await test.step(`Creating new dataset as ${user.identity}`, async () => {
     let page = options?.page;
     if (page === undefined) {
@@ -57,10 +60,39 @@ export async function setNewDatasetInfo(user: KnownUser, newDatasetInfo: Dataset
 
     await newDatasetPOM.assertPage();
 
-    const newDatasetPageAfterUpdate = await newDatasetPOM.setDatasetInfo(newDatasetInfo);
+    const newResourcePage = await newDatasetPOM.setDatasetInfo(newDatasetInfo);
     return {
-      isRunSuccessful: true,
-      pom: newDatasetPageAfterUpdate
+      pom: newResourcePage
     }
   });
+}
+
+export async function setNewResourceInfo(
+  user: KnownUser,
+  resourceInfo: ResourceInfo,
+  options?: UserFlowOptions
+): Promise<UserFlowResponse<DatasetPage>> {
+  let page = options?.page;
+  if (page === undefined) {
+    page = await user.createNewPage('newResourcePage');
+  }
+
+  let newResourcePOM: NewResourcePage;
+  if (typeof options?.navigate === 'undefined' || options?.navigate) {
+    throw new Error("Navigating to new resource page is not implemented yet. ");
+  } else {
+    newResourcePOM = new NewResourcePage(page);
+  }
+
+  await newResourcePOM.assertPage()
+  if (!resourceInfo.datasetId) {
+    throw new Error('Resource info must contain datasetId');
+  }
+  newResourcePOM.setDatasetId(resourceInfo.datasetId)
+
+  const datasetPage = await newResourcePOM.setResourceInfo(resourceInfo);
+
+  return {
+    pom: datasetPage,
+  };
 }
