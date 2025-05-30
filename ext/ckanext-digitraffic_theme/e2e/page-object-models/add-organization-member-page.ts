@@ -1,4 +1,4 @@
-import {BasePage} from "./base";
+import {BasePage, type JSLoadedInterface} from "./base";
 import type {Locator, Page} from "@playwright/test";
 import {setPom, URL} from "./pages-controller";
 import {gotoNewPage, pathParameterURL} from "./util";
@@ -13,7 +13,7 @@ export enum Role {
   Member = 'Jäsen'
 }
 
-export class AddOrganizationMemberPage extends BasePage {
+export class AddOrganizationMemberPage extends BasePage implements JSLoadedInterface<AddOrganizationMemberPage> {
   readonly organization: Organization
   readonly pageUrl: string
   readonly existingUserSelector: Locator
@@ -24,8 +24,8 @@ export class AddOrganizationMemberPage extends BasePage {
     super(page, [page.getByRole('heading', {name: 'Lisää jäsen'})]);
     this.organization = organization
     this.pageUrl = pathParameterURL(URL.AddOrganizationMember, {'name': organization.name})
-    this.existingUserSelector = page.getByLabel('Olemassa oleva käyttäjä')
-    this.roleSelector = page.getByLabel('Rooli')
+    this.existingUserSelector = page.getByRole('link', { name: 'Käyttäjänimi' })
+    this.roleSelector = page.getByRole('link', { name: 'Jäsen', exact: true })
     this.addUserButton = page.getByRole('button', {name: 'Lisää jäsen'})
   }
   async goto(): Promise<AddOrganizationMemberPage> {
@@ -33,12 +33,22 @@ export class AddOrganizationMemberPage extends BasePage {
     return this;
   }
 
+    async ensurePageJsLoaded<AddOrganizationMemberPage>(): Promise<AddOrganizationMemberPage> {
+        await this.page.waitForLoadState('networkidle');
+        return this as unknown as AddOrganizationMemberPage;
+    }
+
   async selectExistingUser(user: KnownUser): Promise<void> {
-    await this.existingUserSelector.fill(user.getUserAttribute("name"))
+    const userName = user.getUserAttribute("name")
+    await this.existingUserSelector.click()
+    await this.page.locator('#s2id_autogen1_search').fill(userName)
+    await this.page.getByRole('option', { name: userName }).click()
   }
 
   async selectRole(role: Role):Promise<void> {
-    await this.roleSelector.selectOption(role)
+    await this.roleSelector.click()
+    await this.page.locator('#s2id_autogen2_search').fill(role)
+    await this.page.getByRole('option', { name: role }).click()
   }
 
   async pressAdd(): Promise<EditOrganizationPage> {

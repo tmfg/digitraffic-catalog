@@ -159,3 +159,17 @@ export function getForbiddenPageLocator(page: Page):Locator {
 export async function isAtForbiddenPage(page: Page): Promise<boolean> {
   return await isVisible(getForbiddenPageLocator(page))
 }
+
+export async function hideDevTools(page: Page): Promise<void> {
+  await test.step(`Hide dev tool if necessary`, async () => {
+
+    const hideDevToolLocator = page.getByRole('link', {name: 'Hide »'})
+    const showDevToolLocator = page.getByRole('link', { name: '«' })
+
+    const devToolLocator = await getVisibleLocator(hideDevToolLocator, showDevToolLocator)
+
+    if (devToolLocator === hideDevToolLocator) {
+      await hideDevToolLocator.click();
+    }
+  })
+}

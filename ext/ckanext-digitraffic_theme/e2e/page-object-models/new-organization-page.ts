@@ -1,11 +1,11 @@
-import {BasePage} from "./base";
+import {BasePage, type JSLoadedInterface} from "./base";
 import type {Locator, Page} from "@playwright/test";
 import {setPom, URL} from "./pages-controller";
 import {Organization} from "../models/organization";
-import {gotoNewPage, urlify} from "./util";
+import {gotoNewPage} from "./util";
 import {isVisible} from "../util";
 
-export class NewOrganizationPage extends BasePage {
+export class NewOrganizationPage extends BasePage implements JSLoadedInterface<NewOrganizationPage> {
   readonly nameField: Locator
   readonly descriptionField: Locator
   readonly urlField: Locator
@@ -26,9 +26,14 @@ export class NewOrganizationPage extends BasePage {
     return this;
   }
 
+  async ensurePageJsLoaded<NewOrganizationPage>(): Promise<NewOrganizationPage> {
+    await this.page.waitForLoadState('networkidle');
+    await this.page.getByRole('button', { name: 'Edit' });
+    return this as unknown as NewOrganizationPage;
+  }
+
   async fillForm(organization: Organization): Promise<void> {
     await this.nameField.fill(organization.name)
-    await this.urlField.fill(urlify(organization.name))
     if (organization.description) {
       await this.descriptionField.fill(organization.description)
     }

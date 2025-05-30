@@ -1,0 +1,16 @@
+export enum MobilityDataStandard {
+  C_ITS = 'https://w3id.org/mobilitydcat-ap/mobility-data-standard/c-its',
+  DATEX_II = 'https://w3id.org/mobilitydcat-ap/mobility-data-standard/datex-II',
+  DINO = 'https://w3id.org/mobilitydcat-ap/mobility-data-standard/dino',
+  GBFS = 'https://w3id.org/mobilitydcat-ap/mobility-data-standard/gbfs',
+  GML = 'https://w3id.org/mobilitydcat-ap/mobility-data-standard/gml',
+  GTFS = 'https://w3id.org/mobilitydcat-ap/mobility-data-standard/gtfs',
+  GTFS_RT = 'https://w3id.org/mobilitydcat-ap/mobility-data-standard/gtfs-rt',
+  INSPIRE = 'https://w3id.org/mobilitydcat-ap/mobility-data-standard/inspire',
+  NETEX = 'https://w3id.org/mobilitydcat-ap/mobility-data-standard/netex',
+  OCIT_C = 'https://w3id.org/mobilitydcat-ap/mobility-data-standard/ocit-c',
+  OTHER = 'https://w3id.org/mobilitydcat-ap/mobility-data-standard/other',
+  SIRI = 'https://w3id.org/mobilitydcat-ap/mobility-data-standard/siri',
+  TN_ITS = 'https://w3id.org/mobilitydcat-ap/mobility-data-standard/tn-its',
+  TPEGML = 'https://w3id.org/mobilitydcat-ap/mobility-data-standard/tpegml',
+}

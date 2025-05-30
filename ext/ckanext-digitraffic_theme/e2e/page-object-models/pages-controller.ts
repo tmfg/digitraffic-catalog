@@ -11,6 +11,7 @@ export enum URL {
   EditUser = '/user/edit/{name}',
   UsersList = '/user',
   DatasetsList = '/dataset',
+  Dataset = '/dataset/{datasetId}',
   NewDataset = '/dataset/new',
   NewResource = '/dataset/{datasetId}/resource/new',
 }

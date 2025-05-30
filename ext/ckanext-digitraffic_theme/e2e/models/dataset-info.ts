@@ -5,6 +5,7 @@ import type {TOP_MOBILITY_THEMES_T} from "../../src/ts/model/mobility-theme";
 export type Visibility = 'public' | 'private';
 
 export class DatasetInfo {
+  id?: string
   visibility: Visibility;
   title: string;
   frequencies: FrequencyOption[];
@@ -18,7 +19,9 @@ export class DatasetInfo {
     frequencies: Frequency[],
     regionalCoverage: RegionalCoverage,
     dataContentCategory: TOP_MOBILITY_THEMES_T,
-    description: string
+    description: string,
+    id?: string,
+    //optionalValues?: {}
   ) {
     this.visibility = visibility
     this.title = title
@@ -26,6 +29,7 @@ export class DatasetInfo {
     this.regionalCoverage = regionalCoverage
     this.dataContentCategory = dataContentCategory
     this.description = description
+    this.id = id;
   }
 
   cloneWith(partialDatasetInfo: Partial<DatasetInfo>): DatasetInfo {
@@ -35,7 +39,8 @@ export class DatasetInfo {
       partialDatasetInfo.frequencies?.map(frequencyOption => frequencyOption.value) ?? this.frequencies.map(frequencyOption => frequencyOption.value),
       partialDatasetInfo.regionalCoverage ?? this.regionalCoverage,
       partialDatasetInfo.dataContentCategory ?? this.dataContentCategory,
-      partialDatasetInfo.description ?? this.description
+      partialDatasetInfo.description ?? this.description,
+      partialDatasetInfo.id ?? this.id
     );
   }
 }
