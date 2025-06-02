@@ -14,6 +14,7 @@ from opentelemetry.sdk.extension.aws.resource.ecs import AwsEcsResourceDetector
 from ckanext.digitraffic_opentelemetry.trace import configure as configure_traces, TraceConfig
 from ckanext.digitraffic_opentelemetry.log import configure as configure_logs, LogConfig
 from ckanext.digitraffic_opentelemetry.instrumentation import instrument_all
+from ckanext.digitraffic_opentelemetry.instrumentation.ckan_instrumentation import instrument as ckan_instrument
 
 import logging
 import sys
@@ -25,6 +26,7 @@ otel_logger = logging.getLogger("otel")
 class DigitrafficOpentelemetryPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IMiddleware)
     plugins.implements(plugins.IConfigDeclaration)
+    plugins.implements(plugins.IConfigurable)
 
     def make_middleware(self, app, config):
         # TODO: Should also check OTEL_EXPORTER_OTLP_TRACES_ENDPOINT and OTEL_EXPORTER_OTLP_LOGS_ENDPOINT
@@ -77,6 +79,15 @@ class DigitrafficOpentelemetryPlugin(plugins.SingletonPlugin):
         declaration.declare(key.digitraffic_opentelemetry.otel_logger_name, default="root")
         declaration.declare_bool(key.digitraffic_opentelemetry.enter_pdb_on_error, default=False)
         declaration.declare_bool(key.digitraffic_opentelemetry.instrument_ckan_alpha, default=False)
+
+    def configure(self, config):
+        """
+        Instrument CKAN with OpenTelemetry tracing and logging.
+
+        The instrumentation must be done here instead of in the `make_middleware` method. This is because CKAN
+        loads the logic functions dynamically, and the instrumentation must be done before that happens.
+        """
+        ckan_instrument()
 
 
 def handle_all_uncaught_exceptions(type, value, traceback):
