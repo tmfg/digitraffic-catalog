@@ -158,7 +158,7 @@ class DigitrafficThemePlugin(plugins.SingletonPlugin, DefaultTranslation):
         _password_routes_blueprint.add_url_rule("/user/edit/<id>", view_func=_edit_view)
 
         _digitraffic_pages_blueprint.add_url_rule(
-            "/instructions",
+            "/help/instructions",
             view_func=self.instructions,
             methods=["GET"],
         )
