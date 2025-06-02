@@ -132,9 +132,7 @@
         box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
         text-align: center;
         align-self: center;
-    }
 
-    .hero-logged-in-box {
         .btn {
             width: 100%;
             margin: 12px 0 0 0;
@@ -168,125 +166,129 @@
         padding: 50px;
         background-color: white;
         margin: 0 50px;
-    }
 
-    .steps h2 {
-        margin-bottom: 30px;
-    }
+        h2 {
+            margin-bottom: 30px;
+        }
 
-    .step-cards {
-        display: flex;
-        justify-content: center;
-        gap: 40px;
-        margin-top: 40px;
+        .step-cards {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 40px;
 
-        @media (max-width: 900px) {
+            @media (max-width: 900px) {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        .step-card {
+            width: 370px;
+            min-height: 340px;
+            box-sizing: border-box;
+            padding: 48px 32px 32px 32px;
+            display: flex;
             flex-direction: column;
+            align-items: flex-start;
+            border-radius: 0;
+            text-align: left;
+
+        }
+
+        .step-card.blue {
+            background: #2342f5;
+            color: #fff;
+        }
+
+        .step-card.black {
+            background: #000;
+            color: #fff;
+        }
+
+        .step-header {
+            display: flex;
+            align-items: baseline;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 0;
+            min-height: 64px;
+        }
+
+        .step-number {
+            font-size: 2rem;
+            font-weight: 700;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .step-card .step-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0;
+            line-height: 1.1;
+            min-height: 80px;
+            text-align: left;
+        }
+
+        .step-desc {
+            margin-top: 20px;
+            font-size: 1.2rem;
+            line-height: 1.4;
+        }
+
+        .steps-info-btn {
+            display: flex;
+            justify-content: center;
+            margin-top: 48px;
+            margin-bottom: 30px;
+        }
+
+        .steps-info-btn a {
+            text-decoration: none;
+            color: inherit;
+            background: none;
+            box-shadow: none;
+            transition: none;
+        }
+
+        .steps-info-btn a:hover,
+        .steps-info-btn a:focus {
+            text-decoration: none;
+            color: inherit;
+            background: none;
+            box-shadow: none;
+        }
+
+        .steps-info-btn button {
+            background: #000;
+            color: #fff;
+            font-size: 1.5rem;
+            font-weight: 400;
+            padding: 20px 40px;
+            border: none;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .steps-info-btn button:hover {
+            background: #222;
+        }
+
+        .steps-info-btn .icon {
+            font-size: 1.5rem;
+            display: flex;
             align-items: center;
         }
-    }
-
-    .step-card {
-        width: 370px;
-        min-height: 340px;
-        box-sizing: border-box;
-        padding: 48px 32px 32px 32px;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        border-radius: 0;
-        text-align: left;
 
     }
 
-    .step-card.blue {
-        background: #2342f5;
-        color: #fff;
-    }
 
-    .step-card.black {
-        background: #000;
-        color: #fff;
-    }
 
-    .step-header {
-        display: flex;
-        align-items: baseline;
-        gap: 16px;
-        flex-wrap: wrap;
-        margin-bottom: 0;
-        min-height: 64px;
-    }
-
-    .step-number {
-        font-size: 2rem;
-        font-weight: 700;
-        line-height: 1;
-        margin-bottom: 8px;
-    }
-
-    .step-card .step-title {
-        font-size: 1.5rem;
-        font-weight: 700;
-        margin-bottom: 0;
-        line-height: 1.1;
-        min-height: 80px;
-        text-align: left;
-    }
-
-    .step-desc {
-        margin-top: 20px;
-        font-size: 1.2rem;
-        line-height: 1.4;
-    }
-
-    .steps-info-btn {
-        display: flex;
-        justify-content: center;
-        margin-top: 48px;
-        margin-bottom: 30px;
-    }
-
-    .steps-info-btn a {
-        text-decoration: none;
-        color: inherit;
-        background: none;
-        box-shadow: none;
-        transition: none;
-    }
-
-    .steps-info-btn a:hover,
-    .steps-info-btn a:focus {
-        text-decoration: none;
-        color: inherit;
-        background: none;
-        box-shadow: none;
-    }
-
-    .steps-info-btn button {
-        background: #000;
-        color: #fff;
-        font-size: 1.5rem;
-        font-weight: 400;
-        padding: 20px 40px;
-        border: none;
-        border-radius: 16px;
-        display: flex;
-        align-items: center;
-        gap: 16px;
-        cursor: pointer;
-        transition: background 0.2s;
-    }
-
-    .steps-info-btn button:hover {
-        background: #222;
-    }
-
-    .steps-info-btn .icon {
-        font-size: 1.5rem;
-        display: flex;
-        align-items: center;
-    }
 
     /* Search section */
     .search {
@@ -359,162 +361,99 @@
     /* Organizations section */
     .organizations {
         padding: 60px;
-    }
 
-    .organizations h2 {
-        text-align: center;
-        margin-bottom: 32px;
-    }
-
-    .organization-tags {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 40px;
-        margin-top: 48px;
-
-        a {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #fff;
-            color: #000;
-            border: 2px solid #000;
-            border-radius: 8px;
-            font-size: 1rem;
-            padding: 11px 15px;
-            box-sizing: border-box;
-            transition:
-                box-shadow 0.2s,
-                border-color 0.2s,
-                color 0.2s,
-                background 0.2s;
-            box-shadow: none;
-            margin: 0;
-            text-decoration: none;
-            cursor: pointer;
+        h2 {
             text-align: center;
+            margin-bottom: 32px;
         }
 
-        a:hover,
-        a:focus {
-            background: #000;
-            color: #fff;
-            box-shadow: 0 4px 24px rgba(35, 66, 245, 0.10);
-            text-decoration: none;
+        .organization-tags {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 48px;
+
+            a {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: #fff;
+                color: #000;
+                border: 2px solid #000;
+                border-radius: 8px;
+                font-size: 1rem;
+                padding: 11px 15px;
+                box-sizing: border-box;
+                transition:
+                    box-shadow 0.2s,
+                    border-color 0.2s,
+                    color 0.2s,
+                    background 0.2s;
+                box-shadow: none;
+                margin: 0;
+                text-decoration: none;
+                cursor: pointer;
+                text-align: center;
+            }
+
+            a:hover,
+            a:focus {
+                background: #000;
+                color: #fff;
+                box-shadow: 0 4px 24px rgba(35, 66, 245, 0.10);
+                text-decoration: none;
+            }
         }
+
     }
+
+
 
     /* Development progress section */
-    .development-progress-title {
-        text-align: center;
-        margin-bottom: 30px;
-        margin-top: 20px
-    }
 
-    .progress-step-wrapper {
-        margin-top: auto;
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 20px;
-    }
+    .development-progress {
 
-    .progress-step {
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        flex: 1;
-    }
+        .development-progress-title {
+            text-align: center;
+            margin-bottom: 30px;
+            margin-top: 20px
+        }
 
-    .progress-step::before {
-        position: absolute;
-        content: "";
-        border-bottom: 2px solid black;
-        width: 100%;
-        top: 40px;
-        left: -50%;
-        z-index: 2;
-    }
+        .progress-step-wrapper {
+            margin-top: auto;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
 
-    .progress-step::after {
-        position: absolute;
-        content: "";
-        border-bottom: 2px solid black;
-        width: 100%;
-        top: 40px;
-        left: 50%;
-        z-index: 2;
-    }
+        .progress-step {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+        }
 
-    .progress-step .step-counter {
-        position: relative;
-        z-index: 5;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 80px;
-        height: 80px;
-        border-radius: 50%;
-        background: black;
-        color: white;
-        margin-bottom: 6px;
-    }
+        .progress-step::before {
+            position: absolute;
+            content: "";
+            border-bottom: 2px solid black;
+            width: 100%;
+            top: 40px;
+            left: -50%;
+            z-index: 2;
+        }
 
-    .progress-step.active {
-        font-weight: bold;
-    }
-
-    .progress-step.completed .step-counter {
-        background-color: #2342f5;
-        color: white;
-    }
-
-    .progress-step.active .step-counter {
-        background-color: white;
-        border: 3px solid #000;
-        color: black;
-    }
-
-    .progress-step.completed::after {
-        position: absolute;
-        content: "";
-        border-bottom: 2px solid #2342f5;
-        width: 100%;
-        top: 40px;
-        left: 50%;
-        z-index: 3;
-    }
-
-    .progress-step .step-title {
-        margin-bottom: 15px;
-        text-align: center;
-    }
-
-    .progress-step.completed .step-title {
-        color: #2342f5;
-    }
-
-    .progress-step:first-child::before {
-        content: none;
-    }
-
-    .progress-step:last-child::after {
-        content: none;
-    }
-
-    .progress-step .step-description {
-        text-align: center;
-        max-width: 150px;
-    }
-
-    .step-texts {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    @media (max-width: 900px) {
+        .progress-step::after {
+            position: absolute;
+            content: "";
+            border-bottom: 2px solid black;
+            width: 100%;
+            top: 40px;
+            left: 50%;
+            z-index: 2;
+        }
 
         .progress-step .step-counter {
             position: relative;
@@ -522,96 +461,166 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            width: 30px;
-            height: 30px;
-            min-width: 30px;
-            min-height: 30px;
-
+            width: 80px;
+            height: 80px;
             border-radius: 50%;
             background: black;
             color: white;
             margin-bottom: 6px;
         }
 
-        .progress-step-wrapper {
-            flex-direction: column;
-            align-items: flex-start;
+        .progress-step.active {
+            font-weight: bold;
         }
 
-        .progress-step {
-            flex-direction: row;
-            align-items: flex-start;
-            margin-left: 10px;
-            margin-bottom: 20px;
-            position: relative;
-            min-height: 60px; // ensure enough height for the line
+        .progress-step.completed .step-counter {
+            background-color: #2342f5;
+            color: white;
+        }
+
+        .progress-step.active .step-counter {
+            background-color: white;
+            border: 3px solid #000;
+            color: black;
         }
 
         .progress-step.completed::after {
-            content: "";
             position: absolute;
-            left: 14.5px; // center of the step-counter (adjust if needed)
-            top: 40%;
-            width: 2px;
-            height: 100%;
-            background: black;
-            border: none;
-            z-index: 1;
-            transform: translateY(-10%)
-        }
-
-        .progress-step::before {
             content: "";
-            position: absolute;
-            left: 14.5px; // center of the step-counter (adjust if needed)
-            top: 0;
-            width: 2px;
-            height: 50%;
-            background: black;
-            border: none;
-            z-index: 1;
+            border-bottom: 2px solid #2342f5;
+            width: 100%;
+            top: 40px;
+            left: 50%;
+            z-index: 3;
         }
 
-        .progress-step::after {
-            content: "";
-            position: absolute;
-            left: 14.5px; // center of the step-counter (adjust if needed)
-            top: 50%;
-            width: 2px;
-            height: 100%;
-            background: black;
-            border: none;
-            z-index: 1;
-            transform: translateY(-10%)
+        .progress-step .step-title {
+            margin-bottom: 15px;
+            text-align: center;
         }
 
-        .progress-step:last-child::before {
-            display: none
+        .progress-step.completed .step-title {
+            color: #2342f5;
         }
 
+        .progress-step:first-child::before {
+            content: none;
+        }
 
         .progress-step:last-child::after {
-            display: none;
+            content: none;
+        }
+
+        .progress-step .step-description {
+            text-align: center;
+            max-width: 150px;
         }
 
         .step-texts {
             display: flex;
             flex-direction: column;
-            align-items: start;
-            margin-left: 20px;
+            align-items: center;
         }
 
-        .progress-step .step-description {
-            text-align: left;
-            max-width: 300px;
+        @media (max-width: 900px) {
+
+            .progress-step .step-counter {
+                position: relative;
+                z-index: 5;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 30px;
+                height: 30px;
+                min-width: 30px;
+                min-height: 30px;
+
+                border-radius: 50%;
+                background: black;
+                color: white;
+                margin-bottom: 6px;
+            }
+
+            .progress-step-wrapper {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .progress-step {
+                flex-direction: row;
+                align-items: flex-start;
+                margin-left: 10px;
+                margin-bottom: 20px;
+                position: relative;
+                min-height: 60px; // ensure enough height for the line
+            }
+
+            .progress-step.completed::after {
+                content: "";
+                position: absolute;
+                left: 14.5px; // center of the step-counter (adjust if needed)
+                top: 40%;
+                width: 2px;
+                height: 100%;
+                background: black;
+                border: none;
+                z-index: 1;
+                transform: translateY(-10%)
+            }
+
+            .progress-step::before {
+                content: "";
+                position: absolute;
+                left: 14.5px; // center of the step-counter (adjust if needed)
+                top: 0;
+                width: 2px;
+                height: 50%;
+                background: black;
+                border: none;
+                z-index: 1;
+            }
+
+            .progress-step::after {
+                content: "";
+                position: absolute;
+                left: 14.5px; // center of the step-counter (adjust if needed)
+                top: 50%;
+                width: 2px;
+                height: 100%;
+                background: black;
+                border: none;
+                z-index: 1;
+                transform: translateY(-10%)
+            }
+
+            .progress-step:last-child::before {
+                display: none
+            }
+
+
+            .progress-step:last-child::after {
+                display: none;
+            }
+
+            .step-texts {
+                display: flex;
+                flex-direction: column;
+                align-items: start;
+                margin-left: 20px;
+            }
+
+            .progress-step .step-description {
+                text-align: left;
+                max-width: 300px;
+            }
+
+
+            .progress-step .step-title {
+                margin-bottom: 15px;
+                text-align: left;
+            }
+
         }
-
-
-        .progress-step .step-title {
-            margin-bottom: 15px;
-            text-align: left;
-        }
-
     }
 
     /* Instructions page */
