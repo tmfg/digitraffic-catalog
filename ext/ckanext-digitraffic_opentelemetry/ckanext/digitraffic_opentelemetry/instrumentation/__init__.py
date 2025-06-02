@@ -16,4 +16,3 @@ def instrument_all(app: Flask, engine: Engine):
     add_request_instrumentation()
     add_sqlalchemy_instrumentation(engine)
     add_redis_instrumentation()
-    ckan_instrument()
