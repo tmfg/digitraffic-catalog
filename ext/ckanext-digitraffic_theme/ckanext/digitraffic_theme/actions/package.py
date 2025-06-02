@@ -11,13 +11,16 @@ from ckan.plugins import get_plugin
 
 log = logging.getLogger(__name__)
 
+_CREATE_KEY_VALUE = str(uuid.uuid4())
+
 
 @toolkit.chained_action
 def package_update(
     original_action: Callable, context: Context, data_dict: DataDict
 ) -> ActionResult.PackageUpdate:
     # prevent user from updating 'name' (in practice the url) of package
-    if "name" in data_dict:
+    if (context.get("create_in_process") != _CREATE_KEY_VALUE and
+        "name" in data_dict):
         del data_dict["name"]
     return original_action(context, data_dict)
 
@@ -27,7 +30,8 @@ def package_patch(
     original_action: Callable, context: Context, data_dict: DataDict
 ) -> ActionResult.PackagePatch:
     # prevent user from updating 'name' (in practice the url) of package
-    if "name" in data_dict:
+    if (context.get("create_in_process") != _CREATE_KEY_VALUE and
+        "name" in data_dict):
         del data_dict["name"]
     return original_action(context, data_dict)
 
@@ -50,43 +54,19 @@ def package_create(
     in the database yet. This makes it impossible to submit the dataset after
     validation errors, so we validate here first.
     """
-    package_plugin = lib_plugins.lookup_package_plugin()
-    scheming = get_plugin("scheming_datasets")
-    schema: Schema = context.get("schema") or package_plugin.create_package_schema()
+    tmp_name = str(uuid.uuid4())
+    data_dict["name"] = tmp_name
+    context["defer_commit"] = True
+    context["create_in_process"] = _CREATE_KEY_VALUE
 
-    # Both 'name' and 'id' use the same uuid. 'id' is assigned after validation - new packages should not have an id at this stage.
-    package_id = str(uuid.uuid4())
-    data_dict["name"] = package_id
+    saved_data = original_action(context, data_dict)
 
-    # This block is copied from the default action. 'type' should be set before validation.
-    if "type" not in data_dict:
-        try:
-            # use first type as default if user didn't provide type
-            package_type = package_plugin.package_types()[0]
-        except (AttributeError, IndexError):
-            package_type = "dataset"
-            # in case a 'dataset' plugin was registered w/o fallback
-            package_plugin = lib_plugins.lookup_package_plugin(package_type)
-        data_dict["type"] = package_type
-    else:
-        package_plugin = lib_plugins.lookup_package_plugin(data_dict["type"])
-
-    data, errors = scheming.validate(context, data_dict, schema, "package_create")
-
-    # This is copy-pasted from the default package_create so logging is consistent.
-    log.debug(
-        "package_create validate_errs=%r user=%s package=%s data=%r",
-        errors,
-        context.get("user"),
-        data.get("name"),
-        data_dict,
-    )
-
-    if errors:
-        model.Session.rollback()
-        raise logic.ValidationError(errors)
-
-    # Both 'name' and 'id' use the same uuid.
-    data_dict["id"] = package_id
-
-    return original_action(context, data_dict)
+    toolkit.get_action('package_patch')(context, {
+        "id": saved_data["id"],
+        "name": saved_data["id"]
+    })
+    saved_data["name"] = saved_data["id"]
+    del context["create_in_process"]
+    model.repo.commit()
+    context["defer_commit"] = False
+    return saved_data
