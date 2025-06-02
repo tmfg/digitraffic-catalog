@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-digitraffic_theme 0.0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-05-28 10:50+0000\n"
-"PO-Revision-Date: 2025-05-28 13:52+0300\n"
+"POT-Creation-Date: 2025-06-02 08:18+0000\n"
+"PO-Revision-Date: 2025-06-02 12:38+0300\n"
 "Last-Translator: \n"
 "Language-Team: fi <LL@li.org>\n"
 "Language: fi\n"
@@ -28,6 +28,15 @@ msgstr "Ylläpitäjät"
 #: ckanext/digitraffic_theme/templates/admin/base.html:6
 msgid "Trash"
 msgstr ""
+
+#: ckanext/digitraffic_theme/templates/home/hero_buttons.html:2
+msgid "Register"
+msgstr "Rekisteröidy"
+
+#: ckanext/digitraffic_theme/templates/home/hero_buttons.html:3
+#: ckanext/digitraffic_theme/templates/snippets/dt_header/user_actions.html:49
+msgid "Log in"
+msgstr "Kirjaudu sisään"
 
 #: ckanext/digitraffic_theme/templates/home/index.html:3
 msgid "Visibility and users for your data"
@@ -60,51 +69,42 @@ msgstr "Luo uusi tietoaineisto"
 msgid "Browse my datasets"
 msgstr "Selaa omia tietoaineistoja"
 
-#: ckanext/digitraffic_theme/templates/home/index.html:30
-msgid "Register"
-msgstr "Rekisteröidy"
-
-#: ckanext/digitraffic_theme/templates/home/index.html:31
-#: ckanext/digitraffic_theme/templates/snippets/dt_header/user_actions.html:49
-msgid "Log in"
-msgstr "Kirjaudu sisään"
-
-#: ckanext/digitraffic_theme/templates/home/index.html:41
+#: ckanext/digitraffic_theme/templates/home/index.html:38
 msgid "How do I submit my dataset to the catalog?"
 msgstr "Miten pääsen syöttämään tietoaineistoni katalogiin?"
 
-#: ckanext/digitraffic_theme/templates/home/index.html:45
+#: ckanext/digitraffic_theme/templates/home/index.html:42
 msgid "Register and create an organization"
 msgstr "Rekisteröidy ja luo organisaatio"
 
-#: ckanext/digitraffic_theme/templates/home/index.html:46
+#: ckanext/digitraffic_theme/templates/home/index.html:43
 msgid "Datasets and their descriptions are always linked to an organization."
 msgstr "Tietoaineistot ja niiden kuvailut liittyvät aina organisaatioon."
 
 # | msgid "Search datasets..."
-#: ckanext/digitraffic_theme/templates/home/index.html:50
-#: ckanext/digitraffic_theme/templates/home/instructions.html:26
+#: ckanext/digitraffic_theme/templates/home/index.html:47
+#: ckanext/digitraffic_theme/templates/home/instructions.html:36
 msgid "Create a dataset"
 msgstr "Luo tietoaineisto"
 
-#: ckanext/digitraffic_theme/templates/home/index.html:51
+#: ckanext/digitraffic_theme/templates/home/index.html:48
 msgid "Enter your dataset's metadata according to the instructions on the form."
 msgstr "Syötä tietoaineistosi metatiedot lomakkeen ohjeistuksen mukaisesti."
 
-#: ckanext/digitraffic_theme/templates/home/index.html:55
+#: ckanext/digitraffic_theme/templates/home/index.html:52
 msgid "Add data sources (resources)"
 msgstr "Lisää datalähteet (resurssit)"
 
-#: ckanext/digitraffic_theme/templates/home/index.html:56
+#: ckanext/digitraffic_theme/templates/home/index.html:53
 msgid "Add to the description the different ways to access the dataset."
 msgstr ""
 "Lisää kuvaukseen eri tavat, joilla kyseiseen tietoaineistoon pääsee käsiksi."
 
-#: ckanext/digitraffic_theme/templates/home/index.html:60
+#: ckanext/digitraffic_theme/templates/home/index.html:57
 msgid "Publish your dataset"
 msgstr "Julkaise tietoaineistosi"
 
-#: ckanext/digitraffic_theme/templates/home/index.html:61
+#: ckanext/digitraffic_theme/templates/home/index.html:58
 msgid ""
 "Published dataset descriptions can be browsed by users via the catalog's search "
 "functions."
@@ -112,62 +112,62 @@ msgstr ""
 "Julkaistut tietoaineistokuvaukset ovat käyttäjien selailtavissa katalogin "
 "hakutoiminnoilla."
 
-#: ckanext/digitraffic_theme/templates/home/index.html:73
+#: ckanext/digitraffic_theme/templates/home/index.html:70
 msgid "Read more about creating datasets"
 msgstr "Lue lisää aineistojen luomisesta"
 
-#: ckanext/digitraffic_theme/templates/home/index.html:78
+#: ckanext/digitraffic_theme/templates/home/index.html:75
 msgid "Search for datasets"
 msgstr "Etsi tietoaineistoja"
 
-#: ckanext/digitraffic_theme/templates/home/index.html:79
+#: ckanext/digitraffic_theme/templates/home/index.html:76
 msgid ""
 "Datasets will be added to the catalog as the service is adopted more widely."
 msgstr ""
 "Katalogiin lisätään tietoaineistoja sitä mukaa, kun palvelua otetaan laajemmin "
 "käyttöön."
 
-#: ckanext/digitraffic_theme/templates/home/index.html:85
+#: ckanext/digitraffic_theme/templates/home/index.html:82
 msgid "Organizations with datasets in the catalog"
 msgstr "Näillä organisaatioilla on tietoaineistoja katalogissa"
 
-#: ckanext/digitraffic_theme/templates/home/index.html:96
+#: ckanext/digitraffic_theme/templates/home/index.html:93
 msgid "Development path"
 msgstr "Kehityspolku"
 
-#: ckanext/digitraffic_theme/templates/home/index.html:101
+#: ckanext/digitraffic_theme/templates/home/index.html:98
 msgid "Launch"
 msgstr "Katalogin julkaisu"
 
-#: ckanext/digitraffic_theme/templates/home/index.html:108
+#: ckanext/digitraffic_theme/templates/home/index.html:105
 msgid "Data collection"
 msgstr "Tiedonkeruu"
 
-#: ckanext/digitraffic_theme/templates/home/index.html:109
+#: ckanext/digitraffic_theme/templates/home/index.html:106
 msgid "Describing existing datasets in the catalog"
 msgstr "Olemassaolevien tietoaineistojen kuvailu katalogiin"
 
-#: ckanext/digitraffic_theme/templates/home/index.html:115
+#: ckanext/digitraffic_theme/templates/home/index.html:112
 msgid "Established use"
 msgstr "Vakiintunut käyttö"
 
-#: ckanext/digitraffic_theme/templates/home/index.html:116
+#: ckanext/digitraffic_theme/templates/home/index.html:113
 msgid "Dataset information is maintained and new datasets are added"
 msgstr "Tietoaineistojen tietoja ylläpidetään ja uusia tietoaineistoja lisätään"
 
-#: ckanext/digitraffic_theme/templates/home/index.html:122
+#: ckanext/digitraffic_theme/templates/home/index.html:119
 msgid "Integrations"
 msgstr "Integraatiot"
 
-#: ckanext/digitraffic_theme/templates/home/index.html:123
+#: ckanext/digitraffic_theme/templates/home/index.html:120
 msgid "Metadata transfer to other catalogs and harvesting from other catalogs"
 msgstr "Metadatan välitys muihin katalogeihin ja harvestointi muista katalogeista"
 
-#: ckanext/digitraffic_theme/templates/home/index.html:129
+#: ckanext/digitraffic_theme/templates/home/index.html:126
 msgid "Single NAP"
 msgstr "Single NAP"
 
-#: ckanext/digitraffic_theme/templates/home/index.html:130
+#: ckanext/digitraffic_theme/templates/home/index.html:127
 msgid ""
 "Completing the catalog with mobility service information, a single national "
 "access point model"
@@ -176,8 +176,8 @@ msgstr ""
 "yhteyspisteen malli"
 
 #: ckanext/digitraffic_theme/templates/home/instructions.html:8
-msgid "Why publish data on the Digitraffic platform?"
-msgstr ""
+msgid "Why publish your data in the Transport Data Catalog?"
+msgstr "Miksi julkaista dataa Liikennedatakatalogissa?"
 
 #: ckanext/digitraffic_theme/templates/home/instructions.html:10
 msgid ""
@@ -187,43 +187,71 @@ msgstr ""
 
 # | msgid "Search datasets..."
 # | msgid "Create new dataset"
-#: ckanext/digitraffic_theme/templates/home/instructions.html:12
+#: ckanext/digitraffic_theme/templates/home/instructions.html:13
 msgid "Add new dataset"
 msgstr "Luo uusi tietoaineisto"
 
 # | msgid "Search datasets..."
 # | msgid "Create a dataset"
-#: ckanext/digitraffic_theme/templates/home/instructions.html:21
-#, fuzzy
-msgid "Create a user"
-msgstr "Luo käyttäjä"
-
-#: ckanext/digitraffic_theme/templates/home/instructions.html:22
-msgid "Describe step 1 here. Add your own text as needed."
-msgstr ""
-
 #: ckanext/digitraffic_theme/templates/home/instructions.html:27
-msgid "Describe step 2 here. Add your own text as needed."
+msgid "Register as a user"
+msgstr "Rekisteröidy käyttäjäksi"
+
+#: ckanext/digitraffic_theme/templates/home/instructions.html:28
+msgid ""
+"Start by registering at <a href=\"https://id.fintraffic.fi\">Fintraffic ID</a>. "
+"After you have registered as a user, you need to request membership in your "
+"organization from your organization admin. If your organization does not yet "
+"exist in the catalog, you need to request its creation from <a "
+"href=\"mailto:digitraffic@fintraffic.fi\">digitraffic@fintraffic.fi</a>"
 msgstr ""
+"Aloita rekisteröitymällä Fintraffic ID -käyttäjäksi. Kun olet rekisteröitynyt "
+"käyttäjäksi, sinun täytyy pyytää organisaatiosi jäsenyyttä organisaatiosi "
+"pääkäyttäjältä. Jos organisaatiotasi ei vielä ole katalogissa, pyydä sen "
+"lisäämistä ottamalla yhteyttä sähköpostitse osoitteeseen: <a "
+"href=\"mailto:digitraffic@fintraffic.fi\">digitraffic@fintraffic.fi</a>"
+
+#: ckanext/digitraffic_theme/templates/home/instructions.html:37
+msgid ""
+"Describe and create your dataset according to the fields and instructions on "
+"the form. At the dataset level, you describe the general properties of the "
+"data. The actual data and the APIs or services distributing it are described in "
+"the next step."
+msgstr ""
+"Luo ja kuvaile tietoaineistosi lomakkeella pyydettyjen tietojen mukaisesti. "
+"Tietoaineistotasolla kuvataan datan yleiset ominaisuudet. Itse data ja sitä "
+"jakelevat rajapinnat tai palvelut kuvataan seuraavassa vaiheessa."
 
 # | msgid "Resource URLs"
-#: ckanext/digitraffic_theme/templates/home/instructions.html:31
-#, fuzzy
+#: ckanext/digitraffic_theme/templates/home/instructions.html:45
 msgid "Add resources"
-msgstr "Verkko-osoitteet"
+msgstr "Lisää datalähteet (resurssit)"
 
-#: ckanext/digitraffic_theme/templates/home/instructions.html:32
-msgid "Describe step 3 here. Add your own text as needed."
+#: ckanext/digitraffic_theme/templates/home/instructions.html:46
+msgid ""
+"A single dataset can have several data sources, such as APIs and file packages. "
+"At this stage, add the different ways to access the dataset."
 msgstr ""
+"Yksittäiseen tietoaineistoon voi liittyä useita datalähteitä, esimerkiksi "
+"ohjelmointirajapintoja (API) ja tiedostomuotoisia paketteja. Lisää tässä "
+"vaiheessa nämä eri tavat, joilla tietoaineistoon pääsee käsiksi."
 
 # | msgid "Publish your dataset"
-#: ckanext/digitraffic_theme/templates/home/instructions.html:36
+#: ckanext/digitraffic_theme/templates/home/instructions.html:54
 msgid "Publish the dataset"
 msgstr "Julkaise tietoaineistosi"
 
-#: ckanext/digitraffic_theme/templates/home/instructions.html:37
-msgid "Describe step 4 here. Add your own text as needed."
+#: ckanext/digitraffic_theme/templates/home/instructions.html:55
+msgid ""
+"By setting the dataset's visibility to \"Public\", your dataset will be visible "
+"to all users in the catalog and can be found using the catalog's search "
+"functions. If you wish, you can set private visibility, in which case your "
+"dataset will only be visible to members of your own organization."
 msgstr ""
+"Asettamalla tietoaineiston näkyvyyden tilaan “Julkinen”, saat tietoaineistosi "
+"esille katalogiin, jolloin se on katalogin hakutoiminnoilla löydettävissä. "
+"Halutessasi voit tallentaa kuvauksen yksityisenä, jolloin se näkyy vain oman "
+"organisaatiosi jäsenille."
 
 #: ckanext/digitraffic_theme/templates/macros/form/input_block.html:27
 msgid "Custom"
