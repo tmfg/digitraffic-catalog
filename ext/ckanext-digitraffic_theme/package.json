@@ -1,6 +1,7 @@
 {
   "type": "module",
   "scripts": {
+    "postinstall": "cd node_modules/@fintraffic/fds-coreui-components && npm install --no-save && mkdir -p dist && npx tsc src/**/*.ts src/*.ts --declaration --outDir dist --skipLibCheck --target es2019 --module es2020 --moduleResolution node --allowSyntheticDefaultImports --experimentalDecorators --noImplicitOverride",
     "bundle": "npm run bundle-ts & npm run bundle-sass",
     "bundle-ts": "rollup -c",
     "bundle-sass": "npm run override-ckan-default-variables && npm run sass-task && npm run postcss-task",
@@ -12,9 +13,8 @@
     "e2e-codegen": "playwright codegen"
   },
   "dependencies": {
-    "@fintraffic/fds-coreui-components": "^0.2.0",
+    "@fintraffic/fds-coreui-components": "github:fintraffic-design/fds-coreui-components#bc7b1c8",
     "@fintraffic/fds-coreui-css": "^0.1.3",
-    "ckan": "github:ckan/ckan#ckan-2.10.5",
     "lucide": "^0.477.0",
     "lucide-static": "^0.477.0"
   },
@@ -26,6 +26,7 @@
     "@types/jquery": "^3.5.32",
     "@types/node": "^22.13.9",
     "autoprefixer": "^10.4.20",
+    "ckan": "github:ckan/ckan#ckan-2.11.3",
     "cssnano": "^7.0.6",
     "dotenv": "^16.4.7",
     "jquery": "^3.7.1",
