@@ -1,6 +1,20 @@
 import { initialize } from "./module";
 
-export const Dropdown = <T extends HTMLElement>(): ckan.Module<T> => ({
+export type DropdownMO = {
+  _onMenuControllerClick: (event: JQuery.ClickEvent) => void;
+  _onMenuControllerKeyDown: (event: JQuery.KeyDownEvent) => void;
+  _onMenuKeyDown: (event: JQuery.KeyDownEvent) => void;
+  _getMenuController: () => JQuery<HTMLElement>;
+  _getMenu: () => JQuery<HTMLElement>;
+  _expandedClass: string;
+  _toggleList: () => void;
+  _isMenuOpen: () => boolean;
+  _closeList: () => void;
+  _openList: () => void;
+  _focus: (elementKey: 'first' | 'menuController' | 'next' | 'previous') => void;
+}
+
+export const Dropdown = <T extends HTMLElement>(): ckan.Module<T, DropdownMO> => ({
   initialize(this) {
     initialize.apply(this);
     this._getMenuController().on('click', this._onMenuControllerClick);
@@ -141,4 +155,4 @@ export const Dropdown = <T extends HTMLElement>(): ckan.Module<T> => ({
   _getMenu(): JQuery<HTMLElement> {
     throw Error('No menu')
   }
-} as unknown as ckan.Module<T>)
+})

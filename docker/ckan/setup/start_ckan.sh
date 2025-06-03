@@ -18,8 +18,8 @@ ckan config-tool $CKAN_INI "ckan.locale_default=fi"
 ckan config-tool $CKAN_INI "ckan.locales_offered=fi en sv"
 
 # Format logging
-ckan config-tool "${CKAN_INI}" -s formatter_generic 'format = {"asctime": ${asctime}, "name": ${name}, "levelname": ${levelname}, "message": ${message}, "span_id": ${otelSpanID}, "trace_id": ${otelTraceID}, "otel_service_name": ${otelServiceName}, "otel_trace_sampled": ${otelTraceSampled}}'
-ckan config-tool "${CKAN_INI}" -s formatter_generic "style = $"
+ckan config-tool "${CKAN_INI}" -s loggers "keys = root, ckan, ckanext, werkzeug, otel"
+
 ckan config-tool "${CKAN_INI}" -s formatter_generic "class = catalog_log_config.CustomFormatter"
 
 ckan config-tool "${CKAN_INI}" -s handlers "keys = console"
@@ -29,6 +29,15 @@ ckan config-tool "${CKAN_INI}" -s logger_root "handlers = console"
 ckan config-tool "${CKAN_INI}" -s logger_ckan "handlers = console"
 ckan config-tool "${CKAN_INI}" -s logger_ckanext "handlers = console"
 ckan config-tool "${CKAN_INI}" -s logger_werkzeug "handlers = console"
+
+ckan config-tool "${CKAN_INI}" -s logger_otel "propagate = 0"
+ckan config-tool "${CKAN_INI}" -s logger_otel "level = INFO"
+ckan config-tool "${CKAN_INI}" -s logger_otel "qualname = otel"
+ckan config-tool "${CKAN_INI}" -s logger_otel "handlers = console"
+
+# Configure OpenTelemetry plugin
+ckan config-tool "${CKAN_INI}" "digitraffic_opentelemetry.baggage_keys = w3c.trace_id aws.cf.id user.id"
+ckan config-tool "${CKAN_INI}" "digitraffic_opentelemetry.otel_logger_name = otel"
 
 # Run the prerun script to init CKAN
 python3 prerun.py
@@ -46,26 +55,12 @@ then
     done
 fi
 
-# Set the common uwsgi options
-UWSGI_OPTS="--plugins http,python \
-            --socket /tmp/uwsgi.sock \
-            --wsgi-file /srv/app/wsgi.py \
-            --pythonpath /srv/app \
-            --module wsgi:application \
-            --uid 92 --gid 92 \
-            --http 0.0.0.0:5000 \
-            --master --enable-threads \
-            --lazy-apps \
-            --processes 2 \
-            -b 32768 --vacuum \
-            --harakiri $UWSGI_HARAKIRI"
-
 if [ $? -eq 0 ]
 then
     # Start supervisord
     supervisord --configuration /etc/supervisord.d/supervisord.conf &
     # Start uwsgi
-    ./uwsgi $UWSGI_OPTS
+    ./uwsgi --ini uwsgi.ini
 else
   echo "[prerun] failed...not starting CKAN."
 fi

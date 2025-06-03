@@ -29,7 +29,7 @@ def create_dataset(org: Organization):
         "fi": "Suomenkielinen nimi",
         "sv": "Svensk titel",
     }
-    dataset_frequency = list(Frequency.iris)[0]
+    dataset_frequency = list(Frequency.iris)[:1]
     dataset_mobility_theme = str(
         [
             main_theme
@@ -79,8 +79,8 @@ class TestDatasetValidators:
     def test_frequency_validator(self):
         self.vocabulary_test(
             field_name="frequency",
-            valid_value=list(Frequency.iris)[0],
-            invalid_value="weekly",
+            valid_value=list(Frequency.iris)[:1],
+            invalid_value=["weekly"],
             match_message="does not belong to",
         )
 

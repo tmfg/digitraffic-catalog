@@ -1,5 +1,5 @@
-FROM alpine:3.19
-ARG CKAN_VERSION=ckan-2.10.4
+FROM python:3.12.10-alpine3.21
+ARG CKAN_VERSION=ckan-2.11.3
 
 # Internals, you probably don't need to change these
 ENV APP_DIR=/srv/app
@@ -26,40 +26,24 @@ RUN mkdir -p ${CKAN_CONFIG_DIR}
 # Install necessary packages to run CKAN
 RUN apk add --no-cache tzdata \
     git \
-    gettext \
-    postgresql-client \
-    python3 \
-    libxml2 \
-    libxslt \
-    musl-dev \
-    py3-gevent \
-    libmagic \
     curl \
-    patch \
     bash
 
 # Packages to build CKAN requirements and plugins
+RUN apk add --no-cache tzdata \
+    postgresql-client \
+    libmagic
+
 RUN apk add --no-cache --virtual .build-deps \
-    postgresql-dev \
-    gcc \
-    make \
-    g++ \
-    autoconf \
-    automake \
-    libtool \
-    python3-dev \
     libxml2-dev \
     libxslt-dev \
+    g++ \
     linux-headers \
-    openssl-dev \
-    libffi-dev \
-    cargo
+    postgresql-dev
 
 # Create SRC_DIR
 RUN  mkdir -p ${SRC_DIR} && \
-    # Install pip, supervisord and uwsgi
-    curl -o ${SRC_DIR}/get-pip.py https://bootstrap.pypa.io/get-pip.py && \
-    python3 ${SRC_DIR}/get-pip.py && \
+    # Install supervisord and uwsgi
     pip3 install supervisor --break-system-packages && \
     mkdir /etc/supervisord.d && \
     rm -rf ${SRC_DIR}/get-pip.py
@@ -69,7 +53,6 @@ COPY setup/supervisord.conf /etc/supervisord.d/
 # Install CKAN
 RUN pip3 install -e git+${GIT_URL}@${GIT_BRANCH}#egg=ckan && \
     cd ${SRC_DIR}/ckan && \
-    cp who.ini ${APP_DIR} && \
     pip3 install --no-binary markdown -r requirements.txt && \
     # Install CKAN envvars to support loading config from environment variables
     pip3 install -e git+https://github.com/okfn/ckanext-envvars.git#egg=ckanext-envvars && \
@@ -110,6 +93,7 @@ COPY setup/prerun.py ${APP_DIR}
 COPY setup/start_ckan.sh ${APP_DIR}
 COPY setup/install_extensions.sh ${APP_DIR}
 COPY setup/setup_extensions.sh ${APP_DIR}
+COPY setup/uwsgi.ini ${APP_DIR}
 
 # wsgi.py file is from https://raw.githubusercontent.com/ckan/ckan/${GIT_BRANCH}/wsgi.py
 COPY setup/wsgi.py ${APP_DIR}

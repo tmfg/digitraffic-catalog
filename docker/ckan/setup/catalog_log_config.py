@@ -1,20 +1,67 @@
-from logging import Formatter
+from logging import Formatter, LogRecord
+import json
+from typing import Callable, Any
+
 
 class CustomFormatter(Formatter):
     """
-    This formatter is exactly the same as the default logging formatter, but
-    it adds default values for OpenTelemetry attributes to the log records if
-    they are not already present.
-
-    In newer versions of Python (>=3.12), the logging configuration file makes it
-    poosible to set default values for attributes in the logging configuration (see https://docs.python.org/3/library/logging.config.html#configuration-file-format and
-    https://docs.python.org/3/library/logging.config.html#logging-config-dictschema-formatters).
-    So in the future, this class can be removed and the default values can be set
-    in the logging configuration file.
+    Add custom handling for exceptions and structured logging.
     """
-    _otelDefaults = {'otelSpanID': None, 'otelTraceID': None, 'otelServiceName': None, 'otelTraceSampled': None}
-    def __init__(self, fmt=None, datefmt=None, style='%', validate=True, *,
-                 defaults=None):
-        super().__init__(fmt, datefmt, style, validate=validate,
-                         defaults=CustomFormatter._otelDefaults | (defaults or {}))
+
+    def formatException(self, exc_info):
+        """
+        Format exception information.
+
+        This is used by the format method.
+
+        Parameters
+        ----------
+        exc_info : tuple
+            A tuple of (error_type, error, traceback) as returned by sys.exc_info().
+        """
+        result = super().formatException(exc_info)
+        return repr(result)
+
+    def format(self, record: LogRecord):
+        """
+        Structured logging formatter. This formatter formats the log record into a JSON string.
+        """
+        # Parent formatter does all kinds of things. It creates the asctime, calls
+        # the formatException and saves the result into record.exc_text.
+        super().format(record)
+
+        def get_maybe_param(param: str, process_param: Callable[[Any], str] | None = None) -> str | None:
+            """
+            Get the parameter from the record. If it is not set, return None.
+            """
+            if hasattr(record, param):
+                value = getattr(record, param)
+                if process_param:
+                    if value is not None:
+                        return process_param(value)
+                return value
+            return None
+
+        logged_data = {
+            "asctime": get_maybe_param('asctime'),
+            "name": record.name,
+            "levelname": record.levelname,
+            "message": record.message,
+            "span_id": get_maybe_param('otelSpanID'),
+            "trace_id": get_maybe_param('otelTraceID'),
+            "otel_service_name": get_maybe_param('otelServiceName'),
+            "otel_trace_sampled": get_maybe_param('otelTraceSampled'),
+            "exc": get_maybe_param('exc_text'),
+            "stack_info": get_maybe_param('stack_info', lambda stack_info: self.formatStack(stack_info)),
+            "filename": record.filename,
+            "lineno": record.lineno,
+            "funcName": record.funcName
+        }
+
+        return json.dumps(
+            {
+                k: v for k, v in logged_data.items() if v is not None
+            }
+        )
+
 

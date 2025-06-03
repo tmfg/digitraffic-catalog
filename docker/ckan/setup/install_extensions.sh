@@ -20,7 +20,7 @@ pip install -e "${EXT_DIR}/ckanext-digitraffic_theme"
 pip install -e "${EXT_DIR}/ckanext-entraid_authenticator"
 pip install -e "${EXT_DIR}/ckanext-digitraffic_fluent"
 pip install -e "${EXT_DIR}/ckanext-digitraffic_opentelemetry"
-pip install -e "git+https://github.com/ckan/ckanext-dcat.git@v1.7.0#egg=ckanext-dcat"
+pip install -e "git+https://github.com/ckan/ckanext-dcat.git@v2.3.0#egg=ckanext-dcat"
 
 # install requirements
 pip_install "${EXT_DIR}/ckanext-digitraffic_theme/dev-requirements.txt"

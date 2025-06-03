@@ -40,6 +40,6 @@ service:
       processors: [batch/metrics]
     logs:
       receivers: [otlp]
-      exporters: [debug]
+      exporters: [debug/foo]
       processors: [batch/logs]
   extensions: [health_check]

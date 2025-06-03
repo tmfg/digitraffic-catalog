@@ -44,18 +44,6 @@ from flask import Blueprint
 from ckanext.digitraffic_theme.views.digitraffic_edit_view import DigitrafficEditView
 from ckanext.digitraffic_theme.views.removed_view import RemovedView
 
-_remove_routes_blueprint = Blueprint(
-    "digitraffic_remove_routes", __name__, template_folder="templates"
-)
-
-_password_routes_blueprint = Blueprint(
-    "digitraffic_password_routes", __name__, template_folder="templates"
-)
-
-_digitraffic_pages_blueprint = Blueprint(
-    "digitraffic_pages", __name__, template_folder="templates"
-)
-
 
 class DigitrafficThemePlugin(plugins.SingletonPlugin, DefaultTranslation):
     """Digitraffic theme plugin."""
@@ -133,6 +121,9 @@ class DigitrafficThemePlugin(plugins.SingletonPlugin, DefaultTranslation):
         return toolkit.render("home/instructions.html")
 
     def get_blueprint(self) -> Union[list[Blueprint], Blueprint]:
+        _remove_routes_blueprint = Blueprint('digitraffic_remove_routes', __name__, template_folder="templates")
+        _password_routes_blueprint = Blueprint('digitraffic_password_routes', __name__, template_folder="templates")
+        _digitraffic_pages_blueprint = Blueprint("digitraffic_pages", __name__, template_folder="templates")
         # Override CKAN's default blueprint for /ckan-admin as defined in https://github.com/ckan/ckan/blob/d9a9f8a2cc8ed637cf26f244d3f46877000a4757/ckan/views/admin.py
         _removed_view = RemovedView.as_view("removed")
         _remove_routes_blueprint.add_url_rule(
