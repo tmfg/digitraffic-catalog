@@ -264,6 +264,7 @@ TRANSLATIONS = {
     },
     VCARD.Kind: {
         "label": {"en": "", "fi": ""},
+        "contact_point_type": {"en": "Contact point type", "fi": "Yhteyspisteen tyyppi"},
         VCARD.hasEmail: {
             "label": {"en": "Email", "fi": "Sähköposti"},
         },
@@ -279,6 +280,12 @@ TRANSLATIONS = {
         VCARD["organization-name"]: {
             "label": {"en": "Organization name", "fi": "Organisaation nimi"}
         },
+    },
+    VCARD.Organization: {
+        "label": {"en": "Organization", "fi": "Organisaatio"},
+    },
+    VCARD.Individual: {
+        "label": {"en": "Person", "fi": "Henkilö"}
     },
     VCARD.Address: {
         VCARD["country-name"]: {
