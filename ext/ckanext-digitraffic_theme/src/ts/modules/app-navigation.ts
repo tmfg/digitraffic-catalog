@@ -1,6 +1,6 @@
-import { Dropdown } from "../module-constructs/dropdown";
+import {Dropdown, type DropdownMO} from "../module-constructs/dropdown";
 
-const AppNavigation: ckan.Module<HTMLDivElement> = {
+const AppNavigation: ckan.Module<HTMLDivElement, DropdownMO> = {
   ...Dropdown<HTMLDivElement>(),
   _getMenuController(): JQuery<HTMLButtonElement> {
     return $("#app-nav-hamburger-button")
@@ -11,4 +11,4 @@ const AppNavigation: ckan.Module<HTMLDivElement> = {
   }
 }
 
-ckan.module('digitraffic_theme_app_navigation', function ($) { return AppNavigation})
+ckan.module('digitraffic_theme_app_navigation', AppNavigation)

@@ -43,6 +43,14 @@
         "form_snippet": "select_mobility_sub_theme.html",
         "validators": "scheming_required scheming_choices"
       }
+    },
+    {
+      "preset_name": "multi_select",
+      "values": {
+        "form_snippet": "multi_select.html",
+        "display_snippet": "multiple_choice.html",
+        "validators": "scheming_required scheming_choices"
+      }
     }
   ]
 }

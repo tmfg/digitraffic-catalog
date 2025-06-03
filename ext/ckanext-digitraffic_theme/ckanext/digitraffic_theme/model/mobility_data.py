@@ -404,6 +404,11 @@ class MobilityData:
             else {}
         )
 
+        def maybe_many(value, model):
+            if isinstance(value, list):
+                return [model(v) for v in value]
+            return model(value)
+
         dataset = Dataset(
             dataset_ref,
             {
@@ -414,7 +419,7 @@ class MobilityData:
                     for key in (dataset_dict.get("notes_translated") or {}).keys()
                 ],
                 "distribution": distribution,
-                "accrualPeriodicity": Frequency(dataset_dict["frequency"]),
+                "accrualPeriodicity": maybe_many(dataset_dict["frequency"], Frequency),
                 "mobility_theme": MobilityTheme(dataset_dict["mobility_theme"]),
                 "spatial": Location(dataset_dict["spatial"]),
                 "title": [

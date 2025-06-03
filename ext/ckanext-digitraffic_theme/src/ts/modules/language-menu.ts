@@ -1,7 +1,26 @@
-import type * as ckan from "../ckan";
 import { initialize } from "../module-constructs/module";
 
-const LanguageMenu: ckan.Module<HTMLDivElement> = {
+type LanguageMenuMO = {
+  _getForm: () => JQuery<HTMLFormElement>;
+  _getFormInput: () => JQuery<HTMLElement>;
+  _getLanguageDropdown: () => JQuery<HTMLElement>;
+  _getLanguageOptions: () => JQuery<HTMLElement>;
+  _toggleLanguageDropdownMouseOpen: (e: JQuery.TriggeredEvent) => void;
+  _toggleLanguageDropdownKeyboardOpen: (e: JQuery.TriggeredEvent) => void;
+  _submitFormMouse: (
+    languageOption: JQuery<HTMLElement>,
+    formInput: JQuery<HTMLElement>,
+    form: JQuery<HTMLFormElement>
+  ) => void;
+  _submitFormKeyboard: (
+    event: JQuery.TriggeredEvent,
+    languageOption: JQuery<HTMLElement>,
+    formInput: JQuery<HTMLElement>,
+    form: JQuery<HTMLFormElement>
+  ) => void;
+}
+
+const LanguageMenu: ckan.Module<HTMLElement, LanguageMenuMO> = {
   initialize(this) {
     initialize.apply(this);
     const form = this._getForm();
@@ -12,7 +31,7 @@ const LanguageMenu: ckan.Module<HTMLDivElement> = {
     languageDropdown.on("click", this._toggleLanguageDropdownMouseOpen);
     languageDropdown.on("keydown", this._toggleLanguageDropdownKeyboardOpen);
 
-    languageOptions.each((_index: number, element: JQuery<HTMLElement>) => {
+    languageOptions.each((_index: number, element: HTMLElement) => {
       const option = $(element);
       option.on("click", () => this._submitFormMouse(option, formInput, form));
       option.on("keydown", (e: JQuery.TriggeredEvent) =>
@@ -66,7 +85,7 @@ const LanguageMenu: ckan.Module<HTMLDivElement> = {
     }
   },
 
-  _getForm(): JQuery<HTMLElement> {
+  _getForm(): JQuery<HTMLFormElement> {
     return this.$("#language-menu-form");
   },
   _getFormInput(): JQuery<HTMLElement> {
@@ -80,6 +99,4 @@ const LanguageMenu: ckan.Module<HTMLDivElement> = {
   },
 };
 
-ckan.module("digitraffic_theme_language_menu", function ($) {
-  return LanguageMenu;
-});
+ckan.module("digitraffic_theme_language_menu", LanguageMenu);

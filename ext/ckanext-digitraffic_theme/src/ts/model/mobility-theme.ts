@@ -160,7 +160,12 @@ export type SUB_MOBILITY_THEMES_T = (typeof MOBILITY_THEME_TREE)[TOP_MOBILITY_TH
 
 export const TOP_MOBILITY_THEMES = new Set<TOP_MOBILITY_THEMES_T>(Object.keys(MOBILITY_THEME_TREE) as TOP_MOBILITY_THEMES_T[])
 export const SUB_MOBILITY_THEMES = new Set<SUB_MOBILITY_THEMES_T>(Object.values(MOBILITY_THEME_TREE).flat() as SUB_MOBILITY_THEMES_T[])
-export const MOBILITY_THEME_LABELS = {
+export const MOBILITY_THEME_LABELS: {
+  [key in TOP_MOBILITY_THEMES_T | SUB_MOBILITY_THEMES_T]: {
+    en: string
+    fi: string
+  }
+} = {
   "https://w3id.org/mobilitydcat-ap/mobility-theme/accesibility-information-for-vehicles": { "en": "Accesibility information for vehicles", "fi": "Ajoneuvojen esteettömyystiedot" },
   "https://w3id.org/mobilitydcat-ap/mobility-theme/accidents-and-incidents": { "en": "Accidents and incidents", "fi": "Liikenneonnettomuudet ja -häiriöt" },
   "https://w3id.org/mobilitydcat-ap/mobility-theme/address-identifiers": { "en": "Address identifiers", "fi": "Osoitetunnisteet" },
@@ -188,8 +193,8 @@ export const MOBILITY_THEME_LABELS = {
   "https://w3id.org/mobilitydcat-ap/mobility-theme/connection-links": { "en": "Connection links", "fi": "Vaihtoyhteydet" },
   "https://w3id.org/mobilitydcat-ap/mobility-theme/current-travel-times": { "en": "Current travel times", "fi": "Ajankohtaiset matka-ajat" },
   "https://w3id.org/mobilitydcat-ap/mobility-theme/cycle-network-data": { "en": "Cycle network data", "fi": "Pyöräilyverkon tiedot" },
-  "https://w3id.org/mobilitydcat-ap/mobility-theme/data-content-category": { "en": "Data content category", "fi": "Tietosisällön kategoria" },
-  "https://w3id.org/mobilitydcat-ap/mobility-theme/data-content-sub-category": { "en": "Data content sub-category", "fi": "Tietosisällön alakategoria" },
+  //"https://w3id.org/mobilitydcat-ap/mobility-theme/data-content-category": { "en": "Data content category", "fi": "Tietosisällön kategoria" },
+  //"https://w3id.org/mobilitydcat-ap/mobility-theme/data-content-sub-category": { "en": "Data content sub-category", "fi": "Tietosisällön alakategoria" },
   "https://w3id.org/mobilitydcat-ap/mobility-theme/direction-of-travel-on-reversible-lanes": { "en": "Direction of travel on reversible lanes", "fi": "Vaihtuvasuuntaisten kaistojen ajosuunta" },
   "https://w3id.org/mobilitydcat-ap/mobility-theme/disruptions-delays-cancellations": { "en": "Disruptions, delays, cancellations", "fi": "Häiriöt, viivästykset, peruutukset" },
   "https://w3id.org/mobilitydcat-ap/mobility-theme/dynamic-overtaking-bans-on-heavy-goods-vehicles": { "en": "Dynamic overtaking bans on heavy goods vehicles", "fi": "Dynaamiset raskaiden ajoneuvojen ohituskiellot" },
@@ -287,9 +292,9 @@ export const MOBILITY_THEME_LABELS = {
 }
 
 export function isTopMobilityTheme(obj: unknown): obj is TOP_MOBILITY_THEMES_T {
-  return typeof obj === 'string' && TOP_MOBILITY_THEMES.has(obj)
+  return typeof obj === 'string' && TOP_MOBILITY_THEMES.has(obj as TOP_MOBILITY_THEMES_T)
 }
 
 export function isSubMobilityTheme(obj: unknown): obj is SUB_MOBILITY_THEMES_T {
-  return typeof obj === 'string' && SUB_MOBILITY_THEMES.has(obj)
+  return typeof obj === 'string' && SUB_MOBILITY_THEMES.has(obj as SUB_MOBILITY_THEMES_T)
 }

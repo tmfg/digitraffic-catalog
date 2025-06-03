@@ -1,12 +1,21 @@
 import { initialize } from "../module-constructs/module";
 
+type TemporalCoverageMO = {
+  START_TIMESTAMP_TZ_CSS_QUERY: string;
+  END_TIMESTAMP_TZ_CSS_QUERY: string;
+  _getStartTimestampTZ: () => JQuery<HTMLElement>;
+  _getEndTimestampTZ: () => JQuery<HTMLElement>;
+  _moveToEnd: (element: JQuery<HTMLElement>) => void;
+  _showNecessityLabels: () => void;
+}
+
 /**
  * This module makes UI changes to the temporal coverage form when JS is enabled.
  * The changes include:
  * - Show only one time zone field and move it to the end of the temporal coverage block.
  * - Show the necessity labels
  */
-const TemporalConverage = {
+const TemporalConverage: ckan.Module<HTMLFormElement, TemporalCoverageMO> = {
   START_TIMESTAMP_TZ_CSS_QUERY: "#field-start_timestamp-tz",
   END_TIMESTAMP_TZ_CSS_QUERY: "#field-end_timestamp-tz",
   initialize(this) {
@@ -38,7 +47,6 @@ const TemporalConverage = {
       hidingElements.removeClass("hide-necessity");
     }
   }
+}
 
-} as unknown as ckan.Module<HTMLDivElement>;
-
-ckan.module('digitraffic_theme_temporal_coverage', function (_) { return TemporalConverage})
+ckan.module('digitraffic_theme_temporal_coverage', TemporalConverage)

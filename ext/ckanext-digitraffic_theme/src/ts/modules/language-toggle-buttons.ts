@@ -1,7 +1,11 @@
-import type * as ckan from "../ckan";
 import { initialize } from "../module-constructs/module";
 
-const LanguageToggleButtons: ckan.Module<HTMLDivElement> = {
+type LanguageToggleButtonsMO = {
+  _getToggleButtons: () => JQuery<HTMLElement>;
+  _getCloseButtons: () => JQuery<HTMLElement>;
+}
+
+const LanguageToggleButtons: ckan.Module<HTMLElement, LanguageToggleButtonsMO> = {
   initialize(this) {
     initialize.apply(this);
 
@@ -20,10 +24,10 @@ const LanguageToggleButtons: ckan.Module<HTMLDivElement> = {
     });
 
     const closeButtons = this._getCloseButtons();
-    closeButtons.each((_index, element) => { 
+    closeButtons.each((_index, element) => {
       const button = $(element);
       const buttonId = button.attr("id");
-      
+
       // hide input field when related close button is clicked 
       button.on("click", (event) => {
         event.preventDefault();
@@ -34,22 +38,17 @@ const LanguageToggleButtons: ckan.Module<HTMLDivElement> = {
         // clear value of input field when button is clicked and field is hidden
         inputField.val("");
       });
-       
-  });
-
+    });
   },
 
-_getToggleButtons(): JQuery<HTMLElement> {
+  _getToggleButtons(): JQuery<HTMLElement> {
     return this.$(".language-toggle-buttons");
   },
 
-_getCloseButtons(): JQuery<HTMLElement> {
-  return this.$(".hide-language-input");
+  _getCloseButtons(): JQuery<HTMLElement> {
+    return this.$(".hide-language-input");
   },
-
 };
 
 
-ckan.module("digitraffic_theme_language_toggle_buttons", function ($) {
-  return LanguageToggleButtons;
-});
+ckan.module("digitraffic_theme_language_toggle_buttons", LanguageToggleButtons);
