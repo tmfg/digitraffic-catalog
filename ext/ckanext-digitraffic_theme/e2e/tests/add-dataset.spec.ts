@@ -11,7 +11,7 @@ import {FileFormat} from "../../src/ts/model/file-format";
 import {MobilityDataStandard} from "../../src/ts/model/mobility-data-standard";
 import {RightsType} from "../../src/ts/model/rights-type";
 
-const identitiesToUse = [Identity.SysAdmin] as const
+const identitiesToUse = [Identity.OrganizationEditor] as const
 
 test.describe('Add new dataset', () => {
   test.use({
@@ -20,7 +20,7 @@ test.describe('Add new dataset', () => {
   });
 
   test('Add dataset with minimal required info', async ({users}) => {
-    const organizationAdmin = getKnownUserOrThrow(users, Identity.SysAdmin)
+    const organizationAdmin = getKnownUserOrThrow(users, Identity.OrganizationEditor)
 
     const browseResponse = await browseToNewDatasetPage(organizationAdmin)
     assertIsSuccessfulResponse(browseResponse)

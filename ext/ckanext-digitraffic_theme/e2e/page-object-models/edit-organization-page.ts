@@ -1,4 +1,4 @@
-import {BasePage} from "./base";
+import {BasePage, type JSLoadedInterface} from "./base";
 import type {Locator, Page} from "@playwright/test";
 import {setPom, URL} from "./pages-controller";
 import {gotoNewPage, pathParameterURL} from "./util";
@@ -6,7 +6,7 @@ import {Organization} from "../models/organization";
 import {AuthorizationError} from "../models/error";
 import {isVisible} from "../util";
 
-export class EditOrganizationPage extends BasePage {
+export class EditOrganizationPage extends BasePage implements JSLoadedInterface<EditOrganizationPage> {
   readonly pageUrl: string
   readonly organization: Organization
   readonly organizationPageDescriptionText: Locator
@@ -25,6 +25,10 @@ export class EditOrganizationPage extends BasePage {
   async goto(): Promise<EditOrganizationPage> {
     await this.page.goto(this.pageUrl);
     return this;
+  }
+  async ensurePageJsLoaded<EditOrganizationPage>(): Promise<EditOrganizationPage> {
+    await this.page.waitForLoadState('networkidle');
+    return this as unknown as EditOrganizationPage;
   }
 
   async selectMembersTab(): Promise<void> {

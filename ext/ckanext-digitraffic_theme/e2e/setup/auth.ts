@@ -27,11 +27,12 @@ async function authenticate(user: IdentityUser, identity: Identity, username: st
 
 setup.describe('Create and log in all the test users', () => {
   setup.use({
-    identitiesToUse: [new Set([Identity.SysAdmin, Identity.OrganizationAdmin, Identity.OrganizationEditor]), {scope: 'test'}],
+    identitiesToUse: [new Set([Identity.SysAdmin, Identity.OrganizationAdmin, Identity.OrganizationEditor, Identity.OrganizationMember]), {scope: 'test'}],
     isUserInfoGathered: false
   });
 
   setup('authenticate all users', async ({users}) => {
+    setup.setTimeout(60 * 1000)
     const credentials = new Map()
     credentials.set(
       Identity.SysAdmin, {
@@ -48,6 +49,12 @@ setup.describe('Create and log in all the test users', () => {
         password: getEnv("E2E_ORGANIZATION_EDITOR_PASSWORD"),
         username: getEnv("E2E_ORGANIZATION_EDITOR_USERNAME")
       })
+    credentials.set(
+      Identity.OrganizationMember, {
+        password: getEnv("E2E_ORGANIZATION_MEMBER_PASSWORD"),
+        username: getEnv("E2E_ORGANIZATION_MEMBER_USERNAME")
+      }
+    )
     for (const identity of users.keys()) {
       const user = getIdentityUserOrThrow(users, identity)
       await authenticate(user, identity, credentials.get(identity).username, credentials.get(identity).password)
@@ -58,10 +65,11 @@ setup.describe('Create and log in all the test users', () => {
 setup.describe('Have sysadmin to setup test users', () => {
 
   setup.use({
-    identitiesToUse: [new Set([Identity.SysAdmin, Identity.OrganizationAdmin]), {scope: 'test'}]
+    identitiesToUse: [new Set([Identity.SysAdmin, Identity.OrganizationAdmin, Identity.OrganizationEditor, Identity.OrganizationMember]), {scope: 'test'}]
   });
 
   setup('Create organization for the test users', async ({users}) => {
+    setup.setTimeout(60 * 1000)
     const sysAdminIdentity = Identity.SysAdmin
     const sysAdmin = getKnownUserOrThrow(users, sysAdminIdentity)
     await authenticate(sysAdmin, sysAdminIdentity, getEnv("E2E_SYSADMIN_USERNAME"), getEnv("E2E_SYSADMIN_PASSWORD"))
@@ -75,8 +83,23 @@ setup.describe('Have sysadmin to setup test users', () => {
         pom: editOrganizationPage,
         isRunSuccessful: isOrganizationAdminAdded,
       } = await addMemberToOrganization(sysAdmin, organization, getKnownUserOrThrow(users, Identity.OrganizationAdmin), Role.Admin, organizationPage.page)
+      if (editOrganizationPage?.page === undefined) {
+        throw new Error("Edit organization page is not available after adding organization admin");
+      }
+      const {
+        pom: editOrganizationPage2,
+      } = await addMemberToOrganization(sysAdmin, organization, getKnownUserOrThrow(users, Identity.OrganizationEditor), Role.Editor, editOrganizationPage.page)
+      if (editOrganizationPage2?.page === undefined) {
+        throw new Error("Edit organization page is not available after adding organization editor");
+      }
+      const {
+        pom: editOrganizationPage3,
+      } = await addMemberToOrganization(sysAdmin, organization, getKnownUserOrThrow(users, Identity.OrganizationMember), Role.Member, editOrganizationPage2.page)
+      if (editOrganizationPage3?.page === undefined) {
+        throw new Error("Edit organization page is not available after adding organization editor");
+      }
       if (editOrganizationPage && isOrganizationAdminAdded) {
-        await removeMemberFromOrganization(sysAdmin, organization, sysAdmin, editOrganizationPage.page)
+        await removeMemberFromOrganization(sysAdmin, organization, sysAdmin, editOrganizationPage3.page)
       }
     }
 
