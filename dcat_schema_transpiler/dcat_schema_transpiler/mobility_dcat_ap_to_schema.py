@@ -11,6 +11,11 @@ from ckan_schema.mobility_dcat_ap_converter.classes.organization import Organiza
 from ckan_schema.mobility_dcat_ap_converter.classes.distribution import Distribution
 from ckan_schema.mobility_dcat_ap_converter.range_value_converter import Necessity
 from dcat_schema_transpiler.mobility_dcat_ap.dataset import CNT, OA
+from dcat_schema_transpiler.namespaces.VCARD import VCARD
+
+from ckan_schema.mobility_dcat_ap_converter.i18n.translations import (
+    TRANSLATIONS
+)
 
 
 from ckan_schema.mobility_dcat_ap_converter.classes.license_document import (
@@ -81,10 +86,7 @@ def modifications_to_dataset_spec(dataset_fields: List[Dict[str, Any]]):
     contact_point = list(filter(lambda x: x.get("field_name") == "contact_point", dataset_fields))[0]
     contact_point["repeating_subfields"].insert(0, {
         "field_name": "contact_point_type",
-        "label": {
-            "en": "Contact point type",
-            "fi": "Yhteyspisteen tyyppi",
-        },
+        "label": TRANSLATIONS[VCARD.Kind]["contact_point_type"],
         "required": True,
         "preset": "select",
         "form_include_blank_choice": False,
@@ -93,17 +95,11 @@ def modifications_to_dataset_spec(dataset_fields: List[Dict[str, Any]]):
         "choices": [
             {
                 "value": "http://www.w3.org/2006/vcard/ns#Organization",
-                "label": {
-                    "en": "Organization",
-                    "fi": "Organisaatio",
-                }
+                "label": TRANSLATIONS[VCARD.Organization]["label"],
             },
             {
                 "value": "http://www.w3.org/2006/vcard/ns#Individual",
-                "label": {
-                    "en": "Person",
-                    "fi": "Henkilö",
-                }
+                "label": TRANSLATIONS[VCARD.Individual]["label"],
             }
         ]
     })
