@@ -88,7 +88,7 @@ export class IdentityUser extends User {
   }
 
   async authenticateUser(page: Page, username: string, password: string): Promise<void> {
-    await page.getByRole('link', {name: 'Kirjaudu sisään'}).click();
+    await page.getByRole('link', {name: 'Kirjaudu sisään'}).first().click();
     if (await isAtUrl(page, 'https://login.microsoftonline.com/**')) {
       await page.locator('input[type="email"]').fill(username);
       await page.getByRole('button', {name: "Next"}).click();
