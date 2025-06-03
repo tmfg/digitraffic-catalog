@@ -24,7 +24,7 @@ class PeriodOfTime(ClassInstance):
     def predicate_objects(self):
         pos = [
             (RDF.type, self.type),
-            (DCAT.startDate, self.start_timestamp),
-            (DCAT.endDate, self.end_timestamp),
+            (DCAT.startDate, self.start_timestamp) if self.start_timestamp else None,
+            (DCAT.endDate, self.end_timestamp) if self.end_timestamp else None,
         ]
         return [po for po in pos if po is not None]

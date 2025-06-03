@@ -6,6 +6,7 @@ from typing import Any, Union, cast
 from ckan.common import current_user, config
 from ckan.types import Context
 from ckan.lib.helpers import get_translated
+from ckan.plugins import toolkit
 
 
 def print_field_and_data(field_name: str, data: dict):
@@ -70,6 +71,47 @@ def dataset_display_name(
         return package_or_package_dict.title or package_or_package_dict.name
 
 
+def get_organization_dataset_counts():
+    context = cast(
+        Context,
+        {
+            "model": model,
+            "session": model.Session,
+            "user": current_user.name,
+            "auth_user_obj": current_user,
+        },
+    )
+    orgs = get_action("organization_list")(context, {"all_fields": True})
+    results = []
+    for org in orgs:
+        # get all public datasets for this org
+        datasets = get_action("package_search")(
+            context,
+            {
+                "fq": f'organization:{org["name"]} +private:false',
+                "rows": 0,  # we only want the count
+            },
+        )
+        results.append(
+            {
+                "name": org["name"],
+                "title": org.get("title", org["name"]),
+                "dataset_count": datasets["count"],
+            }
+        )
+    return sorted(results, key=lambda result: result["dataset_count"], reverse=True)
+
+
+def get_site_title():
+    titles = {
+        "en": "Transport Data Catalog",
+        "fi": "Liikennedatakatalogi",
+        "sv": "Trafikdatakatalog",
+    }
+    lang = toolkit.h.lang()
+    return titles.get(lang, config.get("ckan.site_title", "CKAN"))
+
+
 helpers = {
     "print_field_and_data": print_field_and_data,
     "get_datasets_as_form_choices": get_datasets_as_form_choices,
@@ -77,4 +119,6 @@ helpers = {
     "from_json": from_json,
     "is_dataset_public": is_dataset_public,
     "dataset_display_name": dataset_display_name,
+    "get_organization_dataset_counts": get_organization_dataset_counts,
+    "get_site_title": get_site_title,
 }

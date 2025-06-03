@@ -8,7 +8,7 @@ group=(group_type ~ '.index', h.humanize_entity_type('group', group_type, 'main 
 about=('home.about', _('About'))%}
 <div id="app-nav-bar-wrapper">
     <div id="app-nav-bar" data-module="digitraffic_theme_app_navigation">
-        <span class="datacatalog-header">Datakatalogi</span>
+        <span class="datacatalog-header"><a href="{{ h.url_for('/') }}">Datakatalogi</a></span>
         <button id="app-nav-hamburger-button"
                 aria-controls="nav-interactions-wrapper"
                 aria-label="Show navigation menu"
