@@ -64,9 +64,9 @@ TRANSLATIONS = {
             },
         },
         DCTERMS.rightsHolder: {
-            "label": {"en": "Rights holder", "fi": "Oikeuksien haltija"},
+            "label": {"en": "Rights holders", "fi": "Oikeuksien haltijat"},
         },
-        DCAT.contactPoint: {"label": {"en": "Contact point", "fi": "Yhteyspiste"}},
+        DCAT.contactPoint: {"label": {"en": "Contact points", "fi": "Yhteyspisteet"}},
         MOBILITYDCATAP.assessmentResult: {
             "label": {"en": "Assessment", "fi": "Laatuarvio"},
             "help_text": {

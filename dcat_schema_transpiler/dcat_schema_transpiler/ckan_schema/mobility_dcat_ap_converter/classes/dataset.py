@@ -228,7 +228,6 @@ class DCATDataset(RangeValueConverter):
                         "required": is_required,
                         "preset": "select",
                         "sorted_choices": True,
-                        "form_include_blank_choice": True,
                         "validators": super().get_validators(
                             ["mobility_theme_validator"]
                         ),
@@ -406,12 +405,20 @@ class DCATDataset(RangeValueConverter):
 
             if field.get("field_name") == Kind.aggregate_field_name:
                 field |= {
-                    "field_name": self.ckan_field_by_id(DCAT.contactPoint)
+                    "field_name": self.ckan_field_by_id(DCAT.contactPoint),
+                    "subfield_form_attrs": {
+                        "data-module": "digitraffic_theme_contact_detail"
+                    },
+                    "form_blanks": 0
                 } | self.get_property_label_with_help_text(DCAT.contactPoint)
 
             if field.get("field_name") == Agent.aggregate_field_name:
                 field |= {
-                    "field_name": self.ckan_field_by_id(DCTERMS.rightsHolder)
+                    "field_name": self.ckan_field_by_id(DCTERMS.rightsHolder),
+                    "subfield_form_attrs": {
+                        "data-module": "digitraffic_theme_rights_holder"
+                    },
+                    "form_blanks": 0
                 } | self.get_property_label_with_help_text(DCTERMS.rightsHolder)
 
             return field
