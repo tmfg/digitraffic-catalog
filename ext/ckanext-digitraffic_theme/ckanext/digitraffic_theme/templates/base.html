@@ -1,5 +1,9 @@
 {% ckan_extends %}
 
+{%- block title -%}
+  {{ h.get_site_title() }}
+{% endblock -%}
+
 {% block styles %}
   {{ super() }}
   {# Import digitraffic_theme.css using Webassets. 'digitraffic_theme/' is

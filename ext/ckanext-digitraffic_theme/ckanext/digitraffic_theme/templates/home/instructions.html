@@ -1,0 +1,62 @@
+{% extends "page.html" %}
+
+{% block content %}
+<div class="digitraffic-catalog-homepage instructions-page">
+
+    <section class="homepage-hero instructions">
+        <div class="hero-content instructions">
+            <h1>{% trans %}Why publish your data in the Transport Data Catalog?{% endtrans %}</h1>
+            <p>
+                {% trans %}Explain here the benefits of publishing data, e.g. visibility, users, interoperability, etc. Add your own text as needed.{% endtrans %}
+            </p>
+            {% if c.user %}
+                <a href="/dataset/new" class="btn btn-primary">{% trans %}Add new dataset{% endtrans %}</a>
+            {% else %}
+                {% include "home/hero_buttons.html" %}
+            {% endif %}
+        </div>
+        <div class="hero-image instructions"></div>
+    </section>
+
+    <section class="instruction-steps">
+        <div class="instruction-step">
+            <div class="step-number-block blue">
+                <span class="step-number">01</span>
+            </div>
+            <div class="step-content">
+                <div class="step-title">{% trans %}Register as a user{% endtrans %}</div>
+                <div class="step-desc">{% trans %}Start by registering at <a href="https://id.fintraffic.fi">Fintraffic ID</a>. After you have registered as a user, you need to request membership in your organization from your organization admin. If your organization does not yet exist in the catalog, you need to request its creation from <a href="mailto:digitraffic@fintraffic.fi">digitraffic@fintraffic.fi</a> {% endtrans %}</div>
+            </div>
+        </div>
+        <div class="instruction-step">
+            <div class="step-number-block black">
+                <span class="step-number">02</span>
+            </div>
+            <div class="step-content">
+                <div class="step-title">{% trans %}Create a dataset{% endtrans %}</div>
+                <div class="step-desc">{% trans %}Describe and create your dataset according to the fields and instructions on the form. At the dataset level, you describe the general properties of the data. The actual data and the APIs or services distributing it are described in the next step.{% endtrans %}</div>
+            </div>
+        </div>
+        <div class="instruction-step">
+            <div class="step-number-block blue">
+                <span class="step-number">03</span>
+            </div>
+            <div class="step-content">
+                <div class="step-title">{% trans %}Add resources{% endtrans %}</div>
+                <div class="step-desc">{% trans %}A single dataset can have several data sources, such as APIs and file packages. At this stage, add the different ways to access the dataset.{% endtrans %}</div>
+            </div>
+        </div>
+        <div class="instruction-step">
+            <div class="step-number-block black">
+                <span class="step-number">04</span>
+            </div>
+            <div class="step-content">
+                <div class="step-title">{% trans %}Publish the dataset{% endtrans %}</div>
+                <div class="step-desc">{% trans %}By setting the dataset's visibility to "Public", your dataset will be visible to all users in the catalog and can be found using the catalog's search functions. If you wish, you can set private visibility, in which case your dataset will only be visible to members of your own organization.{% endtrans %}</div>
+            </div>
+        </div>
+    </section>
+
+</div>
+{% endblock %}
+

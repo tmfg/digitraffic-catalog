@@ -1,0 +1,785 @@
+.digitraffic-catalog-homepage {
+
+    /* Hero section */
+    .homepage-hero.default {
+        display: flex;
+        justify-content: space-between;
+        align-items: stretch;
+        background-color: rgb(30, 35, 61);
+        color: white;
+
+        .hero-content.default {
+            max-width: 50%;
+            padding: 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+
+            @media (max-width: 900px) {
+                max-width: 100%;
+            }
+        }
+
+        .hero-image {
+            width: 50%;
+            background: url(/images/hero_image.jpg) center center/cover no-repeat;
+            display: block;
+
+            @media (max-width: 900px) {
+                display: none;
+            }
+        }
+
+        .hero-image.instructions {
+            background: url(/images/fintraffic_lights.png);
+        }
+    }
+
+    .homepage-hero.logged-in {
+        display: flex;
+        justify-content: center;
+        background-color: rgb(30, 35, 61);
+        color: white;
+
+
+        .hero-content.logged-in {
+            max-width: 50%;
+            padding: 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+
+            @media (max-width: 900px) {
+                max-width: 100%;
+            }
+        }
+
+        .hero-image {
+            width: 50%;
+            background: url(/images/hero_image.jpg) center center/cover no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @media (max-width: 900px) {
+            flex-direction: column;
+            align-items: center;
+
+            .hero-content.logged-in,
+            .hero-logged-in-box {
+                max-width: 80%;
+                width: 100%;
+                padding: 32px 16px;
+                margin: 0;
+            }
+
+            .hero-logged-in-box {
+                border-radius: 0;
+                box-shadow: none;
+                flex: auto;
+            }
+
+            .hero-image {
+                width: 100%;
+                min-height: 400px;
+            }
+        }
+    }
+
+    .hero-content h1 {
+        font-size: 3rem;
+        font-weight: bold;
+        margin-bottom: 40px;
+    }
+
+    .hero-content p {
+        font-size: 1.2rem;
+        line-height: 1.5;
+        margin-bottom: 30px;
+    }
+
+    .hero-buttons .btn {
+        padding: 15px;
+        margin-right: 15px;
+        text-decoration: none;
+        color: white;
+        background-color: rgb(30, 35, 61);
+        border: none;
+        font-size: 1rem;
+        box-shadow: none;
+    }
+
+    .hero-buttons .btn:hover {
+        background-color: white;
+        color: black
+    }
+
+
+
+    .hero-logged-in-box {
+        flex: 0 0 420px;
+        max-width: 480px;
+        min-width: 340px;
+        background: #f4f4f4;
+        color: #000;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 48px 32px;
+        border-radius: 0px;
+        box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
+        text-align: center;
+        align-self: center;
+
+        .btn {
+            width: 100%;
+            margin: 12px 0 0 0;
+            display: block;
+            border-radius: 5px;
+            border: 2px solid black;
+
+        }
+
+        .btn.browse-datasets {
+            background-color: white;
+            color: black;
+        }
+
+        .btn:hover {
+            background-color: rgb(44, 110, 240) !important;
+            color: white;
+        }
+    }
+
+    .logged-in-message {
+        font-size: 1.2rem;
+        margin-bottom: 24px;
+        font-weight: 600;
+    }
+
+
+    /* Steps section */
+    .steps {
+        text-align: center;
+        padding: 50px;
+        background-color: white;
+        margin: 0 50px;
+
+        h2 {
+            margin-bottom: 30px;
+        }
+
+        .step-cards {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 40px;
+
+            @media (max-width: 900px) {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        .step-card {
+            width: 370px;
+            min-height: 340px;
+            box-sizing: border-box;
+            padding: 48px 32px 32px 32px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            border-radius: 0;
+            text-align: left;
+
+        }
+
+        .step-card.blue {
+            background: #2342f5;
+            color: #fff;
+        }
+
+        .step-card.black {
+            background: #000;
+            color: #fff;
+        }
+
+        .step-header {
+            display: flex;
+            align-items: baseline;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 0;
+            min-height: 64px;
+        }
+
+        .step-number {
+            font-size: 2rem;
+            font-weight: 700;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .step-card .step-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0;
+            line-height: 1.1;
+            min-height: 80px;
+            text-align: left;
+        }
+
+        .step-desc {
+            margin-top: 20px;
+            font-size: 1.2rem;
+            line-height: 1.4;
+        }
+
+        .steps-info-btn {
+            display: flex;
+            justify-content: center;
+            margin-top: 48px;
+            margin-bottom: 30px;
+        }
+
+        .steps-info-btn a {
+            text-decoration: none;
+            color: inherit;
+            background: none;
+            box-shadow: none;
+            transition: none;
+        }
+
+        .steps-info-btn a:hover,
+        .steps-info-btn a:focus {
+            text-decoration: none;
+            color: inherit;
+            background: none;
+            box-shadow: none;
+        }
+
+        .steps-info-btn button {
+            background: #000;
+            color: #fff;
+            font-size: 1.5rem;
+            font-weight: 400;
+            padding: 20px 40px;
+            border: none;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .steps-info-btn button:hover {
+            background: #222;
+        }
+
+        .steps-info-btn .icon {
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+        }
+
+    }
+
+
+
+
+    /* Search section */
+    .search {
+        text-align: center;
+        padding: 50px;
+        background-color: #1a1a2e;
+        color: white;
+
+        .site-search {
+            display: flex;
+            justify-content: center;
+            margin: 40px auto 0 auto;
+            max-width: 700px;
+            width: 100%;
+            background: none;
+            border: none;
+            box-shadow: none;
+            padding: 0;
+        }
+
+        .app-nav-search-wrapper {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            border: 1px solid #e0e0e0;
+            border-radius: 32px !important;
+            background: #fff;
+            padding: 0 32px;
+            min-height: 64px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            max-width: 700px;
+            width: 100%;
+        }
+
+        .app-nav-search-wrapper:focus-within {
+            outline: 6px solid var(--fds-color-interactive-100);
+            outline-offset: 2px;
+        }
+
+        .app-nav-search-wrapper input.form-control {
+            margin-right: 0 !important;
+            border: none !important;
+            box-shadow: none;
+            outline: none !important;
+            padding-left: 0;
+            font-size: 1.4rem;
+        }
+
+        .app-nav-search-wrapper input.form-control:focus {
+            outline: none;
+            box-shadow: none;
+        }
+
+        .app-nav-search-wrapper .btn {
+            font-size: 1.5rem;
+            outline: none !important;
+        }
+
+
+        .app-nav-search-wrapper .btn:focus {
+            outline: none;
+            box-shadow: none;
+        }
+
+        p {
+            margin-top: 15px;
+        }
+    }
+
+    /* Organizations section */
+    .organizations {
+        padding: 60px;
+
+        h2 {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .organization-tags {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 48px;
+
+            a {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: #fff;
+                color: #000;
+                border: 2px solid #000;
+                border-radius: 8px;
+                font-size: 1rem;
+                padding: 11px 15px;
+                box-sizing: border-box;
+                transition:
+                    box-shadow 0.2s,
+                    border-color 0.2s,
+                    color 0.2s,
+                    background 0.2s;
+                box-shadow: none;
+                margin: 0;
+                text-decoration: none;
+                cursor: pointer;
+                text-align: center;
+            }
+
+            a:hover,
+            a:focus {
+                background: #000;
+                color: #fff;
+                box-shadow: 0 4px 24px rgba(35, 66, 245, 0.10);
+                text-decoration: none;
+            }
+        }
+
+    }
+
+
+
+    /* Development progress section */
+
+    .development-progress {
+
+        .development-progress-title {
+            text-align: center;
+            margin-bottom: 30px;
+            margin-top: 20px
+        }
+
+        .progress-step-wrapper {
+            margin-top: auto;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .progress-step {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+        }
+
+        .progress-step::before {
+            position: absolute;
+            content: "";
+            border-bottom: 2px solid black;
+            width: 100%;
+            top: 40px;
+            left: -50%;
+            z-index: 2;
+        }
+
+        .progress-step::after {
+            position: absolute;
+            content: "";
+            border-bottom: 2px solid black;
+            width: 100%;
+            top: 40px;
+            left: 50%;
+            z-index: 2;
+        }
+
+        .progress-step .step-counter {
+            position: relative;
+            z-index: 5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: black;
+            color: white;
+            margin-bottom: 6px;
+        }
+
+        .progress-step.active {
+            font-weight: bold;
+        }
+
+        .progress-step.completed .step-counter {
+            background-color: #2342f5;
+            color: white;
+        }
+
+        .progress-step.active .step-counter {
+            background-color: white;
+            border: 3px solid #000;
+            color: black;
+        }
+
+        .progress-step.completed::after {
+            position: absolute;
+            content: "";
+            border-bottom: 2px solid #2342f5;
+            width: 100%;
+            top: 40px;
+            left: 50%;
+            z-index: 3;
+        }
+
+        .progress-step .step-title {
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .progress-step.completed .step-title {
+            color: #2342f5;
+        }
+
+        .progress-step:first-child::before {
+            content: none;
+        }
+
+        .progress-step:last-child::after {
+            content: none;
+        }
+
+        .progress-step .step-description {
+            text-align: center;
+            max-width: 150px;
+        }
+
+        .step-texts {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        @media (max-width: 900px) {
+
+            .progress-step .step-counter {
+                position: relative;
+                z-index: 5;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 30px;
+                height: 30px;
+                min-width: 30px;
+                min-height: 30px;
+
+                border-radius: 50%;
+                background: black;
+                color: white;
+                margin-bottom: 6px;
+            }
+
+            .progress-step-wrapper {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .progress-step {
+                flex-direction: row;
+                align-items: flex-start;
+                margin-left: 10px;
+                margin-bottom: 20px;
+                position: relative;
+                min-height: 60px; // ensure enough height for the line
+            }
+
+            .progress-step.completed::after {
+                content: "";
+                position: absolute;
+                left: 14.5px; // center of the step-counter (adjust if needed)
+                top: 40%;
+                width: 2px;
+                height: 100%;
+                background: black;
+                border: none;
+                z-index: 1;
+                transform: translateY(-10%)
+            }
+
+            .progress-step::before {
+                content: "";
+                position: absolute;
+                left: 14.5px; // center of the step-counter (adjust if needed)
+                top: 0;
+                width: 2px;
+                height: 50%;
+                background: black;
+                border: none;
+                z-index: 1;
+            }
+
+            .progress-step::after {
+                content: "";
+                position: absolute;
+                left: 14.5px; // center of the step-counter (adjust if needed)
+                top: 50%;
+                width: 2px;
+                height: 100%;
+                background: black;
+                border: none;
+                z-index: 1;
+                transform: translateY(-10%)
+            }
+
+            .progress-step:last-child::before {
+                display: none
+            }
+
+
+            .progress-step:last-child::after {
+                display: none;
+            }
+
+            .step-texts {
+                display: flex;
+                flex-direction: column;
+                align-items: start;
+                margin-left: 20px;
+            }
+
+            .progress-step .step-description {
+                text-align: left;
+                max-width: 300px;
+            }
+
+
+            .progress-step .step-title {
+                margin-bottom: 15px;
+                text-align: left;
+            }
+
+        }
+    }
+
+    /* Instructions page */
+
+    .homepage-hero.instructions {
+        display: flex;
+        justify-content: space-between;
+        align-items: stretch;
+        //background-color: white;
+        color: black;
+
+        .hero-content.instructions {
+            max-width: 50%;
+            padding: 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+
+            @media (max-width: 900px) {
+                max-width: 100%;
+            }
+        }
+
+        .hero-image {
+            width: 50%;
+            background: url(/images/Fintraffic_F-merkki_musta_rgb.png) center center/cover no-repeat;
+            display: block;
+
+            @media (max-width: 900px) {
+                display: none;
+            }
+        }
+
+        .hero-buttons .btn {
+            padding: 15px;
+            margin-right: 15px;
+            text-decoration: none;
+            color: white;
+            background-color: black;
+            border: none;
+            font-size: 1rem;
+            box-shadow: none;
+            display: inline;
+        }
+
+        .hero-buttons .btn:hover {
+            background-color: rgb(44, 110, 240);
+
+        }
+
+
+        .btn {
+            padding: 14px;
+            max-width: 300px;
+            border-radius: 8px;
+            display: block;
+        }
+
+    }
+
+    .instruction-steps {
+        display: flex;
+        flex-direction: column;
+        gap: 56px;
+        align-items: flex-start;
+        width: 100%;
+        margin: 0 auto;
+        margin-top: 40px;
+        margin-bottom: 40px;
+        max-width: 1100px;
+
+
+        .instruction-step {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            background: none;
+            box-shadow: none;
+            border-radius: 0;
+            width: 100%;
+            min-height: 140px;
+            padding: 0;
+        }
+
+        .instruction-step .step-number-block.blue {
+            background: #2342f5;
+            color: #fff;
+        }
+
+        .instruction-step .step-number-block.black {
+            background: #000;
+            color: #fff;
+        }
+
+        .step-number-block {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 110px;
+            height: 110px;
+            min-width: 110px;
+            min-height: 110px;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-right: 32px;
+            border-radius: 0;
+        }
+
+        .step-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+
+        .step-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0;
+            flex: 1 1 auto;
+        }
+
+        .step-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .step-desc {
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 900px) {
+
+            .instruction-steps {
+                gap: 32px;
+                max-width: 100%;
+            }
+
+            .step-card {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .step-number-block {
+                margin-right: 0;
+                margin-bottom: 16px;
+                width: 80px;
+                height: 80px;
+                min-width: 80px;
+                min-height: 80px;
+                font-size: 2rem;
+            }
+
+            .step-title {
+                font-size: 1.3rem;
+            }
+        }
+
+    }
+
+}

@@ -1,0 +1,135 @@
+{% extends "page.html" %}
+
+{% set hero_title_text = _("Visibility and users for your data") %}
+{% set hero_text =_("The Transport Data Catalog is an open national access point (NAP) for traffic data, where traffic data providers submit information about the data and APIs they offer. For data users, the catalog provides an overview of available data sources, their providers, usage methods, and terms.") %}
+
+{% block content %}
+<div class="digitraffic-catalog-homepage">
+        {% if c.user %}
+            <section class="homepage-hero logged-in">
+                <div class="hero-content logged-in">
+                    <h1>{{hero_title_text}}</h1>
+                    <p>{{hero_text}}</p>
+                </div>
+                <div class="hero-image">
+                    <div class="hero-logged-in-box">
+                        <div class="logged-in-message">
+                            {% trans %}You are logged in as{% endtrans %}<br> <strong>{{ c.userobj.display_name }}</strong>
+                        </div>
+                        <a href="/dataset/new" class="btn btn-primary create-dataset ">{% trans %}Create new dataset{% endtrans %}</a>
+                        <a href="/dashboard/datasets" class="btn btn-primary browse-datasets ">{% trans %}Browse my datasets{% endtrans %}</a>
+                    </div>
+                </div>
+             </section>
+        {% else %}
+        <section class="homepage-hero default">
+            <div class="hero-content default">
+                <h1>{{hero_title_text}}</h1>
+                <p>{{hero_text}}</p>
+                {% include "home/hero_buttons.html" %}  
+            </div>
+            <div class="hero-image">
+            </div>
+                </section>
+
+        {% endif %}
+
+<section class="steps">
+    <h2>{% trans %}How do I submit my dataset to the catalog?{% endtrans %}</h2>
+    <div class="step-cards">
+        <div class="step-card blue">
+            <div class="step-number">01</div>
+            <div class="step-title">{% trans %}Register and create an organization{% endtrans %}</div>
+            <div class="step-desc">{% trans %}Datasets and their descriptions are always linked to an organization.{% endtrans %}</div>
+        </div>
+        <div class="step-card black">
+            <div class="step-number">02</div>
+            <div class="step-title">{% trans %}Create a dataset{% endtrans %}</div>
+            <div class="step-desc">{% trans %}Enter your dataset's metadata according to the instructions on the form.{% endtrans %}</div>
+        </div>
+        <div class="step-card blue">
+            <div class="step-number">03</div>
+            <div class="step-title">{% trans %}Add data sources (resources){% endtrans %}</div>
+            <div class="step-desc">{% trans %}Add to the description the different ways to access the dataset.{% endtrans %}</div>
+        </div>
+        <div class="step-card black">
+            <div class="step-number">04</div>
+            <div class="step-title">{% trans %}Publish your dataset{% endtrans %}</div>
+            <div class="step-desc">{% trans %}Published dataset descriptions can be browsed by users via the catalog's search functions.{% endtrans %}</div>
+        </div>
+    </div>
+    <div class="steps-info-btn">
+       <a href="/help/instructions">
+        <button>
+            <span class="icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M14.5 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V7.5L14.5 2Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M10 10.3C10.2 9.90004 10.5 9.50004 10.9 9.30004C11.3141 9.06061 11.7976 8.96975 12.2704 9.04249C12.7432 9.11523 13.177 9.3472 13.5 9.70004C13.8 10.1 14 10.5 14 11C14 12.3 12 13 12 13" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M12 17H12.01" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </span>
+            {% trans %}Read more about creating datasets{% endtrans %}
+        </button>
+        </a>
+    </div>
+</section>
+    <section class="search">
+        <h2>{% trans %}Search for datasets{% endtrans %}</h2>
+        <p>{% trans %}Datasets will be added to the catalog as the service is adopted more widely.{% endtrans %}</p>
+        {% snippet "snippets/dt_header/search_box.html" %}  
+</form>
+    </section>
+
+    <section class="organizations">
+        <h2>{% trans %}Organizations with datasets in the catalog{% endtrans %}</h2>
+        <div class="organization-tags">
+            {% for org in h.get_organization_dataset_counts() %}
+                {% if org.dataset_count > 0 %}
+                    <a href="/organization/{{ org.name }}">{{ org.title }} ({{ org.dataset_count }})</a>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="development-progress">
+        <h2 class="development-progress-title">{% trans %}Development path{% endtrans %}</h2>
+        <div class="progress-step-wrapper">
+          <div class="progress-step completed">
+            <div class="step-counter">1</div>
+            <div class="step-texts">
+                <h2 class="step-title">{% trans %}Launch{% endtrans %}</h2>
+                <div class="step-description"></div>
+            </div>
+          </div>
+          <div class="progress-step">
+            <div class="step-counter">2</div>
+            <div class="step-texts">
+                <h2 class="step-title">{% trans %}Data collection{% endtrans %}</h2>
+                <div class="step-description">{% trans %}Describing existing datasets in the catalog{% endtrans %}</div>
+            </div>
+          </div>
+          <div class="progress-step">
+            <div class="step-counter">3</div>
+            <div class="step-texts">
+                <h2 class="step-title">{% trans %}Established use{% endtrans %}</h2>
+                <div class="step-description">{% trans %}Dataset information is maintained and new datasets are added{% endtrans %}</div>
+            </div>
+          </div>
+          <div class="progress-step">
+            <div class="step-counter">4</div>
+            <div class="step-texts">
+              <h2 class="step-title">{% trans %}Integrations{% endtrans %}</h2>
+              <div class="step-description">{% trans %}Metadata transfer to other catalogs and harvesting from other catalogs{% endtrans %}</div>
+            </div>
+          </div>
+        <div class="progress-step">
+            <div class="step-counter">5</div>
+            <div class="step-texts">
+              <h2 class="step-title">{% trans %}Single NAP{% endtrans %}</h2>
+              <div class="step-description">{% trans %}Completing the catalog with mobility service information, a single national access point model{% endtrans %}</div>
+            </div>
+          </div>
+        </div>
+    </section>
+</div>
+{% endblock %}
