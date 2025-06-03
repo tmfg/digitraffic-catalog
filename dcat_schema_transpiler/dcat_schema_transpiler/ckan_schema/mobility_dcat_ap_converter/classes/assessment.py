@@ -68,6 +68,7 @@ class Assessment(AggregateRangeValueConverter):
     def get_aggregate_schema(self) -> Dict:
         return {
             "field_name": Assessment.field_name,
+            "form_blanks": 0,
             **super().get_class_label_with_help_text(),
             "repeating_subfields": self.__aggregate_schemas,
         }

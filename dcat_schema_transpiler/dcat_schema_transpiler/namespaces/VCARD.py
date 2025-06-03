@@ -11,6 +11,8 @@ class VCARD(DefinedNamespace):
     # Classes
     Kind: URIRef
     Address: URIRef
+    Organization: URIRef
+    Individual: URIRef
 
     # Properties
     hasEmail: URIRef

@@ -64,10 +64,10 @@ jobs:
           # <aws-account-number>.dkr.ecr.<region>.amazonaws.com
           registry: ${{ secrets.ECR_URL }}
 
-      - name: Use Node.js 16
+      - name: Use Node.js 22
         uses: actions/setup-node@v4
         with:
-          node-version: 16
+          node-version: 22
 
       - name: create extensions
         if: github.event.inputs.install_ckan == 'true'

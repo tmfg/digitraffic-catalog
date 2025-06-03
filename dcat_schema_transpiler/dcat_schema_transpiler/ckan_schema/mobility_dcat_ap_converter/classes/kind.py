@@ -55,7 +55,7 @@ class Kind(AggregateRangeValueConverter):
             schema = {
                 "field_name": self.ckan_field(clazz_p, None),
                 **super().get_property_label_with_help_text(clazz_p.iri),
-                "required": is_required,
+                "required": True,
                 "preset": "email",
             }
         elif clazz_p.is_iri(VCARD.hasURL):
@@ -72,6 +72,8 @@ class Kind(AggregateRangeValueConverter):
                 "required": is_required,
                 "preset": "phone",
             }
+        elif clazz_p.is_iri(VCARD.fn):
+            schema = super().get_schema(ds, clazz_p, True)
         else:
             schema = super().get_schema(ds, clazz_p, False)
         if schema is None:

@@ -1,10 +1,12 @@
-import {BasePage} from "./base";
-import type {Page} from "@playwright/test";
-import {setPom, URL} from "./pages-controller";
+import { BasePage } from "./base";
+import type { Page } from "@playwright/test";
+import { setPom, URL } from "./pages-controller";
 
 export class HomePage extends BasePage {
   constructor(page: Page) {
-    super(page, [page.getByRole('heading', {name: 'Tervetuloa CKAN:iin'})]);
+    super(page, [
+      page.getByRole("heading", { name: "Datalle näkyvyyttä ja käyttäjiä" }),
+    ]);
   }
   async goto(): Promise<HomePage> {
     await this.page.goto(URL.Home);
@@ -12,4 +14,4 @@ export class HomePage extends BasePage {
   }
 }
 
-setPom(URL.Home, HomePage)
+setPom(URL.Home, HomePage);

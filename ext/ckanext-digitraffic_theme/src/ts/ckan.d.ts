@@ -19,7 +19,7 @@ declare namespace ckan {
 
   export type CkanThis<T extends HTMLElement, U extends {}> = ModulePreSet<T> & U
 
-  type ModuleObject<T extends HTMLElemenpt, U extends {}> = {
+  type ModuleObject<T extends HTMLElement, U extends {}> = {
     [Property in keyof U]: U[Property] extends (...args: infer Parameters) => infer ReturnType ? (this: ModulePreSet<T> & U, ...args: Parameters) => ReturnType : U[Property]
   }
   // The properties function properties are actually (jQuery: jQuery, translate, i18n), but use of
