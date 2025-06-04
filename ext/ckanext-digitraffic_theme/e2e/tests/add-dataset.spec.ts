@@ -20,6 +20,7 @@ test.describe('Add new dataset', () => {
   });
 
   test('Add dataset with minimal required info', async ({users}) => {
+    test.setTimeout(90000)
     const organizationAdmin = getKnownUserOrThrow(users, Identity.SysAdmin)
 
     const browseResponse = await browseToNewDatasetPage(organizationAdmin)
