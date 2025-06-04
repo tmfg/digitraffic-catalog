@@ -53,7 +53,7 @@ class EntraIdAuthenticator(plugins.SingletonPlugin):
         # override path for registering an account
         custom_blueprint.add_url_rule(
             "/user/register",
-            view_func=self.redirect_to_home,
+            view_func=self.register,
             methods=["GET"],
         )
 
@@ -153,3 +153,14 @@ class EntraIdAuthenticator(plugins.SingletonPlugin):
             toolkit.login_user(user)
 
         return self.redirect_to_home()
+
+    def register(self):
+        # start Entra ID auth flow with prompt=create for self-service sign-up
+        session[self.AUTH_FLOW_SESSION_KEY] = (
+            self.entraid_client.initiate_auth_code_flow(
+                prompt="create",
+                scopes=app_config.SCOPE,
+                redirect_uri=f"{app_config.HOST}{app_config.REDIRECT_PATH}",
+            )
+        )
+        return toolkit.redirect_to(session[self.AUTH_FLOW_SESSION_KEY]["auth_uri"])
