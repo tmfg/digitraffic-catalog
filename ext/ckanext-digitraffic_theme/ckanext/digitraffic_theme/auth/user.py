@@ -48,7 +48,6 @@ def _is_user_action_allowed(context: Context, data_dict: DataDict, user_action: 
         if user_action in {UserAction.SHOW, UserAction.SHOW_UPDATE}:
             return _is_user_accessing_own_data(user_triggering_action, acted_on_user)
         if user_action == UserAction.UPDATE:
-            print(context)
             return (_is_user_accessing_own_data(user_triggering_action, acted_on_user) and
                     _is_fixed_fields_unmodified(acted_on_user))
         return False
