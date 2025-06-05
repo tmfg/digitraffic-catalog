@@ -51,7 +51,7 @@ function cancellableWaitFor(locator: Locator): {cancel: () => Promise<void>, loc
       totalTimeWaited += increment
     }
     cancelResolve()
-    reject("Locator is not visible")
+    reject(`Locator is not visible ${locator.toString()}`)
   })
 
   return {

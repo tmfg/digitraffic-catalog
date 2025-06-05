@@ -50,6 +50,11 @@ export const test = base.extend<UserFixture & IdentitysOptions>({
       })
     }
     await use(users);
+    // Cleanup
+    console.log(`Cleaning up users: ${Array.from(users.keys()).join(', ')}`);
+    for (const user of users.values()) {
+      await user.exit();
+    }
   },
 });
 
