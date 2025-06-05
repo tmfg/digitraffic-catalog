@@ -75,10 +75,10 @@ export const Dropdown = <T extends HTMLElement>(): ckan.Module<T, DropdownMO> =>
 
   _focus(elementKey: 'first' | 'menuController' | 'next' | 'previous') {
     let el
-    const currentlyFocusedElement = this.el.find(':focus')
-    const isFocusOnMenu = !!this._getMenu().has(currentlyFocusedElement)
-    const isFocusOnLastMenuItem = isFocusOnMenu && this._getMenu().find('a:last')[0] === currentlyFocusedElement[0]
-    const isFocusOnFirstMenuItem = isFocusOnMenu && this._getMenu().find('a:first')[0] === currentlyFocusedElement[0]
+    const currentlyFocusedElement = this.el.find(':focus')[0]
+    const isFocusOnMenu = !currentlyFocusedElement ? false : !!this._getMenu().has(currentlyFocusedElement)
+    const isFocusOnLastMenuItem = isFocusOnMenu && this._getMenu().find('a:last')[0] === currentlyFocusedElement
+    const isFocusOnFirstMenuItem = isFocusOnMenu && this._getMenu().find('a:first')[0] === currentlyFocusedElement
 
     switch (elementKey) {
       case "first":
@@ -93,7 +93,7 @@ export const Dropdown = <T extends HTMLElement>(): ckan.Module<T, DropdownMO> =>
             return
           } else {
             const menuElements = this._getMenu().find('a');
-            const nextElement = menuElements.filter((index) => index > 0 && menuElements[index - 1] === currentlyFocusedElement[0]);
+            const nextElement = menuElements.filter((index) => index > 0 && menuElements[index - 1] === currentlyFocusedElement);
             el = nextElement
           }
         } else {
@@ -106,7 +106,7 @@ export const Dropdown = <T extends HTMLElement>(): ckan.Module<T, DropdownMO> =>
             return
           } else {
             const menuElements = this._getMenu().find('a');
-            const previousElement = menuElements.filter((index) => index < (menuElements.length - 1) && menuElements[index + 1] === currentlyFocusedElement[0]);
+            const previousElement = menuElements.filter((index) => index < (menuElements.length - 1) && menuElements[index + 1] === currentlyFocusedElement);
             el = previousElement
           }
         } else {

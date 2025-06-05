@@ -9,7 +9,11 @@ export enum URL {
   AddOrganizationMember = '/organization/member_new/{name}',
   User = '/user/{name}',
   EditUser = '/user/edit/{name}',
-  UsersList = '/user'
+  UsersList = '/user',
+  DatasetsList = '/dataset',
+  Dataset = '/dataset/{datasetId}',
+  NewDataset = '/dataset/new',
+  NewResource = '/dataset/{datasetId}/resource/new',
 }
 export interface POMConstructor {
   new(page: Page, ...args: any[]): Object;

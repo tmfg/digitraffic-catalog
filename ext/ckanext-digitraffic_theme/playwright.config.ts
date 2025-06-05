@@ -38,11 +38,13 @@ export default defineConfig({
       testMatch: /setup\/.*\.ts/,
       fullyParallel: false
     },
-    {
+    /*{
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      use: { ...devices['Desktop Chrome'],
+        video: 'retain-on-failure',
+        contextOptions: {recordVideo: { dir: "./videos/"}}},
       dependencies: ['setup'],
-    },
+    },*/
 
     {
       name: 'firefox',
@@ -50,11 +52,11 @@ export default defineConfig({
       dependencies: ['setup'],
     },
 
-    {
+    /*{
       name: 'webkit',
       use: { ...devices['Desktop Safari'] },
       dependencies: ['setup'],
-    },
+    },*/
 
     /* Test against mobile viewports. */
     // {

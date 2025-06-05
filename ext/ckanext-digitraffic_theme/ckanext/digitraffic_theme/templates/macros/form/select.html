@@ -47,7 +47,7 @@ options     - A list/tuple of fields to be used as <options>.
 {% call input_block(id or name, label or name, error, classes, extra_html=extra_html, is_required=is_required, necessity=necessity) %}
 <select id="{{ id or name }}" name="{{ name }}" {{ attributes(attrs) }}>
     {% for option in options %}
-<option value="{{ option.value }}"{%- if selected is sequence -%}{%- if option.value in selected -%} selected="selected"{%- endif -%}{%- else -%}{%- if option.value == selected -%} selected="selected"{%- endif -%}{%- endif -%}>{{ option.text or option.value }}</option>
+<option value="{{ option.value }}"{%- if selected is sequence -%}{%- if option.value in selected -%} selected{%- endif -%}{%- else -%}{%- if option.value == selected -%} selected{%- endif -%}{%- endif -%}>{{ option.text or option.value }}</option>
 {% endfor %}
 </select>
 {% endcall %}

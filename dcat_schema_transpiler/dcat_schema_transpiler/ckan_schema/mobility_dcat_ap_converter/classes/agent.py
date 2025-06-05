@@ -89,6 +89,8 @@ class Agent(AggregateRangeValueConverter):
                 **common_fields(),
                 "preset": "url",
             }
+        elif clazz_p.is_iri(FOAF.name):
+            schema = super().get_schema(ds, clazz_p, True)
         else:
             schema = super().get_schema(ds, clazz_p, False)
 

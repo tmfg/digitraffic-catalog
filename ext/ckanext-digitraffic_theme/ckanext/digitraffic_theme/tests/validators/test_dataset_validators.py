@@ -162,11 +162,16 @@ class TestDatasetValidators:
 
         dataset["contact_point"] = [
             {
+                "contact_point_type": "http://www.w3.org/2006/vcard/ns#Organization",
+                "has_email": "foo@example.com",
+                "fn": "Foo Bar",
                 "country_name": "http://publications.europa.eu/resource/authority/country/FIN"
             }
         ]
         dataset["rights_holder"] = [
             {
+                "type": "http://purl.org/adms/publishertype/Company",
+                "name": "Bar Foo",
                 "admin_unit_l1": "http://publications.europa.eu/resource/authority/country/ESP"
             }
         ]
@@ -174,12 +179,12 @@ class TestDatasetValidators:
 
         updated_dataset = helpers.call_action("package_show", id=dataset["id"])
         assert (
-            updated_dataset["contact_point"][0]["country_name"]
-            == "http://publications.europa.eu/resource/authority/country/FIN"
+            updated_dataset["contact_point"][0]
+            == {"contact_point_type": "http://www.w3.org/2006/vcard/ns#Organization", "country_name": "http://publications.europa.eu/resource/authority/country/FIN", "has_email": "foo@example.com", "fn": "Foo Bar"}
         )
         assert (
-            updated_dataset["rights_holder"][0]["admin_unit_l1"]
-            == "http://publications.europa.eu/resource/authority/country/ESP"
+            updated_dataset["rights_holder"][0]
+            == {"type": "http://purl.org/adms/publishertype/Company", "admin_unit_l1": "http://publications.europa.eu/resource/authority/country/ESP", "name": "Bar Foo"}
         )
 
         dataset["contact_point"] = [{"country_name": "phrygia"}]
