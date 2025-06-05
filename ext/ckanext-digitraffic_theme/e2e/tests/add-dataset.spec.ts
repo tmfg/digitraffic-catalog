@@ -11,7 +11,7 @@ import {FileFormat} from "../../src/ts/model/file-format";
 import {MobilityDataStandard} from "../../src/ts/model/mobility-data-standard";
 import {RightsType} from "../../src/ts/model/rights-type";
 
-const identitiesToUse = [Identity.SysAdmin] as const
+const identitiesToUse = [Identity.OrganizationEditor] as const
 
 test.describe('Add new dataset', () => {
   test.use({
@@ -20,10 +20,9 @@ test.describe('Add new dataset', () => {
   });
 
   test('Add dataset with minimal required info', async ({users}) => {
-    test.setTimeout(90000)
-    const organizationAdmin = getKnownUserOrThrow(users, Identity.SysAdmin)
+    const organizationEditor = getKnownUserOrThrow(users, Identity.OrganizationEditor)
 
-    const browseResponse = await browseToNewDatasetPage(organizationAdmin)
+    const browseResponse = await browseToNewDatasetPage(organizationEditor)
     assertIsSuccessfulResponse(browseResponse)
     const {pom: newDatasetPagePOM} = browseResponse
 
@@ -37,7 +36,7 @@ test.describe('Add new dataset', () => {
       'This is a test dataset description.'
     )
 
-    const newDatasetResponse = await setNewDatasetInfo(organizationAdmin, newDatasetInfo, {
+    const newDatasetResponse = await setNewDatasetInfo(organizationEditor, newDatasetInfo, {
       page: newDatasetPagePOM.page,
       navigate: false
     })
@@ -52,7 +51,7 @@ test.describe('Add new dataset', () => {
       newDatasetResponse.pom.datasetId
     )
 
-    const newResourceResponse = await setNewResourceInfo(organizationAdmin, newResourceInfo, {
+    const newResourceResponse = await setNewResourceInfo(organizationEditor, newResourceInfo, {
       page: newDatasetResponse.pom.page,
       navigate: false
     })
