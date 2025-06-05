@@ -61,7 +61,7 @@ export class NewDatasetPage extends BasePage implements JSLoadedInterface<NewDat
     await this.titleField.fill(datasetInfo.title)
     await this.frequencyField.click()
     for (const frequency of datasetInfo.frequencies) {
-      await this.page.getByText(frequency.label).click()
+      await this.page.locator('label').filter({hasText: frequency.label}).click()
     }
     await this.frequencyField.click()
     await this.regionalCoverageField.selectOption(datasetInfo.regionalCoverage)
