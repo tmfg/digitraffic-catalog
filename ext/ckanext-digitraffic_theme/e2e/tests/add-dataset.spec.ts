@@ -31,7 +31,7 @@ test.describe('Add new dataset', () => {
     const newDatasetInfo = new DatasetInfo(
       'private',
       'Test Dataset',
-      [Frequency.ANNUAL, Frequency.AS_NEEDED],
+      [Frequency.NEVER, Frequency.IRREG],
       RegionalCoverage.LAU_FI_005,
       Array.from(TOP_MOBILITY_THEMES)[0]!,
       'This is a test dataset description.'
