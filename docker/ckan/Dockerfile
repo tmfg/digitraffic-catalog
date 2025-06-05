@@ -56,6 +56,8 @@ RUN pip3 install -e git+${GIT_URL}@${GIT_BRANCH}#egg=ckan && \
     pip3 install --no-binary markdown -r requirements.txt && \
     # Install CKAN envvars to support loading config from environment variables
     pip3 install -e git+https://github.com/okfn/ckanext-envvars.git#egg=ckanext-envvars && \
+    # Install specific version of Setuptools so that CKAN works \
+    pip3 install 'setuptools==80.9.0' && \
     # Create and update CKAN config
     ckan generate config ${CKAN_INI} && \
     ckan config-tool ${CKAN_INI} "beaker.session.secret = " && \
@@ -107,7 +109,6 @@ RUN mkdir -p ${EXT_DIR}
 COPY ckanext/ckanext-digitraffic_theme "${EXT_DIR}/ckanext-digitraffic_theme"
 COPY ckanext/ckanext-entraid_authenticator "${EXT_DIR}/ckanext-entraid_authenticator"
 COPY ckanext/ckanext-digitraffic_fluent "${EXT_DIR}/ckanext-digitraffic_fluent"
-COPY ckanext/ckanext-scheming "${EXT_DIR}/ckanext-scheming"
 COPY ckanext/ckanext-digitraffic_opentelemetry "${EXT_DIR}/ckanext-digitraffic_opentelemetry"
 RUN chown -R ckan:ckan "${EXT_DIR}"
 

@@ -1,2 +1,0 @@
-class SchemingException(Exception):
-    pass

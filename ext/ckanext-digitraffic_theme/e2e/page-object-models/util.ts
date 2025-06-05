@@ -1,7 +1,7 @@
-import {BasePage} from "./base";
+import {BasePage, implementsJSLoadedInterface} from "./base";
 import {URL, getPom} from "./pages-controller"
 import {type Page, test} from "@playwright/test";
-import {cancellableIsVisible, getForbiddenPageLocator} from "../util";
+import {cancellableIsVisible, getForbiddenPageLocator, hideDevTools} from "../util";
 import {AuthorizationError} from "../models/error";
 
 export async function gotoNewPage<T extends BasePage>(
@@ -32,6 +32,12 @@ export async function gotoNewPage<T extends BasePage>(
     if (visiblePageLocator === forbiddenPageLocator) {
       throw new AuthorizationError("User is not authorized to access page")
     }
+
+    if (implementsJSLoadedInterface(newPagePOM)) {
+        await newPagePOM.ensurePageJsLoaded()
+    }
+
+    await hideDevTools(newPagePOM.page)
 
     await newPagePOM.assertPage()
   })

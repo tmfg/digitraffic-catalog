@@ -64,9 +64,9 @@ TRANSLATIONS = {
             },
         },
         DCTERMS.rightsHolder: {
-            "label": {"en": "Rights holder", "fi": "Oikeuksien haltija"},
+            "label": {"en": "Rights holders", "fi": "Oikeuksien haltijat"},
         },
-        DCAT.contactPoint: {"label": {"en": "Contact point", "fi": "Yhteyspiste"}},
+        DCAT.contactPoint: {"label": {"en": "Contact points", "fi": "Yhteyspisteet"}},
         MOBILITYDCATAP.assessmentResult: {
             "label": {"en": "Assessment", "fi": "Laatuarvio"},
             "help_text": {
@@ -264,6 +264,7 @@ TRANSLATIONS = {
     },
     VCARD.Kind: {
         "label": {"en": "", "fi": ""},
+        "contact_point_type": {"en": "Contact point type", "fi": "Yhteyspisteen tyyppi"},
         VCARD.hasEmail: {
             "label": {"en": "Email", "fi": "Sähköposti"},
         },
@@ -279,6 +280,12 @@ TRANSLATIONS = {
         VCARD["organization-name"]: {
             "label": {"en": "Organization name", "fi": "Organisaation nimi"}
         },
+    },
+    VCARD.Organization: {
+        "label": {"en": "Organization", "fi": "Organisaatio"},
+    },
+    VCARD.Individual: {
+        "label": {"en": "Person", "fi": "Henkilö"}
     },
     VCARD.Address: {
         VCARD["country-name"]: {

@@ -22,9 +22,9 @@ Example:
 
 #}
 
-{% macro input_block(for, label="", error="", classes=[], control_classes=[], extra_html="", is_required=false, necessity=None) %}
+{% macro input_block(for, label="", error="", classes=[], control_classes=[], extra_html="", is_required=false, necessity=None, show_label=true) %}
 <div class="form-group{{ " error" if error }}{{ " " ~ classes | join(' ') }}">
-<label class="form-label" for="{{ for }}">{% if is_required %}<span class="control-required">*</span> {% endif %}{{ label or _('Custom') }}</label>
+{%- if show_label -%}<label class="form-label" for="{{ for }}">{% if is_required %}<span class="control-required">*</span> {% endif %}{{ label or _('Custom') }}</label>{%- endif -%}
 {% snippet "snippets/necessity_tag.html", necessity=necessity %}
 <div class="controls{{ " " ~ control_classes | join(' ') }}">
 {{ caller() }}
