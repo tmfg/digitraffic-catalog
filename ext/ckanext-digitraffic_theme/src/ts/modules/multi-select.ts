@@ -45,7 +45,7 @@ const MultiSelect: ckan.Module<FdsDropdown<string>, MultiselectMO>  = {
         return {
             label: element.textContent.trim(),
             value: element.value,
-            selected: element.getAttribute("selected") === "selected",
+            selected: element.getAttribute("selected") === "",
         };
     })
   },

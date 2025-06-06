@@ -3729,6 +3729,12 @@ dataset_fields:
       en: Workplace homepage
       fi: Työpaikan kotisivu
     necessity: optional
+  - field_name: member_of
+    label:
+      en: Member of
+      fi: Jäsenyydet
+    necessity: optional
+    required: false
   subfield_form_attrs:
     data-module: digitraffic_theme_rights_holder
   form_blanks: 0

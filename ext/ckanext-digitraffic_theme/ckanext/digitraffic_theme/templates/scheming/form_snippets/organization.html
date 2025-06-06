@@ -10,21 +10,27 @@
   {% endblock %}
 {% endmacro %}
 
+{% set is_org_required = not h.check_config_permission('create_unowned_dataset') or h.scheming_field_required(field) %}
+{%- if data['private'] is defined -%}
+    {%- set private_selected = data['private']|trim -%}
+{%- else -%}
+    {%- set private_selected = 'True' -%}
+{%- endif -%}
+
   <div data-module="dataset-visibility">
   {% snippet "scheming/form_snippets/_organization_select.html",
     field=field,
     data=data,
     errors=errors,
     organizations_available=h.organizations_available('create_dataset'),
-    org_required=not h.check_config_permission('create_unowned_dataset')
-      or h.scheming_field_required(field),
+    org_required=is_org_required,
     organization_option_tag=organization_option_tag %}
 
   {% block package_metadata_fields_visibility %}
     <div class="control-group form-group control-medium radio-group">
-      <label for="field-private" class="control-label">{{ _('Visibility') }}</label>
+      <label for="field-private" class="control-label">{% if is_org_required %}<span class="control-required">*</span> {% endif %}{{ _('Visibility') }}</label>
       {% snippet "snippets/necessity_tag.html", necessity=field.get('necessity', None) %}
-      <div class="controls">
+      <div class="controls control-visibility">
         {% for value, label in [('True', _('Private')), ('False', _('Public'))] %}
         <div class="form-check">
           <input
@@ -33,7 +39,7 @@
             name="private"
             value="{{ value }}"
             class="form-check-input"
-            {% if value == data.private|trim %}checked{% endif %}
+            {% if value == private_selected %}checked{% endif %}
           />
           <label for="field-private-{{ value }}" class="form-check-label">
             {{ label }}
