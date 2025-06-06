@@ -3756,27 +3756,6 @@ resource_fields:
     fi: Suora linkki resurssiin ladattavassa tiedostomuodossa.
   necessity: optional
   preset: url
-- field_name: data_service_endpoint_url
-  label:
-    en: Endpoint URL
-    fi: URL (rajapinta)
-  help_text:
-    en: The root location or primary endpoint of the Data Service related to this
-      Distribution
-    fi: URL tietoaineiston tätä resurssia tarjoavaan rajapintaan.
-  necessity: mandatory
-  required: false
-  preset: url
-- field_name: data_service_endpoint_description
-  label:
-    en: Endpoint description
-    fi: Rajapinnan kuvaus
-  help_text:
-    en: Link to e.g. a Swagger or OpenAPI description.
-    fi: Linkki esim. Swagger tai OpenAPI -kuvaukseen.
-  necessity: recommended
-  required: false
-  preset: url
 - field_name: name_translated
   label:
     en: Title
@@ -5123,60 +5102,6 @@ resource_fields:
       fi: xz
       sv: xz
     iri: http://publications.europa.eu/resource/authority/file-type/XZ
-- field_name: data_service_title_translated
-  label:
-    en: Data service name
-    fi: Palvelun nimi
-  required: false
-  necessity: mandatory
-  help_text:
-    en: Name of the data service the API is a part of, if applicable.
-    fi: Palvelun nimi mikäli rajapinta on osa laajempaa palvelukokonaisuutta.
-  preset: fluent_core_translated
-  form_languages:
-  - en
-  - fi
-  - sv
-  fluent_form_label:
-    en:
-      en: Data service name in English
-      fi: Palvelun nimi englanniksi
-      sv: Data service name in English
-    fi:
-      en: Data service name in Finnish
-      fi: Palvelun nimi suomeksi
-      sv: Data service name in Finnish
-    sv:
-      en: Data service name in Swedish
-      fi: Palvelun nimi ruotsiksi
-      sv: Data service name in Swedish
-- field_name: data_service_description_translated
-  label:
-    en: Data service description
-    fi: Palvelun kuvaus
-  required: false
-  necessity: optional
-  help_text:
-    en: Description of the data service the API is a part of, if applicable.
-    fi: Kuvaus palvelusta mikäli rajapinta on osa laajempaa palvelukokonaisuutta.
-  preset: fluent_core_translated
-  form_languages:
-  - en
-  - fi
-  - sv
-  fluent_form_label:
-    en:
-      en: Data service description in English
-      fi: Palvelun kuvaus englanniksi
-      sv: Data service description in English
-    fi:
-      en: Data service description in Finnish
-      fi: Palvelun kuvaus suomeksi
-      sv: Data service description in Finnish
-    sv:
-      en: Data service description in Swedish
-      fi: Palvelun kuvaus ruotsiksi
-      sv: Data service description in Swedish
 - field_name: application_layer_protocol
   label:
     en: Application layer protocol
@@ -6689,6 +6614,85 @@ resource_fields:
   classes:
   - control-medium
   - hide-necessity
+- field_name: data_service
+  form_blanks: 0
+  label: null
+  repeating_subfields:
+  - field_name: data_service_description_translated
+    label:
+      en: Data service description
+      fi: Palvelun kuvaus
+    required: false
+    necessity: optional
+    help_text:
+      en: Description of the data service the API is a part of, if applicable.
+      fi: Kuvaus palvelusta mikäli rajapinta on osa laajempaa palvelukokonaisuutta.
+    preset: fluent_core_translated
+    form_languages:
+    - en
+    - fi
+    - sv
+    fluent_form_label:
+      en:
+        en: Data service description in English
+        fi: Palvelun kuvaus englanniksi
+        sv: Data service description in English
+      fi:
+        en: Data service description in Finnish
+        fi: Palvelun kuvaus suomeksi
+        sv: Data service description in Finnish
+      sv:
+        en: Data service description in Swedish
+        fi: Palvelun kuvaus ruotsiksi
+        sv: Data service description in Swedish
+  - field_name: data_service_endpoint_description
+    label:
+      en: Endpoint description
+      fi: Rajapinnan kuvaus
+    help_text:
+      en: Link to e.g. a Swagger or OpenAPI description.
+      fi: Linkki esim. Swagger tai OpenAPI -kuvaukseen.
+    necessity: recommended
+    required: false
+    preset: url
+  - field_name: data_service_title_translated
+    label:
+      en: Data service name
+      fi: Palvelun nimi
+    required: false
+    necessity: mandatory
+    help_text:
+      en: Name of the data service the API is a part of, if applicable.
+      fi: Palvelun nimi mikäli rajapinta on osa laajempaa palvelukokonaisuutta.
+    preset: fluent_core_translated
+    form_languages:
+    - en
+    - fi
+    - sv
+    fluent_form_label:
+      en:
+        en: Data service name in English
+        fi: Palvelun nimi englanniksi
+        sv: Data service name in English
+      fi:
+        en: Data service name in Finnish
+        fi: Palvelun nimi suomeksi
+        sv: Data service name in Finnish
+      sv:
+        en: Data service name in Swedish
+        fi: Palvelun nimi ruotsiksi
+        sv: Data service name in Swedish
+  - field_name: data_service_endpoint_url
+    label:
+      en: Endpoint URL
+      fi: URL (rajapinta)
+    help_text:
+      en: The root location or primary endpoint of the Data Service related to this
+        Distribution
+      fi: URL tietoaineiston tätä resurssia tarjoavaan rajapintaan.
+    necessity: mandatory
+    required: false
+    preset: url
 - field_name: format_iri
   required: false
   form_snippet: null

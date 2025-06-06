@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: ckanext-digitraffic_theme 0.0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2025-06-02 08:18+0000\n"
-"PO-Revision-Date: 2025-06-02 12:38+0300\n"
+"PO-Revision-Date: 2025-06-05 10:22+0300\n"
 "Last-Translator: \n"
 "Language-Team: fi <LL@li.org>\n"
 "Language: fi\n"
@@ -356,7 +356,7 @@ msgstr ""
 # | msgid "Resource description"
 #: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:43
 msgid "Description"
-msgstr "Resurssin kuvaus"
+msgstr "Kuvaus"
 
 #: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:43
 msgid "Some useful notes about the data"
