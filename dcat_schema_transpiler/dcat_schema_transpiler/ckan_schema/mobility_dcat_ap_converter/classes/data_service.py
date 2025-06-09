@@ -45,6 +45,7 @@ class DataService(AggregateRangeValueConverter):
         return super().get_range_value(ds, clazz_p)
 
     def get_schema(self, ds: Dataset, clazz_p: RDFSProperty, is_required: bool = False):
+        is_required = clazz_p.iri in self.mandatory_properties
         if clazz_p.is_iri(DCAT.endpointURL):
             return {
                 "field_name": self.ckan_field(clazz_p),
