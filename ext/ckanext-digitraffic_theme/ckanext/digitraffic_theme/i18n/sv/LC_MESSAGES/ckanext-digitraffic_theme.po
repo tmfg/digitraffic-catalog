@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-digitraffic_theme 0.0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-06-09 10:59+0000\n"
+"POT-Creation-Date: 2025-06-09 11:32+0000\n"
 "PO-Revision-Date: 2025-05-06 06:53+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: sv\n"
@@ -303,6 +303,7 @@ msgid "http://example.com/external-data.csv"
 msgstr ""
 
 #: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:39
+#: ckanext/digitraffic_theme/templates/user/api_tokens.html:13
 msgid "Name"
 msgstr ""
 
@@ -680,6 +681,19 @@ msgstr ""
 msgid "Account"
 msgstr ""
 
+#: ckanext/digitraffic_theme/templates/user/api_tokens.html:20
+msgid "Create API Token"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/user/api_tokens.html:30
+#: ckanext/digitraffic_theme/templates/user/read_base.html:26
+msgid "API Tokens"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/user/api_tokens.html:38
+msgid "You haven't created any API Tokens."
+msgstr ""
+
 #: ckanext/digitraffic_theme/templates/user/edit_user_form.html:10
 msgid "Change details"
 msgstr ""
@@ -797,10 +811,6 @@ msgstr ""
 
 #: ckanext/digitraffic_theme/templates/user/read_base.html:17
 msgid "Manage"
-msgstr ""
-
-#: ckanext/digitraffic_theme/templates/user/read_base.html:26
-msgid "API Tokens"
 msgstr ""
 
 #: ckanext/digitraffic_theme/validators/dataset_validators.py:40
