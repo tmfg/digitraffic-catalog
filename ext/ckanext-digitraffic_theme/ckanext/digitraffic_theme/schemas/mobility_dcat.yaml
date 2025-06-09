@@ -3765,12 +3765,9 @@ resource_fields:
   - field_name: data_service_title_translated
     label:
       en: Data service name
-      fi: Palvelun nimi
+      fi: Tietopalvelun nimi
     required: false
     necessity: mandatory
-    help_text:
-      en: Name of the data service the API is a part of, if applicable.
-      fi: Palvelun nimi mikäli rajapinta on osa laajempaa palvelukokonaisuutta.
     preset: fluent_core_translated
     form_languages:
     - en
@@ -3779,27 +3776,24 @@ resource_fields:
     fluent_form_label:
       en:
         en: Data service name in English
-        fi: Palvelun nimi englanniksi
+        fi: Tietopalvelun nimi englanniksi
         sv: Data service name in English
       fi:
         en: Data service name in Finnish
-        fi: Palvelun nimi suomeksi
+        fi: Tietopalvelun nimi suomeksi
         sv: Data service name in Finnish
       sv:
         en: Data service name in Swedish
-        fi: Palvelun nimi ruotsiksi
+        fi: Tietopalvelun nimi ruotsiksi
         sv: Data service name in Swedish
     required_languages:
     - en
   - field_name: data_service_description_translated
     label:
       en: Data service description
-      fi: Palvelun kuvaus
+      fi: Tietopalvelun kuvaus
     required: false
     necessity: optional
-    help_text:
-      en: Description of the data service the API is a part of, if applicable.
-      fi: Kuvaus palvelusta mikäli rajapinta on osa laajempaa palvelukokonaisuutta.
     preset: fluent_core_translated
     form_languages:
     - en
@@ -3808,24 +3802,25 @@ resource_fields:
     fluent_form_label:
       en:
         en: Data service description in English
-        fi: Palvelun kuvaus englanniksi
+        fi: Tietopalvelun kuvaus englanniksi
         sv: Data service description in English
       fi:
         en: Data service description in Finnish
-        fi: Palvelun kuvaus suomeksi
+        fi: Tietopalvelun kuvaus suomeksi
         sv: Data service description in Finnish
       sv:
         en: Data service description in Swedish
-        fi: Palvelun kuvaus ruotsiksi
+        fi: Tietopalvelun kuvaus ruotsiksi
         sv: Data service description in Swedish
   - field_name: data_service_endpoint_url
     label:
       en: Endpoint URL
-      fi: URL (rajapinta)
+      fi: Rajapinnan URL
     help_text:
-      en: The root location or primary endpoint of the Data Service related to this
-        Distribution
-      fi: URL tietoaineiston tätä resurssia tarjoavaan rajapintaan.
+      en: The root location or primary endpoint of the data service related to this
+        resource.
+      fi: Tähän resurssiin liittyvän tietopalvelun juurisijainti tai ensisijainen
+        API-päätepiste.
     necessity: mandatory
     required: true
     preset: url
@@ -6669,7 +6664,7 @@ resource_fields:
       fi: eCos License version 2.0
       sv: eCos License version 2.0
   validators: scheming_required standard_license_validator
-  necessity: mandatory
+  necessity: recommended
 - field_name: license_text
   label:
     en: License text
