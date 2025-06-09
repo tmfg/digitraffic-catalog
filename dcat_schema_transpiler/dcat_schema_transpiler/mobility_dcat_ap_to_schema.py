@@ -13,9 +13,7 @@ from ckan_schema.mobility_dcat_ap_converter.range_value_converter import Necessi
 from dcat_schema_transpiler.mobility_dcat_ap.dataset import CNT, OA
 from dcat_schema_transpiler.namespaces.VCARD import VCARD
 
-from ckan_schema.mobility_dcat_ap_converter.i18n.translations import (
-    TRANSLATIONS
-)
+from ckan_schema.mobility_dcat_ap_converter.i18n.translations import TRANSLATIONS
 
 
 from ckan_schema.mobility_dcat_ap_converter.classes.license_document import (
@@ -78,38 +76,58 @@ def sort_repeating_subfields(schemas: List[Dict[str, Any]]):
         if schema.get("repeating_subfields") is not None:
             schema["repeating_subfields"].sort(key=sort_by_en_label)
 
+
 def modifications_to_dataset_spec(dataset_fields: List[Dict[str, Any]]):
     """
     Modify the dataset fields in such a way that the app can use them. The resulting dataset fields
     should be compatible with the spec.
     """
-    contact_point = list(filter(lambda x: x.get("field_name") == "contact_point", dataset_fields))[0]
-    contact_point["repeating_subfields"].insert(0, {
-        "field_name": "contact_point_type",
-        "label": TRANSLATIONS[VCARD.Kind]["contact_point_type"],
-        "required": True,
-        "preset": "select",
-        "form_include_blank_choice": False,
-        "sorted_choices": True,
-        "default": "http://www.w3.org/2006/vcard/ns#Organization",
-        "choices": [
-            {
-                "value": "http://www.w3.org/2006/vcard/ns#Organization",
-                "label": TRANSLATIONS[VCARD.Organization]["label"],
-            },
-            {
-                "value": "http://www.w3.org/2006/vcard/ns#Individual",
-                "label": TRANSLATIONS[VCARD.Individual]["label"],
-            }
-        ]
-    })
-    rights_holder = list(filter(lambda x: x.get("field_name") == "rights_holder", dataset_fields))[0]
-    rights_holder_type_subfield = list(filter(lambda x: x.get("field_name") == "type", rights_holder["repeating_subfields"]))[0]
+    contact_point = list(
+        filter(lambda x: x.get("field_name") == "contact_point", dataset_fields)
+    )[0]
+    contact_point["repeating_subfields"].insert(
+        0,
+        {
+            "field_name": "contact_point_type",
+            "label": TRANSLATIONS[VCARD.Kind]["contact_point_type"],
+            "required": True,
+            "preset": "select",
+            "form_include_blank_choice": False,
+            "sorted_choices": True,
+            "default": "http://www.w3.org/2006/vcard/ns#Organization",
+            "choices": [
+                {
+                    "value": "http://www.w3.org/2006/vcard/ns#Organization",
+                    "label": TRANSLATIONS[VCARD.Organization]["label"],
+                },
+                {
+                    "value": "http://www.w3.org/2006/vcard/ns#Individual",
+                    "label": TRANSLATIONS[VCARD.Individual]["label"],
+                },
+            ],
+        },
+    )
+    rights_holder = list(
+        filter(lambda x: x.get("field_name") == "rights_holder", dataset_fields)
+    )[0]
+    rights_holder_type_subfield = list(
+        filter(
+            lambda x: x.get("field_name") == "type",
+            rights_holder["repeating_subfields"],
+        )
+    )[0]
     rights_holder_type_subfield["form_include_blank_choice"] = False
     rights_holder_type_subfield["necessity"] = Necessity.MANDATORY.value
     rights_holder_type_subfield["required"] = True
-    rights_holder_type_subfield["default"] = "http://purl.org/adms/publishertype/Company"
-    rights_holder["repeating_subfields"] = list(filter(lambda x: x.get("field_name") != "member_of", rights_holder["repeating_subfields"]))
+    rights_holder_type_subfield["default"] = (
+        "http://purl.org/adms/publishertype/Company"
+    )
+    rights_holder["repeating_subfields"] = list(
+        filter(
+            lambda x: x.get("field_name") != "member_of",
+            rights_holder["repeating_subfields"],
+        )
+    )
 
 
 def sort_dataset_fields(dataset_fields: List[Dict[str, Any]]):
@@ -148,13 +166,10 @@ def sort_resource_fields(resource_fields: List[Dict[str, Any]]):
     order = [
         "url",
         "download_url",
-        "data_service_endpoint_url",
-        "data_service_endpoint_description",
+        "data_service",
         "name_translated",
         "description_translated",
         "format",
-        "data_service_title_translated",
-        "data_service_description_translated",
         "application_layer_protocol",
         "data_grammar",
         "data_format_notes_translated",

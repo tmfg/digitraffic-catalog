@@ -307,7 +307,7 @@ class RangeValueConverter(ABC):
             return deepcopy(translated_field_properties)
 
     @staticmethod
-    def get_validators(validators: List[str]):
+    def get_validators(validators: List[str] = []):
         validators.insert(0, "scheming_required")
         return " ".join(validators)
 
