@@ -74,7 +74,18 @@ def sort_dropdowns(schemas: List[Dict[str, Any]]):
 def sort_repeating_subfields(schemas: List[Dict[str, Any]]):
     for schema in schemas:
         if schema.get("repeating_subfields") is not None:
-            schema["repeating_subfields"].sort(key=sort_by_en_label)
+            if schema.get("field_name") == "data_service":
+                order = [
+                    "data_service_title_translated",
+                    "data_service_description_translated",
+                    "data_service_endpoint_url",
+                    "data_service_endpoint_description",
+                ]
+                schema["repeating_subfields"].sort(
+                    key=partial(sort_by_field_name, order)
+                )
+            else:
+                schema["repeating_subfields"].sort(key=sort_by_en_label)
 
 
 def modifications_to_dataset_spec(dataset_fields: List[Dict[str, Any]]):
@@ -187,6 +198,7 @@ def sort_resource_fields(resource_fields: List[Dict[str, Any]]):
     ]
     resource_fields.sort(key=partial(sort_by_field_name, order))
     sort_dropdowns(resource_fields)
+    sort_repeating_subfields(resource_fields)
 
 
 def sort_rights_holder_fields(rights_holder_fields: List[Dict[str, Any]]):
