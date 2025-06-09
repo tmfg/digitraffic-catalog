@@ -2998,8 +2998,8 @@ dataset_fields:
   necessity: recommended
 - field_name: contact_point
   label:
-    en: Contact point
-    fi: Yhteyspiste
+    en: Contact points
+    fi: Yhteyspisteet
   repeating_subfields:
   - field_name: contact_point_type
     label:
@@ -3441,8 +3441,8 @@ dataset_fields:
   necessity: optional
 - field_name: rights_holder
   label:
-    en: Rights holder
-    fi: Oikeuksien haltija
+    en: Rights holders
+    fi: Oikeuksien haltijat
   repeating_subfields:
   - field_name: type
     required: true
