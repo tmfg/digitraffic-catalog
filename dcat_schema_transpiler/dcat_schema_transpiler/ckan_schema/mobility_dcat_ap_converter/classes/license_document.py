@@ -5,6 +5,7 @@ from rdflib.namespace import DCTERMS, RDFS, SKOS
 
 from ckan_schema.mobility_dcat_ap_converter.range_value_converter import (
     RangeValueConverter,
+    Necessity,
 )
 from dcat_schema_transpiler.rdfs.rdfs_class import RDFSClass
 from dcat_schema_transpiler.rdfs.rdfs_property import RDFSProperty
@@ -41,22 +42,22 @@ class LicenseDocument(RangeValueConverter):
 
     def get_schema(self, ds: Dataset, clazz_p: RDFSProperty, is_required: bool = None):
         if clazz_p.is_iri(DCTERMS.identifier):
-            schema = self.controlled_vocab_field(clazz_p, ds, is_required)
+            schema = self.controlled_vocab_field(clazz_p, ds, is_required) | {
+                "necessity": Necessity.RECOMMENDED.value
+            }
         elif clazz_p.is_iri(RDFS.label):
             schema = {
                 "field_name": self.ckan_field(clazz_p),
                 **super().get_property_label_with_help_text(clazz_p.iri),
                 "preset": "markdown",
                 "required": is_required,
+                "necessity": Necessity.OPTIONAL.value,
             }
         else:
             schema = super().get_schema(ds, clazz_p, is_required)
         if schema is None:
             return None
-        return {
-            **schema,
-            **super().get_necessity_mapping(clazz_p.iri),
-        }
+        return schema
 
     def controlled_vocab_field(
         self, p: RDFSProperty, ds: Dataset, is_required: bool

@@ -2,7 +2,7 @@ import "./modules/top-navigation";
 import "./modules/app-navigation";
 import "./modules/user-actions";
 import "./modules/dataset-form";
-import './modules/iri-fragment-input';
+import "./modules/iri-fragment-input";
 import "./modules/language-menu";
 import "./modules/temporal-coverage";
 import "./modules/multi-select";
@@ -10,19 +10,20 @@ import "./modules/language-toggle-buttons";
 import "./modules/contact-detail";
 import "./modules/rights-holder";
 import "./modules/form-layout";
+import "./modules/license-document";
 import {
-  createIcons,
-  ExternalLink,
-  User,
-  Menu,
-  Globe,
   ChevronDown,
   ChevronUp,
+  createIcons,
+  ExternalLink,
   Facebook,
-  Twitter,
+  Globe,
   Instagram,
-  Youtube,
   Linkedin,
+  Menu,
+  Twitter,
+  User,
+  Youtube,
 } from "lucide";
 
 jQuery(function () {
