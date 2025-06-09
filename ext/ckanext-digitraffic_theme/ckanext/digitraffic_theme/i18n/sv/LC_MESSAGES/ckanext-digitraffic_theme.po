@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-digitraffic_theme 0.0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-06-09 11:32+0000\n"
+"POT-Creation-Date: 2025-06-09 14:32+0000\n"
 "PO-Revision-Date: 2025-05-06 06:53+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: sv\n"
@@ -221,6 +221,14 @@ msgstr ""
 
 #: ckanext/digitraffic_theme/templates/macros/form/input_block.html:27
 msgid "Custom"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/macros/form/markdown.html:31
+#, python-format
+msgid ""
+"You can use <a href=\"#markdown\" title=\"Markdown quick reference\" "
+"data-bs-toggle=\"popover\" data-bs-content=\"%(markdown_tooltip)s\" data-"
+"bs-html=\"true\">Markdown formatting</a> here"
 msgstr ""
 
 #: ckanext/digitraffic_theme/templates/package/edit_base.html:11
@@ -491,7 +499,7 @@ msgid "Additional details concerning the dataset."
 msgstr ""
 
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:38
-msgid "Contact point"
+msgid "Contact points"
 msgstr ""
 
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:39
@@ -499,7 +507,7 @@ msgid "Contact details for a person or organization."
 msgstr ""
 
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:45
-msgid "Rights holder"
+msgid "Rights holders"
 msgstr ""
 
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:46
@@ -509,7 +517,7 @@ msgstr ""
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:78
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:82
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:84
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:59
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:60
 msgid "Add data"
 msgstr ""
 
@@ -567,15 +575,15 @@ msgstr ""
 msgid "Licenses and terms of use pertaining to this resource."
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:33
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:34
 msgid "Time range"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:34
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:35
 msgid "Period during which resource is available."
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:69
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:70
 msgid "A resource is any file or a link to a file that contains useful data."
 msgstr ""
 
@@ -880,5 +888,11 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Describe step 4 here. Add your own text as needed."
+#~ msgstr ""
+
+#~ msgid "Contact point"
+#~ msgstr ""
+
+#~ msgid "Rights holder"
 #~ msgstr ""
 
