@@ -203,7 +203,8 @@ class DCATDataset(RangeValueConverter):
                 **super().get_property_label_with_help_text(clazz_p.iri),
                 "form_snippet": None,
                 "required": False,
-                "validators": super().get_validators(["is_referenced_by_validator"]),
+                "validators": super().get_validators(["value_to_list", "is_referenced_by_validator"]),
+                "output_validators": "is_referenced_by_validator",
             }
         else:
             schema = super().get_schema(ds, clazz_p, is_required)

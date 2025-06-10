@@ -32,7 +32,7 @@ def package_update(
         log.error("Error during package update: %s", e)
         model.repo.session.rollback()
         context["defer_commit"] = False
-        raise toolkit.ValidationError("Package update failed")
+        raise e
 
 
 @toolkit.chained_action
@@ -54,7 +54,7 @@ def package_patch(
         log.error("Error during package patch: %s", e)
         model.repo.session.rollback()
         context["defer_commit"] = False
-        raise toolkit.ValidationError("Package patch failed")
+        raise e
 
 
 @toolkit.chained_action
@@ -102,4 +102,4 @@ def package_create(
         log.error("Error during package creation: %s", e)
         model.repo.session.rollback()
         context_after_mod()
-        raise toolkit.ValidationError("Package creation failed")
+        raise e

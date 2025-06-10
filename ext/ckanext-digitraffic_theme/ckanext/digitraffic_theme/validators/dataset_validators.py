@@ -170,24 +170,22 @@ def intended_information_service_validator(value: Any, context: Context):
 def country_validator(value: Any, context: Context):
     return vocabulary_validator(value, Country)
 
+def single_is_referenced_by_validator(value: str, context: Context):
+    return value
+
 
 def is_referenced_by_validator(value: Any, context: Context):
-    if value:
-        return value
-
     package = context.get("package", None)
-
     # not doing this will result in is_referenced_by being reset for the
     # currently edited dataset on form submit (because form data for the field will always be empty)
-    if package and not value:
+    if package and value is None:
         package_details = get_action("package_show")(
             context,
             {"id": package.id},
         )
 
-        return package_details.get("is_referenced_by", None)
-
-    return None
+        value = package_details.get("is_referenced_by", None)
+    return multiple_values_converter(single_is_referenced_by_validator, value, context)
 
 def related_resource_validator(value: str, context: Context):
     """

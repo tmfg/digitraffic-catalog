@@ -3437,7 +3437,8 @@ dataset_fields:
     fi: Viittaukset muista aineistoista
   form_snippet: null
   required: false
-  validators: scheming_required is_referenced_by_validator
+  validators: scheming_required value_to_list is_referenced_by_validator
+  output_validators: is_referenced_by_validator
   necessity: optional
 - field_name: rights_holder
   label:
