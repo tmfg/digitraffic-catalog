@@ -40,13 +40,12 @@
     {%- if field.field_name == 'related_resource' -%}
         {# Show full path to dataset #}
         {% set related_resource = pkg_dict.get('related_resource', '') %}
-        {% set related_resource_list = h.from_json(related_resource) %}
         <tr>
         <th scope="row" class="dataset-label">{{
           h.scheming_language_text(field.label) }} 
         </th>
             <td class="dataset-details"{% if field.display_property %} property="{{ field.display_property }}"{% endif %}>
-                {% for dataset_id in related_resource_list %}
+                {% for dataset_id in related_resource %}
                 {{ h.url_from_dataset_id(dataset_id) if h.is_dataset_public(dataset_id) }}{% if not loop.last %}<br>{% endif %}
                 {% endfor %}
             </td>
