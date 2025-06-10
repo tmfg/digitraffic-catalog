@@ -7,7 +7,7 @@ from rdflib.namespace import DCTERMS, SKOS, DCAT, FOAF, OWL
 from rdflib.term import Node
 
 from ckan_schema.mobility_dcat_ap_converter.range_value_converter import (
-    RangeValueConverter,
+    RangeValueConverter, Necessity,
 )
 from mobility_dcat_ap.dataset import (
     CVOCAB_MOBILITY_THEME,
@@ -191,9 +191,11 @@ class DCATDataset(RangeValueConverter):
                 "choices": "",
                 "validators": super().get_validators(
                     [
+                        "value_to_list",
                         "dataset_reference_validator",
                     ]
                 ),
+                "output_validators": "dataset_reference_validator",
             }
         elif clazz_p.is_iri(DCTERMS.isReferencedBy):
             schema = {
@@ -207,13 +209,23 @@ class DCATDataset(RangeValueConverter):
             schema = super().get_schema(ds, clazz_p, is_required)
         if schema is None:
             return None
-        necessity_mapping = super().get_necessity_mapping(clazz_p.iri)
-        if isinstance(schema, list):
-            return list(map(lambda schema: {**schema, **necessity_mapping}, schema))
-        return {
-            **schema,
-            **necessity_mapping,
-        }
+        def apply_necessity_mapping(schema, necessity_fn):
+            """
+            Apply necessity mapping to the schema.
+            """
+            if isinstance(schema, list):
+                return list(map(lambda s: apply_necessity_mapping(s, necessity_fn), schema))
+            else:
+                if schema.get("field_name") == "mobility_theme_sub":
+                    # In spec comments it is mentioned that the sub-theme field is optional.
+                    necessity_mapping = {
+                        "required": False,
+                        "necessity": Necessity.OPTIONAL.value,
+                    }
+                else:
+                    necessity_mapping = necessity_fn(clazz_p.iri)
+                return {**schema, **necessity_mapping}
+        return apply_necessity_mapping(schema, super().get_necessity_mapping)
 
     def controlled_vocab_field(
         self, p: RDFSProperty, ds: Dataset, is_required: bool

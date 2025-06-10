@@ -44,6 +44,7 @@ const RightsHolder: ckan.Module<HTMLDivElement, RightsHolderMO>  = {
         `rights_holder-${i}-first_name`,
         `rights_holder-${i}-surname`,
         `rights_holder-${i}-workplace_homepage`,
+        `rights_holder-${i}-member_of`,
       ])
       typeFieldNames = new Set([...allFieldNames].filter(item => !excludedFields.has(item)))
     }
@@ -66,6 +67,7 @@ const RightsHolder: ckan.Module<HTMLDivElement, RightsHolderMO>  = {
       `rights_holder-${i}-admin_unit_l2`,
       `rights_holder-${i}-admin_unit_l1`,
       `rights_holder-${i}-workplace_homepage`,
+      `rights_holder-${i}-member_of`
     ])
   }
 };

@@ -23,9 +23,8 @@
         <th scope="row" class="dataset-label">{{
           h.scheming_language_text(field.label) }} 
         </th>
-        <td class="dataset-details"{%
-        if field.display_property %} property="{{ field.display_property
-        }}"{% endif %}>{{title}}</td>
+        <td class="dataset-details"
+            {% if field.display_property %} property="{{ field.display_property }}"{% endif %}>{{title}}</td>
         </tr>
     {%- endif -%}
     {%- if field.field_name == 'notes_translated' -%}
@@ -35,21 +34,22 @@
         <th scope="row" class="dataset-label">{{
           h.scheming_language_text(field.label) }} 
         </th>
-        <td class="dataset-details"{%
-        if field.display_property %} property="{{ field.display_property
-        }}"{% endif %}>{{notes}}</td>
+        <td class="dataset-details"{% if field.display_property %} property="{{ field.display_property }}"{% endif %}>{{notes}}</td>
         </tr>
     {%- endif -%}
     {%- if field.field_name == 'related_resource' -%}
         {# Show full path to dataset #}
-        {% set dataset_reference = h.url_from_dataset_id(pkg_dict.get('related_resource')) if pkg_dict.get('related_resource') and h.is_dataset_public(pkg_dict.get('related_resource'))  else "" %}
+        {% set related_resource = pkg_dict.get('related_resource', '') %}
+        {% set related_resource_list = h.from_json(related_resource) %}
         <tr>
         <th scope="row" class="dataset-label">{{
           h.scheming_language_text(field.label) }} 
         </th>
-        <td class="dataset-details"{%
-        if field.display_property %} property="{{ field.display_property
-        }}"{% endif %}>{{dataset_reference}}</td>
+            <td class="dataset-details"{% if field.display_property %} property="{{ field.display_property }}"{% endif %}>
+                {% for dataset_id in related_resource_list %}
+                {{ h.url_from_dataset_id(dataset_id) if h.is_dataset_public(dataset_id) }}{% if not loop.last %}<br>{% endif %}
+                {% endfor %}
+            </td>
         </tr>
     {%- endif -%}
     {%- if field.field_name == 'is_referenced_by' -%}
@@ -60,9 +60,7 @@
         <th scope="row" class="dataset-label">{{
           h.scheming_language_text(field.label) }} 
         </th>
-        <td class="dataset-details"{%
-        if field.display_property %} property="{{ field.display_property
-        }}"{% endif %}>  
+        <td class="dataset-details"{% if field.display_property %} property="{{ field.display_property }}"{% endif %}>
           {% for dataset_id in is_referenced_by_list %}
             {{ h.url_from_dataset_id(dataset_id) if h.is_dataset_public(dataset_id) }}{% if not loop.last %}<br>{% endif %}
           {% endfor %}
@@ -72,12 +70,8 @@
     {%- if field.field_name not in exclude_fields
         and field.display_snippet is not none -%}
       <tr>
-        <th scope="row" class="dataset-label">{{
-          h.scheming_language_text(field.label) }}</th>
-        <td class="dataset-details"{%
-          if field.display_property %} property="{{ field.display_property
-          }}"{% endif %}>{%- snippet 'scheming/snippets/display_field.html',
-          field=field, data=pkg_dict, schema=schema -%}</td>
+        <th scope="row" class="dataset-label">{{ h.scheming_language_text(field.label) }}</th>
+        <td class="dataset-details"{% if field.display_property %} property="{{ field.display_property }}"{% endif %}>{%- snippet 'scheming/snippets/display_field.html', field=field, data=pkg_dict, schema=schema -%}</td>
       </tr>
     {%- endif -%}
   {%- endfor -%}
