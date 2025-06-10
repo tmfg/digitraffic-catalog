@@ -149,6 +149,18 @@ class MobilityData:
             else {}
         )
 
+        related_resource = (
+            {
+                "related_resource": [
+                    URIRef(url_from_dataset_id(dataset_id))
+                    for dataset_id in json.loads(dataset_dict["related_resource"])
+                    if dataset_id and helpers.is_dataset_public(dataset_id)
+                ]
+            }
+            if dataset_dict.get("related_resource")
+            else {}
+        )
+
         def create_agent(ref: URIRef | None, agent_data: Dict[str, Any]):
             agent_type = (
                 AgentType(agent_data["type"]) if agent_data.get("type") else None
@@ -477,16 +489,7 @@ class MobilityData:
                 ),
                 **quality_annotation,
                 **assessments,
-                **(
-                    {
-                        "related_resource": URIRef(
-                            url_from_dataset_id(dataset_dict.get("related_resource"))
-                        )
-                    }
-                    if dataset_dict.get("related_resource")
-                    and helpers.is_dataset_public(dataset_dict.get("related_resource"))
-                    else {}
-                ),
+                **related_resource,
                 **is_referenced_by,
                 **temporal,
                 **theme,

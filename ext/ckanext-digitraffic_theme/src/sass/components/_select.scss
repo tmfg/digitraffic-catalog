@@ -19,16 +19,6 @@ $select-error-area: error;
     .error-block {
         grid-area: $select-error-area;
     }
-
-    &::after {
-        content: url("lucide-static/icons/chevron-down.svg");
-        width: 22px;
-        height: 22px;
-        position: absolute;
-        right: .75rem;
-        pointer-events: none;
-        grid-area: $select-dropdown-area;
-    }
 }
 
 //  Snippet snippets/search_form.html start
@@ -49,16 +39,6 @@ $select-error-area: error;
         width: 100%;
         appearance: none;
         padding: var(--fds-select-padding-top) var(--fds-select-padding-right) var(--fds-select-padding-bottom) var(--fds-select-padding-left)
-    }
-
-    &::after {
-        content: url("lucide-static/icons/chevron-down.svg");
-        width: 22px;
-        height: 22px;
-        position: absolute;
-        right: .75rem;
-        bottom: .5rem;
-        pointer-events: none;
     }
 }
 

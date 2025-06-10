@@ -49,7 +49,7 @@
       "values": {
         "form_snippet": "multi_select.html",
         "display_snippet": "multiple_choice.html",
-        "validators": "scheming_required scheming_choices"
+        "validators": "scheming_required scheming_choices value_to_list"
       }
     }
   ]

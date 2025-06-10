@@ -41,10 +41,9 @@ class Frequency(RangeValueConverter):
             **super().get_class_label_with_help_text(),
             "necessity": Necessity.MANDATORY.value,
             "required": is_required,
-            "preset": "multi_select",
+            "preset": "select",
             "sorted_choices": True,
             "choices": RangeValueConverter.vocab_choices(graph=g, iri=self.iri),
-            "output_validators": "frequency_validator",
             "validators": super().get_validators(["frequency_validator"]),
         }
 
