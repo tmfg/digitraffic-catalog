@@ -22,7 +22,7 @@ export class NewDatasetPage extends BasePage implements JSLoadedInterface<NewDat
     this.visibilityFieldPublic = this.visibilityFields.getByLabel('Julkinen');
     this.visibilityFieldPrivate = this.visibilityFields.getByLabel('Yksityinen');
     this.titleField = page.getByLabel('Nimike englanniksi')
-    this.frequencyField = page.locator('#field-frequency').getByRole('combobox');
+    this.frequencyField = page.getByLabel('* Päivitysten tiheys');
     this.regionalCoverageField = page.getByLabel('Alueellinen kattavuus');
     this.dataContentCategoryField = page.getByLabel('* Kategoria');
     this.descriptionField = page.getByLabel('Kuvaus englanniksi');
