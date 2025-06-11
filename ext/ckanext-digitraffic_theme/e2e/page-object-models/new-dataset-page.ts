@@ -18,25 +18,16 @@ export class NewDatasetPage extends BasePage
   readonly saveButton: Locator;
 
   constructor(page: Page) {
-    super(page, [
-      page.getByRole("heading", { name: "Yleiset" }),
-      page.getByRole("heading", { name: "Versiointi" }),
-    ]);
-    this.visibilityFields = page.locator(
-      '.control-group:has([for="field-private"])',
-    );
-    this.visibilityFieldPublic = this.visibilityFields.getByLabel("Julkinen");
-    this.visibilityFieldPrivate = this.visibilityFields.getByLabel(
-      "Yksityinen",
-    );
-    this.titleField = page.getByLabel("Nimike englanniksi");
-    this.frequencyField = page.locator("#field-frequency");
-    this.regionalCoverageField = page.getByLabel("Alueellinen kattavuus");
-    this.dataContentCategoryField = page.getByLabel("* Kategoria");
-    this.descriptionField = page.getByLabel("Kuvaus englanniksi");
-    this.saveButton = page.getByRole("button", {
-      name: "Seuraava: Lisää dataa",
-    });
+    super(page, [page.getByRole('heading', {name: 'Yleiset'}), page.getByRole('heading', {name: 'Versiointi'})]);
+    this.visibilityFields = page.locator('.control-group:has([for="field-private"])');
+    this.visibilityFieldPublic = this.visibilityFields.getByLabel('Julkinen');
+    this.visibilityFieldPrivate = this.visibilityFields.getByLabel('Yksityinen');
+    this.titleField = page.getByLabel('Nimike englanniksi')
+    this.frequencyField = page.getByLabel('* Päivitysten tiheys');
+    this.regionalCoverageField = page.getByLabel('Alueellinen kattavuus');
+    this.dataContentCategoryField = page.getByLabel('* Kategoria');
+    this.descriptionField = page.getByLabel('Kuvaus englanniksi');
+    this.saveButton = page.getByRole('button', {name: 'Seuraava: Lisää dataa'});
   }
 
   async goto(): Promise<NewDatasetPage> {
@@ -68,18 +59,11 @@ export class NewDatasetPage extends BasePage
     if (datasetInfo.visibility === "private") {
       await this.visibilityFieldPrivate.check();
     }
-    await this.titleField.fill(datasetInfo.title);
-    await this.frequencyField.click();
-    for (const frequency of datasetInfo.frequencies) {
-      await this.page.locator("span.label").filter({ hasText: frequency.label })
-        .click();
-    }
-    await this.frequencyField.click();
-    await this.regionalCoverageField.selectOption(datasetInfo.regionalCoverage);
-    await this.dataContentCategoryField.selectOption(
-      datasetInfo.dataContentCategory,
-    );
-    await this.descriptionField.fill(datasetInfo.description);
+    await this.titleField.fill(datasetInfo.title)
+    await this.frequencyField.selectOption(datasetInfo.frequency)
+    await this.regionalCoverageField.selectOption(datasetInfo.regionalCoverage)
+    await this.dataContentCategoryField.selectOption(datasetInfo.dataContentCategory)
+    await this.descriptionField.fill(datasetInfo.description)
   }
 
   async setDatasetInfo(datasetInfo: DatasetInfo): Promise<NewResourcePage> {

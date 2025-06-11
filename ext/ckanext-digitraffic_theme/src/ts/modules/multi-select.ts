@@ -42,12 +42,17 @@ const MultiSelect: ckan.Module<FdsDropdown<string>, MultiselectMO>  = {
         if (element.textContent === null) {
             throw new Error("Option element does not have text content");
         }
+        const label = element.textContent.trim()
+        if (label === "") {
+          return undefined
+        }
         return {
-            label: element.textContent.trim(),
+            label: label,
             value: element.value,
-            selected: element.getAttribute("selected") === "selected",
+            selected: element.getAttribute("selected") === "",
         };
     })
+      .filter((option) => option !== undefined);
   },
   _optionValuesToFdsDropdownOptions(optionValues: OptionValues[]): FdsDropdownOption<string>[] {
     return optionValues.map((optionValue) => ({

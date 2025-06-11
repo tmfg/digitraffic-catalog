@@ -104,6 +104,39 @@
     }
 }
 
+.control-group {
+    .control-visibility {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        flex-wrap: nowrap;
+
+        .form-check {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            flex-wrap: nowrap;
+            margin: 0;
+            padding: 0;
+            margin-right: 1rem;
+
+            &:last-child {
+                margin-right: 0;
+            }
+
+            input[type="radio"] {
+                float: none;
+                width: auto;
+                margin: 0;
+                margin-right: 0.5rem;
+            }
+            label {
+                margin: 0;
+            }
+        }
+    }
+}
+
 .form-check-input[type=radio] {
     margin-top: 0;
     appearance: auto;
