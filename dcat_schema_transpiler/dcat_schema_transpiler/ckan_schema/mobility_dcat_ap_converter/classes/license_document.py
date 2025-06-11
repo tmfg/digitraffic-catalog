@@ -15,7 +15,7 @@ from mobility_dcat_ap.dataset import CVOCAB_LICENSE_IDENTIFIER, AT
 
 class LicenseDocument(RangeValueConverter):
     iri = DCTERMS.LicenseDocument
-    mandatory_properties = {DCTERMS.identifier}
+    recommended_properties = {DCTERMS.identifier}
     optional_properties = {RDFS.label}
 
     def __init__(self, clazz: RDFSClass):
@@ -42,22 +42,22 @@ class LicenseDocument(RangeValueConverter):
 
     def get_schema(self, ds: Dataset, clazz_p: RDFSProperty, is_required: bool = None):
         if clazz_p.is_iri(DCTERMS.identifier):
-            schema = self.controlled_vocab_field(clazz_p, ds, is_required) | {
-                "necessity": Necessity.RECOMMENDED.value
-            }
+            schema = self.controlled_vocab_field(clazz_p, ds, is_required)
         elif clazz_p.is_iri(RDFS.label):
             schema = {
                 "field_name": self.ckan_field(clazz_p),
                 **super().get_property_label_with_help_text(clazz_p.iri),
                 "preset": "markdown",
                 "required": is_required,
-                "necessity": Necessity.OPTIONAL.value,
             }
         else:
             schema = super().get_schema(ds, clazz_p, is_required)
         if schema is None:
             return None
-        return schema
+        return {
+            **schema,
+            **super().get_necessity_mapping(clazz_p.iri),
+        }
 
     def controlled_vocab_field(
         self, p: RDFSProperty, ds: Dataset, is_required: bool
