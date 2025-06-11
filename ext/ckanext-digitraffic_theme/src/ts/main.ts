@@ -10,7 +10,6 @@ import "./modules/language-toggle-buttons";
 import "./modules/contact-detail";
 import "./modules/rights-holder";
 import "./modules/form-layout";
-import "./modules/license-document";
 import {
   ChevronDown,
   ChevronUp,
