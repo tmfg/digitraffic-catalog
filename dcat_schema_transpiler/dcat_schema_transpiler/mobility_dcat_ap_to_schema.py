@@ -109,7 +109,12 @@ def modifications_to_dataset_spec(dataset_fields: List[Dict[str, Any]]):
     rights_holder_type_subfield["necessity"] = Necessity.MANDATORY.value
     rights_holder_type_subfield["required"] = True
     rights_holder_type_subfield["default"] = "http://purl.org/adms/publishertype/Company"
-    rights_holder["repeating_subfields"] = list(filter(lambda x: x.get("field_name") != "member_of", rights_holder["repeating_subfields"]))
+    rights_holder_member_of = list(filter(lambda x: x.get("field_name") == "member_of", rights_holder["repeating_subfields"]))[0]
+    del rights_holder_member_of['repeating_subfields']
+    if ORG.memberOf not in Agent.optional_properties:
+        raise Exception("ORG.memberOf should be in Agent.optional_properties")
+    rights_holder_member_of['necessity'] = Necessity.OPTIONAL.value
+    rights_holder_member_of['required'] = False
 
 
 def sort_dataset_fields(dataset_fields: List[Dict[str, Any]]):

@@ -41,7 +41,7 @@ class TestProfile:
             "fi": "Suomenkielinen nimi",
             "sv": "Svensk titel",
         }
-        dataset_frequency = list(Frequency.iris)[:1]
+        dataset_frequency = list(Frequency.iris)[0]
         dataset_mobility_theme = str(
             [
                 main_theme
@@ -99,7 +99,7 @@ class TestProfile:
         assert (
             dataset_ref,
             DCTERMS.accrualPeriodicity,
-            Frequency(dataset_frequency[0]).iri,
+            Frequency(dataset_frequency).iri,
         ) in g
         assert (
             dataset_ref,

@@ -66,179 +66,9 @@ dataset_fields:
     fi: Päivitysten tiheys
   necessity: mandatory
   required: true
-  preset: multi_select
+  preset: select
   sorted_choices: true
   choices:
-  - value: http://publications.europa.eu/resource/authority/frequency/30MIN
-    label:
-      en: every thirty minutes
-      fi: kerran puolessa tunnissa
-      sv: en gång i halvtimmen
-  - value: http://publications.europa.eu/resource/authority/frequency/MONTHLY_2
-    label:
-      en: semimonthly
-      fi: kaksi kertaa kuukaudessa
-      sv: två gånger per månad
-  - value: http://publications.europa.eu/resource/authority/frequency/12HRS
-    label:
-      en: every twelve hours
-      fi: joka kahdestoista tunti
-      sv: var tolfte timme
-  - value: http://publications.europa.eu/resource/authority/frequency/NOT_PLANNED
-    label:
-      en: not planned
-      fi: ei suunnitteilla
-      sv: har inte planerats
-  - value: http://publications.europa.eu/resource/authority/frequency/DECENNIAL
-    label:
-      en: decennial
-      fi: joka kymmenes vuosi
-      sv: vart 10:e år
-  - value: http://publications.europa.eu/resource/authority/frequency/DAILY_2
-    label:
-      en: twice a day
-      fi: kahdesti päivässä
-      sv: två gånger per dag
-  - value: http://publications.europa.eu/resource/authority/frequency/AS_NEEDED
-    label:
-      en: as needed
-      fi: tarvittaessa
-      sv: efter behov
-  - value: http://publications.europa.eu/resource/authority/frequency/UNKNOWN
-    label:
-      en: unknown
-      fi: tuntematon
-      sv: obekant
-  - value: http://publications.europa.eu/resource/authority/frequency/QUADRENNIAL
-    label:
-      en: quadrennial
-      fi: joka neljäs vuosi
-      sv: vart fjärde år
-  - value: http://publications.europa.eu/resource/authority/frequency/DAILY
-    label:
-      en: daily
-      fi: päivittäin
-      sv: dagligen
-  - value: http://publications.europa.eu/resource/authority/frequency/BIWEEKLY
-    label:
-      en: biweekly
-      fi: joka toinen viikko
-      sv: var fjortonde dag
-  - value: http://publications.europa.eu/resource/authority/frequency/TRIDECENNIAL
-    label:
-      en: tridecennial
-      fi: joka kolmaskymmenes vuosi
-      sv: vart 30:e år
-  - value: http://publications.europa.eu/resource/authority/frequency/MONTHLY
-    label:
-      en: monthly
-      fi: kuukausittainen
-      sv: månatligen
-  - value: http://publications.europa.eu/resource/authority/frequency/BIMONTHLY
-    label:
-      en: bimonthly
-      fi: kahdesti kuussa
-      sv: varannan månad
-  - value: http://publications.europa.eu/resource/authority/frequency/BIENNIAL
-    label:
-      en: biennial
-      fi: kaksivuotinen
-      sv: vartannat år
-  - value: http://publications.europa.eu/resource/authority/frequency/HOURLY
-    label:
-      en: hourly
-      fi: joka tunti
-      sv: en gång i timmen
-  - value: http://publications.europa.eu/resource/authority/frequency/5MIN
-    label:
-      en: every five minutes
-      fi: joka viides minuutti
-      sv: var femte minut
-  - value: http://publications.europa.eu/resource/authority/frequency/WEEKLY
-    label:
-      en: weekly
-      fi: viikoittainen
-      sv: veckovis
-  - value: http://publications.europa.eu/resource/authority/frequency/TRIENNIAL
-    label:
-      en: triennial
-      fi: kolmivuotinen
-      sv: vart tredje år
-  - value: http://publications.europa.eu/resource/authority/frequency/BIHOURLY
-    label:
-      en: bihourly
-      fi: joka toinen tunti
-      sv: varannan timme
-  - value: http://publications.europa.eu/resource/authority/frequency/15MIN
-    label:
-      en: every fifteen minutes
-      fi: joka viidestoista minuutti
-      sv: var femtonde minut
-  - value: http://publications.europa.eu/resource/authority/frequency/IRREG
-    label:
-      en: irregular
-      fi: epäsäännöllinen
-      sv: oregelbunden
-  - value: http://publications.europa.eu/resource/authority/frequency/TRIHOURLY
-    label:
-      en: trihourly
-      fi: joka kolmas tunti
-      sv: var tredje timme
-  - value: http://publications.europa.eu/resource/authority/frequency/WEEKLY_3
-    label:
-      en: three times a week
-      fi: kolme kertaa viikossa
-      sv: tre gånger per vecka
-  - value: http://publications.europa.eu/resource/authority/frequency/UPDATE_CONT
-    label:
-      en: continuously updated
-      fi: päivitetään jatkuvasti
-      sv: uppdateras kontinuerligt
-  - value: http://publications.europa.eu/resource/authority/frequency/ANNUAL_3
-    label:
-      en: three times a year
-      fi: kolme kertaa vuodessa
-      sv: tre gånger per år
-  - value: http://publications.europa.eu/resource/authority/frequency/OTHER
-    label:
-      en: other
-      fi: muut
-      sv: andra
-  - value: http://publications.europa.eu/resource/authority/frequency/BIDECENNIAL
-    label:
-      en: bidecennial
-      fi: joka kahdeskymmenes vuosi
-      sv: vart 20:e år
-  - value: http://publications.europa.eu/resource/authority/frequency/CONT
-    label:
-      en: continuous
-      fi: jatkuva
-      sv: kontinuerlig
-  - value: http://publications.europa.eu/resource/authority/frequency/WEEKLY_2
-    label:
-      en: semiweekly
-      fi: kaksi kertaa viikossa
-      sv: två gånger per vecka
-  - value: http://publications.europa.eu/resource/authority/frequency/10MIN
-    label:
-      en: every ten minutes
-      fi: joka kymmenes minuutti
-      sv: var tionde minut
-  - value: http://publications.europa.eu/resource/authority/frequency/QUARTERLY
-    label:
-      en: quarterly
-      fi: vuosineljänsittäin
-      sv: kvartalsvis
-  - value: http://publications.europa.eu/resource/authority/frequency/NEVER
-    label:
-      en: never
-      fi: ei koskaan
-      sv: aldrig
-  - value: http://publications.europa.eu/resource/authority/frequency/QUINQUENNIAL
-    label:
-      en: quinquennial
-      fi: joka viides vuosi
-      sv: vart femte år
   - value: http://publications.europa.eu/resource/authority/frequency/OP_DATPRO
     label:
       en: Provisional data
@@ -249,22 +79,191 @@ dataset_fields:
       en: annual
       fi: vuotuinen
       sv: årlig
-  - value: http://publications.europa.eu/resource/authority/frequency/MONTHLY_3
+  - value: http://publications.europa.eu/resource/authority/frequency/AS_NEEDED
     label:
-      en: three times a month
-      fi: kolme kertaa kuukaudessa
-      sv: tre gånger per månad
-  - value: http://publications.europa.eu/resource/authority/frequency/ANNUAL_2
+      en: as needed
+      fi: tarvittaessa
+      sv: efter behov
+  - value: http://publications.europa.eu/resource/authority/frequency/BIDECENNIAL
     label:
-      en: semiannual
-      fi: puolivuotinen
-      sv: halvårs
+      en: bidecennial
+      fi: joka kahdeskymmenes vuosi
+      sv: vart 20:e år
+  - value: http://publications.europa.eu/resource/authority/frequency/BIENNIAL
+    label:
+      en: biennial
+      fi: kaksivuotinen
+      sv: vartannat år
+  - value: http://publications.europa.eu/resource/authority/frequency/BIHOURLY
+    label:
+      en: bihourly
+      fi: joka toinen tunti
+      sv: varannan timme
+  - value: http://publications.europa.eu/resource/authority/frequency/BIMONTHLY
+    label:
+      en: bimonthly
+      fi: kahdesti kuussa
+      sv: varannan månad
+  - value: http://publications.europa.eu/resource/authority/frequency/BIWEEKLY
+    label:
+      en: biweekly
+      fi: joka toinen viikko
+      sv: var fjortonde dag
+  - value: http://publications.europa.eu/resource/authority/frequency/CONT
+    label:
+      en: continuous
+      fi: jatkuva
+      sv: kontinuerlig
+  - value: http://publications.europa.eu/resource/authority/frequency/UPDATE_CONT
+    label:
+      en: continuously updated
+      fi: päivitetään jatkuvasti
+      sv: uppdateras kontinuerligt
+  - value: http://publications.europa.eu/resource/authority/frequency/DAILY
+    label:
+      en: daily
+      fi: päivittäin
+      sv: dagligen
+  - value: http://publications.europa.eu/resource/authority/frequency/DECENNIAL
+    label:
+      en: decennial
+      fi: joka kymmenes vuosi
+      sv: vart 10:e år
+  - value: http://publications.europa.eu/resource/authority/frequency/15MIN
+    label:
+      en: every fifteen minutes
+      fi: joka viidestoista minuutti
+      sv: var femtonde minut
+  - value: http://publications.europa.eu/resource/authority/frequency/5MIN
+    label:
+      en: every five minutes
+      fi: joka viides minuutti
+      sv: var femte minut
   - value: http://publications.europa.eu/resource/authority/frequency/1MIN
     label:
       en: every minute
       fi: joka minuutti
       sv: en gång i minuten
-  output_validators: frequency_validator
+  - value: http://publications.europa.eu/resource/authority/frequency/10MIN
+    label:
+      en: every ten minutes
+      fi: joka kymmenes minuutti
+      sv: var tionde minut
+  - value: http://publications.europa.eu/resource/authority/frequency/30MIN
+    label:
+      en: every thirty minutes
+      fi: kerran puolessa tunnissa
+      sv: en gång i halvtimmen
+  - value: http://publications.europa.eu/resource/authority/frequency/12HRS
+    label:
+      en: every twelve hours
+      fi: joka kahdestoista tunti
+      sv: var tolfte timme
+  - value: http://publications.europa.eu/resource/authority/frequency/HOURLY
+    label:
+      en: hourly
+      fi: joka tunti
+      sv: en gång i timmen
+  - value: http://publications.europa.eu/resource/authority/frequency/IRREG
+    label:
+      en: irregular
+      fi: epäsäännöllinen
+      sv: oregelbunden
+  - value: http://publications.europa.eu/resource/authority/frequency/MONTHLY
+    label:
+      en: monthly
+      fi: kuukausittainen
+      sv: månatligen
+  - value: http://publications.europa.eu/resource/authority/frequency/NEVER
+    label:
+      en: never
+      fi: ei koskaan
+      sv: aldrig
+  - value: http://publications.europa.eu/resource/authority/frequency/NOT_PLANNED
+    label:
+      en: not planned
+      fi: ei suunnitteilla
+      sv: har inte planerats
+  - value: http://publications.europa.eu/resource/authority/frequency/OTHER
+    label:
+      en: other
+      fi: muut
+      sv: andra
+  - value: http://publications.europa.eu/resource/authority/frequency/QUADRENNIAL
+    label:
+      en: quadrennial
+      fi: joka neljäs vuosi
+      sv: vart fjärde år
+  - value: http://publications.europa.eu/resource/authority/frequency/QUARTERLY
+    label:
+      en: quarterly
+      fi: vuosineljänsittäin
+      sv: kvartalsvis
+  - value: http://publications.europa.eu/resource/authority/frequency/QUINQUENNIAL
+    label:
+      en: quinquennial
+      fi: joka viides vuosi
+      sv: vart femte år
+  - value: http://publications.europa.eu/resource/authority/frequency/ANNUAL_2
+    label:
+      en: semiannual
+      fi: puolivuotinen
+      sv: halvårs
+  - value: http://publications.europa.eu/resource/authority/frequency/MONTHLY_2
+    label:
+      en: semimonthly
+      fi: kaksi kertaa kuukaudessa
+      sv: två gånger per månad
+  - value: http://publications.europa.eu/resource/authority/frequency/WEEKLY_2
+    label:
+      en: semiweekly
+      fi: kaksi kertaa viikossa
+      sv: två gånger per vecka
+  - value: http://publications.europa.eu/resource/authority/frequency/MONTHLY_3
+    label:
+      en: three times a month
+      fi: kolme kertaa kuukaudessa
+      sv: tre gånger per månad
+  - value: http://publications.europa.eu/resource/authority/frequency/WEEKLY_3
+    label:
+      en: three times a week
+      fi: kolme kertaa viikossa
+      sv: tre gånger per vecka
+  - value: http://publications.europa.eu/resource/authority/frequency/ANNUAL_3
+    label:
+      en: three times a year
+      fi: kolme kertaa vuodessa
+      sv: tre gånger per år
+  - value: http://publications.europa.eu/resource/authority/frequency/TRIDECENNIAL
+    label:
+      en: tridecennial
+      fi: joka kolmaskymmenes vuosi
+      sv: vart 30:e år
+  - value: http://publications.europa.eu/resource/authority/frequency/TRIENNIAL
+    label:
+      en: triennial
+      fi: kolmivuotinen
+      sv: vart tredje år
+  - value: http://publications.europa.eu/resource/authority/frequency/TRIHOURLY
+    label:
+      en: trihourly
+      fi: joka kolmas tunti
+      sv: var tredje timme
+  - value: http://publications.europa.eu/resource/authority/frequency/DAILY_2
+    label:
+      en: twice a day
+      fi: kahdesti päivässä
+      sv: två gånger per dag
+  - value: http://publications.europa.eu/resource/authority/frequency/UNKNOWN
+    label:
+      en: unknown
+      fi: tuntematon
+      sv: obekant
+  - value: http://publications.europa.eu/resource/authority/frequency/WEEKLY
+    label:
+      en: weekly
+      fi: viikoittainen
+      sv: veckovis
   validators: scheming_required frequency_validator
 - field_name: mobility_theme
   label:
@@ -891,7 +890,7 @@ dataset_fields:
       en: Waiting time at border crossings to non-EU Member States
       fi: Odotusaika rajanylityspaikoilla EU:n ulkopuolisiin maihin
       sv: Waiting time at border crossings to non-EU Member States
-  necessity: mandatory
+  necessity: optional
 - field_name: theme
   label:
     en: Theme
@@ -3429,7 +3428,8 @@ dataset_fields:
   required: false
   preset: dataset_reference_select
   choices: ''
-  validators: scheming_required dataset_reference_validator
+  validators: scheming_required value_to_list dataset_reference_validator
+  output_validators: dataset_reference_validator
   necessity: optional
 - field_name: is_referenced_by
   label:
@@ -3437,7 +3437,8 @@ dataset_fields:
     fi: Viittaukset muista aineistoista
   form_snippet: null
   required: false
-  validators: scheming_required is_referenced_by_validator
+  validators: scheming_required value_to_list is_referenced_by_validator
+  output_validators: is_referenced_by_validator
   necessity: optional
 - field_name: rights_holder
   label:
@@ -3729,6 +3730,12 @@ dataset_fields:
       en: Workplace homepage
       fi: Työpaikan kotisivu
     necessity: optional
+  - field_name: member_of
+    label:
+      en: Member of
+      fi: Jäsenyydet
+    necessity: optional
+    required: false
   subfield_form_attrs:
     data-module: digitraffic_theme_rights_holder
   form_blanks: 0
