@@ -64,9 +64,9 @@ TRANSLATIONS = {
             },
         },
         DCTERMS.rightsHolder: {
-            "label": {"en": "Rights holders", "fi": "Oikeuksien haltijat"},
+            "label": {"en": "Rights holder", "fi": "Oikeuksien haltija"},
         },
-        DCAT.contactPoint: {"label": {"en": "Contact points", "fi": "Yhteyspisteet"}},
+        DCAT.contactPoint: {"label": {"en": "Contact point", "fi": "Yhteyspiste"}},
         MOBILITYDCATAP.assessmentResult: {
             "label": {"en": "Assessment", "fi": "Laatuarvio"},
             "help_text": {
@@ -158,19 +158,16 @@ TRANSLATIONS = {
         DCTERMS.title: {"label": {"en": "Title", "fi": "Nimike"}},
     },
     DCAT.DataService: {
+        "label": {"en": "Data Service", "fi": "Tietopalvelu"},
         DCAT.endpointURL: {
-            "label": {"en": "Endpoint URL", "fi": "URL (rajapinta)"},
+            "label": {"en": "Endpoint URL", "fi": "Rajapinnan URL"},
             "help_text": {
-                "en": "The root location or primary endpoint of the Data Service related to this Distribution",
-                "fi": "URL tietoaineiston tätä resurssia tarjoavaan rajapintaan.",
+                "en": "The root location or primary endpoint of the data service related to this resource.",
+                "fi": "Tähän resurssiin liittyvän tietopalvelun juurisijainti tai ensisijainen API-päätepiste.",
             },
         },
         DCTERMS.title: {
-            "label": {"en": "Data service name", "fi": "Palvelun nimi"},
-            "help_text": {
-                "en": "Name of the data service the API is a part of, if applicable.",
-                "fi": "Palvelun nimi mikäli rajapinta on osa laajempaa palvelukokonaisuutta.",
-            },
+            "label": {"en": "Data service name", "fi": "Tietopalvelun nimi"},
         },
         DCAT.endpointDescription: {
             "label": {"en": "Endpoint description", "fi": "Rajapinnan kuvaus"},
@@ -180,11 +177,7 @@ TRANSLATIONS = {
             },
         },
         DCTERMS.description: {
-            "label": {"en": "Data service description", "fi": "Palvelun kuvaus"},
-            "help_text": {
-                "en": "Description of the data service the API is a part of, if applicable.",
-                "fi": "Kuvaus palvelusta mikäli rajapinta on osa laajempaa palvelukokonaisuutta.",
-            },
+            "label": {"en": "Data service description", "fi": "Tietopalvelun kuvaus"},
         },
     },
     DCTERMS.Frequency: {
@@ -264,7 +257,10 @@ TRANSLATIONS = {
     },
     VCARD.Kind: {
         "label": {"en": "", "fi": ""},
-        "contact_point_type": {"en": "Contact point type", "fi": "Yhteyspisteen tyyppi"},
+        "contact_point_type": {
+            "en": "Contact point type",
+            "fi": "Yhteyspisteen tyyppi",
+        },
         VCARD.hasEmail: {
             "label": {"en": "Email", "fi": "Sähköposti"},
         },
@@ -284,9 +280,7 @@ TRANSLATIONS = {
     VCARD.Organization: {
         "label": {"en": "Organization", "fi": "Organisaatio"},
     },
-    VCARD.Individual: {
-        "label": {"en": "Person", "fi": "Henkilö"}
-    },
+    VCARD.Individual: {"label": {"en": "Person", "fi": "Henkilö"}},
     VCARD.Address: {
         VCARD["country-name"]: {
             "label": {"en": "Country", "fi": "Maa"},
