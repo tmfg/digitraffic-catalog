@@ -10,6 +10,7 @@ import ckanext.digitraffic_theme.actions.digitraffic_user_info as dui_actions
 import ckanext.digitraffic_theme.actions.package as package_actions
 import ckanext.digitraffic_theme.auth.user as user_auth
 from ckanext.digitraffic_theme.validators.dataset_validators import (
+    value_to_list,
     mobility_theme_sub_validator,
     phone_number_validator,
     spatial_reference_validator,
@@ -59,6 +60,7 @@ class DigitrafficThemePlugin(plugins.SingletonPlugin, DefaultTranslation):
 
     def get_validators(self):
         return {
+            "value_to_list": value_to_list,
             "mobility_theme_sub_validator": mobility_theme_sub_validator,
             "phone_number_validator": phone_number_validator,
             "spatial_reference_validator": spatial_reference_validator,

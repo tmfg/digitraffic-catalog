@@ -36,7 +36,8 @@
     error=errors[field.field_name],
     classes=field.classes if 'classes' in field else ['control-medium'],
     attrs=dict({"class": "form-control form-select"}, **(field.get('form_attrs', {}))),
-    is_required=h.scheming_field_required(field)
+    is_required=h.scheming_field_required(field),
+    necessity=field.get('necessity', None),
     )
 %}
     {%- snippet 'scheming/form_snippets/help_text.html', field=field -%}

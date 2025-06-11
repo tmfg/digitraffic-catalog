@@ -29,7 +29,7 @@ def create_dataset(org: Organization):
         "fi": "Suomenkielinen nimi",
         "sv": "Svensk titel",
     }
-    dataset_frequency = list(Frequency.iris)[:1]
+    dataset_frequency = list(Frequency.iris)[0]
     dataset_mobility_theme = str(
         [
             main_theme
@@ -79,8 +79,8 @@ class TestDatasetValidators:
     def test_frequency_validator(self):
         self.vocabulary_test(
             field_name="frequency",
-            valid_value=list(Frequency.iris)[:1],
-            invalid_value=["weekly"],
+            valid_value=list(Frequency.iris)[0],
+            invalid_value="weekly",
             match_message="does not belong to",
         )
 
@@ -200,17 +200,17 @@ class TestDatasetValidators:
         dataset_2 = create_dataset(organization)
 
         # create reference from dataset_1 to dataset_2 and commit changes
-        dataset_1["related_resource"] = dataset_2["id"]
+        dataset_1["related_resource"] = [dataset_2["id"]]
         helpers.call_action("package_update", **dataset_1)
 
         updated_dataset_1 = helpers.call_action("package_show", id=dataset_1["id"])
         updated_dataset_2 = helpers.call_action("package_show", id=dataset_2["id"])
 
-        assert updated_dataset_1.get("related_resource") == dataset_2["id"]
+        assert updated_dataset_1.get("related_resource") == [dataset_2["id"]]
         assert dataset_1["id"] in updated_dataset_2["is_referenced_by"]
 
         # remove the reference from dataset_1 (field "related_resource") - this should result in reference also being removed from dataset_2 (field "is_referenced_by")
-        dataset_1["related_resource"] = ""
+        dataset_1["related_resource"] = []
         helpers.call_action("package_update", **dataset_1)
 
         updated_dataset_1 = helpers.call_action("package_show", id=dataset_1["id"])
@@ -227,24 +227,24 @@ class TestDatasetValidators:
         dataset_3 = create_dataset(organization)
 
         # create reference from dataset_1 to dataset_2 and commit changes
-        dataset_1["related_resource"] = dataset_2["id"]
+        dataset_1["related_resource"] = [dataset_2["id"]]
         helpers.call_action("package_update", **dataset_1)
 
         updated_dataset_1 = helpers.call_action("package_show", id=dataset_1["id"])
         updated_dataset_2 = helpers.call_action("package_show", id=dataset_2["id"])
 
-        assert updated_dataset_1.get("related_resource") == dataset_2["id"]
+        assert updated_dataset_1.get("related_resource") == [dataset_2["id"]]
         assert dataset_1["id"] in updated_dataset_2.get("is_referenced_by")
 
         # refer from dataset_1 to dataset_3 instead of dataset_2
-        dataset_1["related_resource"] = dataset_3["id"]
+        dataset_1["related_resource"] = [dataset_3["id"]]
         helpers.call_action("package_update", **dataset_1)
 
         updated_dataset_1 = helpers.call_action("package_show", id=dataset_1["id"])
         updated_dataset_2 = helpers.call_action("package_show", id=dataset_2["id"])
         updated_dataset_3 = helpers.call_action("package_show", id=dataset_3["id"])
 
-        assert updated_dataset_1.get("related_resource") == dataset_3["id"]
+        assert updated_dataset_1.get("related_resource") == [dataset_3["id"]]
         assert not dataset_1["id"] in updated_dataset_2.get("is_referenced_by")
         assert dataset_1["id"] in updated_dataset_3.get("is_referenced_by")
 
@@ -256,8 +256,8 @@ class TestDatasetValidators:
         dataset_3 = create_dataset(organization)
 
         # create reference from dataset_1 and dataset_2 to dataset_3
-        dataset_1["related_resource"] = dataset_3["id"]
-        dataset_2["related_resource"] = dataset_3["id"]
+        dataset_1["related_resource"] = [dataset_3["id"]]
+        dataset_2["related_resource"] = [dataset_3["id"]]
         helpers.call_action("package_update", **dataset_1)
         helpers.call_action("package_update", **dataset_2)
 
@@ -265,8 +265,44 @@ class TestDatasetValidators:
         updated_dataset_2 = helpers.call_action("package_show", id=dataset_2["id"])
         updated_dataset_3 = helpers.call_action("package_show", id=dataset_3["id"])
 
-        assert updated_dataset_1.get("related_resource") == dataset_3["id"]
-        assert updated_dataset_2.get("related_resource") == dataset_3["id"]
-        assert len(json.loads(updated_dataset_3.get("is_referenced_by"))) == 2
+        assert updated_dataset_1.get("related_resource") == [dataset_3["id"]]
+        assert updated_dataset_2.get("related_resource") == [dataset_3["id"]]
+        assert len(updated_dataset_3.get("is_referenced_by")) == 2
         assert dataset_1["id"] in updated_dataset_3.get("is_referenced_by")
         assert dataset_2["id"] in updated_dataset_3.get("is_referenced_by")
+
+    def test_multiple_related_resources_and_removal(self):
+        organization = factories.Organization()
+
+        dataset_1 = create_dataset(organization)
+        dataset_2 = create_dataset(organization)
+        dataset_3 = create_dataset(organization)
+
+        # Set dataset_1 to reference both dataset_2 and dataset_3
+        dataset_1["related_resource"] = [dataset_2["id"], dataset_3["id"]]
+        helpers.call_action("package_update", **dataset_1)
+
+        updated_dataset_1 = helpers.call_action("package_show", id=dataset_1["id"])
+        updated_dataset_2 = helpers.call_action("package_show", id=dataset_2["id"])
+        updated_dataset_3 = helpers.call_action("package_show", id=dataset_3["id"])
+
+        # Check that related_resource is set correctly
+        assert set(updated_dataset_1.get("related_resource", [])) == {dataset_2["id"], dataset_3["id"]}
+        # Check that is_referenced_by is set correctly
+        assert dataset_1["id"] in updated_dataset_2.get("is_referenced_by", [])
+        assert dataset_1["id"] in updated_dataset_3.get("is_referenced_by", [])
+
+        # Remove dataset_2 from related_resource
+        dataset_1["related_resource"] = [dataset_3["id"]]
+        helpers.call_action("package_update", **dataset_1)
+
+        updated_dataset_1 = helpers.call_action("package_show", id=dataset_1["id"])
+        updated_dataset_2 = helpers.call_action("package_show", id=dataset_2["id"])
+        updated_dataset_3 = helpers.call_action("package_show", id=dataset_3["id"])
+
+        # Check that related_resource is updated
+        assert updated_dataset_1.get("related_resource") == [dataset_3["id"]]
+        # dataset_2 should no longer have is_referenced_by
+        assert dataset_1["id"] not in updated_dataset_2.get("is_referenced_by", [])
+        # dataset_3 should still have is_referenced_by
+        assert dataset_1["id"] in updated_dataset_3.get("is_referenced_by", [])

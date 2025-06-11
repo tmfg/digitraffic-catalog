@@ -22,7 +22,7 @@ export class NewDatasetPage extends BasePage implements JSLoadedInterface<NewDat
     this.visibilityFieldPublic = this.visibilityFields.getByLabel('Julkinen');
     this.visibilityFieldPrivate = this.visibilityFields.getByLabel('Yksityinen');
     this.titleField = page.getByLabel('Nimike englanniksi')
-    this.frequencyField = page.locator('#field-frequency').getByRole('combobox');
+    this.frequencyField = page.getByLabel('* Päivitysten tiheys');
     this.regionalCoverageField = page.getByLabel('Alueellinen kattavuus');
     this.dataContentCategoryField = page.getByLabel('* Kategoria');
     this.descriptionField = page.getByLabel('Kuvaus englanniksi');
@@ -59,11 +59,7 @@ export class NewDatasetPage extends BasePage implements JSLoadedInterface<NewDat
       await this.visibilityFieldPrivate.check();
     }
     await this.titleField.fill(datasetInfo.title)
-    await this.frequencyField.click()
-    for (const frequency of datasetInfo.frequencies) {
-      await this.page.locator('label').filter({hasText: frequency.label}).click()
-    }
-    await this.frequencyField.click()
+    await this.frequencyField.selectOption(datasetInfo.frequency)
     await this.regionalCoverageField.selectOption(datasetInfo.regionalCoverage)
     await this.dataContentCategoryField.selectOption(datasetInfo.dataContentCategory)
     await this.descriptionField.fill(datasetInfo.description)
