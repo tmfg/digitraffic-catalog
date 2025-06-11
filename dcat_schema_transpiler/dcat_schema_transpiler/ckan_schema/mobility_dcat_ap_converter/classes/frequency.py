@@ -43,7 +43,9 @@ class Frequency(RangeValueConverter):
             "required": is_required,
             "preset": "select",
             "sorted_choices": True,
-            "choices": RangeValueConverter.vocab_choices(graph=g, iri=self.iri),
+            "choices": RangeValueConverter.vocab_choices(
+                graph=g, vocab=CVOCAB_EUV_FREQUENCY
+            ),
             "validators": super().get_validators(["frequency_validator"]),
         }
 

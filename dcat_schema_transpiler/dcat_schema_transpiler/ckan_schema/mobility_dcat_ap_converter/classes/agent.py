@@ -72,6 +72,7 @@ class Agent(AggregateRangeValueConverter):
                 "field_name": self.ckan_field(clazz_p, None),
                 "required": is_required,
             }
+
         if clazz_p.is_iri(DCTERMS.type):
             schema = self._controlled_vocab_field(clazz_p, ds, is_required)
         elif clazz_p.is_iri(FOAF.mbox):
@@ -114,7 +115,9 @@ class Agent(AggregateRangeValueConverter):
                     "preset": "select",
                     "sorted_choices": True,
                     "form_include_blank_choice": True,
-                    "choices": RangeValueConverter.vocab_choices(g),
+                    "choices": RangeValueConverter.vocab_choices(
+                        g, vocab=CVOCAB_AGENT_TYPE
+                    ),
                 }
 
     def get_aggregate_schema(self) -> Dict:
@@ -130,8 +133,9 @@ class Agent(AggregateRangeValueConverter):
     def post_process_schema(self, schema: List[Dict]):
         def rename_field_names(field):
             if field.get("field_name") == Organization.aggregate_field_name:
-                field |= {"field_name": self.ckan_field_by_id(
-                    ORG.memberOf)} | self.get_property_label_with_help_text(ORG.memberOf)
+                field |= {
+                    "field_name": self.ckan_field_by_id(ORG.memberOf)
+                } | self.get_property_label_with_help_text(ORG.memberOf)
             return field
 
         for field in schema[0]["repeating_subfields"]:
