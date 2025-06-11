@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-digitraffic_theme 0.0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-06-02 08:18+0000\n"
-"PO-Revision-Date: 2025-06-02 12:38+0300\n"
+"POT-Creation-Date: 2025-06-09 14:32+0000\n"
+"PO-Revision-Date: 2025-06-09 17:32+0300\n"
 "Last-Translator: \n"
 "Language-Team: fi <LL@li.org>\n"
 "Language: fi\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"Generated-By: Babel 2.10.3\n"
+"Generated-By: Babel 2.15.0\n"
 "X-Generator: Poedit 3.6\n"
 
 # | msgid "Sysadmin settings"
@@ -112,62 +112,62 @@ msgstr ""
 "Julkaistut tietoaineistokuvaukset ovat käyttäjien selailtavissa katalogin "
 "hakutoiminnoilla."
 
-#: ckanext/digitraffic_theme/templates/home/index.html:70
+#: ckanext/digitraffic_theme/templates/home/index.html:71
 msgid "Read more about creating datasets"
 msgstr "Lue lisää aineistojen luomisesta"
 
-#: ckanext/digitraffic_theme/templates/home/index.html:75
+#: ckanext/digitraffic_theme/templates/home/index.html:77
 msgid "Search for datasets"
 msgstr "Etsi tietoaineistoja"
 
-#: ckanext/digitraffic_theme/templates/home/index.html:76
+#: ckanext/digitraffic_theme/templates/home/index.html:78
 msgid ""
 "Datasets will be added to the catalog as the service is adopted more widely."
 msgstr ""
 "Katalogiin lisätään tietoaineistoja sitä mukaa, kun palvelua otetaan laajemmin "
 "käyttöön."
 
-#: ckanext/digitraffic_theme/templates/home/index.html:82
+#: ckanext/digitraffic_theme/templates/home/index.html:84
 msgid "Organizations with datasets in the catalog"
 msgstr "Näillä organisaatioilla on tietoaineistoja katalogissa"
 
-#: ckanext/digitraffic_theme/templates/home/index.html:93
+#: ckanext/digitraffic_theme/templates/home/index.html:95
 msgid "Development path"
 msgstr "Kehityspolku"
 
-#: ckanext/digitraffic_theme/templates/home/index.html:98
+#: ckanext/digitraffic_theme/templates/home/index.html:100
 msgid "Launch"
 msgstr "Katalogin julkaisu"
 
-#: ckanext/digitraffic_theme/templates/home/index.html:105
+#: ckanext/digitraffic_theme/templates/home/index.html:107
 msgid "Data collection"
 msgstr "Tiedonkeruu"
 
-#: ckanext/digitraffic_theme/templates/home/index.html:106
+#: ckanext/digitraffic_theme/templates/home/index.html:108
 msgid "Describing existing datasets in the catalog"
 msgstr "Olemassaolevien tietoaineistojen kuvailu katalogiin"
 
-#: ckanext/digitraffic_theme/templates/home/index.html:112
+#: ckanext/digitraffic_theme/templates/home/index.html:114
 msgid "Established use"
 msgstr "Vakiintunut käyttö"
 
-#: ckanext/digitraffic_theme/templates/home/index.html:113
+#: ckanext/digitraffic_theme/templates/home/index.html:115
 msgid "Dataset information is maintained and new datasets are added"
 msgstr "Tietoaineistojen tietoja ylläpidetään ja uusia tietoaineistoja lisätään"
 
-#: ckanext/digitraffic_theme/templates/home/index.html:119
+#: ckanext/digitraffic_theme/templates/home/index.html:121
 msgid "Integrations"
 msgstr "Integraatiot"
 
-#: ckanext/digitraffic_theme/templates/home/index.html:120
+#: ckanext/digitraffic_theme/templates/home/index.html:122
 msgid "Metadata transfer to other catalogs and harvesting from other catalogs"
 msgstr "Metadatan välitys muihin katalogeihin ja harvestointi muista katalogeista"
 
-#: ckanext/digitraffic_theme/templates/home/index.html:126
+#: ckanext/digitraffic_theme/templates/home/index.html:128
 msgid "Single NAP"
 msgstr "Single NAP"
 
-#: ckanext/digitraffic_theme/templates/home/index.html:127
+#: ckanext/digitraffic_theme/templates/home/index.html:129
 msgid ""
 "Completing the catalog with mobility service information, a single national "
 "access point model"
@@ -257,15 +257,22 @@ msgstr ""
 msgid "Custom"
 msgstr ""
 
+#: ckanext/digitraffic_theme/templates/macros/form/markdown.html:31
+#, python-format
+msgid ""
+"You can use <a href=\"#markdown\" title=\"Markdown quick reference\" data-bs-"
+"toggle=\"popover\" data-bs-content=\"%(markdown_tooltip)s\" data-bs-"
+"html=\"true\">Markdown formatting</a> here"
+msgstr ""
+
 #: ckanext/digitraffic_theme/templates/package/edit_base.html:11
 msgid "Edit"
-msgstr ""
+msgstr "Muokkaa"
 
 # | msgid "Search datasets..."
 #: ckanext/digitraffic_theme/templates/package/edit_base.html:16
-#, fuzzy
 msgid "View dataset"
-msgstr "Etsi tietoaineistoja…"
+msgstr "Näytä tietoaineisto"
 
 #: ckanext/digitraffic_theme/templates/package/edit_base.html:20
 msgid "Edit metadata"
@@ -331,13 +338,12 @@ msgstr "Seuraava: Lisää dataa"
 
 #: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:33
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 # | msgid "Profile"
 #: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:34
-#, fuzzy
 msgid "File"
-msgstr "Profiili"
+msgstr "Tiedosto"
 
 #: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:35
 msgid "http://example.com/external-data.csv"
@@ -345,9 +351,9 @@ msgstr ""
 
 # | msgid "Surname"
 #: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:39
-#, fuzzy
+#: ckanext/digitraffic_theme/templates/user/api_tokens.html:13
 msgid "Name"
-msgstr "Sukunimi"
+msgstr "Nimi"
 
 #: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:39
 msgid "eg. January 2011 Gold Prices"
@@ -356,36 +362,36 @@ msgstr ""
 # | msgid "Resource description"
 #: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:43
 msgid "Description"
-msgstr "Resurssin kuvaus"
+msgstr "Kuvaus"
 
 #: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:43
 msgid "Some useful notes about the data"
-msgstr ""
+msgstr "Hyödyllisiä huomioita datasta"
 
 #: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:48
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:18
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:23
 msgid "Format"
 msgstr "Formaatti"
 
 #: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:48
 msgid "eg. CSV, XML or JSON"
-msgstr ""
+msgstr "esim. CSV, XML tai JSON"
 
 #: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:51
 msgid "This will be guessed automatically. Leave blank if you wish"
-msgstr ""
+msgstr "Tämä päätellään automaattisesti jos jätät sen tyhjäksi"
 
 #: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:62
 msgid "Last Modified"
-msgstr ""
+msgstr "Viimeksi muokattu"
 
 #: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:62
 msgid "eg. 2012-06-05"
-msgstr ""
+msgstr "esim. 2012-06-05"
 
 #: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:64
 msgid "File Size"
-msgstr ""
+msgstr "Tiedostokoko"
 
 # | msgid "eg. 1234567"
 #: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:64
@@ -395,12 +401,12 @@ msgstr "esim. 00100"
 #: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:66
 #: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:68
 msgid "MIME Type"
-msgstr ""
+msgstr "MIME-tyyppi"
 
 #: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:66
 #: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:68
 msgid "eg. application/json"
-msgstr ""
+msgstr "esim. application/json"
 
 # | msgid "Are you sure you want to delete this dataset?"
 #: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:77
@@ -409,19 +415,20 @@ msgstr "Haluatko varmasti poistaa tämän tietoaineiston?"
 
 #: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:83
 msgid "Previous"
-msgstr ""
+msgstr "Edellinen"
 
 #: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:87
 msgid "Save & add another"
-msgstr ""
+msgstr "Tallenna ja lisää toinen"
 
 #: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:91
 msgid "Finish"
-msgstr ""
+msgstr "Valmis"
 
 #: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:95
+#: ckanext/digitraffic_theme/templates/scheming/form_snippets/repeating_subfields.html:74
 msgid "Add"
-msgstr ""
+msgstr "Lisää"
 
 #: ckanext/digitraffic_theme/templates/scheming/form_snippets/_organization_select.html:24
 msgid "No organization"
@@ -460,6 +467,10 @@ msgstr "Yksityinen"
 #: ckanext/digitraffic_theme/templates/scheming/form_snippets/organization.html:28
 msgid "Public"
 msgstr "Julkinen"
+
+#: ckanext/digitraffic_theme/templates/scheming/form_snippets/repeating_subfields.html:13
+msgid "Remove"
+msgstr "Poista"
 
 #: ckanext/digitraffic_theme/templates/scheming/package/read.html:25
 msgid "XML format"
@@ -536,16 +547,16 @@ msgid "Additional details concerning the dataset."
 msgstr "Lisätietoja tietoaineistoon liittyen."
 
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:38
-msgid "Contact point"
-msgstr "Yhteyspiste"
+msgid "Contact points"
+msgstr "Yhteyspisteet"
 
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:39
 msgid "Contact details for a person or organization."
 msgstr "Henkilön tai organisaation yhteystiedot."
 
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:45
-msgid "Rights holder"
-msgstr "Oikeuksien haltija"
+msgid "Rights holders"
+msgstr "Oikeuksien haltijat"
 
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:46
 msgid "Contact details for the rights holder."
@@ -555,7 +566,7 @@ msgstr "Oikeuksien haltijan yhteystiedot."
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:78
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:82
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:84
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:54
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:60
 msgid "Add data"
 msgstr "Lisää dataa"
 
@@ -567,11 +578,11 @@ msgstr ""
 "Tietoaineisto tarkoittaa CKAN:issa kokoelmaa resursseja (esim. tiedostoja) sekä "
 "niihin liittyvää kuvausta ja muuta metatietoa, kuten pysyvää URL-osoitetta."
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:158
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:156
 msgid "Update {page}"
 msgstr "Päivitä {page}"
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:160
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:158
 msgid "Next"
 msgstr "Seuraava"
 
@@ -584,34 +595,46 @@ msgid "URLs giving access to the resource."
 msgstr "Pääsy resurssiin."
 
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:11
+msgid "Data service"
+msgstr "Tietopalvelu"
+
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:12
+msgid ""
+"If the resource is accessed through a data service (such as an API or platform "
+"that provides access to various data), describe that data service here."
+msgstr ""
+"Jos resurssi on saatavilla erityisen tietopalvelun kautta (kuten erilaista "
+"dataa tarjoava alusta tai rajapinta), kuvaile se tässä."
+
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:16
 msgid "Resource description"
 msgstr "Resurssin kuvaus"
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:12
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:17
 msgid "Description of the resource."
 msgstr "Resurssin kuvaus."
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:19
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:24
 msgid "Additional information concerning related formats and data standards."
 msgstr "Lisätietoa resurssiin liittyvistä formaateista ja tietostandardeista."
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:23
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:28
 msgid "Licenses and terms of use"
 msgstr "Ehdot ja lisenssit"
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:24
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:29
 msgid "Licenses and terms of use pertaining to this resource."
 msgstr "Resurssin käyttöön ja saatavuuteen liittyvät ehdot ja lisenssit."
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:28
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:34
 msgid "Time range"
 msgstr "Alkamis- ja päättymisajat"
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:29
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:35
 msgid "Period during which resource is available."
 msgstr "Ajanjakso, jonka aikana resurssi on saatavilla."
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:64
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:70
 msgid "A resource is any file or a link to a file that contains useful data."
 msgstr ""
 "Resurssi on mikä tahansa tiedosto tai linkki tiedostoon, jossa on hyödyllistä "
@@ -638,14 +661,17 @@ msgid "There is no description for this dataset"
 msgstr "Tälle tietoaineistolle ei ole kuvausta"
 
 #: ckanext/digitraffic_theme/templates/snippets/dt_header/app_navigation.html:5
+#: ckanext/digitraffic_theme/templates/user/read_base.html:22
 msgid "Datasets"
 msgstr "Tietoaineistot"
 
 #: ckanext/digitraffic_theme/templates/snippets/dt_header/app_navigation.html:6
+#: ckanext/digitraffic_theme/templates/user/read_base.html:23
 msgid "Organizations"
 msgstr "Organisaatiot"
 
 #: ckanext/digitraffic_theme/templates/snippets/dt_header/app_navigation.html:7
+#: ckanext/digitraffic_theme/templates/user/read_base.html:24
 msgid "Groups"
 msgstr "Ryhmät"
 
@@ -715,6 +741,20 @@ msgstr "Kirjaudu ulos"
 #: ckanext/digitraffic_theme/templates/snippets/dt_header/user_actions.html:47
 msgid "Account"
 msgstr "Käyttäjätili"
+
+# | msgid "Search datasets..."
+#: ckanext/digitraffic_theme/templates/user/api_tokens.html:20
+msgid "Create API Token"
+msgstr "Luo API-token"
+
+#: ckanext/digitraffic_theme/templates/user/api_tokens.html:30
+#: ckanext/digitraffic_theme/templates/user/read_base.html:26
+msgid "API Tokens"
+msgstr "API-tokenit"
+
+#: ckanext/digitraffic_theme/templates/user/api_tokens.html:38
+msgid "You haven't created any API Tokens."
+msgstr "Et ole luonut yhtään API-tokenia."
 
 #: ckanext/digitraffic_theme/templates/user/edit_user_form.html:10
 msgid "Change details"
@@ -828,6 +868,15 @@ msgstr "Katuosoite"
 msgid "eg. Testikatu 1"
 msgstr "esim. Testikatu 1"
 
+#: ckanext/digitraffic_theme/templates/user/read_base.html:8
+#: ckanext/digitraffic_theme/templates/user/read_base.html:11
+msgid "Users"
+msgstr "Käyttäjät"
+
+#: ckanext/digitraffic_theme/templates/user/read_base.html:17
+msgid "Manage"
+msgstr "Hallinnoi"
+
 #: ckanext/digitraffic_theme/validators/dataset_validators.py:40
 msgid "Invalid value of mobility theme sub category"
 msgstr ""
@@ -851,6 +900,15 @@ msgstr ""
 #: ckanext/digitraffic_theme/validators/dataset_validators.py:92
 msgid "Given spatial reference is not supported"
 msgstr "Annettu paikkaviite ei ole tuettu"
+
+#: ckanext/digitraffic_theme/validators/dataset_validators.py:111
+#: ckanext/digitraffic_theme/validators/dataset_validators.py:112
+msgid "Value must be a JSON list"
+msgstr ""
+
+#: ckanext/digitraffic_theme/validators/dataset_validators.py:124
+msgid "Value must either be a JSON list (str) or a list"
+msgstr ""
 
 #: ckanext/digitraffic_theme/validators/resource_validators.py:70
 msgid "{value} is not a valid character encoding"

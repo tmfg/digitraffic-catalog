@@ -5,12 +5,17 @@
     "resource_urls": {
       "label": _("Resource URLs"),
       "help_text": _("URLs giving access to the resource."),
-      "fields": ["url", "download_url", "data_service_endpoint_url"]
+      "fields": ["url", "download_url"]
+    },
+    "data_service": {
+      "label": _("Data service"),
+      "help_text": _("If the resource is accessed through a data service (such as an API or platform that provides access to various data), describe that data service here."),
+      "fields": ["data_service"]
     },
     "resource_description": {
       "label": _("Resource description"),
       "help_text": _("Description of the resource."),
-      "fields": ["format", "data_service_endpoint_description", "name_translated", "description_translated", "data_service_title_translated", "data_service_description_title_translated", "communication_method", "sample"]
+      "fields": ["format", "name_translated", "description_translated", "communication_method", "sample"]
     },
   },
   "right-1": {

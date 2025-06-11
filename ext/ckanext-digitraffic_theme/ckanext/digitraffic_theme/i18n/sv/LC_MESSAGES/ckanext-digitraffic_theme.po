@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-digitraffic_theme 0.0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-06-02 08:18+0000\n"
+"POT-Creation-Date: 2025-06-09 14:32+0000\n"
 "PO-Revision-Date: 2025-05-06 06:53+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: sv\n"
@@ -17,7 +17,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.10.3\n"
+"Generated-By: Babel 2.15.0\n"
 
 #: ckanext/digitraffic_theme/templates/admin/base.html:5
 msgid "Sysadmins"
@@ -100,61 +100,61 @@ msgid ""
 "search functions."
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/home/index.html:70
+#: ckanext/digitraffic_theme/templates/home/index.html:71
 msgid "Read more about creating datasets"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/home/index.html:75
+#: ckanext/digitraffic_theme/templates/home/index.html:77
 msgid "Search for datasets"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/home/index.html:76
+#: ckanext/digitraffic_theme/templates/home/index.html:78
 msgid ""
 "Datasets will be added to the catalog as the service is adopted more "
 "widely."
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/home/index.html:82
+#: ckanext/digitraffic_theme/templates/home/index.html:84
 msgid "Organizations with datasets in the catalog"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/home/index.html:93
+#: ckanext/digitraffic_theme/templates/home/index.html:95
 msgid "Development path"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/home/index.html:98
+#: ckanext/digitraffic_theme/templates/home/index.html:100
 msgid "Launch"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/home/index.html:105
+#: ckanext/digitraffic_theme/templates/home/index.html:107
 msgid "Data collection"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/home/index.html:106
+#: ckanext/digitraffic_theme/templates/home/index.html:108
 msgid "Describing existing datasets in the catalog"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/home/index.html:112
+#: ckanext/digitraffic_theme/templates/home/index.html:114
 msgid "Established use"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/home/index.html:113
+#: ckanext/digitraffic_theme/templates/home/index.html:115
 msgid "Dataset information is maintained and new datasets are added"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/home/index.html:119
+#: ckanext/digitraffic_theme/templates/home/index.html:121
 msgid "Integrations"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/home/index.html:120
+#: ckanext/digitraffic_theme/templates/home/index.html:122
 msgid "Metadata transfer to other catalogs and harvesting from other catalogs"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/home/index.html:126
+#: ckanext/digitraffic_theme/templates/home/index.html:128
 msgid "Single NAP"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/home/index.html:127
+#: ckanext/digitraffic_theme/templates/home/index.html:129
 msgid ""
 "Completing the catalog with mobility service information, a single "
 "national access point model"
@@ -221,6 +221,14 @@ msgstr ""
 
 #: ckanext/digitraffic_theme/templates/macros/form/input_block.html:27
 msgid "Custom"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/macros/form/markdown.html:31
+#, python-format
+msgid ""
+"You can use <a href=\"#markdown\" title=\"Markdown quick reference\" "
+"data-bs-toggle=\"popover\" data-bs-content=\"%(markdown_tooltip)s\" data-"
+"bs-html=\"true\">Markdown formatting</a> here"
 msgstr ""
 
 #: ckanext/digitraffic_theme/templates/package/edit_base.html:11
@@ -303,6 +311,7 @@ msgid "http://example.com/external-data.csv"
 msgstr ""
 
 #: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:39
+#: ckanext/digitraffic_theme/templates/user/api_tokens.html:13
 msgid "Name"
 msgstr ""
 
@@ -319,7 +328,7 @@ msgid "Some useful notes about the data"
 msgstr ""
 
 #: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:48
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:18
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:23
 msgid "Format"
 msgstr ""
 
@@ -374,6 +383,7 @@ msgid "Finish"
 msgstr ""
 
 #: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:95
+#: ckanext/digitraffic_theme/templates/scheming/form_snippets/repeating_subfields.html:74
 msgid "Add"
 msgstr ""
 
@@ -414,6 +424,10 @@ msgstr ""
 
 #: ckanext/digitraffic_theme/templates/scheming/form_snippets/organization.html:28
 msgid "Public"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/scheming/form_snippets/repeating_subfields.html:13
+msgid "Remove"
 msgstr ""
 
 #: ckanext/digitraffic_theme/templates/scheming/package/read.html:25
@@ -485,7 +499,7 @@ msgid "Additional details concerning the dataset."
 msgstr ""
 
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:38
-msgid "Contact point"
+msgid "Contact points"
 msgstr ""
 
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:39
@@ -493,7 +507,7 @@ msgid "Contact details for a person or organization."
 msgstr ""
 
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:45
-msgid "Rights holder"
+msgid "Rights holders"
 msgstr ""
 
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:46
@@ -503,7 +517,7 @@ msgstr ""
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:78
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:82
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:84
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:54
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:60
 msgid "Add data"
 msgstr ""
 
@@ -514,11 +528,11 @@ msgid ""
 "URL."
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:158
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:156
 msgid "Update {page}"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:160
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:158
 msgid "Next"
 msgstr ""
 
@@ -531,34 +545,45 @@ msgid "URLs giving access to the resource."
 msgstr ""
 
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:11
-msgid "Resource description"
+msgid "Data service"
 msgstr ""
 
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:12
+msgid ""
+"If the resource is accessed through a data service (such as an API or "
+"platform that provides access to various data), describe that data "
+"service here."
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:16
+msgid "Resource description"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:17
 msgid "Description of the resource."
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:19
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:24
 msgid "Additional information concerning related formats and data standards."
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:23
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:28
 msgid "Licenses and terms of use"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:24
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:29
 msgid "Licenses and terms of use pertaining to this resource."
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:28
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:34
 msgid "Time range"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:29
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:35
 msgid "Period during which resource is available."
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:64
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:70
 msgid "A resource is any file or a link to a file that contains useful data."
 msgstr ""
 
@@ -583,14 +608,17 @@ msgid "There is no description for this dataset"
 msgstr ""
 
 #: ckanext/digitraffic_theme/templates/snippets/dt_header/app_navigation.html:5
+#: ckanext/digitraffic_theme/templates/user/read_base.html:22
 msgid "Datasets"
 msgstr ""
 
 #: ckanext/digitraffic_theme/templates/snippets/dt_header/app_navigation.html:6
+#: ckanext/digitraffic_theme/templates/user/read_base.html:23
 msgid "Organizations"
 msgstr ""
 
 #: ckanext/digitraffic_theme/templates/snippets/dt_header/app_navigation.html:7
+#: ckanext/digitraffic_theme/templates/user/read_base.html:24
 msgid "Groups"
 msgstr ""
 
@@ -659,6 +687,19 @@ msgstr ""
 
 #: ckanext/digitraffic_theme/templates/snippets/dt_header/user_actions.html:47
 msgid "Account"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/user/api_tokens.html:20
+msgid "Create API Token"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/user/api_tokens.html:30
+#: ckanext/digitraffic_theme/templates/user/read_base.html:26
+msgid "API Tokens"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/user/api_tokens.html:38
+msgid "You haven't created any API Tokens."
 msgstr ""
 
 #: ckanext/digitraffic_theme/templates/user/edit_user_form.html:10
@@ -771,6 +812,15 @@ msgstr ""
 msgid "eg. Testikatu 1"
 msgstr ""
 
+#: ckanext/digitraffic_theme/templates/user/read_base.html:8
+#: ckanext/digitraffic_theme/templates/user/read_base.html:11
+msgid "Users"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/user/read_base.html:17
+msgid "Manage"
+msgstr ""
+
 #: ckanext/digitraffic_theme/validators/dataset_validators.py:40
 msgid "Invalid value of mobility theme sub category"
 msgstr ""
@@ -791,6 +841,15 @@ msgstr ""
 
 #: ckanext/digitraffic_theme/validators/dataset_validators.py:92
 msgid "Given spatial reference is not supported"
+msgstr ""
+
+#: ckanext/digitraffic_theme/validators/dataset_validators.py:111
+#: ckanext/digitraffic_theme/validators/dataset_validators.py:112
+msgid "Value must be a JSON list"
+msgstr ""
+
+#: ckanext/digitraffic_theme/validators/dataset_validators.py:124
+msgid "Value must either be a JSON list (str) or a list"
 msgstr ""
 
 #: ckanext/digitraffic_theme/validators/resource_validators.py:70
@@ -829,5 +888,11 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Describe step 4 here. Add your own text as needed."
+#~ msgstr ""
+
+#~ msgid "Contact point"
+#~ msgstr ""
+
+#~ msgid "Rights holder"
 #~ msgstr ""
 
