@@ -1,0 +1,9 @@
+form fieldset[name='scheming-repeating-subfields'] {
+  header {
+    // The point of this rule is to hide the "sub header" text when scheming extension hides the subfields
+    // by using JavaScript. It sets the link style to "display: none" and the text is not needed.
+    a[style] ~ p {
+      display: none;
+    }
+  }
+}
