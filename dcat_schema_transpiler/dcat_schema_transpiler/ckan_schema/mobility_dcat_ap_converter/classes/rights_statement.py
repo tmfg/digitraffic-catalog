@@ -63,7 +63,9 @@ class RightsStatement(RangeValueConverter):
                     "preset": "select",
                     "sorted_choices": True,
                     "form_include_blank_choice": True,
-                    "choices": RangeValueConverter.vocab_choices(graph=g, iri=self.iri),
+                    "choices": RangeValueConverter.vocab_choices(
+                        graph=g, vocab=CVOCAB_RIGHTS_STATEMENT_TYPE
+                    ),
                     "validators": super().get_validators(["rights_type_validator"]),
                 }
 
