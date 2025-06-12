@@ -2997,8 +2997,8 @@ dataset_fields:
   necessity: recommended
 - field_name: contact_point
   label:
-    en: Contact points
-    fi: Yhteyspisteet
+    en: Contact point
+    fi: Yhteyspiste
   repeating_subfields:
   - field_name: contact_point_type
     label:
@@ -3442,8 +3442,8 @@ dataset_fields:
   necessity: optional
 - field_name: rights_holder
   label:
-    en: Rights holders
-    fi: Oikeuksien haltijat
+    en: Rights holder
+    fi: Oikeuksien haltija
   repeating_subfields:
   - field_name: type
     required: true
@@ -3454,57 +3454,57 @@ dataset_fields:
     - value: http://purl.org/adms/publishertype/Academia-ScientificOrganisation
       label:
         en: Academia/Scientific organisation
-        fi: Academia/Scientific organisation
+        fi: Akateminen tai tieteellinen organisaatio
         sv: Academia/Scientific organisation
     - value: http://purl.org/adms/publishertype/Company
       label:
         en: Company
-        fi: Company
+        fi: Yritys
         sv: Company
     - value: http://purl.org/adms/publishertype/IndustryConsortium
       label:
         en: Industry consortium
-        fi: Industry consortium
+        fi: Yrityskonsortio
         sv: Industry consortium
     - value: http://purl.org/adms/publishertype/LocalAuthority
       label:
         en: Local Authority
-        fi: Local Authority
+        fi: Paikallisviranomainen
         sv: Local Authority
     - value: http://purl.org/adms/publishertype/NationalAuthority
       label:
         en: National authority
-        fi: National authority
+        fi: Kansallinen viranomainen
         sv: National authority
     - value: http://purl.org/adms/publishertype/NonGovernmentalOrganisation
       label:
         en: Non-Governmental Organisation
-        fi: Non-Governmental Organisation
+        fi: Kansalaisjärjestö
         sv: Non-Governmental Organisation
     - value: http://purl.org/adms/publishertype/NonProfitOrganisation
       label:
         en: Non-Profit Organisation
-        fi: Non-Profit Organisation
+        fi: Voittoa tavoittelematon organisaatio
         sv: Non-Profit Organisation
     - value: http://purl.org/adms/publishertype/PrivateIndividual(s)
       label:
         en: Private Individual(s)
-        fi: Private Individual(s)
+        fi: Yksityishenkilö(t)
         sv: Private Individual(s)
     - value: http://purl.org/adms/publishertype/RegionalAuthority
       label:
         en: Regional authority
-        fi: Regional authority
+        fi: Alueellinen viranomainen
         sv: Regional authority
     - value: http://purl.org/adms/publishertype/StandardisationBody
       label:
         en: Standardisation body
-        fi: Standardisation body
+        fi: Standardointielin
         sv: Standardisation body
     - value: http://purl.org/adms/publishertype/SupraNationalAuthority
       label:
         en: Supra-national authority
-        fi: Supra-national authority
+        fi: Ylikansallinen viranomainen
         sv: Supra-national authority
     label:
       en: Agent type
@@ -3763,27 +3763,84 @@ resource_fields:
     fi: Suora linkki resurssiin ladattavassa tiedostomuodossa.
   necessity: optional
   preset: url
-- field_name: data_service_endpoint_url
+- field_name: data_service
+  form_blanks: 0
   label:
-    en: Endpoint URL
-    fi: URL (rajapinta)
-  help_text:
-    en: The root location or primary endpoint of the Data Service related to this
-      Distribution
-    fi: URL tietoaineiston tätä resurssia tarjoavaan rajapintaan.
-  necessity: mandatory
-  required: false
-  preset: url
-- field_name: data_service_endpoint_description
-  label:
-    en: Endpoint description
-    fi: Rajapinnan kuvaus
-  help_text:
-    en: Link to e.g. a Swagger or OpenAPI description.
-    fi: Linkki esim. Swagger tai OpenAPI -kuvaukseen.
-  necessity: recommended
-  required: false
-  preset: url
+    en: Data Service
+    fi: Tietopalvelu
+  repeating_subfields:
+  - field_name: data_service_title_translated
+    label:
+      en: Data service name
+      fi: Tietopalvelun nimi
+    required: false
+    necessity: mandatory
+    preset: fluent_core_translated
+    form_languages:
+    - en
+    - fi
+    - sv
+    fluent_form_label:
+      en:
+        en: Data service name in English
+        fi: Tietopalvelun nimi englanniksi
+        sv: Data service name in English
+      fi:
+        en: Data service name in Finnish
+        fi: Tietopalvelun nimi suomeksi
+        sv: Data service name in Finnish
+      sv:
+        en: Data service name in Swedish
+        fi: Tietopalvelun nimi ruotsiksi
+        sv: Data service name in Swedish
+    required_languages:
+    - en
+  - field_name: data_service_description_translated
+    label:
+      en: Data service description
+      fi: Tietopalvelun kuvaus
+    required: false
+    necessity: optional
+    preset: fluent_core_translated
+    form_languages:
+    - en
+    - fi
+    - sv
+    fluent_form_label:
+      en:
+        en: Data service description in English
+        fi: Tietopalvelun kuvaus englanniksi
+        sv: Data service description in English
+      fi:
+        en: Data service description in Finnish
+        fi: Tietopalvelun kuvaus suomeksi
+        sv: Data service description in Finnish
+      sv:
+        en: Data service description in Swedish
+        fi: Tietopalvelun kuvaus ruotsiksi
+        sv: Data service description in Swedish
+  - field_name: data_service_endpoint_url
+    label:
+      en: Endpoint URL
+      fi: Rajapinnan URL
+    help_text:
+      en: The root location or primary endpoint of the data service related to this
+        resource.
+      fi: Tähän resurssiin liittyvän tietopalvelun juurisijainti tai ensisijainen
+        API-päätepiste.
+    necessity: mandatory
+    required: true
+    preset: url
+  - field_name: data_service_endpoint_description
+    label:
+      en: Endpoint description
+      fi: Rajapinnan kuvaus
+    help_text:
+      en: Link to e.g. a Swagger or OpenAPI description.
+      fi: Linkki esim. Swagger tai OpenAPI -kuvaukseen.
+    necessity: recommended
+    required: false
+    preset: url
 - field_name: name_translated
   label:
     en: Title
@@ -5130,60 +5187,6 @@ resource_fields:
       fi: xz
       sv: xz
     iri: http://publications.europa.eu/resource/authority/file-type/XZ
-- field_name: data_service_title_translated
-  label:
-    en: Data service name
-    fi: Palvelun nimi
-  required: false
-  necessity: mandatory
-  help_text:
-    en: Name of the data service the API is a part of, if applicable.
-    fi: Palvelun nimi mikäli rajapinta on osa laajempaa palvelukokonaisuutta.
-  preset: fluent_core_translated
-  form_languages:
-  - en
-  - fi
-  - sv
-  fluent_form_label:
-    en:
-      en: Data service name in English
-      fi: Palvelun nimi englanniksi
-      sv: Data service name in English
-    fi:
-      en: Data service name in Finnish
-      fi: Palvelun nimi suomeksi
-      sv: Data service name in Finnish
-    sv:
-      en: Data service name in Swedish
-      fi: Palvelun nimi ruotsiksi
-      sv: Data service name in Swedish
-- field_name: data_service_description_translated
-  label:
-    en: Data service description
-    fi: Palvelun kuvaus
-  required: false
-  necessity: optional
-  help_text:
-    en: Description of the data service the API is a part of, if applicable.
-    fi: Kuvaus palvelusta mikäli rajapinta on osa laajempaa palvelukokonaisuutta.
-  preset: fluent_core_translated
-  form_languages:
-  - en
-  - fi
-  - sv
-  fluent_form_label:
-    en:
-      en: Data service description in English
-      fi: Palvelun kuvaus englanniksi
-      sv: Data service description in English
-    fi:
-      en: Data service description in Finnish
-      fi: Palvelun kuvaus suomeksi
-      sv: Data service description in Finnish
-    sv:
-      en: Data service description in Swedish
-      fi: Palvelun kuvaus ruotsiksi
-      sv: Data service description in Swedish
 - field_name: application_layer_protocol
   label:
     en: Application layer protocol
@@ -6668,7 +6671,7 @@ resource_fields:
       fi: eCos License version 2.0
       sv: eCos License version 2.0
   validators: scheming_required standard_license_validator
-  necessity: mandatory
+  necessity: recommended
 - field_name: license_text
   label:
     en: License text

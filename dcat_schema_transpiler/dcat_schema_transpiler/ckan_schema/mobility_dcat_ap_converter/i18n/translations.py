@@ -1,6 +1,16 @@
 from mobility_dcat_ap.namespace import MOBILITYDCATAP
 from rdflib.namespace import DCAT, DCTERMS, FOAF, OWL, ORG, RDFS
-from mobility_dcat_ap.dataset import OA, CNT
+from mobility_dcat_ap.dataset import (
+    CVOCAB_AGENT_TYPE,
+    CVOCAB_EUV_FREQUENCY,
+    CVOCAB_INTENDED_INFORMATION_SERVICE,
+    CVOCAB_MOBILITY_THEME,
+    CVOCAB_NETWORK_COVERAGE,
+    CVOCAB_RIGHTS_STATEMENT_TYPE,
+    CVOCAB_TRANSPORT_MODE,
+    OA,
+    CNT,
+)
 
 from dcat_schema_transpiler.namespaces.ADMS import ADMS
 from dcat_schema_transpiler.namespaces.DQV import DQV
@@ -64,9 +74,9 @@ TRANSLATIONS = {
             },
         },
         DCTERMS.rightsHolder: {
-            "label": {"en": "Rights holders", "fi": "Oikeuksien haltijat"},
+            "label": {"en": "Rights holder", "fi": "Oikeuksien haltija"},
         },
-        DCAT.contactPoint: {"label": {"en": "Contact points", "fi": "Yhteyspisteet"}},
+        DCAT.contactPoint: {"label": {"en": "Contact point", "fi": "Yhteyspiste"}},
         MOBILITYDCATAP.assessmentResult: {
             "label": {"en": "Assessment", "fi": "Laatuarvio"},
             "help_text": {
@@ -158,19 +168,16 @@ TRANSLATIONS = {
         DCTERMS.title: {"label": {"en": "Title", "fi": "Nimike"}},
     },
     DCAT.DataService: {
+        "label": {"en": "Data Service", "fi": "Tietopalvelu"},
         DCAT.endpointURL: {
-            "label": {"en": "Endpoint URL", "fi": "URL (rajapinta)"},
+            "label": {"en": "Endpoint URL", "fi": "Rajapinnan URL"},
             "help_text": {
-                "en": "The root location or primary endpoint of the Data Service related to this Distribution",
-                "fi": "URL tietoaineiston tätä resurssia tarjoavaan rajapintaan.",
+                "en": "The root location or primary endpoint of the data service related to this resource.",
+                "fi": "Tähän resurssiin liittyvän tietopalvelun juurisijainti tai ensisijainen API-päätepiste.",
             },
         },
         DCTERMS.title: {
-            "label": {"en": "Data service name", "fi": "Palvelun nimi"},
-            "help_text": {
-                "en": "Name of the data service the API is a part of, if applicable.",
-                "fi": "Palvelun nimi mikäli rajapinta on osa laajempaa palvelukokonaisuutta.",
-            },
+            "label": {"en": "Data service name", "fi": "Tietopalvelun nimi"},
         },
         DCAT.endpointDescription: {
             "label": {"en": "Endpoint description", "fi": "Rajapinnan kuvaus"},
@@ -180,11 +187,7 @@ TRANSLATIONS = {
             },
         },
         DCTERMS.description: {
-            "label": {"en": "Data service description", "fi": "Palvelun kuvaus"},
-            "help_text": {
-                "en": "Description of the data service the API is a part of, if applicable.",
-                "fi": "Kuvaus palvelusta mikäli rajapinta on osa laajempaa palvelukokonaisuutta.",
-            },
+            "label": {"en": "Data service description", "fi": "Tietopalvelun kuvaus"},
         },
     },
     DCTERMS.Frequency: {
@@ -264,7 +267,10 @@ TRANSLATIONS = {
     },
     VCARD.Kind: {
         "label": {"en": "", "fi": ""},
-        "contact_point_type": {"en": "Contact point type", "fi": "Yhteyspisteen tyyppi"},
+        "contact_point_type": {
+            "en": "Contact point type",
+            "fi": "Yhteyspisteen tyyppi",
+        },
         VCARD.hasEmail: {
             "label": {"en": "Email", "fi": "Sähköposti"},
         },
@@ -284,9 +290,7 @@ TRANSLATIONS = {
     VCARD.Organization: {
         "label": {"en": "Organization", "fi": "Organisaatio"},
     },
-    VCARD.Individual: {
-        "label": {"en": "Person", "fi": "Henkilö"}
-    },
+    VCARD.Individual: {"label": {"en": "Person", "fi": "Henkilö"}},
     VCARD.Address: {
         VCARD["country-name"]: {
             "label": {"en": "Country", "fi": "Maa"},
@@ -329,7 +333,22 @@ TRANSLATIONS = {
 
 # for inserting missing translations to vocabularies
 VOCABULARY_PATCH_TRANSLATIONS = {
-    DCTERMS.Frequency: {
+    CVOCAB_AGENT_TYPE: {
+        "Academia/Scientific organisation": {
+            "fi": "Akateminen tai tieteellinen organisaatio"
+        },
+        "Company": {"fi": "Yritys"},
+        "Industry consortium": {"fi": "Yrityskonsortio"},
+        "Local Authority": {"fi": "Paikallisviranomainen"},
+        "National authority": {"fi": "Kansallinen viranomainen"},
+        "Non-Governmental Organisation": {"fi": "Kansalaisjärjestö"},
+        "Non-Profit Organisation": {"fi": "Voittoa tavoittelematon organisaatio"},
+        "Private Individual(s)": {"fi": "Yksityishenkilö(t)"},
+        "Regional authority": {"fi": "Alueellinen viranomainen"},
+        "Standardisation body": {"fi": "Standardointielin"},
+        "Supra-national authority": {"fi": "Ylikansallinen viranomainen"},
+    },
+    CVOCAB_EUV_FREQUENCY: {
         "every fifteen minutes": {"fi": "joka viidestoista minuutti"},
         "every five minutes": {"fi": "joka viides minuutti"},
         "every minute": {"fi": "joka minuutti"},
@@ -337,7 +356,7 @@ VOCABULARY_PATCH_TRANSLATIONS = {
         "every thirty minutes": {"fi": "kerran puolessa tunnissa"},
         "every twelve hours": {"fi": "joka kahdestoista tunti"},
     },
-    DCTERMS.RightsStatement: {
+    CVOCAB_RIGHTS_STATEMENT_TYPE: {
         "Contractual arrangement": {"fi": "Sopimusjärjestely"},
         "Contractual arrangement, fee required": {
             "fi": "Sopimusjärjestely, maksu vaaditaan"
@@ -353,7 +372,7 @@ VOCABULARY_PATCH_TRANSLATIONS = {
         "Other": {"fi": "Muu"},
         "Royalty-free": {"fi": "Ei tekijänpalkkiota"},
     },
-    MOBILITYDCATAP.mobilityTheme: {
+    CVOCAB_MOBILITY_THEME: {
         "Air and space travel": {"fi": "Ilma- ja avaruusmatkailu"},
         "Cycle network data": {"fi": "Pyöräilyverkon tiedot"},
         "Dynamic traffic signs and regulations": {
@@ -562,7 +581,7 @@ VOCABULARY_PATCH_TRANSLATIONS = {
             "fi": "Odotusaika rajanylityspaikoilla EU:n ulkopuolisiin maihin"
         },
     },
-    MOBILITYDCATAP.transportMode: {
+    CVOCAB_TRANSPORT_MODE: {
         "Air": {"fi": "Ilmailu"},
         "Bicycle": {"fi": "Polkupyörä"},
         "Bike Hire": {"fi": "Vuokrapyörä"},
@@ -588,7 +607,7 @@ VOCABULARY_PATCH_TRANSLATIONS = {
         "Tram, Light rail": {"fi": "Raitiovaunu, kevyt raideliikenne"},
         "Truck": {"fi": "Kuorma-auto"},
     },
-    MOBILITYDCATAP.networkCoverage: {
+    CVOCAB_NETWORK_COVERAGE: {
         "Air network": {"fi": "Ilmailuverkko"},
         "Metro, subway, tram or light-rail network": {
             "fi": "Metro, raitiovaunu tai kevyt raideliikenneverkko"
@@ -604,7 +623,7 @@ VOCABULARY_PATCH_TRANSLATIONS = {
         "Urban and local roads": {"fi": "Kaupunkien tiet ja paikalliset tiet"},
         "Waterways": {"fi": "Vesiväylät"},
     },
-    MOBILITYDCATAP.intendedInformationService: {
+    CVOCAB_INTENDED_INFORMATION_SERVICE: {
         "Dynamic Information service": {"fi": "Dynaaminen tietopalvelu"},
         "Dynamic Passing times, trip plans and auxiliary information": {
             "fi": "Dynaamiset ohitusajat, reittisuunnitelmat ja lisätiedot"

@@ -7,7 +7,8 @@ from rdflib.namespace import DCTERMS, SKOS, DCAT, FOAF, OWL
 from rdflib.term import Node
 
 from ckan_schema.mobility_dcat_ap_converter.range_value_converter import (
-    RangeValueConverter, Necessity,
+    RangeValueConverter,
+    Necessity,
 )
 from mobility_dcat_ap.dataset import (
     CVOCAB_MOBILITY_THEME,
@@ -203,19 +204,24 @@ class DCATDataset(RangeValueConverter):
                 **super().get_property_label_with_help_text(clazz_p.iri),
                 "form_snippet": None,
                 "required": False,
-                "validators": super().get_validators(["value_to_list", "is_referenced_by_validator"]),
+                "validators": super().get_validators(
+                    ["value_to_list", "is_referenced_by_validator"]
+                ),
                 "output_validators": "is_referenced_by_validator",
             }
         else:
             schema = super().get_schema(ds, clazz_p, is_required)
         if schema is None:
             return None
+
         def apply_necessity_mapping(schema, necessity_fn):
             """
             Apply necessity mapping to the schema.
             """
             if isinstance(schema, list):
-                return list(map(lambda s: apply_necessity_mapping(s, necessity_fn), schema))
+                return list(
+                    map(lambda s: apply_necessity_mapping(s, necessity_fn), schema)
+                )
             else:
                 if schema.get("field_name") == "mobility_theme_sub":
                     # In spec comments it is mentioned that the sub-theme field is optional.
@@ -226,6 +232,7 @@ class DCATDataset(RangeValueConverter):
                 else:
                     necessity_mapping = necessity_fn(clazz_p.iri)
                 return {**schema, **necessity_mapping}
+
         return apply_necessity_mapping(schema, super().get_necessity_mapping)
 
     def controlled_vocab_field(
@@ -254,7 +261,7 @@ class DCATDataset(RangeValueConverter):
                                 ),
                             )
                             in g,
-                            iri=p.iri,
+                            vocab=CVOCAB_MOBILITY_THEME,
                         ),
                     },
                     {
@@ -280,7 +287,7 @@ class DCATDataset(RangeValueConverter):
                                 ),
                             )
                             in g,
-                            iri=p.iri,
+                            vocab=CVOCAB_MOBILITY_THEME,
                         ),
                     },
                 ]
@@ -354,7 +361,7 @@ class DCATDataset(RangeValueConverter):
                     "preset": "select",
                     "sorted_choices": True,
                     "form_include_blank_choice": True,
-                    "choices": RangeValueConverter.vocab_choices(graph=g, iri=p.iri),
+                    "choices": RangeValueConverter.vocab_choices(graph=g),
                     "validators": super().get_validators(
                         ["georeferencing_method_validator"]
                     ),
@@ -368,7 +375,9 @@ class DCATDataset(RangeValueConverter):
                     "preset": "select",
                     "sorted_choices": True,
                     "form_include_blank_choice": True,
-                    "choices": RangeValueConverter.vocab_choices(graph=g, iri=p.iri),
+                    "choices": RangeValueConverter.vocab_choices(
+                        graph=g, vocab=CVOCAB_NETWORK_COVERAGE
+                    ),
                     "validators": super().get_validators(
                         ["network_coverage_validator"]
                     ),
@@ -382,7 +391,7 @@ class DCATDataset(RangeValueConverter):
                     "preset": "select",
                     "sorted_choices": True,
                     "form_include_blank_choice": True,
-                    "choices": RangeValueConverter.vocab_choices(graph=g, iri=p.iri),
+                    "choices": RangeValueConverter.vocab_choices(graph=g),
                     "validators": super().get_validators(["theme_validator"]),
                 }
             case MOBILITYDCATAP.transportMode:
@@ -394,7 +403,9 @@ class DCATDataset(RangeValueConverter):
                     "preset": "select",
                     "sorted_choices": True,
                     "form_include_blank_choice": True,
-                    "choices": RangeValueConverter.vocab_choices(graph=g, iri=p.iri),
+                    "choices": RangeValueConverter.vocab_choices(
+                        graph=g, vocab=CVOCAB_TRANSPORT_MODE
+                    ),
                     "validators": super().get_validators(["transport_mode_validator"]),
                 }
             case MOBILITYDCATAP.intendedInformationService:
@@ -406,7 +417,9 @@ class DCATDataset(RangeValueConverter):
                     "preset": "select",
                     "sorted_choices": True,
                     "form_include_blank_choice": True,
-                    "choices": RangeValueConverter.vocab_choices(graph=g, iri=p.iri),
+                    "choices": RangeValueConverter.vocab_choices(
+                        graph=g, vocab=CVOCAB_INTENDED_INFORMATION_SERVICE
+                    ),
                     "validators": super().get_validators(
                         ["intended_information_service_validator"]
                     ),
@@ -422,7 +435,7 @@ class DCATDataset(RangeValueConverter):
                     "subfield_form_attrs": {
                         "data-module": "digitraffic_theme_contact_detail"
                     },
-                    "form_blanks": 0
+                    "form_blanks": 0,
                 } | self.get_property_label_with_help_text(DCAT.contactPoint)
 
             if field.get("field_name") == Agent.aggregate_field_name:
@@ -431,7 +444,7 @@ class DCATDataset(RangeValueConverter):
                     "subfield_form_attrs": {
                         "data-module": "digitraffic_theme_rights_holder"
                     },
-                    "form_blanks": 0
+                    "form_blanks": 0,
                 } | self.get_property_label_with_help_text(DCTERMS.rightsHolder)
 
             return field

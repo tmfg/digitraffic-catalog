@@ -156,20 +156,6 @@ class Distribution(RangeValueConverter):
         self, p: RDFSProperty, ds: Dataset, is_required: bool
     ) -> Dict:
         match p.iri:
-            case MOBILITYDCATAP.communicationMethod:
-                g = ds.get_graph(URIRef(CVOCAB_COMMUNICATION_METHOD))
-                return {
-                    "field_name": self.ckan_field(p),
-                    **super().get_property_label_with_help_text(p.iri),
-                    "required": is_required,
-                    "preset": "select",
-                    "sorted_choices": True,
-                    "form_include_blank_choice": True,
-                    "choices": RangeValueConverter.vocab_choices(graph=g, iri=p.iri),
-                    "validators": super().get_validators(
-                        ["communication_method_validator"]
-                    ),
-                }
             case MOBILITYDCATAP.applicationLayerProtocol:
                 g = ds.get_graph(URIRef(CVOCAB_APPLICATION_LAYER_PROTOCOL))
                 return {
@@ -179,7 +165,7 @@ class Distribution(RangeValueConverter):
                     "preset": "select",
                     "sorted_choices": True,
                     "form_include_blank_choice": True,
-                    "choices": RangeValueConverter.vocab_choices(graph=g, iri=p.iri),
+                    "choices": RangeValueConverter.vocab_choices(graph=g),
                     "validators": super().get_validators(
                         ["application_layer_protocol_validator"]
                     ),
@@ -193,7 +179,7 @@ class Distribution(RangeValueConverter):
                     "preset": "select",
                     "sorted_choices": True,
                     "form_include_blank_choice": True,
-                    "choices": RangeValueConverter.vocab_choices(graph=g, iri=p.iri),
+                    "choices": RangeValueConverter.vocab_choices(graph=g),
                     "validators": super().get_validators(["data_grammar_validator"]),
                 }
             case MOBILITYDCATAP.mobilityDataStandard:
@@ -205,7 +191,7 @@ class Distribution(RangeValueConverter):
                     "preset": "select",
                     "sorted_choices": True,
                     "form_include_blank_choice": True,
-                    "choices": RangeValueConverter.vocab_choices(graph=g, iri=p.iri),
+                    "choices": RangeValueConverter.vocab_choices(graph=g),
                     "validators": super().get_validators(
                         ["mobility_data_standard_validator"]
                     ),
@@ -219,7 +205,7 @@ class Distribution(RangeValueConverter):
                     "preset": "select",
                     "sorted_choices": True,
                     "form_include_blank_choice": True,
-                    "choices": RangeValueConverter.vocab_choices(graph=g, iri=p.iri),
+                    "choices": RangeValueConverter.vocab_choices(graph=g),
                     "validators": super().get_validators(
                         ["communication_method_validator"]
                     ),

@@ -1,4 +1,5 @@
 from ckan_schema.mobility_dcat_ap_converter.range_value_converter import (
+    AggregateRangeValueConverter,
     RangeValueConverter,
 )
 from rdflib import DCAT, DCTERMS, Dataset
@@ -7,7 +8,7 @@ from dcat_schema_transpiler.rdfs.rdfs_class import RDFSClass
 from dcat_schema_transpiler.rdfs.rdfs_property import RDFSProperty
 
 
-class DataService(RangeValueConverter):
+class DataService(AggregateRangeValueConverter):
     iri = DCAT.DataService
 
     mandatory_properties = {DCAT.endpointURL, DCTERMS.title}
@@ -16,8 +17,13 @@ class DataService(RangeValueConverter):
 
     optional_properties = {DCTERMS.description}
 
+    aggregate_field_name = "dcat_data_service"
+
+    field_name = "data_service"
+
     def __init__(self, clazz: RDFSClass):
         super().__init__(clazz)
+        self.__aggregate_schemas = []
 
     def ckan_field(self, p: RDFSProperty, pointer: str = None) -> str:
         mappings = {
@@ -39,6 +45,7 @@ class DataService(RangeValueConverter):
         return super().get_range_value(ds, clazz_p)
 
     def get_schema(self, ds: Dataset, clazz_p: RDFSProperty, is_required: bool = False):
+        is_required = clazz_p.iri in self.mandatory_properties
         if clazz_p.is_iri(DCAT.endpointURL):
             return {
                 "field_name": self.ckan_field(clazz_p),
@@ -71,6 +78,17 @@ class DataService(RangeValueConverter):
             }
         schema = super().get_schema(ds, clazz_p, False)
         return schema
+
+    def get_aggregate_schema(self) -> dict:
+        return {
+            "field_name": DataService.field_name,
+            "form_blanks": 0,
+            **super().get_class_label_with_help_text(),
+            "repeating_subfields": self.__aggregate_schemas,
+        }
+
+    def add_to_aggregate(self, schema: dict) -> None:
+        self.__aggregate_schemas.append(schema)
 
     def is_property_required(self, property: RDFSProperty) -> bool:
         return property.iri in DataService.mandatory_properties
