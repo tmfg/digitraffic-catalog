@@ -10,7 +10,7 @@ from ckan_schema.mobility_dcat_ap_converter.i18n.translations import (
     TRANSLATIONS,
 )
 from mobility_dcat_ap.namespace import MOBILITYDCATAP_NS_URL
-from rdflib import Dataset, Graph, URIRef
+from rdflib import Dataset, Graph, URIRef, Namespace
 from rdflib.namespace import DCAM, RDF, RDFS, SKOS
 
 from dcat_schema_transpiler.cache.vocabularies import get_cached_file_path
@@ -171,7 +171,7 @@ class RangeValueConverter(ABC):
         filter: Union[
             Callable[[URIRef], bool], Callable[[URIRef, Graph], bool]
         ] = lambda s: True,
-        iri: URIRef | None = None,
+        vocab: Namespace | None = None,
     ):
         def get_label(s):
             labels = [pl for pl in graph.objects(s, SKOS.prefLabel)]
@@ -210,10 +210,10 @@ class RangeValueConverter(ABC):
                             finnish
                             if finnish
                             else (
-                                VOCABULARY_PATCH_TRANSLATIONS.get(iri, {})
+                                VOCABULARY_PATCH_TRANSLATIONS.get(vocab, {})
                                 .get(english, {})
                                 .get("fi", english)
-                                if iri
+                                if vocab
                                 else english
                             )
                         ),
@@ -221,10 +221,10 @@ class RangeValueConverter(ABC):
                             swedish
                             if swedish
                             else (
-                                VOCABULARY_PATCH_TRANSLATIONS.get(iri, {})
+                                VOCABULARY_PATCH_TRANSLATIONS.get(vocab, {})
                                 .get(english, {})
                                 .get("sv", english)
-                                if iri
+                                if vocab
                                 else english
                             )
                         ),
@@ -307,7 +307,9 @@ class RangeValueConverter(ABC):
             return deepcopy(translated_field_properties)
 
     @staticmethod
-    def get_validators(validators: List[str]):
+    def get_validators(validators: List[str] = None):
+        if validators is None:
+            validators = []
         validators.insert(0, "scheming_required")
         return " ".join(validators)
 

@@ -5,6 +5,7 @@ from rdflib.namespace import DCTERMS, RDFS, SKOS
 
 from ckan_schema.mobility_dcat_ap_converter.range_value_converter import (
     RangeValueConverter,
+    Necessity,
 )
 from dcat_schema_transpiler.rdfs.rdfs_class import RDFSClass
 from dcat_schema_transpiler.rdfs.rdfs_property import RDFSProperty
@@ -14,7 +15,7 @@ from mobility_dcat_ap.dataset import CVOCAB_LICENSE_IDENTIFIER, AT
 
 class LicenseDocument(RangeValueConverter):
     iri = DCTERMS.LicenseDocument
-    mandatory_properties = {DCTERMS.identifier}
+    recommended_properties = {DCTERMS.identifier}
     optional_properties = {RDFS.label}
 
     def __init__(self, clazz: RDFSClass):

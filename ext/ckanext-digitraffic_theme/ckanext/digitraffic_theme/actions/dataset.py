@@ -24,16 +24,16 @@ def get_old_related_resource_ids(dataset_id: str, session: AlchemySession) -> se
     return set([row[0] for row in referring_dataset_ids])
 
 def _existing_is_referenced_by(session: AlchemySession, related_resource_id: str) -> AlchemySession.query:
-    is_referened_by_row = (session.query(PackageExtra)
+    is_referenced_by_row = (session.query(PackageExtra)
     .with_entities(PackageExtra.value)
     .filter(
         PackageExtra.package_id == related_resource_id,
         PackageExtra.key == "is_referenced_by"
     )
     .first())
-    if not is_referened_by_row:
+    if not is_referenced_by_row:
         return None
-    return json.loads(is_referened_by_row[0])
+    return json.loads(is_referenced_by_row[0])
 
 def _update_is_referenced_by(context: Context, related_resource_id: str, new_is_referenced_by: list[str]):
     """
