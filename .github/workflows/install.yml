@@ -122,3 +122,47 @@ jobs:
           tags: ${{ secrets.ECR_URL }}/dt-nginx-repository:${{ github.sha }}
           build-args: |
             ENVIRONMENT=${{ github.event.inputs.env }}
+
+      - name: Put CKAN image tag in Parameter Store
+        if: github.event.inputs.install_ckan == 'true'
+        run: |
+          aws ssm put-parameter \
+            --name "/catalog/ckan/image-tag" \
+            --value "${{ github.sha }}" \
+            --type "String" \
+            --overwrite
+        env:
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+
+      - name: Put Solr image tag in Parameter Store
+        if: github.event.inputs.install_solr == 'true'
+        run: |
+          aws ssm put-parameter \
+            --name "/catalog/solr/image-tag" \
+            --value "${{ github.sha }}" \
+            --type "String" \
+            --overwrite
+        env:
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+
+      - name: Put Adot image tag in Parameter Store
+        if: github.event.inputs.install_adot == 'true'
+        run: |
+          aws ssm put-parameter \
+            --name "/catalog/adot/image-tag" \
+            --value "${{ github.sha }}" \
+            --type "String" \
+            --overwrite
+        env:
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+
+      - name: Put Nginx image tag in Parameter Store
+        if: github.event.inputs.install_nginx == 'true'
+        run: |
+          aws ssm put-parameter \
+            --name "/catalog/nginx/image-tag" \
+            --value "${{ github.sha }}" \
+            --type "String" \
+            --overwrite
+        env:
+          AWS_REGION: ${{ secrets.AWS_REGION }}
