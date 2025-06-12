@@ -1,5 +1,5 @@
 import type {BrowserContext, Page, Browser} from "@playwright/test";
-import {EditUserPage, HomePage, OrganizationPage, OrganizationsListPage} from "../page-object-models";
+import {EditUserPage, HomePage, NewDatasetPage, OrganizationPage, OrganizationsListPage} from "../page-object-models";
 import {URL} from "../page-object-models/pages-controller";
 import {gotoNewPage} from "../page-object-models/util";
 import {Organization} from "../models/organization";
@@ -130,6 +130,17 @@ export abstract class User {
       URL.Organization,
       async (organizationPOM: OrganizationPage) => {await organizationPOM.goto()},
       organization
+    )
+  }
+
+  async gotoNewDatasetPage(page?: Page): Promise<NewDatasetPage> {
+    if (page === undefined) {
+      page = await this.createNewPage("gotoNewDatasetPage")
+    }
+    return await gotoNewPage(
+      page,
+      URL.NewDataset,
+      async (newDatasetPOM: NewDatasetPage) => {await newDatasetPOM.goto()}
     )
   }
 }

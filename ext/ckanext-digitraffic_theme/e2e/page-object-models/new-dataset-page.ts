@@ -1,7 +1,14 @@
 import type {Locator, Page} from "@playwright/test";
 import {BasePage, type JSLoadedInterface} from './base';
 import {setPom, URL} from "./pages-controller";
-import {DatasetInfo} from '../models/dataset-info';
+import {
+  type Assessment,
+  type ContactPoint,
+  type DatasetInfo,
+  isPersonContactPoint,
+  isPersonRightsHolder,
+  type RightsHolder
+} from '../models/dataset-info';
 import {gotoNewPage} from "./util";
 import {NewResourcePage} from "./new-resource-page";
 
@@ -15,6 +22,30 @@ export class NewDatasetPage extends BasePage implements JSLoadedInterface<NewDat
   readonly dataContentCategoryField: Locator
   readonly descriptionField: Locator
   readonly saveButton: Locator
+  readonly dataContentSubCategoryField: Locator
+  readonly themeField: Locator
+  readonly transportModeField: Locator
+  readonly startDateField: Locator
+  readonly startTimeField: Locator
+  readonly endDateField: Locator
+  readonly endTimeField: Locator
+  readonly additionalInformationGroup: Locator
+  readonly ianaTimezoneField: Locator
+  readonly addContactPointButton: Locator
+  readonly versionField: Locator
+  readonly versionNotesField: Locator
+  readonly addAssessmentButton: Locator
+  readonly languageField: Locator
+  readonly georeferencingMethodField: Locator
+  readonly networkCoverageField: Locator
+  readonly spatialReferenceSystemField: Locator
+  readonly intendedInformationServiceField: Locator
+  readonly urlToQualityDescriptionField: Locator
+  readonly relatedDatasetField: Locator
+  readonly addRightsHolderButton: Locator
+  readonly contactPointGroup: Locator;
+  readonly assessmentGroup: Locator;
+  readonly rightsHolderGroup: Locator;
 
   constructor(page: Page) {
     super(page, [page.getByRole('heading', {name: 'Yleiset'}), page.getByRole('heading', {name: 'Versiointi'})]);
@@ -27,6 +58,39 @@ export class NewDatasetPage extends BasePage implements JSLoadedInterface<NewDat
     this.dataContentCategoryField = page.getByLabel('* Kategoria');
     this.descriptionField = page.getByLabel('Kuvaus englanniksi');
     this.saveButton = page.getByRole('button', {name: 'Seuraava: Lisää dataa'});
+    this.dataContentSubCategoryField = page.getByLabel('Alakategoria');
+    this.themeField = page.getByLabel('Aihe');
+    this.transportModeField = page.getByLabel('Liikennemuoto');
+    this.startDateField = page.getByLabel('Alkamisaika');
+    this.startTimeField = page.locator('.datetime-row', {has: this.startDateField}).getByLabel('Kellonaika');
+    this.endDateField = page.getByLabel('Päättymisaika');
+    this.endTimeField = page.locator('.datetime-row', {has: this.endDateField}).getByLabel('Kellonaika');
+    this.ianaTimezoneField = page.getByLabel('Aikavyöhyke').filter({visible: true});
+    this.additionalInformationGroup = page.locator(
+      '.field-group',
+      {has: page.getByRole('heading', { name: 'Lisätiedot'})})
+    this.contactPointGroup = page.locator('.field-group')
+      .filter({has: page.getByRole('heading', { name: 'Yhteyspiste'})})
+    this.addContactPointButton = this.contactPointGroup.getByRole('link', {name: 'Lisää'});
+    this.versionField = page.getByLabel('Tietoaineiston versio');
+    this.versionNotesField = page.getByLabel('Version tiedot englanniksi');
+    this.assessmentGroup = page.locator(
+      '.field-group',
+      {has: page.getByRole('heading', { name: 'Arvio'})})
+    this.addAssessmentButton = this.assessmentGroup
+      .getByRole('link', {name: 'Lisää'});
+    this.languageField = page.getByLabel('Kieli');
+    this.georeferencingMethodField = page.getByLabel('Georeferointitapa');
+    this.networkCoverageField = page.getByLabel('Liikenneverkko');
+    this.spatialReferenceSystemField = page.getByLabel('Paikkaviittausjärjestelmä');
+    this.intendedInformationServiceField = page.getByLabel('Hyödyntävä tietopalvelu');
+    this.urlToQualityDescriptionField = page.getByLabel('Julkaisijan kuvaus laadusta');
+    this.relatedDatasetField = page.locator('#field-related_resource').getByRole('combobox');
+    this.rightsHolderGroup = page.locator(
+      '.field-group',
+      {has: page.getByRole('heading', { name: 'Oikeuksien haltija'})})
+    this.addRightsHolderButton = this.rightsHolderGroup
+      .getByRole('link', {name: 'Lisää'});
   }
 
   async goto(): Promise<NewDatasetPage> {
@@ -51,6 +115,12 @@ export class NewDatasetPage extends BasePage implements JSLoadedInterface<NewDat
     return this as unknown as NewDatasetPage;
   }
 
+  private dateToDateAndTimeString(date: Date): {date: string, time: string} {
+    const dateString = date.toISOString().split('T')[0]!;
+    const timeString = date.toTimeString().split(' ')[0]!.substring(0, 5);
+    return {date: dateString, time: timeString};
+  }
+
   async fillForm(datasetInfo: DatasetInfo) {
     if (datasetInfo.visibility === 'public') {
       await this.visibilityFieldPublic.check();
@@ -63,6 +133,185 @@ export class NewDatasetPage extends BasePage implements JSLoadedInterface<NewDat
     await this.regionalCoverageField.selectOption(datasetInfo.regionalCoverage)
     await this.dataContentCategoryField.selectOption(datasetInfo.dataContentCategory)
     await this.descriptionField.fill(datasetInfo.description)
+    if (datasetInfo.optionalValues?.dataContentSubCategory) {
+      await this.dataContentSubCategoryField.selectOption(datasetInfo.optionalValues.dataContentSubCategory);
+    }
+    if (datasetInfo.optionalValues?.theme) {
+      await this.themeField.selectOption(datasetInfo.optionalValues.theme);
+    }
+    if (datasetInfo.optionalValues?.transportMode) {
+      await this.transportModeField.selectOption(datasetInfo.optionalValues.transportMode);
+    }
+    if (datasetInfo.optionalValues?.startTimestamp) {
+      const {date, time} = this.dateToDateAndTimeString(datasetInfo.optionalValues.startTimestamp);
+      await this.startDateField.fill(date);
+      await this.startTimeField.fill(time);
+    }
+    if (datasetInfo.optionalValues?.endTimestamp) {
+      const {date, time} = this.dateToDateAndTimeString(datasetInfo.optionalValues.endTimestamp);
+      await this.endDateField.fill(date);
+      await this.endTimeField.fill(time);
+    }
+    if (datasetInfo.optionalValues?.ianaTimezone) {
+      await this.ianaTimezoneField.selectOption(datasetInfo.optionalValues.ianaTimezone);
+    }
+    if (datasetInfo.optionalValues?.contactPoints) {
+      for (const contactPoint of datasetInfo.optionalValues.contactPoints) {
+        await this.addContactPoint(contactPoint);
+      }
+    }
+    if (datasetInfo.optionalValues?.version) {
+      await this.versionField.fill(datasetInfo.optionalValues.version);
+    }
+    if (datasetInfo.optionalValues?.versionNotes) {
+      await this.versionNotesField.fill(datasetInfo.optionalValues.versionNotes);
+    }
+    if (datasetInfo.optionalValues?.assessments) {
+      for (const assessment of datasetInfo.optionalValues.assessments) {
+        await this.addAssessment(assessment);
+      }
+    }
+    if (datasetInfo.optionalValues?.language) {
+      await this.languageField.selectOption(datasetInfo.optionalValues.language);
+    }
+    if (datasetInfo.optionalValues?.georeferencingMethod) {
+      await this.georeferencingMethodField.selectOption(datasetInfo.optionalValues.georeferencingMethod);
+    }
+    if (datasetInfo.optionalValues?.networkCoverage) {
+      await this.networkCoverageField.selectOption(datasetInfo.optionalValues.networkCoverage);
+    }
+    if (datasetInfo.optionalValues?.spatialReferenceSystem) {
+      await this.spatialReferenceSystemField.fill(datasetInfo.optionalValues.spatialReferenceSystem.toString());
+    }
+    if (datasetInfo.optionalValues?.intendedInformationService) {
+      await this.intendedInformationServiceField.selectOption(datasetInfo.optionalValues.intendedInformationService);
+    }
+    if (datasetInfo.optionalValues?.urlToQualityDescription) {
+      await this.urlToQualityDescriptionField.fill(datasetInfo.optionalValues.urlToQualityDescription);
+    }
+    if (datasetInfo.optionalValues?.relatedDatasets) {
+      for (const relatedDataset of datasetInfo.optionalValues.relatedDatasets) {
+        await this.addRelatedDataset(relatedDataset);
+      }
+    }
+    if (datasetInfo.optionalValues?.rights_holders) {
+      for (const rightsHolder of datasetInfo.optionalValues.rights_holders) {
+        await this.addRightsHolder(rightsHolder);
+      }
+    }
+  }
+
+  async getNewestRepeatingFieldGroupIndex(groupLocator: Locator): Promise<number> {
+    const groupIndex = await groupLocator.locator('[data-group-index]').last().getAttribute('data-group-index');
+    if (!groupIndex) {
+      throw new Error('No repeating field group found');
+    }
+    return parseInt(groupIndex);
+  }
+
+  async getRepeatingFieldGropField(groupLocator: Locator, index: number, label: string): Promise<Locator> {
+    const fieldLocator = await groupLocator.locator(`[data-group-index="${index}"]`).getByLabel(label);
+    if (!fieldLocator) {
+      throw new Error(`Field ${label} not found in group index ${index}`);
+    }
+    return fieldLocator;
+  }
+
+  async addContactPoint(contactPoint: ContactPoint): Promise<void> {
+    await this.addContactPointButton.click();
+    const newContactPointIndex = await this.getNewestRepeatingFieldGroupIndex(this.contactPointGroup)
+    await (await this.getRepeatingFieldGropField(this.contactPointGroup, newContactPointIndex, 'Yhteyspisteen tyyppi')).selectOption(contactPoint.type);
+    await (await this.getRepeatingFieldGropField(this.contactPointGroup, newContactPointIndex, 'Koko nimi')).fill(contactPoint.fullName);
+    await (await this.getRepeatingFieldGropField(this.contactPointGroup, newContactPointIndex, 'Sähköposti')).fill(contactPoint.email);
+    if (contactPoint.telephone) {
+        await (await this.getRepeatingFieldGropField(this.contactPointGroup, newContactPointIndex, 'Puhelinnumero')).fill(contactPoint.telephone);
+    }
+    if (contactPoint.url) {
+      await (await this.getRepeatingFieldGropField(this.contactPointGroup, newContactPointIndex, 'Verkkosivu')).fill(contactPoint.url);
+    }
+    if (contactPoint.streetAddress) {
+      await (await this.getRepeatingFieldGropField(this.contactPointGroup, newContactPointIndex, 'Katuosoite')).fill(contactPoint.streetAddress);
+    }
+    if (contactPoint.locality) {
+      await (await this.getRepeatingFieldGropField(this.contactPointGroup, newContactPointIndex, 'Kaupunki')).fill(contactPoint.locality);
+    }
+    if (contactPoint.postalCode) {
+      await (await this.getRepeatingFieldGropField(this.contactPointGroup, newContactPointIndex, 'Postinumero')).fill(contactPoint.postalCode);
+    }
+    if (contactPoint.region) {
+      await (await this.getRepeatingFieldGropField(this.contactPointGroup, newContactPointIndex, 'Alue')).fill(contactPoint.region);
+    }
+    if (contactPoint.countryName) {
+      await (await this.getRepeatingFieldGropField(this.contactPointGroup, newContactPointIndex, 'Maa')).selectOption(contactPoint.countryName);
+    }
+    if (isPersonContactPoint(contactPoint)) {
+      if (contactPoint.organizationName) {
+        await (await this.getRepeatingFieldGropField(this.contactPointGroup, newContactPointIndex, 'Organisaation nimi')).fill(contactPoint.organizationName);
+      }
+    }
+  }
+
+  async addAssessment(assessment: Assessment): Promise<void> {
+    await this.addAssessmentButton.click();
+    const newAssessmentIndex = await this.getNewestRepeatingFieldGroupIndex(this.assessmentGroup);
+    if (assessment.date) {
+      const {date} = this.dateToDateAndTimeString(assessment.date);
+      await (await this.getRepeatingFieldGropField(this.assessmentGroup, newAssessmentIndex, 'Arvion päivämäärä')).fill(date);
+    }
+    if (assessment.urlToResult) {
+      await (await this.getRepeatingFieldGropField(this.assessmentGroup, newAssessmentIndex, 'Arvion tulos')).fill(assessment.urlToResult);
+    }
+  }
+
+  async addRightsHolder(rightsHolder: RightsHolder): Promise<void> {
+    await this.addRightsHolderButton.click();
+    const newRightsHolderIndex = await this.getNewestRepeatingFieldGroupIndex(this.rightsHolderGroup);
+    await (await this.getRepeatingFieldGropField(this.rightsHolderGroup, newRightsHolderIndex, 'Toimijan tyyppi')).selectOption(rightsHolder.type);
+    await (await this.getRepeatingFieldGropField(this.rightsHolderGroup, newRightsHolderIndex, '* Nimi')).fill(rightsHolder.name);
+    if (rightsHolder.email) {
+      await (await this.getRepeatingFieldGropField(this.rightsHolderGroup, newRightsHolderIndex, 'Sähköposti')).fill(rightsHolder.email);
+    }
+    if (rightsHolder.phone) {
+      await (await this.getRepeatingFieldGropField(this.rightsHolderGroup, newRightsHolderIndex, 'Puhelinnumero')).fill(rightsHolder.phone);
+    }
+    if (rightsHolder.streetAddress) {
+      await (await this.getRepeatingFieldGropField(this.rightsHolderGroup, newRightsHolderIndex, 'Katuosoite')).fill(rightsHolder.streetAddress);
+    }
+    if (rightsHolder.city) {
+      await (await this.getRepeatingFieldGropField(this.rightsHolderGroup, newRightsHolderIndex, 'Kaupunki')).fill(rightsHolder.city);
+    }
+    if (rightsHolder.postalCode) {
+      await (await this.getRepeatingFieldGropField(this.rightsHolderGroup, newRightsHolderIndex, 'Postinumero')).fill(rightsHolder.postalCode);
+    }
+    if (rightsHolder.region) {
+      await (await this.getRepeatingFieldGropField(this.rightsHolderGroup, newRightsHolderIndex, 'Alue')).fill(rightsHolder.region);
+    }
+    if (rightsHolder.countryName) {
+      await (await this.getRepeatingFieldGropField(this.rightsHolderGroup, newRightsHolderIndex, 'Maa')).selectOption(rightsHolder.countryName);
+    }
+    if (isPersonRightsHolder(rightsHolder)) {
+      if (rightsHolder.firstName) {
+        await (await this.getRepeatingFieldGropField(this.rightsHolderGroup, newRightsHolderIndex, 'Etunimi')).fill(rightsHolder.firstName);
+      }
+      if (rightsHolder.surname) {
+        await (await this.getRepeatingFieldGropField(this.rightsHolderGroup, newRightsHolderIndex, 'Sukunimi')).fill(rightsHolder.surname);
+      }
+      if (rightsHolder.workplaceHomepage) {
+        await (await this.getRepeatingFieldGropField(this.rightsHolderGroup, newRightsHolderIndex, 'Työpaikan kotisivu')).fill(rightsHolder.workplaceHomepage);
+      }
+      if (rightsHolder.organizationName) {
+        await (await this.getRepeatingFieldGropField(this.rightsHolderGroup, newRightsHolderIndex, 'Jäsenyydet')).fill(rightsHolder.organizationName);
+      }
+    }
+  }
+
+  async addRelatedDataset(relatedDataset: string): Promise<void> {
+    await this.relatedDatasetField.click()
+    // Might have more than just one option with the same name
+    for (const datasetOption of await this.additionalInformationGroup.locator("span.label").filter({ hasText: relatedDataset }).all()) {
+      await datasetOption.click();
+    }
+    await this.relatedDatasetField.click()
   }
 
   async setDatasetInfo(datasetInfo: DatasetInfo): Promise<NewResourcePage> {

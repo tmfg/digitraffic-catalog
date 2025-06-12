@@ -1,0 +1,16 @@
+export enum Language {
+  DAN = 'http://publications.europa.eu/resource/authority/language/DAN',
+  NLD = 'http://publications.europa.eu/resource/authority/language/NLD',
+  ENG = 'http://publications.europa.eu/resource/authority/language/ENG',
+  EST = 'http://publications.europa.eu/resource/authority/language/EST',
+  FIN = 'http://publications.europa.eu/resource/authority/language/FIN',
+  FRA = 'http://publications.europa.eu/resource/authority/language/FRA',
+  DEU = 'http://publications.europa.eu/resource/authority/language/DEU',
+  ISL = 'http://publications.europa.eu/resource/authority/language/ISL',
+  LAV = 'http://publications.europa.eu/resource/authority/language/LAV',
+  LIT = 'http://publications.europa.eu/resource/authority/language/LIT',
+  NOR = 'http://publications.europa.eu/resource/authority/language/NOR',
+  POL = 'http://publications.europa.eu/resource/authority/language/POL',
+  SPA = 'http://publications.europa.eu/resource/authority/language/SPA',
+  SWE = 'http://publications.europa.eu/resource/authority/language/SWE',
+}

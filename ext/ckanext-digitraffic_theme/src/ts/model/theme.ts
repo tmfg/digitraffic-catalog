@@ -1,0 +1,16 @@
+export enum Theme {
+  AGRI = 'http://publications.europa.eu/resource/authority/data-theme/AGRI',
+  ECON = 'http://publications.europa.eu/resource/authority/data-theme/ECON',
+  EDUC = 'http://publications.europa.eu/resource/authority/data-theme/EDUC',
+  ENER = 'http://publications.europa.eu/resource/authority/data-theme/ENER',
+  ENVI = 'http://publications.europa.eu/resource/authority/data-theme/ENVI',
+  GOVE = 'http://publications.europa.eu/resource/authority/data-theme/GOVE',
+  HEAL = 'http://publications.europa.eu/resource/authority/data-theme/HEAL',
+  INTR = 'http://publications.europa.eu/resource/authority/data-theme/INTR',
+  JUST = 'http://publications.europa.eu/resource/authority/data-theme/JUST',
+  SOCI = 'http://publications.europa.eu/resource/authority/data-theme/SOCI',
+  OP_DATPRO = 'http://publications.europa.eu/resource/authority/data-theme/OP_DATPRO',
+  REGI = 'http://publications.europa.eu/resource/authority/data-theme/REGI',
+  TECH = 'http://publications.europa.eu/resource/authority/data-theme/TECH',
+  TRAN = 'http://publications.europa.eu/resource/authority/data-theme/TRAN',
+}
