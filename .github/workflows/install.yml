@@ -195,5 +195,8 @@ jobs:
 
       - name: Run CDK diff
         working-directory: digitraffic-ci/aws/cdk/infra
-        run: cdk diff CkanApplication$(echo "${{ github.event.inputs.env }}" | sed 's/^./\U&/')
-
+        run: |
+          DIFF_OUTPUT=$(cdk diff CkanApplication$(echo "${{ github.event.inputs.env }}" | sed 's/^./\U&/') 2>&1)
+          echo "$DIFF_OUTPUT"
+    
+          echo "$DIFF_OUTPUT"|grep "^\[~\]"|grep -v "\[~\] AWS::ECS::TaskDefinition"
