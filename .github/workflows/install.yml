@@ -195,5 +195,5 @@ jobs:
 
       - name: Run CDK diff
         working-directory: digitraffic-ci/aws/cdk/infra
-        run: cdk diff
+        run: cdk diff CkanApplication${{ github.event.inputs.env }}
 
