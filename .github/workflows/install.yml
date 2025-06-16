@@ -185,7 +185,9 @@ jobs:
 
       - name: Build CDK stack
         working-directory: digitraffic-ci/aws/cdk/infra
-        run: pnpm build
+        run: |
+          pnpm install
+          pnpm build
 
       - name: Run CDK diff
         working-directory: digitraffic-ci/aws/cdk/infra
