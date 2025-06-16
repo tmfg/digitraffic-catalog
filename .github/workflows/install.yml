@@ -123,6 +123,18 @@ jobs:
           build-args: |
             ENVIRONMENT=${{ github.event.inputs.env }}
 
+     
+
+  images:
+    if: github.repository != 'tmfg/digitraffic-catalog'
+    needs: build
+    runs-on: ubuntu-24.04
+    permissions:
+      id-token: write
+      contents: read
+      actions: read
+    environment: ${{ github.event.inputs.env }}
+    steps:
       - name: Put CKAN image tag in Parameter Store
         if: github.event.inputs.install_ckan == 'true'
         run: |
@@ -166,3 +178,21 @@ jobs:
             --overwrite
         env:
           AWS_REGION: ${{ secrets.AWS_REGION }}
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - name: Checkout CI-repo
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ secrets.CONFIG_REPO_NAME }}
+          ssh-key: ${{ secrets.CONFIG_REPO_SSH_KEY }}
+          ref: ${{ inputs.config-repo-branch }}
+          path: digitraffic-ci
+      - name: Build CDK stack
+        working-directory: digitraffic-ci/aws/cdk/infra
+        run: pnpm build
+      - name: Run CDK diff
+        working-directory: digitraffic-ci/aws/cdk/infra
+        run: cdk diff
+
