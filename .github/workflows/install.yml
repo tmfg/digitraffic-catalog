@@ -175,6 +175,10 @@ jobs:
         uses: pnpm/action-setup@v4
         with:
           version: 9
+
+      - name: Install AWS CDK CLI
+        run: pnpm add -g aws-cdk
+
       - name: Checkout CI-repo
         uses: actions/checkout@v4
         with:
