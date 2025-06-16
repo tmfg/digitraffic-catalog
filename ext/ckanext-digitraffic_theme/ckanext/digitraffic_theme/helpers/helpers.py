@@ -101,7 +101,14 @@ def get_organization_dataset_counts():
                 "dataset_count": datasets["count"],
             }
         )
-    return sorted(results, key=lambda result: result["dataset_count"], reverse=True)
+
+    return [
+        org
+        for org in sorted(
+            results, key=lambda result: result["dataset_count"], reverse=True
+        )
+        if org["dataset_count"] > 0
+    ]
 
 
 def get_site_title():
