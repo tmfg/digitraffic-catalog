@@ -209,8 +209,9 @@ jobs:
           if [[ -n "$NON_ECS_CHANGES" ]]; then
             echo "Stack contains changes unrelated to ECS Task Definitions"
             echo "$NON_ECS_CHANGES"
-            MARKDOWN_CONTENT=$(printf "#### Run failed due to non-ECS changes in stack\n\n```\n%s\n```\n" "$NON_ECS_CHANGES")
+            MARKDOWN_CONTENT="#### Run failed due to non-ECS changes in stack  <br/><br/>  $NON_ECS_CHANGES"
             echo "$MARKDOWN_CONTENT" >> $GITHUB_STEP_SUMMARY
+
             if [[ "${{ github.event.inputs.deploy_all_changes }}" == "false" ]]; then
               exit 1
             fi
