@@ -223,3 +223,15 @@ jobs:
       - name: Run CDK deploy
         working-directory: digitraffic-ci/aws/cdk/infra
         run: cdk deploy CkanNginx$(echo "${{ github.event.inputs.env }}" | sed 's/^./\U&/')
+
+      - name: Run CKAN search-index rebuild
+        if: github.event.inputs.install_ckan == 'true'
+        run: |        
+          TASK_ID=$(aws ecs list-tasks --cluster ${{ secrets.ECS_CLUSTER_NAME }} --service-name ${{ secrets.ECS_SERVICE_NAME }} --query "taskArns[0]" --output text)
+        
+          aws ecs execute-command \
+            --cluster ${{ secrets.ECS_CLUSTER_NAME }} \
+            --task "$TASK_ID" \
+            --container "ckan" \
+            --interactive \
+            --command "ckan search-index rebuild"
