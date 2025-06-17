@@ -201,7 +201,7 @@ jobs:
       - name: Run CDK diff
         working-directory: digitraffic-ci/aws/cdk/infra
         run: |
-          DIFF_OUTPUT=$(cdk diff CkanApplication$(echo "${{ github.event.inputs.env }}" | sed 's/^./\U&/') 2>&1)
+          DIFF_OUTPUT=$(cdk diff CkanNginx$(echo "${{ github.event.inputs.env }}" | sed 's/^./\U&/') 2>&1)
           echo "$DIFF_OUTPUT"
     
           NON_ECS_CHANGES=$(echo "$DIFF_OUTPUT"| grep "^\[~\]"| grep -v "\[~\] AWS::ECS::TaskDefinition")
@@ -209,10 +209,14 @@ jobs:
           if [[ -n "$NON_ECS_CHANGES" ]]; then
             echo "Stack contains changes unrelated to ECS Task Definitions"
             echo "$NON_ECS_CHANGES"
-            MARKDOWN_CONTENT="#### Run failed due to non-ECS changes in stack  <br/><br/>  $NON_ECS_CHANGES"
-            echo "$MARKDOWN_CONTENT" >> $GITHUB_STEP_SUMMARY
 
             if [[ "${{ github.event.inputs.deploy_all_changes }}" == "false" ]]; then
+              MARKDOWN_CONTENT="#### Run failed due to non-ECS changes in stack  <br/><br/>  $NON_ECS_CHANGES"
+              echo "$MARKDOWN_CONTENT" >> $GITHUB_STEP_SUMMARY
               exit 1
             fi
           fi
+
+      - name: Run CDK deploy
+        working-directory: digitraffic-ci/aws/cdk/infra
+        run: cdk deploy CkanNginx$(echo "${{ github.event.inputs.env }}" | sed 's/^./\U&/')
