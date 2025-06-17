@@ -224,8 +224,11 @@ jobs:
         working-directory: digitraffic-ci/aws/cdk/infra
         run: cdk deploy CkanNginx$(echo "${{ github.event.inputs.env }}" | sed 's/^./\U&/')
 
-      - name: Run CKAN search-index rebuild
-        if: github.event.inputs.install_ckan == 'true'
+      - name: Unset AWS_PROFILE
+        run: unset AWS_PROFILE
+
+      - name: Rebuild CKAN search index
+        if: github.event.inputs.install_ckan == 'true' || github.event.inputs.install_solr == 'true'
         run: |        
           TASK_ID=$(aws ecs list-tasks --cluster ${{ secrets.ECS_CLUSTER_NAME }} --service-name ${{ secrets.ECS_SERVICE_NAME }} --query "taskArns[0]" --output text)
         
