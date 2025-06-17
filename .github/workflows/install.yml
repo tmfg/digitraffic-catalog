@@ -207,7 +207,7 @@ jobs:
           DIFF_OUTPUT=$(cdk diff CkanNginx$(echo "${{ github.event.inputs.env }}" | sed 's/^./\U&/') 2>&1)
           echo "$DIFF_OUTPUT"
     
-          NON_ECS_CHANGES=$(echo "$DIFF_OUTPUT"| grep "^\[~\]"| grep -v "\[~\] AWS::ECS::TaskDefinition")
+          NON_ECS_CHANGES=$(echo "$DIFF_OUTPUT"| grep "^\[~\]"| grep -v "\[~\] AWS::ECS::TaskDefinition" || true)
           
           if [[ -n "$NON_ECS_CHANGES" ]]; then
             echo "Stack contains changes unrelated to ECS Task Definitions"
