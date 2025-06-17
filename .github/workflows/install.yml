@@ -32,6 +32,11 @@ on:
         required: true
         type: boolean
         default: true
+      deploy_all_changes:
+        description: "Deploy all changes in CDK stack (otherwise just ECS image tag changes are deployed)"
+        required: true
+        type: boolean
+        default: false
 
 jobs:
   build_and_deploy:
@@ -206,4 +211,7 @@ jobs:
             echo "$NON_ECS_CHANGES"
             MARKDOWN_CONTENT=$(printf "#### Run failed due to non-ECS changes in stack\n\n```\n%s\n```\n" "$NON_ECS_CHANGES")
             echo "$MARKDOWN_CONTENT" >> $GITHUB_STEP_SUMMARY
+            if [[ "${{ github.event.inputs.deploy_all_changes }}" == "false" ]]; then
+              exit 1
+            fi
           fi
