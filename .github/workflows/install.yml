@@ -45,7 +45,7 @@ on:
 
 jobs:
   build_and_deploy:
-    if: github.repository != 'tmfg/digitraffic-catalog'
+    if: ${{ github.repository != 'tmfg/digitraffic-catalog' && (github.event.inputs.install_ckan == 'true' || github.event.inputs.install_solr == 'true' || github.event.inputs.install_nginx == 'true' || github.event.inputs.install_adot == 'true') }}
     runs-on: ubuntu-24.04
     permissions:
       id-token: write
@@ -186,9 +186,6 @@ jobs:
         with:
           version: 9
 
-      - name: Install AWS CDK CLI
-        run: pnpm add -g aws-cdk
-
       - name: Checkout CI-repo
         uses: actions/checkout@v4
         with:
@@ -203,35 +200,39 @@ jobs:
           pnpm install
           pnpm build
 
-      - name: Run CDK diff
-        working-directory: digitraffic-ci/aws/cdk/infra
+      - uses: actions/github-script@v6
+        id: get-stacks
         env:
+          ENV: ${{ github.event.inputs.env }}
+          INSTALL_CKAN: ${{ github.event.inputs.install_ckan }}
+          INSTALL_SOLR: ${{ github.event.inputs.install_solr }}
+          INSTALL_NGINX: ${{ github.event.inputs.install_nginx }}
+          INSTALL_ADOT: ${{ github.event.inputs.install_adot }}
+        with:
+          script: |
+            const envSuffix = process.env.ENV === 'prod' ? 'Prod' : 'Test';
+            const stacks = [];
+            if (process.env.INSTALL_CKAN === 'true' || process.env.INSTALL_SOLR === 'true' || process.env.INSTALL_ADOT === 'true') {
+              stacks.push(`CkanApplication${envSuffix}`);
+            }
+            if (process.env.INSTALL_NGINX === 'true' || process.env.INSTALL_ADOT === 'true') {
+              stacks.push(`CkanNginx${envSuffix}`);
+            }
+            return stacks.join(',');
+          result-encoding: string
+
+      - name: Diff and deploy
+        env:
+          DEPLOY_ALL_CHANGES: ${{ github.event.inputs.deploy_all_changes }}
           AWS_PROFILE: ${{ secrets.AWS_PROFILE }}
+        working-directory: digitraffic-ci/aws/cdk/infra/scripts
         run: |
-          DIFF_OUTPUT=$(cdk diff CkanNginx$(echo "${{ github.event.inputs.env }}" | sed 's/^./\U&/') 2>&1)
-          echo "$DIFF_OUTPUT"
-    
-          NON_ECS_CHANGES=$(echo "$DIFF_OUTPUT"| grep "^\[~\]"| grep -v "\[~\] AWS::ECS::TaskDefinition" || true)
-          
-          if [[ -n "$NON_ECS_CHANGES" ]]; then
-            echo "Stack contains changes unrelated to ECS Task Definitions"
-            echo "$NON_ECS_CHANGES"
-
-            if [[ "${{ github.event.inputs.deploy_all_changes }}" == "false" ]]; then
-              MARKDOWN_CONTENT="#### Run failed due to non-ECS changes in stack  <br/><br/>  $NON_ECS_CHANGES"
-              echo "$MARKDOWN_CONTENT" >> $GITHUB_STEP_SUMMARY
-              exit 1
-            fi
-          fi
-
-      - name: Run CDK deploy
-        working-directory: digitraffic-ci/aws/cdk/infra
-        env:
-          AWS_PROFILE: ${{ secrets.AWS_PROFILE }}
-        run: cdk deploy CkanNginx$(echo "${{ github.event.inputs.env }}" | sed 's/^./\U&/')
+          pnpm install
+          pnpm build
+          pnpm run start ${{steps.get-stacks.outputs.result}}
 
   run_in_container:
-    if: github.repository != 'tmfg/digitraffic-catalog'
+    if: ${{ github.repository != 'tmfg/digitraffic-catalog' && needs.build_and_deploy.result != 'failure' }}
     needs: build_and_deploy
     runs-on: ubuntu-24.04
     permissions:
