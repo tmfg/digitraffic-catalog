@@ -38,7 +38,7 @@ on:
         type: boolean
         default: false
       run_migrations:
-        description: Run database migrations
+        description: Run CKAN database migrations
         type: boolean
         required: true
         default: false
@@ -203,11 +203,10 @@ jobs:
           pnpm install
           pnpm build
 
-      - name: Set AWS_PROFILE
-        run: echo "AWS_PROFILE=${{ secrets.AWS_PROFILE }}" >> $GITHUB_ENV
-
       - name: Run CDK diff
         working-directory: digitraffic-ci/aws/cdk/infra
+        env:
+          AWS_PROFILE: ${{ secrets.AWS_PROFILE }}
         run: |
           DIFF_OUTPUT=$(cdk diff CkanNginx$(echo "${{ github.event.inputs.env }}" | sed 's/^./\U&/') 2>&1)
           echo "$DIFF_OUTPUT"
@@ -227,6 +226,8 @@ jobs:
 
       - name: Run CDK deploy
         working-directory: digitraffic-ci/aws/cdk/infra
+        env:
+          AWS_PROFILE: ${{ secrets.AWS_PROFILE }}
         run: cdk deploy CkanNginx$(echo "${{ github.event.inputs.env }}" | sed 's/^./\U&/')
 
   run_in_container:
@@ -247,17 +248,14 @@ jobs:
           role-session-name: gh-actions-run-in-container-${{ github.event.inputs.env }}
           aws-region: ${{ secrets.AWS_REGION }}
 
-      - name: Set TASK_ID
-        run: |
-          TASK_ID=$(aws ecs list-tasks --cluster ${{ secrets.ECS_CLUSTER_NAME }} --service-name ${{ secrets.ECS_SERVICE_NAME }} --query "taskArns[0]" --output text) 
-          echo "$TASK_ID" >> $GITHUB_ENV
-
       - name: Install expect
         run: sudo apt install -y expect
 
-      - name: Run database migrations
+      - name: Run CKAN database migrations
         if: github.event.inputs.run_migrations == 'true'
         run: |
+          TASK_ID=$(aws ecs list-tasks --cluster ${{ secrets.ECS_CLUSTER_NAME }} --service-name ${{ secrets.ECS_SERVICE_NAME }} --query "taskArns[0]" --output text) 
+          
           unbuffer aws ecs execute-command \
             --cluster ${{ secrets.ECS_CLUSTER_NAME }} \
             --task "$TASK_ID" \
@@ -268,6 +266,8 @@ jobs:
       - name: Rebuild CKAN search index
         if: github.event.inputs.install_ckan == 'true' || github.event.inputs.install_solr == 'true'
         run: |
+          TASK_ID=$(aws ecs list-tasks --cluster ${{ secrets.ECS_CLUSTER_NAME }} --service-name ${{ secrets.ECS_SERVICE_NAME }} --query "taskArns[0]" --output text) 
+          
           unbuffer aws ecs execute-command \
             --cluster ${{ secrets.ECS_CLUSTER_NAME }} \
             --task "$TASK_ID" \
