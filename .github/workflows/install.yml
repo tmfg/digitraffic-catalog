@@ -224,14 +224,29 @@ jobs:
         working-directory: digitraffic-ci/aws/cdk/infra
         run: cdk deploy CkanNginx$(echo "${{ github.event.inputs.env }}" | sed 's/^./\U&/')
 
-      - name: Unset AWS_PROFILE
-        run: unset AWS_PROFILE
+  run_in_container:
+    if: github.repository != 'tmfg/digitraffic-catalog'
+    needs: build_and_deploy
+    runs-on: ubuntu-24.04
+    permissions:
+      id-token: write
+      contents: read
+      actions: read
+    environment: ${{ github.event.inputs.env }}
+
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE }}
+          role-session-name: gh-actions-install-images-${{ github.event.inputs.env }}
+          aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Rebuild CKAN search index
         if: github.event.inputs.install_ckan == 'true' || github.event.inputs.install_solr == 'true'
-        run: |        
+        run: |
           TASK_ID=$(aws ecs list-tasks --cluster ${{ secrets.ECS_CLUSTER_NAME }} --service-name ${{ secrets.ECS_SERVICE_NAME }} --query "taskArns[0]" --output text)
-        
+          
           aws ecs execute-command \
             --cluster ${{ secrets.ECS_CLUSTER_NAME }} \
             --task "$TASK_ID" \
