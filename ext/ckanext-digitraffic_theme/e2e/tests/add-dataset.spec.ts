@@ -16,8 +16,14 @@ import {NetworkCoverage} from "../../src/ts/model/network-coverage";
 import {IntendedInformationService} from "../../src/ts/model/intended-information-service";
 import {OrganizationEditorView} from "../user-views/organization-editor-view";
 import {DatasetPage, NewResourcePage} from "../page-object-models";
+import {ApplicationLayerProtocol} from "../../src/ts/model/application-layer-protocol";
+import {DataGrammar} from "../../src/ts/model/data-grammar";
+import {CharacterEncoding} from "../../src/ts/model/character-encoding";
+import {CommunicationMethod} from "../../src/ts/model/communication-method";
+import {LicenseId} from "../../src/ts/model/license-id";
+import {OrganizationMemberView} from "../user-views/organization-member-view";
 
-const identitiesToUse = [Identity.OrganizationEditor] as const
+const identitiesToUse = [Identity.OrganizationEditor, Identity.OrganizationMember] as const
 
 test.describe.serial('Add new dataset', () => {
   test.use({
@@ -26,6 +32,7 @@ test.describe.serial('Add new dataset', () => {
   });
 
   let firstDatasetName: string | undefined = undefined;
+  let secondDatasetName: string | undefined = undefined;
 
   test('Add dataset with minimal required info', async ({users}) => {
     const organizationEditor = getKnownUserOrThrow(users, Identity.OrganizationEditor)
@@ -161,22 +168,63 @@ test.describe.serial('Add new dataset', () => {
       }
     );
 
+    secondDatasetName = newDatasetInfo.title;
+
+    const newResourceInfo = new ResourceInfo(
+      'https://example.com/data.csv',
+      FileFormat.FORMAT_CSV,
+      MobilityDataStandard.DATEX_II,
+      RightsType.LICENCE_PROVIDED,
+      undefined, // datasetId will be set later
+      {
+        downloadUrl: 'https://example.com/download.csv',
+        dataServices: [
+          {
+            title: 'Test Data Service',
+            endpointUrl: 'https://example.com/service',
+            description: 'This is a test data service.',
+            endpointDescription: 'https://example.com/service-description'
+          }
+        ],
+        name: 'Test Resource Name',
+        description: 'This is a test resource description with all fields.',
+        applicationLayerProtocol: ApplicationLayerProtocol.HTTPS,
+        dataGrammar: DataGrammar.XSD,
+        dataFormatNotes: 'No specific notes.',
+        characterEncoding: CharacterEncoding.UTF_8,
+        communicationMethod: CommunicationMethod.PULL,
+        sample: 'https://example.com/sample.csv',
+        licenceId: LicenseId.AGPL_3_0,
+        licenseText: 'Creative Commons Attribution 4.0 International License',
+        startTimestamp: new Date('2023-01-01T00:00:00Z'),
+        endTimestamp: new Date('2023-12-31T23:59:59Z'),
+        ianaTimezone: 'Europe/Helsinki',
+      }
+    )
+
     await organizationView
       .browseToNewDatasetPage()
       .then(datasetView => datasetView.fillNewDatasetInfo(newDatasetInfo))
       .then(datasetView => datasetView.saveDataset())
       .then(async resourceView => {
         await test.expect(resourceView.getPOM()).toBeInstanceOf(NewResourcePage)
-        /*const newResourceInfoWithDatasetId = newResourceInfo.cloneWith({
+        const newResourceInfoWithDatasetId = newResourceInfo.cloneWith({
           datasetId: resourceView.getPOM<NewResourcePage>().datasetId
         })
-        return resourceView.fillNewResourceInfo(newResourceInfoWithDatasetId)*/
+        return resourceView.fillNewResourceInfo(newResourceInfoWithDatasetId)
       })
-      /*.then(resourceView => resourceView.saveResource())
+      .then(resourceView => resourceView.saveResource())
       .then(datasetView => {
         const datasetUrl = datasetView.getPage().url();
         test.expect(datasetView.getPOM()).toBeInstanceOf(DatasetPage)
         test.expect(datasetUrl).toMatch(/\/dataset\/[0-9a-fA-F-]+$/);
-      })*/
+      })
+  })
+
+  test('View the created dataset', async ({users}) => {
+    const organizationMember = getKnownUserOrThrow(users, Identity.OrganizationMember)
+    const organizationView = await OrganizationMemberView.of(organizationMember)
+
+    await organizationView.browseToDatasetPage(secondDatasetName!)
   })
 })

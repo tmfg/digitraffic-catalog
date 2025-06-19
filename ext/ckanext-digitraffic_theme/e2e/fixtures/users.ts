@@ -45,10 +45,6 @@ export const test = base.extend<UserFixture & IdentitysOptions>({
           users.set(identityToUse, user)
         } else {
           throw new Error(`Anonymous user is not supported in this fixture. Please use KnownUser or IdentityUser instead.`)
-          /*const browserContext = await browser.newContext()
-          const defaultPage = await browserContext.newPage();
-          const anonymousUser = new User(browserContext, defaultPage)
-          users.set(identityToUse, anonymousUser)*/
         }
       })
     }

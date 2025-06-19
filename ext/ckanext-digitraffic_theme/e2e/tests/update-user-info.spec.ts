@@ -1,9 +1,6 @@
 import {getKnownUserOrThrow, test} from '../fixtures/users'
 import {Identity} from '../users/identity-user';
 import {expect} from "@playwright/test";
-//import {browseToUserEditPage, editUserInfo} from "../user-views/mixins/user";
-//import {assertIsSuccessfulResponse} from "../user-views/mixins/util";
-//import {AuthorizationError} from "../models/error";
 import {OrganizationEditorView} from "../user-views/organization-editor-view";
 import {UserProfilePage} from "../page-object-models";
 import {AuthorizationError} from "../models/error";
@@ -25,10 +22,10 @@ test.describe('User info update tests', () => {
     }
 
     await organizationView.browseToUserEditPage(organizationEditor.userInfo.name)
-      .then(profileEditPage => profileEditPage.fillUserInfo(newUserInfo))
-      .then(profileEditPage => profileEditPage.saveUserInfo())
-      .then(async userProfilePage => {
-        const pom = userProfilePage.getPOM<UserProfilePage>()
+      .then(profileEditView => profileEditView.fillUserInfo(newUserInfo))
+      .then(profileEditView => profileEditView.saveUserInfo())
+      .then(async userProfileView => {
+        const pom = userProfileView.getPOM<UserProfilePage>()
         await expect(pom).toBeInstanceOf(UserProfilePage)
         await expect(pom.userDescription).toContainText(newUserInfo.description)
       })

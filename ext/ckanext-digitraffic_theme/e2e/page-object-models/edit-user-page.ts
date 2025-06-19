@@ -40,7 +40,6 @@ export class EditUserPage extends BasePage {
     this.isAtPageLocators = [this.editUserSideHeader, this.editUserMainHeader]
   }
   async goto(): Promise<EditUserPage> {
-    console.log(`Going to edit user page for user ${this.name}...`)
     await this.page.goto(this.pageUrl);
     return this;
   }

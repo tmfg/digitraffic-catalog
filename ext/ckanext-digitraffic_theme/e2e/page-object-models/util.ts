@@ -1,6 +1,6 @@
 import {BasePage, implementsJSLoadedInterface} from "./base";
 import {URL, getPom} from "./pages-controller"
-import {type Page, test} from "@playwright/test";
+import {type Locator, type Page, test} from "@playwright/test";
 import {cancellableIsVisible, getForbiddenPageLocator, hideDevTools} from "../util";
 import {AuthorizationError} from "../models/error";
 
@@ -34,7 +34,7 @@ export async function gotoNewPage<T extends BasePage>(
     }
 
     if (implementsJSLoadedInterface(newPagePOM)) {
-        await newPagePOM.ensurePageJsLoaded()
+      await newPagePOM.ensurePageJsLoaded()
     }
 
     await hideDevTools(newPagePOM.page)
@@ -44,7 +44,7 @@ export async function gotoNewPage<T extends BasePage>(
   return newPagePOM
 }
 
-export function pathParameterURL(url: URL, parameters: {[name: string]: number|string}): string {
+export function pathParameterURL(url: URL, parameters: { [name: string]: number | string }): string {
   return Object.entries(parameters).reduce(
     (resolvedUrl, [parameterName, parameterValue]) => resolvedUrl.replace(`{${parameterName}}`, parameterValue.toString()),
     url.toString()
@@ -53,4 +53,26 @@ export function pathParameterURL(url: URL, parameters: {[name: string]: number|s
 
 export function urlify(text: string) {
   return text.trim().toLowerCase().replaceAll(' ', '-')
+}
+
+export function dateToDateAndTimeString(date: Date): { date: string, time: string } {
+  const dateString = date.toISOString().split('T')[0]!;
+  const timeString = date.toTimeString().split(' ')[0]!.substring(0, 5);
+  return {date: dateString, time: timeString};
+}
+
+export async function getNewestRepeatingFieldGroupIndex(groupLocator: Locator): Promise<number> {
+  const groupIndex = await groupLocator.locator('[data-group-index]').last().getAttribute('data-group-index');
+  if (!groupIndex) {
+    throw new Error('No repeating field group found');
+  }
+  return parseInt(groupIndex);
+}
+
+export async function getRepeatingFieldGropField(groupLocator: Locator, index: number, label: string): Promise<Locator> {
+  const fieldLocator = await groupLocator.locator(`[data-group-index="${index}"]`).getByLabel(label);
+  if (!fieldLocator) {
+    throw new Error(`Field ${label} not found in group index ${index}`);
+  }
+  return fieldLocator;
 }

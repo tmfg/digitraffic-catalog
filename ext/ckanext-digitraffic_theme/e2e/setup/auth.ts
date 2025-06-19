@@ -16,7 +16,6 @@ import {OrganizationCreationError, Role} from "../page-object-models";
 
 async function authenticate(user: IdentityUser, identity: Identity, username: string, password: string): Promise<void> {
   await setup.step(`Authenticate as ${identity}`, async () => {
-    //const page = await user.goToNewPage('/')
     const page = user.getPageFromContext()
     await page.goto('/')
 

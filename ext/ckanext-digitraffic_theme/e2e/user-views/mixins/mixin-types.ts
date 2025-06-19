@@ -5,9 +5,7 @@ import type {UserInfo} from "../../models/user-info";
 
 export type Mixin = {}
 
-//export type MixinsList<T extends Mixin[]> = T extends [] ? {} : T extends [infer U] ? U : T extends [infer U, infer V] ? U & V : T extends [infer U, infer V, infer W] ? U & V & W : never
 export type ListCombination<T extends unknown[]> = T extends [] ? {} : T extends [infer U] ? U : T extends [infer U, ...infer V] ? U & ListCombination<V> : never
-//export type MixinsList<T extends Mixin[]> = T extends [] ? {} : T extends [infer U] ? U : T extends [infer U, ... infer V] ? U & MixinsList<V> : never
 export type MixinsCombination<T extends Mixin[]> = ListCombination<T>
 
 export type DatasetNavigationMixin = {
@@ -43,6 +41,3 @@ export type UserWriteMixin = {
 export type UserProfileMixin = {
 
 }
-
-//export type UserViewWithDatasetWriteMixin = IUserView & DatasetWriteMixin;
-//export type UserViewWithResourceWriteMixin = IUserView & ResourceWriteMixin;
