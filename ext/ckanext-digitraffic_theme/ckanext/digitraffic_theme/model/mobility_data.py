@@ -345,21 +345,10 @@ class MobilityData:
                     "access_service": DataService(
                         None,
                         {
+                            **(dist.get("data_service", [{}])[0]),
                             "access_rights": RightsStatement(None, dist["rights_type"]),
                             "dataset_ref": dataset_ref,
-                            "data_service_description_translated": dist.get(
-                                "data_service_description_translated", None
-                            ),
-                            "data_service_endpoint_description": dist.get(
-                                "data_service_endpoint_description", None
-                            ),
-                            "data_service_title_translated": dist.get(
-                                "data_service_title_translated", None
-                            ),
-                            "data_service_endpoint_url": dist.get(
-                                "data_service_endpoint_url", None
-                            ),
-                        },
+                        },  # type: ignore
                     ),
                     "download_url": (
                         URIRef(dist["download_url"])
