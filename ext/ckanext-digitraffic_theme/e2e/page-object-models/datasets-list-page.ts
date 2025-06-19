@@ -4,6 +4,7 @@ import { setPom, URL } from "./pages-controller";
 import { gotoNewPage } from "./util";
 import { AuthorizationError } from "../models/error";
 import type { NewDatasetPage } from "./new-dataset-page";
+import type {DatasetPage} from "./dataset-page";
 
 export class DatasetsListPage extends BasePage {
   readonly newDatasetButton: Locator;
@@ -32,6 +33,23 @@ export class DatasetsListPage extends BasePage {
         .catch(_ => {
           throw new AuthorizationError("Is not allowed to create a new dataset")
         })
+    )
+  }
+
+  async gotoDatasetPage(datasetName: string, datasetId?: string): Promise<DatasetPage> {
+    if (!datasetId) {
+      const datasetLocator = this.datasetsList.getByText(datasetName).first();
+      const urlWithDatasetId = await datasetLocator.getByRole('link').getAttribute('href');
+      datasetId = urlWithDatasetId?.split('/').pop();
+      if (!datasetId) {
+        throw new Error(`Dataset with name "${datasetName}" not found in the list`);
+      }
+    }
+    return await gotoNewPage(
+      this.page,
+      URL.Dataset,
+      async () => await this.datasetsList.getByRole('link', { name: datasetId }).click(),
+      datasetId
     )
   }
 }

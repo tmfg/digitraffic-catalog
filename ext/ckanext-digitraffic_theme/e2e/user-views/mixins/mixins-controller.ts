@@ -7,8 +7,8 @@ export enum MixinName {
   UserProfile = 'UserProfile',
   DatasetView = 'DatasetView',
   DatasetNavigate = 'DatasetNavigate',
-    DatasetWrite = 'DatasetWrite',
-    ResourceWrite = 'ResourceWrite',
+  DatasetWrite = 'DatasetWrite',
+  ResourceWrite = 'ResourceWrite',
 }
 
 const mixins = new Map<MixinName, Mixin>()
@@ -42,18 +42,6 @@ export function setMixinForUserView<T extends Mixin[], U extends Mixin[]>(
   }
   return newUserView as IUserView & MixinsCombination<T> & MixinsCombination<U>;
 }
-
-/*export function addMixinForUserView<T extends Mixin, U extends Mixin[], W extends IUserView>(
-  userView: W,
-  mixinName: MixinName
-): W & T & MixinsCombination<U> {
-  const mixin = getMixin(mixinName)
-  if (mixin === undefined) {
-    throw new Error(`Mixin at "${mixinName}" is not set`)
-  }
-  Object.assign(userView, mixin)
-  return userView as W & T & MixinsCombination<U>;
-}*/
 
 export function addMixinForUserView<T extends Mixin, U extends IUserView>(
   userView: U,

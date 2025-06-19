@@ -9,7 +9,7 @@ import {
   isPersonRightsHolder,
   type RightsHolder
 } from '../models/dataset-info';
-import {gotoNewPage} from "./util";
+import {dateToDateAndTimeString, getNewestRepeatingFieldGroupIndex, getRepeatingFieldGropField, gotoNewPage} from "./util";
 import {NewResourcePage} from "./new-resource-page";
 
 export class NewDatasetPage extends BasePage implements JSLoadedInterface<NewDatasetPage> {
@@ -115,12 +115,6 @@ export class NewDatasetPage extends BasePage implements JSLoadedInterface<NewDat
     return this as unknown as NewDatasetPage;
   }
 
-  private dateToDateAndTimeString(date: Date): {date: string, time: string} {
-    const dateString = date.toISOString().split('T')[0]!;
-    const timeString = date.toTimeString().split(' ')[0]!.substring(0, 5);
-    return {date: dateString, time: timeString};
-  }
-
   async fillForm(datasetInfo: DatasetInfo) {
     if (datasetInfo.visibility === "public") {
       await this.visibilityFieldPublic.check();
@@ -143,12 +137,12 @@ export class NewDatasetPage extends BasePage implements JSLoadedInterface<NewDat
       await this.transportModeField.selectOption(datasetInfo.optionalValues.transportMode);
     }
     if (datasetInfo.optionalValues?.startTimestamp) {
-      const {date, time} = this.dateToDateAndTimeString(datasetInfo.optionalValues.startTimestamp);
+      const {date, time} = dateToDateAndTimeString(datasetInfo.optionalValues.startTimestamp);
       await this.startDateField.fill(date);
       await this.startTimeField.fill(time);
     }
     if (datasetInfo.optionalValues?.endTimestamp) {
-      const {date, time} = this.dateToDateAndTimeString(datasetInfo.optionalValues.endTimestamp);
+      const {date, time} = dateToDateAndTimeString(datasetInfo.optionalValues.endTimestamp);
       await this.endDateField.fill(date);
       await this.endTimeField.fill(time);
     }
@@ -201,106 +195,90 @@ export class NewDatasetPage extends BasePage implements JSLoadedInterface<NewDat
     }
   }
 
-  async getNewestRepeatingFieldGroupIndex(groupLocator: Locator): Promise<number> {
-    const groupIndex = await groupLocator.locator('[data-group-index]').last().getAttribute('data-group-index');
-    if (!groupIndex) {
-      throw new Error('No repeating field group found');
-    }
-    return parseInt(groupIndex);
-  }
-
-  async getRepeatingFieldGropField(groupLocator: Locator, index: number, label: string): Promise<Locator> {
-    const fieldLocator = await groupLocator.locator(`[data-group-index="${index}"]`).getByLabel(label);
-    if (!fieldLocator) {
-      throw new Error(`Field ${label} not found in group index ${index}`);
-    }
-    return fieldLocator;
-  }
-
   async addContactPoint(contactPoint: ContactPoint): Promise<void> {
     await this.addContactPointButton.click();
-    const newContactPointIndex = await this.getNewestRepeatingFieldGroupIndex(this.contactPointGroup)
-    await (await this.getRepeatingFieldGropField(this.contactPointGroup, newContactPointIndex, 'Yhteyspisteen tyyppi')).selectOption(contactPoint.type);
-    await (await this.getRepeatingFieldGropField(this.contactPointGroup, newContactPointIndex, 'Koko nimi')).fill(contactPoint.fullName);
-    await (await this.getRepeatingFieldGropField(this.contactPointGroup, newContactPointIndex, 'Sähköposti')).fill(contactPoint.email);
+    const newContactPointIndex = await getNewestRepeatingFieldGroupIndex(this.contactPointGroup)
+    await (await getRepeatingFieldGropField(this.contactPointGroup, newContactPointIndex, 'Yhteyspisteen tyyppi')).selectOption(contactPoint.type);
+    await (await getRepeatingFieldGropField(this.contactPointGroup, newContactPointIndex, 'Koko nimi')).fill(contactPoint.fullName);
+    await (await getRepeatingFieldGropField(this.contactPointGroup, newContactPointIndex, 'Sähköposti')).fill(contactPoint.email);
     if (contactPoint.telephone) {
-        await (await this.getRepeatingFieldGropField(this.contactPointGroup, newContactPointIndex, 'Puhelinnumero')).fill(contactPoint.telephone);
+        await (await getRepeatingFieldGropField(this.contactPointGroup, newContactPointIndex, 'Puhelinnumero')).fill(contactPoint.telephone);
     }
     if (contactPoint.url) {
-      await (await this.getRepeatingFieldGropField(this.contactPointGroup, newContactPointIndex, 'Verkkosivu')).fill(contactPoint.url);
+      await (await getRepeatingFieldGropField(this.contactPointGroup, newContactPointIndex, 'Verkkosivu')).fill(contactPoint.url);
     }
     if (contactPoint.streetAddress) {
-      await (await this.getRepeatingFieldGropField(this.contactPointGroup, newContactPointIndex, 'Katuosoite')).fill(contactPoint.streetAddress);
+      await (await getRepeatingFieldGropField(this.contactPointGroup, newContactPointIndex, 'Katuosoite')).fill(contactPoint.streetAddress);
     }
     if (contactPoint.locality) {
-      await (await this.getRepeatingFieldGropField(this.contactPointGroup, newContactPointIndex, 'Kaupunki')).fill(contactPoint.locality);
+      await (await getRepeatingFieldGropField(this.contactPointGroup, newContactPointIndex, 'Kaupunki')).fill(contactPoint.locality);
     }
     if (contactPoint.postalCode) {
-      await (await this.getRepeatingFieldGropField(this.contactPointGroup, newContactPointIndex, 'Postinumero')).fill(contactPoint.postalCode);
+      await (await getRepeatingFieldGropField(this.contactPointGroup, newContactPointIndex, 'Postinumero')).fill(contactPoint.postalCode);
     }
     if (contactPoint.region) {
-      await (await this.getRepeatingFieldGropField(this.contactPointGroup, newContactPointIndex, 'Alue')).fill(contactPoint.region);
+      await (await getRepeatingFieldGropField(this.contactPointGroup, newContactPointIndex, 'Alue')).fill(contactPoint.region);
     }
     if (contactPoint.countryName) {
-      await (await this.getRepeatingFieldGropField(this.contactPointGroup, newContactPointIndex, 'Maa')).selectOption(contactPoint.countryName);
+      await (await getRepeatingFieldGropField(this.contactPointGroup, newContactPointIndex, 'Maa')).selectOption(contactPoint.countryName);
     }
     if (isPersonContactPoint(contactPoint)) {
       if (contactPoint.organizationName) {
-        await (await this.getRepeatingFieldGropField(this.contactPointGroup, newContactPointIndex, 'Organisaation nimi')).fill(contactPoint.organizationName);
+        await (await getRepeatingFieldGropField(this.contactPointGroup, newContactPointIndex, 'Organisaation nimi')).fill(contactPoint.organizationName);
       }
     }
   }
 
   async addAssessment(assessment: Assessment): Promise<void> {
     await this.addAssessmentButton.click();
-    const newAssessmentIndex = await this.getNewestRepeatingFieldGroupIndex(this.assessmentGroup);
+    const newAssessmentIndex = await getNewestRepeatingFieldGroupIndex(this.assessmentGroup);
     if (assessment.date) {
-      const {date} = this.dateToDateAndTimeString(assessment.date);
-      await (await this.getRepeatingFieldGropField(this.assessmentGroup, newAssessmentIndex, 'Arvion päivämäärä')).fill(date);
+      const {date} = dateToDateAndTimeString(assessment.date);
+      await (await getRepeatingFieldGropField(this.assessmentGroup, newAssessmentIndex, 'Arvion päivämäärä')).fill(date);
     }
     if (assessment.urlToResult) {
-      await (await this.getRepeatingFieldGropField(this.assessmentGroup, newAssessmentIndex, 'Arvion tulos')).fill(assessment.urlToResult);
+      await (await getRepeatingFieldGropField(this.assessmentGroup, newAssessmentIndex, 'Arvion tulos')).fill(assessment.urlToResult);
     }
   }
 
   async addRightsHolder(rightsHolder: RightsHolder): Promise<void> {
     await this.addRightsHolderButton.click();
-    const newRightsHolderIndex = await this.getNewestRepeatingFieldGroupIndex(this.rightsHolderGroup);
-    await (await this.getRepeatingFieldGropField(this.rightsHolderGroup, newRightsHolderIndex, 'Toimijan tyyppi')).selectOption(rightsHolder.type);
-    await (await this.getRepeatingFieldGropField(this.rightsHolderGroup, newRightsHolderIndex, '* Nimi')).fill(rightsHolder.name);
+    const newRightsHolderIndex = await getNewestRepeatingFieldGroupIndex(this.rightsHolderGroup);
+    await (await getRepeatingFieldGropField(this.rightsHolderGroup, newRightsHolderIndex, 'Toimijan tyyppi')).selectOption(rightsHolder.type);
+    await (await getRepeatingFieldGropField(this.rightsHolderGroup, newRightsHolderIndex, '* Nimi')).fill(rightsHolder.name);
     if (rightsHolder.email) {
-      await (await this.getRepeatingFieldGropField(this.rightsHolderGroup, newRightsHolderIndex, 'Sähköposti')).fill(rightsHolder.email);
+      await (await getRepeatingFieldGropField(this.rightsHolderGroup, newRightsHolderIndex, 'Sähköposti')).fill(rightsHolder.email);
     }
     if (rightsHolder.phone) {
-      await (await this.getRepeatingFieldGropField(this.rightsHolderGroup, newRightsHolderIndex, 'Puhelinnumero')).fill(rightsHolder.phone);
+      await (await getRepeatingFieldGropField(this.rightsHolderGroup, newRightsHolderIndex, 'Puhelinnumero')).fill(rightsHolder.phone);
     }
     if (rightsHolder.streetAddress) {
-      await (await this.getRepeatingFieldGropField(this.rightsHolderGroup, newRightsHolderIndex, 'Katuosoite')).fill(rightsHolder.streetAddress);
+      await (await getRepeatingFieldGropField(this.rightsHolderGroup, newRightsHolderIndex, 'Katuosoite')).fill(rightsHolder.streetAddress);
     }
     if (rightsHolder.city) {
-      await (await this.getRepeatingFieldGropField(this.rightsHolderGroup, newRightsHolderIndex, 'Kaupunki')).fill(rightsHolder.city);
+      await (await getRepeatingFieldGropField(this.rightsHolderGroup, newRightsHolderIndex, 'Kaupunki')).fill(rightsHolder.city);
     }
     if (rightsHolder.postalCode) {
-      await (await this.getRepeatingFieldGropField(this.rightsHolderGroup, newRightsHolderIndex, 'Postinumero')).fill(rightsHolder.postalCode);
+      await (await getRepeatingFieldGropField(this.rightsHolderGroup, newRightsHolderIndex, 'Postinumero')).fill(rightsHolder.postalCode);
     }
     if (rightsHolder.region) {
-      await (await this.getRepeatingFieldGropField(this.rightsHolderGroup, newRightsHolderIndex, 'Alue')).fill(rightsHolder.region);
+      await (await getRepeatingFieldGropField(this.rightsHolderGroup, newRightsHolderIndex, 'Alue')).fill(rightsHolder.region);
     }
     if (rightsHolder.countryName) {
-      await (await this.getRepeatingFieldGropField(this.rightsHolderGroup, newRightsHolderIndex, 'Maa')).selectOption(rightsHolder.countryName);
+      await (await getRepeatingFieldGropField(this.rightsHolderGroup, newRightsHolderIndex, 'Maa')).selectOption(rightsHolder.countryName);
     }
     if (isPersonRightsHolder(rightsHolder)) {
       if (rightsHolder.firstName) {
-        await (await this.getRepeatingFieldGropField(this.rightsHolderGroup, newRightsHolderIndex, 'Etunimi')).fill(rightsHolder.firstName);
+        await (await getRepeatingFieldGropField(this.rightsHolderGroup, newRightsHolderIndex, 'Etunimi')).fill(rightsHolder.firstName);
       }
       if (rightsHolder.surname) {
-        await (await this.getRepeatingFieldGropField(this.rightsHolderGroup, newRightsHolderIndex, 'Sukunimi')).fill(rightsHolder.surname);
+        await (await getRepeatingFieldGropField(this.rightsHolderGroup, newRightsHolderIndex, 'Sukunimi')).fill(rightsHolder.surname);
       }
       if (rightsHolder.workplaceHomepage) {
-        await (await this.getRepeatingFieldGropField(this.rightsHolderGroup, newRightsHolderIndex, 'Työpaikan kotisivu')).fill(rightsHolder.workplaceHomepage);
+        await (await getRepeatingFieldGropField(this.rightsHolderGroup, newRightsHolderIndex, 'Työpaikan kotisivu')).fill(rightsHolder.workplaceHomepage);
       }
       if (rightsHolder.organizationName) {
-        await (await this.getRepeatingFieldGropField(this.rightsHolderGroup, newRightsHolderIndex, 'Jäsenyydet')).fill(rightsHolder.organizationName);
+        await (await getRepeatingFieldGropField(this.rightsHolderGroup, newRightsHolderIndex, 'Jäsenyydet')).fill(rightsHolder.organizationName);
       }
     }
   }
