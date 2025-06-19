@@ -252,9 +252,11 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Install expect
+        # this contains unbuffer
         run: sudo apt install -y expect
 
       - name: Run CKAN database migrations
+        # aws ecs execute-command needs to be run with unbuffer, otherwise it fails due to tty not being available
         run: |
           TASK_ID=$(aws ecs list-tasks --cluster ${{ secrets.ECS_CLUSTER_NAME }} --service-name ${{ secrets.ECS_SERVICE_NAME }} --query "taskArns[0]" --output text) 
 
@@ -293,7 +295,6 @@ jobs:
         run: sudo apt install -y expect
 
       - name: Rebuild CKAN search index
-        if: github.event.inputs.install_ckan == 'true' || github.event.inputs.install_solr == 'true'
         # aws ecs execute-command needs to be run with unbuffer, otherwise it fails due to tty not being available
         run: |
           TASK_ID=$(aws ecs list-tasks --cluster ${{ secrets.ECS_CLUSTER_NAME }} --service-name ${{ secrets.ECS_SERVICE_NAME }} --query "taskArns[0]" --output text) 
