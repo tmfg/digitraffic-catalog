@@ -225,6 +225,7 @@ jobs:
       - name: Diff and deploy
         env:
           DEPLOY_ALL_CHANGES: ${{ github.event.inputs.deploy_all_changes }}
+          # the value of AWS_PROFILE is only used by the stack code, local AWS profile configurations are not being set up
           AWS_PROFILE: ${{ secrets.AWS_PROFILE }}
         working-directory: digitraffic-ci/aws/cdk/infra/scripts
         run: |
@@ -255,6 +256,7 @@ jobs:
 
       - name: Rebuild CKAN search index
         if: github.event.inputs.install_ckan == 'true' || github.event.inputs.install_solr == 'true'
+        # aws ecs execute-command needs to be run with unbuffer, otherwise it fails due to tty not being available
         run: |
           TASK_ID=$(aws ecs list-tasks --cluster ${{ secrets.ECS_CLUSTER_NAME }} --service-name ${{ secrets.ECS_SERVICE_NAME }} --query "taskArns[0]" --output text) 
           
@@ -289,7 +291,7 @@ jobs:
       - name: Run CKAN database migrations
         run: |
           TASK_ID=$(aws ecs list-tasks --cluster ${{ secrets.ECS_CLUSTER_NAME }} --service-name ${{ secrets.ECS_SERVICE_NAME }} --query "taskArns[0]" --output text) 
-          
+
           unbuffer aws ecs execute-command \
             --cluster ${{ secrets.ECS_CLUSTER_NAME }} \
             --task "$TASK_ID" \
