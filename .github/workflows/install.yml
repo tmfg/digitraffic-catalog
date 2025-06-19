@@ -266,7 +266,7 @@ jobs:
             --command "ckan search-index rebuild"
 
   run_db_migrations:
-    if: ${{ github.repository != 'tmfg/digitraffic-catalog' && needs.build_and_deploy.result != 'failure' }}
+    if: ${{ github.repository != 'tmfg/digitraffic-catalog' && needs.build_and_deploy.result != 'failure' && github.event.inputs.run_migrations == 'true'}}
     needs: build_and_deploy
     runs-on: ubuntu-24.04
     permissions:
@@ -287,7 +287,6 @@ jobs:
         run: sudo apt install -y expect
 
       - name: Run CKAN database migrations
-        if: github.event.inputs.run_migrations == 'true'
         run: |
           TASK_ID=$(aws ecs list-tasks --cluster ${{ secrets.ECS_CLUSTER_NAME }} --service-name ${{ secrets.ECS_SERVICE_NAME }} --query "taskArns[0]" --output text) 
           
