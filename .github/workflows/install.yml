@@ -233,41 +233,6 @@ jobs:
           pnpm build
           pnpm run start:diff-and-deploy ${{steps.get-stacks.outputs.result}}
 
-  rebuild_search_index:
-    if: ${{ github.repository != 'tmfg/digitraffic-catalog' && needs.build_and_deploy.result != 'failure' }}
-    needs: build_and_deploy
-    runs-on: ubuntu-24.04
-    permissions:
-      id-token: write
-      contents: read
-      actions: read
-    environment: ${{ github.event.inputs.env }}
-
-    steps:
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          role-to-assume: ${{ secrets.AWS_ROLE }}
-          role-session-name: gh-actions-run-in-container-${{ github.event.inputs.env }}
-          aws-region: ${{ secrets.AWS_REGION }}
-
-      - name: Install expect
-        # this contains unbuffer
-        run: sudo apt install -y expect
-
-      - name: Rebuild CKAN search index
-        if: github.event.inputs.install_ckan == 'true' || github.event.inputs.install_solr == 'true'
-        # aws ecs execute-command needs to be run with unbuffer, otherwise it fails due to tty not being available
-        run: |
-          TASK_ID=$(aws ecs list-tasks --cluster ${{ secrets.ECS_CLUSTER_NAME }} --service-name ${{ secrets.ECS_SERVICE_NAME }} --query "taskArns[0]" --output text) 
-          
-          unbuffer aws ecs execute-command \
-            --cluster ${{ secrets.ECS_CLUSTER_NAME }} \
-            --task "$TASK_ID" \
-            --container "ckan" \
-            --interactive \
-            --command "ckan search-index rebuild"
-
   run_db_migrations:
     if: ${{ github.repository != 'tmfg/digitraffic-catalog' && needs.build_and_deploy.result != 'failure' && github.event.inputs.run_migrations == 'true'}}
     needs: build_and_deploy
@@ -299,3 +264,43 @@ jobs:
             --container "ckan" \
             --interactive \
             --command "ckan db upgrade -p digitraffic_theme"
+  
+
+  rebuild_search_index:
+    if: |
+      always() &&
+      github.repository != 'tmfg/digitraffic-catalog' && 
+      (needs.run_db_migrations.result == 'success' || github.event.inputs.run_migrations == 'false') &&
+      (needs.build_and_deploy.result == 'success' || needs.build_and_deploy.result == 'skipped')
+    needs: [build_and_deploy, run_db_migrations]
+    runs-on: ubuntu-24.04
+    permissions:
+      id-token: write
+      contents: read
+      actions: read
+    environment: ${{ github.event.inputs.env }}
+
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE }}
+          role-session-name: gh-actions-run-in-container-${{ github.event.inputs.env }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Install expect
+        # this contains unbuffer
+        run: sudo apt install -y expect
+
+      - name: Rebuild CKAN search index
+        if: github.event.inputs.install_ckan == 'true' || github.event.inputs.install_solr == 'true'
+        # aws ecs execute-command needs to be run with unbuffer, otherwise it fails due to tty not being available
+        run: |
+          TASK_ID=$(aws ecs list-tasks --cluster ${{ secrets.ECS_CLUSTER_NAME }} --service-name ${{ secrets.ECS_SERVICE_NAME }} --query "taskArns[0]" --output text) 
+          
+          unbuffer aws ecs execute-command \
+            --cluster ${{ secrets.ECS_CLUSTER_NAME }} \
+            --task "$TASK_ID" \
+            --container "ckan" \
+            --interactive \
+            --command "ckan search-index rebuild"
