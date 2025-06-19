@@ -1,6 +1,6 @@
 import json
 import pprint
-from ckan.logic import get_action, check_access
+from ckan.logic import get_action, check_access, NotFound, NotAuthorized
 import ckan.model as model
 from typing import Any, Union, cast
 from ckan.common import current_user, config
@@ -38,12 +38,14 @@ def get_datasets_as_form_choices():
         {"q": "", "rows": 100},
     )
 
-    return [
-        {"value": dataset["id"], "label": dataset["title"]}
-        for dataset in datasets["results"]
-        # only include in the listing datasets the current user is authorized to edit
-        if check_access("package_update", context, {"id": dataset["id"]})
-    ]
+    choices = []
+    for dataset in datasets["results"]:
+        try:
+            if check_access("package_update", context, {"id": dataset["id"]}):
+                choices.append({"value": dataset["id"], "label": dataset["title"]})
+        except (NotFound, NotAuthorized):
+            continue
+    return choices
 
 
 def url_from_dataset_id(dataset_id: str) -> str:
@@ -99,7 +101,14 @@ def get_organization_dataset_counts():
                 "dataset_count": datasets["count"],
             }
         )
-    return sorted(results, key=lambda result: result["dataset_count"], reverse=True)
+
+    return [
+        org
+        for org in sorted(
+            results, key=lambda result: result["dataset_count"], reverse=True
+        )
+        if org["dataset_count"] > 0
+    ]
 
 
 def get_site_title():

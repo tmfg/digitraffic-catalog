@@ -90,8 +90,15 @@ def before_dataset_index(data_dict):
         for field in INDEXABLE_MULTILINGUAL_RESOURCE_FIELDS:
             if field in resource.keys():
                 field_texts = set()
-                for language in resource[field]:
-                    field_texts.add(resource[field][language])
+                value = resource[field]
+                if isinstance(value, str):
+                    try:
+                        value = json.loads(value)
+                    except Exception:
+                        value = {}
+                if isinstance(value, dict):
+                    for language in value:
+                        field_texts.add(value[language])
                 # Fields matching the pattern res_extras_* will get copied to the general search index.
                 # A multi-valued dynamic field is also defined in the Solr schema for fields
                 # matching this pattern. Multi-valued means that an array can be given as the value.
