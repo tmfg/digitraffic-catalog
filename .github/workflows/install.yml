@@ -33,7 +33,7 @@ on:
         type: boolean
         default: true
       deploy_all_changes:
-        description: "Deploy all changes in CDK stack (otherwise just ECS image tag changes are deployed)"
+        description: "Deploy all changes in CDK stacks (otherwise just ECS image tag changes are deployed)"
         required: true
         type: boolean
         default: false
@@ -194,13 +194,14 @@ jobs:
           ref: ${{ inputs.config-repo-branch }}
           path: digitraffic-ci
 
-      - name: Build CDK stack
+      - name: Build CDK project
         working-directory: digitraffic-ci/aws/cdk/infra
         run: |
           pnpm install
           pnpm build
 
-      - uses: actions/github-script@v6
+      - name: Get stacks to deploy
+        uses: actions/github-script@v6
         id: get-stacks
         env:
           ENV: ${{ github.event.inputs.env }}
@@ -231,7 +232,40 @@ jobs:
           pnpm build
           pnpm run start ${{steps.get-stacks.outputs.result}}
 
-  run_in_container:
+  rebuild_search_index:
+    if: ${{ github.repository != 'tmfg/digitraffic-catalog' && needs.build_and_deploy.result != 'failure' }}
+    needs: build_and_deploy
+    runs-on: ubuntu-24.04
+    permissions:
+      id-token: write
+      contents: read
+      actions: read
+    environment: ${{ github.event.inputs.env }}
+
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE }}
+          role-session-name: gh-actions-run-in-container-${{ github.event.inputs.env }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Install expect
+        run: sudo apt install -y expect
+
+      - name: Rebuild CKAN search index
+        if: github.event.inputs.install_ckan == 'true' || github.event.inputs.install_solr == 'true'
+        run: |
+          TASK_ID=$(aws ecs list-tasks --cluster ${{ secrets.ECS_CLUSTER_NAME }} --service-name ${{ secrets.ECS_SERVICE_NAME }} --query "taskArns[0]" --output text) 
+          
+          unbuffer aws ecs execute-command \
+            --cluster ${{ secrets.ECS_CLUSTER_NAME }} \
+            --task "$TASK_ID" \
+            --container "ckan" \
+            --interactive \
+            --command "ckan search-index rebuild"
+
+  run_db_migrations:
     if: ${{ github.repository != 'tmfg/digitraffic-catalog' && needs.build_and_deploy.result != 'failure' }}
     needs: build_and_deploy
     runs-on: ubuntu-24.04
@@ -263,15 +297,3 @@ jobs:
             --container "ckan" \
             --interactive \
             --command "ckan db upgrade -p digitraffic_theme"
-
-      - name: Rebuild CKAN search index
-        if: github.event.inputs.install_ckan == 'true' || github.event.inputs.install_solr == 'true'
-        run: |
-          TASK_ID=$(aws ecs list-tasks --cluster ${{ secrets.ECS_CLUSTER_NAME }} --service-name ${{ secrets.ECS_SERVICE_NAME }} --query "taskArns[0]" --output text) 
-          
-          unbuffer aws ecs execute-command \
-            --cluster ${{ secrets.ECS_CLUSTER_NAME }} \
-            --task "$TASK_ID" \
-            --container "ckan" \
-            --interactive \
-            --command "ckan search-index rebuild"
