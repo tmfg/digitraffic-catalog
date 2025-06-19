@@ -51,12 +51,10 @@ export class NewResourcePage extends BasePage implements JSLoadedInterface<NewRe
     await this.rightsTypeField.selectOption(resourceInfo.rightsType);
   }
 
-  async setResourceInfo(resourceInfo: ResourceInfo): Promise<DatasetPage> {
+  async saveResource(): Promise<DatasetPage> {
     if (!this.datasetId) {
-      throw new Error('Dataset ID is required to set the resource info');
+      throw new Error('Dataset ID is required to save the resource info');
     }
-    await this.fillForm(resourceInfo);
-
     return await gotoNewPage<DatasetPage>(
       this.page,
       URL.Dataset,

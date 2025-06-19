@@ -17,12 +17,13 @@ export class KnownUser extends IdentityUser {
    * The constructor is made private as we want to create the KnownUser objects through {@link KnownUser.of}
    * static method. This is because we want to call some asynchronous code when initializing a User.
    * @param {BrowserContext} browserContext
+   * @param {Page} defaultPage
    * @param {Identity} identity
    * @param {UserInfo} userInfo
    * @private
    */
-  private constructor(browserContext: BrowserContext, identity: Identity, userInfo: UserInfo) {
-    super(browserContext, identity)
+  private constructor(browserContext: BrowserContext, defaultPage: Page, identity: Identity, userInfo: UserInfo) {
+    super(browserContext, defaultPage, identity)
     this.userInfo = userInfo;
   }
 
@@ -39,16 +40,14 @@ export class KnownUser extends IdentityUser {
 
     KnownUser.checkSignedIn(identityUser)
 
-    const pageName = "userInfo"
-
-    const page = await identityUser.createNewPage(pageName)
+    const page = identityUser.getPageFromContext()
     await page.goto(URL.Home)
 
     const userInfo = await KnownUser.gatherUserInfo(page)
     // TODO: Cache userInfo
     await identityUser.removeAllPages()
 
-    const knownUser = new KnownUser(...IdentityUser.paramsForSuper(identityUser), userInfo)
+    const knownUser = new KnownUser(...(await IdentityUser.paramsForSuper(identityUser)), userInfo)
 
     knownUser.checkKnownUser()
 
@@ -108,5 +107,4 @@ export class KnownUser extends IdentityUser {
     this.checkKnownUser()
     return this.userInfo[property]
   }
-
 }

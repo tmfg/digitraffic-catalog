@@ -316,6 +316,10 @@ export class NewDatasetPage extends BasePage implements JSLoadedInterface<NewDat
 
   async setDatasetInfo(datasetInfo: DatasetInfo): Promise<NewResourcePage> {
     await this.fillForm(datasetInfo);
+    return await this.saveDataset();
+  }
+
+  async saveDataset(): Promise<NewResourcePage> {
     return await gotoNewPage<NewResourcePage>(
       this.page,
       URL.NewResource,
@@ -335,6 +339,7 @@ export class NewDatasetPage extends BasePage implements JSLoadedInterface<NewDat
       },
     );
   }
+
 }
 
 setPom(URL.NewDataset, NewDatasetPage);
