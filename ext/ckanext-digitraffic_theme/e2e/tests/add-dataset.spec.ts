@@ -1,7 +1,5 @@
 import {getKnownUserOrThrow, test} from '../fixtures/users'
 import {Identity} from '../users/identity-user';
-import {browseToNewDatasetPage, setNewDatasetInfo, setNewResourceInfo} from "../user-flows/dataset";
-import {assertIsSuccessfulResponse} from "../user-flows/util";
 import {DatasetInfo, type PersonContactPoint, type PersonRightsHolder} from "../models/dataset-info";
 import {Frequency} from "../../src/ts/model/frequency";
 import {RegionalCoverage} from "../../src/ts/model/regional-coverage";
@@ -16,6 +14,8 @@ import {Language} from "../../src/ts/model/language";
 import {GeoreferencingMethod} from "../../src/ts/model/georeferencing-method";
 import {NetworkCoverage} from "../../src/ts/model/network-coverage";
 import {IntendedInformationService} from "../../src/ts/model/intended-information-service";
+import {OrganizationEditorView} from "../user-views/organization-editor-view";
+import {DatasetPage, NewResourcePage} from "../page-object-models";
 
 const identitiesToUse = [Identity.OrganizationEditor] as const
 
@@ -29,12 +29,7 @@ test.describe.serial('Add new dataset', () => {
 
   test('Add dataset with minimal required info', async ({users}) => {
     const organizationEditor = getKnownUserOrThrow(users, Identity.OrganizationEditor)
-
-    const browseResponse = await browseToNewDatasetPage(organizationEditor)
-    assertIsSuccessfulResponse(browseResponse)
-    const {pom: newDatasetPagePOM} = browseResponse
-
-    // Create dataset with minimal required info
+    const organizationView = await OrganizationEditorView.of(organizationEditor)
     const newDatasetInfo = new DatasetInfo(
       'public', // Tests after this will depend on this dataset being 'public'
       'Test Dataset',
@@ -43,43 +38,40 @@ test.describe.serial('Add new dataset', () => {
       Array.from(TOP_MOBILITY_THEMES)[0]!,
       'This is a test dataset description.'
     )
-
-    firstDatasetName = newDatasetInfo.title;
-
-    const newDatasetResponse = await setNewDatasetInfo(organizationEditor, newDatasetInfo, {
-      page: newDatasetPagePOM.page,
-      navigate: false
-    })
-    assertIsSuccessfulResponse(newDatasetResponse)
-
-    // Create resource with minimal required info
     const newResourceInfo = new ResourceInfo(
       'https://example.com/data.csv',
       FileFormat.FORMAT_CSV,
       MobilityDataStandard.DATEX_II,
       RightsType.LICENCE_PROVIDED,
-      newDatasetResponse.pom.datasetId
     )
+    firstDatasetName = newDatasetInfo.title;
 
-    const newResourceResponse = await setNewResourceInfo(organizationEditor, newResourceInfo, {
-      page: newDatasetResponse.pom.page,
-      navigate: false
-    })
-    assertIsSuccessfulResponse(newResourceResponse)
-
-    // Verify we've been redirected to the dataset view page
-    const datasetUrl = newResourceResponse.pom.page.url();
-    await test.expect(datasetUrl).toMatch(/\/dataset\/[0-9a-fA-F-]+$/);
+    await organizationView
+      .browseToNewDatasetPage()
+      .then(datasetView => datasetView.fillNewDatasetInfo(newDatasetInfo))
+      .then(datasetView => datasetView.saveDataset())
+      .then(async resourceView => {
+        await test.expect(resourceView.getPOM()).toBeInstanceOf(NewResourcePage)
+        const newResourceInfoWithDatasetId = newResourceInfo.cloneWith({
+          datasetId: resourceView.getPOM<NewResourcePage>().datasetId
+        })
+        return resourceView.fillNewResourceInfo(newResourceInfoWithDatasetId)
+      })
+      .then(resourceView => resourceView.saveResource())
+      .then(async datasetView => {
+        const datasetUrl = datasetView.getPage().url();
+        await test.expect(datasetView.getPOM()).toBeInstanceOf(DatasetPage)
+        await test.expect(datasetUrl).toMatch(/\/dataset\/[0-9a-fA-F-]+$/);
+      })
   })
 
   test('Add dataset with all info', async ({users}) => {
     const organizationEditor = getKnownUserOrThrow(users, Identity.OrganizationEditor)
-
-    const newDatasetPagePOM = await organizationEditor.gotoNewDatasetPage()
+    const organizationView = await OrganizationEditorView.of(organizationEditor)
 
     const topMobilityTheme = "https://w3id.org/mobilitydcat-ap/mobility-theme/dynamic-traffic-signs-and-regulations";
     if (firstDatasetName === undefined) {
-        throw new Error('First dataset ID is not set. Ensure the previous test has run successfully.');
+      throw new Error('First dataset ID is not set. Ensure the previous test has run successfully.');
     }
     const newDatasetInfo = new DatasetInfo(
       'public',
@@ -169,12 +161,22 @@ test.describe.serial('Add new dataset', () => {
       }
     );
 
-    const newDatasetResponse = await setNewDatasetInfo(organizationEditor, newDatasetInfo, {
-      page: newDatasetPagePOM.page,
-      navigate: false
-    })
-    assertIsSuccessfulResponse(newDatasetResponse)
-
-
+    await organizationView
+      .browseToNewDatasetPage()
+      .then(datasetView => datasetView.fillNewDatasetInfo(newDatasetInfo))
+      .then(datasetView => datasetView.saveDataset())
+      .then(async resourceView => {
+        await test.expect(resourceView.getPOM()).toBeInstanceOf(NewResourcePage)
+        /*const newResourceInfoWithDatasetId = newResourceInfo.cloneWith({
+          datasetId: resourceView.getPOM<NewResourcePage>().datasetId
+        })
+        return resourceView.fillNewResourceInfo(newResourceInfoWithDatasetId)*/
+      })
+      /*.then(resourceView => resourceView.saveResource())
+      .then(datasetView => {
+        const datasetUrl = datasetView.getPage().url();
+        test.expect(datasetView.getPOM()).toBeInstanceOf(DatasetPage)
+        test.expect(datasetUrl).toMatch(/\/dataset\/[0-9a-fA-F-]+$/);
+      })*/
   })
 })

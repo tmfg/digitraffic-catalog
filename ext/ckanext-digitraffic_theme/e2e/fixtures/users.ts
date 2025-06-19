@@ -7,6 +7,7 @@ import {test as base} from '@playwright/test';
 import {User} from '../users/user'
 // This import is here for the side effects.
 import "../page-object-models";
+import "../user-views/mixins";
 import {IdentityUser, Identity} from "../users/identity-user"
 import {KnownUser} from "../users/known-user";
 
@@ -43,9 +44,11 @@ export const test = base.extend<UserFixture & IdentitysOptions>({
           const user = await (isUserInfoGathered ? KnownUser.of(identityToUse, browser) : IdentityUser.of(identityToUse, browser))
           users.set(identityToUse, user)
         } else {
-          const browserContext = await browser.newContext()
-          const anonymousUser = new User(browserContext)
-          users.set(identityToUse, anonymousUser)
+          throw new Error(`Anonymous user is not supported in this fixture. Please use KnownUser or IdentityUser instead.`)
+          /*const browserContext = await browser.newContext()
+          const defaultPage = await browserContext.newPage();
+          const anonymousUser = new User(browserContext, defaultPage)
+          users.set(identityToUse, anonymousUser)*/
         }
       })
     }

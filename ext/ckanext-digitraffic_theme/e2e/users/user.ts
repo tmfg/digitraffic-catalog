@@ -1,8 +1,14 @@
 import type {BrowserContext, Page, Browser} from "@playwright/test";
-import {EditUserPage, HomePage, NewDatasetPage, OrganizationPage, OrganizationsListPage} from "../page-object-models";
+import {EditUserPage, HomePage, OrganizationPage, OrganizationsListPage} from "../page-object-models";
 import {URL} from "../page-object-models/pages-controller";
 import {gotoNewPage} from "../page-object-models/util";
 import {Organization} from "../models/organization";
+import {type BasePage} from "../page-object-models/base";
+
+export type TestContext = {
+  page: Page,
+  pom?: BasePage
+}
 
 /**
  * User class provides basic features for page handling and navigation for a user.
@@ -11,6 +17,9 @@ import {Organization} from "../models/organization";
 export abstract class User {
   protected pages: Map<string, Page>;
   protected browserContext: BrowserContext;
+  testContext: TestContext
+
+  static readonly DEFAULT_PAGE_NAME = "__defaultPage";
 
   /**
    * Each user should have their own [browser context]{@link https://playwright.dev/docs/api/class-browsercontext}.
@@ -22,18 +31,23 @@ export abstract class User {
    * This way we can ensure that the browser state is consistent with the user.
    *
    * @param {BrowserContext} browserContext - Playwright browser context
+   * @param {Page} defaultPage - Default page to use for the user
    * @protected
    */
-  protected constructor(browserContext: BrowserContext) {
-    this.pages = new Map();
+  protected constructor(browserContext: BrowserContext, defaultPage: Page) {
+    this.pages = new Map([[User.DEFAULT_PAGE_NAME, defaultPage]]);
     this.browserContext = browserContext
+    this.testContext = {page: defaultPage}
   }
 
   getPage(name: string) {
     return this.pages.get(name)
   };
 
-  async createNewPage(name: string): Promise<Page> {
+  async createNewPage(name?: string): Promise<Page> {
+    if (name === undefined) {
+      name = 'generated' + this.pages.size;
+    }
     this.checkPageExists(name)
     const newPage = await this.browserContext.newPage();
     this.pages.set(name, newPage)
@@ -94,18 +108,22 @@ export abstract class User {
     return await gotoNewPage(
       page,
       URL.Home,
-      async (homePagePOM: HomePage) => {await homePagePOM.goto()}
+      async (homePagePOM: HomePage) => {
+        await homePagePOM.goto()
+      }
     )
   }
 
   async gotoOrganizationsListPage(page?: Page):Promise<OrganizationsListPage> {
     if (page === undefined) {
-      page = await this.createNewPage("gotoOrganizationsListPage")
+      page = await this.createNewPage("gotoHomePage")
     }
     return await gotoNewPage(
       page,
       URL.OrganizationsList,
-      async (organizationsListPOM: OrganizationsListPage) => {await organizationsListPOM.goto()}
+      async (organizationsListPOM: OrganizationsListPage) => {
+        await organizationsListPOM.goto()
+      }
     )
   }
 
@@ -116,32 +134,47 @@ export abstract class User {
     return await gotoNewPage(
       page,
       URL.EditUser,
-      async (editUserPOM: EditUserPage) => {await editUserPOM.goto()},
+      async (editUserPOM: EditUserPage) => {
+        await editUserPOM.goto()
+      },
       name
     )
   }
 
-  async gotoOrganizationPage(organization: Organization, page?: Page):Promise<OrganizationPage> {
+  async gotoOrganizationPage(organization: Organization, page?: Page): Promise<OrganizationPage> {
     if (page === undefined) {
       page = await this.createNewPage("gotoOrganizationPage")
     }
     return await gotoNewPage(
       page,
       URL.Organization,
-      async (organizationPOM: OrganizationPage) => {await organizationPOM.goto()},
+      async (organizationPOM: OrganizationPage) => {
+        await organizationPOM.goto()
+      },
       organization
     )
   }
 
-  async gotoNewDatasetPage(page?: Page): Promise<NewDatasetPage> {
-    if (page === undefined) {
-      page = await this.createNewPage("gotoNewDatasetPage")
+  getPageFromContext(): Page {
+    return this.testContext.page
+  }
+
+  getPOMFromContext(): BasePage | undefined {
+    return this.testContext.pom
+  }
+
+  setTestContextPage(page: Page): void {
+    this.testContext.page = page
+    if (this.testContext.pom && this.testContext.pom.page !== page) {
+      this.testContext.pom = undefined
     }
-    return await gotoNewPage(
-      page,
-      URL.NewDataset,
-      async (newDatasetPOM: NewDatasetPage) => {await newDatasetPOM.goto()}
-    )
+  }
+
+  setTestContextPOM(pom: BasePage): void {
+    this.testContext.pom = pom
+    if (this.testContext.page !== pom.page) {
+      this.setTestContextPage(pom.page)
+    }
   }
 }
 
