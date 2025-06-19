@@ -252,6 +252,7 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Install expect
+        # this contains unbuffer
         run: sudo apt install -y expect
 
       - name: Rebuild CKAN search index
