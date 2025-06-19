@@ -231,7 +231,7 @@ jobs:
         run: |
           pnpm install
           pnpm build
-          pnpm run start ${{steps.get-stacks.outputs.result}}
+          pnpm run start:diff-and-deploy ${{steps.get-stacks.outputs.result}}
 
   rebuild_search_index:
     if: ${{ github.repository != 'tmfg/digitraffic-catalog' && needs.build_and_deploy.result != 'failure' }}
