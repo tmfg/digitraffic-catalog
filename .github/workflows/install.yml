@@ -12,6 +12,10 @@ on:
         description: "Branch/tag/SHA of digitraffic-catalog-private"
         required: true
         default: "master"
+      config-repo-branch:
+        description: "Branch or tag of CI-repo"
+        required: true
+        default: "master"
       install_ckan:
         required: true
         type: boolean
@@ -28,10 +32,20 @@ on:
         required: true
         type: boolean
         default: true
+      deploy_all_changes:
+        description: "Deploy all changes in CDK stacks (otherwise just ECS image tag changes are deployed)"
+        required: true
+        type: boolean
+        default: false
+      run_migrations:
+        description: Run CKAN database migrations
+        type: boolean
+        required: true
+        default: false
 
 jobs:
-  build:
-    if: github.repository != 'tmfg/digitraffic-catalog'
+  build_and_deploy:
+    if: ${{ github.repository != 'tmfg/digitraffic-catalog' && (github.event.inputs.install_ckan == 'true' || github.event.inputs.install_solr == 'true' || github.event.inputs.install_nginx == 'true' || github.event.inputs.install_adot == 'true') }}
     runs-on: ubuntu-24.04
     permissions:
       id-token: write
@@ -122,3 +136,172 @@ jobs:
           tags: ${{ secrets.ECR_URL }}/dt-nginx-repository:${{ github.sha }}
           build-args: |
             ENVIRONMENT=${{ github.event.inputs.env }}
+
+      - name: Put CKAN image tag in Parameter Store
+        if: github.event.inputs.install_ckan == 'true'
+        run: |
+          aws ssm put-parameter \
+            --name "/catalog/ckan/image-tag" \
+            --value "${{ github.sha }}" \
+            --type "String" \
+            --overwrite
+        env:
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+
+      - name: Put Solr image tag in Parameter Store
+        if: github.event.inputs.install_solr == 'true'
+        run: |
+          aws ssm put-parameter \
+            --name "/catalog/solr/image-tag" \
+            --value "${{ github.sha }}" \
+            --type "String" \
+            --overwrite
+        env:
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+
+      - name: Put Adot image tag in Parameter Store
+        if: github.event.inputs.install_adot == 'true'
+        run: |
+          aws ssm put-parameter \
+            --name "/catalog/adot/image-tag" \
+            --value "${{ github.sha }}" \
+            --type "String" \
+            --overwrite
+        env:
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+
+      - name: Put Nginx image tag in Parameter Store
+        if: github.event.inputs.install_nginx == 'true'
+        run: |
+          aws ssm put-parameter \
+            --name "/catalog/nginx/image-tag" \
+            --value "${{ github.sha }}" \
+            --type "String" \
+            --overwrite
+        env:
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Checkout CI-repo
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ secrets.CONFIG_REPO_NAME }}
+          ssh-key: ${{ secrets.CONFIG_REPO_SSH_KEY }}
+          ref: ${{ inputs.config-repo-branch }}
+          path: digitraffic-ci
+
+      - name: Build CDK project
+        working-directory: digitraffic-ci/aws/cdk/infra
+        run: |
+          pnpm install
+          pnpm build
+
+      - name: Get stacks to deploy
+        uses: actions/github-script@v6
+        id: get-stacks
+        env:
+          ENV: ${{ github.event.inputs.env }}
+          INSTALL_CKAN: ${{ github.event.inputs.install_ckan }}
+          INSTALL_SOLR: ${{ github.event.inputs.install_solr }}
+          INSTALL_NGINX: ${{ github.event.inputs.install_nginx }}
+          INSTALL_ADOT: ${{ github.event.inputs.install_adot }}
+        with:
+          script: |
+            const envSuffix = process.env.ENV === 'prod' ? 'Prod' : 'Test';
+            const stacks = [];
+            if (process.env.INSTALL_CKAN === 'true' || process.env.INSTALL_SOLR === 'true' || process.env.INSTALL_ADOT === 'true') {
+              stacks.push(`CkanApplication${envSuffix}`);
+            }
+            if (process.env.INSTALL_NGINX === 'true' || process.env.INSTALL_ADOT === 'true') {
+              stacks.push(`CkanNginx${envSuffix}`);
+            }
+            return stacks.join(',');
+          result-encoding: string
+
+      - name: Diff and deploy
+        env:
+          DEPLOY_ALL_CHANGES: ${{ github.event.inputs.deploy_all_changes }}
+          # the value of AWS_PROFILE is only used by the stack code, local AWS profile configurations are not being set up
+          AWS_PROFILE: ${{ secrets.AWS_PROFILE }}
+        working-directory: digitraffic-ci/aws/cdk/infra/scripts
+        run: |
+          pnpm install
+          pnpm build
+          pnpm run start:diff-and-deploy ${{steps.get-stacks.outputs.result}}
+
+  run_db_migrations:
+    if: ${{ github.repository != 'tmfg/digitraffic-catalog' && needs.build_and_deploy.result != 'failure' && github.event.inputs.run_migrations == 'true'}}
+    needs: build_and_deploy
+    runs-on: ubuntu-24.04
+    permissions:
+      id-token: write
+      contents: read
+      actions: read
+    environment: ${{ github.event.inputs.env }}
+
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE }}
+          role-session-name: gh-actions-run-in-container-${{ github.event.inputs.env }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Install expect
+        # this contains unbuffer
+        run: sudo apt install -y expect
+
+      - name: Run CKAN database migrations
+        # aws ecs execute-command needs to be run with unbuffer, otherwise it fails due to tty not being available
+        run: |
+          TASK_ID=$(aws ecs list-tasks --cluster ${{ secrets.ECS_CLUSTER_NAME }} --service-name ${{ secrets.ECS_SERVICE_NAME }} --query "taskArns[0]" --output text) 
+
+          unbuffer aws ecs execute-command \
+            --cluster ${{ secrets.ECS_CLUSTER_NAME }} \
+            --task "$TASK_ID" \
+            --container "ckan" \
+            --interactive \
+            --command "ckan db upgrade -p digitraffic_theme"
+  
+
+  rebuild_search_index:
+    if: |
+      always() &&
+      github.repository != 'tmfg/digitraffic-catalog' && 
+      (needs.run_db_migrations.result == 'success' || github.event.inputs.run_migrations == 'false') &&
+      (needs.build_and_deploy.result == 'success' || needs.build_and_deploy.result == 'skipped')
+    needs: [build_and_deploy, run_db_migrations]
+    runs-on: ubuntu-24.04
+    permissions:
+      id-token: write
+      contents: read
+      actions: read
+    environment: ${{ github.event.inputs.env }}
+
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE }}
+          role-session-name: gh-actions-run-in-container-${{ github.event.inputs.env }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Install expect
+        # this contains unbuffer
+        run: sudo apt install -y expect
+
+      - name: Rebuild CKAN search index
+        # aws ecs execute-command needs to be run with unbuffer, otherwise it fails due to tty not being available
+        run: |
+          TASK_ID=$(aws ecs list-tasks --cluster ${{ secrets.ECS_CLUSTER_NAME }} --service-name ${{ secrets.ECS_SERVICE_NAME }} --query "taskArns[0]" --output text) 
+          
+          unbuffer aws ecs execute-command \
+            --cluster ${{ secrets.ECS_CLUSTER_NAME }} \
+            --task "$TASK_ID" \
+            --container "ckan" \
+            --interactive \
+            --command "ckan search-index rebuild"
