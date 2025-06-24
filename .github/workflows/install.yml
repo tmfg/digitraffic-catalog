@@ -198,7 +198,7 @@ jobs:
         working-directory: digitraffic-ci/aws/cdk/infra
         run: |
           pnpm install
-          pnpm build
+          pnpm build:ci
 
       - name: Get stacks to deploy
         uses: actions/github-script@v6
