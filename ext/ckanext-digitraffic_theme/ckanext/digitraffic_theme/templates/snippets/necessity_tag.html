@@ -1,5 +1,8 @@
+<!-- for including the necessity values in the CKAN translation template -->
 {% set necessity_translatable_texts = [_("Mandatory"), _("Recommended"), _("Optional")] %}
+<!-- just for comparing strings in the below condition -->
+{% set necessity_values = ["mandatory", "recommended", "optional"] %}
 
-{%- if necessity is not none and necessity != '' and necessity|string|lower in necessity_translatable_texts -%}
+{%- if necessity is not none and necessity != '' and necessity|string|lower in necessity_values -%}
 <span class="form-necessity form-necessity-{{necessity}}">{{_(necessity|capitalize)}}</span>
 {%- endif -%}
