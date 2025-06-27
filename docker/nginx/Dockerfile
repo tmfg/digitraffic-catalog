@@ -1,5 +1,4 @@
-FROM nginx:1.27.4-alpine3.21-otel
-
+FROM nginx:1.29.0-alpine3.22-otel
 ARG ENVIRONMENT
 
 ENV NGINX_DIR=/etc/nginx
