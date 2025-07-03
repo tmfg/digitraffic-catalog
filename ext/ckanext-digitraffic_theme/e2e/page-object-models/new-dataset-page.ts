@@ -188,8 +188,8 @@ export class NewDatasetPage extends BasePage implements JSLoadedInterface<NewDat
         await this.addRelatedDataset(relatedDataset);
       }
     }
-    if (datasetInfo.optionalValues?.rights_holders) {
-      for (const rightsHolder of datasetInfo.optionalValues.rights_holders) {
+    if (datasetInfo.optionalValues?.rightsHolders) {
+      for (const rightsHolder of datasetInfo.optionalValues.rightsHolders) {
         await this.addRightsHolder(rightsHolder);
       }
     }

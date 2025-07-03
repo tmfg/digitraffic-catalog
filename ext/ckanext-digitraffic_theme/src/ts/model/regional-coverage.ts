@@ -1,3 +1,5 @@
+import {getObjectKeyByValue} from "../util";
+
 export enum RegionalCoverage {
   NUTS_FI = "http://data.europa.eu/nuts/code/FI",
   NUTS_FI1 = "http://data.europa.eu/nuts/code/FI1",
@@ -683,3 +685,12 @@ export const regionalCoverageLabels: Record<RegionalCoverage, string> = {
   [RegionalCoverage.LAU_FI_989]: 'Ähtäri',
   [RegionalCoverage.LAU_FI_992]: 'Äänekoski',
 };
+
+export function labelToRegionalCoverage(label: string): RegionalCoverage {
+  const regionalCoverage = getObjectKeyByValue(regionalCoverageLabels, label) as RegionalCoverage | undefined;
+  if (regionalCoverage) {
+    return regionalCoverage;
+  } else {
+    throw new Error(`Unknown regionalCoverage label: ${label}`);
+  }
+}
