@@ -173,3 +173,12 @@ export async function hideDevTools(page: Page): Promise<void> {
     }
   })
 }
+
+export function getObjectKeyByValue<T extends {}>(o: T, value: unknown): string | undefined {
+    for (const [key, val] of Object.entries(o)) {
+        if (val === value) {
+            return key;
+        }
+    }
+    return undefined;
+}

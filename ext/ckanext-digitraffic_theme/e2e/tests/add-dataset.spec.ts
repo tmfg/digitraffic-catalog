@@ -32,7 +32,7 @@ test.describe.serial('Add new dataset', () => {
   });
 
   let firstDatasetName: string | undefined = undefined;
-  let secondDatasetName: string | undefined = undefined;
+  let secondDatasetInfo: DatasetInfo | undefined = undefined;
 
   test('Add dataset with minimal required info', async ({users}) => {
     const organizationEditor = getKnownUserOrThrow(users, Identity.OrganizationEditor)
@@ -168,7 +168,7 @@ test.describe.serial('Add new dataset', () => {
       }
     );
 
-    secondDatasetName = newDatasetInfo.title;
+    secondDatasetInfo = newDatasetInfo;
 
     const newResourceInfo = new ResourceInfo(
       'https://example.com/data.csv',
@@ -225,6 +225,11 @@ test.describe.serial('Add new dataset', () => {
     const organizationMember = getKnownUserOrThrow(users, Identity.OrganizationMember)
     const organizationView = await OrganizationMemberView.of(organizationMember)
 
-    await organizationView.browseToDatasetPage(secondDatasetName!)
+    if (secondDatasetInfo === undefined) {
+        throw new Error('Second dataset info is not set. Ensure the previous test has run successfully.');
+    }
+
+    await organizationView.browseToDatasetPage(secondDatasetInfo.title)
+      .then(datasetView => datasetView.checkDatasetInfo(secondDatasetInfo!))
   })
 })

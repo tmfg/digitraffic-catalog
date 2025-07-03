@@ -40,7 +40,7 @@ export enum Frequency {
   AS_NEEDED = "http://publications.europa.eu/resource/authority/frequency/AS_NEEDED",
 }
 
-const frequencyLabels = {
+export const frequencyLabels = {
   "http://publications.europa.eu/resource/authority/frequency/BIDECENNIAL": "joka kahdeskymmenes vuosi",
     "http://publications.europa.eu/resource/authority/frequency/TRIDECENNIAL": "joka kolmaskymmenes vuosi",
     "http://publications.europa.eu/resource/authority/frequency/BIHOURLY": "joka toinen tunti",

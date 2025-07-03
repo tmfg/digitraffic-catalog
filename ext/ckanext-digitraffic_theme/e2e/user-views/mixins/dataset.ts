@@ -1,6 +1,6 @@
 import {DatasetInfo} from "../../models/dataset-info";
 import {test} from "@playwright/test";
-import {NewDatasetPage} from "../../page-object-models";
+import {NewDatasetPage, DatasetPage} from "../../page-object-models";
 import {gotoNewPage} from "../../page-object-models/util";
 import type {DatasetNavigationMixin, DatasetViewMixin, DatasetWriteMixin, ResourceWriteMixin,} from "./mixin-types";
 import {addMixinForUserView, MixinName, removeMixinFromUserView, setMixin} from "./mixins-controller";
@@ -70,7 +70,15 @@ const datasetNavigationMixin: DatasetNavigationMixin = {
 }
 
 const datasetViewMixin: DatasetViewMixin = {
-
+  async checkDatasetInfo<T extends IUserView & DatasetViewMixin>(this: T, datasetInfo: DatasetInfo) {
+    return await test.step(`Checking dataset info as ${this.user.identity}`, async () => {
+      const pom = this.getAndValidatePOM<DatasetPage>(URL.Dataset);
+      const datasetInfoFromPage = await pom.getDatasetInfo();
+      console.log(`Dataset info from page: ${JSON.stringify(datasetInfoFromPage)}`);
+      test.expect(datasetInfoFromPage).toEqual(datasetInfo);
+      return this;
+    });
+  }
 }
 
 setMixin(MixinName.DatasetNavigate, datasetNavigationMixin);
