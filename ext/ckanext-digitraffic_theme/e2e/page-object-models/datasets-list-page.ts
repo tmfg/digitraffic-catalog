@@ -38,8 +38,8 @@ export class DatasetsListPage extends BasePage {
 
   async gotoDatasetPage(datasetName: string, datasetId?: string): Promise<DatasetPage> {
     if (!datasetId) {
-      const datasetLocator = this.datasetsList.getByText(datasetName).first();
-      const urlWithDatasetId = await datasetLocator.getByRole('link').getAttribute('href');
+      const datasetLocator = this.datasetsList.getByRole('link', { name: datasetName}).first();
+      const urlWithDatasetId = await datasetLocator.getAttribute('href');
       datasetId = urlWithDatasetId?.split('/').pop();
       if (!datasetId) {
         throw new Error(`Dataset with name "${datasetName}" not found in the list`);
@@ -48,7 +48,7 @@ export class DatasetsListPage extends BasePage {
     return await gotoNewPage(
       this.page,
       URL.Dataset,
-      async () => await this.datasetsList.getByRole('link', { name: datasetId }).click(),
+      async () => await this.datasetsList.locator(`a[href*="${datasetId}"]`).getByText(datasetName).click(),
       datasetId
     )
   }

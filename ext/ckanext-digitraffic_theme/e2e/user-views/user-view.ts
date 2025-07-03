@@ -5,10 +5,10 @@ import {UnexpectedPageError} from "../models/error";
 import {gotoNewPage} from "../page-object-models/util";
 import {EditUserPage, HomePage, OrganizationPage, OrganizationsListPage} from "../page-object-models";
 import {Organization} from "../models/organization";
-import {Page, test} from "@playwright/test";
+import {type Page, test} from "@playwright/test";
 import type {IUserView} from "./user-view-types"
 import {addMixinForUserView, MixinName} from "./mixins/mixins-controller";
-import {DatasetViewMixin} from "./mixins/mixin-types";
+import {type DatasetViewMixin} from "./mixins/mixin-types";
 
 export class UserView implements IUserView {
   readonly user: KnownUser
@@ -77,9 +77,8 @@ export class UserView implements IUserView {
     return this
   }
 
-  async browseToDatasetPage(datasetName: string): Promise<UserView> {
+  async browseToDatasetPage(datasetName: string): Promise<UserView & DatasetViewMixin> {
     return await test.step(`Browsing to dataset ${datasetName} page`, async () => {
-
       const homePage = (await this.gotoHomePage()).getPOM();
       const datasetPage = await homePage.gotoDatasetsListPage()
         .then(datasetListPage => datasetListPage.gotoDatasetPage(datasetName))

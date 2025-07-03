@@ -24,7 +24,7 @@ export type ResourceWriteMixin = {
 }
 
 export type DatasetViewMixin = {
-
+  checkDatasetInfo: <T extends IUserView & DatasetViewMixin>(datasetInfo: DatasetInfo) => Promise<T>;
 }
 
 export type UserNavigationMixin = {
