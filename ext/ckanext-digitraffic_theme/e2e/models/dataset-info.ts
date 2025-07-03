@@ -87,7 +87,7 @@ export type OptionalDatasetInfoValues = {
   intendedInformationService?: IntendedInformationService,
   urlToQualityDescription?: string,
   relatedDatasets?: string[],
-  rights_holders?: RightsHolder[],
+  rightsHolders?: RightsHolder[],
 }
 
 export class DatasetInfo {

@@ -137,7 +137,7 @@ test.describe.serial('Add new dataset', () => {
         intendedInformationService: IntendedInformationService.LOCATION_SEARCH,
         urlToQualityDescription: 'https://example.com/quality-description',
         relatedDatasets: [firstDatasetName],
-        rights_holders: [
+        rightsHolders: [
           {
             type: 'http://purl.org/adms/publishertype/Company',
             name: 'Test Company',
@@ -230,6 +230,9 @@ test.describe.serial('Add new dataset', () => {
     }
 
     await organizationView.browseToDatasetPage(secondDatasetInfo.title)
-      .then(datasetView => datasetView.checkDatasetInfo(secondDatasetInfo!))
+      .then(datasetView => {
+        secondDatasetInfo!.id = datasetView.getPOM<DatasetPage>().datasetId
+        return datasetView.checkDatasetInfo(secondDatasetInfo!)
+      })
   })
 })

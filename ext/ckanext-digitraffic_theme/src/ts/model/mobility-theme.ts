@@ -291,6 +291,11 @@ export const MOBILITY_THEME_LABELS: {
   "https://w3id.org/mobilitydcat-ap/mobility-theme/waterways-and-water-bodies": { "en": "Waterways and water bodies", "fi": "Vesiväylät ja vesistöt" },
 }
 
+export function labelToMobilityTheme(label: string): TOP_MOBILITY_THEMES_T | SUB_MOBILITY_THEMES_T | undefined {
+  const theme = Object.entries(MOBILITY_THEME_LABELS).find(([_, value]) => value.en === label || value.fi === label)
+  return theme ? theme[0] as TOP_MOBILITY_THEMES_T | SUB_MOBILITY_THEMES_T : undefined
+}
+
 export function isTopMobilityTheme(obj: unknown): obj is TOP_MOBILITY_THEMES_T {
   return typeof obj === 'string' && TOP_MOBILITY_THEMES.has(obj as TOP_MOBILITY_THEMES_T)
 }

@@ -1,3 +1,5 @@
+import { getObjectKeyByValue } from "../util"
+
 export enum Frequency {
   BIDECENNIAL = "http://publications.europa.eu/resource/authority/frequency/BIDECENNIAL",
   TRIDECENNIAL = "http://publications.europa.eu/resource/authority/frequency/TRIDECENNIAL",
@@ -80,6 +82,15 @@ export const frequencyLabels = {
     "http://publications.europa.eu/resource/authority/frequency/ANNUAL": "vuotuinen",
     "http://publications.europa.eu/resource/authority/frequency/NOT_PLANNED": "ei suunnitteilla",
     "http://publications.europa.eu/resource/authority/frequency/AS_NEEDED": "tarvittaessa",
+}
+
+export function labelToFrequency(label: string): Frequency {
+  const frequency = getObjectKeyByValue(frequencyLabels, label) as Frequency | undefined;
+  if (frequency) {
+    return frequency;
+  } else {
+    throw new Error(`Unknown frequency label: ${label}`);
+  }
 }
 
 export class FrequencyOption {
