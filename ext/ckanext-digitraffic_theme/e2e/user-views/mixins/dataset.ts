@@ -74,8 +74,16 @@ const datasetViewMixin: DatasetViewMixin = {
     return await test.step(`Checking dataset info as ${this.user.identity}`, async () => {
       const pom = this.getAndValidatePOM<DatasetPage>(URL.Dataset);
       const datasetInfoFromPage = await pom.getDatasetInfo();
-      console.log(`Dataset info from page: ${JSON.stringify(datasetInfoFromPage)}`);
-      test.expect(datasetInfoFromPage).toEqual(datasetInfo);
+      if (datasetInfoFromPage.optionalValues) {
+        // The UI does not preseve original timezone value, so we set it to the expected value
+        datasetInfoFromPage.optionalValues.ianaTimezone = datasetInfo.optionalValues?.ianaTimezone;
+      }
+      if (datasetInfo.optionalValues?.relatedDatasets) {
+        // The UI provides links to related datasets. So we just check that the links are present
+        test.expect((datasetInfoFromPage.optionalValues?.relatedDatasets?.length ?? 0) > 0).toBeTruthy();
+        datasetInfoFromPage.optionalValues!.relatedDatasets = datasetInfo.optionalValues.relatedDatasets;
+      }
+      test.expect(datasetInfoFromPage).toStrictEqual(datasetInfo);
       return this;
     });
   }

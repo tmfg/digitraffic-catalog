@@ -2,7 +2,7 @@ import {BasePage} from "./base";
 import type {Locator, Page} from "@playwright/test";
 import {setPom, URL} from "./pages-controller";
 import {pathParameterURL, urlify} from "./util";
-import {DatasetInfo, type Visibility, type OptionalDatasetInfoValues} from "../models/dataset-info";
+import {DatasetInfo, type Visibility, type OptionalDatasetInfoValues, type ContactPoint, type RightsHolder, type Assessment} from "../models/dataset-info";
 import {labelToFrequency} from "../../src/ts/model/frequency";
 import {labelToRegionalCoverage} from "../../src/ts/model/regional-coverage";
 import {
@@ -58,7 +58,7 @@ export class DatasetPage extends BasePage {
     this.frequency = this.getMetadataTableRowLocator('Päivitysten tiheys');
     this.regionalCoverage = this.getMetadataTableRowLocator('Alueellinen kattavuus');
     this.dataContentCategory = this.getMetadataTableRowLocator('Kategoria');
-    this.description = this.getMetadataTableRowLocator('Kuvaus');
+    this.description = this.metadataTable.locator('tr:has(th:text("Kuvaus"))').first().locator('td');
     this.dataContentSubCategory = this.getMetadataTableRowLocator('Alakategoria');
     this.theme = this.getMetadataTableRowLocator('Aihe');
     this.transportMode = this.getMetadataTableRowLocator('Liikennemuoto');
@@ -86,6 +86,14 @@ export class DatasetPage extends BasePage {
     return row.locator('td');
   }
 
+  // Added new method to handle fields that might appear multiple times with the same row name
+  private getSpecificMetadataTableRowLocator(rowName: string, index: number = 0): Locator {
+    // Create a regex that matches the row name with optional whitespace around it
+    const exactNameRegex = new RegExp(`(?<![a-öA-Ö]+)[\s\n\t\r]?${rowName}[\s\n\t\r]?(?![a-öA-Ö]+)`, 'i');
+    const rows = this.metadataTable.getByRole('row', {name: exactNameRegex}).all();
+    return this.metadataTable.getByRole('row', {name: exactNameRegex}).nth(index).locator('td');
+  }
+
   private getMetadataDescriptionTermLocator(definitionList: Locator, termName: string): Locator {
     // Create a regex that matches the term name with optional whitespace around it
     // The `exact` keyword in `getByRole` does not work for this case, so we use a regex
@@ -102,7 +110,6 @@ export class DatasetPage extends BasePage {
 
   async getDatasetInfo(): Promise<DatasetInfo> {
     try {
-
       // Helper function to safely get text content with trimming
       const getTextContent = async (locator: Locator, fieldName: string): Promise<string> => {
         try {
@@ -115,42 +122,58 @@ export class DatasetPage extends BasePage {
         }
       };
 
-      const getObjectContent = async (locator: Locator, fieldName: string): Promise<any> => {
+      // Improved getObjectContent function to better handle complex data structures
+      const getObjectContent = async(
+        locator: Locator,
+        fieldName: string
+      ): Promise<{}> => {
         try {
-          const o = {}
+          const object: Record<string, any> = {};
           const definitionList = locator.locator('dl');
-          const termsLocators = locator.locator('dt');
-          for (let i = 0; i < await termsLocators.count(); i++) {
-            const termsLocator = termsLocators.nth(i);
-            const term = await termsLocator.textContent()
+          const termsLocators = await definitionList.locator('dt').all();
+
+          for (const termLocator of termsLocators) {
+            const term = await termLocator.textContent();
             if (!term) {
-              console.log(`No term found for ${fieldName} at index ${i}`);
+              console.log(`No term found for ${fieldName} in object`);
               continue;
             }
-            const valueLocator = this.getMetadataDescriptionTermLocator(definitionList, term)
-            o[term.trim()] = await valueLocator.textContent();
-          }
-          return o
-        } catch (error) {
-          console.log(`Error getting object content for ${fieldName}: ${error}`);
-          return '';
-        }
-      }
 
-      const getObjectsContent = async (cellLocator: Locator, fieldName: string): Promise<any> => {
-        try {
-          const objects = []
-          const objectLocators = cellLocator.locator('.panel');
-          for (let i = 0; i < await objectLocators.count(); i++) {
-            const objectLocator = objectLocators.nth(i);
-            objects.push(await getObjectContent(objectLocator, fieldName));
+            const termText = term.trim();
+            // Find the definition detail that corresponds to this term
+            const ddLocator = termLocator.locator('xpath=./following-sibling::dd[1]');
+            const value = await ddLocator.textContent() || '';
+            object[termText] = value.trim();
           }
-          return objects
+
+          return object;
         } catch (error) {
-          console.log(`Error getting object content for ${fieldName}: ${error}`);
-          return null;
+          console.log(`Error getting object content for ${fieldName}:`, error);
+          return {};
         }
-      }
+      };
+
+      // Improved getObjectsContent function to handle arrays of objects properly
+      const getObjectsContent = async (
+        cellLocator: Locator,
+        fieldName: string
+      ): Promise<{}[]> => {
+        try {
+          const objects = [];
+          const objectLocators = await cellLocator.locator('.panel').all();
+          for (const objectLocator of objectLocators) {
+            const object = await getObjectContent(objectLocator, `${fieldName} item`);
+            if (Object.keys(object).length > 0) {
+              objects.push(object);
+            }
+          }
+
+          return objects;
+        } catch (error) {
+          console.log(`Error getting objects content for ${fieldName}:`, error);
+          return [];
+        }
+      };
 
       // Helper function to safely check if a locator exists on the page
       const locatorExists = async (locator: Locator): Promise<boolean> => {
@@ -162,34 +185,64 @@ export class DatasetPage extends BasePage {
         }
       };
 
+      // Helper function to safely parse dates
+      const parseDate = (dateString: string): Date | undefined => {
+        if (!dateString) return undefined;
+
+        try {
+          // Try to parse the date and ensure it's valid
+          const date = new Date(dateString);
+          // Check if the date is valid (invalid dates return NaN for getTime())
+          return isNaN(date.getTime()) ? undefined : date;
+        } catch (error) {
+          console.log(`Error parsing date: ${dateString}`, error);
+          return undefined;
+        }
+      };
+
       // Get field values with safe extraction
       const visibilityValue = await this.getVisibility();
       const titleValue = await getTextContent(this.title, 'title');
       const frequencyValue = labelToFrequency(await getTextContent(this.frequency, 'frequency'));
       const regionalCoverageValue = labelToRegionalCoverage(await getTextContent(this.regionalCoverage, 'regionalCoverage'));
       const dataContentCategoryValue = labelToMobilityTheme(await getTextContent(this.dataContentCategory, 'dataContentCategory')) as TOP_MOBILITY_THEMES_T;
-      const descriptionValue = await getTextContent(this.description, 'description');
+
+      // Fix for description field using direct textContent instead of evaluate
+      let descriptionValue = await getTextContent(this.description, 'description');
+
       const dataContentSubCategoryValue = labelToMobilityTheme(await getTextContent(this.dataContentSubCategory, 'dataContentSubCategory')) as SUB_MOBILITY_THEMES_T;
       const themeValue = labelToTheme(await getTextContent(this.theme, 'theme'));
       const transportModeValue = labelToTransportMode(await getTextContent(this.transportMode, 'transportMode'));
-      const startTimestampValue = new Date(await getTextContent(this.startTimestamp, 'startTimestamp'));
-        const endTimestampValue = new Date(await getTextContent(this.endTimestamp, 'endTimestamp'));
-        const versionValue = await getTextContent(this.version, 'version');
-        const versionNotesValue = await getTextContent(this.versionNotes, 'versionNotes');
-        const languageValue = labelToLanguage(await getTextContent(this.language, 'language'));
-        const georeferencingMethodValue = labelToGeoreferencingMethod(await getTextContent(this.georeferencingMethod, 'georeferencingMethod'));
-        const networkCoverageValue = labelToNetworkCoverage(await getTextContent(this.networkCoverage, 'networkCoverage'));
-        const intendedInformationServiceValue = labelToIntendedInformationService(await getTextContent(this.intendedInformationService, 'intendedInformationService'));
-        const urlToQualityDescriptionValue = await getTextContent(this.urlToQualityDescription, 'urlToQualityDescription');
-        const spatialReferenceSystemValue = parseInt(await getTextContent(this.spatialReferenceSystem, 'spatialReferenceSystem'));
+
+      // Improved date parsing with validation
+      const startTimestampText = await getTextContent(this.startTimestamp, 'startTimestamp');
+      const endTimestampText = await getTextContent(this.endTimestamp, 'endTimestamp');
+      const startTimestampValue = parseDate(startTimestampText);
+      const endTimestampValue = parseDate(endTimestampText);
+
+      const versionValue = await getTextContent(this.version, 'version');
+      const versionNotesValue = await getTextContent(this.versionNotes, 'versionNotes');
+      const languageValue = labelToLanguage(await getTextContent(this.language, 'language'));
+      const georeferencingMethodValue = labelToGeoreferencingMethod(await getTextContent(this.georeferencingMethod, 'georeferencingMethod'));
+      const networkCoverageValue = labelToNetworkCoverage(await getTextContent(this.networkCoverage, 'networkCoverage'));
+      const intendedInformationServiceValue = labelToIntendedInformationService(await getTextContent(this.intendedInformationService, 'intendedInformationService'));
+      const urlToQualityDescriptionValue = await getTextContent(this.urlToQualityDescription, 'urlToQualityDescription');
+      const spatialReferenceSystemValue = await getTextContent(this.spatialReferenceSystem, 'spatialReferenceSystem');
+      let intSpatialReferenceSystemValue: number | undefined = undefined;
+
+      if (spatialReferenceSystemValue) {
+        const intMatch = spatialReferenceSystemValue.match(/\/(\d+)$/)
+
+        if (intMatch && intMatch[1]) {
+          intSpatialReferenceSystemValue = parseInt(intMatch[1]);
+        }
+      }
 
       // Extract values for optional fields
       const optionalValues: OptionalDatasetInfoValues = {
         'dataContentSubCategory': dataContentSubCategoryValue,
         'theme': themeValue,
         'transportMode': transportModeValue,
-        'startTimestamp': startTimestampValue,
-        'endTimestamp': endTimestampValue,
         'version': versionValue,
         'versionNotes': versionNotesValue,
         'language': languageValue,
@@ -197,24 +250,100 @@ export class DatasetPage extends BasePage {
         'networkCoverage': networkCoverageValue,
         'intendedInformationService': intendedInformationServiceValue,
         'urlToQualityDescription': urlToQualityDescriptionValue,
-        'spatialReferenceSystem': spatialReferenceSystemValue,
+        'spatialReferenceSystem': intSpatialReferenceSystemValue,
         'ianaTimezone': 'UTC'
       };
 
-      // Handle related datasets
-      if (await locatorExists(this.relatedDatasets)) {
-        const relatedText = await getTextContent(this.relatedDatasets, 'relatedDatasets');
-        if (relatedText) {
-          optionalValues.relatedDatasets = relatedText.split(',').map(item => item.trim());
-        } else {
-          optionalValues.relatedDatasets = [];
+      // Only add date fields if they're valid
+      if (startTimestampValue) {
+        optionalValues.startTimestamp = startTimestampValue;
+      }
+
+      if (endTimestampValue) {
+        optionalValues.endTimestamp = endTimestampValue;
+      }
+
+      const relatedText = await getTextContent(this.relatedDatasets, 'relatedDatasets');
+      if (relatedText) {
+        const linksAsString = relatedText.split(/[\s]+/).map(item => item.trim());
+        optionalValues.relatedDatasets = linksAsString
+      } else {
+        optionalValues.relatedDatasets = [];
+      }
+
+      const finnishObjectToContactPoint = (finnishContactPoint: Record<string, any>): ContactPoint => {
+        console.log(`Finnish contact point object: ${JSON.stringify(finnishContactPoint, null, 2)}`);
+        const telephone = finnishContactPoint["Puhelinnumero"]
+        return {
+          countryName: finnishContactPoint["Maa"],
+          email: finnishContactPoint["Sähköposti"],
+          fullName: finnishContactPoint["Koko nimi"],
+          locality: finnishContactPoint["Kaupunki"],
+          postalCode: finnishContactPoint["Postinumero"],
+          region: finnishContactPoint["Alue"],
+          streetAddress: finnishContactPoint["Katuosoite"],
+          telephone: telephone ? telephone.replace(/' '/g, '') : undefined,
+          type: (finnishContactPoint["Yhteyspisteen tyyppi"] === "Organisaatio" ? 'http://www.w3.org/2006/vcard/ns#Organization' : 'http://www.w3.org/2006/vcard/ns#Individual'),
+          url: finnishContactPoint["Verkkosivu"],
+            ...(finnishContactPoint["Organisaation nimi"] ? {
+              organizationName: finnishContactPoint["Organisaation nimi"]
+            } : {})
         }
       }
 
-      optionalValues.contactPoints = await getObjectsContent(this.contactPoints, 'contactPoints');
-      optionalValues.assessments = await getObjectsContent(this.assessments, 'assessments');
-      optionalValues.rightsHolders = await getObjectsContent(this.rightsHolders, 'rightsHolders');
+      const finnishObjectToAssessment = (finnishAssessment: Record<string, any>): Assessment => {
+        console.log(`Finnish assessment object: ${JSON.stringify(finnishAssessment, null, 2)}`);
+        return {
+            date: parseDate(finnishAssessment["Arvion päivämäärä"]),
+            urlToResult: finnishAssessment["Arvion tulos"]
+        }
+      }
 
+      const finnishObjectToRightsHolder = (finnishRightsHolder: Record<string, any>): RightsHolder => {
+        console.log(`Finnish rights holder object: ${JSON.stringify(finnishRightsHolder, null, 2)}`);
+        const phoneNumber = finnishRightsHolder["Puhelinnumero"]
+        return {
+            countryName: finnishRightsHolder["Maa"],
+            email: finnishRightsHolder["Sähköposti"],
+            name: finnishRightsHolder["Nimi"],
+            phone: phoneNumber ? phoneNumber.replace(/' '/g, '') : undefined,
+            streetAddress: finnishRightsHolder["Katuosoite"],
+            city: finnishRightsHolder["Kaupunki"],
+            postalCode: finnishRightsHolder["Postinumero"],
+            region: finnishRightsHolder["Alue"],
+            type: (finnishRightsHolder["Toimijan tyyppi"] === "Yritys" ? 'http://purl.org/adms/publishertype/Company' : 'http://purl.org/adms/publishertype/PrivateIndividual(s)'),
+                ...(finnishRightsHolder["Jäsenyydet"] ? {
+                organizationName: finnishRightsHolder["Jäsenyydet"]
+                } : {}),
+                ...(finnishRightsHolder["Etunimi"] ? {
+                firstName: finnishRightsHolder["Etunimi"]
+                } : {}),
+                ...(finnishRightsHolder["Sukunimi"] ? {
+                surname: finnishRightsHolder["Sukunimi"]
+                } : {}),
+                ...(finnishRightsHolder["Työpaikan kotisivu"] ? {
+                workplaceHomepage: finnishRightsHolder["Työpaikan kotisivu"]
+                } : {})
+        }
+      }
+
+      // Get contact points with improved typing
+      optionalValues.contactPoints = await getObjectsContent(
+        this.contactPoints,
+        'contactPoints'
+      ).then(contactPoints => contactPoints.map(finnishObjectToContactPoint));
+
+      // Get assessments with improved typing
+      optionalValues.assessments = await getObjectsContent(
+        this.assessments,
+        'assessments'
+      ).then(assessments => assessments.map(finnishObjectToAssessment));
+
+      // Get rights holders with improved typing
+      optionalValues.rightsHolders = await getObjectsContent(
+        this.rightsHolders,
+        'rightsHolders'
+      ).then(rightsHolders => rightsHolders.map(finnishObjectToRightsHolder));
 
       console.log('Final extracted values:');
       console.log('- visibility:', visibilityValue);
@@ -223,9 +352,10 @@ export class DatasetPage extends BasePage {
       console.log('- regionalCoverage:', regionalCoverageValue);
       console.log('- dataContentCategory:', dataContentCategoryValue);
       console.log('- description:', descriptionValue);
+      console.log('- optionalValues:', JSON.stringify(optionalValues, null, 2));
 
-      // Create the DatasetInfo object using values extracted from the page where possible
-      return new DatasetInfo(
+      // Create the DatasetInfo object with improved fallbacks
+      const datasetInfo = new DatasetInfo(
         visibilityValue,
         titleValue || 'Test Dataset Full Info',
         frequencyValue,
@@ -235,9 +365,11 @@ export class DatasetPage extends BasePage {
         this.datasetId,
         optionalValues
       );
+      console.log('DatasetInfo found from the page:', datasetInfo);
+      return datasetInfo
     } catch (error) {
       console.error("Error in getDatasetInfo:", error);
-      throw error
+      throw error;
     }
   }
 
