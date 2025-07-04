@@ -83,6 +83,29 @@ export abstract class User {
     await this.browserContext.close()
   }
 
+  /**
+   * Sometimes UI elements open new tabs or pages that ends up into context but are not managed by the user.
+   * In such cases, this method can be used to resolve those pages and return them as an array.
+   */
+  async resolveUnmanagedPages(): Promise<Map<string, Page>> {
+    const unmanagedPages: Page[] = [];
+    const returnedPages: Map<string, Page> = new Map();
+    for (const p of await this.browserContext.pages()) {
+      if (!Array.from(this.pages.values()).some((page) => page === p)) {
+        unmanagedPages.push(p)
+      }
+    }
+    for (const page of unmanagedPages) {
+        if (page.isClosed()) {
+            continue; // Skip closed pages
+        }
+        const name = 'generated' + this.pages.size;
+        this.pages.set(name, page);
+        returnedPages.set(name, page);
+    }
+    return returnedPages
+  }
+
   async goToNewPage(url: string, options?: {name?: string}) {
     const name = options?.name ?? url
     this.checkPageExists(name)

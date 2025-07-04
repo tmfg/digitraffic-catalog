@@ -86,6 +86,22 @@ const datasetViewMixin: DatasetViewMixin = {
       test.expect(datasetInfoFromPage).toStrictEqual(datasetInfo);
       return this;
     });
+  },
+  async checkRDFTurtleWorks<T extends IUserView & DatasetViewMixin>(this: T) {
+    return await test.step(`Checking RDF Turtle works as ${this.user.identity}`, async () => {
+      const pom = this.getAndValidatePOM<DatasetPage>(URL.Dataset);
+      await pom.openRDFTurtleToNewPage();
+      const rdfPageTuple = (await this.user.resolveUnmanagedPages()).entries().next().value
+      if (!rdfPageTuple) {
+        throw new Error("RDF Turtle page not found");
+      }
+      const [rdfPageName, rdfPage] = rdfPageTuple;
+      await rdfPage.bringToFront()
+      await test.expect(rdfPage.getByText("a dcat:Dataset")).toBeVisible();
+      await this.getPage().bringToFront()
+      await this.user.removePage(rdfPageName)
+      return this;
+    });
   }
 }
 

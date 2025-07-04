@@ -42,6 +42,7 @@ export const test = base.extend<UserFixture & IdentitysOptions>({
       await base.step(`Creating user for identity ${identityToUse}`, async () => {
         if (identityToUse !== Identity.Anonymous) {
           const user = await (isUserInfoGathered ? KnownUser.of(identityToUse, browser) : IdentityUser.of(identityToUse, browser))
+          await user.resolveUnmanagedPages()
           users.set(identityToUse, user)
         } else {
           throw new Error(`Anonymous user is not supported in this fixture. Please use KnownUser or IdentityUser instead.`)

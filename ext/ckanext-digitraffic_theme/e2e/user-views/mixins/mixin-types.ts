@@ -25,6 +25,7 @@ export type ResourceWriteMixin = {
 
 export type DatasetViewMixin = {
   checkDatasetInfo: <T extends IUserView & DatasetViewMixin>(datasetInfo: DatasetInfo) => Promise<T>;
+  checkRDFTurtleWorks: <T extends IUserView & DatasetViewMixin>() => Promise<T>;
 }
 
 export type UserNavigationMixin = {
