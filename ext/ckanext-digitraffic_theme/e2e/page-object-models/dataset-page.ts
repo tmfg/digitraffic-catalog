@@ -21,6 +21,7 @@ import { labelToIntendedInformationService } from "../../src/ts/model/intended-i
 export class DatasetPage extends BasePage {
   readonly datasetId: string
   readonly pageUrl: string
+  readonly ttlLink: Locator
   readonly datasetMainContent: Locator
   readonly metadataTable: Locator
   readonly visibilityBadge: Locator
@@ -51,6 +52,7 @@ export class DatasetPage extends BasePage {
     super(page, [page.getByRole('heading', {name: 'RDF links'})]);
     this.datasetId = datasetId;
     this.pageUrl = urlify(pathParameterURL(URL.Dataset, {'datasetId': datasetId}));
+    this.ttlLink = this.page.getByRole('link', {name: 'TTL-muoto'});
     this.datasetMainContent = this.mainContent.getByRole('article').locator('.module-content')
     this.metadataTable = this.datasetMainContent.locator('.additional-info table');
     this.visibilityBadge = this.datasetMainContent.locator('.badge')
@@ -90,6 +92,12 @@ export class DatasetPage extends BasePage {
     await this.page.goto(this.pageUrl);
     await this.assertPage();
     return this;
+  }
+
+  async openRDFTurtleToNewPage(): Promise<void> {
+    await this.ttlLink.click();
+    // RDF is opened in a new page, so we need to wait for the new page to load
+    await this.page.waitForTimeout(1000)
   }
 
   async getDatasetInfo(): Promise<DatasetInfo> {

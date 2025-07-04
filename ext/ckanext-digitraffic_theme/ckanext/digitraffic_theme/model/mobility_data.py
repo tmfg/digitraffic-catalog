@@ -141,7 +141,7 @@ class MobilityData:
             {
                 "is_referenced_by": [
                     URIRef(url_from_dataset_id(dataset_id))
-                    for dataset_id in json.loads(dataset_dict["is_referenced_by"])
+                    for dataset_id in dataset_dict["is_referenced_by"]
                     if dataset_id and helpers.is_dataset_public(dataset_id)
                 ]
             }
@@ -153,7 +153,7 @@ class MobilityData:
             {
                 "related_resource": [
                     URIRef(url_from_dataset_id(dataset_id))
-                    for dataset_id in json.loads(dataset_dict["related_resource"])
+                    for dataset_id in dataset_dict["related_resource"]
                     if dataset_id and helpers.is_dataset_public(dataset_id)
                 ]
             }
@@ -177,14 +177,7 @@ class MobilityData:
             )
             mbox = Literal(agent_data.get("mbox"))
             phone = Literal(agent_data.get("phone"))
-            organizations = (
-                [
-                    Organization(None, {"name": Literal(org.get("name"))})
-                    for org in agent_data.get("member_of")
-                ]
-                if agent_data.get("member_of")
-                else None
-            )
+            organizations = Literal(agent_data.get("member_of"))
             common_input = {
                 "agent_type": agent_type,
                 "address": address,

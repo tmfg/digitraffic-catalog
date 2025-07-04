@@ -195,7 +195,6 @@ test.describe.serial('Add new dataset', () => {
         communicationMethod: CommunicationMethod.PULL,
         sample: 'https://example.com/sample.csv',
         licenceId: LicenseId.AGPL_3_0,
-        licenseText: 'Creative Commons Attribution 4.0 International License',
         startTimestamp: new Date('2023-01-01T00:00:00+02:00'),
         endTimestamp: new Date('2023-12-31T23:59:00+02:00'),
         ianaTimezone: 'Europe/Helsinki',
@@ -233,6 +232,6 @@ test.describe.serial('Add new dataset', () => {
       .then(datasetView => {
         secondDatasetInfo!.id = datasetView.getPOM<DatasetPage>().datasetId
         return datasetView.checkDatasetInfo(secondDatasetInfo!)
-      })
+      }).then(datasetView => datasetView.checkRDFTurtleWorks())
   })
 })
