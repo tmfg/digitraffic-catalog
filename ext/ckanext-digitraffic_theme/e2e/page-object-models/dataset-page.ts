@@ -86,22 +86,6 @@ export class DatasetPage extends BasePage {
     return row.locator('td');
   }
 
-  // Added new method to handle fields that might appear multiple times with the same row name
-  private getSpecificMetadataTableRowLocator(rowName: string, index: number = 0): Locator {
-    // Create a regex that matches the row name with optional whitespace around it
-    const exactNameRegex = new RegExp(`(?<![a-öA-Ö]+)[\s\n\t\r]?${rowName}[\s\n\t\r]?(?![a-öA-Ö]+)`, 'i');
-    const rows = this.metadataTable.getByRole('row', {name: exactNameRegex}).all();
-    return this.metadataTable.getByRole('row', {name: exactNameRegex}).nth(index).locator('td');
-  }
-
-  private getMetadataDescriptionTermLocator(definitionList: Locator, termName: string): Locator {
-    // Create a regex that matches the term name with optional whitespace around it
-    // The `exact` keyword in `getByRole` does not work for this case, so we use a regex
-    const exactNameRegex = new RegExp(`(?<![a-öA-Ö]+)[\s\n\t\r]?${termName}[\s\n\t\r]?(?![a-öA-Ö]+)`, 'i');
-    const term = definitionList.getByRole('term', {name: exactNameRegex});
-    return term.locator('dd');
-  }
-
   async goto(): Promise<DatasetPage> {
     await this.page.goto(this.pageUrl);
     await this.assertPage();
@@ -175,16 +159,6 @@ export class DatasetPage extends BasePage {
         }
       };
 
-      // Helper function to safely check if a locator exists on the page
-      const locatorExists = async (locator: Locator): Promise<boolean> => {
-        try {
-          const count = await locator.count();
-          return count > 0;
-        } catch (error) {
-          return false;
-        }
-      };
-
       // Helper function to safely parse dates
       const parseDate = (dateString: string): Date | undefined => {
         if (!dateString) return undefined;
@@ -207,8 +181,7 @@ export class DatasetPage extends BasePage {
       const regionalCoverageValue = labelToRegionalCoverage(await getTextContent(this.regionalCoverage, 'regionalCoverage'));
       const dataContentCategoryValue = labelToMobilityTheme(await getTextContent(this.dataContentCategory, 'dataContentCategory')) as TOP_MOBILITY_THEMES_T;
 
-      // Fix for description field using direct textContent instead of evaluate
-      let descriptionValue = await getTextContent(this.description, 'description');
+      const descriptionValue = await getTextContent(this.description, 'description');
 
       const dataContentSubCategoryValue = labelToMobilityTheme(await getTextContent(this.dataContentSubCategory, 'dataContentSubCategory')) as SUB_MOBILITY_THEMES_T;
       const themeValue = labelToTheme(await getTextContent(this.theme, 'theme'));
@@ -272,7 +245,6 @@ export class DatasetPage extends BasePage {
       }
 
       const finnishObjectToContactPoint = (finnishContactPoint: Record<string, any>): ContactPoint => {
-        console.log(`Finnish contact point object: ${JSON.stringify(finnishContactPoint, null, 2)}`);
         const telephone = finnishContactPoint["Puhelinnumero"]
         return {
           countryName: finnishContactPoint["Maa"],
@@ -282,7 +254,7 @@ export class DatasetPage extends BasePage {
           postalCode: finnishContactPoint["Postinumero"],
           region: finnishContactPoint["Alue"],
           streetAddress: finnishContactPoint["Katuosoite"],
-          telephone: telephone ? telephone.replace(/' '/g, '') : undefined,
+          telephone: telephone ? telephone.replace(/ /g, '') : undefined,
           type: (finnishContactPoint["Yhteyspisteen tyyppi"] === "Organisaatio" ? 'http://www.w3.org/2006/vcard/ns#Organization' : 'http://www.w3.org/2006/vcard/ns#Individual'),
           url: finnishContactPoint["Verkkosivu"],
             ...(finnishContactPoint["Organisaation nimi"] ? {
@@ -292,7 +264,6 @@ export class DatasetPage extends BasePage {
       }
 
       const finnishObjectToAssessment = (finnishAssessment: Record<string, any>): Assessment => {
-        console.log(`Finnish assessment object: ${JSON.stringify(finnishAssessment, null, 2)}`);
         return {
             date: parseDate(finnishAssessment["Arvion päivämäärä"]),
             urlToResult: finnishAssessment["Arvion tulos"]
@@ -300,13 +271,12 @@ export class DatasetPage extends BasePage {
       }
 
       const finnishObjectToRightsHolder = (finnishRightsHolder: Record<string, any>): RightsHolder => {
-        console.log(`Finnish rights holder object: ${JSON.stringify(finnishRightsHolder, null, 2)}`);
         const phoneNumber = finnishRightsHolder["Puhelinnumero"]
         return {
             countryName: finnishRightsHolder["Maa"],
             email: finnishRightsHolder["Sähköposti"],
             name: finnishRightsHolder["Nimi"],
-            phone: phoneNumber ? phoneNumber.replace(/' '/g, '') : undefined,
+            phone: phoneNumber ? phoneNumber.replace(/ /g, '') : undefined,
             streetAddress: finnishRightsHolder["Katuosoite"],
             city: finnishRightsHolder["Kaupunki"],
             postalCode: finnishRightsHolder["Postinumero"],
@@ -345,23 +315,13 @@ export class DatasetPage extends BasePage {
         'rightsHolders'
       ).then(rightsHolders => rightsHolders.map(finnishObjectToRightsHolder));
 
-      console.log('Final extracted values:');
-      console.log('- visibility:', visibilityValue);
-      console.log('- title:', titleValue);
-      console.log('- frequency:', frequencyValue);
-      console.log('- regionalCoverage:', regionalCoverageValue);
-      console.log('- dataContentCategory:', dataContentCategoryValue);
-      console.log('- description:', descriptionValue);
-      console.log('- optionalValues:', JSON.stringify(optionalValues, null, 2));
-
-      // Create the DatasetInfo object with improved fallbacks
       const datasetInfo = new DatasetInfo(
         visibilityValue,
-        titleValue || 'Test Dataset Full Info',
+        titleValue,
         frequencyValue,
         regionalCoverageValue,
         dataContentCategoryValue,
-        descriptionValue || 'This is a test dataset description with all fields.',
+        descriptionValue,
         this.datasetId,
         optionalValues
       );
