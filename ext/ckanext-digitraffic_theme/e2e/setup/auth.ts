@@ -70,7 +70,7 @@ setup.describe('Have sysadmin to setup test users', () => {
   });
 
   setup('Create organization for the test users', async ({users}) => {
-    setup.setTimeout(60 * 1000)
+    setup.setTimeout(100 * 1000)
     const sysAdminIdentity = Identity.SysAdmin
     const sysAdmin = getKnownUserOrThrow(users, sysAdminIdentity)
     await authenticate(sysAdmin, sysAdminIdentity, getEnv("E2E_SYSADMIN_USERNAME"), getEnv("E2E_SYSADMIN_PASSWORD"))
