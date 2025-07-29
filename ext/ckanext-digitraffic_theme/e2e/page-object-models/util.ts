@@ -56,7 +56,7 @@ export function urlify(text: string) {
 }
 
 export function dateToDateAndTimeString(date: Date): { date: string, time: string } {
-  const tzTimestampString = new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString().slice(0,-1);
+  const tzTimestampString = new Date(date.getTime()).toISOString().slice(0,-1);
   const dateString = tzTimestampString.split('T')[0]!;
   const timeString = tzTimestampString.split('T')[1]!.substring(0, 5);
   return {date: dateString, time: timeString};
