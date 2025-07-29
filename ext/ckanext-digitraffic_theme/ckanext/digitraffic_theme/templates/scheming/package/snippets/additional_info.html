@@ -7,6 +7,7 @@
     'name',
     'notes',
     'notes_translated',
+    'version_notes_translated',
     'tag_string',
     'license_id',
     'owner_org',
@@ -29,12 +30,22 @@
     {%- endif -%}
     {%- if field.field_name == 'notes_translated' -%}
         {# Show English value if current language not available #}
-        {% set notes = pkg_dict.get('notes_translated', {}).get(request.environ.CKAN_LANG) or pkg_dict.get('notes_translated', {}).get("en", pkg_dict.title)  %}
+        {% set notes = pkg_dict.get('notes_translated', {}).get(request.environ.CKAN_LANG) or pkg_dict.get('notes_translated', {}).get("en")  %}
         <tr>
         <th scope="row" class="dataset-label">{{
           h.scheming_language_text(field.label) }} 
         </th>
         <td class="dataset-details"{% if field.display_property %} property="{{ field.display_property }}"{% endif %}>{{notes}}</td>
+        </tr>
+    {%- endif -%}
+    {%- if field.field_name == 'version_notes_translated' -%}
+        {# Show English value if current language not available #}
+        {% set version_notes = pkg_dict.get('version_notes_translated', {}).get(request.environ.CKAN_LANG) or pkg_dict.get('version_notes_translated', {}).get("en")  %}
+        <tr>
+            <th scope="row" class="dataset-label">{{
+                h.scheming_language_text(field.label) }}
+            </th>
+            <td class="dataset-details"{% if field.display_property %} property="{{ field.display_property }}"{% endif %}>{{version_notes}}</td>
         </tr>
     {%- endif -%}
     {%- if field.field_name == 'related_resource' -%}
