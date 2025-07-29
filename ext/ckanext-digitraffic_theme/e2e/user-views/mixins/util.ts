@@ -1,4 +1,4 @@
-import type {BasePage} from "../page-object-models/base";
+import type {BasePage} from "../../page-object-models/base";
 import type {Page} from "@playwright/test";
 
 export interface SuccessfulUserFlowResponse<T extends BasePage> {
@@ -31,8 +31,5 @@ export function assertIsFailedResponse<T extends BasePage>(response: UserFlowRes
 
 export type UserFlowOptions = {
   page?: Page
-  navigate?: false | undefined
-} | {
-  page: Page,
-  navigate: true
+  navigate?: 'browse' | 'goto'
 }

@@ -13,29 +13,29 @@
     "e2e-codegen": "playwright codegen"
   },
   "dependencies": {
-    "@fintraffic/fds-coreui-components": "github:fintraffic-design/fds-coreui-components#bc7b1c8",
+    "@fintraffic/fds-coreui-components": "github:fintraffic-design/fds-coreui-components#cec2833f42ccd09ee52d4f1aa9b4eda45dce6c37",
     "@fintraffic/fds-coreui-css": "^0.1.3",
     "lucide": "^0.477.0",
     "lucide-static": "^0.477.0"
   },
   "devDependencies": {
-    "@playwright/test": "^1.51.0",
-    "@rollup/plugin-node-resolve": "^16.0.0",
+    "@playwright/test": "^1.53.0",
+    "@rollup/plugin-node-resolve": "^16.0.1",
     "@rollup/plugin-terser": "~0.4.4",
-    "@rollup/plugin-typescript": "~12.1.2",
+    "@rollup/plugin-typescript": "~12.1.3",
     "@types/jquery": "^3.5.32",
-    "@types/node": "^22.13.9",
-    "autoprefixer": "^10.4.20",
+    "@types/node": "^22.15.32",
+    "autoprefixer": "^10.4.21",
     "ckan": "github:ckan/ckan#ckan-2.11.3",
-    "cssnano": "^7.0.6",
-    "dotenv": "^16.4.7",
+    "cssnano": "^7.0.7",
+    "dotenv": "^16.5.0",
     "jquery": "^3.7.1",
-    "postcss": "^8.5.3",
-    "postcss-cli": "^11.0.0",
+    "postcss": "^8.5.6",
+    "postcss-cli": "^11.0.1",
     "postcss-url": "^10.1.3",
-    "rollup": "^4.34.9",
-    "sass": "^1.85.1",
+    "rollup": "^4.43.0",
+    "sass": "^1.89.2",
     "tslib": "^2.8.1",
-    "typescript": "~5.8.2"
+    "typescript": "~5.8.3"
   }
 }

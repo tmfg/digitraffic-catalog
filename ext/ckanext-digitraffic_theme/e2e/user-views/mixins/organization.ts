@@ -1,5 +1,5 @@
 import {test} from '@playwright/test';
-import {KnownUser} from "../users/known-user";
+import {KnownUser} from "../../users/known-user";
 import {
   EditOrganizationPage,
   OrganizationPage,
@@ -9,14 +9,14 @@ import {
   NewOrganizationPage,
   AddOrganizationMemberPage,
   Role
-} from "../page-object-models";
-import {Organization} from "../models/organization";
+} from "../../page-object-models";
+import {Organization} from "../../models/organization";
 import type {Page} from "@playwright/test";
-import {AuthorizationError} from "../models/error";
-import {BasePage} from "../page-object-models/base";
+import {AuthorizationError} from "../../models/error";
+import {BasePage} from "../../page-object-models/base";
 import type {UserFlowResponse} from "./util";
 
-export async function createOrganization(user: KnownUser, organization: Organization, page: Page | undefined = undefined): Promise<UserFlowResponse> {
+export async function createOrganization(user: KnownUser, organization: Organization, page: Page | undefined = undefined): Promise<UserFlowResponse<BasePage>> {
   return await test.step(`Create organization ${organization.name} as user ${user.identity}`, async () => {
     if (!page) {
       page = await user.createNewPage('createOrganizationPage')

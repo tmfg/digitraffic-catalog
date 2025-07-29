@@ -1,7 +1,7 @@
 import type {Browser, BrowserContext, Page} from "@playwright/test";
 import {expect} from "@playwright/test";
 import {existsSync} from 'fs'
-import {getEnv, isVisible, isAtUrl} from "../util";
+import {isVisible, isAtUrl} from "../util";
 import {User} from "./user";
 
 /**
@@ -29,11 +29,12 @@ export class IdentityUser extends User {
    * The constructor is made protected as we want to create the IdentityUser objects through {@link IdentityUser.of}
    * static method. This is because we want to call some asynchronous code when initializing an IdentityUser.
    * @param {BrowserContext} browserContext - @see {@link User}
+   * @param {Page} defaultPage - Default page to use for the user. @see {@link User}
    * @param {Identity} identity - Identity of the user. @see {@link Identity}
    * @protected
    */
-  protected constructor(browserContext: BrowserContext, identity: Identity) {
-    super(browserContext)
+  protected constructor(browserContext: BrowserContext, defaultPage: Page, identity: Identity) {
+    super(browserContext, defaultPage)
     this.identity = identity;
   }
 
@@ -60,7 +61,8 @@ export class IdentityUser extends User {
     const storagePath = IdentityUser.getIdentityStorageStatePath(identity)
     const cachedAuthStateExists = existsSync(storagePath)
     const context = await browser.newContext(cachedAuthStateExists ? {storageState: storagePath} : {})
-    return new IdentityUser(context, identity)
+    const defaultPage = await context.newPage();
+    return new IdentityUser(context, defaultPage, identity)
   }
 
   /**
@@ -70,8 +72,10 @@ export class IdentityUser extends User {
    * @param authenticatedUser
    * @protected
    */
-  protected static paramsForSuper(authenticatedUser: IdentityUser):[BrowserContext, Identity] {
-    return [authenticatedUser.browserContext, authenticatedUser.identity]
+  protected static async paramsForSuper(authenticatedUser: IdentityUser):Promise<[BrowserContext, Page, Identity]> {
+    const defaultPage = await authenticatedUser.browserContext.newPage();
+    await defaultPage.goto('/');
+    return [authenticatedUser.browserContext, defaultPage, authenticatedUser.identity]
   }
 
   /**
@@ -104,7 +108,7 @@ export class IdentityUser extends User {
   }
 
   async isUserLoggedIn() {
-    const page = this.getDatacatalogPage()
+    const page = this.getPageFromContext()
     if (page) {
       return await IdentityUser._isUserLoggedIn(page, this.identity)
     }
@@ -114,15 +118,6 @@ export class IdentityUser extends User {
   private static async _isUserLoggedIn(page: Page, identity: Identity): Promise<boolean> {
     const userActionsLocator = page.locator('header .account button', {hasText: identity})
     return await isVisible(userActionsLocator)
-  }
-
-  private getDatacatalogPage(): Page | undefined {
-    for (let [_, page] of this.pages) {
-      if (page.url().startsWith(getEnv("TEST_SITE_URL"))) {
-        return page
-      }
-    }
-    return
   }
 
   /**

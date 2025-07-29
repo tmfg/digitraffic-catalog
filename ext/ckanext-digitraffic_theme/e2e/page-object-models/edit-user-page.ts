@@ -7,6 +7,7 @@ import {UserProfilePage} from "./user-profile-page";
 
 export class EditUserPage extends BasePage {
   readonly pageUrl: string
+  readonly name: string
   readonly editUserProfileSide: Locator
   readonly editUserProfileContent: Locator
   readonly editUserSideHeader: Locator
@@ -22,6 +23,7 @@ export class EditUserPage extends BasePage {
 
   constructor(page: Page, name: string) {
     super(page, [page.locator("Will-be-overridden")]);
+    this.name = name
     this.pageUrl = pathParameterURL(URL.EditUser, {'name': name})
     this.editUserProfileSide = page.locator('.main aside')
     this.editUserProfileContent = page.getByRole('main')
@@ -65,8 +67,7 @@ export class EditUserPage extends BasePage {
     }
   }
 
-  async updateUserInfo(userInfo: UserInfo): Promise<UserProfilePage> {
-    await this.fillForm(userInfo)
+  async saveUserInfo(): Promise<UserProfilePage> {
     return await gotoNewPage(
       this.page,
       URL.User,
@@ -77,7 +78,7 @@ export class EditUserPage extends BasePage {
           throw new Error("Couldn't update the user information")
         }
       },
-      userInfo.name
+      this.name
     )
   }
 }

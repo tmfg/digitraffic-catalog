@@ -3,6 +3,12 @@ import {EditUserPage, HomePage, OrganizationPage, OrganizationsListPage} from ".
 import {URL} from "../page-object-models/pages-controller";
 import {gotoNewPage} from "../page-object-models/util";
 import {Organization} from "../models/organization";
+import {type BasePage} from "../page-object-models/base";
+
+export type TestContext = {
+  page: Page,
+  pom?: BasePage
+}
 
 /**
  * User class provides basic features for page handling and navigation for a user.
@@ -11,6 +17,9 @@ import {Organization} from "../models/organization";
 export abstract class User {
   protected pages: Map<string, Page>;
   protected browserContext: BrowserContext;
+  testContext: TestContext
+
+  static readonly DEFAULT_PAGE_NAME = "__defaultPage";
 
   /**
    * Each user should have their own [browser context]{@link https://playwright.dev/docs/api/class-browsercontext}.
@@ -22,18 +31,23 @@ export abstract class User {
    * This way we can ensure that the browser state is consistent with the user.
    *
    * @param {BrowserContext} browserContext - Playwright browser context
+   * @param {Page} defaultPage - Default page to use for the user
    * @protected
    */
-  protected constructor(browserContext: BrowserContext) {
-    this.pages = new Map();
+  protected constructor(browserContext: BrowserContext, defaultPage: Page) {
+    this.pages = new Map([[User.DEFAULT_PAGE_NAME, defaultPage]]);
     this.browserContext = browserContext
+    this.testContext = {page: defaultPage}
   }
 
   getPage(name: string) {
     return this.pages.get(name)
   };
 
-  async createNewPage(name: string): Promise<Page> {
+  async createNewPage(name?: string): Promise<Page> {
+    if (name === undefined) {
+      name = 'generated' + this.pages.size;
+    }
     this.checkPageExists(name)
     const newPage = await this.browserContext.newPage();
     this.pages.set(name, newPage)
@@ -69,6 +83,29 @@ export abstract class User {
     await this.browserContext.close()
   }
 
+  /**
+   * Sometimes UI elements open new tabs or pages that ends up into context but are not managed by the user.
+   * In such cases, this method can be used to resolve those pages and return them as an array.
+   */
+  async resolveUnmanagedPages(): Promise<Map<string, Page>> {
+    const unmanagedPages: Page[] = [];
+    const returnedPages: Map<string, Page> = new Map();
+    for (const p of await this.browserContext.pages()) {
+      if (!Array.from(this.pages.values()).some((page) => page === p)) {
+        unmanagedPages.push(p)
+      }
+    }
+    for (const page of unmanagedPages) {
+        if (page.isClosed()) {
+            continue; // Skip closed pages
+        }
+        const name = 'generated' + this.pages.size;
+        this.pages.set(name, page);
+        returnedPages.set(name, page);
+    }
+    return returnedPages
+  }
+
   async goToNewPage(url: string, options?: {name?: string}) {
     const name = options?.name ?? url
     this.checkPageExists(name)
@@ -94,18 +131,22 @@ export abstract class User {
     return await gotoNewPage(
       page,
       URL.Home,
-      async (homePagePOM: HomePage) => {await homePagePOM.goto()}
+      async (homePagePOM: HomePage) => {
+        await homePagePOM.goto()
+      }
     )
   }
 
   async gotoOrganizationsListPage(page?: Page):Promise<OrganizationsListPage> {
     if (page === undefined) {
-      page = await this.createNewPage("gotoOrganizationsListPage")
+      page = await this.createNewPage("gotoHomePage")
     }
     return await gotoNewPage(
       page,
       URL.OrganizationsList,
-      async (organizationsListPOM: OrganizationsListPage) => {await organizationsListPOM.goto()}
+      async (organizationsListPOM: OrganizationsListPage) => {
+        await organizationsListPOM.goto()
+      }
     )
   }
 
@@ -116,21 +157,47 @@ export abstract class User {
     return await gotoNewPage(
       page,
       URL.EditUser,
-      async (editUserPOM: EditUserPage) => {await editUserPOM.goto()},
+      async (editUserPOM: EditUserPage) => {
+        await editUserPOM.goto()
+      },
       name
     )
   }
 
-  async gotoOrganizationPage(organization: Organization, page?: Page):Promise<OrganizationPage> {
+  async gotoOrganizationPage(organization: Organization, page?: Page): Promise<OrganizationPage> {
     if (page === undefined) {
       page = await this.createNewPage("gotoOrganizationPage")
     }
     return await gotoNewPage(
       page,
       URL.Organization,
-      async (organizationPOM: OrganizationPage) => {await organizationPOM.goto()},
+      async (organizationPOM: OrganizationPage) => {
+        await organizationPOM.goto()
+      },
       organization
     )
+  }
+
+  getPageFromContext(): Page {
+    return this.testContext.page
+  }
+
+  getPOMFromContext(): BasePage | undefined {
+    return this.testContext.pom
+  }
+
+  setTestContextPage(page: Page): void {
+    this.testContext.page = page
+    if (this.testContext.pom && this.testContext.pom.page !== page) {
+      this.testContext.pom = undefined
+    }
+  }
+
+  setTestContextPOM(pom: BasePage): void {
+    this.testContext.pom = pom
+    if (this.testContext.page !== pom.page) {
+      this.setTestContextPage(pom.page)
+    }
   }
 }
 

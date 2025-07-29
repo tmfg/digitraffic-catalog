@@ -37,7 +37,7 @@ function cancellableWaitFor(locator: Locator): {cancel: () => Promise<void>, loc
   const locatorToBeVisible = new Promise<Locator>(async (resolve, reject) => {
     let totalTimeWaited = 0
     const increment = 50
-    while (totalTimeWaited < 1000) {
+    while (totalTimeWaited < 2000) {
       if (isCancelled) {
         reject(new CancellationError("Waiting for locator was cancelled"))
         break

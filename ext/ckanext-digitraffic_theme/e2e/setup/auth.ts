@@ -10,13 +10,14 @@ import {IdentityUser} from '../users/identity-user'
 import {Identity} from '../users/identity-user'
 import {hideDevTools, getEnv} from "../util";
 import {organization} from "../testdata";
-import {addMemberToOrganization, createOrganization, removeMemberFromOrganization} from "../user-flows/organization"
+import {addMemberToOrganization, createOrganization, removeMemberFromOrganization} from "../user-views/mixins/organization"
 import {OrganizationCreationError, Role} from "../page-object-models";
 
 
 async function authenticate(user: IdentityUser, identity: Identity, username: string, password: string): Promise<void> {
   await setup.step(`Authenticate as ${identity}`, async () => {
-    const page = await user.goToNewPage('/')
+    const page = user.getPageFromContext()
+    await page.goto('/')
 
     await hideDevTools(page)
     if (!await user.isUserLoggedIn()) {
@@ -69,7 +70,7 @@ setup.describe('Have sysadmin to setup test users', () => {
   });
 
   setup('Create organization for the test users', async ({users}) => {
-    setup.setTimeout(60 * 1000)
+    setup.setTimeout(100 * 1000)
     const sysAdminIdentity = Identity.SysAdmin
     const sysAdmin = getKnownUserOrThrow(users, sysAdminIdentity)
     await authenticate(sysAdmin, sysAdminIdentity, getEnv("E2E_SYSADMIN_USERNAME"), getEnv("E2E_SYSADMIN_PASSWORD"))
