@@ -1,5 +1,8 @@
 # encoding: utf-8
 import logging
+import base64
+import uuid
+import json
 from ckanext.entraid_authenticator import app_config
 from ckanext.entraid_authenticator.model.entra_id import (
     GraphApiUserInfo,
@@ -13,11 +16,16 @@ from flask import Blueprint, request, session
 from msal import ConfidentialClientApplication
 from ckan.lib.helpers import flash_error
 import requests
+from enum import Enum
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 
 toolkit = plugins.toolkit
+
+class AlertId(Enum):
+    AUTH_FLOW = "AUTH_FLOW"
+    AUTH_INVALID_SESSION = "AUTH_INVALID_SESSION"
 
 
 class EntraIdAuthenticator(plugins.SingletonPlugin):
@@ -37,6 +45,7 @@ class EntraIdAuthenticator(plugins.SingletonPlugin):
             authority=app_config.AUTHORITY,
             client_credential=app_config.CLIENT_SECRET,
         )
+        self.auth_failed_msg = "Authentication failed. Please try again later."
         self.AUTH_FLOW_SESSION_KEY = "auth_flow"
         logger.info(f"Redirect URI: {app_config.HOST}{app_config.REDIRECT_PATH}")
 
@@ -72,15 +81,34 @@ class EntraIdAuthenticator(plugins.SingletonPlugin):
         return [custom_blueprint]
 
     def login(self):
-        # auth flow object should be instantiated again for each login attempt
-        # store auth flow object in Flask session (managed by CKAN cookie - name is set in field beaker.session.key in ckan.ini)
-
-        session[self.AUTH_FLOW_SESSION_KEY] = (
-            self.entraid_client.initiate_auth_code_flow(
-                scopes=app_config.SCOPE,
-                redirect_uri=f"{app_config.HOST}{app_config.REDIRECT_PATH}",
-            )
+        correlation_id = str(uuid.uuid4())
+        state_data = {
+            "correlation_id": correlation_id,
+        }
+        state = base64.urlsafe_b64encode(json.dumps(state_data).encode()).decode()
+        logger.info(
+            "Starting Entra ID authentication flow",
+            extra={
+                'alert':{
+                    'id': AlertId.AUTH_FLOW,
+                    'correlation_id': correlation_id
+                }
+            }
         )
+
+        try:
+            session[self.AUTH_FLOW_SESSION_KEY] = (
+                self.entraid_client.initiate_auth_code_flow(
+                    scopes=app_config.SCOPE,
+                    redirect_uri=f"{app_config.HOST}{app_config.REDIRECT_PATH}",
+                    state=state,
+                )
+            )
+        except Exception:
+            logger.exception("Failed to initiate auth code flow")
+            flash_error(self.auth_failed_msg)
+            return self.redirect_to_home()
+
         return toolkit.redirect_to(session[self.AUTH_FLOW_SESSION_KEY]["auth_uri"])
 
     def redirect_to_home(self):
@@ -93,66 +121,111 @@ class EntraIdAuthenticator(plugins.SingletonPlugin):
         read access (defined in app_config.SCOPE) to Microsoft Graph API.
         """
 
+        logger.info("Handling Entra ID auth redirect")
+
         if self.AUTH_FLOW_SESSION_KEY not in session:
-            return self.redirect_to_home()
-
-        token_response = self.entraid_client.acquire_token_by_auth_code_flow(
-            auth_code_flow=(session.pop(self.AUTH_FLOW_SESSION_KEY, None)),
-            auth_response=request.args,
-        )
-
-        if not is_auth_code_flow_token_response(token_response):
             logger.error(
-                f"Required fields missing from token response: {token_response}"
+                "Auth flow missing from session",
+                extra={
+                    'alert':{
+                        'id': AlertId.AUTH_INVALID_SESSION
+                    }
+                }
             )
             return self.redirect_to_home()
 
-        id_token_claims: IdTokenClaims = token_response["id_token_claims"]
+        try:
+            auth_flow = session.get(self.AUTH_FLOW_SESSION_KEY)
 
-        # get user info via Microsoft Graph API
-        access_token = token_response["access_token"]
-        headers = {
-            "Authorization": f"Bearer {access_token}",
-            "Content-Type": "application/json",
-        }
-        graph_response = requests.get(app_config.GRAPH_ENDPOINT, headers=headers)
+            token_response = self.entraid_client.acquire_token_by_auth_code_flow(
+                auth_code_flow=(session.pop(self.AUTH_FLOW_SESSION_KEY, None)),
+                auth_response=request.args,
+            )
 
-        if graph_response.status_code == 200:
-            user_info: GraphApiUserInfo = graph_response.json()
-        else:
-            logger.error("Failed to retrieve user info from Microsoft Graph API")
-
-        # the ID of a CKAN user in the database should be the user's Entra ID object ID
-        user = model.User.get(id_token_claims["oid"])
-
-        # create new CKAN user if one does not exist for this id
-        if user is None:
-            # email address is a required field
-            if user_info.get("mail") is None:
+            if not is_auth_code_flow_token_response(token_response):
                 logger.error(
-                    f"No email address found when trying to create user {user_info.get('id')}"
-                )
-                flash_error(
-                    "No email address found. Please make sure your Entra ID login account has an email address."
+                    f"Required fields missing from token response: {token_response}",
+                    extra={
+                        'alert':{
+                            'id': AlertId.AUTH_INVALID_SESSION
+                        }
+                    }
                 )
                 return self.redirect_to_home()
-            user = create_user_from_graph_api_info(user_info)
-            logger.info(f"Creating new CKAN user {user.id}")
-            model.Session.add(user)
-            model.Session.commit()
+        except Exception:
+            logger.exception(
+                "Error acquiring token by auth code flow",
+                extra={
+                    'alert':{
+                        'id': AlertId.AUTH_INVALID_SESSION
+                    }
+                }
+            )
+            flash_error(self.auth_failed_msg)
+            return self.redirect_to_home()
 
-        if user is not None:
-            # update changed email address
-            if (
-                user_info.get("mail") is not None
-                and user_info.get("mail") != user.email
-            ):
-                user.email = user_info["mail"]  # type: ignore
+        # Parsing state only after validating the token response
+        state_data = json.loads(base64.urlsafe_b64decode(auth_flow["state"].encode()).decode())
+        correlation_id = state_data["correlation_id"]
+        logger.info(f"Auth flow state parsed successfully: correlation_id={correlation_id}")
+        try:
+            id_token_claims: IdTokenClaims = token_response["id_token_claims"]
+
+            # get user info via Microsoft Graph API
+            access_token = token_response["access_token"]
+            headers = {
+                "Authorization": f"Bearer {access_token}",
+                "Content-Type": "application/json",
+            }
+            graph_response = requests.get(app_config.GRAPH_ENDPOINT, headers=headers)
+
+            if graph_response.status_code == 200:
+                user_info: GraphApiUserInfo = graph_response.json()
+            else:
+                logger.error("Failed to retrieve user info from Microsoft Graph API")
+
+            # the ID of a CKAN user in the database should be the user's Entra ID object ID
+            user = model.User.get(id_token_claims["oid"])
+
+            # create new CKAN user if one does not exist for this id
+            if user is None:
+                # email address is a required field
+                if user_info.get("mail") is None:
+                    logger.error(
+                        f"No email address found when trying to create user {user_info.get('id')}"
+                    )
+                    flash_error(
+                        "No email address found. Please make sure your Entra ID login account has an email address."
+                    )
+                    return self.redirect_to_home()
+                user = create_user_from_graph_api_info(user_info)
+                logger.info(f"Creating new CKAN user {user.id}")
                 model.Session.add(user)
                 model.Session.commit()
-            toolkit.login_user(user)
 
-        return self.redirect_to_home()
+            if user is not None:
+                # update changed email address
+                if (
+                    user_info.get("mail") is not None
+                    and user_info.get("mail") != user.email
+                ):
+                    user.email = user_info["mail"]  # type: ignore
+                    model.Session.add(user)
+                    model.Session.commit()
+                toolkit.login_user(user)
+
+            logger.info(f"Authentication flow completed successfully for user={user.id}",
+                        extra={
+                            'alert':{
+                                'id': AlertId.AUTH_FLOW,
+                                'correlation_id': correlation_id
+                            }
+                        })
+            return self.redirect_to_home()
+        except Exception:
+            logger.exception("Error during authentication flow: correlation_id=%s", correlation_id)
+            flash_error(self.auth_failed_msg)
+            return self.redirect_to_home()
 
     def register(self):
         # start Entra ID auth flow with prompt=create for self-service sign-up

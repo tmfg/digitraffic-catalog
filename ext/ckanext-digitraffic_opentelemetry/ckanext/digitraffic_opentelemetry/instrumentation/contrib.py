@@ -22,10 +22,11 @@ def _add_user_to_baggage(span: Span, context: Context) -> Context:
     Add the user ID to the baggage. This is used to propagate the user ID across services.
     """
     user_id_attribute = "user.id"
+    user_id = toolkit.g.get('user').id if toolkit.g.get('user') else None
     if span.is_recording():
         # Set the user ID as an attribute to the currently running span
-        span.set_attribute(user_id_attribute, toolkit.g.get('user'))
-    return baggage.set_baggage(user_id_attribute, toolkit.g.get('user'), context)
+        span.set_attribute(user_id_attribute, user_id)
+    return baggage.set_baggage(user_id_attribute, user_id, context)
 
 def _set_logging_context(span: Span, flask_request_environ):
     context_span = trace.set_span_in_context(span)
