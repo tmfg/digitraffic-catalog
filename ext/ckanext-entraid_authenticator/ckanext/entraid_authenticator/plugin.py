@@ -23,7 +23,8 @@ logger.setLevel(logging.DEBUG)
 
 toolkit = plugins.toolkit
 
-class AlertId(Enum):
+# str inheritance is used so that JSON serialization works
+class AlertId(str, Enum):
     AUTH_FLOW = "AUTH_FLOW"
     AUTH_INVALID_SESSION = "AUTH_INVALID_SESSION"
 

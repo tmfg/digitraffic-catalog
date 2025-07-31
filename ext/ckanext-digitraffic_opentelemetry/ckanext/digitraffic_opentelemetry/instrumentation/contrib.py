@@ -22,7 +22,7 @@ def _add_user_to_baggage(span: Span, context: Context) -> Context:
     Add the user ID to the baggage. This is used to propagate the user ID across services.
     """
     user_id_attribute = "user.id"
-    user_id = toolkit.g.get('user').id if toolkit.g.get('user') else None
+    user_id = toolkit.g.get('user')
     if span.is_recording():
         # Set the user ID as an attribute to the currently running span
         span.set_attribute(user_id_attribute, user_id)
