@@ -1,7 +1,6 @@
 from logging import Formatter, LogRecord
 import json
 from typing import Callable, Any
-import ckan.plugins.toolkit as toolkit
 
 
 class CustomFormatter(Formatter):
@@ -58,7 +57,6 @@ class CustomFormatter(Formatter):
             "lineno": record.lineno,
             "funcName": record.funcName,
             "alert": get_maybe_param('alert'),
-            "user": toolkit.g.get('user').id if toolkit.g.get('user') else None,
         }
 
         return json.dumps(
