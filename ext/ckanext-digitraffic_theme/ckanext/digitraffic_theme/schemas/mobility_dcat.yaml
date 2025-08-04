@@ -5930,6 +5930,11 @@ resource_fields:
       en: OCIT-C
       fi: OCIT-C
       sv: OCIT-C
+  - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/ocpi
+    label:
+      en: OCPI
+      fi: OCPI
+      sv: OCPI
   - value: https://w3id.org/mobilitydcat-ap/mobility-data-standard/other
     label:
       en: Other
