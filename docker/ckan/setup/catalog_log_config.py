@@ -45,7 +45,7 @@ class CustomFormatter(Formatter):
         logged_data = {
             "asctime": get_maybe_param('asctime'),
             "name": record.name,
-            "levelname": record.levelname,
+            "level": record.levelname,
             "message": record.message,
             "span_id": get_maybe_param('otelSpanID'),
             "trace_id": get_maybe_param('otelTraceID'),
