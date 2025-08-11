@@ -82,13 +82,10 @@ class EntraIdAuthenticator(plugins.SingletonPlugin):
         return [custom_blueprint]
 
     def login(self):
-        correlation_id = str(uuid.uuid4())
-        state_data = {
-            "correlation_id": correlation_id,
-        }
-        state = base64.urlsafe_b64encode(json.dumps(state_data).encode()).decode()
+        s = self._create_state()
+        state, correlation_id = s['state'], s['correlation_id']
         logger.info(
-            "Starting Entra ID authentication flow",
+            "Signin in. Starting Entra ID authentication flow",
             extra={
                 'alert':{
                     'id': AlertId.AUTH_FLOW,
@@ -228,12 +225,33 @@ class EntraIdAuthenticator(plugins.SingletonPlugin):
             flash_error(self.auth_failed_msg)
             return self.redirect_to_home()
 
+    def _create_state(self):
+        correlation_id = str(uuid.uuid4())
+        state_data = {
+            "correlation_id": correlation_id,
+        }
+        state = base64.urlsafe_b64encode(json.dumps(state_data).encode()).decode()
+        return {'state': state, 'correlation_id': correlation_id}
+
     def register(self):
+        s = self._create_state()
+        state, correlation_id = s['state'], s['correlation_id']
+
+        logger.info(
+            "Registering a new user. Starting Entra ID authentication flow",
+            extra={
+                'alert':{
+                    'id': AlertId.AUTH_FLOW,
+                    'correlation_id': correlation_id
+                }
+            }
+        )
         # start Entra ID auth flow with prompt=create for self-service sign-up
         session[self.AUTH_FLOW_SESSION_KEY] = (
             self.entraid_client.initiate_auth_code_flow(
                 prompt="create",
                 scopes=app_config.SCOPE,
+                state=state,
                 redirect_uri=f"{app_config.HOST}{app_config.REDIRECT_PATH}",
             )
         )
