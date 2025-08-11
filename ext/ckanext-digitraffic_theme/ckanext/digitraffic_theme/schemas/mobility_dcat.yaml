@@ -3454,7 +3454,7 @@ dataset_fields:
     - value: http://purl.org/adms/publishertype/Academia-ScientificOrganisation
       label:
         en: Academia/Scientific organisation
-        fi: Akateminen tai tieteellinen organisaatio
+        fi: Akateeminen tai tieteellinen organisaatio
         sv: Academia/Scientific organisation
     - value: http://purl.org/adms/publishertype/Company
       label:

@@ -335,7 +335,7 @@ TRANSLATIONS = {
 VOCABULARY_PATCH_TRANSLATIONS = {
     CVOCAB_AGENT_TYPE: {
         "Academia/Scientific organisation": {
-            "fi": "Akateminen tai tieteellinen organisaatio"
+            "fi": "Akateeminen tai tieteellinen organisaatio"
         },
         "Company": {"fi": "Yritys"},
         "Industry consortium": {"fi": "Yrityskonsortio"},
