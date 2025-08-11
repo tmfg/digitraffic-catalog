@@ -64,6 +64,7 @@ dataset_fields:
   label:
     en: Frequency
     fi: Päivitysten tiheys
+    sv: Frekvens
   necessity: mandatory
   required: true
   preset: select
@@ -269,6 +270,7 @@ dataset_fields:
   label:
     en: Data content category
     fi: Kategoria
+    sv: Kategori för datainnehåll
   required: true
   preset: select
   sorted_choices: true
@@ -374,6 +376,7 @@ dataset_fields:
   label:
     en: Data content subcategory
     fi: Alakategoria
+    sv: Underkategori för datainnehåll
   required: false
   preset: select_mobility_sub_theme
   sorted_choices: true
@@ -895,6 +898,7 @@ dataset_fields:
   label:
     en: Theme
     fi: Aihe
+    sv: Tema
   required: false
   preset: select
   sorted_choices: true
@@ -996,6 +1000,7 @@ dataset_fields:
   label:
     en: Transport mode
     fi: Liikennemuoto
+    sv: Transportsätt
   required: false
   preset: select
   sorted_choices: true
@@ -1127,6 +1132,7 @@ dataset_fields:
   label:
     en: Regional coverage
     fi: Alueellinen kattavuus
+    sv: Regional täckning
   required: true
   preset: select
   form_include_blank_choice: true
@@ -2837,18 +2843,22 @@ dataset_fields:
   label:
     en: Dataset version
     fi: Tietoaineiston versio
+    sv: Version av datauppsättning
   required: false
   necessity: optional
 - field_name: version_notes_translated
   label:
     en: Version notes
     fi: Version tiedot
+    sv: Anteckningar om version
   required: false
   necessity: optional
   help_text:
     en: A description of the differences between this version and a previous version
       of the dataset.
     fi: Kuvaus tietoaineiston nykyisen ja edeltävän version eroista.
+    sv: En beskrivning av skillnaderna mellan den här versionen och en tidigare version
+      av datauppsättningen.
   preset: fluent_core_translated
   form_languages:
   - en
@@ -2858,15 +2868,15 @@ dataset_fields:
     en:
       en: Version notes in English
       fi: Version tiedot englanniksi
-      sv: Version notes in English
+      sv: Anteckningar om version på engelska
     fi:
       en: Version notes in Finnish
       fi: Version tiedot suomeksi
-      sv: Version notes in Finnish
+      sv: Anteckningar om version på finska
     sv:
       en: Version notes in Swedish
       fi: Version tiedot ruotsiksi
-      sv: Version notes in Swedish
+      sv: Anteckningar om version på svenska
 - field_name: language
   label: Language
   required: false
@@ -2953,6 +2963,7 @@ dataset_fields:
   label:
     en: Georeferencing method
     fi: Georeferointitapa
+    sv: Metod för georeferering
   required: false
   preset: select
   sorted_choices: true
@@ -2999,11 +3010,13 @@ dataset_fields:
   label:
     en: Contact point
     fi: Yhteyspiste
+    sv: Kontaktpunkt
   repeating_subfields:
   - field_name: contact_point_type
     label:
       en: Contact point type
       fi: Yhteyspisteen tyyppi
+      sv: Typ av kontaktpunkt
     required: true
     preset: select
     form_include_blank_choice: false
@@ -3014,26 +3027,31 @@ dataset_fields:
       label:
         en: Organization
         fi: Organisaatio
+        sv: Organisation
     - value: http://www.w3.org/2006/vcard/ns#Individual
       label:
         en: Person
         fi: Henkilö
+        sv: Person
   - field_name: fn
     label:
       en: Full name
       fi: Koko nimi
+      sv: Fullständigt namn
     required: true
     necessity: mandatory
   - field_name: organization_name
     label:
       en: Organization name
       fi: Organisaation nimi
+      sv: Organisationens namn
     required: false
     necessity: optional
   - field_name: has_email
     label:
       en: Email
       fi: Sähköposti
+      sv: E-post
     required: true
     preset: email
     necessity: mandatory
@@ -3041,6 +3059,7 @@ dataset_fields:
     label:
       en: Phone number
       fi: Puhelinnumero
+      sv: Telefonnummer
     required: false
     preset: phone
     necessity: optional
@@ -3048,6 +3067,7 @@ dataset_fields:
     label:
       en: Website
       fi: Verkkosivu
+      sv: Webbplats
     required: false
     preset: url
     necessity: recommended
@@ -3055,30 +3075,35 @@ dataset_fields:
     label:
       en: Street address
       fi: Katuosoite
+      sv: Gatuadress
     required: false
     necessity: optional
   - field_name: locality
     label:
       en: City
       fi: Kaupunki
+      sv: Stad
     required: false
     necessity: optional
   - field_name: postal_code
     label:
       en: Postal code
       fi: Postinumero
+      sv: Postnummer
     required: false
     necessity: optional
   - field_name: region
     label:
       en: Region
       fi: Alue
+      sv: Region
     required: false
     necessity: optional
   - field_name: country_name
     label:
       en: Country
       fi: Maa
+      sv: Land
     required: false
     preset: select
     form_include_blank_choice: true
@@ -3238,9 +3263,11 @@ dataset_fields:
   label:
     en: Network coverage
     fi: Liikenneverkko
+    sv: Nätverkets täckning
   help_text:
     en: The part of the transport network that is covered by the delivered content.
     fi: Liikenneverkon osa, jonka tietoaineisto kattaa.
+    sv: Den del av transportnätet som omfattas av det levererade innehållet.
   required: false
   preset: select
   sorted_choices: true
@@ -3312,9 +3339,11 @@ dataset_fields:
   label:
     en: Spatial reference system
     fi: Paikkaviittausjärjestelmä
+    sv: Rumsligt referenssystem
   help_text:
     en: Value must be an EPSG number.
     fi: Arvon tulee olla EPSG-tunniste.
+    sv: Värdet måste vara ett EPSG-nummer.
   required: false
   preset: iri_fragment
   input_type: number
@@ -3327,9 +3356,11 @@ dataset_fields:
   label:
     en: Intended information service
     fi: Hyödyntävä tietopalvelu
+    sv: Avsedd informationstjänst
   help_text:
     en: An information service, which the data content is intended to support.
     fi: Tietopalvelu, jonka tueksi tietoaineisto on tarkoitettu.
+    sv: En informationstjänst som datainnehållet är avsett att stödja.
   required: false
   preset: select
   sorted_choices: true
@@ -3387,10 +3418,13 @@ dataset_fields:
   label:
     en: Quality description
     fi: Julkaisijan kuvaus laadusta
+    sv: Kvalitetsbeskrivning
   help_text:
     en: URL for an assessment or notes by the publisher regarding quality of dataset
       contents.
     fi: Julkaisijan laatua koskevaan arvioon tai muihin huomioihin viittaava URL.
+    sv: URL för en bedömning eller anteckningar av utgivaren om kvaliteten på datauppsättningens
+      innehåll.
   required: false
   preset: url
 - field_name: assessment
@@ -3398,11 +3432,13 @@ dataset_fields:
   label:
     en: Assessment
     fi: Arvio
+    sv: Bedömning
   repeating_subfields:
   - field_name: assessment_date
     label:
       en: Assessment date
       fi: Arvion päivämäärä
+      sv: Datum för bedömning
     required: false
     necessity: optional
     preset: date
@@ -3410,9 +3446,11 @@ dataset_fields:
     label:
       en: Assessment result
       fi: Arvion tulos
+      sv: Resultat av bedömningen
     help_text:
       en: URL for the results of an assessment process by some organisation.
       fi: Kolmannen osapuolen aineistolle tekemään arvioon viittaava URL.
+      sv: URL för resultatet av en utvärderingsprocess av en tredje part.
     necessity: optional
     required: false
     preset: url
@@ -3420,11 +3458,14 @@ dataset_fields:
   label:
     en: Related dataset
     fi: Liittyvä tietoaineisto
+    sv: Relaterad datauppsättning
   help_text:
     en: A related dataset that is somehow referenced, cited, or otherwise pointed
       to by this dataset.
     fi: Toinen tietoaineisto, johon tämä tietoaineisto jollakin tavalla viittaa tai
       olennaisesti liittyy.
+    sv: En relaterad datauppsättning som på något sätt refereras till, citeras eller
+      på annat sätt pekas på av den här datauppsättningen.
   required: false
   preset: dataset_reference_select
   choices: ''
@@ -3435,6 +3476,7 @@ dataset_fields:
   label:
     en: Is referenced by
     fi: Viittaukset muista aineistoista
+    sv: Refereras av
   form_snippet: null
   required: false
   validators: scheming_required value_to_list is_referenced_by_validator
@@ -3444,6 +3486,7 @@ dataset_fields:
   label:
     en: Rights holder
     fi: Oikeuksien haltija
+    sv: Rättighetsinnehavare
   repeating_subfields:
   - field_name: type
     required: true
@@ -3509,24 +3552,28 @@ dataset_fields:
     label:
       en: Agent type
       fi: Toimijan tyyppi
+      sv: Typ av agent
     necessity: mandatory
     default: http://purl.org/adms/publishertype/Company
   - field_name: name
     label:
       en: Name
       fi: Nimi
+      sv: Namn
     required: true
     necessity: mandatory
   - field_name: first_name
     label:
       en: First name
       fi: Etunimi
+      sv: Förnamn
     required: false
     necessity: optional
   - field_name: surname
     label:
       en: Surname
       fi: Sukunimi
+      sv: Efternamn
     required: false
     necessity: optional
   - field_name: mbox
@@ -3535,6 +3582,7 @@ dataset_fields:
     label:
       en: Email
       fi: Sähköposti
+      sv: E-post
     necessity: optional
   - field_name: phone
     required: false
@@ -3542,35 +3590,41 @@ dataset_fields:
     label:
       en: Phone number
       fi: Puhelinnumero
+      sv: Telefonnummer
     necessity: optional
   - field_name: thoroughfare
     label:
       en: Street address
       fi: Katuosoite
+      sv: Gatuadress
     required: false
     necessity: recommended
   - field_name: post_name
     label:
       en: City
       fi: Kaupunki
+      sv: Stad
     required: false
     necessity: recommended
   - field_name: post_code
     label:
       en: Postal code
       fi: Postinumero
+      sv: Postnummer
     required: false
     necessity: recommended
   - field_name: admin_unit_l2
     label:
       en: Region
       fi: Alue
+      sv: Region
     required: false
     necessity: recommended
   - field_name: admin_unit_l1
     label:
       en: Country
       fi: Maa
+      sv: Land
     required: false
     preset: select
     sorted_choices: true
@@ -3729,11 +3783,13 @@ dataset_fields:
     label:
       en: Workplace homepage
       fi: Työpaikan kotisivu
+      sv: Arbetsplatsens hemsida
     necessity: optional
   - field_name: member_of
     label:
       en: Member of
       fi: Jäsenyydet
+      sv: Medlem i
     necessity: optional
     required: false
   subfield_form_attrs:
@@ -3744,6 +3800,7 @@ resource_fields:
   label:
     en: Access URL
     fi: URL
+    sv: Åtkomst-URL
   required: true
   help_text:
     en: URL that gives access to this Distribution of the Dataset.
@@ -3751,16 +3808,19 @@ resource_fields:
       pääsy vaatii ensin esim. käyttäjäksi rekisteröitymistä, tulee tähän kenttään
       antaa linkki rekisteröitymistä tarjoavaan palveluun. Muussa tapauksessa anna
       osoite rajapintaan tai tiedostoon.
+    sv: URL som ger åtkomst till den här distributionen av datauppsättningen.
   necessity: mandatory
   preset: url
 - field_name: download_url
   label:
     en: Download URL
     fi: URL (tiedosto)
+    sv: Nedladdnings-URL
   required: false
   help_text:
     en: A direct link to a downloadable file of this Distribution.
     fi: Suora linkki resurssiin ladattavassa tiedostomuodossa.
+    sv: En direktlänk till en nedladdningsbar fil av denna distribution.
   necessity: optional
   preset: url
 - field_name: data_service
@@ -3768,13 +3828,19 @@ resource_fields:
   label:
     en: Data Service
     fi: Tietopalvelu
+    sv: Datatjänst
   repeating_subfields:
   - field_name: data_service_title_translated
     label:
       en: Data service name
       fi: Tietopalvelun nimi
+      sv: Namn på datatjänst
     required: false
     necessity: mandatory
+    help_text:
+      en: Name of the data service the API is a part of, if applicable.
+      fi: Palvelun nimi mikäli rajapinta on osa laajempaa palvelukokonaisuutta.
+      sv: Namnet på den datatjänst som API:et är en del av, om tillämpligt.
     preset: fluent_core_translated
     form_languages:
     - en
@@ -3784,23 +3850,28 @@ resource_fields:
       en:
         en: Data service name in English
         fi: Tietopalvelun nimi englanniksi
-        sv: Data service name in English
+        sv: Namn på datatjänst på engelska
       fi:
         en: Data service name in Finnish
         fi: Tietopalvelun nimi suomeksi
-        sv: Data service name in Finnish
+        sv: Namn på datatjänst på finska
       sv:
         en: Data service name in Swedish
         fi: Tietopalvelun nimi ruotsiksi
-        sv: Data service name in Swedish
+        sv: Namn på datatjänst på svenska
     required_languages:
     - en
   - field_name: data_service_description_translated
     label:
       en: Data service description
-      fi: Tietopalvelun kuvaus
+      fi: Palvelun kuvaus
+      sv: Beskrivning av datatjänsten
     required: false
     necessity: optional
+    help_text:
+      en: Description of the data service the API is a part of, if applicable.
+      fi: Kuvaus palvelusta mikäli rajapinta on osa laajempaa palvelukokonaisuutta.
+      sv: Beskrivning av den datatjänst som gränssnittet är en del av, om tillämpligt.
     preset: fluent_core_translated
     form_languages:
     - en
@@ -3809,25 +3880,27 @@ resource_fields:
     fluent_form_label:
       en:
         en: Data service description in English
-        fi: Tietopalvelun kuvaus englanniksi
-        sv: Data service description in English
+        fi: Palvelun kuvaus englanniksi
+        sv: Beskrivning av datatjänsten på engelska
       fi:
         en: Data service description in Finnish
-        fi: Tietopalvelun kuvaus suomeksi
-        sv: Data service description in Finnish
+        fi: Palvelun kuvaus suomeksi
+        sv: Beskrivning av datatjänsten på finska
       sv:
         en: Data service description in Swedish
-        fi: Tietopalvelun kuvaus ruotsiksi
-        sv: Data service description in Swedish
+        fi: Palvelun kuvaus ruotsiksi
+        sv: Beskrivning av datatjänsten på svenska
   - field_name: data_service_endpoint_url
     label:
       en: Endpoint URL
-      fi: Rajapinnan URL
+      fi: URL (rajapinta)
+      sv: Slutpunkts-URL
     help_text:
       en: The root location or primary endpoint of the data service related to this
         resource.
-      fi: Tähän resurssiin liittyvän tietopalvelun juurisijainti tai ensisijainen
-        API-päätepiste.
+      fi: URL tietoaineiston tätä resurssia tarjoavaan rajapintaan.
+      sv: Rotplatsen eller den primära slutpunkten för datatjänsten som är relaterad
+        till den här distributionen.
     necessity: mandatory
     required: true
     preset: url
@@ -3835,9 +3908,11 @@ resource_fields:
     label:
       en: Endpoint description
       fi: Rajapinnan kuvaus
+      sv: Beskrivning av slutpunkt
     help_text:
       en: Link to e.g. a Swagger or OpenAPI description.
       fi: Linkki esim. Swagger tai OpenAPI -kuvaukseen.
+      sv: Länk till t.ex. en Swagger- eller OpenAPI-beskrivning.
     necessity: recommended
     required: false
     preset: url
@@ -3845,6 +3920,7 @@ resource_fields:
   label:
     en: Title
     fi: Nimike
+    sv: Titel
   required: false
   necessity: optional
   preset: fluent_core_translated
@@ -3856,19 +3932,20 @@ resource_fields:
     en:
       en: Title in English
       fi: Nimike englanniksi
-      sv: Title in English
+      sv: Titel på engelska
     fi:
       en: Title in Finnish
       fi: Nimike suomeksi
-      sv: Title in Finnish
+      sv: Titel på finska
     sv:
       en: Title in Swedish
       fi: Nimike ruotsiksi
-      sv: Title in Swedish
+      sv: Titel på svenska
 - field_name: description_translated
   label:
     en: Description
     fi: Kuvaus
+    sv: Beskrivning
   required: false
   necessity: recommended
   preset: fluent_core_translated
@@ -3880,15 +3957,15 @@ resource_fields:
     en:
       en: Description in English
       fi: Kuvaus englanniksi
-      sv: Description in English
+      sv: Beskrivning på engelska
     fi:
       en: Description in Finnish
       fi: Kuvaus suomeksi
-      sv: Description in Finnish
+      sv: Beskrivning på finska
     sv:
       en: Description in Swedish
       fi: Kuvaus ruotsiksi
-      sv: Description in Swedish
+      sv: Beskrivning på svenska
 - field_name: format
   label: Format
   required: true
@@ -5191,6 +5268,7 @@ resource_fields:
   label:
     en: Application layer protocol
     fi: Sovelluskerroksen protokolla
+    sv: Protokoll för applikationslager
   required: false
   preset: select
   sorted_choices: true
@@ -5252,9 +5330,11 @@ resource_fields:
   label:
     en: Data grammar
     fi: Tietoskeema
+    sv: Datastruktur
   help_text:
     en: The technical data grammar format of the delivered content within the Distribution.
     fi: Tiedon rakenteen määräävä standardi.
+    sv: Tekniska dataformat och struktur för det levererade innehållet i distributionen.
   required: false
   preset: select
   sorted_choices: true
@@ -5291,6 +5371,7 @@ resource_fields:
   label:
     en: Data format notes
     fi: Huomioita formaatista
+    sv: Anteckningar om dataformat
   required: false
   necessity: optional
   preset: fluent_core_translated
@@ -5302,19 +5383,20 @@ resource_fields:
     en:
       en: Data format notes in English
       fi: Huomioita formaatista englanniksi
-      sv: Data format notes in English
+      sv: Anteckningar om dataformat på engelska
     fi:
       en: Data format notes in Finnish
       fi: Huomioita formaatista suomeksi
-      sv: Data format notes in Finnish
+      sv: Anteckningar om dataformat på finska
     sv:
       en: Data format notes in Swedish
       fi: Huomioita formaatista ruotsiksi
-      sv: Data format notes in Swedish
+      sv: Anteckningar om dataformat på svenska
 - field_name: character_encoding
   label:
     en: Character encoding
     fi: Merkistö
+    sv: Teckenkodning
   required: false
   necessity: optional
   preset: select
@@ -5842,6 +5924,7 @@ resource_fields:
   label:
     en: Communication method
     fi: Rajapinnan käyttötapa
+    sv: Kommunikationsmetod
   required: false
   preset: select
   sorted_choices: true
@@ -5863,18 +5946,23 @@ resource_fields:
   label:
     en: Sample
     fi: Näyte
+    sv: Prov
   required: false
   help_text:
     en: A sample Distribution of the Dataset. A data sample allows data users to investigate
       the data content and data structure, without subscribing to a data feed or downloading
       a complete data set.
     fi: Ote tietoaineistosta sisällön arviointia varten.
+    sv: Ett exempel på distribution av datauppsättningen. Med hjälp av ett dataurval
+      kan dataanvändare undersöka datainnehållet och datastrukturen utan att prenumerera
+      på en datafeed eller ladda ned en fullständig datamängd.
   necessity: optional
   preset: url
 - field_name: mobility_data_standard
   label:
     en: Mobility data standard
     fi: Liikenteen tietostandardi
+    sv: Standard för mobilitetsdata
   required: true
   preset: select
   sorted_choices: true
@@ -5961,6 +6049,7 @@ resource_fields:
   label:
     en: Conditions for access and usage
     fi: Pääsy- ja käyttöehdot
+    sv: Villkor för åtkomst och användning
   required: true
   preset: select
   sorted_choices: true
@@ -6022,6 +6111,7 @@ resource_fields:
   label:
     en: Standard license
     fi: Lisenssi
+    sv: Standardlicens
   required: false
   preset: select
   sorted_choices: true
@@ -6681,6 +6771,7 @@ resource_fields:
   label:
     en: License text
     fi: Lisenssiteksti
+    sv: Licenstext
   preset: markdown
   required: false
   necessity: optional
