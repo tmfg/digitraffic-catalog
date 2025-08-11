@@ -320,7 +320,7 @@ dataset_fields:
     label:
       en: Pedestrian network data
       fi: Jalankulkuverkon tiedot
-      sv: Data från fotgängarnätverk
+      sv: Data om gångnät
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/public-transport-non-scheduled-transport
     label:
       en: Public transport non-scheduled transport
@@ -355,7 +355,7 @@ dataset_fields:
     label:
       en: Static road network data
       fi: Staattiset tieverkon tiedot
-      sv: Data från statiska vägnät
+      sv: Data om det statiska vägnätet
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/static-traffic-signs-and-regulations
     label:
       en: Static traffic signs and regulations
@@ -452,7 +452,7 @@ dataset_fields:
     label:
       en: Bike-sharing Locations and stations
       fi: Kaupunkipyörien sijainnit ja asemat
-      sv: Cykeldelning platser och stationer
+      sv: Cykeldelningens platser och stationer
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/bridge-access-conditions
     label:
       en: Bridge access conditions
@@ -487,12 +487,12 @@ dataset_fields:
     label:
       en: Car-sharing Availability
       fi: Yhteiskäyttöautojen saatavuus
-      sv: Tillgänglighet för samåkning
+      sv: Tillgänglighet för bildelning
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/car-sharing-locations-and-stations
     label:
       en: Car-sharing Locations and stations
       fi: Yhteiskäyttöautojen sijainnit ja asemat
-      sv: Bildelning platser och stationer
+      sv: Bildelningens platser och stationer
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/common-fare-products
     label:
       en: Common fare products
@@ -522,7 +522,7 @@ dataset_fields:
     label:
       en: Dynamic overtaking bans on heavy goods vehicles
       fi: Dynaamiset raskaiden ajoneuvojen ohituskiellot
-      sv: Dynamiska omk�rningsförbud för tunga lastbilar
+      sv: Dynamiska omkörningsförbud för tunga lastbilar
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/dynamic-speed-limits
     label:
       en: Dynamic speed limits
@@ -537,7 +537,7 @@ dataset_fields:
     label:
       en: E-scooter-sharing Locations and stations
       fi: Yhteiskäyttöisten sähköpotkulautojen sijainnit ja asemat
-      sv: E-scooter-delning platser och stationer
+      sv: Tillgänglighet för elsparkcykeldelning
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/environmental-standards-for-vehicles
     label:
       en: Environmental standards for vehicles
@@ -832,12 +832,12 @@ dataset_fields:
     label:
       en: Stop facilities status of features
       fi: Pysäkkien toimintojen tila
-      sv: Hållplatsanläggningarnas status för funktioner
+      sv: Status för hållplatsernas funktioner
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/timetables-static
     label:
       en: Timetables static
       fi: Aikataulut, staattiset
-      sv: Tidtabeller statiska
+      sv: Tidtabeller, statiska
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/topographic-places
     label:
       en: Topographic places
@@ -1055,7 +1055,7 @@ dataset_fields:
     label:
       en: E-Scooter
       fi: Sähköpotkulauta
-      sv: E-scooter
+      sv: Elsparkcykel
   - value: https://w3id.org/mobilitydcat-ap/transport-mode/long-distance-coach
     label:
       en: Long-distance coach
@@ -5334,7 +5334,7 @@ resource_fields:
   help_text:
     en: The technical data grammar format of the delivered content within the Distribution.
     fi: Tiedon rakenteen määräävä standardi.
-    sv: Tekniska dataformat och struktur för det levererade innehållet i distributionen.
+    sv: Tekniskt dataformat och struktur för det levererade innehållet i distributionen.
   required: false
   preset: select
   sorted_choices: true
