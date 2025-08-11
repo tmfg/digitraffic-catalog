@@ -240,7 +240,7 @@ TRANSLATIONS = {
             "label": {
                 "en": "Standard license",
                 "fi": "Lisenssi",
-                "sv": "Standard-licens",
+                "sv": "Standardlicens",
             }
         },
         DCAT.accessService: {"label": {"en": "", "fi": "", "sv": ""}},
@@ -286,7 +286,7 @@ TRANSLATIONS = {
             "help_text": {
                 "en": "The technical data grammar format of the delivered content within the Distribution.",
                 "fi": "Tiedon rakenteen määräävä standardi.",
-                "sv": "Tekniska dataformat och struktur för det levererade innehållet i distributionen.",
+                "sv": "Tekniskt dataformat och struktur för det levererade innehållet i distributionen.",
             },
         },
         ADMS.sample: {
@@ -676,7 +676,7 @@ VOCABULARY_PATCH_TRANSLATIONS = {
         },
         "Pedestrian network data": {
             "fi": "Jalankulkuverkon tiedot",
-            "sv": "Data från fotgängarnätverk",
+            "sv": "Data om gångnät",
         },
         "Public transport non-scheduled transport": {
             "fi": "Joukkoliikenne, aikatauluttamaton",
@@ -704,7 +704,7 @@ VOCABULARY_PATCH_TRANSLATIONS = {
         },
         "Static road network data": {
             "fi": "Staattiset tieverkon tiedot",
-            "sv": "Data från statiska vägnät",
+            "sv": "Data om det statiska vägnätet",
         },
         "Static traffic signs and regulations": {
             "fi": "Staattiset liikennemerkit ja -säännöt",
@@ -766,7 +766,7 @@ VOCABULARY_PATCH_TRANSLATIONS = {
         },
         "Bike-sharing Locations and stations": {
             "fi": "Kaupunkipyörien sijainnit ja asemat",
-            "sv": "Cykeldelning platser och stationer",
+            "sv": "Cykeldelningens platser och stationer",
         },
         "Bridge access conditions": {
             "fi": "Siltojen käyttörajoitukset",
@@ -794,11 +794,11 @@ VOCABULARY_PATCH_TRANSLATIONS = {
         },
         "Car-sharing Availability": {
             "fi": "Yhteiskäyttöautojen saatavuus",
-            "sv": "Tillgänglighet för samåkning",
+            "sv": "Tillgänglighet för bildelning",
         },
         "Car-sharing Locations and stations": {
             "fi": "Yhteiskäyttöautojen sijainnit ja asemat",
-            "sv": "Bildelning platser och stationer",
+            "sv": "Bildelningens platser och stationer",
         },
         "Common fare products": {
             "fi": "Yleiset lipputuotteet",
@@ -819,7 +819,7 @@ VOCABULARY_PATCH_TRANSLATIONS = {
         },
         "Dynamic overtaking bans on heavy goods vehicles": {
             "fi": "Dynaamiset raskaiden ajoneuvojen ohituskiellot",
-            "sv": "Dynamiska omk�rningsförbud för tunga lastbilar",
+            "sv": "Dynamiska omkörningsförbud för tunga lastbilar",
         },
         "Dynamic speed limits": {
             "fi": "Dynaamiset nopeusrajoitukset",
@@ -827,11 +827,11 @@ VOCABULARY_PATCH_TRANSLATIONS = {
         },
         "E-scooter-sharing Availability": {
             "fi": "Yhteiskäyttöisten sähköpotkulautojen saatavuus",
-            "sv": "E-scooter-delning tillgänglighet",
+            "sv": "Tillgänglighet för elsparkcykeldelning",
         },
         "E-scooter-sharing Locations and stations": {
             "fi": "Yhteiskäyttöisten sähköpotkulautojen sijainnit ja asemat",
-            "sv": "E-scooter-delning platser och stationer",
+            "sv": "Elsparkcykeldelningens platser och stationer",
         },
         "Environmental standards for vehicles": {
             "fi": "Ajoneuvojen ympäristöstandardit",
@@ -1019,11 +1019,11 @@ VOCABULARY_PATCH_TRANSLATIONS = {
         },
         "Stop facilities status of features": {
             "fi": "Pysäkkien toimintojen tila",
-            "sv": "Hållplatsanläggningarnas status för funktioner",
+            "sv": "Status för hållplatsernas funktioner",
         },
         "Timetables static": {
             "fi": "Aikataulut, staattiset",
-            "sv": "Tidtabeller statiska",
+            "sv": "Tidtabeller, statiska",
         },
         "Topographic places": {
             "fi": "Topografiset paikat",
@@ -1071,7 +1071,7 @@ VOCABULARY_PATCH_TRANSLATIONS = {
         "Car Hire": {"fi": "Vuokra-auto", "sv": "Biluthyrning"},
         "Car Pooling": {"fi": "Kimppakyyti, auto", "sv": "Samåkning med bil"},
         "Car Sharing": {"fi": "Yhteiskäyttöauto", "sv": "Bildelning"},
-        "E-Scooter": {"fi": "Sähköpotkulauta", "sv": "E-scooter"},
+        "E-Scooter": {"fi": "Sähköpotkulauta", "sv": "Elsparkcykel"},
         "Long-distance coach": {"fi": "Pitkän matkan bussi", "sv": "Långfärdsbuss"},
         "Long-distance rail": {
             "fi": "Pitkän matkan juna",
