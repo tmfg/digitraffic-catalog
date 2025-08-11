@@ -24,181 +24,375 @@ TRANSLATIONS = {
             "label": {"en": "Description", "fi": "Kuvaus", "sv": "Beskrivning"}
         },
         ADMS.versionNotes: {
-            "label": {"en": "Version notes", "fi": "Version tiedot"},
+            "label": {
+                "en": "Version notes",
+                "fi": "Version tiedot",
+                "sv": "Anteckningar om version",
+            },
             "help_text": {
                 "en": "A description of the differences between this version and a previous version of the dataset.",
                 "fi": "Kuvaus tietoaineiston nykyisen ja edeltävän version eroista.",
+                "sv": "En beskrivning av skillnaderna mellan den här versionen och en tidigare version av datauppsättningen.",
             },
         },
         OWL.versionInfo: {
-            "label": {"en": "Dataset version", "fi": "Tietoaineiston versio"}
+            "label": {
+                "en": "Dataset version",
+                "fi": "Tietoaineiston versio",
+                "sv": "Version av datauppsättning",
+            }
         },
         DCTERMS.conformsTo: {
             "label": {
                 "en": "Spatial reference system",
                 "fi": "Paikkaviittausjärjestelmä",
+                "sv": "Rumsligt referenssystem",
             },
             "help_text": {
                 "en": "Value must be an EPSG number.",
                 "fi": "Arvon tulee olla EPSG-tunniste.",
+                "sv": "Värdet måste vara ett EPSG-nummer.",
             },
         },
         DCTERMS.relation: {
-            "label": {"en": "Related dataset", "fi": "Liittyvä tietoaineisto"},
+            "label": {
+                "en": "Related dataset",
+                "fi": "Liittyvä tietoaineisto",
+                "sv": "Relaterad datauppsättning",
+            },
             "help_text": {
                 "en": "A related dataset that is somehow referenced, cited, or otherwise pointed to by this dataset.",
                 "fi": "Toinen tietoaineisto, johon tämä tietoaineisto jollakin tavalla viittaa tai olennaisesti liittyy.",
+                "sv": "En relaterad datauppsättning som på något sätt refereras till, citeras eller på annat sätt pekas på av den här datauppsättningen.",
             },
         },
         DCTERMS.isReferencedBy: {
-            "label": {"en": "Is referenced by", "fi": "Viittaukset muista aineistoista"}
+            "label": {
+                "en": "Is referenced by",
+                "fi": "Viittaukset muista aineistoista",
+                "sv": "Refereras av",
+            }
         },
         MOBILITYDCATAP.mobilityTheme: {
-            "main": {"label": {"en": "Data content category", "fi": "Kategoria"}},
-            "sub": {"label": {"en": "Data content subcategory", "fi": "Alakategoria"}},
+            "main": {
+                "label": {
+                    "en": "Data content category",
+                    "fi": "Kategoria",
+                    "sv": "Kategori för datainnehåll",
+                }
+            },
+            "sub": {
+                "label": {
+                    "en": "Data content subcategory",
+                    "fi": "Alakategoria",
+                    "sv": "Underkategori för datainnehåll",
+                }
+            },
         },
         MOBILITYDCATAP.transportMode: {
-            "label": {"en": "Transport mode", "fi": "Liikennemuoto"}
+            "label": {
+                "en": "Transport mode",
+                "fi": "Liikennemuoto",
+                "sv": "Transportsätt",
+            }
         },
         DCTERMS.spatial: {
-            "label": {"en": "Regional coverage", "fi": "Alueellinen kattavuus"},
+            "label": {
+                "en": "Regional coverage",
+                "fi": "Alueellinen kattavuus",
+                "sv": "Regional täckning",
+            },
         },
         DCAT.theme: {
-            "label": {"en": "Theme", "fi": "Aihe"},
+            "label": {"en": "Theme", "fi": "Aihe", "sv": "Tema"},
         },
         MOBILITYDCATAP.networkCoverage: {
-            "label": {"en": "Network coverage", "fi": "Liikenneverkko"},
+            "label": {
+                "en": "Network coverage",
+                "fi": "Liikenneverkko",
+                "sv": "Nätverkets täckning",
+            },
             "help_text": {
                 "en": "The part of the transport network that is covered by the delivered content.",
                 "fi": "Liikenneverkon osa, jonka tietoaineisto kattaa.",
+                "sv": "Den del av transportnätet som omfattas av det levererade innehållet.",
             },
         },
         DCTERMS.rightsHolder: {
-            "label": {"en": "Rights holder", "fi": "Oikeuksien haltija"},
+            "label": {
+                "en": "Rights holder",
+                "fi": "Oikeuksien haltija",
+                "sv": "Rättighetsinnehavare",
+            },
         },
-        DCAT.contactPoint: {"label": {"en": "Contact point", "fi": "Yhteyspiste"}},
+        DCAT.contactPoint: {
+            "label": {"en": "Contact point", "fi": "Yhteyspiste", "sv": "Kontaktpunkt"}
+        },
         MOBILITYDCATAP.assessmentResult: {
-            "label": {"en": "Assessment", "fi": "Laatuarvio"},
+            "label": {"en": "Assessment", "fi": "Arvio", "sv": "Bedömning"},
             "help_text": {
                 "en": "URL for the results of an assessment process by some third party.",
                 "fi": "Kolmannen osapuolen tekemään laatuarvioon viittaava URL.",
-            },
-        },
-        DCTERMS.relation: {
-            "label": {"en": "Related dataset", "fi": "Liittyvä tietoaineisto"},
-            "help_text": {
-                "en": "A related dataset that is somehow referenced, cited, or otherwise pointed to by this dataset.",
-                "fi": "Toinen tietoaineisto, johon tämä tietoaineisto jollakin tavalla viittaa tai olennaisesti liittyy.",
+                "sv": "URL för resultatet av en utvärderingsprocess av en tredje part.",
             },
         },
         DQV.hasQualityAnnotation: {
-            "label": {"en": "Quality description", "fi": "Julkaisijan kuvaus laadusta"},
+            "label": {
+                "en": "Quality description",
+                "fi": "Julkaisijan kuvaus laadusta",
+                "sv": "Kvalitetsbeskrivning",
+            },
             "help_text": {
                 "en": "URL for an assessment or notes by the publisher regarding quality of dataset contents.",
                 "fi": "Julkaisijan laatua koskevaan arvioon tai muihin huomioihin viittaava URL.",
+                "sv": "URL för en bedömning eller anteckningar av utgivaren om kvaliteten på datauppsättningens innehåll.",
             },
         },
         MOBILITYDCATAP.intendedInformationService: {
             "label": {
                 "en": "Intended information service",
                 "fi": "Hyödyntävä tietopalvelu",
+                "sv": "Avsedd informationstjänst",
             },
             "help_text": {
                 "en": "An information service, which the data content is intended to support.",
                 "fi": "Tietopalvelu, jonka tueksi tietoaineisto on tarkoitettu.",
+                "sv": "En informationstjänst som datainnehållet är avsett att stödja.",
             },
         },
         MOBILITYDCATAP.georeferencingMethod: {
-            "label": {"en": "Georeferencing method", "fi": "Georeferointitapa"}
+            "label": {
+                "en": "Georeferencing method",
+                "fi": "Georeferointitapa",
+                "sv": "Metod för georeferering",
+            }
+        },
+        DCTERMS.language: {
+            "label": {"en": "Language", "fi": "Kieli", "sv": "Språk"},
+            "help_text": {
+                "en": "Language used in content data.",
+                "fi": "Tietoaineistossa käytetty kieli.",
+                "sv": "Språk som används i innehållsdata.",
+            },
+        },
+        DCTERMS.temporal: {
+            "start": {
+                "label": {
+                    "en": "Validity start time",
+                    "fi": "Voimassaolon alkamisaika",
+                    "sv": "Starttid för giltighet",
+                },
+                "help_text": {
+                    "en": "Time reference of the delivered content (e.g., validity time of a public-transport time table).",
+                    "fi": "Tietosisältöä koskeva aikarajaus (esim. bussiaikataulun voimassaoloaika).",
+                    "sv": "Tidsreferens för det levererade innehållet (t.ex. giltighetstid för en tidtabell för kollektivtrafik).",
+                },
+            },
+            "end": {
+                "label": {
+                    "en": "Validity end time",
+                    "fi": "Voimassaolon päättymisaika",
+                    "sv": "Sluttid för giltighet",
+                },
+                "help_text": {
+                    "en": "Time reference of the delivered content (e.g., validity time of a public-transport time table).",
+                    "fi": "Tietosisältöä koskeva aikarajaus (esim. bussiaikataulun voimassaoloaika).",
+                    "sv": "Tidsreferens för det levererade innehållet (t.ex. giltighetstid för en tidtabell för kollektivtrafik).",
+                },
+            },
         },
     },
     DCAT.Distribution: {
         DCAT.accessURL: {
-            "label": {"en": "Access URL", "fi": "URL"},
+            "label": {"en": "Access URL", "fi": "URL", "sv": "Åtkomst-URL"},
             "help_text": {
                 "en": "URL that gives access to this Distribution of the Dataset.",
                 "fi": "URL-osoite, josta pääsee tietoaineiston tähän resurssiin. Mikäli tietoaineistoon pääsy vaatii ensin esim. käyttäjäksi rekisteröitymistä, tulee tähän kenttään antaa linkki rekisteröitymistä tarjoavaan palveluun. Muussa tapauksessa anna osoite rajapintaan tai tiedostoon.",
+                "sv": "URL som ger åtkomst till den här distributionen av datauppsättningen.",
             },
         },
         MOBILITYDCATAP.mobilityDataStandard: {
-            "label": {"en": "Mobility data standard", "fi": "Liikenteen tietostandardi"}
+            "label": {
+                "en": "Mobility data standard",
+                "fi": "Liikenteen tietostandardi",
+                "sv": "Standard för mobilitetsdata",
+            }
         },
-        DCTERMS.format: {"label": {"en": "Format", "fi": "Formaatti"}},
-        DCTERMS.rights: {"label": {"en": "", "fi": ""}},
+        DCTERMS.format: {"label": {"en": "Format", "fi": "Formaatti", "sv": "Format"}},
+        DCTERMS.rights: {
+            "label": {
+                "en": "Conditions for access and usage",
+                "fi": "Pääsy- ja käyttöehdot",
+                "sv": "Villkor för åtkomst och användning",
+            }
+        },
         MOBILITYDCATAP.applicationLayerProtocol: {
             "label": {
                 "en": "Application layer protocol",
                 "fi": "Sovelluskerroksen protokolla",
+                "sv": "Protokoll för applikationslager",
             }
         },
-        DCTERMS.description: {"label": {"en": "Description", "fi": "Kuvaus"}},
-        DCTERMS.license: {"label": {"en": "", "fi": ""}},
-        DCAT.accessService: {"label": {"en": "", "fi": ""}},
+        DCTERMS.description: {
+            "label": {"en": "Description", "fi": "Kuvaus", "sv": "Beskrivning"}
+        },
+        DCTERMS.license: {
+            "label": {
+                "en": "Standard license",
+                "fi": "Lisenssi",
+                "sv": "Standard-licens",
+            }
+        },
+        DCAT.accessService: {"label": {"en": "", "fi": "", "sv": ""}},
         CNT.characterEncoding: {
-            "label": {"en": "Character encoding", "fi": "Merkistö"}
+            "label": {
+                "en": "Character encoding",
+                "fi": "Merkistö",
+                "sv": "Teckenkodning",
+            }
         },
         MOBILITYDCATAP.communicationMethod: {
-            "label": {"en": "Communication method", "fi": "Rajapinnan käyttötapa"}
+            "label": {
+                "en": "Communication method",
+                "fi": "Rajapinnan käyttötapa",
+                "sv": "Kommunikationsmetod",
+            }
         },
         MOBILITYDCATAP.dataFormatNotes: {
-            "label": {"en": "Data format notes", "fi": "Huomioita formaatista"}
+            "label": {
+                "en": "Data format notes",
+                "fi": "Huomioita formaatista",
+                "sv": "Anteckningar om dataformat",
+            }
         },
         DCAT.downloadURL: {
-            "label": {"en": "Download URL", "fi": "URL (tiedosto)"},
+            "label": {
+                "en": "Download URL",
+                "fi": "URL (tiedosto)",
+                "sv": "Nedladdnings-URL",
+            },
             "help_text": {
                 "en": "A direct link to a downloadable file of this Distribution.",
                 "fi": "Suora linkki resurssiin ladattavassa tiedostomuodossa.",
+                "sv": "En direktlänk till en nedladdningsbar fil av denna distribution.",
             },
         },
         MOBILITYDCATAP.grammar: {
-            "label": {"en": "Data grammar", "fi": "Tietoskeema"},
+            "label": {
+                "en": "Data grammar",
+                "fi": "Tietoskeema",
+                "sv": "Datastruktur",
+            },
             "help_text": {
                 "en": "The technical data grammar format of the delivered content within the Distribution.",
                 "fi": "Tiedon rakenteen määräävä standardi.",
+                "sv": "Tekniska dataformat och struktur för det levererade innehållet i distributionen.",
             },
         },
         ADMS.sample: {
-            "label": {"en": "Sample", "fi": "Näyte"},
+            "label": {"en": "Sample", "fi": "Näyte", "sv": "Prov"},
             "help_text": {
                 "en": "A sample Distribution of the Dataset. A data sample allows data users to investigate the data content and data structure, without subscribing to a data feed or downloading a complete data set.",
                 "fi": "Ote tietoaineistosta sisällön arviointia varten.",
+                "sv": "Ett exempel på distribution av datauppsättningen. Med hjälp av ett dataurval kan dataanvändare undersöka datainnehållet och datastrukturen utan att prenumerera på en datafeed eller ladda ned en fullständig datamängd.",
             },
         },
-        DCTERMS.temporal: {"label": {"en": "", "fi": ""}},
-        DCTERMS.title: {"label": {"en": "Title", "fi": "Nimike"}},
+        DCTERMS.temporal: {
+            "start": {
+                "label": {
+                    "en": "Start time",
+                    "fi": "Saatavuuden alkamisaika",
+                    "sv": "Starttid",
+                },
+                "help_text": {
+                    "en": "The beginning of the time interval when a data service, e.g., a data feed, is delivered technically via the data platform. If there is no entry it means that the publication gets valid immediately.",
+                    "fi": "Aikavälin alku, jolla tietoaineisto on saatavilla jakelualustan kautta. Tyhjä arvo tarkoittaa välitöntä julkaisua.",
+                    "sv": "Början på det tidsintervall då en datatjänst, t.ex. en datafeed, levereras tekniskt via dataplattformen. Om det inte finns någon post betyder det att publikationen blir giltig direkt.",
+                },
+            },
+            "end": {
+                "label": {
+                    "en": "End time",
+                    "fi": "Saatavuuden päättymisaika",
+                    "sv": "Sluttid",
+                },
+                "help_text": {
+                    "en": "The end of the time interval when a data service, e.g., a data feed, is delivered technically via the data platform. If there is no entry it means that the publication gets valid immediately.",
+                    "fi": "Aikavälin loppu, jolla tietoaineisto on saatavilla jakelualustan kautta. Tyhjä arvo tarkoittaa välitöntä julkaisua.",
+                    "sv": "Slutet på det tidsintervall då en datatjänst, t.ex. en datafeed, levereras tekniskt via dataplattformen. Om det inte finns någon post betyder det att publikationen blir giltig direkt.",
+                },
+            },
+        },
+        DCTERMS.title: {"label": {"en": "Title", "fi": "Nimike", "sv": "Titel"}},
     },
     DCAT.DataService: {
-        "label": {"en": "Data Service", "fi": "Tietopalvelu"},
+        "label": {"en": "Data Service", "fi": "Tietopalvelu", "sv": "Datatjänst"},
         DCAT.endpointURL: {
-            "label": {"en": "Endpoint URL", "fi": "Rajapinnan URL"},
+            "label": {
+                "en": "Endpoint URL",
+                "fi": "URL (rajapinta)",
+                "sv": "Slutpunkts-URL",
+            },
             "help_text": {
                 "en": "The root location or primary endpoint of the data service related to this resource.",
-                "fi": "Tähän resurssiin liittyvän tietopalvelun juurisijainti tai ensisijainen API-päätepiste.",
+                "fi": "URL tietoaineiston tätä resurssia tarjoavaan rajapintaan.",
+                "sv": "Rotplatsen eller den primära slutpunkten för datatjänsten som är relaterad till den här distributionen.",
             },
         },
         DCTERMS.title: {
-            "label": {"en": "Data service name", "fi": "Tietopalvelun nimi"},
+            "label": {
+                "en": "Data service name",
+                "fi": "Tietopalvelun nimi",
+                "sv": "Namn på datatjänst",
+            },
+            "help_text": {
+                "en": "Name of the data service the API is a part of, if applicable.",
+                "fi": "Palvelun nimi mikäli rajapinta on osa laajempaa palvelukokonaisuutta.",
+                "sv": "Namnet på den datatjänst som API:et är en del av, om tillämpligt.",
+            },
         },
         DCAT.endpointDescription: {
-            "label": {"en": "Endpoint description", "fi": "Rajapinnan kuvaus"},
+            "label": {
+                "en": "Endpoint description",
+                "fi": "Rajapinnan kuvaus",
+                "sv": "Beskrivning av slutpunkt",
+            },
             "help_text": {
                 "en": "Link to e.g. a Swagger or OpenAPI description.",
                 "fi": "Linkki esim. Swagger tai OpenAPI -kuvaukseen.",
+                "sv": "Länk till t.ex. en Swagger- eller OpenAPI-beskrivning.",
             },
         },
         DCTERMS.description: {
-            "label": {"en": "Data service description", "fi": "Tietopalvelun kuvaus"},
+            "label": {
+                "en": "Data service description",
+                "fi": "Palvelun kuvaus",
+                "sv": "Beskrivning av datatjänsten",
+            },
+            "help_text": {
+                "en": "Description of the data service the API is a part of, if applicable.",
+                "fi": "Kuvaus palvelusta mikäli rajapinta on osa laajempaa palvelukokonaisuutta.",
+                "sv": "Beskrivning av den datatjänst som gränssnittet är en del av, om tillämpligt.",
+            },
         },
     },
     DCTERMS.Frequency: {
-        "label": {"en": "Frequency", "fi": "Päivitysten tiheys"},
+        "label": {"en": "Frequency", "fi": "Päivitysten tiheys", "sv": "Frekvens"},
     },
     DCTERMS.LicenseDocument: {
         DCTERMS.identifier: {
-            "label": {"en": "Standard license", "fi": "Lisenssi"},
+            "label": {
+                "en": "Standard license",
+                "fi": "Lisenssi",
+                "sv": "Standardlicens",
+            },
         },
         RDFS.label: {
-            "label": {"en": "License text", "fi": "Lisenssiteksti"},
+            "label": {
+                "en": "License text",
+                "fi": "Lisenssiteksti",
+                "sv": "Licenstext",
+            },
         },
     },
     DCTERMS.RightsStatement: {
@@ -206,51 +400,76 @@ TRANSLATIONS = {
             "label": {
                 "en": "Conditions for access and usage",
                 "fi": "Pääsy- ja käyttöehdot",
+                "sv": "Villkor för åtkomst och användning",
             },
         },
         RDFS.label: {
             "label": {
                 "en": "Additional information for access and usage",
                 "fi": "Lisätietoa pääsystä ja käytöstä",
+                "sv": "Ytterligare information för åtkomst och användning",
             },
         },
     },
     FOAF.Agent: {
-        "label": {"en": "Agent", "fi": "Toimija"},
+        "label": {"en": "Agent", "fi": "Toimija", "sv": "Agent"},
         FOAF.name: {
-            "label": {"en": "Name", "fi": "Nimi"},
+            "label": {"en": "Name", "fi": "Nimi", "sv": "Namn"},
         },
         FOAF.firstName: {
-            "label": {"en": "First name", "fi": "Etunimi"},
+            "label": {"en": "First name", "fi": "Etunimi", "sv": "Förnamn"},
         },
         FOAF.surname: {
-            "label": {"en": "Surname", "fi": "Sukunimi"},
+            "label": {"en": "Surname", "fi": "Sukunimi", "sv": "Efternamn"},
         },
         FOAF.mbox: {
-            "label": {"en": "Email", "fi": "Sähköposti"},
+            "label": {"en": "Email", "fi": "Sähköposti", "sv": "E-post"},
         },
         FOAF.phone: {
-            "label": {"en": "Phone number", "fi": "Puhelinnumero"},
+            "label": {
+                "en": "Phone number",
+                "fi": "Puhelinnumero",
+                "sv": "Telefonnummer",
+            },
         },
         FOAF.workplaceHomepage: {
-            "label": {"en": "Workplace homepage", "fi": "Työpaikan kotisivu"},
+            "label": {
+                "en": "Workplace homepage",
+                "fi": "Työpaikan kotisivu",
+                "sv": "Arbetsplatsens hemsida",
+            },
         },
         DCTERMS.type: {
-            "label": {"en": "Agent type", "fi": "Toimijan tyyppi"},
+            "label": {
+                "en": "Agent type",
+                "fi": "Toimijan tyyppi",
+                "sv": "Typ av agent",
+            },
         },
-        ORG.memberOf: {"label": {"en": "Member of", "fi": "Jäsenyydet"}},
+        ORG.memberOf: {
+            "label": {"en": "Member of", "fi": "Jäsenyydet", "sv": "Medlem i"}
+        },
     },
     MOBILITYDCATAP.Assessment: {
-        "label": {"en": "Assessment", "fi": "Arvio"},
+        "label": {"en": "Assessment", "fi": "Arvio", "sv": "Bedömning"},
         OA.hasBody: {
-            "label": {"en": "Assessment result", "fi": "Arvion tulos"},
+            "label": {
+                "en": "Assessment result",
+                "fi": "Arvion tulos",
+                "sv": "Resultat av bedömningen",
+            },
             "help_text": {
                 "en": "URL for the results of an assessment process by some organisation.",
                 "fi": "Kolmannen osapuolen aineistolle tekemään arvioon viittaava URL.",
+                "sv": "URL för resultatet av en utvärderingsprocess av en tredje part.",
             },
         },
         DCTERMS.issued: {
-            "label": {"en": "Assessment date", "fi": "Arvion päivämäärä"},
+            "label": {
+                "en": "Assessment date",
+                "fi": "Arvion päivämäärä",
+                "sv": "Datum för bedömning",
+            },
         },
     },
     DQV.QualityAnnotation: {
@@ -258,76 +477,93 @@ TRANSLATIONS = {
             "label": {
                 "en": "Quality description",
                 "fi": "Julkaisijan kuvaus laadusta",
+                "sv": "Kvalitetsbeskrivning",
             },
             "help_text": {
                 "en": "URL for an assessment or notes by the publisher regarding quality of dataset contents.",
                 "fi": "Julkaisijan laatua koskevaan arvioon tai muihin huomioihin viittaava URL.",
+                "sv": "URL för en bedömning eller anteckningar av utgivaren om kvaliteten på datauppsättningens innehåll.",
             },
         }
     },
     VCARD.Kind: {
-        "label": {"en": "", "fi": ""},
+        "label": {"en": "", "fi": "", "sv": ""},
         "contact_point_type": {
             "en": "Contact point type",
             "fi": "Yhteyspisteen tyyppi",
+            "sv": "Typ av kontaktpunkt",
         },
         VCARD.hasEmail: {
-            "label": {"en": "Email", "fi": "Sähköposti"},
+            "label": {"en": "Email", "fi": "Sähköposti", "sv": "E-post"},
         },
         VCARD.hasURL: {
-            "label": {"en": "Website", "fi": "Verkkosivu"},
+            "label": {"en": "Website", "fi": "Verkkosivu", "sv": "Webbplats"},
         },
         VCARD.hasTelephone: {
-            "label": {"en": "Phone number", "fi": "Puhelinnumero"},
+            "label": {
+                "en": "Phone number",
+                "fi": "Puhelinnumero",
+                "sv": "Telefonnummer",
+            },
         },
         VCARD.fn: {
-            "label": {"en": "Full name", "fi": "Koko nimi"},
+            "label": {"en": "Full name", "fi": "Koko nimi", "sv": "Fullständigt namn"},
         },
         VCARD["organization-name"]: {
-            "label": {"en": "Organization name", "fi": "Organisaation nimi"}
+            "label": {
+                "en": "Organization name",
+                "fi": "Organisaation nimi",
+                "sv": "Organisationens namn",
+            }
         },
     },
     VCARD.Organization: {
-        "label": {"en": "Organization", "fi": "Organisaatio"},
+        "label": {"en": "Organization", "fi": "Organisaatio", "sv": "Organisation"},
     },
-    VCARD.Individual: {"label": {"en": "Person", "fi": "Henkilö"}},
+    VCARD.Individual: {"label": {"en": "Person", "fi": "Henkilö", "sv": "Person"}},
     VCARD.Address: {
         VCARD["country-name"]: {
-            "label": {"en": "Country", "fi": "Maa"},
+            "label": {"en": "Country", "fi": "Maa", "sv": "Land"},
         },
         VCARD.locality: {
-            "label": {"en": "City", "fi": "Kaupunki"},
+            "label": {"en": "City", "fi": "Kaupunki", "sv": "Stad"},
         },
         VCARD["postal-code"]: {
-            "label": {"en": "Postal code", "fi": "Postinumero"},
+            "label": {"en": "Postal code", "fi": "Postinumero", "sv": "Postnummer"},
         },
         VCARD.region: {
-            "label": {"en": "Region", "fi": "Alue"},
+            "label": {"en": "Region", "fi": "Alue", "sv": "Region"},
         },
         VCARD["street-address"]: {
-            "label": {"en": "Street address", "fi": "Katuosoite"},
+            "label": {"en": "Street address", "fi": "Katuosoite", "sv": "Gatuadress"},
         },
     },
     LOCN.Address: {
         LOCN.thoroughfare: {
-            "label": {"en": "Street address", "fi": "Katuosoite"},
+            "label": {"en": "Street address", "fi": "Katuosoite", "sv": "Gatuadress"},
         },
         LOCN.postName: {
-            "label": {"en": "City", "fi": "Kaupunki"},
+            "label": {"en": "City", "fi": "Kaupunki", "sv": "Stad"},
         },
         LOCN.postCode: {
-            "label": {"en": "Postal code", "fi": "Postinumero"},
+            "label": {"en": "Postal code", "fi": "Postinumero", "sv": "Postnummer"},
         },
         LOCN.adminUnitL2: {
-            "label": {"en": "Region", "fi": "Alue"},
+            "label": {"en": "Region", "fi": "Alue", "sv": "Region"},
         },
         LOCN.adminUnitL1: {
-            "label": {"en": "Country", "fi": "Maa"},
+            "label": {"en": "Country", "fi": "Maa", "sv": "Land"},
         },
     },
     ORG.Organization: {
-        "label": {"en": "Organization", "fi": "Organisaatio"},
-        FOAF.name: {"label": {"en": "Organization name", "fi": "Organisaation nimi"}},
+        "label": {"en": "Organization", "fi": "Organisaatio", "sv": "Organisation"},
+        FOAF.name: {
+            "label": {
+                "en": "Organization name",
+                "fi": "Organisaation nimi",
+                "sv": "Organisationens namn",
+            }
+        },
     },
 }
 
