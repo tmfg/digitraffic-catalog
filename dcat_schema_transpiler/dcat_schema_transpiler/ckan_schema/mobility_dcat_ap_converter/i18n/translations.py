@@ -571,309 +571,581 @@ TRANSLATIONS = {
 VOCABULARY_PATCH_TRANSLATIONS = {
     CVOCAB_AGENT_TYPE: {
         "Academia/Scientific organisation": {
-            "fi": "Akateeminen tai tieteellinen organisaatio"
+            "fi": "Akateeminen tai tieteellinen organisaatio",
+            "sv": "Akademisk/vetenskaplig organisation",
         },
-        "Company": {"fi": "Yritys"},
-        "Industry consortium": {"fi": "Yrityskonsortio"},
-        "Local Authority": {"fi": "Paikallisviranomainen"},
-        "National authority": {"fi": "Kansallinen viranomainen"},
-        "Non-Governmental Organisation": {"fi": "Kansalaisjärjestö"},
-        "Non-Profit Organisation": {"fi": "Voittoa tavoittelematon organisaatio"},
-        "Private Individual(s)": {"fi": "Yksityishenkilö(t)"},
-        "Regional authority": {"fi": "Alueellinen viranomainen"},
-        "Standardisation body": {"fi": "Standardointielin"},
-        "Supra-national authority": {"fi": "Ylikansallinen viranomainen"},
+        "Company": {"fi": "Yritys", "sv": "Företag"},
+        "Industry consortium": {"fi": "Yrityskonsortio", "sv": "Branschkonsortium"},
+        "Local Authority": {"fi": "Paikallisviranomainen", "sv": "Lokal myndighet"},
+        "National authority": {
+            "fi": "Kansallinen viranomainen",
+            "sv": "Nationell myndighet",
+        },
+        "Non-Governmental Organisation": {
+            "fi": "Kansalaisjärjestö",
+            "sv": "Icke-statlig organisation",
+        },
+        "Non-Profit Organisation": {
+            "fi": "Voittoa tavoittelematon organisaatio",
+            "sv": "Ideell organisation",
+        },
+        "Private Individual(s)": {"fi": "Yksityishenkilö(t)", "sv": "Privatperson(er)"},
+        "Regional authority": {
+            "fi": "Alueellinen viranomainen",
+            "sv": "Regional myndighet",
+        },
+        "Standardisation body": {
+            "fi": "Standardointielin",
+            "sv": "Standardiseringsorgan",
+        },
+        "Supra-national authority": {
+            "fi": "Ylikansallinen viranomainen",
+            "sv": "Överstatlig myndighet",
+        },
     },
     CVOCAB_EUV_FREQUENCY: {
-        "every fifteen minutes": {"fi": "joka viidestoista minuutti"},
-        "every five minutes": {"fi": "joka viides minuutti"},
-        "every minute": {"fi": "joka minuutti"},
-        "every ten minutes": {"fi": "joka kymmenes minuutti"},
-        "every thirty minutes": {"fi": "kerran puolessa tunnissa"},
-        "every twelve hours": {"fi": "joka kahdestoista tunti"},
+        "every fifteen minutes": {
+            "fi": "joka viidestoista minuutti",
+            "sv": "var femtonde minut",
+        },
+        "every five minutes": {"fi": "joka viides minuutti", "sv": "var femte minut"},
+        "every minute": {"fi": "joka minuutti", "sv": "varje minut"},
+        "every ten minutes": {"fi": "joka kymmenes minuutti", "sv": "var tionde minut"},
+        "every thirty minutes": {
+            "fi": "kerran puolessa tunnissa",
+            "sv": "var trettionde minut",
+        },
+        "every twelve hours": {
+            "fi": "joka kahdestoista tunti",
+            "sv": "var tolfte timme",
+        },
     },
     CVOCAB_RIGHTS_STATEMENT_TYPE: {
-        "Contractual arrangement": {"fi": "Sopimusjärjestely"},
+        "Contractual arrangement": {
+            "fi": "Sopimusjärjestely",
+            "sv": "Avtalsarrangemang",
+        },
         "Contractual arrangement, fee required": {
-            "fi": "Sopimusjärjestely, maksu vaaditaan"
+            "fi": "Sopimusjärjestely, maksu vaaditaan",
+            "sv": "Avtalsarrangemang, avgift krävs",
         },
         "Contractual arrangement, free of charge": {
-            "fi": "Sopimusjärjestely, maksuton"
+            "fi": "Sopimusjärjestely, maksuton",
+            "sv": "Avtalsarrangemang, utan kostnad",
         },
-        "Fee required": {"fi": "Maksu vaaditaan"},
-        "Free of charge": {"fi": "Maksuton"},
-        "Licence provided": {"fi": "Annettu lisenssi"},
-        "Licence provided, fee required": {"fi": "Annettu lisenssi, maksu vaaditaan"},
-        "Licence provided, free of charge": {"fi": "Annettu lisenssi, maksuton"},
-        "Other": {"fi": "Muu"},
-        "Royalty-free": {"fi": "Ei tekijänpalkkiota"},
+        "Fee required": {"fi": "Maksu vaaditaan", "sv": "Avgift krävs"},
+        "Free of charge": {"fi": "Maksuton", "sv": "Kostnadsfritt"},
+        "Licence provided": {"fi": "Annettu lisenssi", "sv": "Licens tillhandahålls"},
+        "Licence provided, fee required": {
+            "fi": "Annettu lisenssi, maksu vaaditaan",
+            "sv": "Licens tillhandahålls, avgift krävs",
+        },
+        "Licence provided, free of charge": {
+            "fi": "Annettu lisenssi, maksuton",
+            "sv": "Licens tillhandahålls, utan kostnad",
+        },
+        "Other": {"fi": "Muu", "sv": "Annat"},
+        "Royalty-free": {"fi": "Ei tekijänpalkkiota", "sv": "Royaltyfri"},
     },
     CVOCAB_MOBILITY_THEME: {
-        "Air and space travel": {"fi": "Ilma- ja avaruusmatkailu"},
-        "Cycle network data": {"fi": "Pyöräilyverkon tiedot"},
+        "Air and space travel": {
+            "fi": "Ilma- ja avaruusmatkailu",
+            "sv": "Flyg- och rymdresor",
+        },
+        "Cycle network data": {"fi": "Pyöräilyverkon tiedot", "sv": "Cykelvägsdata"},
         "Dynamic traffic signs and regulations": {
-            "fi": "Dynaamiset liikennemerkit ja -säännöt"
+            "fi": "Dynaamiset liikennemerkit ja -säännöt",
+            "sv": "Dynamiska trafikskyltar och regler",
         },
-        "Filling and charging stations": {"fi": "Tankkaus- ja latausasemat"},
-        "Freight and logistics": {"fi": "Rahti ja logistiikka"},
+        "Filling and charging stations": {
+            "fi": "Tankkaus- ja latausasemat",
+            "sv": "Tanknings- och laddningsstationer",
+        },
+        "Freight and logistics": {
+            "fi": "Rahti ja logistiikka",
+            "sv": "Frakt och logistik",
+        },
         "General information for trip-planning": {
-            "fi": "Yleistä tietoa reittisuunnitteluun"
+            "fi": "Yleistä tietoa reittisuunnitteluun",
+            "sv": "Allmän information för reseplanering",
         },
-        "Other": {"fi": "Muu"},
+        "Other": {"fi": "Muu", "sv": "Annat"},
         "Parking, service and rest area information": {
-            "fi": "Pysäköinti-, palvelu- ja levähdysalueiden tiedot"
+            "fi": "Pysäköinti-, palvelu- ja levähdysalueiden tiedot",
+            "sv": "Information om parkering, service och rastplatser",
         },
-        "Pedestrian network data": {"fi": "Jalankulkuverkon tiedot"},
+        "Pedestrian network data": {
+            "fi": "Jalankulkuverkon tiedot",
+            "sv": "Data från fotgängarnätverk",
+        },
         "Public transport non-scheduled transport": {
-            "fi": "Joukkoliikenne, aikatauluttamaton"
+            "fi": "Joukkoliikenne, aikatauluttamaton",
+            "sv": "Kollektivtrafik som inte är schemalagd",
         },
-        "Public transport scheduled transport": {"fi": "Joukkoliikenne, säännöllinen"},
-        "Real-time traffic data": {"fi": "Reaaliaikaiset liikennetiedot"},
-        "Road events and conditions": {"fi": "Tieolosuhteet ja tapahtumat"},
-        "Road work information": {"fi": "Tietyötiedot"},
-        "Sharing and Hiring Services": {"fi": "Vuokraus- ja yhteiskäyttöpalvelut"},
-        "Static road network data": {"fi": "Staattiset tieverkon tiedot"},
+        "Public transport scheduled transport": {
+            "fi": "Joukkoliikenne, säännöllinen",
+            "sv": "Kollektivtrafik, reguljär trafik",
+        },
+        "Real-time traffic data": {
+            "fi": "Reaaliaikaiset liikennetiedot",
+            "sv": "Trafikdata i realtid",
+        },
+        "Road events and conditions": {
+            "fi": "Tieolosuhteet ja tapahtumat",
+            "sv": "Väghändelser och vägförhållanden",
+        },
+        "Road work information": {
+            "fi": "Tietyötiedot",
+            "sv": "Information om vägarbeten",
+        },
+        "Sharing and Hiring Services": {
+            "fi": "Vuokraus- ja yhteiskäyttöpalvelut",
+            "sv": "Delnings- och uthyrningstjänster",
+        },
+        "Static road network data": {
+            "fi": "Staattiset tieverkon tiedot",
+            "sv": "Data från statiska vägnät",
+        },
         "Static traffic signs and regulations": {
-            "fi": "Staattiset liikennemerkit ja -säännöt"
+            "fi": "Staattiset liikennemerkit ja -säännöt",
+            "sv": "Statiska trafikskyltar och regler",
         },
-        "Toll information": {"fi": "Tietullitiedot"},
-        "Waterways and water bodies": {"fi": "Vesiväylät ja vesistöt"},
+        "Toll information": {"fi": "Tietullitiedot", "sv": "Information om vägtullar"},
+        "Waterways and water bodies": {
+            "fi": "Vesiväylät ja vesistöt",
+            "sv": "Vattendrag och vattenområden",
+        },
         "Accesibility information for vehicles": {
-            "fi": "Ajoneuvojen esteettömyystiedot"
+            "fi": "Ajoneuvojen esteettömyystiedot",
+            "sv": "Tillgänglighetsinformation för fordon",
         },
-        "Accidents and incidents": {"fi": "Liikenneonnettomuudet ja -häiriöt"},
-        "Address identifiers": {"fi": "Osoitetunnisteet"},
+        "Accidents and incidents": {
+            "fi": "Liikenneonnettomuudet ja -häiriöt",
+            "sv": "Olyckor och tillbud",
+        },
+        "Address identifiers": {"fi": "Osoitetunnisteet", "sv": "Adressidentifierare"},
         "Applicable road user charges and payment methods": {
-            "fi": "Sovellettavat tienkäyttömaksut ja maksutavat"
+            "fi": "Sovellettavat tienkäyttömaksut ja maksutavat",
+            "sv": "Tillämpliga vägavgifter och betalningsmetoder",
         },
         "Availability of charging points for electric vehicles": {
-            "fi": "Sähköajoneuvojen latauspisteiden saatavuus"
+            "fi": "Sähköajoneuvojen latauspisteiden saatavuus",
+            "sv": "Tillgång till laddstationer för elbilar",
         },
         "Availability of delivery areas": {
-            "fi": "Lastaus- ja purkauspaikkojen saatavuus"
+            "fi": "Lastaus- ja purkauspaikkojen saatavuus",
+            "sv": "Tillgänglighet av leveransområden",
         },
-        "Availability of filling stations": {"fi": "Tankkausasemien saatavuus"},
-        "Basic commercial conditions": {"fi": "Kaupalliset perusehdot"},
-        "Basic common standard fares": {"fi": "Yleiset perusmaksut"},
-        "Bike sharing Availability": {"fi": "Kaupunkipyörien saatavuus"},
-        "Bike-hiring Availability": {"fi": "Vuokrapyörien saatavuus"},
-        "Bike-hiring Stations": {"fi": "Pyöränvuokrausasemat"},
-        "Bike-parking locations": {"fi": "Polkupyöräparkit"},
+        "Availability of filling stations": {
+            "fi": "Tankkausasemien saatavuus",
+            "sv": "Tillgång till bensinstationer",
+        },
+        "Basic commercial conditions": {
+            "fi": "Kaupalliset perusehdot",
+            "sv": "Grundläggande kommersiella villkor",
+        },
+        "Basic common standard fares": {
+            "fi": "Yleiset perusmaksut",
+            "sv": "Grundläggande gemensamma standardpriser",
+        },
+        "Bike sharing Availability": {
+            "fi": "Kaupunkipyörien saatavuus",
+            "sv": "Cykeldelning tillgänglighet",
+        },
+        "Bike-hiring Availability": {
+            "fi": "Vuokrapyörien saatavuus",
+            "sv": "Tillgänglighet för cykeluthyrning",
+        },
+        "Bike-hiring Stations": {
+            "fi": "Pyöränvuokrausasemat",
+            "sv": "Stationer för uthyrning av cyklar",
+        },
+        "Bike-parking locations": {
+            "fi": "Polkupyöräparkit",
+            "sv": "Parkeringsplatser för cyklar",
+        },
         "Bike-sharing Locations and stations": {
-            "fi": "Kaupunkipyörien sijainnit ja asemat"
+            "fi": "Kaupunkipyörien sijainnit ja asemat",
+            "sv": "Cykeldelning platser och stationer",
         },
-        "Bridge access conditions": {"fi": "Siltojen käyttörajoitukset"},
+        "Bridge access conditions": {
+            "fi": "Siltojen käyttörajoitukset",
+            "sv": "Villkor för tillträde till broar",
+        },
         "Bridge closures and access conditions": {
-            "fi": "Siltojen sulkemiset ja käyttörajoitukset"
+            "fi": "Siltojen sulkemiset ja käyttörajoitukset",
+            "sv": "Stängning av broar och tillträdesvillkor",
         },
-        "Car parking availability": {"fi": "Autojen pysäköinnin saatavuus"},
+        "Car parking availability": {
+            "fi": "Autojen pysäköinnin saatavuus",
+            "sv": "Tillgång till bilparkering",
+        },
         "Car parking locations and conditions": {
-            "fi": "Autojen pysäköintipaikat ja -olosuhteet"
+            "fi": "Autojen pysäköintipaikat ja -olosuhteet",
+            "sv": "Parkeringsplatser och villkor för bilparkering",
         },
-        "Car-hiring Availability": {"fi": "Autonvuokrauksen saatavuus"},
-        "Car-hiring Stations": {"fi": "Autonvuokrausasemat"},
-        "Car-sharing Availability": {"fi": "Yhteiskäyttöautojen saatavuus"},
+        "Car-hiring Availability": {
+            "fi": "Autonvuokrauksen saatavuus",
+            "sv": "Tillgänglighet för biluthyrning",
+        },
+        "Car-hiring Stations": {
+            "fi": "Autonvuokrausasemat",
+            "sv": "Stationer för biluthyrning",
+        },
+        "Car-sharing Availability": {
+            "fi": "Yhteiskäyttöautojen saatavuus",
+            "sv": "Tillgänglighet för samåkning",
+        },
         "Car-sharing Locations and stations": {
-            "fi": "Yhteiskäyttöautojen sijainnit ja asemat"
+            "fi": "Yhteiskäyttöautojen sijainnit ja asemat",
+            "sv": "Bildelning platser och stationer",
         },
-        "Common fare products": {"fi": "Yleiset lipputuotteet"},
-        "Connection links": {"fi": "Vaihtoyhteydet"},
-        "Current travel times": {"fi": "Ajankohtaiset matka-ajat"},
+        "Common fare products": {
+            "fi": "Yleiset lipputuotteet",
+            "sv": "Vanliga biljettprodukter",
+        },
+        "Connection links": {"fi": "Vaihtoyhteydet", "sv": "Anslutningslänkar"},
+        "Current travel times": {
+            "fi": "Ajankohtaiset matka-ajat",
+            "sv": "Aktuella restider",
+        },
         "Direction of travel on reversible lanes": {
-            "fi": "Vaihtuvasuuntaisten kaistojen ajosuunta"
+            "fi": "Vaihtuvasuuntaisten kaistojen ajosuunta",
+            "sv": "Färdriktning i reversibla körfält",
         },
         "Disruptions, delays, cancellations": {
-            "fi": "Häiriöt, viivästykset, peruutukset"
+            "fi": "Häiriöt, viivästykset, peruutukset",
+            "sv": "Störningar, förseningar, inställda avgångar",
         },
         "Dynamic overtaking bans on heavy goods vehicles": {
-            "fi": "Dynaamiset raskaiden ajoneuvojen ohituskiellot"
+            "fi": "Dynaamiset raskaiden ajoneuvojen ohituskiellot",
+            "sv": "Dynamiska omk�rningsförbud för tunga lastbilar",
         },
-        "Dynamic speed limits": {"fi": "Dynaamiset nopeusrajoitukset"},
+        "Dynamic speed limits": {
+            "fi": "Dynaamiset nopeusrajoitukset",
+            "sv": "Dynamiska hastighetsgränser",
+        },
         "E-scooter-sharing Availability": {
-            "fi": "Yhteiskäyttöisten sähköpotkulautojen saatavuus"
+            "fi": "Yhteiskäyttöisten sähköpotkulautojen saatavuus",
+            "sv": "E-scooter-delning tillgänglighet",
         },
         "E-scooter-sharing Locations and stations": {
-            "fi": "Yhteiskäyttöisten sähköpotkulautojen sijainnit ja asemat"
+            "fi": "Yhteiskäyttöisten sähköpotkulautojen sijainnit ja asemat",
+            "sv": "E-scooter-delning platser och stationer",
         },
         "Environmental standards for vehicles": {
-            "fi": "Ajoneuvojen ympäristöstandardit"
+            "fi": "Ajoneuvojen ympäristöstandardit",
+            "sv": "Miljöstandarder för fordon",
         },
-        "Expected delays": {"fi": "Tiedossa olevat viivästykset"},
-        "Fares": {"fi": "Maksut ja tariffit"},
-        "Freight delivery regulations": {"fi": "Rahdinkuljetusmääräykset"},
-        "Geometry": {"fi": "Geometria"},
-        "Gradients": {"fi": "Kaltevuudet"},
-        "Hours of operation": {"fi": "Käyttöajat"},
+        "Expected delays": {
+            "fi": "Tiedossa olevat viivästykset",
+            "sv": "Förväntade förseningar",
+        },
+        "Fares": {"fi": "Maksut ja tariffit", "sv": "Biljettpriser"},
+        "Freight delivery regulations": {
+            "fi": "Rahdinkuljetusmääräykset",
+            "sv": "Regler för fraktleveranser",
+        },
+        "Geometry": {"fi": "Geometria", "sv": "Geometri"},
+        "Gradients": {"fi": "Kaltevuudet", "sv": "Lutningar"},
+        "Hours of operation": {"fi": "Käyttöajat", "sv": "Öppettider"},
         "Identification of tolled roads": {
-            "fi": "Tietullin alaisten teiden yksilöiminen"
+            "fi": "Tietullin alaisten teiden yksilöiminen",
+            "sv": "Identifiering av avgiftsbelagda vägar",
         },
-        "Junctions": {"fi": "Liittymät"},
+        "Junctions": {"fi": "Liittymät", "sv": "Korsningar"},
         "Lane closures and access conditions": {
-            "fi": "Kaistojen sulkemiset ja käyttörajoitukset"
+            "fi": "Kaistojen sulkemiset ja käyttörajoitukset",
+            "sv": "Avstängning av körfält och framkomlighetsvillkor",
         },
         "Location and conditions of charging points": {
-            "fi": "Latauspisteiden sijainnit ja olosuhteet"
+            "fi": "Latauspisteiden sijainnit ja olosuhteet",
+            "sv": "Laddstationernas placering och villkor",
         },
         "Location and conditions of filling stations": {
-            "fi": "Tankkausasemien sijainnit ja olosuhteet"
+            "fi": "Tankkausasemien sijainnit ja olosuhteet",
+            "sv": "Tankstationernas läge och villkor",
         },
-        "Location and length of queues": {"fi": "Jonojen sijainti ja pituus"},
-        "Location of delivery areas": {"fi": "Lastaus- ja purkausalueiden sijainti"},
-        "Location of tolling stations": {"fi": "Tietulliasemien sijainti"},
-        "Locations and stations": {"fi": "Sijainnit ja asemat"},
-        "Long-term road works": {"fi": "Pitkäaikaiset tietyöt"},
-        "Network closures/diversions": {"fi": "Verkon suljetut osat ja/tai kiertotiet"},
-        "Network detailed attributes": {"fi": "Verkon yksityiskohtaiset tiedot"},
+        "Location and length of queues": {
+            "fi": "Jonojen sijainti ja pituus",
+            "sv": "Plats och längd på köerna",
+        },
+        "Location of delivery areas": {
+            "fi": "Lastaus- ja purkausalueiden sijainti",
+            "sv": "Placering av leveransområden",
+        },
+        "Location of tolling stations": {
+            "fi": "Tietulliasemien sijainti",
+            "sv": "Placering av vägtullstationer",
+        },
+        "Locations and stations": {
+            "fi": "Sijainnit ja asemat",
+            "sv": "Platser och stationer",
+        },
+        "Long-term road works": {
+            "fi": "Pitkäaikaiset tietyöt",
+            "sv": "Långvariga vägarbeten",
+        },
+        "Network closures/diversions": {
+            "fi": "Verkon suljetut osat ja/tai kiertotiet",
+            "sv": "Nedläggning/omläggning av nät",
+        },
+        "Network detailed attributes": {
+            "fi": "Verkon yksityiskohtaiset tiedot",
+            "sv": "Detaljerade attribut för nätverk",
+        },
         "Network geometry and lane character": {
-            "fi": "Verkkogeometria ja kaistojen luonne"
+            "fi": "Verkkogeometria ja kaistojen luonne",
+            "sv": "Nätverksgeometri och körfältskaraktär",
         },
         "Network topology and routes/lines": {
-            "fi": "Verkkotopologia ja reitit/linjat "
+            "fi": "Verkkotopologia ja reitit/linjat ",
+            "sv": "Nätverkstopologi och vägar/linjer",
         },
-        "Number of lanes": {"fi": "Kaistojen määrä"},
-        "Operational Calendar": {"fi": "Operatiivinen kalenteri"},
+        "Number of lanes": {"fi": "Kaistojen määrä", "sv": "Antal körfält"},
+        "Operational Calendar": {
+            "fi": "Operatiivinen kalenteri",
+            "sv": "Operativ kalender",
+        },
         "Other access restrictions and traffic regulations": {
-            "fi": "Muut käyttörajoitukset ja liikennesäännöt"
+            "fi": "Muut käyttörajoitukset ja liikennesäännöt",
+            "sv": "Andra tillträdsbegränsningar och trafikbestämmelser",
         },
-        "Other static traffic signs": {"fi": "Muut staattiset liikennemerkit"},
+        "Other static traffic signs": {
+            "fi": "Muut staattiset liikennemerkit",
+            "sv": "Andra statiska trafikskyltar",
+        },
         "Other temporary traffic management measures or plans": {
-            "fi": "Muut tilapäiset liikenteenhallintatoimenpiteet tai -suunnitelmat"
+            "fi": "Muut tilapäiset liikenteenhallintatoimenpiteet tai -suunnitelmat",
+            "sv": "Andra tillfälliga trafikstyrningsåtgärder eller planer",
         },
-        "Other traffic regulations": {"fi": "Muut liikennesäännöt"},
+        "Other traffic regulations": {
+            "fi": "Muut liikennesäännöt",
+            "sv": "Övriga trafikregler",
+        },
         "Parameters needed to calculate costs": {
-            "fi": "Kustannusten laskemiseen tarvittavat parametrit"
+            "fi": "Kustannusten laskemiseen tarvittavat parametrit",
+            "sv": "Parametrar som behövs för att beräkna kostnader",
         },
         "Parameters needed to calculate environmental factors": {
-            "fi": "Ympäristötekijöiden laskemiseen tarvittavat parametrit"
+            "fi": "Ympäristötekijöiden laskemiseen tarvittavat parametrit",
+            "sv": "Parametrar som behövs för att beräkna miljöfaktorer",
         },
-        "Park and Ride stops": {"fi": "Julkisen liikenteen liityntäpysäköinti"},
-        "Passenger classes": {"fi": "Matkustajaluokat"},
-        "Payment methods": {"fi": "Maksutavat"},
-        "Payment methods for tolls": {"fi": "Tietullien maksutavat"},
+        "Park and Ride stops": {
+            "fi": "Julkisen liikenteen liityntäpysäköinti",
+            "sv": "Park and Ride-hållplatser",
+        },
+        "Passenger classes": {"fi": "Matkustajaluokat", "sv": "Passagerarklasser"},
+        "Payment methods": {"fi": "Maksutavat", "sv": "Betalningsmetoder"},
+        "Payment methods for tolls": {
+            "fi": "Tietullien maksutavat",
+            "sv": "Betalningsmetoder för vägtullar",
+        },
         "Pedestrian accessibility facilities": {
-            "fi": "Jalankulkijoiden esteettömyyttä tukevat välineet"
+            "fi": "Jalankulkijoiden esteettömyyttä tukevat välineet",
+            "sv": "Tillgänglighetsmöjligheter för fotgängare",
         },
-        "Pedestrian network geometry": {"fi": "Jalankulkuverkon geometria"},
-        "Permanent access restrictions": {"fi": "Pysyvät käyttörajoitukset"},
+        "Pedestrian network geometry": {
+            "fi": "Jalankulkuverkon geometria",
+            "sv": "Geometri för fotgängarnätverk",
+        },
+        "Permanent access restrictions": {
+            "fi": "Pysyvät käyttörajoitukset",
+            "sv": "Permanenta åtkomstbegränsningar",
+        },
         "Planned interchanges between scheduled services": {
-            "fi": "Suunnitellut vaihdot säännöllisten palvelujen välillä"
+            "fi": "Suunnitellut vaihdot säännöllisten palvelujen välillä",
+            "sv": "Planerade bytespunkter mellan linjetrafik",
         },
-        "Points of interest": {"fi": "Kohdepisteet"},
-        "Poor road conditions": {"fi": "Huonokuntoiset tiet"},
-        "Predicted travel times": {"fi": "Ennustetut matka-ajat"},
-        "Provider data": {"fi": "Palveluntarjoajan tiedot"},
-        "Purchase information": {"fi": "Ostotiedot"},
+        "Points of interest": {"fi": "Kohdepisteet", "sv": "Intressanta platser"},
+        "Poor road conditions": {"fi": "Huonokuntoiset tiet", "sv": "Dåligt väglag"},
+        "Predicted travel times": {
+            "fi": "Ennustetut matka-ajat",
+            "sv": "Förutspådda restider",
+        },
+        "Provider data": {
+            "fi": "Palveluntarjoajan tiedot",
+            "sv": "Uppgifter om leverantör",
+        },
+        "Purchase information": {"fi": "Ostotiedot", "sv": "Information om köp"},
         "Real-time estimated departure and arrival times": {
-            "fi": "Reaaliaikaiset arvioidut lähtö- ja saapumisajat"
+            "fi": "Reaaliaikaiset arvioidut lähtö- ja saapumisajat",
+            "sv": "Beräknade avgångs- och ankomsttider i realtid",
         },
-        "Reservation and purchase options": {"fi": "Varaus- ja ostovaihtoehdot"},
-        "Road classification": {"fi": "Tien luokitus"},
+        "Reservation and purchase options": {
+            "fi": "Varaus- ja ostovaihtoehdot",
+            "sv": "Reservations- och köpalternativ",
+        },
+        "Road classification": {"fi": "Tien luokitus", "sv": "Vägklassificering"},
         "Road closures and access conditions": {
-            "fi": "Teiden sulkemiset ja käyttörajoitukset"
+            "fi": "Teiden sulkemiset ja käyttörajoitukset",
+            "sv": "Avstängda vägar och villkor för framkomlighet",
         },
-        "Road weather conditions": {"fi": "Tieolosuhteet"},
-        "Road width": {"fi": "Teiden leveys"},
+        "Road weather conditions": {"fi": "Tieolosuhteet", "sv": "Vägförhållanden"},
+        "Road width": {"fi": "Teiden leveys", "sv": "Vägens bredd"},
         "Service and rest area availability": {
-            "fi": "Palvelu- ja levähdysalueiden saatavuus"
+            "fi": "Palvelu- ja levähdysalueiden saatavuus",
+            "sv": "Tillgänglighet till service- och rastplatser",
         },
         "Service and rest area locations and conditions": {
-            "fi": "Palvelu- ja levähdysalueiden sijainnit ja olosuhteet"
+            "fi": "Palvelu- ja levähdysalueiden sijainnit ja olosuhteet",
+            "sv": "Platser och villkor för service- och rastplatser",
         },
-        "Service areas and service times": {"fi": "Palvelualueet ja palveluajat"},
-        "Short-term road works": {"fi": "Lyhytaikaiset tietyöt"},
-        "Special Fare Products": {"fi": "Erikoismaksutuotteet"},
-        "Speed": {"fi": "Nopeus"},
-        "Speed limits": {"fi": "Nopeusrajoitukset"},
+        "Service areas and service times": {
+            "fi": "Palvelualueet ja palveluajat",
+            "sv": "Serviceområden och servicetider",
+        },
+        "Short-term road works": {
+            "fi": "Lyhytaikaiset tietyöt",
+            "sv": "Kortvariga vägarbeten",
+        },
+        "Special Fare Products": {
+            "fi": "Erikoismaksutuotteet",
+            "sv": "Specialprisprodukter",
+        },
+        "Speed": {"fi": "Nopeus", "sv": "Hastighet"},
+        "Speed limits": {"fi": "Nopeusrajoitukset", "sv": "Hastighetsgränser"},
         "Stop facilities accessibility and paths within facility": {
-            "fi": "Pysäkkipalveluiden esteettömyys ja reitit"
+            "fi": "Pysäkkien esteettömyys ja reitit",
+            "sv": "Hållplatsanläggningars tillgänglighet och stigar inom anläggningen",
         },
         "Stop facilities geometry and map layout": {
-            "fi": "Pysäkkipalveluiden geometria ja kartta"
+            "fi": "Pysäkkien geometria ja kartta",
+            "sv": "Geometri och kartlayout för hållplatsanläggningar",
         },
         "Stop facilities location and features": {
-            "fi": "Pysäkkipalveluiden sijainti ja ominaisuudet"
+            "fi": "Pysäkkien sijainti ja toiminnot",
+            "sv": "Hållplatsens läge och funktioner",
         },
         "Stop facilities status of features": {
-            "fi": "Pysäkkipalveluiden ominaisuuksien tila"
+            "fi": "Pysäkkien toimintojen tila",
+            "sv": "Hållplatsanläggningarnas status för funktioner",
         },
-        "Timetables static": {"fi": "Aikataulut, staattiset"},
-        "Topographic places": {"fi": "Topografiset paikat"},
-        "Traffic circulation plans": {"fi": "Liikennevirtasuunnitelmat"},
+        "Timetables static": {
+            "fi": "Aikataulut, staattiset",
+            "sv": "Tidtabeller statiska",
+        },
+        "Topographic places": {
+            "fi": "Topografiset paikat",
+            "sv": "Topografiska platser",
+        },
+        "Traffic circulation plans": {
+            "fi": "Liikennevirtasuunnitelmat",
+            "sv": "Planer för trafikcirkulation",
+        },
         "Traffic data at border crossings to third countries": {
-            "fi": "Liikennetiedot rajanylityspaikoilla kolmansiin maihin"
+            "fi": "Liikennetiedot rajanylityspaikoilla kolmansiin maihin",
+            "sv": "Trafikuppgifter vid gränsövergångar till tredjeländer",
         },
-        "Traffic volume": {"fi": "Liikenteen määrä"},
-        "Transport operators": {"fi": "Liikenteenharjoittajat"},
-        "Truck parking availability": {"fi": "Kuorma-autopysäköinnin saatavuus"},
+        "Traffic volume": {"fi": "Liikenteen määrä", "sv": "Trafikvolym"},
+        "Transport operators": {"fi": "Liikenteenharjoittajat", "sv": "Transportörer"},
+        "Truck parking availability": {
+            "fi": "Kuorma-autopysäköinnin saatavuus",
+            "sv": "Tillgänglighet för lastbilsparkering",
+        },
         "Truck parking locations and conditions": {
-            "fi": "Kuorma-autojen pysäköintipaikat ja -olosuhteet"
+            "fi": "Kuorma-autojen pysäköintipaikat ja -olosuhteet",
+            "sv": "Parkeringsplatser och villkor för lastbilar",
         },
-        "Tunnel access conditions": {"fi": "Tunneleiden käyttörajoitukset"},
+        "Tunnel access conditions": {
+            "fi": "Tunneleiden käyttörajoitukset",
+            "sv": "Villkor för tillträde till tunnlar",
+        },
         "Tunnel closures and access conditions": {
-            "fi": "Tunneleiden sulkemiset ja käyttörajoitukset"
+            "fi": "Tunneleiden sulkemiset ja käyttörajoitukset",
+            "sv": "Stängning av tunnlar och villkor för tillträde",
         },
-        "Vehicle details": {"fi": "Ajoneuvojen tiedot"},
+        "Vehicle details": {"fi": "Ajoneuvojen tiedot", "sv": "Uppgifter om fordonet"},
         "Waiting time at border crossings to non-EU Member States": {
-            "fi": "Odotusaika rajanylityspaikoilla EU:n ulkopuolisiin maihin"
+            "fi": "Odotusaika rajanylityspaikoilla EU:n ulkopuolisiin maihin",
+            "sv": "Väntetid vid gränsövergångar till länder utanför EU",
         },
     },
     CVOCAB_TRANSPORT_MODE: {
-        "Air": {"fi": "Ilmailu"},
-        "Bicycle": {"fi": "Polkupyörä"},
-        "Bike Hire": {"fi": "Vuokrapyörä"},
-        "Bike Sharing": {"fi": "Kaupunkipyörä"},
-        "Bus": {"fi": "Bussi"},
-        "Car": {"fi": "Auto"},
-        "Car Hire": {"fi": "Vuokra-auto"},
-        "Car Pooling": {"fi": "Kimppakyyti, auto"},
-        "Car Sharing": {"fi": "Yhteiskäyttöauto"},
-        "E-Scooter": {"fi": "Sähköpotkulauta"},
-        "Long-distance coach": {"fi": "Pitkän matkan bussi"},
-        "Long-distance rail": {"fi": "Pitkän matkan juna"},
-        "Maritime": {"fi": "Merenkulku"},
-        "Metro, Subway train": {"fi": "Metro"},
-        "Motorcycle": {"fi": "Moottoripyörä"},
-        "Other": {"fi": "Muu"},
-        "Pedestrian": {"fi": "Jalankulku"},
-        "Regional and local rail": {"fi": "Alueellinen ja paikallinen raideliikenne"},
-        "Ride Pooling": {"fi": "Kimppakyyti, muu"},
-        "Shuttle bus": {"fi": "Liityntäbussi"},
-        "Shuttle ferry": {"fi": "Liityntälautta"},
-        "Taxi": {"fi": "Taksi"},
-        "Tram, Light rail": {"fi": "Raitiovaunu, kevyt raideliikenne"},
-        "Truck": {"fi": "Kuorma-auto"},
+        "Air": {"fi": "Ilmailu", "sv": "Flyg"},
+        "Bicycle": {"fi": "Polkupyörä", "sv": "Cykel"},
+        "Bike Hire": {"fi": "Vuokrapyörä", "sv": "Cykeluthyrning"},
+        "Bike Sharing": {"fi": "Kaupunkipyörä", "sv": "Cykeldelning"},
+        "Bus": {"fi": "Bussi", "sv": "Buss"},
+        "Car": {"fi": "Auto", "sv": "Bil"},
+        "Car Hire": {"fi": "Vuokra-auto", "sv": "Biluthyrning"},
+        "Car Pooling": {"fi": "Kimppakyyti, auto", "sv": "Samåkning med bil"},
+        "Car Sharing": {"fi": "Yhteiskäyttöauto", "sv": "Bildelning"},
+        "E-Scooter": {"fi": "Sähköpotkulauta", "sv": "E-scooter"},
+        "Long-distance coach": {"fi": "Pitkän matkan bussi", "sv": "Långfärdsbuss"},
+        "Long-distance rail": {
+            "fi": "Pitkän matkan juna",
+            "sv": "Fjärrtrafik på järnväg",
+        },
+        "Maritime": {"fi": "Merenkulku", "sv": "Sjöfart"},
+        "Metro, Subway train": {"fi": "Metro", "sv": "Tunnelbana"},
+        "Motorcycle": {"fi": "Moottoripyörä", "sv": "Motorcykel"},
+        "Other": {"fi": "Muu", "sv": "Annat"},
+        "Pedestrian": {"fi": "Jalankulku", "sv": "Fotgängare"},
+        "Regional and local rail": {
+            "fi": "Alueellinen ja paikallinen raideliikenne",
+            "sv": "Regional och lokal järnvägstrafik",
+        },
+        "Ride Pooling": {"fi": "Kimppakyyti, muu", "sv": "Samåkning"},
+        "Shuttle bus": {"fi": "Liityntäbussi", "sv": "Pendelbuss"},
+        "Shuttle ferry": {"fi": "Liityntälautta", "sv": "Pendelfärja"},
+        "Taxi": {"fi": "Taksi", "sv": "Taxi"},
+        "Tram, Light rail": {
+            "fi": "Raitiovaunu, kevyt raideliikenne",
+            "sv": "Spårvagn, lättjärnväg",
+        },
+        "Truck": {"fi": "Kuorma-auto", "sv": "Lastbil"},
     },
     CVOCAB_NETWORK_COVERAGE: {
-        "Air network": {"fi": "Ilmailuverkko"},
+        "Air network": {"fi": "Ilmailuverkko", "sv": "Flygnät"},
         "Metro, subway, tram or light-rail network": {
-            "fi": "Metro, raitiovaunu tai kevyt raideliikenneverkko"
+            "fi": "Metro, raitiovaunu tai kevyt raideliikenneverkko",
+            "sv": "Tunnelbana, spårvagn eller lättjärnvägsnät",
         },
-        "Motorways": {"fi": "Moottoritiet"},
-        "Other": {"fi": "Muu"},
-        "Other public transport network": {"fi": "Muu joukkoliikenneverkko"},
-        "Rail network": {"fi": "Rautatieverkko"},
-        "Regional roads": {"fi": "Alueelliset tiet"},
-        "State roads or federal roads": {"fi": "Valtion tai liittovaltion tiet"},
-        "TEN Network": {"fi": "TEN-verkko"},
-        "TERN Network": {"fi": "TERN-verkko"},
-        "Urban and local roads": {"fi": "Kaupunkien tiet ja paikalliset tiet"},
-        "Waterways": {"fi": "Vesiväylät"},
+        "Motorways": {"fi": "Moottoritiet", "sv": "Motorvägar"},
+        "Other": {"fi": "Muu", "sv": "Annat"},
+        "Other public transport network": {
+            "fi": "Muu joukkoliikenneverkko",
+            "sv": "Annat kollektivtrafiknät",
+        },
+        "Rail network": {"fi": "Rautatieverkko", "sv": "Järnvägsnät"},
+        "Regional roads": {"fi": "Alueelliset tiet", "sv": "Regionala vägar"},
+        "State roads or federal roads": {
+            "fi": "Valtion tai liittovaltion tiet",
+            "sv": "Statliga vägar eller federala vägar",
+        },
+        "TEN Network": {"fi": "TEN-verkko", "sv": "TEN-nätverket"},
+        "TERN Network": {"fi": "TERN-verkko", "sv": "TERN-nätverket"},
+        "Urban and local roads": {
+            "fi": "Kaupunkien tiet ja paikalliset tiet",
+            "sv": "Stads- och lokalvägar",
+        },
+        "Waterways": {"fi": "Vesiväylät", "sv": "Vattenvägar"},
     },
     CVOCAB_INTENDED_INFORMATION_SERVICE: {
-        "Dynamic Information service": {"fi": "Dynaaminen tietopalvelu"},
+        "Dynamic Information service": {
+            "fi": "Dynaaminen tietopalvelu",
+            "sv": "Tjänst för dynamisk information",
+        },
         "Dynamic Passing times, trip plans and auxiliary information": {
-            "fi": "Dynaamiset ohitusajat, reittisuunnitelmat ja lisätiedot"
+            "fi": "Dynaamiset ohitusajat, reittisuunnitelmat ja lisätiedot",
+            "sv": "Dynamiska passeringstider, resplaner och hjälpinformation",
         },
-        "Dynamic availability check": {"fi": "Dynaaminen saatavuuden tarkistus"},
-        "Information service": {"fi": "Tietopalvelu"},
-        "Location search": {"fi": "Sijaintihaku"},
-        "Other": {"fi": "Muu"},
+        "Dynamic availability check": {
+            "fi": "Dynaaminen saatavuuden tarkistus",
+            "sv": "Dynamisk tillgänglighetskontroll",
+        },
+        "Information service": {"fi": "Tietopalvelu", "sv": "Informationstjänst"},
+        "Location search": {"fi": "Sijaintihaku", "sv": "Platssökning"},
+        "Other": {"fi": "Muu", "sv": "Annat"},
         "Trip plan computation scheduled modes transport": {
-            "fi": "Reittisuunnitelman laskenta aikataulutetuilla kuljetusmuodoilla"
+            "fi": "Reittisuunnitelman laskenta aikataulutetuilla kuljetusmuodoilla",
+            "sv": "Beräkning av färdplan, schemalagda transportsätt",
         },
-        "Trip plans": {"fi": "Reittisuunnitelmat"},
+        "Trip plans": {"fi": "Reittisuunnitelmat", "sv": "Resplaner"},
         "Trip plans, auxiliary information, availability check": {
-            "fi": "Reittisuunnitelmat, lisätiedot, saatavuuden tarkistus"
+            "fi": "Reittisuunnitelmat, lisätiedot, saatavuuden tarkistus",
+            "sv": "Resplaner, hjälpinformation, kontroll av tillgänglighet",
         },
     },
 }
