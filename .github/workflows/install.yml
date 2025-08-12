@@ -54,7 +54,7 @@ jobs:
     environment: ${{ github.event.inputs.env }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           ref: ${{ github.event.inputs.ref }}
 
@@ -187,7 +187,7 @@ jobs:
           version: 9
 
       - name: Checkout CI-repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           repository: ${{ secrets.CONFIG_REPO_NAME }}
           ssh-key: ${{ secrets.CONFIG_REPO_SSH_KEY }}
