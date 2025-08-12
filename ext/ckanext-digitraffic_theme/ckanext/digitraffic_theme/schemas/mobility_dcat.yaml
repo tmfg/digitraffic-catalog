@@ -532,12 +532,12 @@ dataset_fields:
     label:
       en: E-scooter-sharing Availability
       fi: Yhteiskäyttöisten sähköpotkulautojen saatavuus
-      sv: E-scooter-delning tillgänglighet
+      sv: Tillgänglighet för elsparkcykeldelning
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/e-scooter-sharing-locations-and-stations
     label:
       en: E-scooter-sharing Locations and stations
       fi: Yhteiskäyttöisten sähköpotkulautojen sijainnit ja asemat
-      sv: Tillgänglighet för elsparkcykeldelning
+      sv: Elsparkcykeldelningens platser och stationer
   - value: https://w3id.org/mobilitydcat-ap/mobility-theme/environmental-standards-for-vehicles
     label:
       en: Environmental standards for vehicles
@@ -981,6 +981,7 @@ dataset_fields:
   label:
     en: Start time
     fi: Alkamisaika
+    sv: Starttid
   preset: datetime_tz
   required: false
   classes:
@@ -991,6 +992,7 @@ dataset_fields:
   label:
     en: End time
     fi: Päättymisaika
+    sv: Sluttid
   preset: datetime_tz
   required: false
   classes:
@@ -6780,6 +6782,7 @@ resource_fields:
   label:
     en: Start time
     fi: Alkamisaika
+    sv: Starttid
   preset: datetime_tz
   required: false
   classes:
@@ -6790,6 +6793,7 @@ resource_fields:
   label:
     en: End time
     fi: Päättymisaika
+    sv: Sluttid
   preset: datetime_tz
   required: false
   classes:

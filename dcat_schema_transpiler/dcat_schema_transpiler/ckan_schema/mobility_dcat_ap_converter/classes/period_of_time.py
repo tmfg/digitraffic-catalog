@@ -49,10 +49,11 @@ class PeriodOfTime(RangeValueConverter):
                         if clazz_p.is_iri(DCAT.startDate)
                         else "Päättymisaika"
                     ),
+                    "sv": ("Starttid" if clazz_p.is_iri(DCAT.startDate) else "Sluttid"),
                 },
                 "preset": "datetime_tz",
                 "required": is_required,
-                "classes": ["control-medium", "hide-necessity"]
+                "classes": ["control-medium", "hide-necessity"],
             }
         return None
 
