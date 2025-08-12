@@ -3866,7 +3866,7 @@ resource_fields:
   - field_name: data_service_description_translated
     label:
       en: Data service description
-      fi: Palvelun kuvaus
+      fi: Tietopalvelun kuvaus
       sv: Beskrivning av datatjänsten
     required: false
     necessity: optional
@@ -3882,20 +3882,20 @@ resource_fields:
     fluent_form_label:
       en:
         en: Data service description in English
-        fi: Palvelun kuvaus englanniksi
+        fi: Tietopalvelun kuvaus englanniksi
         sv: Beskrivning av datatjänsten på engelska
       fi:
         en: Data service description in Finnish
-        fi: Palvelun kuvaus suomeksi
+        fi: Tietopalvelun kuvaus suomeksi
         sv: Beskrivning av datatjänsten på finska
       sv:
         en: Data service description in Swedish
-        fi: Palvelun kuvaus ruotsiksi
+        fi: Tietopalvelun kuvaus ruotsiksi
         sv: Beskrivning av datatjänsten på svenska
   - field_name: data_service_endpoint_url
     label:
       en: Endpoint URL
-      fi: URL (rajapinta)
+      fi: Rajapinnan URL
       sv: Slutpunkts-URL
     help_text:
       en: The root location or primary endpoint of the data service related to this

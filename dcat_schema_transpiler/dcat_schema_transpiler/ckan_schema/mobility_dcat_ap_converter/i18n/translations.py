@@ -330,7 +330,7 @@ TRANSLATIONS = {
         DCAT.endpointURL: {
             "label": {
                 "en": "Endpoint URL",
-                "fi": "URL (rajapinta)",
+                "fi": "Rajapinnan URL",
                 "sv": "Slutpunkts-URL",
             },
             "help_text": {
@@ -366,7 +366,7 @@ TRANSLATIONS = {
         DCTERMS.description: {
             "label": {
                 "en": "Data service description",
-                "fi": "Palvelun kuvaus",
+                "fi": "Tietopalvelun kuvaus",
                 "sv": "Beskrivning av datatjänsten",
             },
             "help_text": {
