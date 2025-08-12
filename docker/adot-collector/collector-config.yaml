@@ -17,7 +17,32 @@ processors:
     send_batch_size: 50
   batch/metrics:
     timeout: 60s
-
+  filter/ottl:
+    error_mode: ignore
+    traces:
+      span:
+        # Ignore known static assets
+        - IsMatch(attributes["http.request.url"], ".*\\.digitraffic\\.fi/webassets/vendor/.*_select2\\.css")
+        - IsMatch(attributes["http.request.url"], ".*\\.digitraffic\\.fi/webassets/vendor/.*_vendor\\.js")
+        - IsMatch(attributes["http.request.url"], ".*\\.digitraffic\\.fi/webassets/vendor/.*_bootstrap\\.js")
+        - IsMatch(attributes["http.request.url"], ".*\\.digitraffic\\.fi/webassets/vendor/.*_fontawesome\\.css")
+        - IsMatch(attributes["http.request.url"], ".*\\.digitraffic\\.fi/webassets/vendor/.*_htmx\\.js")
+        - IsMatch(attributes["http.request.url"], ".*\\.digitraffic\\.fi/webassets/vendor/.*_jquery\\.js")
+        - IsMatch(attributes["http.request.url"], ".*\\.digitraffic\\.fi/webassets/ckanext-scheming/.*\\.css")
+        - IsMatch(attributes["http.request.url"], ".*\\.digitraffic\\.fi/webassets/ckanext-digitraffic_theme/.*DigitrafficMain\\.js")
+        - IsMatch(attributes["http.request.url"], ".*\\.digitraffic\\.fi/webassets/ckanext-digitraffic_theme/.*-digitraffic-theme\\.css")
+        - IsMatch(attributes["http.request.url"], ".*\\.digitraffic\\.fi/webassets/base/.*_ckan\\.js")
+        - IsMatch(attributes["http.request.url"], ".*\\.digitraffic\\.fi/webassets/base/.*_main\\.js")
+        - IsMatch(attributes["http.request.url"], ".*\\.digitraffic\\.fi/webassets/base/.*_main\\.css")
+        - IsMatch(attributes["http.request.url"], ".*\\.digitraffic\\.fi/images/hero_image.jpg")
+        - IsMatch(attributes["http.request.url"], ".*\\.digitraffic\\.fi/favicon.svg")
+        - IsMatch(attributes["http.request.url"], ".*\\.digitraffic\\.fi/favicon.ico")
+        - IsMatch(attributes["http.request.url"], ".*\\.digitraffic\\.fi/assets/fintraffic_horizontal_white.svg")
+        - IsMatch(attributes["http.request.url"], ".*\\.digitraffic\\.fi/base/vendor/fontawesome-free/.*")
+        - IsMatch(attributes["http.request.url"], ".*\\.digitraffic\\.fi/assets/.*")
+        # Ignore Health Check Requests
+        - (IsMatch(attributes["name"], "ckan") and IsMatch(attributes["http.request.url"], "http://localhost:5000/api/3/action/status_show"))
+        - (IsMatch(attributes["name"], "Solr") and IsMatch(attributes["http.request.url"], "http://localhost:8983wt=json"))
 exporters:
   awsxray:
     indexed_attributes:
@@ -30,7 +55,7 @@ service:
   pipelines:
     traces:
       receivers: [otlp,awsxray]
-      processors: [batch/traces]
+      processors: [filter/ottl,batch/traces]
       exporters: [awsxray]
 
   extensions: [health_check]
