@@ -85,7 +85,7 @@ export class NewDatasetPage extends BasePage implements JSLoadedInterface<NewDat
     this.spatialReferenceSystemField = page.getByLabel('Paikkaviittausjärjestelmä');
     this.intendedInformationServiceField = page.getByLabel('Hyödyntävä tietopalvelu');
     this.urlToQualityDescriptionField = page.getByLabel('Julkaisijan kuvaus laadusta');
-    this.relatedDatasetField = page.locator('#field-related_resource');
+    this.relatedDatasetField = page.locator('#field-related_resource').getByRole('combobox');
     this.rightsHolderGroup = page.locator(
       '.field-group',
       { has: page.getByRole('heading', { name: 'Oikeuksien haltijat' }) })
@@ -284,13 +284,12 @@ export class NewDatasetPage extends BasePage implements JSLoadedInterface<NewDat
   }
 
   async addRelatedDataset(relatedDataset: string): Promise<void> {
-    await this.relatedDatasetField.getByRole('button').click();
-
-    const optionToSelect = this.page
-      .locator('div.option[aria-selected="false"]')
-      .filter({ has: this.page.locator('span.label', { hasText: relatedDataset }) })
-      .first();
-    await optionToSelect.click();
+    await this.relatedDatasetField.click();
+    // Might have more than just one option with the same name
+    for (const datasetOption of await this.additionalInformationGroup.locator("span.label").filter({ hasText: relatedDataset }).all()) {
+      await datasetOption.click();
+    }
+    await this.relatedDatasetField.click();
   }
 
   async setDatasetInfo(datasetInfo: DatasetInfo): Promise<NewResourcePage> {
