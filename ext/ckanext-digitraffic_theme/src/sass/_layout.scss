@@ -4,17 +4,19 @@
     padding-top: 0px;
     background-color: var(--fds-color-brand-white);
     background-image: none;
+
     @media (min-width: map-get($grid-breakpoints, md)) {
         // Sitä varten, että footeri on keskellä näyttöä isolla näytöllä
         min-height: calc(100vh - 81px - 187px);
     }
 }
 
-.homepage > [role=main] {
+.homepage>[role=main] {
     @include page-main-section;
 
     .main {
         background-color: var(--fds-color-brand-white);
+
         background-image: none;
     }
 }
@@ -25,11 +27,15 @@ body {
         z-index: 100;
         position: relative;
     }
-    > .main {
+
+    >.main {
         @include page-main-section;
 
         z-index: 10;
         position: relative;
+
+        >#content.container {
+            max-width: 1300px;
+        }
     }
 }
-
