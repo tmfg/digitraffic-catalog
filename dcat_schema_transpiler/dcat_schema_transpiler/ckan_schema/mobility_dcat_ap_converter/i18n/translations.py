@@ -175,8 +175,8 @@ TRANSLATIONS = {
                 "sv": "Språk som används i innehållsdata.",
             },
         },
-        DCTERMS.temporal: {
-            "start": {
+        DCTERMS.PeriodOfTime: {
+            DCAT.startDate: {
                 "label": {
                     "en": "Validity start time",
                     "fi": "Voimassaolon alkamisaika",
@@ -188,7 +188,7 @@ TRANSLATIONS = {
                     "sv": "Tidsreferens för det levererade innehållet (t.ex. giltighetstid för en tidtabell för kollektivtrafik).",
                 },
             },
-            "end": {
+            DCAT.endDate: {
                 "label": {
                     "en": "Validity end time",
                     "fi": "Voimassaolon päättymisaika",
@@ -297,12 +297,12 @@ TRANSLATIONS = {
                 "sv": "Ett exempel på distribution av datauppsättningen. Med hjälp av ett dataurval kan dataanvändare undersöka datainnehållet och datastrukturen utan att prenumerera på en datafeed eller ladda ned en fullständig datamängd.",
             },
         },
-        DCTERMS.temporal: {
-            "start": {
+        DCTERMS.PeriodOfTime: {
+            DCAT.startDate: {
                 "label": {
-                    "en": "Start time",
+                    "en": "Availability start time",
                     "fi": "Saatavuuden alkamisaika",
-                    "sv": "Starttid",
+                    "sv": "Starttid för tillgänglighet",
                 },
                 "help_text": {
                     "en": "The beginning of the time interval when a data service, e.g., a data feed, is delivered technically via the data platform. If there is no entry it means that the publication gets valid immediately.",
@@ -310,11 +310,11 @@ TRANSLATIONS = {
                     "sv": "Början på det tidsintervall då en datatjänst, t.ex. en datafeed, levereras tekniskt via dataplattformen. Om det inte finns någon post betyder det att publikationen blir giltig direkt.",
                 },
             },
-            "end": {
+            DCAT.endDate: {
                 "label": {
-                    "en": "End time",
+                    "en": "Availability end time",
                     "fi": "Saatavuuden päättymisaika",
-                    "sv": "Sluttid",
+                    "sv": "Sluttid för tillgänglighet",
                 },
                 "help_text": {
                     "en": "The end of the time interval when a data service, e.g., a data feed, is delivered technically via the data platform. If there is no entry it means that the publication gets valid immediately.",

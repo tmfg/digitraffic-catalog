@@ -35,12 +35,13 @@ class RangeValueConverter(ABC):
     recommended_properties: Set[URIRef] = set()
     optional_properties: Set[URIRef] = set()
 
-    def __init__(self, clazz: RDFSClass):
+    def __init__(self, clazz: RDFSClass, parent_class_iri: URIRef = None):
         if not clazz.is_iri(self.__class__.iri):
             raise ValueError(
                 f"The given RDF Class must be of correct type. Was given RDFSClass {clazz.iri} and expected {self.__class__.iri}"
             )
         self.clazz = clazz
+        self.parent_class_iri = parent_class_iri
 
     @abstractmethod
     def get_range_value(self, ds: Dataset, clazz_p: RDFSProperty) -> RDFSClass | None:
