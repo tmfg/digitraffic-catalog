@@ -1,5 +1,8 @@
 from typing import Dict
 
+from ckan_schema.mobility_dcat_ap_converter.i18n.translations import (
+    TRANSLATIONS,
+)
 from rdflib import Dataset, URIRef
 from rdflib.namespace import DCAT, DCTERMS
 
@@ -16,8 +19,9 @@ class PeriodOfTime(RangeValueConverter):
 
     recommended_properties = {DCAT.startDate, DCAT.endDate}
 
-    def __init__(self, clazz: RDFSClass):
+    def __init__(self, clazz: RDFSClass, parent_class_iri: URIRef = None):
         super().__init__(clazz)
+        self.parent_class_iri = parent_class_iri
 
     def ckan_field(self, p: RDFSProperty, pointer: str = None) -> str:
         mappings = {DCAT.startDate: "start_timestamp", DCAT.endDate: "end_timestamp"}
@@ -37,20 +41,14 @@ class PeriodOfTime(RangeValueConverter):
         self, ds: Dataset, clazz_p: RDFSProperty | None, is_required: bool = False
     ):
         if any(clazz_p.is_iri(p) for p in self.__class__.recommended_properties):
+            parent_context = TRANSLATIONS.get(
+                self.parent_class_iri, TRANSLATIONS[DCAT.Distribution]
+            )
+            label = parent_context.get(self.iri, {}).get(clazz_p.iri, {})
             return {
                 "field_name": self.ckan_field(clazz_p),
                 **super().get_necessity_mapping(clazz_p.iri),
-                "label": {
-                    "en": (
-                        "Start time" if clazz_p.is_iri(DCAT.startDate) else "End time"
-                    ),
-                    "fi": (
-                        "Alkamisaika"
-                        if clazz_p.is_iri(DCAT.startDate)
-                        else "Päättymisaika"
-                    ),
-                    "sv": ("Starttid" if clazz_p.is_iri(DCAT.startDate) else "Sluttid"),
-                },
+                **label,
                 "preset": "datetime_tz",
                 "required": is_required,
                 "classes": ["control-medium", "hide-necessity"],

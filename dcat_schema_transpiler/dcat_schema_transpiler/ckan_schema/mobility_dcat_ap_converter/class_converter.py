@@ -48,6 +48,7 @@ class ClassConverter:
         self,
         omit_: Dict[URIRef, Set[URIRef] | Literal["all"]] = None,
         is_required: bool = None,
+        parent_class_iri: URIRef = None,
     ) -> List[Dict]:
         """
         Returns the info for Ckanext Scheming plugin.
@@ -73,7 +74,7 @@ class ClassConverter:
         if self.clazz.iri in omit and omit[self.clazz.iri] == "all":
             return []
 
-        converter = self._get_converter()
+        converter = self._get_converter(parent_class_iri)
         class_properties = self._get_main_class_properties()
         sub_class_properties = self._get_sub_class_properties(converter)
         all_properties = class_properties | sub_class_properties
@@ -123,7 +124,9 @@ Schema was not defined for class {self.clazz.iri} range value converter for prop
 Trying to find a converter for the property'f's range value {rdf_range.iri}"""
             )
             range_range_value_converter = ClassConverter(rdf_range, self.ds)
-            schema = range_range_value_converter.convert(omit, is_required_)
+            schema = range_range_value_converter.convert(
+                omit, is_required_, parent_class_iri=self.clazz.iri
+            )
         return schema
 
     def _append_schema(self, schema):
@@ -183,7 +186,7 @@ Trying to find a converter for the property'f's range value {rdf_range.iri}"""
                 all_properties = all_properties | sub_class_properties
         return all_properties
 
-    def _get_converter(self) -> RangeValueConverter:
+    def _get_converter(self, parent_class_iri: URIRef = None) -> RangeValueConverter:
         def converter_subclasses(clazz: type = None) -> Set[type(RangeValueConverter)]:
             if clazz is None:
                 clazz = RangeValueConverter
@@ -201,7 +204,7 @@ Trying to find a converter for the property'f's range value {rdf_range.iri}"""
         }
 
         if self.clazz.iri in iri_to_converter:
-            return iri_to_converter.get(self.clazz.iri)(self.clazz)
+            return iri_to_converter.get(self.clazz.iri)(self.clazz, parent_class_iri)
         else:
             raise ValueError(
                 f"Cannot find a range value converter for class {self.clazz.iri}"
