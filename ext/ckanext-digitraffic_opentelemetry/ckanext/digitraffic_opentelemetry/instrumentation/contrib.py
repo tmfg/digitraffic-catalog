@@ -17,9 +17,6 @@ from opentelemetry.instrumentation.logging import LoggingInstrumentor
 from opentelemetry.instrumentation.flask import FlaskInstrumentor
 from opentelemetry.instrumentation.urllib3 import URLLib3Instrumentor
 from opentelemetry.instrumentation.requests import RequestsInstrumentor
-from opentelemetry.instrumentation.sqlalchemy import SQLAlchemyInstrumentor
-from opentelemetry.instrumentation.redis import RedisInstrumentor
-from opentelemetry.instrumentation.psycopg2 import Psycopg2Instrumentor
 
 
 def _add_user_to_baggage(span: Span, context: Context) -> Context:
@@ -60,19 +57,3 @@ def add_request_instrumentation():
     """
     URLLib3Instrumentor().instrument()
     RequestsInstrumentor().instrument()
-
-def add_psycopg2_instrumentation():
-    Psycopg2Instrumentor().instrument()
-
-def add_sqlalchemy_instrumentation():
-    """
-    Instrument the SQLAlchemy library to automatically create spans for SQL queries.
-    """
-    engines = [get_read_engine(), get_write_engine()]
-    SQLAlchemyInstrumentor().instrument(engines=engines)
-
-def add_redis_instrumentation():
-    """
-    Instrument the Redis library to automatically create spans for Redis queries.
-    """
-    RedisInstrumentor().instrument()
