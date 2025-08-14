@@ -14,6 +14,7 @@ from opentelemetry.sdk.extension.aws.trace import AwsXRayIdGenerator
 from opentelemetry.propagators.aws import AwsXRayPropagator
 from opentelemetry.propagators.composite import CompositePropagator
 from .w3c_extractor_propagator import W3CExtractorPropagator
+from opentelemetry.instrumentation.threading import ThreadingInstrumentor
 
 from opentelemetry.processor.baggage import BaggageSpanProcessor
 
@@ -41,6 +42,7 @@ class Configurer:
 
         # Sets the global default tracer provider
         trace.set_tracer_provider(provider)
+        self._set_propagators()
 
     def _set_propagators(self):
         """
@@ -56,6 +58,7 @@ class Configurer:
         # the baggage header is "baggage".
         baggage_propagator = W3CBaggagePropagator()
         propagate.set_global_textmap(CompositePropagator([aws_xray_propagator, w3c_extractor, baggage_propagator]))
+        ThreadingInstrumentor().instrument()
 
     def _add_baggage_to_span_attributes(self, provider: TracerProvider, baggage_keys_to_propagate: set[str]):
         is_baggage_key_propagated = lambda baggage_key: baggage_key in baggage_keys_to_propagate
