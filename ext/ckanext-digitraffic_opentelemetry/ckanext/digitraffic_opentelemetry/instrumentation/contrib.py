@@ -2,6 +2,10 @@
 This module contains functions to instrument various libraries and frameworks with [OpenTelemetry Python Contrib](https://opentelemetry-python-contrib.readthedocs.io/en/latest/).
 """
 import ckan.plugins.toolkit as toolkit
+from ckanext.datastore.backend.postgres import (
+    get_read_engine,
+    get_write_engine
+)
 from sqlalchemy.engine import Engine
 from flask import Flask, request
 
@@ -15,6 +19,7 @@ from opentelemetry.instrumentation.urllib3 import URLLib3Instrumentor
 from opentelemetry.instrumentation.requests import RequestsInstrumentor
 from opentelemetry.instrumentation.sqlalchemy import SQLAlchemyInstrumentor
 from opentelemetry.instrumentation.redis import RedisInstrumentor
+from opentelemetry.instrumentation.psycopg2 import Psycopg2Instrumentor
 
 
 def _add_user_to_baggage(span: Span, context: Context) -> Context:
@@ -56,11 +61,15 @@ def add_request_instrumentation():
     URLLib3Instrumentor().instrument()
     RequestsInstrumentor().instrument()
 
-def add_sqlalchemy_instrumentation(engine: Engine):
+def add_psycopg2_instrumentation():
+    Psycopg2Instrumentor().instrument()
+
+def add_sqlalchemy_instrumentation():
     """
     Instrument the SQLAlchemy library to automatically create spans for SQL queries.
     """
-    SQLAlchemyInstrumentor().instrument(engine=engine)
+    engines = [get_read_engine(), get_write_engine()]
+    SQLAlchemyInstrumentor().instrument(engines=engines)
 
 def add_redis_instrumentation():
     """
