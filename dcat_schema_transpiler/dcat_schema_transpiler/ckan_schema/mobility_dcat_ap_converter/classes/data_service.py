@@ -2,7 +2,7 @@ from ckan_schema.mobility_dcat_ap_converter.range_value_converter import (
     AggregateRangeValueConverter,
     RangeValueConverter,
 )
-from rdflib import DCAT, DCTERMS, Dataset
+from rdflib import DCAT, DCTERMS, Dataset, URIRef
 
 from dcat_schema_transpiler.rdfs.rdfs_class import RDFSClass
 from dcat_schema_transpiler.rdfs.rdfs_property import RDFSProperty
@@ -21,7 +21,7 @@ class DataService(AggregateRangeValueConverter):
 
     field_name = "data_service"
 
-    def __init__(self, clazz: RDFSClass):
+    def __init__(self, clazz: RDFSClass, parent_class_iri: URIRef = None):
         super().__init__(clazz)
         self.__aggregate_schemas = []
 

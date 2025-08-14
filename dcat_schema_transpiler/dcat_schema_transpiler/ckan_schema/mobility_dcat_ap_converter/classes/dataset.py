@@ -77,7 +77,7 @@ class DCATDataset(RangeValueConverter):
         DQV.hasQualityAnnotation,
     }
 
-    def __init__(self, clazz: RDFSClass):
+    def __init__(self, clazz: RDFSClass, parent_class_iri: URIRef = None):
         super().__init__(clazz)
 
     def ckan_field_by_id(self, p: URIRef, pointer: str = None) -> str:

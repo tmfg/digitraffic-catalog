@@ -1,6 +1,6 @@
-import type {Locator, Page} from "@playwright/test";
-import {BasePage, type JSLoadedInterface} from './base';
-import {setPom, URL} from "./pages-controller";
+import type { Locator, Page } from "@playwright/test";
+import { BasePage, type JSLoadedInterface } from './base';
+import { setPom, URL } from "./pages-controller";
 import {
   type Assessment,
   type ContactPoint,
@@ -9,8 +9,8 @@ import {
   isPersonRightsHolder,
   type RightsHolder
 } from '../models/dataset-info';
-import {dateToDateAndTimeString, getNewestRepeatingFieldGroupIndex, getRepeatingFieldGropField, gotoNewPage} from "./util";
-import {NewResourcePage} from "./new-resource-page";
+import { dateToDateAndTimeString, getNewestRepeatingFieldGroupIndex, getRepeatingFieldGropField, gotoNewPage } from "./util";
+import { NewResourcePage } from "./new-resource-page";
 
 export class NewDatasetPage extends BasePage implements JSLoadedInterface<NewDatasetPage> {
   readonly visibilityFields: Locator
@@ -48,7 +48,7 @@ export class NewDatasetPage extends BasePage implements JSLoadedInterface<NewDat
   readonly rightsHolderGroup: Locator;
 
   constructor(page: Page) {
-    super(page, [page.getByRole('heading', {name: 'Yleiset'}), page.getByRole('heading', {name: 'Versiointi'})]);
+    super(page, [page.getByRole('heading', { name: 'Yleiset' }), page.getByRole('heading', { name: 'Versiointi' })]);
     this.visibilityFields = page.locator('.control-group:has([for="field-private"])');
     this.visibilityFieldPublic = this.visibilityFields.getByLabel('Julkinen');
     this.visibilityFieldPrivate = this.visibilityFields.getByLabel('Yksityinen');
@@ -57,28 +57,28 @@ export class NewDatasetPage extends BasePage implements JSLoadedInterface<NewDat
     this.regionalCoverageField = page.getByLabel('Alueellinen kattavuus');
     this.dataContentCategoryField = page.getByLabel('* Kategoria');
     this.descriptionField = page.getByLabel('Kuvaus englanniksi');
-    this.saveButton = page.getByRole('button', {name: 'Seuraava: Lisää dataa'});
+    this.saveButton = page.getByRole('button', { name: 'Seuraava: Lisää dataa' });
     this.dataContentSubCategoryField = page.getByLabel('Alakategoria');
     this.themeField = page.getByLabel('Aihe');
     this.transportModeField = page.getByLabel('Liikennemuoto');
     this.startDateField = page.getByLabel('Alkamisaika');
-    this.startTimeField = page.locator('.datetime-row', {has: this.startDateField}).getByLabel('Kellonaika');
+    this.startTimeField = page.locator('.datetime-row', { has: this.startDateField }).getByLabel('Kellonaika');
     this.endDateField = page.getByLabel('Päättymisaika');
-    this.endTimeField = page.locator('.datetime-row', {has: this.endDateField}).getByLabel('Kellonaika');
-    this.ianaTimezoneField = page.getByLabel('Aikavyöhyke').filter({visible: true});
+    this.endTimeField = page.locator('.datetime-row', { has: this.endDateField }).getByLabel('Kellonaika');
+    this.ianaTimezoneField = page.getByLabel('Aikavyöhyke').filter({ visible: true });
     this.additionalInformationGroup = page.locator(
       '.field-group',
-      {has: page.getByRole('heading', { name: 'Lisätiedot'})})
+      { has: page.getByRole('heading', { name: 'Lisätiedot' }) })
     this.contactPointGroup = page.locator('.field-group')
-      .filter({has: page.getByRole('heading', { name: 'Yhteyspiste'})})
-    this.addContactPointButton = this.contactPointGroup.getByRole('link', {name: 'Lisää'});
+      .filter({ has: page.getByRole('heading', { name: 'Yhteyspisteet' }) })
+    this.addContactPointButton = this.contactPointGroup.getByRole('link', { name: 'Lisää' });
     this.versionField = page.getByLabel('Tietoaineiston versio');
     this.versionNotesField = page.getByLabel('Version tiedot englanniksi');
     this.assessmentGroup = page.locator(
       '.field-group',
-      {has: page.getByRole('heading', { name: 'Arvio'})})
+      { has: page.getByRole('heading', { name: 'Arvio' }) })
     this.addAssessmentButton = this.assessmentGroup
-      .getByRole('link', {name: 'Lisää'});
+      .getByRole('link', { name: 'Lisää' });
     this.languageField = page.getByLabel('Kieli');
     this.georeferencingMethodField = page.getByLabel('Georeferointitapa');
     this.networkCoverageField = page.getByLabel('Liikenneverkko');
@@ -88,9 +88,9 @@ export class NewDatasetPage extends BasePage implements JSLoadedInterface<NewDat
     this.relatedDatasetField = page.locator('#field-related_resource').getByRole('combobox');
     this.rightsHolderGroup = page.locator(
       '.field-group',
-      {has: page.getByRole('heading', { name: 'Oikeuksien haltija'})})
+      { has: page.getByRole('heading', { name: 'Oikeuksien haltijat' }) })
     this.addRightsHolderButton = this.rightsHolderGroup
-      .getByRole('link', {name: 'Lisää'});
+      .getByRole('link', { name: 'Lisää' });
   }
 
   async goto(): Promise<NewDatasetPage> {
@@ -137,12 +137,12 @@ export class NewDatasetPage extends BasePage implements JSLoadedInterface<NewDat
       await this.transportModeField.selectOption(datasetInfo.optionalValues.transportMode);
     }
     if (datasetInfo.optionalValues?.startTimestamp) {
-      const {date, time} = dateToDateAndTimeString(datasetInfo.optionalValues.startTimestamp);
+      const { date, time } = dateToDateAndTimeString(datasetInfo.optionalValues.startTimestamp);
       await this.startDateField.fill(date);
       await this.startTimeField.fill(time);
     }
     if (datasetInfo.optionalValues?.endTimestamp) {
-      const {date, time} = dateToDateAndTimeString(datasetInfo.optionalValues.endTimestamp);
+      const { date, time } = dateToDateAndTimeString(datasetInfo.optionalValues.endTimestamp);
       await this.endDateField.fill(date);
       await this.endTimeField.fill(time);
     }
@@ -202,7 +202,7 @@ export class NewDatasetPage extends BasePage implements JSLoadedInterface<NewDat
     await (await getRepeatingFieldGropField(this.contactPointGroup, newContactPointIndex, 'Koko nimi')).fill(contactPoint.fullName);
     await (await getRepeatingFieldGropField(this.contactPointGroup, newContactPointIndex, 'Sähköposti')).fill(contactPoint.email);
     if (contactPoint.telephone) {
-        await (await getRepeatingFieldGropField(this.contactPointGroup, newContactPointIndex, 'Puhelinnumero')).fill(contactPoint.telephone);
+      await (await getRepeatingFieldGropField(this.contactPointGroup, newContactPointIndex, 'Puhelinnumero')).fill(contactPoint.telephone);
     }
     if (contactPoint.url) {
       await (await getRepeatingFieldGropField(this.contactPointGroup, newContactPointIndex, 'Verkkosivu')).fill(contactPoint.url);
@@ -233,7 +233,7 @@ export class NewDatasetPage extends BasePage implements JSLoadedInterface<NewDat
     await this.addAssessmentButton.click();
     const newAssessmentIndex = await getNewestRepeatingFieldGroupIndex(this.assessmentGroup);
     if (assessment.date) {
-      const {date} = dateToDateAndTimeString(assessment.date);
+      const { date } = dateToDateAndTimeString(assessment.date);
       await (await getRepeatingFieldGropField(this.assessmentGroup, newAssessmentIndex, 'Arvion päivämäärä')).fill(date);
     }
     if (assessment.urlToResult) {
@@ -284,12 +284,12 @@ export class NewDatasetPage extends BasePage implements JSLoadedInterface<NewDat
   }
 
   async addRelatedDataset(relatedDataset: string): Promise<void> {
-    await this.relatedDatasetField.click()
+    await this.relatedDatasetField.click();
     // Might have more than just one option with the same name
     for (const datasetOption of await this.additionalInformationGroup.locator("span.label").filter({ hasText: relatedDataset }).all()) {
       await datasetOption.click();
     }
-    await this.relatedDatasetField.click()
+    await this.relatedDatasetField.click();
   }
 
   async setDatasetInfo(datasetInfo: DatasetInfo): Promise<NewResourcePage> {

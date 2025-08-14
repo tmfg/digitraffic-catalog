@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: ckanext-digitraffic_theme 0.0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2025-06-19 06:56+0000\n"
-"PO-Revision-Date: 2025-06-19 09:57+0300\n"
+"PO-Revision-Date: 2025-08-12 14:55+0300\n"
 "Last-Translator: \n"
 "Language-Team: fi <LL@li.org>\n"
 "Language: fi\n"
@@ -27,7 +27,7 @@ msgstr "Ylläpitäjät"
 
 #: ckanext/digitraffic_theme/templates/admin/base.html:6
 msgid "Trash"
-msgstr ""
+msgstr "Roskakori"
 
 #: ckanext/digitraffic_theme/templates/home/hero_buttons.html:2
 msgid "Register"
@@ -255,7 +255,7 @@ msgstr ""
 
 #: ckanext/digitraffic_theme/templates/macros/form/input_block.html:27
 msgid "Custom"
-msgstr ""
+msgstr "Mukautettu"
 
 #: ckanext/digitraffic_theme/templates/macros/form/markdown.html:31
 #, python-format
@@ -264,6 +264,9 @@ msgid ""
 "toggle=\"popover\" data-bs-content=\"%(markdown_tooltip)s\" data-bs-"
 "html=\"true\">Markdown formatting</a> here"
 msgstr ""
+"Voit käyttää tässä <a href=\"#markdown\" title=\"Markdown quick reference\" "
+"data-bs-toggle=\"popover\" data-bs-content=\"%(markdown_tooltip)s\" data-bs-"
+"html=\"true\">Markdown-formatointia</a>"
 
 #: ckanext/digitraffic_theme/templates/package/edit_base.html:11
 msgid "Edit"
@@ -276,15 +279,15 @@ msgstr "Näytä tietoaineisto"
 
 #: ckanext/digitraffic_theme/templates/package/edit_base.html:20
 msgid "Edit metadata"
-msgstr ""
+msgstr "Muokkaa metadataa"
 
 #: ckanext/digitraffic_theme/templates/package/edit_base.html:21
 msgid "Reorder resources"
-msgstr ""
+msgstr "Uudelleenjärjestä resurssit"
 
 #: ckanext/digitraffic_theme/templates/package/edit_base.html:23
 msgid "Collaborators"
-msgstr ""
+msgstr "Muokkaajat"
 
 #: ckanext/digitraffic_theme/templates/package/read.html:8
 #: ckanext/digitraffic_theme/templates/snippets/package_item.html:42
@@ -347,7 +350,7 @@ msgstr "Tiedosto"
 
 #: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:35
 msgid "http://example.com/external-data.csv"
-msgstr ""
+msgstr "http://example.com/external-data.csv"
 
 # | msgid "Surname"
 #: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:39
@@ -357,7 +360,7 @@ msgstr "Nimi"
 
 #: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:39
 msgid "eg. January 2011 Gold Prices"
-msgstr ""
+msgstr "esim. Vuoden 2011 bussiaikataulut "
 
 # | msgid "Resource description"
 #: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:43
