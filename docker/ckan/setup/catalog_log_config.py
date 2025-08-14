@@ -45,7 +45,7 @@ class CustomFormatter(Formatter):
         logged_data = {
             "asctime": get_maybe_param('asctime'),
             "name": record.name,
-            "levelname": record.levelname,
+            "level": record.levelname,
             "message": record.message,
             "span_id": get_maybe_param('otelSpanID'),
             "trace_id": get_maybe_param('otelTraceID'),
@@ -55,7 +55,8 @@ class CustomFormatter(Formatter):
             "stack_info": get_maybe_param('stack_info', lambda stack_info: self.formatStack(stack_info)),
             "filename": record.filename,
             "lineno": record.lineno,
-            "funcName": record.funcName
+            "funcName": record.funcName,
+            "alert": get_maybe_param('alert'),
         }
 
         return json.dumps(
