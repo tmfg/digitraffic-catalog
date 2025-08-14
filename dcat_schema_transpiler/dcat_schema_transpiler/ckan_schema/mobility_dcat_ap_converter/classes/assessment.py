@@ -3,7 +3,7 @@ from ckan_schema.mobility_dcat_ap_converter.range_value_converter import (
     AggregateRangeValueConverter,
 )
 from typing import Dict
-from rdflib import DCTERMS, Dataset
+from rdflib import DCTERMS, Dataset, URIRef
 
 from dcat_schema_transpiler.mobility_dcat_ap.namespace import MOBILITYDCATAP
 from mobility_dcat_ap.dataset import OA
@@ -24,7 +24,7 @@ class Assessment(AggregateRangeValueConverter):
 
     field_name = "assessment"
 
-    def __init__(self, clazz: RDFSClass):
+    def __init__(self, clazz: RDFSClass, parent_class_iri: URIRef = None):
         super().__init__(clazz)
         self.__aggregate_schemas = []
 

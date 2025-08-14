@@ -9,817 +9,758 @@ msgstr ""
 "Project-Id-Version: ckanext-digitraffic_theme 0.0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2025-06-19 06:56+0000\n"
-"PO-Revision-Date: 2025-05-06 06:53+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language: sv\n"
+"PO-Revision-Date: 2025-08-12 14:48+0300\n"
+"Last-Translator: \n"
 "Language-Team: sv <LL@li.org>\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "Generated-By: Babel 2.15.0\n"
+"X-Generator: Poedit 3.6\n"
 
 #: ckanext/digitraffic_theme/templates/admin/base.html:5
 msgid "Sysadmins"
-msgstr ""
+msgstr "Systemadministratörer"
 
 #: ckanext/digitraffic_theme/templates/admin/base.html:6
 msgid "Trash"
-msgstr ""
+msgstr "Papperskorg"
 
 #: ckanext/digitraffic_theme/templates/home/hero_buttons.html:2
 msgid "Register"
-msgstr ""
+msgstr "Registrera dig"
 
 #: ckanext/digitraffic_theme/templates/home/hero_buttons.html:3
 #: ckanext/digitraffic_theme/templates/snippets/dt_header/user_actions.html:49
 msgid "Log in"
-msgstr ""
+msgstr "Logga in"
 
 #: ckanext/digitraffic_theme/templates/home/index.html:3
 msgid "Visibility and users for your data"
-msgstr ""
+msgstr "Synlighet och användare för din data"
 
 #: ckanext/digitraffic_theme/templates/home/index.html:4
-msgid ""
-"The Transport Data Catalog is an open national access point (NAP) for "
-"traffic data, where traffic data providers submit information about the "
-"data and APIs they offer. For data users, the catalog provides an "
-"overview of available data sources, their providers, usage methods, and "
-"terms."
-msgstr ""
+msgid "The Transport Data Catalog is an open national access point (NAP) for traffic data, where traffic data providers submit information about the data and APIs they offer. For data users, the catalog provides an overview of available data sources, their providers, usage methods, and terms."
+msgstr "Trafikdatakatalogen är en öppen nationell åtkomstpunkt (NAP) för trafikdata, där trafikdataleverantörer lämnar information om data och API:er de erbjuder. För dataanvändare ger katalogen en översikt över tillgängliga datakällor, leverantörer, användningsmetoder och villkor."
 
 #: ckanext/digitraffic_theme/templates/home/index.html:17
 msgid "You are logged in as"
-msgstr ""
+msgstr "Du är inloggad som"
 
 #: ckanext/digitraffic_theme/templates/home/index.html:19
 msgid "Create new dataset"
-msgstr ""
+msgstr "Skapa ny datamängd"
 
 #: ckanext/digitraffic_theme/templates/home/index.html:20
 msgid "Browse my datasets"
-msgstr ""
+msgstr "Bläddra bland mina datamängder"
 
 #: ckanext/digitraffic_theme/templates/home/index.html:37
 msgid "How do I submit my dataset to the catalog?"
-msgstr ""
+msgstr "Hur lägger jag till min datamängd i katalogen?"
 
 #: ckanext/digitraffic_theme/templates/home/index.html:41
 msgid "Register and join an organization"
-msgstr ""
+msgstr "Registrera dig och gå med i en organisation"
 
 #: ckanext/digitraffic_theme/templates/home/index.html:42
 msgid "Datasets and their descriptions are always linked to an organization."
-msgstr ""
+msgstr "Datamängder och deras beskrivningar är alltid kopplade till en organisation."
 
 #: ckanext/digitraffic_theme/templates/home/index.html:46
 #: ckanext/digitraffic_theme/templates/home/instructions.html:36
 msgid "Create a dataset"
-msgstr ""
+msgstr "Skapa en datamängd"
 
 #: ckanext/digitraffic_theme/templates/home/index.html:47
 msgid "Enter your dataset's metadata according to the instructions on the form."
-msgstr ""
+msgstr "Ange datamängdens metadata enligt instruktionerna i formuläret."
 
 #: ckanext/digitraffic_theme/templates/home/index.html:51
 msgid "Add data sources (resources)"
-msgstr ""
+msgstr "Lägg till datakällor (resurser)"
 
 #: ckanext/digitraffic_theme/templates/home/index.html:52
 msgid "Add to the description the different ways to access the dataset."
-msgstr ""
+msgstr "Lägg till i beskrivningen de olika sätten att få tillgång till datamängden."
 
 #: ckanext/digitraffic_theme/templates/home/index.html:56
-msgid "Publish your dataset"
-msgstr ""
-
 #: ckanext/digitraffic_theme/templates/home/index.html:57
-msgid ""
-"Published dataset descriptions can be browsed by users via the catalog's "
-"search functions."
-msgstr ""
+msgid "Published dataset descriptions can be browsed by users via the catalog's search functions."
+msgstr "Publicerade datamängdsbeskrivningar kan bläddras av användare via katalogens sökfunktioner."
 
 #: ckanext/digitraffic_theme/templates/home/index.html:70
 msgid "Read more about creating datasets"
-msgstr ""
+msgstr "Läs mer om att skapa datamängder"
 
 #: ckanext/digitraffic_theme/templates/home/index.html:77
 msgid "Search for datasets"
-msgstr ""
+msgstr "Sök efter datamängder"
 
 #: ckanext/digitraffic_theme/templates/home/index.html:78
-msgid ""
-"Datasets will be added to the catalog as the service is adopted more "
-"widely."
-msgstr ""
+msgid "Datasets will be added to the catalog as the service is adopted more widely."
+msgstr "Datamängder kommer att läggas till i katalogen i takt med att tjänsten används mer allmänt."
 
 #: ckanext/digitraffic_theme/templates/home/index.html:85
 msgid "Organizations with datasets in the catalog"
-msgstr ""
+msgstr "Organisationer med datamängder i katalogen"
 
 #: ckanext/digitraffic_theme/templates/home/index.html:97
 msgid "Development path"
-msgstr ""
+msgstr "Utvecklingsväg"
 
 #: ckanext/digitraffic_theme/templates/home/index.html:102
 msgid "Launch"
-msgstr ""
+msgstr "Lansering"
 
 #: ckanext/digitraffic_theme/templates/home/index.html:109
 msgid "Data collection"
-msgstr ""
+msgstr "Datainsamling"
 
 #: ckanext/digitraffic_theme/templates/home/index.html:110
 msgid "Describing existing datasets in the catalog"
-msgstr ""
+msgstr "Beskrivning av befintliga datamängder i katalogen"
 
 #: ckanext/digitraffic_theme/templates/home/index.html:116
 msgid "Established use"
-msgstr ""
+msgstr "Etablerad användning"
 
 #: ckanext/digitraffic_theme/templates/home/index.html:117
 msgid "Dataset information is maintained and new datasets are added"
-msgstr ""
+msgstr "Datamängdsinformation underhålls och nya datamängder läggs till"
 
 #: ckanext/digitraffic_theme/templates/home/index.html:123
 msgid "Integrations"
-msgstr ""
+msgstr "Integrationer"
 
 #: ckanext/digitraffic_theme/templates/home/index.html:124
 msgid "Metadata transfer to other catalogs and harvesting from other catalogs"
-msgstr ""
+msgstr "Metadataöverföring till andra kataloger och inhämtning från andra kataloger"
 
 #: ckanext/digitraffic_theme/templates/home/index.html:130
 msgid "Single NAP"
-msgstr ""
+msgstr "Enhetlig NAP"
 
 #: ckanext/digitraffic_theme/templates/home/index.html:131
-msgid ""
-"Completing the catalog with mobility service information, a single "
-"national access point model"
-msgstr ""
+msgid "Completing the catalog with mobility service information, a single national access point model"
+msgstr "Komplettering av katalogen med information om mobilitetstjänster, en modell med en nationell åtkomstpunkt"
 
 #: ckanext/digitraffic_theme/templates/home/instructions.html:8
 msgid "Why publish your data in the Transport Data Catalog?"
-msgstr ""
+msgstr "Varför publicera din data i Trafikdatakatalogen?"
 
 #: ckanext/digitraffic_theme/templates/home/instructions.html:10
-msgid ""
-"Explain here the benefits of publishing data, e.g. visibility, users, "
-"interoperability, etc. Add your own text as needed."
+msgid "Explain here the benefits of publishing data, e.g. visibility, users, interoperability, etc. Add your own text as needed."
 msgstr ""
 
 #: ckanext/digitraffic_theme/templates/home/instructions.html:13
 msgid "Add new dataset"
-msgstr ""
+msgstr "Lägg till ny datamängd"
 
 #: ckanext/digitraffic_theme/templates/home/instructions.html:27
 msgid "Register as a user"
-msgstr ""
+msgstr "Registrera dig som användare"
 
 #: ckanext/digitraffic_theme/templates/home/instructions.html:28
-msgid ""
-"Start by registering at <a href=\"https://id.fintraffic.fi\">Fintraffic "
-"ID</a>. After you have registered as a user, you need to request "
-"membership in your organization from your organization admin. If your "
-"organization does not yet exist in the catalog, you need to request its "
-"creation from <a "
-"href=\"mailto:digitraffic@fintraffic.fi\">digitraffic@fintraffic.fi</a>"
-msgstr ""
+msgid "Start by registering at <a href=\"https://id.fintraffic.fi\">Fintraffic ID</a>. After you have registered as a user, you need to request membership in your organization from your organization admin. If your organization does not yet exist in the catalog, you need to request its creation from <a href=\"mailto:digitraffic@fintraffic.fi\">digitraffic@fintraffic.fi</a>"
+msgstr "Börja med att registrera dig på <a href=\"https://id.fintraffic.fi\">Fintraffic ID</a>. Efter att du har registrerat dig som användare måste du begära medlemskap i din organisation från organisationens administratör. Om din organisation ännu inte finns i katalogen behöver du begära att den skapas via <a href=\"mailto:digitraffic@fintraffic.fi\">digitraffic@fintraffic.fi</a>"
 
 #: ckanext/digitraffic_theme/templates/home/instructions.html:37
-msgid ""
-"Describe and create your dataset according to the fields and instructions"
-" on the form. At the dataset level, you describe the general properties "
-"of the data. The actual data and the APIs or services distributing it are"
-" described in the next step."
-msgstr ""
+msgid "Describe and create your dataset according to the fields and instructions on the form. At the dataset level, you describe the general properties of the data. The actual data and the APIs or services distributing it are described in the next step."
+msgstr "Beskriv och skapa din datamängd enligt fälten och instruktionerna i formuläret. På datamängdsnivå beskriver du datans allmänna egenskaper. Själva datan och API:erna eller tjänsterna som distribuerar den beskrivs i nästa steg."
 
 #: ckanext/digitraffic_theme/templates/home/instructions.html:45
 msgid "Add resources"
-msgstr ""
+msgstr "Lägg till resurser"
 
 #: ckanext/digitraffic_theme/templates/home/instructions.html:46
-msgid ""
-"A single dataset can have several data sources, such as APIs and file "
-"packages. At this stage, add the different ways to access the dataset."
-msgstr ""
+msgid "A single dataset can have several data sources, such as APIs and file packages. At this stage, add the different ways to access the dataset."
+msgstr "En enskild datamängd kan ha flera datakällor, såsom API:er och filpaket. I detta steg lägger du till de olika sätten att få tillgång till datamängden."
 
 #: ckanext/digitraffic_theme/templates/home/instructions.html:54
 msgid "Publish the dataset"
-msgstr ""
+msgstr "Publicera datamängden"
 
 #: ckanext/digitraffic_theme/templates/home/instructions.html:55
-msgid ""
-"By setting the dataset's visibility to \"Public\", your dataset will be "
-"visible to all users in the catalog and can be found using the catalog's "
-"search functions. If you wish, you can set private visibility, in which "
-"case your dataset will only be visible to members of your own "
-"organization."
-msgstr ""
+msgid "By setting the dataset's visibility to \"Public\", your dataset will be visible to all users in the catalog and can be found using the catalog's search functions. If you wish, you can set private visibility, in which case your dataset will only be visible to members of your own organization."
+msgstr "Genom att ställa in datamängdens synlighet på \"Offentlig\" blir din datamängd synlig för alla användare i katalogen och kan hittas med katalogens sökfunktioner. Om du vill kan du ställa in privat synlighet, då blir din datamängd endast synlig för medlemmar i din egen organisation."
 
 #: ckanext/digitraffic_theme/templates/macros/form/input_block.html:27
 msgid "Custom"
-msgstr ""
+msgstr "Anpassad"
 
 #: ckanext/digitraffic_theme/templates/macros/form/markdown.html:31
 #, python-format
-msgid ""
-"You can use <a href=\"#markdown\" title=\"Markdown quick reference\" "
-"data-bs-toggle=\"popover\" data-bs-content=\"%(markdown_tooltip)s\" data-"
-"bs-html=\"true\">Markdown formatting</a> here"
-msgstr ""
+msgid "You can use <a href=\"#markdown\" title=\"Markdown quick reference\" data-bs-toggle=\"popover\" data-bs-content=\"%(markdown_tooltip)s\" data-bs-html=\"true\">Markdown formatting</a> here"
+msgstr "Du kan använda <a href=\"#markdown\" title=\"Snabbreferens för Markdown\" data-bs-toggle=\"popover\" data-bs-content=\"%(markdown_tooltip)s\" data-bs-html=\"true\">Markdown-formatering</a> här"
 
 #: ckanext/digitraffic_theme/templates/package/edit_base.html:11
 msgid "Edit"
-msgstr ""
+msgstr "Redigera"
 
 #: ckanext/digitraffic_theme/templates/package/edit_base.html:16
 msgid "View dataset"
-msgstr ""
+msgstr "Visa datamängd"
 
 #: ckanext/digitraffic_theme/templates/package/edit_base.html:20
 msgid "Edit metadata"
-msgstr ""
+msgstr "Redigera metadata"
 
 #: ckanext/digitraffic_theme/templates/package/edit_base.html:21
 msgid "Reorder resources"
-msgstr ""
+msgstr "Ordna om resurser"
 
 #: ckanext/digitraffic_theme/templates/package/edit_base.html:23
 msgid "Collaborators"
-msgstr ""
+msgstr "Medarbetare"
 
 #: ckanext/digitraffic_theme/templates/package/read.html:8
 #: ckanext/digitraffic_theme/templates/snippets/package_item.html:42
 msgid "Draft"
-msgstr ""
+msgstr "Utkast"
 
 #: ckanext/digitraffic_theme/templates/package/read.html:11
 #: ckanext/digitraffic_theme/templates/snippets/package_item.html:44
 msgid "Deleted"
-msgstr ""
+msgstr "Raderad"
 
 #: ckanext/digitraffic_theme/templates/package/resource_read.html:7
 #: ckanext/digitraffic_theme/templates/package/resource_read.html:9
 msgid "URL:"
-msgstr ""
+msgstr "URL:"
 
 #: ckanext/digitraffic_theme/templates/package/resource_read.html:18
 msgid "Dataset description:"
-msgstr ""
+msgstr "Beskrivning av datamängd:"
 
 #: ckanext/digitraffic_theme/templates/package/resource_read.html:20
 #, python-format
 msgid "Source: <a href=\"%(url)s\">%(dataset)s</a>"
-msgstr ""
+msgstr "Källa: <a href=\"%(url)s\">%(dataset)s</a>"
 
 #: ckanext/digitraffic_theme/templates/package/snippets/package_form.html:40
-msgid ""
-"The <i>data license</i> you select above only applies to the contents of "
-"any resource files that you add to this dataset. By submitting this form,"
-" you agree to release the <i>metadata</i> values that you enter into the "
-"form under the <a "
-"href=\"http://opendatacommons.org/licenses/odbl/1-0/\">Open Database "
-"License</a>."
-msgstr ""
+msgid "The <i>data license</i> you select above only applies to the contents of any resource files that you add to this dataset. By submitting this form, you agree to release the <i>metadata</i> values that you enter into the form under the <a href=\"http://opendatacommons.org/licenses/odbl/1-0/\">Open Database License</a>."
+msgstr "Den <i>datalisens</i> du väljer ovan gäller endast för innehållet i resursfiler som du lägger till i denna datamängd. Genom att skicka in detta formulär godkänner du att <i>metadata-värdena</i> som du anger i formuläret publiceras under <a href=\"http://opendatacommons.org/licenses/odbl/1-0/\">Open Database License</a>."
 
 #: ckanext/digitraffic_theme/templates/package/snippets/package_form.html:51
 msgid "Are you sure you want to delete this dataset?"
-msgstr ""
+msgstr "Är du säker på att du vill radera denna datamängd?"
 
 #: ckanext/digitraffic_theme/templates/package/snippets/package_form.html:51
 #: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:77
 msgid "Delete"
-msgstr ""
+msgstr "Radera"
 
 #: ckanext/digitraffic_theme/templates/package/snippets/package_form.html:55
 msgid "Next: Add data"
-msgstr ""
+msgstr "Nästa: Lägg till data"
 
 #: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:33
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:34
 msgid "File"
-msgstr ""
+msgstr "Fil"
 
 #: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:35
 msgid "http://example.com/external-data.csv"
-msgstr ""
+msgstr "http://example.com/external-data.csv"
 
 #: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:39
 #: ckanext/digitraffic_theme/templates/user/api_tokens.html:13
 msgid "Name"
-msgstr ""
+msgstr "Namn"
 
 #: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:39
 msgid "eg. January 2011 Gold Prices"
-msgstr ""
+msgstr "t.ex. Januari 2011 Guldpriser"
 
 #: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:43
 msgid "Description"
-msgstr ""
+msgstr "Beskrivning"
 
 #: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:43
 msgid "Some useful notes about the data"
-msgstr ""
+msgstr "Några användbara anteckningar om datan"
 
 #: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:48
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:23
 msgid "Format"
-msgstr ""
+msgstr "Format"
 
 #: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:48
 msgid "eg. CSV, XML or JSON"
-msgstr ""
+msgstr "t.ex. CSV, XML eller JSON"
 
 #: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:51
 msgid "This will be guessed automatically. Leave blank if you wish"
-msgstr ""
+msgstr "Detta kommer att gissas automatiskt. Lämna tomt om du vill."
 
 #: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:62
 msgid "Last Modified"
-msgstr ""
+msgstr "Senast ändrad"
 
 #: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:62
 msgid "eg. 2012-06-05"
-msgstr ""
+msgstr "t.ex. 2012-06-05"
 
 #: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:64
 msgid "File Size"
-msgstr ""
+msgstr "Filstorlek"
 
 #: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:64
 msgid "eg. 1024"
-msgstr ""
+msgstr "t.ex. 1024"
 
 #: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:66
 #: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:68
 msgid "MIME Type"
-msgstr ""
+msgstr "MIME-typ"
 
 #: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:66
 #: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:68
 msgid "eg. application/json"
-msgstr ""
+msgstr "t.ex. application/json"
 
 #: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:77
 msgid "Are you sure you want to delete this resource?"
-msgstr ""
+msgstr "Är du säker på att du vill radera denna resurs?"
 
 #: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:83
 msgid "Previous"
-msgstr ""
+msgstr "Föregående"
 
 #: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:87
 msgid "Save & add another"
-msgstr ""
+msgstr "Spara och lägg till en till"
 
 #: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:91
 msgid "Finish"
-msgstr ""
+msgstr "Slutför"
 
 #: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:95
 #: ckanext/digitraffic_theme/templates/scheming/form_snippets/repeating_subfields.html:74
 msgid "Add"
-msgstr ""
+msgstr "Lägg till"
 
 #: ckanext/digitraffic_theme/templates/scheming/form_snippets/_organization_select.html:24
 msgid "No organization"
-msgstr ""
+msgstr "Ingen organisation"
 
 #: ckanext/digitraffic_theme/templates/scheming/form_snippets/datetime_tz.html:41
 msgid "Time"
-msgstr ""
+msgstr "Tid"
 
 #: ckanext/digitraffic_theme/templates/scheming/form_snippets/datetime_tz.html:60
 msgid "Timezone"
-msgstr ""
+msgstr "Tidszon"
 
 #: ckanext/digitraffic_theme/templates/scheming/form_snippets/fluent_text.html:4
 msgid "Add Finnish"
-msgstr ""
+msgstr "Lägg till på finska"
 
 #: ckanext/digitraffic_theme/templates/scheming/form_snippets/fluent_text.html:5
 msgid "Add Swedish"
-msgstr ""
+msgstr "Lägg till på svenska"
 
 #: ckanext/digitraffic_theme/templates/scheming/form_snippets/iri_fragment_input.html:19
-msgid ""
-"With no JavaScript enabled, you need to specify the full IRI for this "
-"field"
-msgstr ""
+msgid "With no JavaScript enabled, you need to specify the full IRI for this field"
+msgstr "Utan JavaScript aktiverat måste du ange den fullständiga IRI:n för detta fält"
 
 #: ckanext/digitraffic_theme/templates/scheming/form_snippets/organization.html:31
 msgid "Visibility"
-msgstr ""
+msgstr "Synlighet"
 
 #: ckanext/digitraffic_theme/templates/scheming/form_snippets/organization.html:34
 #: ckanext/digitraffic_theme/templates/snippets/package_item.html:31
 msgid "Private"
-msgstr ""
+msgstr "Privat"
 
 #: ckanext/digitraffic_theme/templates/scheming/form_snippets/organization.html:34
 msgid "Public"
-msgstr ""
+msgstr "Offentlig"
 
 #: ckanext/digitraffic_theme/templates/scheming/form_snippets/repeating_subfields.html:13
 msgid "Remove"
-msgstr ""
+msgstr "Ta bort"
 
 #: ckanext/digitraffic_theme/templates/scheming/package/read.html:25
 msgid "XML format"
-msgstr ""
+msgstr "XML-format"
 
 #: ckanext/digitraffic_theme/templates/scheming/package/read.html:26
 msgid "N3 format"
-msgstr ""
+msgstr "N3-format"
 
 #: ckanext/digitraffic_theme/templates/scheming/package/read.html:27
 msgid "TTL format"
-msgstr ""
+msgstr "TTL-format"
 
 #: ckanext/digitraffic_theme/templates/scheming/package/read.html:28
 msgid "JSON format"
-msgstr ""
+msgstr "JSON-format"
 
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/additional_info.html:79
 msgid "State"
-msgstr ""
+msgstr "Status"
 
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:6
 msgid "General"
-msgstr ""
+msgstr "Allmänt"
 
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:7
 msgid "This section provides basic information about the dataset."
-msgstr ""
+msgstr "Detta avsnitt ger grundläggande information om datamängden."
 
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:11
 msgid "Temporal coverage"
-msgstr ""
+msgstr "Tidsmässig täckning"
 
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:12
-msgid ""
-"This section describes the temporal coverage of the dataset, if "
-"applicable. May be left empty for continuously updated data."
-msgstr ""
+msgid "This section describes the temporal coverage of the dataset, if applicable. May be left empty for continuously updated data."
+msgstr "Detta avsnitt beskriver datamängdens tidsmässiga täckning, om tillämpligt. Kan lämnas tomt för kontinuerligt uppdaterad data."
 
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:21
 msgid "Versioning"
-msgstr ""
+msgstr "Versionshantering"
 
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:22
-msgid ""
-"This section provides information regarding the dataset version. Mostly "
-"applicable for static datasets."
-msgstr ""
+msgid "This section provides information regarding the dataset version. Mostly applicable for static datasets."
+msgstr "Detta avsnitt ger information om datamängdens version. Gäller främst för statiska datamängder."
 
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:26
 msgid "Assessment"
-msgstr ""
+msgstr "Bedömning"
 
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:27
-msgid ""
-"This section describes the result and date of an assessment or "
-"assessments made by a third party or parties. The assessment of data sets"
-" under EU delegated regulations is usually carried out by a national "
-"supervisory authority."
-msgstr ""
+msgid "This section describes the result and date of an assessment or assessments made by a third party or parties. The assessment of data sets under EU delegated regulations is usually carried out by a national supervisory authority."
+msgstr "Detta avsnitt beskriver resultatet och datumet för en bedömning eller bedömningar gjorda av tredje part. Bedömningen av datamängder enligt EU:s delegerade förordningar utförs vanligtvis av en nationell tillsynsmyndighet."
 
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:31
 msgid "Additional information"
-msgstr ""
+msgstr "Ytterligare information"
 
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:32
 msgid "Additional details concerning the dataset."
-msgstr ""
+msgstr "Ytterligare detaljer om datamängden."
 
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:38
 msgid "Contact points"
-msgstr ""
+msgstr "Kontaktpunkter"
 
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:39
 msgid "Contact details for a person or organization."
-msgstr ""
+msgstr "Kontaktuppgifter för en person eller organisation."
 
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:45
 msgid "Rights holders"
-msgstr ""
+msgstr "Rättighetsinnehavare"
 
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:46
 msgid "Contact details for the rights holder."
-msgstr ""
+msgstr "Kontaktuppgifter för rättighetsinnehavaren."
 
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:78
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:82
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:84
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:59
 msgid "Add data"
-msgstr ""
+msgstr "Lägg till data"
 
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:97
-msgid ""
-"In CKAN, a dataset refers to a collection of resources (e.g., files) "
-"along with their descriptions and other metadata, such as a permanent "
-"URL."
-msgstr ""
+msgid "In CKAN, a dataset refers to a collection of resources (e.g., files) along with their descriptions and other metadata, such as a permanent URL."
+msgstr "I CKAN avser en datamängd en samling resurser (t.ex. filer) tillsammans med deras beskrivningar och andra metadata, såsom en permanent URL."
 
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:156
 msgid "Update {page}"
-msgstr ""
+msgstr "Uppdatera {page}"
 
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:158
 msgid "Next"
-msgstr ""
+msgstr "Nästa"
 
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:6
 msgid "Resource URLs"
-msgstr ""
+msgstr "Resurs-URL:er"
 
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:7
 msgid "URLs giving access to the resource."
-msgstr ""
+msgstr "URL:er som ger åtkomst till resursen."
 
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:11
 msgid "Data service"
-msgstr ""
+msgstr "Datatjänst"
 
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:12
-msgid ""
-"If the resource is accessed through a data service (such as an API or "
-"platform that provides access to various data), describe that data "
-"service here."
-msgstr ""
+msgid "If the resource is accessed through a data service (such as an API or platform that provides access to various data), describe that data service here."
+msgstr "Om resursen nås via en datatjänst (såsom ett API eller en plattform som ger tillgång till olika data), beskriv den datatjänsten här."
 
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:16
 msgid "Resource description"
-msgstr ""
+msgstr "Resursbeskrivning"
 
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:17
 msgid "Description of the resource."
-msgstr ""
+msgstr "Beskrivning av resursen."
 
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:24
 msgid "Additional information concerning related formats and data standards."
-msgstr ""
+msgstr "Ytterligare information om relaterade format och datastandarder."
 
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:28
 msgid "Licenses and terms of use"
-msgstr ""
+msgstr "Licenser och användarvillkor"
 
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:29
 msgid "Licenses and terms of use pertaining to this resource."
-msgstr ""
+msgstr "Licenser och användarvillkor som gäller för denna resurs."
 
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:33
 msgid "Time range"
-msgstr ""
+msgstr "Tidsintervall"
 
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:34
 msgid "Period during which resource is available."
-msgstr ""
+msgstr "Period under vilken resursen är tillgänglig."
 
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:69
 msgid "A resource is any file or a link to a file that contains useful data."
-msgstr ""
+msgstr "En resurs är vilken fil som helst eller en länk till en fil som innehåller användbar data."
 
 #: ckanext/digitraffic_theme/templates/snippets/language_selector_base.html:28
 msgid "Go"
-msgstr ""
+msgstr "Gå"
 
 #: ckanext/digitraffic_theme/templates/snippets/necessity_tag.html:1
 msgid "Mandatory"
-msgstr ""
+msgstr "Obligatorisk"
 
 #: ckanext/digitraffic_theme/templates/snippets/necessity_tag.html:1
 msgid "Recommended"
-msgstr ""
+msgstr "Rekommenderad"
 
 #: ckanext/digitraffic_theme/templates/snippets/necessity_tag.html:1
 msgid "Optional"
-msgstr ""
+msgstr "Valfri"
 
 #: ckanext/digitraffic_theme/templates/snippets/package_item.html:53
 msgid "There is no description for this dataset"
-msgstr ""
+msgstr "Det finns ingen beskrivning för denna datamängd"
 
 #: ckanext/digitraffic_theme/templates/snippets/dt_header/app_navigation.html:5
 #: ckanext/digitraffic_theme/templates/user/read_base.html:22
 msgid "Datasets"
-msgstr ""
+msgstr "Datamängder"
 
 #: ckanext/digitraffic_theme/templates/snippets/dt_header/app_navigation.html:6
 #: ckanext/digitraffic_theme/templates/user/read_base.html:23
 msgid "Organizations"
-msgstr ""
+msgstr "Organisationer"
 
 #: ckanext/digitraffic_theme/templates/snippets/dt_header/app_navigation.html:7
 #: ckanext/digitraffic_theme/templates/user/read_base.html:24
 msgid "Groups"
-msgstr ""
+msgstr "Grupper"
 
 #: ckanext/digitraffic_theme/templates/snippets/dt_header/app_navigation.html:8
 #: ckanext/digitraffic_theme/templates/user/edit_user_form.html:14
 msgid "About"
-msgstr ""
+msgstr "Om"
 
 #: ckanext/digitraffic_theme/templates/snippets/dt_header/app_navigation.html:16
 msgid "Menu"
-msgstr ""
+msgstr "Meny"
 
 #: ckanext/digitraffic_theme/templates/snippets/dt_header/search_box.html:1
 msgid "E.g. environment"
-msgstr ""
+msgstr "T.ex. miljö"
 
 #: ckanext/digitraffic_theme/templates/snippets/dt_header/search_box.html:6
 msgid "Search Datasets..."
-msgstr ""
+msgstr "Sök datamängder..."
 
 #: ckanext/digitraffic_theme/templates/snippets/dt_header/search_box.html:7
 msgid "Search"
-msgstr ""
+msgstr "Sök"
 
 #: ckanext/digitraffic_theme/templates/snippets/dt_header/search_box.html:7
 msgid "Search datasets..."
-msgstr ""
+msgstr "Sök datamängder..."
 
 #: ckanext/digitraffic_theme/templates/snippets/dt_header/search_box.html:8
 msgid "Submit"
-msgstr ""
+msgstr "Skicka"
 
 #: ckanext/digitraffic_theme/templates/snippets/dt_header/user_actions.html:14
 msgid "View profile"
-msgstr ""
+msgstr "Visa profil"
 
 #: ckanext/digitraffic_theme/templates/snippets/dt_header/user_actions.html:15
 msgid "Profile"
-msgstr ""
+msgstr "Profil"
 
 #: ckanext/digitraffic_theme/templates/snippets/dt_header/user_actions.html:20
 msgid "Sysadmin settings"
-msgstr ""
+msgstr "Administratörsinställningar"
 
 #: ckanext/digitraffic_theme/templates/snippets/dt_header/user_actions.html:22
 msgid "Admin"
-msgstr ""
+msgstr "Admin"
 
 #: ckanext/digitraffic_theme/templates/snippets/dt_header/user_actions.html:27
 msgid "View dashboard"
-msgstr ""
+msgstr "Visa instrumentpanel"
 
 #: ckanext/digitraffic_theme/templates/snippets/dt_header/user_actions.html:29
 msgid "Dashboard"
-msgstr ""
+msgstr "Instrumentpanel"
 
 #: ckanext/digitraffic_theme/templates/snippets/dt_header/user_actions.html:33
 #: ckanext/digitraffic_theme/templates/snippets/dt_header/user_actions.html:35
 msgid "Profile settings"
-msgstr ""
+msgstr "Profilinställningar"
 
 #: ckanext/digitraffic_theme/templates/snippets/dt_header/user_actions.html:39
 #: ckanext/digitraffic_theme/templates/snippets/dt_header/user_actions.html:41
 msgid "Log out"
-msgstr ""
+msgstr "Logga ut"
 
 #: ckanext/digitraffic_theme/templates/snippets/dt_header/user_actions.html:47
 msgid "Account"
-msgstr ""
+msgstr "Konto"
 
 #: ckanext/digitraffic_theme/templates/user/api_tokens.html:20
 msgid "Create API Token"
-msgstr ""
+msgstr "Skapa API-token"
 
 #: ckanext/digitraffic_theme/templates/user/api_tokens.html:30
 #: ckanext/digitraffic_theme/templates/user/read_base.html:26
 msgid "API Tokens"
-msgstr ""
+msgstr "API-tokens"
 
 #: ckanext/digitraffic_theme/templates/user/api_tokens.html:38
 msgid "You haven't created any API Tokens."
-msgstr ""
+msgstr "Du har inte skapat några API-tokens."
 
 #: ckanext/digitraffic_theme/templates/user/edit_user_form.html:10
 msgid "Change details"
-msgstr ""
+msgstr "Ändra uppgifter"
 
 #: ckanext/digitraffic_theme/templates/user/edit_user_form.html:11
 msgid "Username"
-msgstr ""
+msgstr "Användarnamn"
 
 #: ckanext/digitraffic_theme/templates/user/edit_user_form.html:12
 msgid "Full name"
-msgstr ""
+msgstr "Fullständigt namn"
 
 #: ckanext/digitraffic_theme/templates/user/edit_user_form.html:12
 msgid "eg. Joe Bloggs"
-msgstr ""
+msgstr "t.ex. Joe Bloggs"
 
 #: ckanext/digitraffic_theme/templates/user/edit_user_form.html:13
 msgid "Email"
-msgstr ""
+msgstr "E-post"
 
 #: ckanext/digitraffic_theme/templates/user/edit_user_form.html:13
 msgid "eg. joe@example.com"
-msgstr ""
+msgstr "t.ex. joe@example.com"
 
 #: ckanext/digitraffic_theme/templates/user/edit_user_form.html:14
 msgid "A little information about yourself"
-msgstr ""
+msgstr "Lite information om dig själv"
 
 #: ckanext/digitraffic_theme/templates/user/edit_user_form.html:19
 msgid "Profile picture"
-msgstr ""
+msgstr "Profilbild"
 
 #: ckanext/digitraffic_theme/templates/user/edit_user_form.html:19
 msgid "Profile picture URL"
-msgstr ""
+msgstr "URL till profilbild"
 
 #: ckanext/digitraffic_theme/templates/user/edit_user_form.html:25
 msgid "Reactivate User"
-msgstr ""
+msgstr "Återaktivera användare"
 
 #: ckanext/digitraffic_theme/templates/user/edit_user_form.html:26
-msgid ""
-"This account is deactivated. If you want to reactivate it, please click "
-"on the checkbox."
-msgstr ""
+msgid "This account is deactivated. If you want to reactivate it, please click on the checkbox."
+msgstr "Detta konto är inaktiverat. Om du vill återaktivera det, vänligen klicka i kryssrutan."
 
 #: ckanext/digitraffic_theme/templates/user/edit_user_form.html:30
 msgid "First name"
-msgstr ""
+msgstr "Förnamn"
 
 #: ckanext/digitraffic_theme/templates/user/edit_user_form.html:30
 msgid "eg. Joe"
-msgstr ""
+msgstr "t.ex. Joe"
 
 #: ckanext/digitraffic_theme/templates/user/edit_user_form.html:31
 msgid "Surname"
-msgstr ""
+msgstr "Efternamn"
 
 #: ckanext/digitraffic_theme/templates/user/edit_user_form.html:31
 msgid "eg. Bloggs"
-msgstr ""
+msgstr "t.ex. Bloggs"
 
 #: ckanext/digitraffic_theme/templates/user/edit_user_form.html:32
 msgid "Phone number"
-msgstr ""
+msgstr "Telefonnummer"
 
 #: ckanext/digitraffic_theme/templates/user/edit_user_form.html:32
 msgid "eg. +358401234567"
-msgstr ""
+msgstr "t.ex. +358401234567"
 
 #: ckanext/digitraffic_theme/templates/user/edit_user_form.html:33
 msgid "Country of residence"
-msgstr ""
+msgstr "Bosättningsland"
 
 #: ckanext/digitraffic_theme/templates/user/edit_user_form.html:33
 msgid "eg. Finland"
-msgstr ""
+msgstr "t.ex. Finland"
 
 #: ckanext/digitraffic_theme/templates/user/edit_user_form.html:34
 msgid "County"
-msgstr ""
+msgstr "Län"
 
 #: ckanext/digitraffic_theme/templates/user/edit_user_form.html:34
 msgid "eg. Uusimaa"
-msgstr ""
+msgstr "t.ex. Nyland"
 
 #: ckanext/digitraffic_theme/templates/user/edit_user_form.html:35
 msgid "Postal code"
-msgstr ""
+msgstr "Postnummer"
 
 #: ckanext/digitraffic_theme/templates/user/edit_user_form.html:35
 msgid "eg. 1234567"
-msgstr ""
+msgstr "t.ex. 1234567"
 
 #: ckanext/digitraffic_theme/templates/user/edit_user_form.html:36
 msgid "City"
-msgstr ""
+msgstr "Stad"
 
 #: ckanext/digitraffic_theme/templates/user/edit_user_form.html:36
 msgid "eg. Helsinki"
-msgstr ""
+msgstr "t.ex. Helsingfors"
 
 #: ckanext/digitraffic_theme/templates/user/edit_user_form.html:37
 msgid "Street address"
-msgstr ""
+msgstr "Gatuadress"
 
 #: ckanext/digitraffic_theme/templates/user/edit_user_form.html:37
 msgid "eg. Testikatu 1"
-msgstr ""
+msgstr "t.ex. Testgatan 1"
 
 #: ckanext/digitraffic_theme/templates/user/read_base.html:8
 #: ckanext/digitraffic_theme/templates/user/read_base.html:11
 msgid "Users"
-msgstr ""
+msgstr "Användare"
 
 #: ckanext/digitraffic_theme/templates/user/read_base.html:17
 msgid "Manage"
-msgstr ""
+msgstr "Hantera"
 
 #: ckanext/digitraffic_theme/validators/dataset_validators.py:43
 msgid "Invalid value of mobility theme sub category"
@@ -830,9 +771,7 @@ msgid "Invalid value of mobility theme category"
 msgstr ""
 
 #: ckanext/digitraffic_theme/validators/dataset_validators.py:69
-msgid ""
-"Phone number is not in a valid format. Make sure it starts with a valid "
-"country code. e.g. +358"
+msgid "Phone number is not in a valid format. Make sure it starts with a valid country code. e.g. +358"
 msgstr ""
 
 #: ckanext/digitraffic_theme/validators/dataset_validators.py:82
@@ -871,43 +810,3 @@ msgstr ""
 #: ckanext/digitraffic_theme/validators/resource_validators.py:95
 msgid "Value does not belong to {namespace}"
 msgstr ""
-
-#~ msgid ""
-#~ "The Traffic Data Catalog is an "
-#~ "open national access point (NAP) for "
-#~ "traffic data, where traffic data "
-#~ "providers submit information about the "
-#~ "data and APIs they offer. For data"
-#~ " users, the catalog provides an "
-#~ "overview of available data sources, "
-#~ "their providers, usage methods, and "
-#~ "terms."
-#~ msgstr ""
-
-#~ msgid "Why publish data on the Digitraffic platform?"
-#~ msgstr ""
-
-#~ msgid "Create a user"
-#~ msgstr ""
-
-#~ msgid "Describe step 1 here. Add your own text as needed."
-#~ msgstr ""
-
-#~ msgid "Describe step 2 here. Add your own text as needed."
-#~ msgstr ""
-
-#~ msgid "Describe step 3 here. Add your own text as needed."
-#~ msgstr ""
-
-#~ msgid "Describe step 4 here. Add your own text as needed."
-#~ msgstr ""
-
-#~ msgid "Contact point"
-#~ msgstr ""
-
-#~ msgid "Rights holder"
-#~ msgstr ""
-
-#~ msgid "Register and create an organization"
-#~ msgstr ""
-
