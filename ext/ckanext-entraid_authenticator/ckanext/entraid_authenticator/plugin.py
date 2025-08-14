@@ -85,7 +85,7 @@ class EntraIdAuthenticator(plugins.SingletonPlugin):
         s = self._create_state()
         state, correlation_id = s['state'], s['correlation_id']
         logger.info(
-            "Signin in. Starting Entra ID authentication flow",
+            "Signing in. Starting Entra ID authentication flow",
             extra={
                 'alert':{
                     'id': AlertId.AUTH_FLOW,

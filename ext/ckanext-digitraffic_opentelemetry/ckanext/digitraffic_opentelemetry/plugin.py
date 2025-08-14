@@ -1,7 +1,6 @@
 import os
 import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
-from ckan.model.meta import engine
 from ckan.config.declaration import Declaration, Key
 from opentelemetry.sdk.resources import (
     SERVICE_NAME,
@@ -50,7 +49,7 @@ class DigitrafficOpentelemetryPlugin(plugins.SingletonPlugin):
 
         configure_traces(resource, trace_config)
         configure_logs(resource, log_config)
-        instrument_all(app, engine)
+        instrument_all(app)
 
         sys.excepthook = handle_all_uncaught_exceptions
 
@@ -67,7 +66,7 @@ class DigitrafficOpentelemetryPlugin(plugins.SingletonPlugin):
             [
                 AwsEcsResourceDetector(),
             ],
-            Resource(attributes={
+            Resource.create(attributes={
                 SERVICE_NAME: "CKAN",
                 SERVICE_NAMESPACE: "Datacatalog",
             })

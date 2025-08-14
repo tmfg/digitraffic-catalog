@@ -17,7 +17,32 @@ processors:
     send_batch_size: 50
   batch/metrics:
     timeout: 60s
-
+  filter/ottl:
+    error_mode: ignore
+    traces:
+      span:
+        # Ignore known static assets
+        - IsMatch(attributes["http.target"], "/webassets/vendor/.*_select2\\.css")
+        - IsMatch(attributes["http.target"], "/webassets/vendor/.*_vendor\\.js")
+        - IsMatch(attributes["http.target"], "/webassets/vendor/.*_bootstrap\\.js")
+        - IsMatch(attributes["http.target"], "/webassets/vendor/.*_fontawesome\\.css")
+        - IsMatch(attributes["http.target"], "/webassets/vendor/.*_htmx\\.js")
+        - IsMatch(attributes["http.target"], "/webassets/vendor/.*_jquery\\.js")
+        - IsMatch(attributes["http.target"], "/webassets/ckanext-scheming/.*\\.css")
+        - IsMatch(attributes["http.target"], "/webassets/ckanext-digitraffic_theme/.*DigitrafficMain\\.js")
+        - IsMatch(attributes["http.target"], "/webassets/ckanext-digitraffic_theme/.*-digitraffic-theme\\.css")
+        - IsMatch(attributes["http.target"], "/webassets/base/.*_ckan\\.js")
+        - IsMatch(attributes["http.target"], "/webassets/base/.*_main\\.js")
+        - IsMatch(attributes["http.target"], "/webassets/base/.*_main\\.css")
+        - IsMatch(attributes["http.target"], "/images/hero_image.jpg")
+        - IsMatch(attributes["http.target"], "/favicon.svg")
+        - IsMatch(attributes["http.target"], "/favicon.ico")
+        - IsMatch(attributes["http.target"], "/assets/fintraffic_horizontal_white.svg")
+        - IsMatch(attributes["http.target"], "/base/vendor/fontawesome-free/.*")
+        - IsMatch(attributes["http.target"], "/assets/.*")
+        # Ignore Health Check Requests
+        - (IsMatch(attributes["service.namespace"], "Datacatalog") and IsMatch(attributes["service.name"], "CKAN") and IsMatch(attributes["http.target"], "/api/3/action/status_show") and IsMatch(attributes["http.host.name"], "localhost:5000"))
+        - (IsMatch(attributes["service.namespace"], "Datacatalog") and IsMatch(attributes["service.name"], "Solr") and IsMatch(attributes["http.target"], "/solr/ckan/admin/ping") and IsMatch(attributes["http.host.name"], "localhost:8983"))
 exporters:
   awsxray:
     indexed_attributes:
@@ -30,7 +55,7 @@ service:
   pipelines:
     traces:
       receivers: [otlp,awsxray]
-      processors: [batch/traces]
+      processors: [filter/ottl,batch/traces]
       exporters: [awsxray]
 
   extensions: [health_check]

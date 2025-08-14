@@ -41,6 +41,7 @@ class Configurer:
 
         # Sets the global default tracer provider
         trace.set_tracer_provider(provider)
+        self._set_propagators()
 
     def _set_propagators(self):
         """
