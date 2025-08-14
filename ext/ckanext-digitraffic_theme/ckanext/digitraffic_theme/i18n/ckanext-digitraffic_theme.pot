@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-digitraffic_theme 0.0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-06-19 06:56+0000\n"
+"POT-Creation-Date: 2025-08-11 09:45+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -437,7 +437,7 @@ msgstr ""
 msgid "JSON format"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/additional_info.html:79
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/additional_info.html:90
 msgid "State"
 msgstr ""
 
@@ -581,15 +581,15 @@ msgstr ""
 msgid "Go"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/snippets/necessity_tag.html:1
+#: ckanext/digitraffic_theme/templates/snippets/necessity_tag.html:2
 msgid "Mandatory"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/snippets/necessity_tag.html:1
+#: ckanext/digitraffic_theme/templates/snippets/necessity_tag.html:2
 msgid "Recommended"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/snippets/necessity_tag.html:1
+#: ckanext/digitraffic_theme/templates/snippets/necessity_tag.html:2
 msgid "Optional"
 msgstr ""
 

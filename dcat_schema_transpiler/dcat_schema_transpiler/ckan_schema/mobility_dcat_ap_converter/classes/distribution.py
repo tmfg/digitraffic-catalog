@@ -44,7 +44,7 @@ class Distribution(RangeValueConverter):
         DCTERMS.title,
     }
 
-    def __init__(self, clazz: RDFSClass):
+    def __init__(self, clazz: RDFSClass, parent_class_iri: URIRef = None):
         super().__init__(clazz)
 
     def ckan_field(self, p: RDFSProperty, pointer: str | None = None) -> str:
