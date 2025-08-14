@@ -1,6 +1,6 @@
 from typing import Dict
 
-from rdflib import Dataset
+from rdflib import Dataset, URIRef
 
 from ckan_schema.mobility_dcat_ap_converter.range_value_converter import (
     AggregateRangeValueConverter,
@@ -30,7 +30,7 @@ class Kind(AggregateRangeValueConverter):
         VCARD.hasTelephone,
     }
 
-    def __init__(self, clazz: RDFSClass):
+    def __init__(self, clazz: RDFSClass, parent_class_iri: URIRef = None):
         super().__init__(clazz)
         self.__aggregate_schemas = []
 

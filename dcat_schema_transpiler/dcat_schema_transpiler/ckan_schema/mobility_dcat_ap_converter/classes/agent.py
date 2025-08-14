@@ -40,7 +40,7 @@ class Agent(AggregateRangeValueConverter):
         FOAF.workplaceHomepage,
     }
 
-    def __init__(self, clazz: RDFSClass):
+    def __init__(self, clazz: RDFSClass, parent_class_iri: URIRef = None):
         super().__init__(clazz)
         self.__aggregate_schemas = []
 
