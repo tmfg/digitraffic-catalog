@@ -41,8 +41,8 @@ processors:
         - IsMatch(attributes["http.target"], "/base/vendor/fontawesome-free/.*")
         - IsMatch(attributes["http.target"], "/assets/.*")
         # Ignore Health Check Requests
-        - (IsMatch(attributes["service.namespace"], "Datacatalog") and IsMatch(attributes["service.name"], "CKAN") and IsMatch(attributes["http.target"], "/api/3/action/status_show") and IsMatch(attributes["http.host.name"], "localhost:5000"))
-        - (IsMatch(attributes["service.namespace"], "Datacatalog") and IsMatch(attributes["service.name"], "Solr") and IsMatch(attributes["http.target"], "/solr/ckan/admin/ping") and IsMatch(attributes["http.host.name"], "localhost:8983"))
+        - (IsMatch(attributes["http.target"], "/api/3/action/status_show") and IsMatch(attributes["http.host"], "localhost:5000"))
+        - (IsMatch(attributes["http.target"], "/solr/ckan/admin/ping") and IsMatch(attributes["http.host"], "localhost:8983"))
 exporters:
   awsxray:
     indexed_attributes:
