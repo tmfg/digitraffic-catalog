@@ -38,20 +38,25 @@ const TopNavigation: ckan.Module<FdsNavigation, TopNavigationMO> = {
         url: "https://junalahdot.fintraffic.fi/",
       },
       {
-        label: "Drone-palvelut",
-        value: "dronepalvelut",
-        url: "https://skynavx.fi/#/drone",
+        label: "Fintraffic Mobiili",
+        value: "fintraffic-mobiili",
+        url: "https://www.fintraffic.fi/fi/mobiili",
+      },
+      {
+        label: "Fintraffic Matka",
+        value: "fintraffic-matka",
+        url: "https://matka.fintraffic.fi/"
+      },
+      {
+        label: "Fintraffic Sky",
+        value: "fintraffic-sky",
+        url: "https://sky.fintraffic.fi/"
       },
       DIGITRAFFIC_SERVICE,
       {
         label: "Digitransit",
         value: "digitransit",
         url: "https://digitransit.fi/",
-      },
-      {
-        label: "Reittiopas",
-        value: "reittiopas",
-        url: "https://opas.matka.fi/",
       },
       { label: "NAP", value: "nap", url: "https://finap.fi/#/" },
     ];
