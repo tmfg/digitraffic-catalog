@@ -6,7 +6,7 @@ from rdflib import Literal, DCAT, DCTERMS, RDF, FOAF
 
 from ckanext.digitraffic_theme.model.class_instance import ClassInstance
 from ckanext.digitraffic_theme.model.dataset import Dataset
-from ckanext.digitraffic_theme.model.language import LANGUAGES, Language
+from ckanext.digitraffic_theme.model.language import Language
 from ckanext.digitraffic_theme.model.agent import Agent
 
 
@@ -26,7 +26,7 @@ class CatalogRecord(ClassInstance):
     def __init__(self, iri: str | None, input: CatalogRecordInput):
         super().__init__(iri, DCAT.CatalogRecord)
         self.created = input["created"]
-        self.languages = [Language(iri) for iri in LANGUAGES]
+        self.languages = [Language(iri) for iri in Language.get_iris()]
         self.primary_topic = input["primary_topic"]
         self.modified = input["modified"]
 

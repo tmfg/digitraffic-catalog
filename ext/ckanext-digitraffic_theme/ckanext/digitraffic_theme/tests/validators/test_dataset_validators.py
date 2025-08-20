@@ -29,7 +29,7 @@ def create_dataset(org: Organization):
         "fi": "Suomenkielinen nimi",
         "sv": "Svensk titel",
     }
-    dataset_frequency = list(Frequency.iris)[0]
+    dataset_frequency = list(Frequency.get_iris())[0]
     dataset_mobility_theme = str(
         [
             main_theme
@@ -37,7 +37,7 @@ def create_dataset(org: Organization):
             if len(sub_themes) > 0
         ][0]
     )
-    dataset_spatial = list(Location.iris)[0]
+    dataset_spatial = list(Location.get_iris())[0]
 
     dataset = factories.Dataset(
         owner_org=org["id"],
@@ -79,7 +79,7 @@ class TestDatasetValidators:
     def test_frequency_validator(self):
         self.vocabulary_test(
             field_name="frequency",
-            valid_value=list(Frequency.iris)[0],
+            valid_value=list(Frequency.get_iris())[0],
             invalid_value="weekly",
             match_message="does not belong to",
         )
@@ -95,7 +95,7 @@ class TestDatasetValidators:
     def test_location_validator(self):
         self.vocabulary_test(
             field_name="spatial",
-            valid_value=list(Location.iris)[0],
+            valid_value=list(Location.get_iris())[0],
             invalid_value="suomi",
             match_message="does not belong to",
         )
@@ -103,7 +103,7 @@ class TestDatasetValidators:
     def test_transport_mode_validator(self):
         self.vocabulary_test(
             field_name="transport_mode",
-            valid_value=list(TransportMode.iris)[0],
+            valid_value=list(TransportMode.get_iris())[0],
             invalid_value="car",
             match_message="does not belong to",
         )
@@ -111,7 +111,7 @@ class TestDatasetValidators:
     def test_language_validator(self):
         self.vocabulary_test(
             field_name="language",
-            valid_value=list(Language.iris)[0],
+            valid_value=list(Language.get_iris())[0],
             invalid_value="gothic",
             match_message="does not belong to",
         )
@@ -119,7 +119,7 @@ class TestDatasetValidators:
     def test_georeferencing_method_validator(self):
         self.vocabulary_test(
             field_name="georeferencing_method",
-            valid_value=list(GeoreferencingMethod.iris)[0],
+            valid_value=list(GeoreferencingMethod.get_iris())[0],
             invalid_value="gps",
             match_message="does not belong to",
         )
@@ -127,7 +127,7 @@ class TestDatasetValidators:
     def test_network_coverage_validator(self):
         self.vocabulary_test(
             field_name="network_coverage",
-            valid_value=list(NetworkCoverage.iris)[0],
+            valid_value=list(NetworkCoverage.get_iris())[0],
             invalid_value="roads",
             match_message="does not belong to",
         )
@@ -135,7 +135,7 @@ class TestDatasetValidators:
     def test_intended_information_service_validator(self):
         self.vocabulary_test(
             field_name="intended_information_service",
-            valid_value=list(IntendedInformationService.iris)[0],
+            valid_value=list(IntendedInformationService.get_iris())[0],
             invalid_value="trip planner",
             match_message="does not belong to",
         )

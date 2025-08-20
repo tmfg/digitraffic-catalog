@@ -9,6 +9,7 @@ export enum MobilityDataStandard {
   INSPIRE = 'https://w3id.org/mobilitydcat-ap/mobility-data-standard/inspire',
   NETEX = 'https://w3id.org/mobilitydcat-ap/mobility-data-standard/netex',
   OCIT_C = 'https://w3id.org/mobilitydcat-ap/mobility-data-standard/ocit-c',
+  OCPI = 'https://w3id.org/mobilitydcat-ap/mobility-data-standard/ocpi',
   OTHER = 'https://w3id.org/mobilitydcat-ap/mobility-data-standard/other',
   SIRI = 'https://w3id.org/mobilitydcat-ap/mobility-data-standard/siri',
   TN_ITS = 'https://w3id.org/mobilitydcat-ap/mobility-data-standard/tn-its',

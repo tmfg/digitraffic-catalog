@@ -20,8 +20,8 @@ def create_resource(package_id):
         package_id=package_id,
         url=url,
         format=list(Format.labels)[0],
-        mobility_data_standard=list(MobilityDataStandard.iris)[0],
-        rights_type=list(RightsType.iris)[0],
+        mobility_data_standard=list(MobilityDataStandard.get_iris())[0],
+        rights_type=list(RightsType.get_iris())[0],
     )
 
     return resource
@@ -55,7 +55,7 @@ class TestResourceValidators:
     def test_data_grammar_validator(self):
         self.vocabulary_test(
             field_name="data_grammar",
-            valid_value=list(DataGrammar.iris)[0],
+            valid_value=list(DataGrammar.get_iris())[0],
             invalid_value="json schema",
             match_message="does not belong to",
         )
@@ -63,7 +63,7 @@ class TestResourceValidators:
     def test_mobility_data_standard_validator(self):
         self.vocabulary_test(
             field_name="mobility_data_standard",
-            valid_value=list(MobilityDataStandard.iris)[0],
+            valid_value=list(MobilityDataStandard.get_iris())[0],
             invalid_value="gtfs",
             match_message="does not belong to",
         )
@@ -71,7 +71,7 @@ class TestResourceValidators:
     def test_communication_method_validator(self):
         self.vocabulary_test(
             field_name="communication_method",
-            valid_value=list(CommunicationMethod.iris)[0],
+            valid_value=list(CommunicationMethod.get_iris())[0],
             invalid_value="other",
             match_message="does not belong to",
         )
@@ -79,7 +79,7 @@ class TestResourceValidators:
     def test_rights_type_validator(self):
         self.vocabulary_test(
             field_name="rights_type",
-            valid_value=list(RightsType.iris)[0],
+            valid_value=list(RightsType.get_iris())[0],
             invalid_value="free",
             match_message="does not belong to",
         )
@@ -87,7 +87,7 @@ class TestResourceValidators:
     def test_standard_license_validator(self):
         self.vocabulary_test(
             field_name="license_id",
-            valid_value=list(StandardLicense.iris)[0],
+            valid_value=list(StandardLicense.get_iris())[0],
             invalid_value="invalid_license",
             match_message="does not belong to",
         )
@@ -95,7 +95,7 @@ class TestResourceValidators:
     def test_application_layer_protocol_validator(self):
         self.vocabulary_test(
             field_name="application_layer_protocol",
-            valid_value=list(ApplicationLayerProtocol.iris)[0],
+            valid_value=list(ApplicationLayerProtocol.get_iris())[0],
             invalid_value="ftp",
             match_message="does not belong to",
         )

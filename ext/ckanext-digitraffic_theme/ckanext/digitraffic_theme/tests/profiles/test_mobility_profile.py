@@ -41,7 +41,7 @@ class TestProfile:
             "fi": "Suomenkielinen nimi",
             "sv": "Svensk titel",
         }
-        dataset_frequency = list(Frequency.iris)[0]
+        dataset_frequency = list(Frequency.get_iris())[0]
         dataset_mobility_theme = str(
             [
                 main_theme
@@ -52,7 +52,7 @@ class TestProfile:
         dataset_mobility_theme_sub = str(
             list(MOBILITY_THEME_TREE[URIRef(dataset_mobility_theme)])[0]
         )
-        dataset_spatial = list(Location.iris)[0]
+        dataset_spatial = list(Location.get_iris())[0]
         dataset = factories.Dataset(
             owner_org=owner_org["id"],
             name=dataset_name,
@@ -64,10 +64,10 @@ class TestProfile:
             resources=[
                 {
                     "url": "http://localhost:8080/foo",
-                    "format": list(Format.labels)[0],
+                    "format": Format(list(Format.get_iris())[0]).get_label("en"),
                     "mobility_data_standard_version": "3",
-                    "mobility_data_standard": list(MobilityDataStandard.iris)[0],
-                    "rights_type": list(RightsType.iris)[0],
+                    "mobility_data_standard": list(MobilityDataStandard.get_iris())[0],
+                    "rights_type": list(RightsType.get_iris())[0],
                 }
             ],
             notes_translated=notes,
