@@ -3364,6 +3364,7 @@ dataset_fields:
   form_attrs:
     min: '2000'
     max: '69036405'
+  display_snippet: display_snippets/conforms_to.html
   validators: scheming_required remove_whitespace spatial_reference_validator
   necessity: recommended
 - field_name: intended_information_service
