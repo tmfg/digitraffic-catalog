@@ -1,6 +1,6 @@
 from __future__ import annotations
 from ckanext.digitraffic_theme.model.class_instance import ClassInstance
-from ckanext.digitraffic_theme.model.vocabulary import Vocabulary
+from ckanext.digitraffic_theme.model.schema_vocabulary import SchemaVocabulary
 
 from rdflib import Graph, URIRef, BNode, Literal
 from typing import Any, Callable, overload
@@ -26,15 +26,15 @@ def add_uriref_to_graph(
 
 
 def add_vocabulary_to_graph(
-    g: Graph, subject: URIRef | BNode, predicate: URIRef, data: Vocabulary
+    g: Graph, subject: URIRef | BNode, predicate: URIRef, data: SchemaVocabulary
 ):
     g.add((subject, predicate, data.iri))
 
 
 @overload
 def get_adder_fn(
-    resource: Vocabulary,
-) -> Callable[[Graph, URIRef | BNode, URIRef, Vocabulary], None]: ...
+    resource: SchemaVocabulary,
+) -> Callable[[Graph, URIRef | BNode, URIRef, SchemaVocabulary], None]: ...
 
 
 @overload
@@ -56,9 +56,9 @@ def get_adder_fn(
 
 
 def get_adder_fn(
-    resource: Vocabulary | ClassInstance | Literal | URIRef,
+    resource: SchemaVocabulary | ClassInstance | Literal | URIRef,
 ) -> Callable[[Graph, URIRef | BNode, URIRef, Any], None]:
-    if isinstance(resource, Vocabulary):
+    if isinstance(resource, SchemaVocabulary):
         return add_vocabulary_to_graph
     elif isinstance(resource, ClassInstance):
         return add_class_instance_to_graph

@@ -4,10 +4,11 @@ from typing import Any, Callable, TypeVar, Type
 
 import phonenumbers
 from ckan.common import _
-from ckan.logic import get_action, ValidationError
 from ckan.types import Context
 from ckan.model.package import Package
 from sqlalchemy import exists
+
+from ckanext.scheming.helpers import scheming_get_dataset_schema, scheming_field_by_name
 
 from ckanext.digitraffic_theme.model.mobility_theme import (
     MobilityTheme,
@@ -17,7 +18,7 @@ from ckanext.digitraffic_theme.model.mobility_theme import (
 )
 from ckanext.digitraffic_theme.model.spatial_reference import SpatialReference
 from ckanext.digitraffic_theme.model.frequency import Frequency
-from ckanext.digitraffic_theme.model.vocabulary import Vocabulary
+from ckanext.digitraffic_theme.model.schema_choice_vocabulary import SchemaChoiceVocabulary
 from ckanext.digitraffic_theme.model.transport_mode import TransportMode
 from ckanext.digitraffic_theme.model.theme import Theme
 from ckanext.digitraffic_theme.model.location import Location
@@ -28,6 +29,7 @@ from ckanext.digitraffic_theme.model.network_coverage import NetworkCoverage
 from ckanext.digitraffic_theme.model.intended_information_service import (
     IntendedInformationService,
 )
+import ckan.plugins.toolkit as toolkit
 
 
 logger = logging.getLogger(__name__)
@@ -40,7 +42,7 @@ def mobility_theme_sub_validator(key, data, errors, context):
         if is_valid_mobility_theme_sub(mobility_theme, mobility_theme_sub):
             return data
         else:
-            raise ValidationError(_("Invalid value of mobility theme sub category"))
+            raise toolkit.Invalid(_("Invalid value of mobility theme sub category"))
     return data
 
 
@@ -49,7 +51,7 @@ def mobility_theme_validator(value: Any, context: Context):
         if is_valid_mobility_theme(MobilityTheme(value)):
             return value
         else:
-            raise ValidationError(_("Invalid value of mobility theme category"))
+            raise toolkit.Invalid(_("Invalid value of mobility theme category"))
     return value
 
 
@@ -65,7 +67,7 @@ def phone_number_validator(value: Any, context: Context):
         except:
             is_valid = False
         if not is_valid:
-            raise ValidationError(
+            raise toolkit.Invalid(
                 _(
                     "Phone number is not in a valid format. Make sure it starts with a valid country code. e.g. +358"
                 )
@@ -75,12 +77,17 @@ def phone_number_validator(value: Any, context: Context):
 
 def vocabulary_validator(value: Any, _class: type):
     if value:
-        if issubclass(_class, Vocabulary) and _class.is_known_iri(value):
+        if issubclass(_class, SchemaChoiceVocabulary) and _class.is_known_iri(value):
             return value
         else:
-            raise ValidationError(
+            schema = scheming_get_dataset_schema('dataset')
+            field = scheming_field_by_name(schema['resource_fields'], 'mobility_data_standard')
+            logger.info(_("{value} does not belong to {namespace}").format(
+                value=value, namespace=_class.namespace
+            ))
+            raise toolkit.Invalid(
                 _("{value} does not belong to {namespace}").format(
-                    value=value, namespace=_class.namespace
+                    value=[choice['label']['fi'] for choice in field['choices'] if choice['value'] == value][0], namespace=field['label']['fi']
                 )
             )
     return value
@@ -92,7 +99,7 @@ def spatial_reference_validator(value: Any, context: Context):
             value_with_prefix = str(SpatialReference.namespace[value])
             if SpatialReference.is_known_iri(value_with_prefix):
                 return value_with_prefix
-            raise ValidationError(_("Given spatial reference is not supported"))
+            raise toolkit.Invalid(_("Given spatial reference is not supported"))
     return value
 
 ValueType = TypeVar("ValueType")
@@ -111,8 +118,8 @@ def multiple_values_converter(validator: Callable[[Type[ValueType], ...], Any], 
                     in value
                 ]
             except json.JSONDecodeError:
-                raise ValidationError(_("Value must be a JSON list"))
-        raise ValidationError(_("Value must be a JSON list"))
+                raise toolkit.Invalid(_("Value must be a JSON list"))
+        raise toolkit.Invalid(_("Value must be a JSON list"))
     def list_to_json(value: list[Type[ValueType]]) -> str:
         return json.dumps([
             validator(item, *args, **kwargs)
@@ -124,7 +131,7 @@ def multiple_values_converter(validator: Callable[[Type[ValueType], ...], Any], 
         return json_to_list(value)
     if isinstance(value, list):
         return list_to_json(value)
-    raise ValidationError(_("Value must either be a JSON list (str) or a list"))
+    raise toolkit.Invalid(_("Value must either be a JSON list (str) or a list"))
 
 def value_to_list(value: Any):
     if isinstance(value, list):
@@ -179,7 +186,7 @@ def is_referenced_by_validator(value: Any, context: Context):
     # not doing this will result in is_referenced_by being reset for the
     # currently edited dataset on form submit (because form data for the field will always be empty)
     if package and value is None:
-        package_details = get_action("package_show")(
+        package_details = toolkit.get_action("package_show")(
             context,
             {"id": package.id},
         )
@@ -196,11 +203,11 @@ def related_resource_validator(value: str, context: Context):
     """
     session = context.get("session")
     if not session:
-        raise ValidationError(_("Session is required for related resource validation."))
+        raise toolkit.Invalid(_("Session is required for related resource validation."))
     if not value:
-        raise ValidationError(_("Related resource id cannot be empty."))
+        raise toolkit.Invalid(_("Related resource id cannot be empty."))
     if not session.query(exists().select_from(Package).where(Package.id == value)).scalar():
-        raise ValidationError(
+        raise toolkit.Invalid(
             _(
                 "Related resource with id {value} does not exist or is not a valid dataset."
             ).format(value=value)
