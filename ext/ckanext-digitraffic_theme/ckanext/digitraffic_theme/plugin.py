@@ -8,6 +8,8 @@ from ckan.lib.plugins import DefaultTranslation
 
 import ckanext.digitraffic_theme.actions.digitraffic_user_info as dui_actions
 import ckanext.digitraffic_theme.actions.package as package_actions
+import ckanext.digitraffic_theme.actions.organization as organization_actions
+import ckanext.digitraffic_theme.actions.group as group_actions
 import ckanext.digitraffic_theme.auth.user as user_auth
 from ckanext.digitraffic_theme.validators.dataset_validators import (
     value_to_list,
@@ -111,6 +113,10 @@ class DigitrafficThemePlugin(plugins.SingletonPlugin, DefaultTranslation):
             "package_create": package_actions.package_create,
             "package_update": package_actions.package_update,
             "package_patch": package_actions.package_patch,
+            "organization_create": organization_actions.organization_create,
+            "organization_update": organization_actions.organization_update,
+            "group_create": group_actions.group_create,
+            "group_update": group_actions.group_update,
         }
 
     def get_auth_functions(self):
