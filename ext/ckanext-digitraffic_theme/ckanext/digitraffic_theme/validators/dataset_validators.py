@@ -86,8 +86,8 @@ def vocabulary_validator(value: Any, _class: type):
                 value=value, namespace=_class.namespace
             ))
             raise toolkit.Invalid(
-                _("{value} does not belong to {namespace}").format(
-                    value=[choice['label']['fi'] for choice in field['choices'] if choice['value'] == value][0], namespace=field['label']['fi']
+                _("Provided value does not belong to {namespace}").format(
+                    namespace=field['label']['fi']
                 )
             )
     return value
