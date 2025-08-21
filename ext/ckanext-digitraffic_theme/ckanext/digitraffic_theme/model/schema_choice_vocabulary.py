@@ -7,14 +7,14 @@ class SchemaChoiceVocabulary(SchemaVocabulary):
         self.choice = self._get_choice(iri)
 
     def _get_choice(self, iri: str):
-        choices_filtered = [choice for choice in self.__class__._get_field()['choices'] if choice['value'] == iri]
+        choices_filtered = [choice for choice in self.__class__._get_field()['choices'] if choice.get('iri', choice['value']) == iri]
         if len(choices_filtered) == 1:
             return choices_filtered[0]
-        return None
+        raise ValueError(f"IRI {iri} is not a valid choice in the vocabulary {self.__class__.__name__}")
 
     @classmethod
     def get_iris(cls):
-        return {choice['value'] for choice in cls._get_field()['choices']}
+        return {choice.get('iri', choice['value']) for choice in cls._get_field()['choices']}
 
     @property
     def labels(self):
