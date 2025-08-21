@@ -65,7 +65,13 @@ class MobilityDCATAPProfile(RDFProfile):
             g,
             catalog_ref,
             DCTERMS.description,
-            Literal("Digitraffic Catalog description"),
+            Literal("Digitraffic tuottaa ajantasaista avointa liikennetietoa sovelluskehitykseen Suomen tie-, rautatie- ja vesiliikenteestä.", lang="fi"),
+        )
+        add_literal_to_graph(
+            g,
+            catalog_ref,
+            DCTERMS.description,
+            Literal("Digitraffic provides open data for application development from Finnish road, railway and marine traffic.", lang="en"),
         )
         add_class_instance_with_children(
             g,
@@ -80,7 +86,7 @@ class MobilityDCATAPProfile(RDFProfile):
             Location("http://data.europa.eu/nuts/code/FI"),
         )
         add_literal_to_graph(
-            g, catalog_ref, DCTERMS.title, Literal("Digitraffic Catalog")
+            g, catalog_ref, DCTERMS.title, Literal("Liikennedatakatalogi", lang="fi")
         )
 
         # Recommended properties
