@@ -19,7 +19,7 @@ def create_resource(package_id):
     resource = factories.Resource(
         package_id=package_id,
         url=url,
-        format=list(Format.labels)[0],
+        format=Format(list(Format.get_iris())[0]).labels['en'],
         mobility_data_standard=list(MobilityDataStandard.get_iris())[0],
         rights_type=list(RightsType.get_iris())[0],
     )
