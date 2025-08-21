@@ -239,8 +239,8 @@ class MobilityData:
 
             def data_service_ref(service_endpoint_url: str) -> URIRef:
                 ref_base = catalog_uri().rstrip("/") + "/"
-                unique_service_name = re.sub(r'_+', '_', re.sub(r'[^a-zA-Z0-9]', '_', service_endpoint_url.split("?")[0].rstrip("/")))
-                return URIRef(f"{ref_base}data_service/{unique_service_name}")
+                unique_service_name = re.sub(r'-+', '-', re.sub(r'[^a-zA-Z0-9]', '-', service_endpoint_url.split("?")[0].rstrip("/")))
+                return URIRef(f"{ref_base}data-service/{unique_service_name}")
 
             temporal = (
                 {

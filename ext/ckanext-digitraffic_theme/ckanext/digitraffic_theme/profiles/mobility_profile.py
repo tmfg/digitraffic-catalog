@@ -117,6 +117,17 @@ class MobilityDCATAPProfile(RDFProfile):
         # catalog_ref contains this value
         add_literal_to_graph(g, catalog_ref, DCTERMS.identifier, Literal(catalog_ref))
 
+        # Special handling for dcat:DataService
+        # The database might have multiple identical values for dcat:DataService properties. Remove the dublicates.
+        for service in g.objects(catalog_ref, DCAT.dataService):
+            for p in (DCTERMS.title, DCAT.endpointDescription, DCTERMS.accessRights, DCTERMS.description, DCTERMS.license):
+                for o in g.objects(service, p):
+                    same_triples = g.triples((service, p, o))
+                    if len(same_triples) > 1:
+                        g.remove((service, p, o))
+                        g.add((service, p, o))
+
+
     def _remove_existing_self_managed_graph_data(self, dataset_ref):
         g: Graph = self.g
         ## Remove some values that we are going to put in ourselves
