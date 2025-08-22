@@ -261,15 +261,15 @@ const ImageUpload: ckan.Module<HTMLDivElement, ImageUploadMO> = {
      * Returns nothing.
      */
     _onInputChange: function () {
-        var file_name = this.input.val() ?? "".split(/^C:\\fakepath\\/).pop() ?? ;
+        var file_name = this.input.val() ?? "".split(/^C:\\fakepath\\/).pop() ?? "";
 
         // Internet Explorer 6-11 and Edge 20+
         var isIE = !!document.DOCUMENT_NODE;
         var isEdge = !isIE && !!(window as any).StyleMedia;
         // for IE/Edge when 'include filepath option' is enabled
         if (isIE || isEdge) {
-            var fName = file_name.match(/[^\\\/]+$/);
-            file_name = fName ? fName[0] : file_name;
+            var fName = String(file_name).match(/[^\\\/]+$/);
+            file_name = fName ? fName[0] : String(file_name);
         }
 
         this.field_url_input.val(file_name);
@@ -279,7 +279,7 @@ const ImageUpload: ckan.Module<HTMLDivElement, ImageUploadMO> = {
 
         this._showOnlyFieldUrl();
 
-        this._autoName(file_name);
+        this._autoName(String(file_name));
 
         this._updateUrlLabel(this._('File'));
     },
