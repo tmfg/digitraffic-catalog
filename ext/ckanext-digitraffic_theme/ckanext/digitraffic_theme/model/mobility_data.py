@@ -1,9 +1,10 @@
 import json
+import re
 from typing import Any, Dict
 from rdflib import URIRef, Literal
 from datetime import datetime
 
-from ckanext.dcat.utils import publisher_uri_organization_fallback, resource_uri
+from ckanext.dcat.utils import publisher_uri_organization_fallback, resource_uri, catalog_uri
 from ckanext.digitraffic_theme.model.address import VCARDAddress, LOCNAddress
 from ckanext.digitraffic_theme.model.agent_type import AgentType
 from ckanext.digitraffic_theme.model.agent import Agent
@@ -236,6 +237,11 @@ class MobilityData:
                 dist["end_timestamp"] + "Z" if dist.get("end_timestamp") else None
             )
 
+            def data_service_ref(service_endpoint_url: str) -> URIRef:
+                ref_base = catalog_uri().rstrip("/") + "/"
+                unique_service_name = re.sub(r'-+', '-', re.sub(r'[^a-zA-Z0-9]', '-', service_endpoint_url.split("?")[0].rstrip("/")))
+                return URIRef(f"{ref_base}data-service/{unique_service_name}")
+
             temporal = (
                 {
                     "temporal": PeriodOfTime(
@@ -265,6 +271,21 @@ class MobilityData:
                 if dist.get("start_timestamp") or dist.get("end_timestamp")
                 else {}
             )
+            access_service = (
+                {
+                    "access_service": DataService(
+                        data_service_ref(dist["data_service"][0]["data_service_endpoint_url"]),
+                        {
+                            **(dist["data_service"][0]),
+                            "access_rights": RightsStatement(None, dist["rights_type"]),
+                            "dataset_ref": dataset_ref,
+                        },  # type: ignore
+                    )
+                }
+                if dist.get("data_service")
+                else {}
+            )
+            print(access_service)
 
             return Distribution(
                 resource_uri(dist),
@@ -335,14 +356,6 @@ class MobilityData:
                         if dist.get("character_encoding")
                         else None
                     ),
-                    "access_service": DataService(
-                        None,
-                        {
-                            **(dist.get("data_service", [{}])[0]),
-                            "access_rights": RightsStatement(None, dist["rights_type"]),
-                            "dataset_ref": dataset_ref,
-                        },  # type: ignore
-                    ),
                     "download_url": (
                         URIRef(dist["download_url"])
                         if dist.get("download_url")
@@ -355,6 +368,7 @@ class MobilityData:
                     ),
                     "sample": URIRef(dist["sample"]) if dist.get("sample") else None,
                     **temporal,
+                    **access_service
                 },
             )
 

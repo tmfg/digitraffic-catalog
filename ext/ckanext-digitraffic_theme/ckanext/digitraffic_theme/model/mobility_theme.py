@@ -1,4 +1,5 @@
-from ckanext.digitraffic_theme.model.vocabulary import Vocabulary
+from ckanext.digitraffic_theme.model.schema_vocabulary import SchemaVocabularyType
+from ckanext.digitraffic_theme.model.schema_choice_vocabulary import SchemaChoiceVocabulary
 from rdflib import URIRef, Namespace
 
 MOBILITY_THEME_TREE = {
@@ -306,21 +307,19 @@ MOBILITY_THEME_TREE = {
 }
 
 
-class MobilityTheme(Vocabulary):
-    iris = {str(key) for key in MOBILITY_THEME_TREE.keys()}
+class MobilityTheme(SchemaChoiceVocabulary):
     namespace = Namespace("https://w3id.org/mobilitydcat-ap/mobility-theme/")
+    schema_vocabulary_type = SchemaVocabularyType.DATASET
+    field_name = "mobility_theme"
 
     def __init__(self, iri):
         super().__init__(iri)
 
 
-class MobilityThemeSub(Vocabulary):
-    iris = {
-        str(sub_theme)
-        for theme, sub_themes in MOBILITY_THEME_TREE.items()
-        for sub_theme in sub_themes
-    }
+class MobilityThemeSub(SchemaChoiceVocabulary):
     namespace = Namespace("https://w3id.org/mobilitydcat-ap/mobility-theme/")
+    schema_vocabulary_type = SchemaVocabularyType.DATASET
+    field_name = "mobility_theme_sub"
 
     def __init__(self, iri):
         super().__init__(iri)
