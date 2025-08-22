@@ -11,7 +11,7 @@ def organization_create(
     if "extras" in data_dict:
         data_dict.pop("extras", None)
     if "image_url" in data_dict:
-        data_dict.pop("image_url", None)
+        data_dict["image_url"] = ""
 
     return original_action(context, data_dict)
 
@@ -24,6 +24,6 @@ def organization_update(
     if "extras" in data_dict:
         data_dict.pop("extras", None)
     if "image_url" in data_dict:
-        data_dict.pop("image_url", None)
+        data_dict["image_url"] = ""
 
     return original_action(context, data_dict)
