@@ -212,7 +212,7 @@ export class DatasetPage extends BasePage {
       let intSpatialReferenceSystemValue: number | undefined = undefined;
 
       if (spatialReferenceSystemValue) {
-        const intMatch = spatialReferenceSystemValue.match(/\/(\d+)$/)
+        const intMatch = spatialReferenceSystemValue.match(/^EPSG:(\d+)$/)
 
         if (intMatch && intMatch[1]) {
           intSpatialReferenceSystemValue = parseInt(intMatch[1]);

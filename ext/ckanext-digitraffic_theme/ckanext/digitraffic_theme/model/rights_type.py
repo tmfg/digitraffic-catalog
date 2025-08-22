@@ -1,25 +1,15 @@
 from rdflib import Namespace
-from ckanext.digitraffic_theme.model.vocabulary import Vocabulary
 
-RIGHTS_TYPE = {
-    "https://w3id.org/mobilitydcat-ap/conditions-for-access-and-usage/contractual-arrangement",
-    "https://w3id.org/mobilitydcat-ap/conditions-for-access-and-usage/contractual-arrangement-fee-required",
-    "https://w3id.org/mobilitydcat-ap/conditions-for-access-and-usage/contractual-arrangement-free-of-charge",
-    "https://w3id.org/mobilitydcat-ap/conditions-for-access-and-usage/fee-required",
-    "https://w3id.org/mobilitydcat-ap/conditions-for-access-and-usage/free-of-charge",
-    "https://w3id.org/mobilitydcat-ap/conditions-for-access-and-usage/licence-provided",
-    "https://w3id.org/mobilitydcat-ap/conditions-for-access-and-usage/licence-provided-fee-required",
-    "https://w3id.org/mobilitydcat-ap/conditions-for-access-and-usage/licence-provided-free-of-charge",
-    "https://w3id.org/mobilitydcat-ap/conditions-for-access-and-usage/other",
-    "https://w3id.org/mobilitydcat-ap/conditions-for-access-and-usage/royalty-free",
-}
+from ckanext.digitraffic_theme.model.schema_vocabulary import SchemaVocabularyType
+from ckanext.digitraffic_theme.model.schema_choice_vocabulary import SchemaChoiceVocabulary
 
 
-class RightsType(Vocabulary):
-    iris = RIGHTS_TYPE
+class RightsType(SchemaChoiceVocabulary):
     namespace = Namespace(
         "https://w3id.org/mobilitydcat-ap/conditions-for-access-and-usage/"
     )
+    schema_vocabulary_type = SchemaVocabularyType.RESOURCE
+    field_name = "rights_type"
 
     def __init__(self, iri):
         super().__init__(iri)

@@ -1,27 +1,13 @@
 from rdflib import Namespace
-from ckanext.digitraffic_theme.model.vocabulary import Vocabulary
 
-LANGUAGES = {
-    "http://publications.europa.eu/resource/authority/language/ENG",
-    "http://publications.europa.eu/resource/authority/language/FIN",
-    "http://publications.europa.eu/resource/authority/language/SWE",
-    "http://publications.europa.eu/resource/authority/language/EST",
-    "http://publications.europa.eu/resource/authority/language/NOR",
-    "http://publications.europa.eu/resource/authority/language/DAN",
-    "http://publications.europa.eu/resource/authority/language/DEU",
-    "http://publications.europa.eu/resource/authority/language/FRA",
-    "http://publications.europa.eu/resource/authority/language/SPA",
-    "http://publications.europa.eu/resource/authority/language/LAV",
-    "http://publications.europa.eu/resource/authority/language/LIT",
-    "http://publications.europa.eu/resource/authority/language/ISL",
-    "http://publications.europa.eu/resource/authority/language/POL",
-    "http://publications.europa.eu/resource/authority/language/NLD",
-}
+from ckanext.digitraffic_theme.model.schema_vocabulary import SchemaVocabularyType
+from ckanext.digitraffic_theme.model.schema_choice_vocabulary import SchemaChoiceVocabulary
 
 
-class Language(Vocabulary):
-    iris = LANGUAGES
+class Language(SchemaChoiceVocabulary):
     namespace = Namespace("http://publications.europa.eu/resource/authority/language/")
+    schema_vocabulary_type = SchemaVocabularyType.DATASET
+    field_name = "language"
 
     def __init__(self, iri):
         super().__init__(iri)

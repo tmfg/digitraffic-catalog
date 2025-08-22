@@ -1,20 +1,13 @@
 from rdflib import Namespace
-from ckanext.digitraffic_theme.model.vocabulary import Vocabulary
 
-GEOREFERENCING_METHOD = {
-    "https://w3id.org/mobilitydcat-ap/georeferencing-method/alert-c",
-    "https://w3id.org/mobilitydcat-ap/georeferencing-method/gml",
-    "https://w3id.org/mobilitydcat-ap/georeferencing-method/geocoordinates",
-    "https://w3id.org/mobilitydcat-ap/georeferencing-method/iso-19148",
-    "https://w3id.org/mobilitydcat-ap/georeferencing-method/openlr",
-    "https://w3id.org/mobilitydcat-ap/georeferencing-method/other",
-    "https://w3id.org/mobilitydcat-ap/georeferencing-method/tpeg-loc",
-}
+from ckanext.digitraffic_theme.model.schema_vocabulary import SchemaVocabularyType
+from ckanext.digitraffic_theme.model.schema_choice_vocabulary import SchemaChoiceVocabulary
 
 
-class GeoreferencingMethod(Vocabulary):
-    iris = GEOREFERENCING_METHOD
+class GeoreferencingMethod(SchemaChoiceVocabulary):
     namespace = Namespace("https://w3id.org/mobilitydcat-ap/georeferencing-method/")
+    schema_vocabulary_type = SchemaVocabularyType.DATASET
+    field_name = "georeferencing_method"
 
     def __init__(self, iri):
         super().__init__(iri)
