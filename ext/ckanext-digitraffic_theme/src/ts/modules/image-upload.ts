@@ -3,7 +3,10 @@ import { initialize } from "../module-constructs/module";
 
 /* Image Upload
 *
+* This is a refactored version of image-upload.js in CKAN core.
+* The URL button has been removed so as to leave only the Upload option.
 */
+
 type ImageUploadOptions = {
     is_url: boolean;
     is_upload: boolean;
@@ -32,7 +35,6 @@ type ImageUploadMO = {
     input: JQuery
     _fileNameFromUpload: (url: string) => string;
     _updateUrlLabel: (label_text: string) => void;
-    _onFromWeb: () => void;
     _onRemove: () => void;
     _onInputChange: () => void;
     _showOnlyButtons: () => void;
@@ -106,7 +108,7 @@ const ImageUpload: ckan.Module<HTMLDivElement, ImageUploadMO> = {
         this.previousUpload = this.options.previous_upload;
 
         // Is there a clear checkbox on the form already?
-        var checkbox = $(field_clear, this.el);
+        const checkbox = $(field_clear, this.el);
         if (checkbox.length > 0) {
             checkbox.parents('.form-group').remove();
         }
@@ -114,14 +116,6 @@ const ImageUpload: ckan.Module<HTMLDivElement, ImageUploadMO> = {
         // Adds the hidden clear input to the form
         this.field_clear = $('<input type="hidden" name="' + options.field_clear + '">')
             .appendTo(this.el);
-
-        // Button to set the field to be a URL
-        this.button_url = $('<a href="javascript:;" class="btn btn-default">' +
-            '<i class="fa fa-globe"></i>' +
-            this._('Link') + '</a>')
-            .prop('title', this._('Link to a URL on the internet (you can also link to an API)'))
-            .on('click', this._onFromWeb)
-            .insertAfter(this.input);
 
         // Button to attach local file to the form
         this.button_upload = $('<a href="javascript:;" class="btn btn-default">' +
@@ -135,7 +129,7 @@ const ImageUpload: ckan.Module<HTMLDivElement, ImageUploadMO> = {
         }
 
         // Button for resetting the form when there is a URL set
-        var removeText = this._('Remove');
+        const removeText = this._('Remove');
         $('<a href="javascript:;" class="btn btn-danger btn-remove-url">'
             + removeText + '</a>')
             .prop('title', removeText)
@@ -156,7 +150,6 @@ const ImageUpload: ckan.Module<HTMLDivElement, ImageUploadMO> = {
         // Fields storage. Used in this.changeState
         this.fields = $('<i />')
             .add(this.button_upload)
-            .add(this.button_url)
             .add(this.input)
             .add(this.field_url)
             .add(this.field_image);
@@ -179,7 +172,7 @@ const ImageUpload: ckan.Module<HTMLDivElement, ImageUploadMO> = {
 
             this.field_url_input.prop('readonly', true);
             // If the data is an uploaded file, the filename will display rather than whole url of the site
-            var filename = this._fileNameFromUpload(String(this.field_url_input.val()) ?? "");
+            const filename = this._fileNameFromUpload(String(this.field_url_input.val()) ?? "");
             this.field_url_input.val(filename);
 
             this._updateUrlLabel(this._('File'));
@@ -225,24 +218,6 @@ const ImageUpload: ckan.Module<HTMLDivElement, ImageUploadMO> = {
 
         this.label_location.text(label_text);
     },
-
-    /* Event listener for when someone sets the field to URL mode
-     *
-     * Returns nothing.
-     */
-    _onFromWeb: function () {
-        this._showOnlyFieldUrl();
-
-        this.field_url_input.focus()
-            .on('blur', this._onFromWebBlur);
-
-        if (this.options.is_upload) {
-            this.field_clear.val('true');
-        }
-
-        this._updateUrlLabel(this._('URL'));
-    },
-
     /* Event listener for resetting the field back to the blank state
      *
      * Returns nothing.
@@ -261,14 +236,14 @@ const ImageUpload: ckan.Module<HTMLDivElement, ImageUploadMO> = {
      * Returns nothing.
      */
     _onInputChange: function () {
-        var file_name = this.input.val() ?? "".split(/^C:\\fakepath\\/).pop() ?? "";
+        let file_name = this.input.val() ?? "".split(/^C:\\fakepath\\/).pop() ?? "";
 
         // Internet Explorer 6-11 and Edge 20+
-        var isIE = !!document.DOCUMENT_NODE;
-        var isEdge = !isIE && !!(window as any).StyleMedia;
+        const isIE = !!document.DOCUMENT_NODE;
+        const isEdge = !isIE && !!(window as any).StyleMedia;
         // for IE/Edge when 'include filepath option' is enabled
         if (isIE || isEdge) {
-            var fName = String(file_name).match(/[^\\\/]+$/);
+            const fName = String(file_name).match(/[^\\\/]+$/);
             file_name = fName ? fName[0] : String(file_name);
         }
 
@@ -292,7 +267,6 @@ const ImageUpload: ckan.Module<HTMLDivElement, ImageUploadMO> = {
         this.fields.hide();
         this.button_upload
             .add(this.field_image)
-            .add(this.button_url)
             .add(this.input)
             .show();
     },
@@ -334,10 +308,9 @@ const ImageUpload: ckan.Module<HTMLDivElement, ImageUploadMO> = {
      *
      * Returns nothing
      */
-    // todo: test this
     _onFromWebBlur: function () {
-        var urlValue = this.field_url_input.val() ?? "";
-        var match = String(urlValue).match(/([^\/]+)\/?$/);
+        const urlValue = this.field_url_input.val() ?? "";
+        const match = String(urlValue).match(/([^\/]+)\/?$/);
         if (match && match[1]) {
             this._autoName(match[1]);
         }
