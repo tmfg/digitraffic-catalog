@@ -5,6 +5,8 @@ from enum import Enum
 
 from typing import Callable
 
+_DEFAULT_DENY = {"success": False, "msg": "Action is not allowed"}
+
 # Create enum for user actions
 class UserAction(Enum):
     SHOW = "show"
@@ -61,7 +63,7 @@ def user_show(next_auth: Callable, context: Context, data_dict: DataDict):
     is_user_action_allowed = _is_user_action_allowed(context, data_dict, UserAction.SHOW)
     if is_user_action_allowed:
         return next_auth(context, data_dict)
-    return {"success": False, "msg": "Action is not allowed"}
+    return _DEFAULT_DENY
 
 
 @toolkit.chained_auth_function
@@ -74,4 +76,10 @@ def user_update(next_auth: Callable, context: Context, data_dict: DataDict):
     is_user_action_allowed = _is_user_action_allowed(context, data_dict, user_action)
     if is_user_action_allowed:
         return next_auth(context, data_dict)
-    return {"success": False, "msg": "Action is not allowed"}
+    return _DEFAULT_DENY
+
+def user_list(context: Context, data_dict: DataDict):
+    """
+    Only sysadmins are allowed to list users.
+    """
+    return _DEFAULT_DENY

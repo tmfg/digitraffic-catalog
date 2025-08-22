@@ -114,7 +114,7 @@ class DigitrafficThemePlugin(plugins.SingletonPlugin, DefaultTranslation):
         }
 
     def get_auth_functions(self):
-        return {"user_show": user_auth.user_show, "user_update": user_auth.user_update}
+        return {"user_show": user_auth.user_show, "user_update": user_auth.user_update, "user_list": user_auth.user_list}
 
     def get_helpers(self):
         return helpers
