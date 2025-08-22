@@ -84,7 +84,11 @@ class Distribution(ClassInstance):
                 if self.character_encoding
                 else None
             ),
-            (DCAT.accessService, self.access_service),
+            (
+                (DCAT.accessService, self.access_service)
+                if self.access_service
+                else None
+            ),
             (DCAT.downloadURL, self.download_url) if self.download_url else None,
             (MOBILITYDCATAP.grammar, self.data_grammar) if self.data_grammar else None,
             (ADMS.sample, self.sample) if self.sample else None,
