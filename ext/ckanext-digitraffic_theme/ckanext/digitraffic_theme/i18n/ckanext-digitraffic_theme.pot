@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-digitraffic_theme 0.0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-08-11 09:45+0000\n"
+"POT-Creation-Date: 2025-08-22 12:54+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,38 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.15.0\n"
+
+#: ckanext/digitraffic_theme/assets/js/digitrafficMain.js:974
+msgid "Upload"
+msgstr ""
+
+#: ckanext/digitraffic_theme/assets/js/digitrafficMain.js:974
+msgid "Please select the file to upload again"
+msgstr ""
+
+#: ckanext/digitraffic_theme/assets/js/digitrafficMain.js:974
+#: ckanext/digitraffic_theme/templates/scheming/form_snippets/repeating_subfields.html:13
+msgid "Remove"
+msgstr ""
+
+#: ckanext/digitraffic_theme/assets/js/digitrafficMain.js:974
+#: ckanext/digitraffic_theme/templates/macros/form/image_upload.html:17
+msgid "Image"
+msgstr ""
+
+#: ckanext/digitraffic_theme/assets/js/digitrafficMain.js:974
+msgid "Upload a file on your computer"
+msgstr ""
+
+#: ckanext/digitraffic_theme/assets/js/digitrafficMain.js:974
+#: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:33
+msgid "URL"
+msgstr ""
+
+#: ckanext/digitraffic_theme/assets/js/digitrafficMain.js:974
+#: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:34
+msgid "File"
+msgstr ""
 
 #: ckanext/digitraffic_theme/templates/admin/base.html:5
 msgid "Sysadmins"
@@ -213,6 +245,18 @@ msgid ""
 "your dataset will only be visible to members of your own organization."
 msgstr ""
 
+#: ckanext/digitraffic_theme/templates/macros/form/image_upload.html:15
+msgid "http://example.com/my-image.jpg"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/macros/form/image_upload.html:16
+msgid "Image URL"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/macros/form/image_upload.html:52
+msgid "Clear Upload"
+msgstr ""
+
 #: ckanext/digitraffic_theme/templates/macros/form/input_block.html:27
 msgid "Custom"
 msgstr ""
@@ -289,14 +333,6 @@ msgstr ""
 
 #: ckanext/digitraffic_theme/templates/package/snippets/package_form.html:55
 msgid "Next: Add data"
-msgstr ""
-
-#: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:33
-msgid "URL"
-msgstr ""
-
-#: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:34
-msgid "File"
 msgstr ""
 
 #: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:35
@@ -415,10 +451,6 @@ msgstr ""
 
 #: ckanext/digitraffic_theme/templates/scheming/form_snippets/organization.html:34
 msgid "Public"
-msgstr ""
-
-#: ckanext/digitraffic_theme/templates/scheming/form_snippets/repeating_subfields.html:13
-msgid "Remove"
 msgstr ""
 
 #: ckanext/digitraffic_theme/templates/scheming/package/read.html:25

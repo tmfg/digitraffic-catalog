@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-digitraffic_theme 0.0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-06-19 06:56+0000\n"
-"PO-Revision-Date: 2025-08-12 14:55+0300\n"
+"POT-Creation-Date: 2025-08-22 12:54+0000\n"
+"PO-Revision-Date: 2025-08-22 16:08+0300\n"
 "Last-Translator: \n"
 "Language-Team: fi <LL@li.org>\n"
 "Language: fi\n"
@@ -18,7 +18,41 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "Generated-By: Babel 2.15.0\n"
-"X-Generator: Poedit 3.6\n"
+"X-Generator: Poedit 3.7\n"
+
+#: ckanext/digitraffic_theme/assets/js/digitrafficMain.js:974
+msgid "Upload"
+msgstr "Lataa"
+
+#: ckanext/digitraffic_theme/assets/js/digitrafficMain.js:974
+msgid "Please select the file to upload again"
+msgstr "Valitse ladattava tiedosto uudelleen"
+
+#: ckanext/digitraffic_theme/assets/js/digitrafficMain.js:974
+#: ckanext/digitraffic_theme/templates/scheming/form_snippets/repeating_subfields.html:13
+msgid "Remove"
+msgstr "Poista"
+
+# | msgid "Manage"
+#: ckanext/digitraffic_theme/assets/js/digitrafficMain.js:974
+#: ckanext/digitraffic_theme/templates/macros/form/image_upload.html:17
+msgid "Image"
+msgstr "Kuva"
+
+#: ckanext/digitraffic_theme/assets/js/digitrafficMain.js:974
+msgid "Upload a file on your computer"
+msgstr "Lataa kuva koneeltasi"
+
+#: ckanext/digitraffic_theme/assets/js/digitrafficMain.js:974
+#: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:33
+msgid "URL"
+msgstr "URL"
+
+# | msgid "Profile"
+#: ckanext/digitraffic_theme/assets/js/digitrafficMain.js:974
+#: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:34
+msgid "File"
+msgstr "Tiedosto"
 
 # | msgid "Sysadmin settings"
 #: ckanext/digitraffic_theme/templates/admin/base.html:5
@@ -253,6 +287,19 @@ msgstr ""
 "Halutessasi voit tallentaa kuvauksen yksityisenä, jolloin se näkyy vain oman "
 "organisaatiosi jäsenille."
 
+# | msgid "http://example.com/external-data.csv"
+#: ckanext/digitraffic_theme/templates/macros/form/image_upload.html:15
+msgid "http://example.com/my-image.jpg"
+msgstr "http://example.com/external-data.csv"
+
+#: ckanext/digitraffic_theme/templates/macros/form/image_upload.html:16
+msgid "Image URL"
+msgstr "Kuvan URL"
+
+#: ckanext/digitraffic_theme/templates/macros/form/image_upload.html:52
+msgid "Clear Upload"
+msgstr "Tyhjennä"
+
 #: ckanext/digitraffic_theme/templates/macros/form/input_block.html:27
 msgid "Custom"
 msgstr "Mukautettu"
@@ -338,15 +385,6 @@ msgstr "Poista"
 #: ckanext/digitraffic_theme/templates/package/snippets/package_form.html:55
 msgid "Next: Add data"
 msgstr "Seuraava: Lisää dataa"
-
-#: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:33
-msgid "URL"
-msgstr "URL"
-
-# | msgid "Profile"
-#: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:34
-msgid "File"
-msgstr "Tiedosto"
 
 #: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:35
 msgid "http://example.com/external-data.csv"
@@ -471,10 +509,6 @@ msgstr "Yksityinen"
 msgid "Public"
 msgstr "Julkinen"
 
-#: ckanext/digitraffic_theme/templates/scheming/form_snippets/repeating_subfields.html:13
-msgid "Remove"
-msgstr "Poista"
-
 #: ckanext/digitraffic_theme/templates/scheming/package/read.html:25
 msgid "XML format"
 msgstr "XML-muoto"
@@ -491,7 +525,7 @@ msgstr "TTL-muoto"
 msgid "JSON format"
 msgstr "JSON-muoto"
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/additional_info.html:79
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/additional_info.html:90
 msgid "State"
 msgstr "Tila"
 
@@ -647,15 +681,15 @@ msgstr ""
 msgid "Go"
 msgstr "Mene"
 
-#: ckanext/digitraffic_theme/templates/snippets/necessity_tag.html:1
+#: ckanext/digitraffic_theme/templates/snippets/necessity_tag.html:2
 msgid "Mandatory"
 msgstr "Pakollinen"
 
-#: ckanext/digitraffic_theme/templates/snippets/necessity_tag.html:1
+#: ckanext/digitraffic_theme/templates/snippets/necessity_tag.html:2
 msgid "Recommended"
 msgstr "Suositeltava"
 
-#: ckanext/digitraffic_theme/templates/snippets/necessity_tag.html:1
+#: ckanext/digitraffic_theme/templates/snippets/necessity_tag.html:2
 msgid "Optional"
 msgstr "Valinnainen"
 
@@ -946,3 +980,7 @@ msgstr ""
 #~ "Tähän osioon kuvataan ulkopuolisen tahon suorittaman arvioinnin päivämäärä "
 #~ "ja tulos. EU:n delegoitujen asetusten mukaisten tietoaineistojen arvioinnin "
 #~ "suorittaa yleensä kansallinen valvova viranomainen."
+
+# | msgid "Log in"
+#~ msgid "Link"
+#~ msgstr "Kirjaudu sisään"
