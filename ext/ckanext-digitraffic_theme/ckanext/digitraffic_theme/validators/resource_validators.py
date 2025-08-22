@@ -3,6 +3,7 @@ import yaml
 
 from typing import Any
 from ckan.types import Context
+import ckan.plugins.toolkit as toolkit
 
 from ckanext.digitraffic_theme.model.format import Format, is_valid_format_label
 from ckanext.digitraffic_theme.model.data_grammar import DataGrammar
@@ -18,9 +19,7 @@ from ckanext.digitraffic_theme.model.application_layer_protocol import (
 
 from ckanext.digitraffic_theme.validators.dataset_validators import vocabulary_validator
 
-from ckan.lib.navl.dictization_functions import Invalid
 from ckan.common import _
-from ckan.logic import ValidationError
 
 
 current_dir = os.path.dirname(__file__)
@@ -66,7 +65,7 @@ def character_encoding_validator(value: Any, context: Context):
         if CharacterEncoding.is_known_label(value):
             return value
         else:
-            raise ValidationError(
+            raise toolkit.Invalid(
                 _("{value} is not a valid character encoding").format(value=value)
             )
     return value
@@ -91,7 +90,7 @@ def set_format_iri(key, data, errors, context):
                     data[key] = format_iri
                     return True
             else:
-                raise Invalid(
+                raise toolkit.Invalid(
                     _("Value does not belong to {namespace}").format(
                         namespace=Format.namespace
                     )

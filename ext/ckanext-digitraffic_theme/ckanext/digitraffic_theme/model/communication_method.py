@@ -1,15 +1,11 @@
 from rdflib import Namespace
-from ckanext.digitraffic_theme.model.vocabulary import Vocabulary
+from ckanext.digitraffic_theme.model.schema_vocabulary import SchemaVocabularyType
+from ckanext.digitraffic_theme.model.schema_choice_vocabulary import SchemaChoiceVocabulary
 
-COMMUNICATION_METHOD = {
-    "https://w3id.org/mobilitydcat-ap/communication-method/pull",
-    "https://w3id.org/mobilitydcat-ap/communication-method/push",
-}
-
-
-class CommunicationMethod(Vocabulary):
-    iris = COMMUNICATION_METHOD
+class CommunicationMethod(SchemaChoiceVocabulary):
     namespace = Namespace("https://w3id.org/mobilitydcat-ap/communication-method")
+    schema_vocabulary_type = SchemaVocabularyType.RESOURCE
+    field_name = "communication_method"
 
     def __init__(self, iri):
         super().__init__(iri)
