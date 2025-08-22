@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-digitraffic_theme 0.0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-08-22 12:54+0000\n"
+"POT-Creation-Date: 2025-08-22 13:18+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -843,54 +843,58 @@ msgstr ""
 msgid "Manage"
 msgstr ""
 
-#: ckanext/digitraffic_theme/validators/dataset_validators.py:43
+#: ckanext/digitraffic_theme/validators/dataset_validators.py:45
 msgid "Invalid value of mobility theme sub category"
 msgstr ""
 
-#: ckanext/digitraffic_theme/validators/dataset_validators.py:52
+#: ckanext/digitraffic_theme/validators/dataset_validators.py:54
 msgid "Invalid value of mobility theme category"
 msgstr ""
 
-#: ckanext/digitraffic_theme/validators/dataset_validators.py:69
+#: ckanext/digitraffic_theme/validators/dataset_validators.py:71
 msgid ""
 "Phone number is not in a valid format. Make sure it starts with a valid "
 "country code. e.g. +358"
 msgstr ""
 
-#: ckanext/digitraffic_theme/validators/dataset_validators.py:82
+#: ckanext/digitraffic_theme/validators/dataset_validators.py:85
 msgid "{value} does not belong to {namespace}"
 msgstr ""
 
-#: ckanext/digitraffic_theme/validators/dataset_validators.py:95
+#: ckanext/digitraffic_theme/validators/dataset_validators.py:89
+msgid "Provided value does not belong to {namespace}"
+msgstr ""
+
+#: ckanext/digitraffic_theme/validators/dataset_validators.py:102
 msgid "Given spatial reference is not supported"
 msgstr ""
 
-#: ckanext/digitraffic_theme/validators/dataset_validators.py:114
-#: ckanext/digitraffic_theme/validators/dataset_validators.py:115
+#: ckanext/digitraffic_theme/validators/dataset_validators.py:121
+#: ckanext/digitraffic_theme/validators/dataset_validators.py:122
 msgid "Value must be a JSON list"
 msgstr ""
 
-#: ckanext/digitraffic_theme/validators/dataset_validators.py:127
+#: ckanext/digitraffic_theme/validators/dataset_validators.py:134
 msgid "Value must either be a JSON list (str) or a list"
 msgstr ""
 
-#: ckanext/digitraffic_theme/validators/dataset_validators.py:199
+#: ckanext/digitraffic_theme/validators/dataset_validators.py:206
 msgid "Session is required for related resource validation."
 msgstr ""
 
-#: ckanext/digitraffic_theme/validators/dataset_validators.py:201
+#: ckanext/digitraffic_theme/validators/dataset_validators.py:208
 msgid "Related resource id cannot be empty."
 msgstr ""
 
-#: ckanext/digitraffic_theme/validators/dataset_validators.py:204
+#: ckanext/digitraffic_theme/validators/dataset_validators.py:211
 msgid "Related resource with id {value} does not exist or is not a valid dataset."
 msgstr ""
 
-#: ckanext/digitraffic_theme/validators/resource_validators.py:70
+#: ckanext/digitraffic_theme/validators/resource_validators.py:69
 msgid "{value} is not a valid character encoding"
 msgstr ""
 
-#: ckanext/digitraffic_theme/validators/resource_validators.py:95
+#: ckanext/digitraffic_theme/validators/resource_validators.py:94
 msgid "Value does not belong to {namespace}"
 msgstr ""
 
