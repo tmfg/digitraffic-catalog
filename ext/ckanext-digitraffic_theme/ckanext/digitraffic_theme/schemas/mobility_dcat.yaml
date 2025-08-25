@@ -8,9 +8,9 @@ dataset_fields:
   required: true
 - field_name: title_translated
   label:
-    en: Title
-    fi: Nimike
-    sv: Titel
+    en: Dataset title
+    fi: Tietoaineiston nimike
+    sv: Datamängdens titel
   required: false
   necessity: mandatory
   preset: fluent_core_translated
@@ -20,17 +20,17 @@ dataset_fields:
   - sv
   fluent_form_label:
     en:
-      en: Title
-      fi: Nimike
-      sv: Titel
+      en: Dataset title
+      fi: Tietoaineiston nimike
+      sv: Datamängdens titel
     fi:
-      en: Title
-      fi: Nimike
-      sv: Titel
+      en: Dataset title
+      fi: Tietoaineiston nimike
+      sv: Datamängdens titel
     sv:
-      en: Title
-      fi: Nimike
-      sv: Titel
+      en: Dataset title
+      fi: Tietoaineiston nimike
+      sv: Datamängdens titel
   required_languages:
   - en
 - field_name: notes_translated
