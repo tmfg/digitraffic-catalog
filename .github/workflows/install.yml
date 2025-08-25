@@ -312,9 +312,12 @@ jobs:
             --command "ckan search-index rebuild"
 
   generate_js_translations:
-    if: ${{ github.repository != 'tmfg/digitraffic-catalog' && needs.build_and_deploy.result != 'failure' && github.event.inputs.generate_js_translations == 'true'}}
+    if: |
+      github.event.inputs.generate_js_translations == 'true' &&
+      github.repository != 'tmfg/digitraffic-catalog' && 
+      needs.rebuild_search_index.result == 'success'
     runs-on: ubuntu-24.04
-    needs: build_and_deploy
+    needs: [rebuild_search_index]
     permissions:
       id-token: write
       contents: read
