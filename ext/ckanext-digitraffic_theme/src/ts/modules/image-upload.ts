@@ -60,10 +60,6 @@ const ImageUpload: ckan.Module<HTMLDivElement, ImageUploadMO> = {
         previous_upload: false
     },
 
-    // CKAN translation function, should be provided by CKAN core
-    _: (window as any).gettext ? (window as any).gettext : (text: string) => text,
-
-
     // Provide default values for all required properties
     field_url: $(),
     field_image: $(),
@@ -79,6 +75,8 @@ const ImageUpload: ckan.Module<HTMLDivElement, ImageUploadMO> = {
     _nameIsDirty: false,
     input: $(),
 
+
+
     /* Should be changed to true if user modifies resource's name
      *
      * @type {Boolean}
@@ -89,7 +87,6 @@ const ImageUpload: ckan.Module<HTMLDivElement, ImageUploadMO> = {
         initialize.apply(this);
 
         const options = this.options;
-        console.log("jep")
         // firstly setup the fields
         const field_upload = 'input[name="' + options.field_upload + '"]';
         const field_url = 'input[name="' + options.field_url + '"]';
@@ -326,6 +323,6 @@ const ImageUpload: ckan.Module<HTMLDivElement, ImageUploadMO> = {
             this.field_name.val(name);
         }
     }
-}
+} as ckan.Module<HTMLDivElement, ImageUploadMO>;
 
 ckan.module('digitraffic_image_upload', ImageUpload)
