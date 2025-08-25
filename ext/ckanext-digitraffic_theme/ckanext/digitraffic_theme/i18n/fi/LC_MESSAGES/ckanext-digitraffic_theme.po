@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-digitraffic_theme 0.0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-06-19 06:56+0000\n"
-"PO-Revision-Date: 2025-08-12 14:55+0300\n"
+"POT-Creation-Date: 2025-08-25 08:31+0000\n"
+"PO-Revision-Date: 2025-08-25 11:33+0300\n"
 "Last-Translator: \n"
 "Language-Team: fi <LL@li.org>\n"
 "Language: fi\n"
@@ -18,7 +18,40 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "Generated-By: Babel 2.15.0\n"
-"X-Generator: Poedit 3.6\n"
+"X-Generator: Poedit 3.7\n"
+
+#: ckanext/digitraffic_theme/assets/js/digitrafficMain.js:974
+msgid "Upload"
+msgstr "Lataa"
+
+#: ckanext/digitraffic_theme/assets/js/digitrafficMain.js:974
+msgid "Please select the file to upload again"
+msgstr "Valitse ladattava tiedosto uudelleen"
+
+#: ckanext/digitraffic_theme/assets/js/digitrafficMain.js:974
+#: ckanext/digitraffic_theme/templates/scheming/form_snippets/repeating_subfields.html:13
+msgid "Remove"
+msgstr "Poista"
+
+# | msgid "Manage"
+#: ckanext/digitraffic_theme/assets/js/digitrafficMain.js:974
+msgid "Image"
+msgstr "Kuva (PNG/JPG/GIF)"
+
+#: ckanext/digitraffic_theme/assets/js/digitrafficMain.js:974
+msgid "Upload a file on your computer"
+msgstr "Lataa kuva koneeltasi"
+
+#: ckanext/digitraffic_theme/assets/js/digitrafficMain.js:974
+#: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:33
+msgid "URL"
+msgstr "URL"
+
+# | msgid "Profile"
+#: ckanext/digitraffic_theme/assets/js/digitrafficMain.js:974
+#: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:34
+msgid "File"
+msgstr "Tiedosto"
 
 # | msgid "Sysadmin settings"
 #: ckanext/digitraffic_theme/templates/admin/base.html:5
@@ -253,6 +286,24 @@ msgstr ""
 "Halutessasi voit tallentaa kuvauksen yksityisenä, jolloin se näkyy vain oman "
 "organisaatiosi jäsenille."
 
+# | msgid "http://example.com/external-data.csv"
+#: ckanext/digitraffic_theme/templates/macros/form/image_upload.html:15
+msgid "http://example.com/my-image.jpg"
+msgstr "http://example.com/external-data.csv"
+
+#: ckanext/digitraffic_theme/templates/macros/form/image_upload.html:16
+msgid "Image URL"
+msgstr "Kuvan URL"
+
+# | msgid "Profile picture (PNG/JPG/GIF)"
+#: ckanext/digitraffic_theme/templates/macros/form/image_upload.html:17
+msgid "Image (PNG/JPG/GIF)"
+msgstr "Kuva (PNG/JPG/GIF)"
+
+#: ckanext/digitraffic_theme/templates/macros/form/image_upload.html:52
+msgid "Clear Upload"
+msgstr "Tyhjennä"
+
 #: ckanext/digitraffic_theme/templates/macros/form/input_block.html:27
 msgid "Custom"
 msgstr "Mukautettu"
@@ -338,15 +389,6 @@ msgstr "Poista"
 #: ckanext/digitraffic_theme/templates/package/snippets/package_form.html:55
 msgid "Next: Add data"
 msgstr "Seuraava: Lisää dataa"
-
-#: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:33
-msgid "URL"
-msgstr "URL"
-
-# | msgid "Profile"
-#: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:34
-msgid "File"
-msgstr "Tiedosto"
 
 #: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:35
 msgid "http://example.com/external-data.csv"
@@ -471,10 +513,6 @@ msgstr "Yksityinen"
 msgid "Public"
 msgstr "Julkinen"
 
-#: ckanext/digitraffic_theme/templates/scheming/form_snippets/repeating_subfields.html:13
-msgid "Remove"
-msgstr "Poista"
-
 #: ckanext/digitraffic_theme/templates/scheming/package/read.html:25
 msgid "XML format"
 msgstr "XML-muoto"
@@ -491,7 +529,7 @@ msgstr "TTL-muoto"
 msgid "JSON format"
 msgstr "JSON-muoto"
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/additional_info.html:79
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/additional_info.html:90
 msgid "State"
 msgstr "Tila"
 
@@ -647,15 +685,15 @@ msgstr ""
 msgid "Go"
 msgstr "Mene"
 
-#: ckanext/digitraffic_theme/templates/snippets/necessity_tag.html:1
+#: ckanext/digitraffic_theme/templates/snippets/necessity_tag.html:2
 msgid "Mandatory"
 msgstr "Pakollinen"
 
-#: ckanext/digitraffic_theme/templates/snippets/necessity_tag.html:1
+#: ckanext/digitraffic_theme/templates/snippets/necessity_tag.html:2
 msgid "Recommended"
 msgstr "Suositeltava"
 
-#: ckanext/digitraffic_theme/templates/snippets/necessity_tag.html:1
+#: ckanext/digitraffic_theme/templates/snippets/necessity_tag.html:2
 msgid "Optional"
 msgstr "Valinnainen"
 
@@ -788,8 +826,8 @@ msgid "A little information about yourself"
 msgstr "Hieman tietoa itsestäsi"
 
 #: ckanext/digitraffic_theme/templates/user/edit_user_form.html:19
-msgid "Profile picture"
-msgstr "Profiilikuva"
+msgid "Profile picture (PNG/JPG/GIF)"
+msgstr "Profiilikuva (PNG/JPG/GIF)"
 
 #: ckanext/digitraffic_theme/templates/user/edit_user_form.html:19
 msgid "Profile picture URL"
@@ -880,15 +918,15 @@ msgstr "Käyttäjät"
 msgid "Manage"
 msgstr "Hallinnoi"
 
-#: ckanext/digitraffic_theme/validators/dataset_validators.py:43
+#: ckanext/digitraffic_theme/validators/dataset_validators.py:45
 msgid "Invalid value of mobility theme sub category"
 msgstr ""
 
-#: ckanext/digitraffic_theme/validators/dataset_validators.py:52
+#: ckanext/digitraffic_theme/validators/dataset_validators.py:54
 msgid "Invalid value of mobility theme category"
 msgstr ""
 
-#: ckanext/digitraffic_theme/validators/dataset_validators.py:69
+#: ckanext/digitraffic_theme/validators/dataset_validators.py:71
 msgid ""
 "Phone number is not in a valid format. Make sure it starts with a valid country "
 "code. e.g. +358"
@@ -896,40 +934,44 @@ msgstr ""
 "Puhelinnumero ei ole oikeassa muodossa. Varmista, että se alkaa maakoodilla, "
 "esim. +358"
 
-#: ckanext/digitraffic_theme/validators/dataset_validators.py:82
+#: ckanext/digitraffic_theme/validators/dataset_validators.py:85
 msgid "{value} does not belong to {namespace}"
 msgstr ""
 
-#: ckanext/digitraffic_theme/validators/dataset_validators.py:95
+#: ckanext/digitraffic_theme/validators/dataset_validators.py:89
+msgid "Provided value does not belong to {namespace}"
+msgstr ""
+
+#: ckanext/digitraffic_theme/validators/dataset_validators.py:102
 msgid "Given spatial reference is not supported"
 msgstr "Annettu paikkaviite ei ole tuettu"
 
-#: ckanext/digitraffic_theme/validators/dataset_validators.py:114
-#: ckanext/digitraffic_theme/validators/dataset_validators.py:115
+#: ckanext/digitraffic_theme/validators/dataset_validators.py:121
+#: ckanext/digitraffic_theme/validators/dataset_validators.py:122
 msgid "Value must be a JSON list"
 msgstr ""
 
-#: ckanext/digitraffic_theme/validators/dataset_validators.py:127
+#: ckanext/digitraffic_theme/validators/dataset_validators.py:134
 msgid "Value must either be a JSON list (str) or a list"
 msgstr ""
 
-#: ckanext/digitraffic_theme/validators/dataset_validators.py:199
+#: ckanext/digitraffic_theme/validators/dataset_validators.py:206
 msgid "Session is required for related resource validation."
 msgstr ""
 
-#: ckanext/digitraffic_theme/validators/dataset_validators.py:201
+#: ckanext/digitraffic_theme/validators/dataset_validators.py:208
 msgid "Related resource id cannot be empty."
 msgstr ""
 
-#: ckanext/digitraffic_theme/validators/dataset_validators.py:204
+#: ckanext/digitraffic_theme/validators/dataset_validators.py:211
 msgid "Related resource with id {value} does not exist or is not a valid dataset."
 msgstr ""
 
-#: ckanext/digitraffic_theme/validators/resource_validators.py:70
+#: ckanext/digitraffic_theme/validators/resource_validators.py:69
 msgid "{value} is not a valid character encoding"
 msgstr ""
 
-#: ckanext/digitraffic_theme/validators/resource_validators.py:95
+#: ckanext/digitraffic_theme/validators/resource_validators.py:94
 msgid "Value does not belong to {namespace}"
 msgstr ""
 
@@ -946,3 +988,7 @@ msgstr ""
 #~ "Tähän osioon kuvataan ulkopuolisen tahon suorittaman arvioinnin päivämäärä "
 #~ "ja tulos. EU:n delegoitujen asetusten mukaisten tietoaineistojen arvioinnin "
 #~ "suorittaa yleensä kansallinen valvova viranomainen."
+
+# | msgid "Log in"
+#~ msgid "Link"
+#~ msgstr "Kirjaudu sisään"
