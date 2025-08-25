@@ -1,4 +1,4 @@
-name: Build and install Docker images
+name: Build, install and deploy to AWS
 
 on:
   workflow_dispatch:
@@ -39,6 +39,11 @@ on:
         default: false
       run_migrations:
         description: Run CKAN database migrations
+        type: boolean
+        required: true
+        default: false
+      generate_js_translations:
+        description: Generate translations for JS/TS modules
         type: boolean
         required: true
         default: false
@@ -305,3 +310,37 @@ jobs:
             --container "ckan" \
             --interactive \
             --command "ckan search-index rebuild"
+
+  generate_js_translations:
+    if: ${{ github.repository != 'tmfg/digitraffic-catalog' && needs.build_and_deploy.result != 'failure' && github.event.inputs.generate_js_translations == 'true'}}
+    runs-on: ubuntu-24.04
+    needs: build_and_deploy
+    permissions:
+      id-token: write
+      contents: read
+      actions: read
+    environment: ${{ github.event.inputs.env }}
+
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE }}
+          role-session-name: gh-actions-run-in-container-${{ github.event.inputs.env }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Install expect
+        # this contains unbuffer
+        run: sudo apt install -y expect
+
+      - name: Generate js translations
+        # aws ecs execute-command needs to be run with unbuffer, otherwise it fails due to tty not being available
+        run: |
+          TASK_ID=$(aws ecs list-tasks --cluster ${{ secrets.ECS_CLUSTER_NAME }} --service-name ${{ secrets.ECS_SERVICE_NAME }} --query "taskArns[0]" --output text) 
+          
+          unbuffer aws ecs execute-command \
+            --cluster ${{ secrets.ECS_CLUSTER_NAME }} \
+            --task "$TASK_ID" \
+            --container "ckan" \
+            --interactive \
+            --command "ckan translation js"
