@@ -272,25 +272,19 @@ class RangeValueConverter(ABC):
         # labels for multilingual input fields
         fluent_form_label = {
             "en": {
-                "en": f"{en_label} in English",
-                "fi": (
-                    f"{fi_label} englanniksi" if fi_label else f"{en_label} in English"
-                ),
-                "sv": (
-                    f"{sv_label} på engelska" if sv_label else f"{en_label} in English"
-                ),
+                "en": en_label,
+                "fi": fi_label if fi_label else en_label,
+                "sv": sv_label if sv_label else en_label,
             },
             "fi": {
-                "en": f"{en_label} in Finnish",
-                "fi": f"{fi_label} suomeksi" if fi_label else f"{en_label} in Finnish",
-                "sv": f"{sv_label} på finska" if sv_label else f"{en_label} in Finnish",
+                "en": en_label,
+                "fi": fi_label if fi_label else en_label,
+                "sv": sv_label if sv_label else en_label,
             },
             "sv": {
-                "en": f"{en_label} in Swedish",
-                "fi": f"{fi_label} ruotsiksi" if fi_label else f"{en_label} in Swedish",
-                "sv": (
-                    f"{sv_label} på svenska" if sv_label else f"{en_label} in Swedish"
-                ),
+                "en": en_label,
+                "fi": fi_label if fi_label else en_label,
+                "sv": sv_label if sv_label else en_label,
             },
         }
         translated_field_properties = {
