@@ -313,6 +313,7 @@ jobs:
 
   generate_js_translations:
     if: |
+      always() &&
       github.event.inputs.generate_js_translations == 'true' &&
       github.repository != 'tmfg/digitraffic-catalog' && 
       needs.rebuild_search_index.result == 'success'
