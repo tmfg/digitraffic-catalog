@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-digitraffic_theme 0.0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-08-25 08:31+0000\n"
+"POT-Creation-Date: 2025-08-25 11:22+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -432,11 +432,15 @@ msgid "Timezone"
 msgstr ""
 
 #: ckanext/digitraffic_theme/templates/scheming/form_snippets/fluent_text.html:4
-msgid "Add Finnish"
+msgid "in English"
 msgstr ""
 
 #: ckanext/digitraffic_theme/templates/scheming/form_snippets/fluent_text.html:5
-msgid "Add Swedish"
+msgid "in Finnish"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/scheming/form_snippets/fluent_text.html:6
+msgid "in Swedish"
 msgstr ""
 
 #: ckanext/digitraffic_theme/templates/scheming/form_snippets/iri_fragment_input.html:19

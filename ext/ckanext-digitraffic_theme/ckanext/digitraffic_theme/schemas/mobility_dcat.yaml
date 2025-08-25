@@ -20,17 +20,17 @@ dataset_fields:
   - sv
   fluent_form_label:
     en:
-      en: Title in English
-      fi: Nimike englanniksi
-      sv: Titel på engelska
+      en: Title
+      fi: Nimike
+      sv: Titel
     fi:
-      en: Title in Finnish
-      fi: Nimike suomeksi
-      sv: Titel på finska
+      en: Title
+      fi: Nimike
+      sv: Titel
     sv:
-      en: Title in Swedish
-      fi: Nimike ruotsiksi
-      sv: Titel på svenska
+      en: Title
+      fi: Nimike
+      sv: Titel
   required_languages:
   - en
 - field_name: notes_translated
@@ -47,17 +47,17 @@ dataset_fields:
   - sv
   fluent_form_label:
     en:
-      en: Description in English
-      fi: Kuvaus englanniksi
-      sv: Beskrivning på engelska
+      en: Description
+      fi: Kuvaus
+      sv: Beskrivning
     fi:
-      en: Description in Finnish
-      fi: Kuvaus suomeksi
-      sv: Beskrivning på finska
+      en: Description
+      fi: Kuvaus
+      sv: Beskrivning
     sv:
-      en: Description in Swedish
-      fi: Kuvaus ruotsiksi
-      sv: Beskrivning på svenska
+      en: Description
+      fi: Kuvaus
+      sv: Beskrivning
   required_languages:
   - en
 - field_name: frequency
@@ -2880,17 +2880,17 @@ dataset_fields:
   - sv
   fluent_form_label:
     en:
-      en: Version notes in English
-      fi: Version tiedot englanniksi
-      sv: Anteckningar om version på engelska
+      en: Version notes
+      fi: Version tiedot
+      sv: Anteckningar om version
     fi:
-      en: Version notes in Finnish
-      fi: Version tiedot suomeksi
-      sv: Anteckningar om version på finska
+      en: Version notes
+      fi: Version tiedot
+      sv: Anteckningar om version
     sv:
-      en: Version notes in Swedish
-      fi: Version tiedot ruotsiksi
-      sv: Anteckningar om version på svenska
+      en: Version notes
+      fi: Version tiedot
+      sv: Anteckningar om version
 - field_name: language
   label: Language
   required: false
@@ -3863,17 +3863,17 @@ resource_fields:
     - sv
     fluent_form_label:
       en:
-        en: Data service name in English
-        fi: Tietopalvelun nimi englanniksi
-        sv: Namn på datatjänst på engelska
+        en: Data service name
+        fi: Tietopalvelun nimi
+        sv: Namn på datatjänst
       fi:
-        en: Data service name in Finnish
-        fi: Tietopalvelun nimi suomeksi
-        sv: Namn på datatjänst på finska
+        en: Data service name
+        fi: Tietopalvelun nimi
+        sv: Namn på datatjänst
       sv:
-        en: Data service name in Swedish
-        fi: Tietopalvelun nimi ruotsiksi
-        sv: Namn på datatjänst på svenska
+        en: Data service name
+        fi: Tietopalvelun nimi
+        sv: Namn på datatjänst
     required_languages:
     - en
   - field_name: data_service_description_translated
@@ -3894,17 +3894,17 @@ resource_fields:
     - sv
     fluent_form_label:
       en:
-        en: Data service description in English
-        fi: Tietopalvelun kuvaus englanniksi
-        sv: Beskrivning av datatjänsten på engelska
+        en: Data service description
+        fi: Tietopalvelun kuvaus
+        sv: Beskrivning av datatjänsten
       fi:
-        en: Data service description in Finnish
-        fi: Tietopalvelun kuvaus suomeksi
-        sv: Beskrivning av datatjänsten på finska
+        en: Data service description
+        fi: Tietopalvelun kuvaus
+        sv: Beskrivning av datatjänsten
       sv:
-        en: Data service description in Swedish
-        fi: Tietopalvelun kuvaus ruotsiksi
-        sv: Beskrivning av datatjänsten på svenska
+        en: Data service description
+        fi: Tietopalvelun kuvaus
+        sv: Beskrivning av datatjänsten
   - field_name: data_service_endpoint_url
     label:
       en: Endpoint URL
@@ -3945,17 +3945,17 @@ resource_fields:
   - sv
   fluent_form_label:
     en:
-      en: Title in English
-      fi: Nimike englanniksi
-      sv: Titel på engelska
+      en: Title
+      fi: Nimike
+      sv: Titel
     fi:
-      en: Title in Finnish
-      fi: Nimike suomeksi
-      sv: Titel på finska
+      en: Title
+      fi: Nimike
+      sv: Titel
     sv:
-      en: Title in Swedish
-      fi: Nimike ruotsiksi
-      sv: Titel på svenska
+      en: Title
+      fi: Nimike
+      sv: Titel
 - field_name: description_translated
   label:
     en: Description
@@ -3970,17 +3970,17 @@ resource_fields:
   - sv
   fluent_form_label:
     en:
-      en: Description in English
-      fi: Kuvaus englanniksi
-      sv: Beskrivning på engelska
+      en: Description
+      fi: Kuvaus
+      sv: Beskrivning
     fi:
-      en: Description in Finnish
-      fi: Kuvaus suomeksi
-      sv: Beskrivning på finska
+      en: Description
+      fi: Kuvaus
+      sv: Beskrivning
     sv:
-      en: Description in Swedish
-      fi: Kuvaus ruotsiksi
-      sv: Beskrivning på svenska
+      en: Description
+      fi: Kuvaus
+      sv: Beskrivning
 - field_name: format
   label: Format
   required: true
@@ -5396,17 +5396,17 @@ resource_fields:
   - sv
   fluent_form_label:
     en:
-      en: Data format notes in English
-      fi: Huomioita formaatista englanniksi
-      sv: Anteckningar om dataformat på engelska
+      en: Data format notes
+      fi: Huomioita formaatista
+      sv: Anteckningar om dataformat
     fi:
-      en: Data format notes in Finnish
-      fi: Huomioita formaatista suomeksi
-      sv: Anteckningar om dataformat på finska
+      en: Data format notes
+      fi: Huomioita formaatista
+      sv: Anteckningar om dataformat
     sv:
-      en: Data format notes in Swedish
-      fi: Huomioita formaatista ruotsiksi
-      sv: Anteckningar om dataformat på svenska
+      en: Data format notes
+      fi: Huomioita formaatista
+      sv: Anteckningar om dataformat
 - field_name: character_encoding
   label:
     en: Character encoding
