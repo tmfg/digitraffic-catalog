@@ -83,7 +83,7 @@ class EntraIdAuthenticator(plugins.SingletonPlugin):
 
     def login(self):
         s = self._create_state()
-        state, correlation_id = s['state'], s['correlation_id']
+        state, correlation_id, lang = s['state'], s['correlation_id'], s['lang']
         logger.info(
             "Signing in. Starting Entra ID authentication flow",
             extra={
@@ -105,12 +105,12 @@ class EntraIdAuthenticator(plugins.SingletonPlugin):
         except Exception:
             logger.exception("Failed to initiate auth code flow")
             flash_error(self.auth_failed_msg)
-            return self.redirect_to_home()
+            return self.redirect_to_home(locale=lang)
 
         return toolkit.redirect_to(session[self.AUTH_FLOW_SESSION_KEY]["auth_uri"])
 
-    def redirect_to_home(self):
-        return toolkit.redirect_to("home.index")
+    def redirect_to_home(self, locale=None):
+        return toolkit.redirect_to("home.index", locale=locale)
 
     def handle_auth_redirect(self):
         """
@@ -165,6 +165,7 @@ class EntraIdAuthenticator(plugins.SingletonPlugin):
         # Parsing state only after validating the token response
         state_data = json.loads(base64.urlsafe_b64decode(auth_flow["state"].encode()).decode())
         correlation_id = state_data["correlation_id"]
+        lang = state_data["lang"]
         logger.info(f"Auth flow state parsed successfully: correlation_id={correlation_id}")
         try:
             id_token_claims: IdTokenClaims = token_response["id_token_claims"]
@@ -195,7 +196,7 @@ class EntraIdAuthenticator(plugins.SingletonPlugin):
                     flash_error(
                         "No email address found. Please make sure your Entra ID login account has an email address."
                     )
-                    return self.redirect_to_home()
+                    return self.redirect_to_home(locale=lang)
                 user = create_user_from_graph_api_info(user_info)
                 logger.info(f"Creating new CKAN user {user.id}")
                 model.Session.add(user)
@@ -219,19 +220,25 @@ class EntraIdAuthenticator(plugins.SingletonPlugin):
                                 'correlation_id': correlation_id
                             }
                         })
-            return self.redirect_to_home()
+            return self.redirect_to_home(locale=lang)
         except Exception:
             logger.exception("Error during authentication flow: correlation_id=%s", correlation_id)
             flash_error(self.auth_failed_msg)
-            return self.redirect_to_home()
+            return self.redirect_to_home(locale=lang)
 
     def _create_state(self):
         correlation_id = str(uuid.uuid4())
+        lang = toolkit.h.lang()
+        supported_languages = {'en', 'sv', 'fi'}
+
+        if lang not in supported_languages:
+            lang = 'fi'
         state_data = {
             "correlation_id": correlation_id,
+            "lang": lang
         }
         state = base64.urlsafe_b64encode(json.dumps(state_data).encode()).decode()
-        return {'state': state, 'correlation_id': correlation_id}
+        return {'state': state, 'correlation_id': correlation_id, 'lang': lang}
 
     def register(self):
         s = self._create_state()

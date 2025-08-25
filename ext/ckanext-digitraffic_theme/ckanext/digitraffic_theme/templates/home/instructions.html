@@ -10,7 +10,7 @@
                 {% trans %}Explain here the benefits of publishing data, e.g. visibility, users, interoperability, etc. Add your own text as needed.{% endtrans %}
             </p>
             {% if c.user %}
-                <a href="/dataset/new" class="btn btn-primary">{% trans %}Add new dataset{% endtrans %}</a>
+                <a href="{{h.url_for('dataset.new')}}" class="btn btn-primary">{% trans %}Add new dataset{% endtrans %}</a>
             {% else %}
                 {% include "home/hero_buttons.html" %}
             {% endif %}
