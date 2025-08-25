@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-digitraffic_theme 0.0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-08-22 13:18+0000\n"
+"POT-Creation-Date: 2025-08-25 08:31+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -32,7 +32,6 @@ msgid "Remove"
 msgstr ""
 
 #: ckanext/digitraffic_theme/assets/js/digitrafficMain.js:974
-#: ckanext/digitraffic_theme/templates/macros/form/image_upload.html:17
 msgid "Image"
 msgstr ""
 
@@ -251,6 +250,10 @@ msgstr ""
 
 #: ckanext/digitraffic_theme/templates/macros/form/image_upload.html:16
 msgid "Image URL"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/macros/form/image_upload.html:17
+msgid "Image (PNG/JPG/GIF)"
 msgstr ""
 
 #: ckanext/digitraffic_theme/templates/macros/form/image_upload.html:52
@@ -753,7 +756,7 @@ msgid "A little information about yourself"
 msgstr ""
 
 #: ckanext/digitraffic_theme/templates/user/edit_user_form.html:19
-msgid "Profile picture"
+msgid "Profile picture (PNG/JPG/GIF)"
 msgstr ""
 
 #: ckanext/digitraffic_theme/templates/user/edit_user_form.html:19
