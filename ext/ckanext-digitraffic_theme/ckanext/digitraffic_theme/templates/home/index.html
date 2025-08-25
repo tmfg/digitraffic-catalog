@@ -16,8 +16,8 @@
                         <div class="logged-in-message">
                             {% trans %}You are logged in as{% endtrans %}<br> <strong>{{ c.userobj.display_name }}</strong>
                         </div>
-                        <a href="/dataset/new" class="btn btn-primary create-dataset ">{% trans %}Create new dataset{% endtrans %}</a>
-                        <a href="/dashboard/datasets" class="btn btn-primary browse-datasets ">{% trans %}Browse my datasets{% endtrans %}</a>
+                        <a href="{{h.url_for('dataset.new')}}" class="btn btn-primary create-dataset ">{% trans %}Create new dataset{% endtrans %}</a>
+                        <a href="{{h.url_for('dashboard.datasets')}}" class="btn btn-primary browse-datasets ">{% trans %}Browse my datasets{% endtrans %}</a>
                     </div>
                 </div>
              </section>
@@ -58,7 +58,7 @@
             </div>
         </div>
         <div class="steps-info-btn">
-            <a href="/help/instructions">
+            <a href="{{h.url_for('digitraffic_pages.instructions_page')}}">
                 <button>
                     <span class="icon">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -86,7 +86,7 @@
         <div class="organization-tags">
             {% for org in orgs %}
                 {% if org.dataset_count > 0 %}
-                    <a href="/organization/{{ org.name }}">{{ org.title }} ({{ org.dataset_count }})</a>
+                    <a href="{{h.url_for('organization.read', id=org.name)}}">{{ org.title }} ({{ org.dataset_count }})</a>
                 {% endif %}
             {% endfor %}
         </div>
