@@ -114,7 +114,12 @@ export class NewDatasetPage extends BasePage implements JSLoadedInterface<NewDat
       return customElements.get("fds-dropdown") !== undefined;
     });
 
-    await this.page.locator("fds-dropdown").waitFor({ state: "attached" });
+    const count = await this.page.locator("fds-dropdown").count();
+    await Promise.all(
+      Array.from({ length: count }, (_, i) =>
+        this.page.locator("fds-dropdown").nth(i).waitFor({ state: "attached" })
+      )
+    );
 
     return this as unknown as NewDatasetPage;
   }
