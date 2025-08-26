@@ -1016,7 +1016,7 @@ dataset_fields:
     fi: Liikennemuoto
     sv: Transportsätt
   required: false
-  preset: select
+  preset: multi_select
   sorted_choices: true
   form_include_blank_choice: true
   choices:
