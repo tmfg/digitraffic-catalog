@@ -51,7 +51,7 @@ class DatasetInput(TypedDict):
     intended_information_service: NotRequired[IntendedInformationService]
     quality_annotation: QualityAnnotation
     language: NotRequired[URIRef]
-    related_resource: NotRequired[URIRef]
+    related_resource: NotRequired[List[URIRef]]
     is_referenced_by: NotRequired[List[URIRef]]
 
 
@@ -173,10 +173,13 @@ class Dataset(ClassInstance):
                 else None
             ),
             (DCTERMS.language, self.language) if self.language else None,
-            (
-                (DCTERMS.relation, self.related_resource)
+            *(
+                [
+                    (DCTERMS.relation, dataset_url)
+                    for dataset_url in self.related_resource
+                ]
                 if self.related_resource
-                else None
+                else []
             ),
             *(
                 [

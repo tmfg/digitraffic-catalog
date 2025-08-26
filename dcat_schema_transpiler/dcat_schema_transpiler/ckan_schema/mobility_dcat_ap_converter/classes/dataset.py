@@ -401,7 +401,7 @@ class DCATDataset(RangeValueConverter):
                     "field_name": self.ckan_field(p),
                     **super().get_property_label_with_help_text(p.iri),
                     "required": is_required,
-                    "preset": "select",
+                    "preset": "multi_select",
                     "sorted_choices": True,
                     "form_include_blank_choice": True,
                     "choices": RangeValueConverter.vocab_choices(
