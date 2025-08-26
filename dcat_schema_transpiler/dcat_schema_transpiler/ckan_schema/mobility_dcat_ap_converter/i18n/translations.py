@@ -19,7 +19,13 @@ from dcat_schema_transpiler.namespaces.LOCN import LOCN
 
 TRANSLATIONS = {
     DCAT.Dataset: {
-        DCTERMS.title: {"label": {"en": "Title", "fi": "Nimike", "sv": "Titel"}},
+        DCTERMS.title: {
+            "label": {
+                "en": "Dataset title",
+                "fi": "Tietoaineiston nimike",
+                "sv": "Datamängdens titel",
+            }
+        },
         DCTERMS.description: {
             "label": {"en": "Description", "fi": "Kuvaus", "sv": "Beskrivning"}
         },
