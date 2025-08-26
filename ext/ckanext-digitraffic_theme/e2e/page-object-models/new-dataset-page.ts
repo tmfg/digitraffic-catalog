@@ -61,7 +61,7 @@ export class NewDatasetPage extends BasePage implements JSLoadedInterface<NewDat
     this.saveButton = page.getByRole('button', { name: 'Seuraava: Lisää dataa' });
     this.dataContentSubCategoryField = page.getByLabel('Alakategoria');
     this.themeField = page.getByLabel('Aihe');
-    this.transportModeField = page.getByLabel('Liikennemuoto');
+    this.transportModeField = page.locator('#field-transport_mode').getByRole('combobox');
     this.startDateField = page.getByLabel('Alkamisaika');
     this.startTimeField = page.locator('.datetime-row', { has: this.startDateField }).getByLabel('Kellonaika');
     this.endDateField = page.getByLabel('Päättymisaika');
