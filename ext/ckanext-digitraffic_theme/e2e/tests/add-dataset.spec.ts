@@ -1,40 +1,40 @@
-import {getKnownUserOrThrow, test} from '../fixtures/users'
-import {Identity} from '../users/identity-user';
-import {DatasetInfo, type PersonContactPoint, type PersonRightsHolder} from "../models/dataset-info";
-import {Frequency} from "../../src/ts/model/frequency";
-import {RegionalCoverage} from "../../src/ts/model/regional-coverage";
-import {MOBILITY_THEME_TREE, TOP_MOBILITY_THEMES} from "../../src/ts/model/mobility-theme";
-import {ResourceInfo} from "../models/resource-info";
-import {FileFormat} from "../../src/ts/model/file-format";
-import {MobilityDataStandard} from "../../src/ts/model/mobility-data-standard";
-import {RightsType} from "../../src/ts/model/rights-type";
-import {Theme} from "../../src/ts/model/theme";
-import {TransportMode} from "../../src/ts/model/transport-mode";
-import {Language} from "../../src/ts/model/language";
-import {GeoreferencingMethod} from "../../src/ts/model/georeferencing-method";
-import {NetworkCoverage} from "../../src/ts/model/network-coverage";
-import {IntendedInformationService} from "../../src/ts/model/intended-information-service";
-import {OrganizationEditorView} from "../user-views/organization-editor-view";
-import {DatasetPage, NewResourcePage} from "../page-object-models";
-import {ApplicationLayerProtocol} from "../../src/ts/model/application-layer-protocol";
-import {DataGrammar} from "../../src/ts/model/data-grammar";
-import {CharacterEncoding} from "../../src/ts/model/character-encoding";
-import {CommunicationMethod} from "../../src/ts/model/communication-method";
-import {LicenseId} from "../../src/ts/model/license-id";
-import {OrganizationMemberView} from "../user-views/organization-member-view";
+import { getKnownUserOrThrow, test } from '../fixtures/users'
+import { Identity } from '../users/identity-user';
+import { DatasetInfo, type PersonContactPoint, type PersonRightsHolder } from "../models/dataset-info";
+import { Frequency } from "../../src/ts/model/frequency";
+import { RegionalCoverage } from "../../src/ts/model/regional-coverage";
+import { MOBILITY_THEME_TREE, TOP_MOBILITY_THEMES } from "../../src/ts/model/mobility-theme";
+import { ResourceInfo } from "../models/resource-info";
+import { FileFormat } from "../../src/ts/model/file-format";
+import { MobilityDataStandard } from "../../src/ts/model/mobility-data-standard";
+import { RightsType } from "../../src/ts/model/rights-type";
+import { Theme } from "../../src/ts/model/theme";
+import { TransportMode } from "../../src/ts/model/transport-mode";
+import { Language } from "../../src/ts/model/language";
+import { GeoreferencingMethod } from "../../src/ts/model/georeferencing-method";
+import { NetworkCoverage } from "../../src/ts/model/network-coverage";
+import { IntendedInformationService } from "../../src/ts/model/intended-information-service";
+import { OrganizationEditorView } from "../user-views/organization-editor-view";
+import { DatasetPage, NewResourcePage } from "../page-object-models";
+import { ApplicationLayerProtocol } from "../../src/ts/model/application-layer-protocol";
+import { DataGrammar } from "../../src/ts/model/data-grammar";
+import { CharacterEncoding } from "../../src/ts/model/character-encoding";
+import { CommunicationMethod } from "../../src/ts/model/communication-method";
+import { LicenseId } from "../../src/ts/model/license-id";
+import { OrganizationMemberView } from "../user-views/organization-member-view";
 
 const identitiesToUse = [Identity.OrganizationEditor, Identity.OrganizationMember] as const
 
 test.describe.serial('Add new dataset', () => {
   test.use({
-    identitiesToUse: [new Set(identitiesToUse), {scope: 'test'}],
+    identitiesToUse: [new Set(identitiesToUse), { scope: 'test' }],
     isUserInfoGathered: true
   });
 
   let firstDatasetName: string | undefined = undefined;
   let secondDatasetInfo: DatasetInfo | undefined = undefined;
 
-  test('Add dataset with minimal required info', async ({users}) => {
+  test('Add dataset with minimal required info', async ({ users }) => {
     const organizationEditor = getKnownUserOrThrow(users, Identity.OrganizationEditor)
     const organizationView = await OrganizationEditorView.of(organizationEditor)
     const newDatasetInfo = new DatasetInfo(
@@ -72,7 +72,7 @@ test.describe.serial('Add new dataset', () => {
       })
   })
 
-  test('Add dataset with all info', async ({users}) => {
+  test('Add dataset with all info', async ({ users }) => {
     const organizationEditor = getKnownUserOrThrow(users, Identity.OrganizationEditor)
     const organizationView = await OrganizationEditorView.of(organizationEditor)
 
@@ -91,7 +91,7 @@ test.describe.serial('Add new dataset', () => {
       {
         dataContentSubCategory: MOBILITY_THEME_TREE[topMobilityTheme][0],
         theme: Theme.TRAN,
-        transportMode: TransportMode.CAR,
+        transportMode: [TransportMode.CAR, TransportMode.BIKE_HIRE],
         startTimestamp: new Date('2023-01-01T00:00:00Z'),
         endTimestamp: new Date('2023-12-31T23:59:00Z'),
         ianaTimezone: 'UTC',
@@ -220,12 +220,12 @@ test.describe.serial('Add new dataset', () => {
       })
   })
 
-  test('View the created dataset', async ({users}) => {
+  test('View the created dataset', async ({ users }) => {
     const organizationMember = getKnownUserOrThrow(users, Identity.OrganizationMember)
     const organizationView = await OrganizationMemberView.of(organizationMember)
 
     if (secondDatasetInfo === undefined) {
-        throw new Error('Second dataset info is not set. Ensure the previous test has run successfully.');
+      throw new Error('Second dataset info is not set. Ensure the previous test has run successfully.');
     }
 
     await organizationView.browseToDatasetPage(secondDatasetInfo.title)

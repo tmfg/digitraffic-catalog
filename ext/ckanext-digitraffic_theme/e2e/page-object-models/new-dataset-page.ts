@@ -30,6 +30,7 @@ export class NewDatasetPage extends BasePage implements JSLoadedInterface<NewDat
   readonly endDateField: Locator
   readonly endTimeField: Locator
   readonly additionalInformationGroup: Locator
+  readonly generallInformationGroup: Locator
   readonly ianaTimezoneField: Locator
   readonly addContactPointButton: Locator
   readonly versionField: Locator
@@ -69,6 +70,9 @@ export class NewDatasetPage extends BasePage implements JSLoadedInterface<NewDat
     this.additionalInformationGroup = page.locator(
       '.field-group',
       { has: page.getByRole('heading', { name: 'Lisätiedot' }) })
+    this.generallInformationGroup = page.locator(
+      '.field-group',
+      { has: page.getByRole('heading', { name: 'Yleiset' }) })
     this.contactPointGroup = page.locator('.field-group')
       .filter({ has: page.getByRole('heading', { name: 'Yhteyspisteet' }) })
     this.addContactPointButton = this.contactPointGroup.getByRole('link', { name: 'Lisää' });
@@ -134,7 +138,9 @@ export class NewDatasetPage extends BasePage implements JSLoadedInterface<NewDat
       await this.themeField.selectOption(datasetInfo.optionalValues.theme);
     }
     if (datasetInfo.optionalValues?.transportMode) {
-      await this.transportModeField.selectOption(datasetInfo.optionalValues.transportMode);
+      for (const transportMode of datasetInfo.optionalValues.transportMode) {
+        await this.addTransportMode(transportMode);
+      }
     }
     if (datasetInfo.optionalValues?.startTimestamp) {
       const { date, time } = dateToDateAndTimeString(datasetInfo.optionalValues.startTimestamp);
@@ -290,6 +296,14 @@ export class NewDatasetPage extends BasePage implements JSLoadedInterface<NewDat
       await datasetOption.click();
     }
     await this.relatedDatasetField.click();
+  }
+
+  async addTransportMode(transportMode: string): Promise<void> {
+    await this.transportModeField.click();
+    for (const transportModeOption of await this.generallInformationGroup.locator("span.label").filter({ hasText: transportMode }).all()) {
+      await transportModeOption.click();
+    }
+    await this.transportModeField.click();
   }
 
   async setDatasetInfo(datasetInfo: DatasetInfo): Promise<NewResourcePage> {

@@ -1,21 +1,21 @@
-import {BasePage} from "./base";
-import type {Locator, Page} from "@playwright/test";
-import {setPom, URL} from "./pages-controller";
-import {pathParameterURL, urlify} from "./util";
-import {DatasetInfo, type Visibility, type OptionalDatasetInfoValues, type ContactPoint, type RightsHolder, type Assessment} from "../models/dataset-info";
-import {labelToFrequency} from "../../src/ts/model/frequency";
-import {labelToRegionalCoverage} from "../../src/ts/model/regional-coverage";
+import { BasePage } from "./base";
+import type { Locator, Page } from "@playwright/test";
+import { setPom, URL } from "./pages-controller";
+import { pathParameterURL, urlify } from "./util";
+import { DatasetInfo, type Visibility, type OptionalDatasetInfoValues, type ContactPoint, type RightsHolder, type Assessment } from "../models/dataset-info";
+import { labelToFrequency } from "../../src/ts/model/frequency";
+import { labelToRegionalCoverage } from "../../src/ts/model/regional-coverage";
 import {
   labelToMobilityTheme,
   type SUB_MOBILITY_THEMES_T,
   type TOP_MOBILITY_THEMES_T
 } from "../../src/ts/model/mobility-theme";
-import {isVisible} from "../util";
-import {labelToTheme} from "../../src/ts/model/theme";
-import {labelToTransportMode} from "../../src/ts/model/transport-mode";
-import {labelToLanguage} from "../../src/ts/model/language";
-import {labelToGeoreferencingMethod} from "../../src/ts/model/georeferencing-method";
-import {labelToNetworkCoverage} from "../../src/ts/model/network-coverage";
+import { isVisible } from "../util";
+import { labelToTheme } from "../../src/ts/model/theme";
+import { labelToTransportMode } from "../../src/ts/model/transport-mode";
+import { labelToLanguage } from "../../src/ts/model/language";
+import { labelToGeoreferencingMethod } from "../../src/ts/model/georeferencing-method";
+import { labelToNetworkCoverage } from "../../src/ts/model/network-coverage";
 import { labelToIntendedInformationService } from "../../src/ts/model/intended-information-service";
 
 export class DatasetPage extends BasePage {
@@ -49,14 +49,14 @@ export class DatasetPage extends BasePage {
   readonly rightsHolders: Locator
 
   constructor(page: Page, datasetId: string) {
-    super(page, [page.getByRole('heading', {name: 'RDF links'})]);
+    super(page, [page.getByRole('heading', { name: 'RDF links' })]);
     this.datasetId = datasetId;
-    this.pageUrl = urlify(pathParameterURL(URL.Dataset, {'datasetId': datasetId}));
-    this.ttlLink = this.page.getByRole('link', {name: 'TTL-muoto'});
+    this.pageUrl = urlify(pathParameterURL(URL.Dataset, { 'datasetId': datasetId }));
+    this.ttlLink = this.page.getByRole('link', { name: 'TTL-muoto' });
     this.datasetMainContent = this.mainContent.getByRole('article').locator('.module-content')
     this.metadataTable = this.datasetMainContent.locator('.additional-info table');
     this.visibilityBadge = this.datasetMainContent.locator('.badge')
-    this.title = this.datasetMainContent.getByRole('heading', {level: 1});
+    this.title = this.datasetMainContent.getByRole('heading', { level: 1 });
     this.frequency = this.getMetadataTableRowLocator('Päivitysten tiheys');
     this.regionalCoverage = this.getMetadataTableRowLocator('Alueellinen kattavuus');
     this.dataContentCategory = this.getMetadataTableRowLocator('Kategoria');
@@ -84,7 +84,7 @@ export class DatasetPage extends BasePage {
     // Create a regex that matches the row name with optional whitespace around it
     // The `exact` keyword in `getByRole` does not work for this case, so we use a regex
     const exactNameRegex = new RegExp(`(?<![a-öA-Ö]+)[\s\n\t\r]?${rowName}[\s\n\t\r]?(?![a-öA-Ö]+)`, 'i');
-    const row = this.metadataTable.getByRole('row', {name: exactNameRegex});
+    const row = this.metadataTable.getByRole('row', { name: exactNameRegex });
     return row.locator('td');
   }
 
@@ -115,7 +115,7 @@ export class DatasetPage extends BasePage {
       };
 
       // Improved getObjectContent function to better handle complex data structures
-      const getObjectContent = async(
+      const getObjectContent = async (
         locator: Locator,
         fieldName: string
       ): Promise<{}> => {
@@ -193,7 +193,6 @@ export class DatasetPage extends BasePage {
 
       const dataContentSubCategoryValue = labelToMobilityTheme(await getTextContent(this.dataContentSubCategory, 'dataContentSubCategory')) as SUB_MOBILITY_THEMES_T;
       const themeValue = labelToTheme(await getTextContent(this.theme, 'theme'));
-      const transportModeValue = labelToTransportMode(await getTextContent(this.transportMode, 'transportMode'));
 
       // Improved date parsing with validation
       const startTimestampText = await getTextContent(this.startTimestamp, 'startTimestamp');
@@ -223,7 +222,6 @@ export class DatasetPage extends BasePage {
       const optionalValues: OptionalDatasetInfoValues = {
         'dataContentSubCategory': dataContentSubCategoryValue,
         'theme': themeValue,
-        'transportMode': transportModeValue,
         'version': versionValue,
         'versionNotes': versionNotesValue,
         'language': languageValue,
@@ -252,6 +250,14 @@ export class DatasetPage extends BasePage {
         optionalValues.relatedDatasets = [];
       }
 
+      const transportModeValue = await getTextContent(this.transportMode, 'transportMode');
+      if (transportModeValue) {
+        const modesAsString = transportModeValue.split(/[\s]+/).map(item => item.trim()).map(string => labelToTransportMode(string));
+        optionalValues.transportMode = modesAsString
+      } else {
+        optionalValues.transportMode = [];
+      }
+
       const finnishObjectToContactPoint = (finnishContactPoint: Record<string, any>): ContactPoint => {
         const telephone = finnishContactPoint["Puhelinnumero"]
         return {
@@ -265,43 +271,43 @@ export class DatasetPage extends BasePage {
           telephone: telephone ? telephone.replace(/ /g, '') : undefined,
           type: (finnishContactPoint["Yhteyspisteen tyyppi"] === "Organisaatio" ? 'http://www.w3.org/2006/vcard/ns#Organization' : 'http://www.w3.org/2006/vcard/ns#Individual'),
           url: finnishContactPoint["Verkkosivu"],
-            ...(finnishContactPoint["Organisaation nimi"] ? {
-              organizationName: finnishContactPoint["Organisaation nimi"]
-            } : {})
+          ...(finnishContactPoint["Organisaation nimi"] ? {
+            organizationName: finnishContactPoint["Organisaation nimi"]
+          } : {})
         }
       }
 
       const finnishObjectToAssessment = (finnishAssessment: Record<string, any>): Assessment => {
         return {
-            date: parseDate(finnishAssessment["Arvion päivämäärä"]),
-            urlToResult: finnishAssessment["Arvion tulos"]
+          date: parseDate(finnishAssessment["Arvion päivämäärä"]),
+          urlToResult: finnishAssessment["Arvion tulos"]
         }
       }
 
       const finnishObjectToRightsHolder = (finnishRightsHolder: Record<string, any>): RightsHolder => {
         const phoneNumber = finnishRightsHolder["Puhelinnumero"]
         return {
-            countryName: finnishRightsHolder["Maa"],
-            email: finnishRightsHolder["Sähköposti"],
-            name: finnishRightsHolder["Nimi"],
-            phone: phoneNumber ? phoneNumber.replace(/ /g, '') : undefined,
-            streetAddress: finnishRightsHolder["Katuosoite"],
-            city: finnishRightsHolder["Kaupunki"],
-            postalCode: finnishRightsHolder["Postinumero"],
-            region: finnishRightsHolder["Alue"],
-            type: (finnishRightsHolder["Toimijan tyyppi"] === "Yritys" ? 'http://purl.org/adms/publishertype/Company' : 'http://purl.org/adms/publishertype/PrivateIndividual(s)'),
-                ...(finnishRightsHolder["Jäsenyydet"] ? {
-                organizationName: finnishRightsHolder["Jäsenyydet"]
-                } : {}),
-                ...(finnishRightsHolder["Etunimi"] ? {
-                firstName: finnishRightsHolder["Etunimi"]
-                } : {}),
-                ...(finnishRightsHolder["Sukunimi"] ? {
-                surname: finnishRightsHolder["Sukunimi"]
-                } : {}),
-                ...(finnishRightsHolder["Työpaikan kotisivu"] ? {
-                workplaceHomepage: finnishRightsHolder["Työpaikan kotisivu"]
-                } : {})
+          countryName: finnishRightsHolder["Maa"],
+          email: finnishRightsHolder["Sähköposti"],
+          name: finnishRightsHolder["Nimi"],
+          phone: phoneNumber ? phoneNumber.replace(/ /g, '') : undefined,
+          streetAddress: finnishRightsHolder["Katuosoite"],
+          city: finnishRightsHolder["Kaupunki"],
+          postalCode: finnishRightsHolder["Postinumero"],
+          region: finnishRightsHolder["Alue"],
+          type: (finnishRightsHolder["Toimijan tyyppi"] === "Yritys" ? 'http://purl.org/adms/publishertype/Company' : 'http://purl.org/adms/publishertype/PrivateIndividual(s)'),
+          ...(finnishRightsHolder["Jäsenyydet"] ? {
+            organizationName: finnishRightsHolder["Jäsenyydet"]
+          } : {}),
+          ...(finnishRightsHolder["Etunimi"] ? {
+            firstName: finnishRightsHolder["Etunimi"]
+          } : {}),
+          ...(finnishRightsHolder["Sukunimi"] ? {
+            surname: finnishRightsHolder["Sukunimi"]
+          } : {}),
+          ...(finnishRightsHolder["Työpaikan kotisivu"] ? {
+            workplaceHomepage: finnishRightsHolder["Työpaikan kotisivu"]
+          } : {})
         }
       }
 
