@@ -80,7 +80,7 @@ def phone_number_validator(value: Any, context: Context):
 def vocabulary_validator(value: Any, _class: type):
 
     def iris_are_valid(value: Any, _class: type) -> bool:
-        values = value if isinstance(value, list) else [value]
+        values = value if isinstance(value, (list, set)) else [value]
         return all(_class.is_known_iri(iri) for iri in values)
 
     if value:
@@ -97,9 +97,9 @@ def vocabulary_validator(value: Any, _class: type):
                 )
             )
             raise toolkit.Invalid(
-                _("Provided value does not belong to {namespace}").format(
-                    namespace=field["label"]["fi"]
-                )
+                _(
+                    "Provided value {value} of type {type} does not belong to {namespace}"
+                ).format(namespace=field["label"]["fi"], value=value, type=type(value))
             )
     return value
 
