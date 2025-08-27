@@ -305,9 +305,8 @@ export class NewDatasetPage extends BasePage implements JSLoadedInterface<NewDat
 
   async addTransportMode(transportMode: string): Promise<void> {
     await this.transportModeField.click();
-    for (const transportModeOption of await this.generallInformationGroup.locator("span.label").filter({ hasText: transportMode }).all()) {
-      await transportModeOption.click();
-    }
+    const transportModeOption = await this.generallInformationGroup.locator("span.label").filter({ hasText: transportMode })
+    await transportModeOption.click();
     await this.transportModeField.click();
   }
 
