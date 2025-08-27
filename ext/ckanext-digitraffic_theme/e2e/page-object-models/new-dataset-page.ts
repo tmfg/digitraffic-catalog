@@ -11,6 +11,7 @@ import {
 } from '../models/dataset-info';
 import { dateToDateAndTimeString, getNewestRepeatingFieldGroupIndex, getRepeatingFieldGropField, gotoNewPage } from "./util";
 import { NewResourcePage } from "./new-resource-page";
+import { transportModeLabels } from "../../src/ts/model/transport-mode";
 
 export class NewDatasetPage extends BasePage implements JSLoadedInterface<NewDatasetPage> {
   readonly visibilityFields: Locator
@@ -144,7 +145,7 @@ export class NewDatasetPage extends BasePage implements JSLoadedInterface<NewDat
     }
     if (datasetInfo.optionalValues?.transportMode) {
       for (const transportMode of datasetInfo.optionalValues.transportMode) {
-        await this.addTransportMode(transportMode);
+        await this.addTransportMode(transportModeLabels[transportMode]);
       }
     }
     if (datasetInfo.optionalValues?.startTimestamp) {
@@ -305,7 +306,7 @@ export class NewDatasetPage extends BasePage implements JSLoadedInterface<NewDat
 
   async addTransportMode(transportMode: string): Promise<void> {
     await this.transportModeField.click();
-    const transportModeOption = await this.generallInformationGroup.locator("span.label").filter({ hasText: transportMode })
+    const transportModeOption = await this.generallInformationGroup.locator("span.label").filter({ hasText: new RegExp(`^${transportMode}$`) })
     await transportModeOption.click();
     await this.transportModeField.click();
   }
