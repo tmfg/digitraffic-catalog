@@ -407,7 +407,10 @@ class DCATDataset(RangeValueConverter):
                     "choices": RangeValueConverter.vocab_choices(
                         graph=g, vocab=CVOCAB_TRANSPORT_MODE
                     ),
-                    "validators": super().get_validators(["transport_mode_validator"]),
+                    "validators": super().get_validators(
+                        ["value_to_list", "transport_mode_validator"]
+                    ),
+                    "output_validators": "transport_mode_validator",
                 }
             case MOBILITYDCATAP.intendedInformationService:
                 g = ds.get_graph(URIRef(CVOCAB_INTENDED_INFORMATION_SERVICE))

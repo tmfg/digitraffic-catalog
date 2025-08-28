@@ -78,9 +78,8 @@ def phone_number_validator(value: Any, context: Context):
 
 
 def vocabulary_validator(value: Any, _class: type):
-
-    def iris_are_valid(value: Any, _class: type) -> bool:
-        values = value if isinstance(value, (list, set)) else [value]
+    def iris_are_valid(iri_or_iris: Any, _class: type) -> bool:
+        values = iri_or_iris if isinstance(iri_or_iris, (list, set)) else [iri_or_iris]
         return all(_class.is_known_iri(iri) for iri in values)
 
     if value:
@@ -162,7 +161,10 @@ def frequency_validator(value: Any, context: Context):
 
 
 def transport_mode_validator(value: Any, context: Context):
-    return vocabulary_validator(value, TransportMode)
+    def validator(val, *args):
+        return vocabulary_validator(val, TransportMode)
+
+    return multiple_values_converter(validator, value, context)
 
 
 def theme_validator(value: Any, context: Context):
