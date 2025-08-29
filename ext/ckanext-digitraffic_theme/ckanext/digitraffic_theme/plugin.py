@@ -30,6 +30,9 @@ from ckanext.digitraffic_theme.validators.dataset_validators import (
     network_coverage_validator,
     country_validator,
 )
+from ckanext.digitraffic_theme.validators.common_validators import (
+    url_error_message_formatting,
+)
 from ckanext.digitraffic_theme.validators.resource_validators import (
     set_format_iri,
     data_grammar_validator,
@@ -87,6 +90,7 @@ class DigitrafficThemePlugin(plugins.SingletonPlugin, DefaultTranslation):
             "application_layer_protocol_validator": application_layer_protocol_validator,
             "character_encoding_validator": character_encoding_validator,
             "country_validator": country_validator,
+            "url_error_message_formatting": url_error_message_formatting,
         }
 
     def update_config(self, config):
