@@ -250,9 +250,9 @@ export class DatasetPage extends BasePage {
         optionalValues.relatedDatasets = [];
       }
 
-      const transportModeValue = await getTextContent(this.transportMode, 'transportMode');
-      if (transportModeValue) {
-        const modesAsString = transportModeValue.split(/[\s]+/).map(item => item.trim()).map(string => labelToTransportMode(string));
+      const transportModeValues = await getTextContent(this.transportMode, 'transportMode');
+      if (transportModeValues) {
+        const modesAsString = transportModeValues.split(/(?=[A-Z])/).map(item => item.trim()).map(string => labelToTransportMode(string));
         optionalValues.transportMode = modesAsString
       } else {
         optionalValues.transportMode = [];
