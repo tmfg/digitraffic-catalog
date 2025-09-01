@@ -1140,7 +1140,8 @@ dataset_fields:
       en: Truck
       fi: Kuorma-auto
       sv: Lastbil
-  validators: scheming_required transport_mode_validator
+  validators: scheming_required value_to_list transport_mode_validator
+  output_validators: transport_mode_validator
   necessity: recommended
 - field_name: spatial
   label:
