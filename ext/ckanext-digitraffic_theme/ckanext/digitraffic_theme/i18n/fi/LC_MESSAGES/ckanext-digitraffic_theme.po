@@ -971,7 +971,7 @@ msgstr ""
 
 #: ckanext/digitraffic_theme/validators/dataset_validators.py:102
 msgid "Provide a valid EPSG number between 2000 and 69036405"
-msgstr "Annettu paikkaviite ei ole tuettu"
+msgstr "Anna EPSG-numero väliltä 2000–69036405"
 
 #: ckanext/digitraffic_theme/validators/dataset_validators.py:121
 #: ckanext/digitraffic_theme/validators/dataset_validators.py:122
