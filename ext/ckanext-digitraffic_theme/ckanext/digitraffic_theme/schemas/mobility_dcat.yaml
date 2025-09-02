@@ -1149,49 +1149,79 @@ dataset_fields:
     fi: Alueellinen kattavuus
     sv: Regional täckning
   required: true
-  preset: select
+  preset: multi_select
   form_include_blank_choice: true
   choices:
-  - value: http://data.europa.eu/nuts/code/FI
+  - value: http://data.europa.eu/nuts/code/FI1D7
     label:
-      en: FI Suomi/Finland
-      fi: FI Suomi/Finland
-      sv: FI Suomi/Finland
+      en: FI1D7 Lappi
+      fi: FI1D7 Lappi
+      sv: FI1D7 Lappi
+  - value: http://data.europa.eu/nuts/code/FI1D5
+    label:
+      en: FI1D5 Keski-Pohjanmaa
+      fi: FI1D5 Keski-Pohjanmaa
+      sv: FI1D5 Keski-Pohjanmaa
   - value: http://data.europa.eu/nuts/code/FI1
     label:
       en: FI1 Manner-Suomi
       fi: FI1 Manner-Suomi
       sv: FI1 Manner-Suomi
-  - value: http://data.europa.eu/nuts/code/FI19
+  - value: http://data.europa.eu/nuts/code/FI2
     label:
-      en: FI19 Länsi-Suomi
-      fi: FI19 Länsi-Suomi
-      sv: FI19 Länsi-Suomi
+      en: FI2 Åland
+      fi: FI2 Åland
+      sv: FI2 Åland
+  - value: http://data.europa.eu/nuts/code/FIZZZ
+    label:
+      en: FIZZZ Extra-Regio NUTS 3
+      fi: FIZZZ Extra-Regio NUTS 3
+      sv: FIZZZ Extra-Regio NUTS 3
+  - value: http://data.europa.eu/nuts/code/FI1D8
+    label:
+      en: FI1D8 Kainuu
+      fi: FI1D8 Kainuu
+      sv: FI1D8 Kainuu
+  - value: http://data.europa.eu/nuts/code/FI1DA
+    label:
+      en: FI1DA Etelä-Savo
+      fi: FI1DA Etelä-Savo
+      sv: FI1DA Etelä-Savo
+  - value: http://data.europa.eu/nuts/code/FI1C1
+    label:
+      en: FI1C1 Varsinais-Suomi
+      fi: FI1C1 Varsinais-Suomi
+      sv: FI1C1 Varsinais-Suomi
   - value: http://data.europa.eu/nuts/code/FI196
     label:
       en: FI196 Satakunta
       fi: FI196 Satakunta
       sv: FI196 Satakunta
-  - value: http://data.europa.eu/nuts/code/FI198
+  - value: http://data.europa.eu/nuts/code/FI19
     label:
-      en: FI198 Keski-Suomi
-      fi: FI198 Keski-Suomi
-      sv: FI198 Keski-Suomi
-  - value: http://data.europa.eu/nuts/code/FI199
+      en: FI19 Länsi-Suomi
+      fi: FI19 Länsi-Suomi
+      sv: FI19 Länsi-Suomi
+  - value: http://data.europa.eu/nuts/code/FIZ
     label:
-      en: FI199 Etelä-Pohjanmaa
-      fi: FI199 Etelä-Pohjanmaa
-      sv: FI199 Etelä-Pohjanmaa
-  - value: http://data.europa.eu/nuts/code/FI19A
+      en: FIZ Extra-Regio NUTS 1
+      fi: FIZ Extra-Regio NUTS 1
+      sv: FIZ Extra-Regio NUTS 1
+  - value: http://data.europa.eu/nuts/code/FI1C5
     label:
-      en: FI19A Pohjanmaa
-      fi: FI19A Pohjanmaa
-      sv: FI19A Pohjanmaa
-  - value: http://data.europa.eu/nuts/code/FI19B
+      en: FI1C5 Etelä-Karjala
+      fi: FI1C5 Etelä-Karjala
+      sv: FI1C5 Etelä-Karjala
+  - value: http://data.europa.eu/nuts/code/FI1D
     label:
-      en: FI19B Pirkanmaa
-      fi: FI19B Pirkanmaa
-      sv: FI19B Pirkanmaa
+      en: FI1D Pohjois- ja Itä-Suomi
+      fi: FI1D Pohjois- ja Itä-Suomi
+      sv: FI1D Pohjois- ja Itä-Suomi
+  - value: http://data.europa.eu/nuts/code/FI1C
+    label:
+      en: FI1C Etelä-Suomi
+      fi: FI1C Etelä-Suomi
+      sv: FI1C Etelä-Suomi
   - value: http://data.europa.eu/nuts/code/FI1B
     label:
       en: FI1B Helsinki-Uusimaa
@@ -1202,1657 +1232,1628 @@ dataset_fields:
       en: FI1B1 Helsinki-Uusimaa
       fi: FI1B1 Helsinki-Uusimaa
       sv: FI1B1 Helsinki-Uusimaa
-  - value: http://data.europa.eu/nuts/code/FI1C
-    label:
-      en: FI1C Etelä-Suomi
-      fi: FI1C Etelä-Suomi
-      sv: FI1C Etelä-Suomi
-  - value: http://data.europa.eu/nuts/code/FI1C1
-    label:
-      en: FI1C1 Varsinais-Suomi
-      fi: FI1C1 Varsinais-Suomi
-      sv: FI1C1 Varsinais-Suomi
-  - value: http://data.europa.eu/nuts/code/FI1C2
-    label:
-      en: FI1C2 Kanta-Häme
-      fi: FI1C2 Kanta-Häme
-      sv: FI1C2 Kanta-Häme
-  - value: http://data.europa.eu/nuts/code/FI1C5
-    label:
-      en: FI1C5 Etelä-Karjala
-      fi: FI1C5 Etelä-Karjala
-      sv: FI1C5 Etelä-Karjala
-  - value: http://data.europa.eu/nuts/code/FI1C6
-    label:
-      en: FI1C6 Päijät-Häme
-      fi: FI1C6 Päijät-Häme
-      sv: FI1C6 Päijät-Häme
-  - value: http://data.europa.eu/nuts/code/FI1C7
-    label:
-      en: FI1C7 Kymenlaakso
-      fi: FI1C7 Kymenlaakso
-      sv: FI1C7 Kymenlaakso
-  - value: http://data.europa.eu/nuts/code/FI1D
-    label:
-      en: FI1D Pohjois- ja Itä-Suomi
-      fi: FI1D Pohjois- ja Itä-Suomi
-      sv: FI1D Pohjois- ja Itä-Suomi
-  - value: http://data.europa.eu/nuts/code/FI1D5
-    label:
-      en: FI1D5 Keski-Pohjanmaa
-      fi: FI1D5 Keski-Pohjanmaa
-      sv: FI1D5 Keski-Pohjanmaa
-  - value: http://data.europa.eu/nuts/code/FI1D7
-    label:
-      en: FI1D7 Lappi
-      fi: FI1D7 Lappi
-      sv: FI1D7 Lappi
-  - value: http://data.europa.eu/nuts/code/FI1D8
-    label:
-      en: FI1D8 Kainuu
-      fi: FI1D8 Kainuu
-      sv: FI1D8 Kainuu
   - value: http://data.europa.eu/nuts/code/FI1D9
     label:
       en: FI1D9 Pohjois-Pohjanmaa
       fi: FI1D9 Pohjois-Pohjanmaa
       sv: FI1D9 Pohjois-Pohjanmaa
-  - value: http://data.europa.eu/nuts/code/FI1DA
+  - value: http://data.europa.eu/nuts/code/FI199
     label:
-      en: FI1DA Etelä-Savo
-      fi: FI1DA Etelä-Savo
-      sv: FI1DA Etelä-Savo
-  - value: http://data.europa.eu/nuts/code/FI1DB
-    label:
-      en: FI1DB Pohjois-Savo
-      fi: FI1DB Pohjois-Savo
-      sv: FI1DB Pohjois-Savo
-  - value: http://data.europa.eu/nuts/code/FI1DC
-    label:
-      en: FI1DC Pohjois-Karjala
-      fi: FI1DC Pohjois-Karjala
-      sv: FI1DC Pohjois-Karjala
-  - value: http://data.europa.eu/nuts/code/FI2
-    label:
-      en: FI2 Åland
-      fi: FI2 Åland
-      sv: FI2 Åland
-  - value: http://data.europa.eu/nuts/code/FI20
-    label:
-      en: FI20 Åland
-      fi: FI20 Åland
-      sv: FI20 Åland
-  - value: http://data.europa.eu/nuts/code/FI200
-    label:
-      en: FI200 Åland
-      fi: FI200 Åland
-      sv: FI200 Åland
-  - value: http://data.europa.eu/nuts/code/FIZ
-    label:
-      en: FIZ Extra-Regio NUTS 1
-      fi: FIZ Extra-Regio NUTS 1
-      sv: FIZ Extra-Regio NUTS 1
+      en: FI199 Etelä-Pohjanmaa
+      fi: FI199 Etelä-Pohjanmaa
+      sv: FI199 Etelä-Pohjanmaa
   - value: http://data.europa.eu/nuts/code/FIZZ
     label:
       en: FIZZ Extra-Regio NUTS 2
       fi: FIZZ Extra-Regio NUTS 2
       sv: FIZZ Extra-Regio NUTS 2
-  - value: http://data.europa.eu/nuts/code/FIZZZ
+  - value: http://data.europa.eu/nuts/code/FI200
     label:
-      en: FIZZZ Extra-Regio NUTS 3
-      fi: FIZZZ Extra-Regio NUTS 3
-      sv: FIZZZ Extra-Regio NUTS 3
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_020
+      en: FI200 Åland
+      fi: FI200 Åland
+      sv: FI200 Åland
+  - value: http://data.europa.eu/nuts/code/FI1DC
     label:
-      en: Akaa
-      fi: Akaa
-      sv: Akaa
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_005
+      en: FI1DC Pohjois-Karjala
+      fi: FI1DC Pohjois-Karjala
+      sv: FI1DC Pohjois-Karjala
+  - value: http://data.europa.eu/nuts/code/FI19A
     label:
-      en: Alajärvi
-      fi: Alajärvi
-      sv: Alajärvi
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_009
+      en: FI19A Pohjanmaa
+      fi: FI19A Pohjanmaa
+      sv: FI19A Pohjanmaa
+  - value: http://data.europa.eu/nuts/code/FI1C2
     label:
-      en: Alavieska
-      fi: Alavieska
-      sv: Alavieska
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_010
+      en: FI1C2 Kanta-Häme
+      fi: FI1C2 Kanta-Häme
+      sv: FI1C2 Kanta-Häme
+  - value: http://data.europa.eu/nuts/code/FI1DB
     label:
-      en: Alavus
-      fi: Alavus
-      sv: Alavus
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_016
+      en: FI1DB Pohjois-Savo
+      fi: FI1DB Pohjois-Savo
+      sv: FI1DB Pohjois-Savo
+  - value: http://data.europa.eu/nuts/code/FI19B
     label:
-      en: Asikkala
-      fi: Asikkala
-      sv: Asikkala
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_018
+      en: FI19B Pirkanmaa
+      fi: FI19B Pirkanmaa
+      sv: FI19B Pirkanmaa
+  - value: http://data.europa.eu/nuts/code/FI
     label:
-      en: Askola
-      fi: Askola
-      sv: Askola
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_019
+      en: FI Suomi/Finland
+      fi: FI Suomi/Finland
+      sv: FI Suomi/Finland
+  - value: http://data.europa.eu/nuts/code/FI20
     label:
-      en: Aura
-      fi: Aura
-      sv: Aura
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_035
+      en: FI20 Åland
+      fi: FI20 Åland
+      sv: FI20 Åland
+  - value: http://data.europa.eu/nuts/code/FI1C7
     label:
-      en: Brändö
-      fi: Brändö
-      sv: Brändö
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_043
+      en: FI1C7 Kymenlaakso
+      fi: FI1C7 Kymenlaakso
+      sv: FI1C7 Kymenlaakso
+  - value: http://data.europa.eu/nuts/code/FI1C6
     label:
-      en: Eckerö
-      fi: Eckerö
-      sv: Eckerö
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_046
+      en: FI1C6 Päijät-Häme
+      fi: FI1C6 Päijät-Häme
+      sv: FI1C6 Päijät-Häme
+  - value: http://data.europa.eu/nuts/code/FI198
     label:
-      en: Enonkoski
-      fi: Enonkoski
-      sv: Enonkoski
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_047
-    label:
-      en: Enontekiö
-      fi: Enontekiö
-      sv: Enontekiö
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_049
-    label:
-      en: Espoo
-      fi: Espoo
-      sv: Espoo
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_050
-    label:
-      en: Eura
-      fi: Eura
-      sv: Eura
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_051
-    label:
-      en: Eurajoki
-      fi: Eurajoki
-      sv: Eurajoki
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_052
-    label:
-      en: Evijärvi
-      fi: Evijärvi
-      sv: Evijärvi
+      en: FI198 Keski-Suomi
+      fi: FI198 Keski-Suomi
+      sv: FI198 Keski-Suomi
   - value: https://w3id.org/stirdata/resource/lau/item/FI_060
     label:
       en: Finström
       fi: Finström
       sv: Finström
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_061
-    label:
-      en: Forssa
-      fi: Forssa
-      sv: Forssa
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_062
-    label:
-      en: Föglö
-      fi: Föglö
-      sv: Föglö
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_065
-    label:
-      en: Geta
-      fi: Geta
-      sv: Geta
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_069
-    label:
-      en: Haapajärvi
-      fi: Haapajärvi
-      sv: Haapajärvi
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_071
-    label:
-      en: Haapavesi
-      fi: Haapavesi
-      sv: Haapavesi
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_072
-    label:
-      en: Hailuoto
-      fi: Hailuoto
-      sv: Hailuoto
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_074
-    label:
-      en: Halsua
-      fi: Halsua
-      sv: Halsua
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_075
-    label:
-      en: Hamina
-      fi: Hamina
-      sv: Hamina
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_076
-    label:
-      en: Hammarland
-      fi: Hammarland
-      sv: Hammarland
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_077
-    label:
-      en: Hankasalmi
-      fi: Hankasalmi
-      sv: Hankasalmi
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_078
-    label:
-      en: Hanko
-      fi: Hanko
-      sv: Hanko
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_079
-    label:
-      en: Harjavalta
-      fi: Harjavalta
-      sv: Harjavalta
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_081
-    label:
-      en: Hartola
-      fi: Hartola
-      sv: Hartola
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_082
-    label:
-      en: Hattula
-      fi: Hattula
-      sv: Hattula
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_086
-    label:
-      en: Hausjärvi
-      fi: Hausjärvi
-      sv: Hausjärvi
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_111
-    label:
-      en: Heinola
-      fi: Heinola
-      sv: Heinola
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_090
-    label:
-      en: Heinävesi
-      fi: Heinävesi
-      sv: Heinävesi
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_091
-    label:
-      en: Helsinki
-      fi: Helsinki
-      sv: Helsinki
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_097
-    label:
-      en: Hirvensalmi
-      fi: Hirvensalmi
-      sv: Hirvensalmi
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_098
-    label:
-      en: Hollola
-      fi: Hollola
-      sv: Hollola
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_099
-    label:
-      en: Honkajoki
-      fi: Honkajoki
-      sv: Honkajoki
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_102
-    label:
-      en: Huittinen
-      fi: Huittinen
-      sv: Huittinen
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_103
-    label:
-      en: Humppila
-      fi: Humppila
-      sv: Humppila
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_105
-    label:
-      en: Hyrynsalmi
-      fi: Hyrynsalmi
-      sv: Hyrynsalmi
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_106
-    label:
-      en: Hyvinkää
-      fi: Hyvinkää
-      sv: Hyvinkää
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_108
-    label:
-      en: Hämeenkyrö
-      fi: Hämeenkyrö
-      sv: Hämeenkyrö
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_109
-    label:
-      en: Hämeenlinna
-      fi: Hämeenlinna
-      sv: Hämeenlinna
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_139
-    label:
-      en: Ii
-      fi: Ii
-      sv: Ii
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_140
-    label:
-      en: Iisalmi
-      fi: Iisalmi
-      sv: Iisalmi
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_142
-    label:
-      en: Iitti
-      fi: Iitti
-      sv: Iitti
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_143
-    label:
-      en: Ikaalinen
-      fi: Ikaalinen
-      sv: Ikaalinen
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_145
-    label:
-      en: Ilmajoki
-      fi: Ilmajoki
-      sv: Ilmajoki
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_146
-    label:
-      en: Ilomantsi
-      fi: Ilomantsi
-      sv: Ilomantsi
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_153
-    label:
-      en: Imatra
-      fi: Imatra
-      sv: Imatra
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_148
-    label:
-      en: Inari
-      fi: Inari
-      sv: Inari
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_149
-    label:
-      en: Inkoo
-      fi: Inkoo
-      sv: Inkoo
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_151
-    label:
-      en: Isojoki
-      fi: Isojoki
-      sv: Isojoki
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_152
-    label:
-      en: Isokyrö
-      fi: Isokyrö
-      sv: Isokyrö
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_165
-    label:
-      en: Janakkala
-      fi: Janakkala
-      sv: Janakkala
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_167
-    label:
-      en: Joensuu
-      fi: Joensuu
-      sv: Joensuu
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_169
-    label:
-      en: Jokioinen
-      fi: Jokioinen
-      sv: Jokioinen
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_170
-    label:
-      en: Jomala
-      fi: Jomala
-      sv: Jomala
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_171
-    label:
-      en: Joroinen
-      fi: Joroinen
-      sv: Joroinen
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_172
-    label:
-      en: Joutsa
-      fi: Joutsa
-      sv: Joutsa
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_176
-    label:
-      en: Juuka
-      fi: Juuka
-      sv: Juuka
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_177
-    label:
-      en: Juupajoki
-      fi: Juupajoki
-      sv: Juupajoki
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_178
-    label:
-      en: Juva
-      fi: Juva
-      sv: Juva
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_179
-    label:
-      en: Jyväskylä
-      fi: Jyväskylä
-      sv: Jyväskylä
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_181
-    label:
-      en: Jämijärvi
-      fi: Jämijärvi
-      sv: Jämijärvi
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_182
-    label:
-      en: Jämsä
-      fi: Jämsä
-      sv: Jämsä
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_186
-    label:
-      en: Järvenpää
-      fi: Järvenpää
-      sv: Järvenpää
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_202
-    label:
-      en: Kaarina
-      fi: Kaarina
-      sv: Kaarina
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_204
-    label:
-      en: Kaavi
-      fi: Kaavi
-      sv: Kaavi
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_205
-    label:
-      en: Kajaani
-      fi: Kajaani
-      sv: Kajaani
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_208
-    label:
-      en: Kalajoki
-      fi: Kalajoki
-      sv: Kalajoki
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_211
-    label:
-      en: Kangasala
-      fi: Kangasala
-      sv: Kangasala
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_213
-    label:
-      en: Kangasniemi
-      fi: Kangasniemi
-      sv: Kangasniemi
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_214
-    label:
-      en: Kankaanpää
-      fi: Kankaanpää
-      sv: Kankaanpää
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_216
-    label:
-      en: Kannonkoski
-      fi: Kannonkoski
-      sv: Kannonkoski
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_217
-    label:
-      en: Kannus
-      fi: Kannus
-      sv: Kannus
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_218
-    label:
-      en: Karijoki
-      fi: Karijoki
-      sv: Karijoki
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_224
-    label:
-      en: Karkkila
-      fi: Karkkila
-      sv: Karkkila
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_226
-    label:
-      en: Karstula
-      fi: Karstula
-      sv: Karstula
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_230
-    label:
-      en: Karvia
-      fi: Karvia
-      sv: Karvia
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_231
-    label:
-      en: Kaskinen
-      fi: Kaskinen
-      sv: Kaskinen
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_232
-    label:
-      en: Kauhajoki
-      fi: Kauhajoki
-      sv: Kauhajoki
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_233
-    label:
-      en: Kauhava
-      fi: Kauhava
-      sv: Kauhava
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_235
-    label:
-      en: Kauniainen
-      fi: Kauniainen
-      sv: Kauniainen
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_236
-    label:
-      en: Kaustinen
-      fi: Kaustinen
-      sv: Kaustinen
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_239
-    label:
-      en: Keitele
-      fi: Keitele
-      sv: Keitele
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_240
-    label:
-      en: Kemi
-      fi: Kemi
-      sv: Kemi
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_320
-    label:
-      en: Kemijärvi
-      fi: Kemijärvi
-      sv: Kemijärvi
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_241
-    label:
-      en: Keminmaa
-      fi: Keminmaa
-      sv: Keminmaa
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_322
-    label:
-      en: Kemiönsaari
-      fi: Kemiönsaari
-      sv: Kemiönsaari
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_244
-    label:
-      en: Kempele
-      fi: Kempele
-      sv: Kempele
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_245
-    label:
-      en: Kerava
-      fi: Kerava
-      sv: Kerava
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_249
-    label:
-      en: Keuruu
-      fi: Keuruu
-      sv: Keuruu
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_250
-    label:
-      en: Kihniö
-      fi: Kihniö
-      sv: Kihniö
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_256
-    label:
-      en: Kinnula
-      fi: Kinnula
-      sv: Kinnula
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_257
-    label:
-      en: Kirkkonummi
-      fi: Kirkkonummi
-      sv: Kirkkonummi
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_260
-    label:
-      en: Kitee
-      fi: Kitee
-      sv: Kitee
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_261
-    label:
-      en: Kittilä
-      fi: Kittilä
-      sv: Kittilä
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_263
-    label:
-      en: Kiuruvesi
-      fi: Kiuruvesi
-      sv: Kiuruvesi
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_265
-    label:
-      en: Kivijärvi
-      fi: Kivijärvi
-      sv: Kivijärvi
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_271
-    label:
-      en: Kokemäki
-      fi: Kokemäki
-      sv: Kokemäki
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_272
-    label:
-      en: Kokkola
-      fi: Kokkola
-      sv: Kokkola
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_273
-    label:
-      en: Kolari
-      fi: Kolari
-      sv: Kolari
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_275
-    label:
-      en: Konnevesi
-      fi: Konnevesi
-      sv: Konnevesi
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_276
-    label:
-      en: Kontiolahti
-      fi: Kontiolahti
-      sv: Kontiolahti
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_280
-    label:
-      en: Korsnäs
-      fi: Korsnäs
-      sv: Korsnäs
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_284
-    label:
-      en: Koski Tl
-      fi: Koski Tl
-      sv: Koski Tl
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_285
-    label:
-      en: Kotka
-      fi: Kotka
-      sv: Kotka
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_286
-    label:
-      en: Kouvola
-      fi: Kouvola
-      sv: Kouvola
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_287
-    label:
-      en: Kristiinankaupunki
-      fi: Kristiinankaupunki
-      sv: Kristiinankaupunki
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_288
-    label:
-      en: Kruunupyy
-      fi: Kruunupyy
-      sv: Kruunupyy
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_290
-    label:
-      en: Kuhmo
-      fi: Kuhmo
-      sv: Kuhmo
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_291
-    label:
-      en: Kuhmoinen
-      fi: Kuhmoinen
-      sv: Kuhmoinen
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_295
-    label:
-      en: Kumlinge
-      fi: Kumlinge
-      sv: Kumlinge
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_297
-    label:
-      en: Kuopio
-      fi: Kuopio
-      sv: Kuopio
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_300
-    label:
-      en: Kuortane
-      fi: Kuortane
-      sv: Kuortane
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_301
-    label:
-      en: Kurikka
-      fi: Kurikka
-      sv: Kurikka
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_304
-    label:
-      en: Kustavi
-      fi: Kustavi
-      sv: Kustavi
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_305
-    label:
-      en: Kuusamo
-      fi: Kuusamo
-      sv: Kuusamo
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_312
-    label:
-      en: Kyyjärvi
-      fi: Kyyjärvi
-      sv: Kyyjärvi
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_316
-    label:
-      en: Kärkölä
-      fi: Kärkölä
-      sv: Kärkölä
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_317
-    label:
-      en: Kärsämäki
-      fi: Kärsämäki
-      sv: Kärsämäki
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_318
-    label:
-      en: Kökar
-      fi: Kökar
-      sv: Kökar
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_398
-    label:
-      en: Lahti
-      fi: Lahti
-      sv: Lahti
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_399
-    label:
-      en: Laihia
-      fi: Laihia
-      sv: Laihia
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_400
-    label:
-      en: Laitila
-      fi: Laitila
-      sv: Laitila
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_407
-    label:
-      en: Lapinjärvi
-      fi: Lapinjärvi
-      sv: Lapinjärvi
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_402
-    label:
-      en: Lapinlahti
-      fi: Lapinlahti
-      sv: Lapinlahti
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_403
-    label:
-      en: Lappajärvi
-      fi: Lappajärvi
-      sv: Lappajärvi
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_405
-    label:
-      en: Lappeenranta
-      fi: Lappeenranta
-      sv: Lappeenranta
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_408
-    label:
-      en: Lapua
-      fi: Lapua
-      sv: Lapua
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_410
-    label:
-      en: Laukaa
-      fi: Laukaa
-      sv: Laukaa
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_416
-    label:
-      en: Lemi
-      fi: Lemi
-      sv: Lemi
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_417
-    label:
-      en: Lemland
-      fi: Lemland
-      sv: Lemland
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_418
-    label:
-      en: Lempäälä
-      fi: Lempäälä
-      sv: Lempäälä
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_420
-    label:
-      en: Leppävirta
-      fi: Leppävirta
-      sv: Leppävirta
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_421
-    label:
-      en: Lestijärvi
-      fi: Lestijärvi
-      sv: Lestijärvi
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_422
-    label:
-      en: Lieksa
-      fi: Lieksa
-      sv: Lieksa
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_423
-    label:
-      en: Lieto
-      fi: Lieto
-      sv: Lieto
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_425
-    label:
-      en: Liminka
-      fi: Liminka
-      sv: Liminka
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_426
-    label:
-      en: Liperi
-      fi: Liperi
-      sv: Liperi
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_444
-    label:
-      en: Lohja
-      fi: Lohja
-      sv: Lohja
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_430
-    label:
-      en: Loimaa
-      fi: Loimaa
-      sv: Loimaa
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_433
-    label:
-      en: Loppi
-      fi: Loppi
-      sv: Loppi
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_434
-    label:
-      en: Loviisa
-      fi: Loviisa
-      sv: Loviisa
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_435
-    label:
-      en: Luhanka
-      fi: Luhanka
-      sv: Luhanka
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_436
-    label:
-      en: Lumijoki
-      fi: Lumijoki
-      sv: Lumijoki
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_438
-    label:
-      en: Lumparland
-      fi: Lumparland
-      sv: Lumparland
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_440
-    label:
-      en: Luoto
-      fi: Luoto
-      sv: Luoto
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_441
-    label:
-      en: Luumäki
-      fi: Luumäki
-      sv: Luumäki
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_475
-    label:
-      en: Maalahti
-      fi: Maalahti
-      sv: Maalahti
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_478
-    label:
-      en: Maarianhamina - Mariehamn
-      fi: Maarianhamina - Mariehamn
-      sv: Maarianhamina - Mariehamn
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_480
-    label:
-      en: Marttila
-      fi: Marttila
-      sv: Marttila
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_481
-    label:
-      en: Masku
-      fi: Masku
-      sv: Masku
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_483
-    label:
-      en: Merijärvi
-      fi: Merijärvi
-      sv: Merijärvi
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_484
-    label:
-      en: Merikarvia
-      fi: Merikarvia
-      sv: Merikarvia
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_489
-    label:
-      en: Miehikkälä
-      fi: Miehikkälä
-      sv: Miehikkälä
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_491
-    label:
-      en: Mikkeli
-      fi: Mikkeli
-      sv: Mikkeli
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_494
-    label:
-      en: Muhos
-      fi: Muhos
-      sv: Muhos
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_495
-    label:
-      en: Multia
-      fi: Multia
-      sv: Multia
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_498
-    label:
-      en: Muonio
-      fi: Muonio
-      sv: Muonio
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_499
-    label:
-      en: Mustasaari
-      fi: Mustasaari
-      sv: Mustasaari
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_500
-    label:
-      en: Muurame
-      fi: Muurame
-      sv: Muurame
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_503
-    label:
-      en: Mynämäki
-      fi: Mynämäki
-      sv: Mynämäki
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_504
-    label:
-      en: Myrskylä
-      fi: Myrskylä
-      sv: Myrskylä
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_505
-    label:
-      en: Mäntsälä
-      fi: Mäntsälä
-      sv: Mäntsälä
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_508
-    label:
-      en: Mänttä-Vilppula
-      fi: Mänttä-Vilppula
-      sv: Mänttä-Vilppula
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_507
-    label:
-      en: Mäntyharju
-      fi: Mäntyharju
-      sv: Mäntyharju
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_529
-    label:
-      en: Naantali
-      fi: Naantali
-      sv: Naantali
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_531
-    label:
-      en: Nakkila
-      fi: Nakkila
-      sv: Nakkila
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_535
-    label:
-      en: Nivala
-      fi: Nivala
-      sv: Nivala
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_536
-    label:
-      en: Nokia
-      fi: Nokia
-      sv: Nokia
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_538
-    label:
-      en: Nousiainen
-      fi: Nousiainen
-      sv: Nousiainen
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_541
-    label:
-      en: Nurmes
-      fi: Nurmes
-      sv: Nurmes
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_543
-    label:
-      en: Nurmijärvi
-      fi: Nurmijärvi
-      sv: Nurmijärvi
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_545
-    label:
-      en: Närpiö
-      fi: Närpiö
-      sv: Närpiö
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_560
-    label:
-      en: Orimattila
-      fi: Orimattila
-      sv: Orimattila
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_561
-    label:
-      en: Oripää
-      fi: Oripää
-      sv: Oripää
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_562
-    label:
-      en: Orivesi
-      fi: Orivesi
-      sv: Orivesi
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_563
-    label:
-      en: Oulainen
-      fi: Oulainen
-      sv: Oulainen
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_564
-    label:
-      en: Oulu
-      fi: Oulu
-      sv: Oulu
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_309
-    label:
-      en: Outokumpu
-      fi: Outokumpu
-      sv: Outokumpu
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_576
-    label:
-      en: Padasjoki
-      fi: Padasjoki
-      sv: Padasjoki
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_577
-    label:
-      en: Paimio
-      fi: Paimio
-      sv: Paimio
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_578
-    label:
-      en: Paltamo
-      fi: Paltamo
-      sv: Paltamo
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_445
-    label:
-      en: Parainen
-      fi: Parainen
-      sv: Parainen
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_580
-    label:
-      en: Parikkala
-      fi: Parikkala
-      sv: Parikkala
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_581
-    label:
-      en: Parkano
-      fi: Parkano
-      sv: Parkano
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_599
-    label:
-      en: Pedersören kunta
-      fi: Pedersören kunta
-      sv: Pedersören kunta
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_583
-    label:
-      en: Pelkosenniemi
-      fi: Pelkosenniemi
-      sv: Pelkosenniemi
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_854
-    label:
-      en: Pello
-      fi: Pello
-      sv: Pello
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_584
-    label:
-      en: Perho
-      fi: Perho
-      sv: Perho
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_588
-    label:
-      en: Pertunmaa
-      fi: Pertunmaa
-      sv: Pertunmaa
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_592
-    label:
-      en: Petäjävesi
-      fi: Petäjävesi
-      sv: Petäjävesi
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_593
-    label:
-      en: Pieksämäki
-      fi: Pieksämäki
-      sv: Pieksämäki
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_595
-    label:
-      en: Pielavesi
-      fi: Pielavesi
-      sv: Pielavesi
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_598
-    label:
-      en: Pietarsaari
-      fi: Pietarsaari
-      sv: Pietarsaari
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_601
-    label:
-      en: Pihtipudas
-      fi: Pihtipudas
-      sv: Pihtipudas
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_604
-    label:
-      en: Pirkkala
-      fi: Pirkkala
-      sv: Pirkkala
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_607
-    label:
-      en: Polvijärvi
-      fi: Polvijärvi
-      sv: Polvijärvi
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_608
-    label:
-      en: Pomarkku
-      fi: Pomarkku
-      sv: Pomarkku
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_609
-    label:
-      en: Pori
-      fi: Pori
-      sv: Pori
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_611
-    label:
-      en: Pornainen
-      fi: Pornainen
-      sv: Pornainen
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_638
-    label:
-      en: Porvoo
-      fi: Porvoo
-      sv: Porvoo
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_614
-    label:
-      en: Posio
-      fi: Posio
-      sv: Posio
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_615
-    label:
-      en: Pudasjärvi
-      fi: Pudasjärvi
-      sv: Pudasjärvi
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_616
-    label:
-      en: Pukkila
-      fi: Pukkila
-      sv: Pukkila
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_619
-    label:
-      en: Punkalaidun
-      fi: Punkalaidun
-      sv: Punkalaidun
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_620
-    label:
-      en: Puolanka
-      fi: Puolanka
-      sv: Puolanka
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_623
-    label:
-      en: Puumala
-      fi: Puumala
-      sv: Puumala
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_624
-    label:
-      en: Pyhtää
-      fi: Pyhtää
-      sv: Pyhtää
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_625
-    label:
-      en: Pyhäjoki
-      fi: Pyhäjoki
-      sv: Pyhäjoki
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_626
-    label:
-      en: Pyhäjärvi
-      fi: Pyhäjärvi
-      sv: Pyhäjärvi
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_630
-    label:
-      en: Pyhäntä
-      fi: Pyhäntä
-      sv: Pyhäntä
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_631
-    label:
-      en: Pyhäranta
-      fi: Pyhäranta
-      sv: Pyhäranta
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_635
-    label:
-      en: Pälkäne
-      fi: Pälkäne
-      sv: Pälkäne
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_636
-    label:
-      en: Pöytyä
-      fi: Pöytyä
-      sv: Pöytyä
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_678
-    label:
-      en: Raahe
-      fi: Raahe
-      sv: Raahe
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_710
-    label:
-      en: Raasepori
-      fi: Raasepori
-      sv: Raasepori
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_680
-    label:
-      en: Raisio
-      fi: Raisio
-      sv: Raisio
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_681
-    label:
-      en: Rantasalmi
-      fi: Rantasalmi
-      sv: Rantasalmi
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_683
-    label:
-      en: Ranua
-      fi: Ranua
-      sv: Ranua
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_684
-    label:
-      en: Rauma
-      fi: Rauma
-      sv: Rauma
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_686
-    label:
-      en: Rautalampi
-      fi: Rautalampi
-      sv: Rautalampi
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_687
-    label:
-      en: Rautavaara
-      fi: Rautavaara
-      sv: Rautavaara
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_689
-    label:
-      en: Rautjärvi
-      fi: Rautjärvi
-      sv: Rautjärvi
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_691
-    label:
-      en: Reisjärvi
-      fi: Reisjärvi
-      sv: Reisjärvi
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_694
-    label:
-      en: Riihimäki
-      fi: Riihimäki
-      sv: Riihimäki
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_697
-    label:
-      en: Ristijärvi
-      fi: Ristijärvi
-      sv: Ristijärvi
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_698
-    label:
-      en: Rovaniemi
-      fi: Rovaniemi
-      sv: Rovaniemi
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_700
-    label:
-      en: Ruokolahti
-      fi: Ruokolahti
-      sv: Ruokolahti
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_702
-    label:
-      en: Ruovesi
-      fi: Ruovesi
-      sv: Ruovesi
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_704
-    label:
-      en: Rusko
-      fi: Rusko
-      sv: Rusko
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_707
-    label:
-      en: Rääkkylä
-      fi: Rääkkylä
-      sv: Rääkkylä
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_729
-    label:
-      en: Saarijärvi
-      fi: Saarijärvi
-      sv: Saarijärvi
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_732
-    label:
-      en: Salla
-      fi: Salla
-      sv: Salla
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_734
-    label:
-      en: Salo
-      fi: Salo
-      sv: Salo
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_736
-    label:
-      en: Saltvik
-      fi: Saltvik
-      sv: Saltvik
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_790
-    label:
-      en: Sastamala
-      fi: Sastamala
-      sv: Sastamala
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_738
-    label:
-      en: Sauvo
-      fi: Sauvo
-      sv: Sauvo
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_739
-    label:
-      en: Savitaipale
-      fi: Savitaipale
-      sv: Savitaipale
   - value: https://w3id.org/stirdata/resource/lau/item/FI_740
     label:
       en: Savonlinna
       fi: Savonlinna
       sv: Savonlinna
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_742
-    label:
-      en: Savukoski
-      fi: Savukoski
-      sv: Savukoski
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_743
-    label:
-      en: Seinäjoki
-      fi: Seinäjoki
-      sv: Seinäjoki
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_746
-    label:
-      en: Sievi
-      fi: Sievi
-      sv: Sievi
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_747
-    label:
-      en: Siikainen
-      fi: Siikainen
-      sv: Siikainen
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_748
-    label:
-      en: Siikajoki
-      fi: Siikajoki
-      sv: Siikajoki
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_791
-    label:
-      en: Siikalatva
-      fi: Siikalatva
-      sv: Siikalatva
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_749
-    label:
-      en: Siilinjärvi
-      fi: Siilinjärvi
-      sv: Siilinjärvi
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_751
-    label:
-      en: Simo
-      fi: Simo
-      sv: Simo
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_753
-    label:
-      en: Sipoo
-      fi: Sipoo
-      sv: Sipoo
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_755
-    label:
-      en: Siuntio
-      fi: Siuntio
-      sv: Siuntio
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_758
-    label:
-      en: Sodankylä
-      fi: Sodankylä
-      sv: Sodankylä
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_759
-    label:
-      en: Soini
-      fi: Soini
-      sv: Soini
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_761
-    label:
-      en: Somero
-      fi: Somero
-      sv: Somero
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_762
-    label:
-      en: Sonkajärvi
-      fi: Sonkajärvi
-      sv: Sonkajärvi
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_765
-    label:
-      en: Sotkamo
-      fi: Sotkamo
-      sv: Sotkamo
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_766
-    label:
-      en: Sottunga
-      fi: Sottunga
-      sv: Sottunga
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_768
-    label:
-      en: Sulkava
-      fi: Sulkava
-      sv: Sulkava
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_771
-    label:
-      en: Sund
-      fi: Sund
-      sv: Sund
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_777
-    label:
-      en: Suomussalmi
-      fi: Suomussalmi
-      sv: Suomussalmi
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_778
-    label:
-      en: Suonenjoki
-      fi: Suonenjoki
-      sv: Suonenjoki
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_781
-    label:
-      en: Sysmä
-      fi: Sysmä
-      sv: Sysmä
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_783
-    label:
-      en: Säkylä
-      fi: Säkylä
-      sv: Säkylä
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_831
-    label:
-      en: Taipalsaari
-      fi: Taipalsaari
-      sv: Taipalsaari
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_832
-    label:
-      en: Taivalkoski
-      fi: Taivalkoski
-      sv: Taivalkoski
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_833
-    label:
-      en: Taivassalo
-      fi: Taivassalo
-      sv: Taivassalo
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_834
-    label:
-      en: Tammela
-      fi: Tammela
-      sv: Tammela
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_837
-    label:
-      en: Tampere
-      fi: Tampere
-      sv: Tampere
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_844
-    label:
-      en: Tervo
-      fi: Tervo
-      sv: Tervo
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_845
-    label:
-      en: Tervola
-      fi: Tervola
-      sv: Tervola
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_846
-    label:
-      en: Teuva
-      fi: Teuva
-      sv: Teuva
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_848
-    label:
-      en: Tohmajärvi
-      fi: Tohmajärvi
-      sv: Tohmajärvi
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_849
-    label:
-      en: Toholampi
-      fi: Toholampi
-      sv: Toholampi
   - value: https://w3id.org/stirdata/resource/lau/item/FI_850
     label:
       en: Toivakka
       fi: Toivakka
       sv: Toivakka
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_851
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_434
     label:
-      en: Tornio
-      fi: Tornio
-      sv: Tornio
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_853
-    label:
-      en: Turku
-      fi: Turku
-      sv: Turku
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_857
-    label:
-      en: Tuusniemi
-      fi: Tuusniemi
-      sv: Tuusniemi
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_858
-    label:
-      en: Tuusula
-      fi: Tuusula
-      sv: Tuusula
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_859
-    label:
-      en: Tyrnävä
-      fi: Tyrnävä
-      sv: Tyrnävä
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_886
-    label:
-      en: Ulvila
-      fi: Ulvila
-      sv: Ulvila
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_887
-    label:
-      en: Urjala
-      fi: Urjala
-      sv: Urjala
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_889
-    label:
-      en: Utajärvi
-      fi: Utajärvi
-      sv: Utajärvi
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_890
-    label:
-      en: Utsjoki
-      fi: Utsjoki
-      sv: Utsjoki
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_892
-    label:
-      en: Uurainen
-      fi: Uurainen
-      sv: Uurainen
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_893
-    label:
-      en: Uusikaarlepyy
-      fi: Uusikaarlepyy
-      sv: Uusikaarlepyy
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_895
-    label:
-      en: Uusikaupunki
-      fi: Uusikaupunki
-      sv: Uusikaupunki
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_785
-    label:
-      en: Vaala
-      fi: Vaala
-      sv: Vaala
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_905
-    label:
-      en: Vaasa
-      fi: Vaasa
-      sv: Vaasa
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_908
-    label:
-      en: Valkeakoski
-      fi: Valkeakoski
-      sv: Valkeakoski
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_092
-    label:
-      en: Vantaa
-      fi: Vantaa
-      sv: Vantaa
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_915
-    label:
-      en: Varkaus
-      fi: Varkaus
-      sv: Varkaus
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_918
-    label:
-      en: Vehmaa
-      fi: Vehmaa
-      sv: Vehmaa
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_921
-    label:
-      en: Vesanto
-      fi: Vesanto
-      sv: Vesanto
+      en: Loviisa
+      fi: Loviisa
+      sv: Loviisa
   - value: https://w3id.org/stirdata/resource/lau/item/FI_922
     label:
       en: Vesilahti
       fi: Vesilahti
       sv: Vesilahti
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_924
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_052
     label:
-      en: Veteli
-      fi: Veteli
-      sv: Veteli
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_925
+      en: Evijärvi
+      fi: Evijärvi
+      sv: Evijärvi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_608
     label:
-      en: Vieremä
-      fi: Vieremä
-      sv: Vieremä
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_927
+      en: Pomarkku
+      fi: Pomarkku
+      sv: Pomarkku
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_151
     label:
-      en: Vihti
-      fi: Vihti
-      sv: Vihti
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_931
+      en: Isojoki
+      fi: Isojoki
+      sv: Isojoki
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_783
     label:
-      en: Viitasaari
-      fi: Viitasaari
-      sv: Viitasaari
+      en: Säkylä
+      fi: Säkylä
+      sv: Säkylä
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_276
+    label:
+      en: Kontiolahti
+      fi: Kontiolahti
+      sv: Kontiolahti
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_592
+    label:
+      en: Petäjävesi
+      fi: Petäjävesi
+      sv: Petäjävesi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_078
+    label:
+      en: Hanko
+      fi: Hanko
+      sv: Hanko
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_691
+    label:
+      en: Reisjärvi
+      fi: Reisjärvi
+      sv: Reisjärvi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_256
+    label:
+      en: Kinnula
+      fi: Kinnula
+      sv: Kinnula
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_623
+    label:
+      en: Puumala
+      fi: Puumala
+      sv: Puumala
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_430
+    label:
+      en: Loimaa
+      fi: Loimaa
+      sv: Loimaa
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_165
+    label:
+      en: Janakkala
+      fi: Janakkala
+      sv: Janakkala
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_217
+    label:
+      en: Kannus
+      fi: Kannus
+      sv: Kannus
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_020
+    label:
+      en: Akaa
+      fi: Akaa
+      sv: Akaa
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_182
+    label:
+      en: Jämsä
+      fi: Jämsä
+      sv: Jämsä
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_777
+    label:
+      en: Suomussalmi
+      fi: Suomussalmi
+      sv: Suomussalmi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_889
+    label:
+      en: Utajärvi
+      fi: Utajärvi
+      sv: Utajärvi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_560
+    label:
+      en: Orimattila
+      fi: Orimattila
+      sv: Orimattila
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_859
+    label:
+      en: Tyrnävä
+      fi: Tyrnävä
+      sv: Tyrnävä
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_239
+    label:
+      en: Keitele
+      fi: Keitele
+      sv: Keitele
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_425
+    label:
+      en: Liminka
+      fi: Liminka
+      sv: Liminka
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_398
+    label:
+      en: Lahti
+      fi: Lahti
+      sv: Lahti
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_142
+    label:
+      en: Iitti
+      fi: Iitti
+      sv: Iitti
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_140
+    label:
+      en: Iisalmi
+      fi: Iisalmi
+      sv: Iisalmi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_111
+    label:
+      en: Heinola
+      fi: Heinola
+      sv: Heinola
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_734
+    label:
+      en: Salo
+      fi: Salo
+      sv: Salo
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_562
+    label:
+      en: Orivesi
+      fi: Orivesi
+      sv: Orivesi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_216
+    label:
+      en: Kannonkoski
+      fi: Kannonkoski
+      sv: Kannonkoski
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_009
+    label:
+      en: Alavieska
+      fi: Alavieska
+      sv: Alavieska
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_146
+    label:
+      en: Ilomantsi
+      fi: Ilomantsi
+      sv: Ilomantsi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_086
+    label:
+      en: Hausjärvi
+      fi: Hausjärvi
+      sv: Hausjärvi
   - value: https://w3id.org/stirdata/resource/lau/item/FI_934
     label:
       en: Vimpeli
       fi: Vimpeli
       sv: Vimpeli
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_935
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_226
     label:
-      en: Virolahti
-      fi: Virolahti
-      sv: Virolahti
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_936
+      en: Karstula
+      fi: Karstula
+      sv: Karstula
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_494
     label:
-      en: Virrat
-      fi: Virrat
-      sv: Virrat
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_941
+      en: Muhos
+      fi: Muhos
+      sv: Muhos
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_081
     label:
-      en: Vårdö
-      fi: Vårdö
-      sv: Vårdö
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_946
-    label:
-      en: Vöyri
-      fi: Vöyri
-      sv: Vöyri
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_976
-    label:
-      en: Ylitornio
-      fi: Ylitornio
-      sv: Ylitornio
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_977
-    label:
-      en: Ylivieska
-      fi: Ylivieska
-      sv: Ylivieska
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_980
-    label:
-      en: Ylöjärvi
-      fi: Ylöjärvi
-      sv: Ylöjärvi
-  - value: https://w3id.org/stirdata/resource/lau/item/FI_981
-    label:
-      en: Ypäjä
-      fi: Ypäjä
-      sv: Ypäjä
+      en: Hartola
+      fi: Hartola
+      sv: Hartola
   - value: https://w3id.org/stirdata/resource/lau/item/FI_989
     label:
       en: Ähtäri
       fi: Ähtäri
       sv: Ähtäri
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_743
+    label:
+      en: Seinäjoki
+      fi: Seinäjoki
+      sv: Seinäjoki
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_609
+    label:
+      en: Pori
+      fi: Pori
+      sv: Pori
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_837
+    label:
+      en: Tampere
+      fi: Tampere
+      sv: Tampere
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_290
+    label:
+      en: Kuhmo
+      fi: Kuhmo
+      sv: Kuhmo
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_905
+    label:
+      en: Vaasa
+      fi: Vaasa
+      sv: Vaasa
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_495
+    label:
+      en: Multia
+      fi: Multia
+      sv: Multia
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_747
+    label:
+      en: Siikainen
+      fi: Siikainen
+      sv: Siikainen
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_936
+    label:
+      en: Virrat
+      fi: Virrat
+      sv: Virrat
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_563
+    label:
+      en: Oulainen
+      fi: Oulainen
+      sv: Oulainen
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_091
+    label:
+      en: Helsinki
+      fi: Helsinki
+      sv: Helsinki
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_736
+    label:
+      en: Saltvik
+      fi: Saltvik
+      sv: Saltvik
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_402
+    label:
+      en: Lapinlahti
+      fi: Lapinlahti
+      sv: Lapinlahti
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_265
+    label:
+      en: Kivijärvi
+      fi: Kivijärvi
+      sv: Kivijärvi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_421
+    label:
+      en: Lestijärvi
+      fi: Lestijärvi
+      sv: Lestijärvi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_580
+    label:
+      en: Parikkala
+      fi: Parikkala
+      sv: Parikkala
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_169
+    label:
+      en: Jokioinen
+      fi: Jokioinen
+      sv: Jokioinen
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_686
+    label:
+      en: Rautalampi
+      fi: Rautalampi
+      sv: Rautalampi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_019
+    label:
+      en: Aura
+      fi: Aura
+      sv: Aura
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_076
+    label:
+      en: Hammarland
+      fi: Hammarland
+      sv: Hammarland
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_759
+    label:
+      en: Soini
+      fi: Soini
+      sv: Soini
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_304
+    label:
+      en: Kustavi
+      fi: Kustavi
+      sv: Kustavi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_075
+    label:
+      en: Hamina
+      fi: Hamina
+      sv: Hamina
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_851
+    label:
+      en: Tornio
+      fi: Tornio
+      sv: Tornio
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_218
+    label:
+      en: Karijoki
+      fi: Karijoki
+      sv: Karijoki
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_941
+    label:
+      en: Vårdö
+      fi: Vårdö
+      sv: Vårdö
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_536
+    label:
+      en: Nokia
+      fi: Nokia
+      sv: Nokia
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_145
+    label:
+      en: Ilmajoki
+      fi: Ilmajoki
+      sv: Ilmajoki
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_035
+    label:
+      en: Brändö
+      fi: Brändö
+      sv: Brändö
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_739
+    label:
+      en: Savitaipale
+      fi: Savitaipale
+      sv: Savitaipale
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_167
+    label:
+      en: Joensuu
+      fi: Joensuu
+      sv: Joensuu
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_620
+    label:
+      en: Puolanka
+      fi: Puolanka
+      sv: Puolanka
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_790
+    label:
+      en: Sastamala
+      fi: Sastamala
+      sv: Sastamala
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_051
+    label:
+      en: Eurajoki
+      fi: Eurajoki
+      sv: Eurajoki
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_408
+    label:
+      en: Lapua
+      fi: Lapua
+      sv: Lapua
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_890
+    label:
+      en: Utsjoki
+      fi: Utsjoki
+      sv: Utsjoki
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_529
+    label:
+      en: Naantali
+      fi: Naantali
+      sv: Naantali
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_478
+    label:
+      en: Maarianhamina - Mariehamn
+      fi: Maarianhamina - Mariehamn
+      sv: Maarianhamina - Mariehamn
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_208
+    label:
+      en: Kalajoki
+      fi: Kalajoki
+      sv: Kalajoki
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_233
+    label:
+      en: Kauhava
+      fi: Kauhava
+      sv: Kauhava
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_043
+    label:
+      en: Eckerö
+      fi: Eckerö
+      sv: Eckerö
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_491
+    label:
+      en: Mikkeli
+      fi: Mikkeli
+      sv: Mikkeli
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_400
+    label:
+      en: Laitila
+      fi: Laitila
+      sv: Laitila
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_832
+    label:
+      en: Taivalkoski
+      fi: Taivalkoski
+      sv: Taivalkoski
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_213
+    label:
+      en: Kangasniemi
+      fi: Kangasniemi
+      sv: Kangasniemi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_758
+    label:
+      en: Sodankylä
+      fi: Sodankylä
+      sv: Sodankylä
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_316
+    label:
+      en: Kärkölä
+      fi: Kärkölä
+      sv: Kärkölä
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_595
+    label:
+      en: Pielavesi
+      fi: Pielavesi
+      sv: Pielavesi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_061
+    label:
+      en: Forssa
+      fi: Forssa
+      sv: Forssa
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_082
+    label:
+      en: Hattula
+      fi: Hattula
+      sv: Hattula
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_312
+    label:
+      en: Kyyjärvi
+      fi: Kyyjärvi
+      sv: Kyyjärvi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_791
+    label:
+      en: Siikalatva
+      fi: Siikalatva
+      sv: Siikalatva
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_202
+    label:
+      en: Kaarina
+      fi: Kaarina
+      sv: Kaarina
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_102
+    label:
+      en: Huittinen
+      fi: Huittinen
+      sv: Huittinen
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_005
+    label:
+      en: Alajärvi
+      fi: Alajärvi
+      sv: Alajärvi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_433
+    label:
+      en: Loppi
+      fi: Loppi
+      sv: Loppi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_484
+    label:
+      en: Merikarvia
+      fi: Merikarvia
+      sv: Merikarvia
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_148
+    label:
+      en: Inari
+      fi: Inari
+      sv: Inari
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_285
+    label:
+      en: Kotka
+      fi: Kotka
+      sv: Kotka
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_615
+    label:
+      en: Pudasjärvi
+      fi: Pudasjärvi
+      sv: Pudasjärvi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_288
+    label:
+      en: Kruunupyy
+      fi: Kruunupyy
+      sv: Kruunupyy
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_249
+    label:
+      en: Keuruu
+      fi: Keuruu
+      sv: Keuruu
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_099
+    label:
+      en: Honkajoki
+      fi: Honkajoki
+      sv: Honkajoki
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_320
+    label:
+      en: Kemijärvi
+      fi: Kemijärvi
+      sv: Kemijärvi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_261
+    label:
+      en: Kittilä
+      fi: Kittilä
+      sv: Kittilä
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_908
+    label:
+      en: Valkeakoski
+      fi: Valkeakoski
+      sv: Valkeakoski
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_280
+    label:
+      en: Korsnäs
+      fi: Korsnäs
+      sv: Korsnäs
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_636
+    label:
+      en: Pöytyä
+      fi: Pöytyä
+      sv: Pöytyä
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_768
+    label:
+      en: Sulkava
+      fi: Sulkava
+      sv: Sulkava
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_010
+    label:
+      en: Alavus
+      fi: Alavus
+      sv: Alavus
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_631
+    label:
+      en: Pyhäranta
+      fi: Pyhäranta
+      sv: Pyhäranta
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_704
+    label:
+      en: Rusko
+      fi: Rusko
+      sv: Rusko
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_604
+    label:
+      en: Pirkkala
+      fi: Pirkkala
+      sv: Pirkkala
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_584
+    label:
+      en: Perho
+      fi: Perho
+      sv: Perho
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_241
+    label:
+      en: Keminmaa
+      fi: Keminmaa
+      sv: Keminmaa
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_309
+    label:
+      en: Outokumpu
+      fi: Outokumpu
+      sv: Outokumpu
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_778
+    label:
+      en: Suonenjoki
+      fi: Suonenjoki
+      sv: Suonenjoki
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_170
+    label:
+      en: Jomala
+      fi: Jomala
+      sv: Jomala
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_177
+    label:
+      en: Juupajoki
+      fi: Juupajoki
+      sv: Juupajoki
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_507
+    label:
+      en: Mäntyharju
+      fi: Mäntyharju
+      sv: Mäntyharju
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_436
+    label:
+      en: Lumijoki
+      fi: Lumijoki
+      sv: Lumijoki
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_047
+    label:
+      en: Enontekiö
+      fi: Enontekiö
+      sv: Enontekiö
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_578
+    label:
+      en: Paltamo
+      fi: Paltamo
+      sv: Paltamo
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_683
+    label:
+      en: Ranua
+      fi: Ranua
+      sv: Ranua
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_284
+    label:
+      en: Koski Tl
+      fi: Koski Tl
+      sv: Koski Tl
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_625
+    label:
+      en: Pyhäjoki
+      fi: Pyhäjoki
+      sv: Pyhäjoki
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_630
+    label:
+      en: Pyhäntä
+      fi: Pyhäntä
+      sv: Pyhäntä
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_179
+    label:
+      en: Jyväskylä
+      fi: Jyväskylä
+      sv: Jyväskylä
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_500
+    label:
+      en: Muurame
+      fi: Muurame
+      sv: Muurame
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_300
+    label:
+      en: Kuortane
+      fi: Kuortane
+      sv: Kuortane
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_444
+    label:
+      en: Lohja
+      fi: Lohja
+      sv: Lohja
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_746
+    label:
+      en: Sievi
+      fi: Sievi
+      sv: Sievi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_680
+    label:
+      en: Raisio
+      fi: Raisio
+      sv: Raisio
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_271
+    label:
+      en: Kokemäki
+      fi: Kokemäki
+      sv: Kokemäki
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_291
+    label:
+      en: Kuhmoinen
+      fi: Kuhmoinen
+      sv: Kuhmoinen
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_224
+    label:
+      en: Karkkila
+      fi: Karkkila
+      sv: Karkkila
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_857
+    label:
+      en: Tuusniemi
+      fi: Tuusniemi
+      sv: Tuusniemi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_576
+    label:
+      en: Padasjoki
+      fi: Padasjoki
+      sv: Padasjoki
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_687
+    label:
+      en: Rautavaara
+      fi: Rautavaara
+      sv: Rautavaara
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_697
+    label:
+      en: Ristijärvi
+      fi: Ristijärvi
+      sv: Ristijärvi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_684
+    label:
+      en: Rauma
+      fi: Rauma
+      sv: Rauma
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_626
+    label:
+      en: Pyhäjärvi
+      fi: Pyhäjärvi
+      sv: Pyhäjärvi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_698
+    label:
+      en: Rovaniemi
+      fi: Rovaniemi
+      sv: Rovaniemi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_204
+    label:
+      en: Kaavi
+      fi: Kaavi
+      sv: Kaavi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_410
+    label:
+      en: Laukaa
+      fi: Laukaa
+      sv: Laukaa
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_508
+    label:
+      en: Mänttä-Vilppula
+      fi: Mänttä-Vilppula
+      sv: Mänttä-Vilppula
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_420
+    label:
+      en: Leppävirta
+      fi: Leppävirta
+      sv: Leppävirta
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_785
+    label:
+      en: Vaala
+      fi: Vaala
+      sv: Vaala
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_244
+    label:
+      en: Kempele
+      fi: Kempele
+      sv: Kempele
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_505
+    label:
+      en: Mäntsälä
+      fi: Mäntsälä
+      sv: Mäntsälä
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_541
+    label:
+      en: Nurmes
+      fi: Nurmes
+      sv: Nurmes
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_245
+    label:
+      en: Kerava
+      fi: Kerava
+      sv: Kerava
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_186
+    label:
+      en: Järvenpää
+      fi: Järvenpää
+      sv: Järvenpää
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_445
+    label:
+      en: Parainen
+      fi: Parainen
+      sv: Parainen
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_624
+    label:
+      en: Pyhtää
+      fi: Pyhtää
+      sv: Pyhtää
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_257
+    label:
+      en: Kirkkonummi
+      fi: Kirkkonummi
+      sv: Kirkkonummi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_211
+    label:
+      en: Kangasala
+      fi: Kangasala
+      sv: Kangasala
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_092
+    label:
+      en: Vantaa
+      fi: Vantaa
+      sv: Vantaa
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_240
+    label:
+      en: Kemi
+      fi: Kemi
+      sv: Kemi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_062
+    label:
+      en: Föglö
+      fi: Föglö
+      sv: Föglö
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_232
+    label:
+      en: Kauhajoki
+      fi: Kauhajoki
+      sv: Kauhajoki
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_732
+    label:
+      en: Salla
+      fi: Salla
+      sv: Salla
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_611
+    label:
+      en: Pornainen
+      fi: Pornainen
+      sv: Pornainen
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_531
+    label:
+      en: Nakkila
+      fi: Nakkila
+      sv: Nakkila
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_405
+    label:
+      en: Lappeenranta
+      fi: Lappeenranta
+      sv: Lappeenranta
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_946
+    label:
+      en: Vöyri
+      fi: Vöyri
+      sv: Vöyri
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_318
+    label:
+      en: Kökar
+      fi: Kökar
+      sv: Kökar
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_105
+    label:
+      en: Hyrynsalmi
+      fi: Hyrynsalmi
+      sv: Hyrynsalmi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_426
+    label:
+      en: Liperi
+      fi: Liperi
+      sv: Liperi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_931
+    label:
+      en: Viitasaari
+      fi: Viitasaari
+      sv: Viitasaari
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_090
+    label:
+      en: Heinävesi
+      fi: Heinävesi
+      sv: Heinävesi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_886
+    label:
+      en: Ulvila
+      fi: Ulvila
+      sv: Ulvila
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_441
+    label:
+      en: Luumäki
+      fi: Luumäki
+      sv: Luumäki
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_751
+    label:
+      en: Simo
+      fi: Simo
+      sv: Simo
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_738
+    label:
+      en: Sauvo
+      fi: Sauvo
+      sv: Sauvo
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_079
+    label:
+      en: Harjavalta
+      fi: Harjavalta
+      sv: Harjavalta
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_286
+    label:
+      en: Kouvola
+      fi: Kouvola
+      sv: Kouvola
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_980
+    label:
+      en: Ylöjärvi
+      fi: Ylöjärvi
+      sv: Ylöjärvi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_765
+    label:
+      en: Sotkamo
+      fi: Sotkamo
+      sv: Sotkamo
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_535
+    label:
+      en: Nivala
+      fi: Nivala
+      sv: Nivala
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_846
+    label:
+      en: Teuva
+      fi: Teuva
+      sv: Teuva
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_561
+    label:
+      en: Oripää
+      fi: Oripää
+      sv: Oripää
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_503
+    label:
+      en: Mynämäki
+      fi: Mynämäki
+      sv: Mynämäki
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_831
+    label:
+      en: Taipalsaari
+      fi: Taipalsaari
+      sv: Taipalsaari
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_077
+    label:
+      en: Hankasalmi
+      fi: Hankasalmi
+      sv: Hankasalmi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_403
+    label:
+      en: Lappajärvi
+      fi: Lappajärvi
+      sv: Lappajärvi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_149
+    label:
+      en: Inkoo
+      fi: Inkoo
+      sv: Inkoo
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_848
+    label:
+      en: Tohmajärvi
+      fi: Tohmajärvi
+      sv: Tohmajärvi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_538
+    label:
+      en: Nousiainen
+      fi: Nousiainen
+      sv: Nousiainen
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_921
+    label:
+      en: Vesanto
+      fi: Vesanto
+      sv: Vesanto
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_545
+    label:
+      en: Närpiö
+      fi: Närpiö
+      sv: Närpiö
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_416
+    label:
+      en: Lemi
+      fi: Lemi
+      sv: Lemi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_927
+    label:
+      en: Vihti
+      fi: Vihti
+      sv: Vihti
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_475
+    label:
+      en: Maalahti
+      fi: Maalahti
+      sv: Maalahti
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_755
+    label:
+      en: Siuntio
+      fi: Siuntio
+      sv: Siuntio
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_301
+    label:
+      en: Kurikka
+      fi: Kurikka
+      sv: Kurikka
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_887
+    label:
+      en: Urjala
+      fi: Urjala
+      sv: Urjala
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_407
+    label:
+      en: Lapinjärvi
+      fi: Lapinjärvi
+      sv: Lapinjärvi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_153
+    label:
+      en: Imatra
+      fi: Imatra
+      sv: Imatra
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_742
+    label:
+      en: Savukoski
+      fi: Savukoski
+      sv: Savukoski
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_440
+    label:
+      en: Luoto
+      fi: Luoto
+      sv: Luoto
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_069
+    label:
+      en: Haapajärvi
+      fi: Haapajärvi
+      sv: Haapajärvi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_152
+    label:
+      en: Isokyrö
+      fi: Isokyrö
+      sv: Isokyrö
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_700
+    label:
+      en: Ruokolahti
+      fi: Ruokolahti
+      sv: Ruokolahti
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_925
+    label:
+      en: Vieremä
+      fi: Vieremä
+      sv: Vieremä
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_235
+    label:
+      en: Kauniainen
+      fi: Kauniainen
+      sv: Kauniainen
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_098
+    label:
+      en: Hollola
+      fi: Hollola
+      sv: Hollola
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_915
+    label:
+      en: Varkaus
+      fi: Varkaus
+      sv: Varkaus
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_893
+    label:
+      en: Uusikaarlepyy
+      fi: Uusikaarlepyy
+      sv: Uusikaarlepyy
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_834
+    label:
+      en: Tammela
+      fi: Tammela
+      sv: Tammela
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_601
+    label:
+      en: Pihtipudas
+      fi: Pihtipudas
+      sv: Pihtipudas
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_481
+    label:
+      en: Masku
+      fi: Masku
+      sv: Masku
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_710
+    label:
+      en: Raasepori
+      fi: Raasepori
+      sv: Raasepori
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_581
+    label:
+      en: Parkano
+      fi: Parkano
+      sv: Parkano
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_845
+    label:
+      en: Tervola
+      fi: Tervola
+      sv: Tervola
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_588
+    label:
+      en: Pertunmaa
+      fi: Pertunmaa
+      sv: Pertunmaa
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_499
+    label:
+      en: Mustasaari
+      fi: Mustasaari
+      sv: Mustasaari
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_761
+    label:
+      en: Somero
+      fi: Somero
+      sv: Somero
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_607
+    label:
+      en: Polvijärvi
+      fi: Polvijärvi
+      sv: Polvijärvi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_071
+    label:
+      en: Haapavesi
+      fi: Haapavesi
+      sv: Haapavesi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_635
+    label:
+      en: Pälkäne
+      fi: Pälkäne
+      sv: Pälkäne
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_097
+    label:
+      en: Hirvensalmi
+      fi: Hirvensalmi
+      sv: Hirvensalmi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_616
+    label:
+      en: Pukkila
+      fi: Pukkila
+      sv: Pukkila
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_480
+    label:
+      en: Marttila
+      fi: Marttila
+      sv: Marttila
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_702
+    label:
+      en: Ruovesi
+      fi: Ruovesi
+      sv: Ruovesi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_853
+    label:
+      en: Turku
+      fi: Turku
+      sv: Turku
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_176
+    label:
+      en: Juuka
+      fi: Juuka
+      sv: Juuka
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_753
+    label:
+      en: Sipoo
+      fi: Sipoo
+      sv: Sipoo
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_275
+    label:
+      en: Konnevesi
+      fi: Konnevesi
+      sv: Konnevesi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_260
+    label:
+      en: Kitee
+      fi: Kitee
+      sv: Kitee
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_143
+    label:
+      en: Ikaalinen
+      fi: Ikaalinen
+      sv: Ikaalinen
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_504
+    label:
+      en: Myrskylä
+      fi: Myrskylä
+      sv: Myrskylä
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_833
+    label:
+      en: Taivassalo
+      fi: Taivassalo
+      sv: Taivassalo
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_272
+    label:
+      en: Kokkola
+      fi: Kokkola
+      sv: Kokkola
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_781
+    label:
+      en: Sysmä
+      fi: Sysmä
+      sv: Sysmä
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_018
+    label:
+      en: Askola
+      fi: Askola
+      sv: Askola
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_854
+    label:
+      en: Pello
+      fi: Pello
+      sv: Pello
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_139
+    label:
+      en: Ii
+      fi: Ii
+      sv: Ii
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_598
+    label:
+      en: Pietarsaari
+      fi: Pietarsaari
+      sv: Pietarsaari
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_498
+    label:
+      en: Muonio
+      fi: Muonio
+      sv: Muonio
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_749
+    label:
+      en: Siilinjärvi
+      fi: Siilinjärvi
+      sv: Siilinjärvi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_050
+    label:
+      en: Eura
+      fi: Eura
+      sv: Eura
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_619
+    label:
+      en: Punkalaidun
+      fi: Punkalaidun
+      sv: Punkalaidun
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_108
+    label:
+      en: Hämeenkyrö
+      fi: Hämeenkyrö
+      sv: Hämeenkyrö
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_483
+    label:
+      en: Merijärvi
+      fi: Merijärvi
+      sv: Merijärvi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_046
+    label:
+      en: Enonkoski
+      fi: Enonkoski
+      sv: Enonkoski
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_065
+    label:
+      en: Geta
+      fi: Geta
+      sv: Geta
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_438
+    label:
+      en: Lumparland
+      fi: Lumparland
+      sv: Lumparland
   - value: https://w3id.org/stirdata/resource/lau/item/FI_992
     label:
       en: Äänekoski
       fi: Äänekoski
       sv: Äänekoski
-  validators: scheming_required location_validator
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_564
+    label:
+      en: Oulu
+      fi: Oulu
+      sv: Oulu
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_694
+    label:
+      en: Riihimäki
+      fi: Riihimäki
+      sv: Riihimäki
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_103
+    label:
+      en: Humppila
+      fi: Humppila
+      sv: Humppila
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_230
+    label:
+      en: Karvia
+      fi: Karvia
+      sv: Karvia
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_181
+    label:
+      en: Jämijärvi
+      fi: Jämijärvi
+      sv: Jämijärvi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_762
+    label:
+      en: Sonkajärvi
+      fi: Sonkajärvi
+      sv: Sonkajärvi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_543
+    label:
+      en: Nurmijärvi
+      fi: Nurmijärvi
+      sv: Nurmijärvi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_263
+    label:
+      en: Kiuruvesi
+      fi: Kiuruvesi
+      sv: Kiuruvesi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_205
+    label:
+      en: Kajaani
+      fi: Kajaani
+      sv: Kajaani
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_178
+    label:
+      en: Juva
+      fi: Juva
+      sv: Juva
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_977
+    label:
+      en: Ylivieska
+      fi: Ylivieska
+      sv: Ylivieska
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_599
+    label:
+      en: Pedersören kunta
+      fi: Pedersören kunta
+      sv: Pedersören kunta
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_976
+    label:
+      en: Ylitornio
+      fi: Ylitornio
+      sv: Ylitornio
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_577
+    label:
+      en: Paimio
+      fi: Paimio
+      sv: Paimio
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_417
+    label:
+      en: Lemland
+      fi: Lemland
+      sv: Lemland
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_583
+    label:
+      en: Pelkosenniemi
+      fi: Pelkosenniemi
+      sv: Pelkosenniemi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_250
+    label:
+      en: Kihniö
+      fi: Kihniö
+      sv: Kihniö
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_317
+    label:
+      en: Kärsämäki
+      fi: Kärsämäki
+      sv: Kärsämäki
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_214
+    label:
+      en: Kankaanpää
+      fi: Kankaanpää
+      sv: Kankaanpää
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_678
+    label:
+      en: Raahe
+      fi: Raahe
+      sv: Raahe
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_858
+    label:
+      en: Tuusula
+      fi: Tuusula
+      sv: Tuusula
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_614
+    label:
+      en: Posio
+      fi: Posio
+      sv: Posio
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_689
+    label:
+      en: Rautjärvi
+      fi: Rautjärvi
+      sv: Rautjärvi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_171
+    label:
+      en: Joroinen
+      fi: Joroinen
+      sv: Joroinen
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_109
+    label:
+      en: Hämeenlinna
+      fi: Hämeenlinna
+      sv: Hämeenlinna
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_399
+    label:
+      en: Laihia
+      fi: Laihia
+      sv: Laihia
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_924
+    label:
+      en: Veteli
+      fi: Veteli
+      sv: Veteli
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_918
+    label:
+      en: Vehmaa
+      fi: Vehmaa
+      sv: Vehmaa
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_106
+    label:
+      en: Hyvinkää
+      fi: Hyvinkää
+      sv: Hyvinkää
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_305
+    label:
+      en: Kuusamo
+      fi: Kuusamo
+      sv: Kuusamo
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_707
+    label:
+      en: Rääkkylä
+      fi: Rääkkylä
+      sv: Rääkkylä
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_766
+    label:
+      en: Sottunga
+      fi: Sottunga
+      sv: Sottunga
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_849
+    label:
+      en: Toholampi
+      fi: Toholampi
+      sv: Toholampi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_638
+    label:
+      en: Porvoo
+      fi: Porvoo
+      sv: Porvoo
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_236
+    label:
+      en: Kaustinen
+      fi: Kaustinen
+      sv: Kaustinen
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_287
+    label:
+      en: Kristiinankaupunki
+      fi: Kristiinankaupunki
+      sv: Kristiinankaupunki
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_435
+    label:
+      en: Luhanka
+      fi: Luhanka
+      sv: Luhanka
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_489
+    label:
+      en: Miehikkälä
+      fi: Miehikkälä
+      sv: Miehikkälä
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_072
+    label:
+      en: Hailuoto
+      fi: Hailuoto
+      sv: Hailuoto
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_895
+    label:
+      en: Uusikaupunki
+      fi: Uusikaupunki
+      sv: Uusikaupunki
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_172
+    label:
+      en: Joutsa
+      fi: Joutsa
+      sv: Joutsa
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_844
+    label:
+      en: Tervo
+      fi: Tervo
+      sv: Tervo
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_981
+    label:
+      en: Ypäjä
+      fi: Ypäjä
+      sv: Ypäjä
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_422
+    label:
+      en: Lieksa
+      fi: Lieksa
+      sv: Lieksa
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_295
+    label:
+      en: Kumlinge
+      fi: Kumlinge
+      sv: Kumlinge
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_049
+    label:
+      en: Espoo
+      fi: Espoo
+      sv: Espoo
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_322
+    label:
+      en: Kemiönsaari
+      fi: Kemiönsaari
+      sv: Kemiönsaari
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_892
+    label:
+      en: Uurainen
+      fi: Uurainen
+      sv: Uurainen
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_729
+    label:
+      en: Saarijärvi
+      fi: Saarijärvi
+      sv: Saarijärvi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_681
+    label:
+      en: Rantasalmi
+      fi: Rantasalmi
+      sv: Rantasalmi
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_935
+    label:
+      en: Virolahti
+      fi: Virolahti
+      sv: Virolahti
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_418
+    label:
+      en: Lempäälä
+      fi: Lempäälä
+      sv: Lempäälä
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_231
+    label:
+      en: Kaskinen
+      fi: Kaskinen
+      sv: Kaskinen
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_297
+    label:
+      en: Kuopio
+      fi: Kuopio
+      sv: Kuopio
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_074
+    label:
+      en: Halsua
+      fi: Halsua
+      sv: Halsua
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_423
+    label:
+      en: Lieto
+      fi: Lieto
+      sv: Lieto
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_273
+    label:
+      en: Kolari
+      fi: Kolari
+      sv: Kolari
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_771
+    label:
+      en: Sund
+      fi: Sund
+      sv: Sund
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_748
+    label:
+      en: Siikajoki
+      fi: Siikajoki
+      sv: Siikajoki
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_016
+    label:
+      en: Asikkala
+      fi: Asikkala
+      sv: Asikkala
+  - value: https://w3id.org/stirdata/resource/lau/item/FI_593
+    label:
+      en: Pieksämäki
+      fi: Pieksämäki
+      sv: Pieksämäki
+  validators: scheming_required value_to_list location_validator
+  output_validators: location_validator
   necessity: mandatory
 - field_name: version
   label:

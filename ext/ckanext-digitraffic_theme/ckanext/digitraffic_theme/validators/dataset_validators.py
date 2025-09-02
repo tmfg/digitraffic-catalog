@@ -172,7 +172,10 @@ def theme_validator(value: Any, context: Context):
 
 
 def location_validator(value: Any, context: Context):
-    return vocabulary_validator(value, Location)
+    def validator(val, *args):
+        return vocabulary_validator(val, Location)
+
+    return multiple_values_converter(validator, value, context)
 
 
 def language_validator(value: Any, context: Context):
