@@ -38,7 +38,7 @@ export class DatasetsListPage extends BasePage {
 
   async gotoDatasetPage(datasetName: string, datasetId?: string): Promise<DatasetPage> {
     if (!datasetId) {
-      const datasetLocator = this.datasetsList.getByRole('link', { name: datasetName}).first();
+      const datasetLocator = this.datasetsList.getByRole('link', { name: datasetName, exact: true}).first();
       const urlWithDatasetId = await datasetLocator.getAttribute('href');
       datasetId = urlWithDatasetId?.split('/').pop();
       if (!datasetId) {
