@@ -87,6 +87,7 @@ export type OptionalDatasetInfoValues = {
   intendedInformationService?: IntendedInformationService,
   urlToQualityDescription?: string,
   relatedDatasets?: string[],
+  isReferencedBy?: string[],
   rightsHolders?: RightsHolder[],
 }
 

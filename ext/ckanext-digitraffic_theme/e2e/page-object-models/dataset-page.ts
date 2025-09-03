@@ -46,6 +46,7 @@ export class DatasetPage extends BasePage {
   readonly intendedInformationService: Locator
   readonly urlToQualityDescription: Locator
   readonly relatedDatasets: Locator
+  readonly isReferencedBy: Locator
   readonly rightsHolders: Locator
 
   constructor(page: Page, datasetId: string) {
@@ -77,6 +78,7 @@ export class DatasetPage extends BasePage {
     this.intendedInformationService = this.getMetadataTableRowLocator('Hyödyntävä tietopalvelu');
     this.urlToQualityDescription = this.getMetadataTableRowLocator('Julkaisijan kuvaus laadusta');
     this.relatedDatasets = this.getMetadataTableRowLocator('Liittyvä tietoaineisto');
+    this.isReferencedBy = this.getMetadataTableRowLocator('Viittaukset muista aineistoista');
     this.rightsHolders = this.getMetadataTableRowLocator('Oikeuksien haltija');
   }
 
@@ -246,10 +248,17 @@ export class DatasetPage extends BasePage {
 
       const relatedText = await getTextContent(this.relatedDatasets, 'relatedDatasets');
       if (relatedText) {
-        const linksAsString = relatedText.split(/[\s]+/).map(item => item.trim());
-        optionalValues.relatedDatasets = linksAsString
+        const relatedLinksAsString = relatedText.split(/[\s]+/).map(item => item.trim());
+        optionalValues.relatedDatasets = relatedLinksAsString
       } else {
         optionalValues.relatedDatasets = [];
+      }
+      const isReferencedByText = await getTextContent(this.isReferencedBy, 'isReferencedBy');
+      if (isReferencedByText) {
+        const isReferencedBylinksAsString = isReferencedByText.split(/[\s]+/).map(item => item.trim());
+        optionalValues.isReferencedBy = isReferencedBylinksAsString
+      } else {
+        optionalValues.isReferencedBy = [];
       }
 
       const finnishObjectToContactPoint = (finnishContactPoint: Record<string, any>): ContactPoint => {
