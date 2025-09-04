@@ -89,7 +89,7 @@ class TestDatasetValidators:
             field_name="conforms_to",
             valid_value="https://www.opengis.net/def/crs/EPSG/0/4326",
             invalid_value="gps",
-            match_message="Given spatial reference is not supported",
+            match_message="Provide a valid EPSG number between 2000 and 69036405",
         )
 
     def test_location_validator(self):

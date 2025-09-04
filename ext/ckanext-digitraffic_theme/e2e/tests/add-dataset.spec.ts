@@ -170,6 +170,7 @@ test.describe.serial('Add new dataset', () => {
         intendedInformationService: IntendedInformationService.LOCATION_SEARCH,
         urlToQualityDescription: 'https://example.com/quality-description',
         relatedDatasets: [firstDatasetName],
+        isReferencedBy: [],
         rightsHolders: [
           {
             type: 'http://purl.org/adms/publishertype/Company',
@@ -280,4 +281,21 @@ test.describe.serial('Add new dataset', () => {
 
   });
 
+  test('View the first created dataset for is_referenced_by value', async ({users}) => {
+    const organizationMember = getKnownUserOrThrow(users, Identity.OrganizationMember)
+    const organizationView = await OrganizationMemberView.of(organizationMember)
+
+    if (firstDatasetName === undefined) {
+      throw new Error('First dataset name is not set. Ensure the previous tests have run successfully.');
+    }
+    if (secondDatasetInfo === undefined) {
+      throw new Error('Second dataset info is not set. Ensure the previous tests have run successfully.');
+    }
+
+    await organizationView.browseToDatasetPage(firstDatasetName)
+      .then(async datasetView => {
+        const referencedBy = await datasetView.getPOM<DatasetPage>().isReferencedBy.textContent()
+        test.expect(referencedBy?.trim()).toContain(secondDatasetInfo!.id);
+      })
+  })
 })

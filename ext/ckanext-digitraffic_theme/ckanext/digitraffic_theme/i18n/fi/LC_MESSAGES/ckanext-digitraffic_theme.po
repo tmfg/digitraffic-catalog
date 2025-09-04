@@ -941,6 +941,10 @@ msgstr "Käyttäjät"
 msgid "Manage"
 msgstr "Hallinnoi"
 
+#: ckanext/digitraffic_theme/validators/common_validators.py:45
+msgid "Make sure the URL starts with http:// or https://"
+msgstr "Varmista, että URL alkaa http:// tai https://"
+
 #: ckanext/digitraffic_theme/validators/dataset_validators.py:45
 msgid "Invalid value of mobility theme sub category"
 msgstr ""
@@ -966,8 +970,8 @@ msgid "Provided value does not belong to {namespace}"
 msgstr ""
 
 #: ckanext/digitraffic_theme/validators/dataset_validators.py:102
-msgid "Given spatial reference is not supported"
-msgstr "Annettu paikkaviite ei ole tuettu"
+msgid "Provide a valid EPSG number between 2000 and 69036405"
+msgstr "Anna EPSG-numero väliltä 2000–69036405"
 
 #: ckanext/digitraffic_theme/validators/dataset_validators.py:121
 #: ckanext/digitraffic_theme/validators/dataset_validators.py:122
