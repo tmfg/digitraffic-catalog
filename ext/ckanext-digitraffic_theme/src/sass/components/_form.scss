@@ -54,9 +54,17 @@
         grid-area: right-2;
     }
 
-    .form-actions {
+    .form-bottom {
+        display: flex;
+        flex-wrap: nowrap;
         margin-top: 30px;
         justify-content: space-between;
+    }
+    .form-bottom-end {
+        justify-content: flex-end;
+    }
+    .form-actions {
+        justify-content: right;
     }
 
 }
