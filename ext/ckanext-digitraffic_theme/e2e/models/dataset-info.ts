@@ -95,7 +95,7 @@ export class DatasetInfo {
   visibility: Visibility;
   title: string;
   frequency: Frequency;
-  regionalCoverage: RegionalCoverage;
+  regionalCoverage: Set<RegionalCoverage>;
   dataContentCategory: TOP_MOBILITY_THEMES_T;
   description: string;
   optionalValues?: OptionalDatasetInfoValues;
@@ -104,7 +104,7 @@ export class DatasetInfo {
     visibility: Visibility,
     title: string,
     frequency: Frequency,
-    regionalCoverage: RegionalCoverage,
+    regionalCoverage: Set<RegionalCoverage>,
     dataContentCategory: TOP_MOBILITY_THEMES_T,
     description: string,
     id?: string,

@@ -15,7 +15,7 @@ import { GeoreferencingMethod } from "../../src/ts/model/georeferencing-method";
 import { NetworkCoverage } from "../../src/ts/model/network-coverage";
 import { IntendedInformationService } from "../../src/ts/model/intended-information-service";
 import { OrganizationEditorView } from "../user-views/organization-editor-view";
-import { DatasetPage, NewResourcePage } from "../page-object-models";
+import { DatasetPage, EditDatasetPage, NewResourcePage } from "../page-object-models";
 import { ApplicationLayerProtocol } from "../../src/ts/model/application-layer-protocol";
 import { DataGrammar } from "../../src/ts/model/data-grammar";
 import { CharacterEncoding } from "../../src/ts/model/character-encoding";
@@ -24,6 +24,52 @@ import { LicenseId } from "../../src/ts/model/license-id";
 import { OrganizationMemberView } from "../user-views/organization-member-view";
 
 const identitiesToUse = [Identity.OrganizationEditor, Identity.OrganizationMember] as const
+
+export async function createDataset(
+  organizationEditor: any,
+  datasetInfo: DatasetInfo,
+  resourceInfo?: ResourceInfo
+) {
+  const organizationView = await OrganizationEditorView.of(organizationEditor);
+  let datasetId = "";
+  let datasetUrl = "";
+  let datasetView;
+
+  // Create dataset
+  await organizationView
+    .browseToNewDatasetPage()
+    .then(view => datasetView = view)
+    .then(view => view.fillNewDatasetInfo(datasetInfo))
+    .then(view => view.saveDataset())
+    .then(async resourceView => {
+      await test.expect(resourceView.getPOM()).toBeInstanceOf(NewResourcePage);
+      const id = resourceView.getPOM<NewResourcePage>().datasetId;
+      if (!id) throw new Error("Dataset ID is undefined");
+      datasetId = id;
+      if (resourceInfo) {
+        const resourceInfoWithDatasetId = resourceInfo.cloneWith({
+          datasetId: datasetId
+        });
+        return resourceView.fillNewResourceInfo(resourceInfoWithDatasetId)
+          .then(view => view.saveResource());
+      } else {
+        return resourceView;
+      }
+    })
+    .then(async view => {
+      datasetView = view;
+      datasetUrl = view.getPage().url();
+      await test.expect(view.getPOM()).toBeInstanceOf(DatasetPage);
+      await test.expect(datasetUrl).toMatch(/\/dataset\/[0-9a-fA-F-]+$/);
+    });
+
+  return {
+    datasetId,
+    datasetUrl,
+    datasetView,
+    datasetInfo
+  };
+}
 
 test.describe.serial('Add new dataset', () => {
   test.use({
@@ -36,12 +82,11 @@ test.describe.serial('Add new dataset', () => {
 
   test('Add dataset with minimal required info', async ({ users }) => {
     const organizationEditor = getKnownUserOrThrow(users, Identity.OrganizationEditor)
-    const organizationView = await OrganizationEditorView.of(organizationEditor)
     const newDatasetInfo = new DatasetInfo(
       'public', // Tests after this will depend on this dataset being 'public'
       'Test Dataset',
       Frequency.NEVER,
-      RegionalCoverage.LAU_FI_005,
+      new Set([RegionalCoverage.LAU_FI_005]),
       Array.from(TOP_MOBILITY_THEMES)[0]!,
       'This is a test dataset description.'
     )
@@ -53,28 +98,16 @@ test.describe.serial('Add new dataset', () => {
     )
     firstDatasetName = newDatasetInfo.title;
 
-    await organizationView
-      .browseToNewDatasetPage()
-      .then(datasetView => datasetView.fillNewDatasetInfo(newDatasetInfo))
-      .then(datasetView => datasetView.saveDataset())
-      .then(async resourceView => {
-        await test.expect(resourceView.getPOM()).toBeInstanceOf(NewResourcePage)
-        const newResourceInfoWithDatasetId = newResourceInfo.cloneWith({
-          datasetId: resourceView.getPOM<NewResourcePage>().datasetId
-        })
-        return resourceView.fillNewResourceInfo(newResourceInfoWithDatasetId)
-      })
-      .then(resourceView => resourceView.saveResource())
-      .then(async datasetView => {
-        const datasetUrl = datasetView.getPage().url();
-        await test.expect(datasetView.getPOM()).toBeInstanceOf(DatasetPage)
-        await test.expect(datasetUrl).toMatch(/\/dataset\/[0-9a-fA-F-]+$/);
-      })
+    const result = await createDataset(
+      organizationEditor,
+      newDatasetInfo,
+      newResourceInfo
+    );
+
   })
 
   test('Add dataset with all info', async ({ users }) => {
     const organizationEditor = getKnownUserOrThrow(users, Identity.OrganizationEditor)
-    const organizationView = await OrganizationEditorView.of(organizationEditor)
 
     const topMobilityTheme = "https://w3id.org/mobilitydcat-ap/mobility-theme/dynamic-traffic-signs-and-regulations";
     if (firstDatasetName === undefined) {
@@ -84,7 +117,7 @@ test.describe.serial('Add new dataset', () => {
       'public',
       'Test Dataset Full Info',
       Frequency.DAILY,
-      RegionalCoverage.LAU_FI_005,
+      new Set([RegionalCoverage.LAU_FI_005, RegionalCoverage.LAU_FI_009]),
       topMobilityTheme,
       'This is a test dataset description with all fields.',
       undefined,
@@ -201,23 +234,11 @@ test.describe.serial('Add new dataset', () => {
       }
     )
 
-    await organizationView
-      .browseToNewDatasetPage()
-      .then(datasetView => datasetView.fillNewDatasetInfo(newDatasetInfo))
-      .then(datasetView => datasetView.saveDataset())
-      .then(async resourceView => {
-        await test.expect(resourceView.getPOM()).toBeInstanceOf(NewResourcePage)
-        const newResourceInfoWithDatasetId = newResourceInfo.cloneWith({
-          datasetId: resourceView.getPOM<NewResourcePage>().datasetId
-        })
-        return resourceView.fillNewResourceInfo(newResourceInfoWithDatasetId)
-      })
-      .then(resourceView => resourceView.saveResource())
-      .then(datasetView => {
-        const datasetUrl = datasetView.getPage().url();
-        test.expect(datasetView.getPOM()).toBeInstanceOf(DatasetPage)
-        test.expect(datasetUrl).toMatch(/\/dataset\/[0-9a-fA-F-]+$/);
-      })
+    const result = await createDataset(
+      organizationEditor,
+      newDatasetInfo,
+      newResourceInfo
+    );
   })
 
   test('View the created dataset', async ({ users }) => {
@@ -234,4 +255,29 @@ test.describe.serial('Add new dataset', () => {
         return datasetView.checkDatasetInfo(secondDatasetInfo!)
       }).then(datasetView => datasetView.checkRDFTurtleWorks())
   })
+
+  test('Edit dataset and verify all properties persist', async ({ users }) => {
+    const organizationEditor = getKnownUserOrThrow(users, Identity.OrganizationEditor);
+    const organizationView = await OrganizationEditorView.of(organizationEditor);
+
+    if (!secondDatasetInfo) {
+      throw new Error('Second dataset info is not set. Ensure the previous test has run successfully.');
+    }
+    if (!secondDatasetInfo.id) {
+      throw new Error('Dataset ID not set.');
+    }
+    await organizationView
+      .gotoDatasetEditPage(secondDatasetInfo.id)
+      .then(datasetView => {
+        return datasetView.saveDatasetChanges();
+      })
+
+    await organizationView.browseToDatasetPage(secondDatasetInfo.title).then(datasetView => {
+      secondDatasetInfo!.id = datasetView.getPOM<DatasetPage>().datasetId
+      return datasetView.checkDatasetInfo(secondDatasetInfo!)
+    })
+
+
+  });
+
 })

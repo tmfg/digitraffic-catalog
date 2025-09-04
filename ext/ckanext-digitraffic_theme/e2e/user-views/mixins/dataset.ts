@@ -1,11 +1,12 @@
-import {DatasetInfo} from "../../models/dataset-info";
-import {test} from "@playwright/test";
-import {NewDatasetPage, DatasetPage} from "../../page-object-models";
-import {gotoNewPage} from "../../page-object-models/util";
-import type {DatasetNavigationMixin, DatasetViewMixin, DatasetWriteMixin, ResourceWriteMixin,} from "./mixin-types";
-import {addMixinForUserView, MixinName, removeMixinFromUserView, setMixin} from "./mixins-controller";
-import {URL} from "../../page-object-models/pages-controller";
-import type {IUserView} from "../user-view-types";
+import { DatasetInfo } from "../../models/dataset-info";
+import { Page, test } from "@playwright/test";
+import { NewDatasetPage, DatasetPage } from "../../page-object-models";
+import { gotoNewPage } from "../../page-object-models/util";
+import type { DatasetNavigationMixin, DatasetViewMixin, DatasetWriteMixin, ResourceWriteMixin, } from "./mixin-types";
+import { addMixinForUserView, MixinName, removeMixinFromUserView, setMixin } from "./mixins-controller";
+import { URL } from "../../page-object-models/pages-controller";
+import type { IUserView } from "../user-view-types";
+import { EditDatasetPage } from "../../page-object-models/edit-dataset-page";
 
 
 /**
@@ -38,16 +39,42 @@ const datasetWriteMixin: DatasetWriteMixin = {
       return addMixinForUserView<ResourceWriteMixin, typeof datasetWriteRemovedUserView>(datasetWriteRemovedUserView, MixinName.ResourceWrite)
     });
   },
+
+  async saveDatasetChanges<T extends IUserView & DatasetWriteMixin, U extends IUserView & DatasetViewMixin>(this: T): Promise<U> {
+    // @ts-ignore
+    return await test.step(`Saving dataset changes as ${this.user.identity}`, async () => {
+      const pom = this.getAndValidatePOM<EditDatasetPage>(URL.EditDataset);
+      const datasetPage = await pom.saveDataset();
+      this.pom = datasetPage;
+      const datasetWriteRemovedUserView = removeMixinFromUserView<DatasetWriteMixin, typeof this>(this, MixinName.DatasetWrite)
+      return addMixinForUserView<DatasetViewMixin, typeof datasetWriteRemovedUserView>(datasetWriteRemovedUserView, MixinName.DatasetView)
+    });
+  },
 }
+
+
+
 
 const datasetNavigationMixin: DatasetNavigationMixin = {
   async gotoNewDatasetPage<T extends IUserView & DatasetNavigationMixin>(this: T) {
     const pom = this.getPOM()
 
-    await gotoNewPage(
+    this.pom = await gotoNewPage(
       pom.page,
       URL.NewDataset,
-      async (newDatasetPOM: NewDatasetPage) => {await newDatasetPOM.goto()}
+      async (newDatasetPOM: NewDatasetPage) => { await newDatasetPOM.goto() }
+    )
+    return addMixinForUserView<DatasetWriteMixin, typeof this>(this, MixinName.DatasetWrite)
+  },
+
+  async gotoDatasetEditPage<T extends IUserView & DatasetNavigationMixin>(this: T, datasetId: string) {
+    const pom = this.getPOM()
+
+    this.pom = await gotoNewPage(
+      pom.page,
+      URL.EditDataset,
+      async (datasetEditPOM: EditDatasetPage) => { await datasetEditPOM.goto() },
+      datasetId
     )
     return addMixinForUserView<DatasetWriteMixin, typeof this>(this, MixinName.DatasetWrite)
   },

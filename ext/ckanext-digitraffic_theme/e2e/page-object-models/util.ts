@@ -1,8 +1,8 @@
-import {BasePage, implementsJSLoadedInterface} from "./base";
-import {URL, getPom} from "./pages-controller"
-import {type Locator, type Page, test} from "@playwright/test";
-import {cancellableIsVisible, getForbiddenPageLocator, hideDevTools} from "../util";
-import {AuthorizationError} from "../models/error";
+import { BasePage, implementsJSLoadedInterface } from "./base";
+import { URL, getPom } from "./pages-controller"
+import { type Locator, type Page, test } from "@playwright/test";
+import { cancellableIsVisible, getForbiddenPageLocator, hideDevTools } from "../util";
+import { AuthorizationError } from "../models/error";
 
 export async function gotoNewPage<T extends BasePage>(
   page: Page,
@@ -11,6 +11,7 @@ export async function gotoNewPage<T extends BasePage>(
   ...pomParameters: unknown[]
 ): Promise<T> {
   const newPageConstructor = getPom(url)
+
   const newPagePOM = new newPageConstructor(page, ...pomParameters) as T
 
   await navigationFn(newPagePOM)
@@ -27,7 +28,7 @@ export async function gotoNewPage<T extends BasePage>(
       return pageVisibilityLocator.locators
     }))
 
-    await Promise.all(possiblePages.map(({cancel}) => cancel()))
+    await Promise.all(possiblePages.map(({ cancel }) => cancel()))
 
     if (visiblePageLocator === forbiddenPageLocator) {
       throw new AuthorizationError("User is not authorized to access page")
@@ -56,10 +57,10 @@ export function urlify(text: string) {
 }
 
 export function dateToDateAndTimeString(date: Date): { date: string, time: string } {
-  const tzTimestampString = new Date(date.getTime()).toISOString().slice(0,-1);
+  const tzTimestampString = new Date(date.getTime()).toISOString().slice(0, -1);
   const dateString = tzTimestampString.split('T')[0]!;
   const timeString = tzTimestampString.split('T')[1]!.substring(0, 5);
-  return {date: dateString, time: timeString};
+  return { date: dateString, time: timeString };
 }
 
 export async function getNewestRepeatingFieldGroupIndex(groupLocator: Locator): Promise<number> {

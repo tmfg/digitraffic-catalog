@@ -4,7 +4,7 @@ import { setPom, URL } from "./pages-controller";
 import { pathParameterURL, urlify } from "./util";
 import { DatasetInfo, type Visibility, type OptionalDatasetInfoValues, type ContactPoint, type RightsHolder, type Assessment } from "../models/dataset-info";
 import { labelToFrequency } from "../../src/ts/model/frequency";
-import { labelToRegionalCoverage } from "../../src/ts/model/regional-coverage";
+import { labelToRegionalCoverage, RegionalCoverage } from "../../src/ts/model/regional-coverage";
 import {
   labelToMobilityTheme,
   type SUB_MOBILITY_THEMES_T,
@@ -186,7 +186,6 @@ export class DatasetPage extends BasePage {
       const visibilityValue = await this.getVisibility();
       const titleValue = await getTextContent(this.title, 'title');
       const frequencyValue = labelToFrequency(await getTextContent(this.frequency, 'frequency'));
-      const regionalCoverageValue = labelToRegionalCoverage(await getTextContent(this.regionalCoverage, 'regionalCoverage'));
       const dataContentCategoryValue = labelToMobilityTheme(await getTextContent(this.dataContentCategory, 'dataContentCategory')) as TOP_MOBILITY_THEMES_T;
 
       const descriptionValue = await getTextContent(this.description, 'description');
@@ -256,6 +255,13 @@ export class DatasetPage extends BasePage {
         optionalValues.transportMode = modesAsString
       } else {
         optionalValues.transportMode = [];
+      }
+
+      const regionalCoverageLabels = await getTextContent(this.regionalCoverage, 'regionalCoverage');
+      const regionalCoverageValues = new Set<RegionalCoverage>();
+      if (regionalCoverageLabels) {
+        const values = regionalCoverageLabels.split(/(?=[A-Z])/).map(item => item.trim()).map(string => labelToRegionalCoverage(string));
+        values.forEach(value => regionalCoverageValues.add(value));
       }
 
       const finnishObjectToContactPoint = (finnishContactPoint: Record<string, any>): ContactPoint => {
@@ -333,7 +339,7 @@ export class DatasetPage extends BasePage {
         visibilityValue,
         titleValue,
         frequencyValue,
-        regionalCoverageValue,
+        regionalCoverageValues,
         dataContentCategoryValue,
         descriptionValue,
         this.datasetId,
