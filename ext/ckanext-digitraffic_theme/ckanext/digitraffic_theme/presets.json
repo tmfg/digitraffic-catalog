@@ -6,7 +6,7 @@
       "preset_name": "url",
       "values": {
         "form_snippet": "url_input.html",
-        "validators": "scheming_required unicode_safe remove_whitespace ignore_missing url_validator"
+        "validators": "scheming_required unicode_safe remove_whitespace ignore_missing url_validator url_error_message_formatting"
       }
     },
     {

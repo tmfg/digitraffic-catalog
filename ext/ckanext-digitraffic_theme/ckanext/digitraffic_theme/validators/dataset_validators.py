@@ -109,7 +109,7 @@ def spatial_reference_validator(value: Any, context: Context):
             value_with_prefix = str(SpatialReference.namespace[value])
             if SpatialReference.is_known_iri(value_with_prefix):
                 return value_with_prefix
-            raise toolkit.Invalid(_("Given spatial reference is not supported"))
+            raise toolkit.Invalid(_("Provide a valid EPSG number between 2000 and 69036405"))
     return value
 
 
