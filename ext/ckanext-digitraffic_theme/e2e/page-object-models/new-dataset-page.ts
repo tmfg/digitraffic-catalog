@@ -12,6 +12,7 @@ import {
 import { dateToDateAndTimeString, getNewestRepeatingFieldGroupIndex, getRepeatingFieldGropField, gotoNewPage } from "./util";
 import { NewResourcePage } from "./new-resource-page";
 import { transportModeLabels } from "../../src/ts/model/transport-mode";
+import { regionalCoverageLabels } from "../../src/ts/model/regional-coverage";
 
 export class NewDatasetPage extends BasePage implements JSLoadedInterface<NewDatasetPage> {
   readonly visibilityFields: Locator
@@ -56,7 +57,7 @@ export class NewDatasetPage extends BasePage implements JSLoadedInterface<NewDat
     this.visibilityFieldPrivate = this.visibilityFields.getByLabel('Yksityinen');
     this.titleField = page.getByLabel('Nimike englanniksi')
     this.frequencyField = page.getByLabel('* Päivitysten tiheys');
-    this.regionalCoverageField = page.getByLabel('Alueellinen kattavuus');
+    this.regionalCoverageField = page.locator('#field-spatial').getByRole('combobox');
     this.dataContentCategoryField = page.getByLabel('* Kategoria');
     this.descriptionField = page.getByLabel('Kuvaus englanniksi');
     this.saveButton = page.getByRole('button', { name: 'Seuraava: Lisää dataa' });
@@ -134,7 +135,9 @@ export class NewDatasetPage extends BasePage implements JSLoadedInterface<NewDat
     }
     await this.titleField.fill(datasetInfo.title)
     await this.frequencyField.selectOption(datasetInfo.frequency)
-    await this.regionalCoverageField.selectOption(datasetInfo.regionalCoverage)
+    for (const iri of datasetInfo.regionalCoverage) {
+      await this.addRegionalCoverage(regionalCoverageLabels[iri]);
+    }
     await this.dataContentCategoryField.selectOption(datasetInfo.dataContentCategory)
     await this.descriptionField.fill(datasetInfo.description)
     if (datasetInfo.optionalValues?.dataContentSubCategory) {
@@ -310,6 +313,14 @@ export class NewDatasetPage extends BasePage implements JSLoadedInterface<NewDat
     await transportModeOption.click();
     await this.transportModeField.click();
   }
+
+  async addRegionalCoverage(location: string): Promise<void> {
+    await this.regionalCoverageField.click();
+    const locationOption = await this.generallInformationGroup.locator("span.label").filter({ hasText: new RegExp(`^${location}$`) })
+    await locationOption.click();
+    await this.regionalCoverageField.click();
+  }
+
 
   async setDatasetInfo(datasetInfo: DatasetInfo): Promise<NewResourcePage> {
     await this.fillForm(datasetInfo);

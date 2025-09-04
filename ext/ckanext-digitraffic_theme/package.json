@@ -13,7 +13,7 @@
     "e2e-codegen": "playwright codegen"
   },
   "dependencies": {
-    "@fintraffic/fds-coreui-components": "github:fintraffic-design/fds-coreui-components#cec2833f42ccd09ee52d4f1aa9b4eda45dce6c37",
+    "@fintraffic/fds-coreui-components": "github:fintraffic-design/fds-coreui-components#d1b835d0a6be1c83c7e74a91dfbcf43f5f39285e",
     "@fintraffic/fds-coreui-css": "^0.1.3",
     "lucide": "^0.477.0",
     "lucide-static": "^0.477.0"
