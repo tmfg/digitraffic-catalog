@@ -37,7 +37,7 @@ def create_dataset(org: Organization):
             if len(sub_themes) > 0
         ][0]
     )
-    dataset_spatial = list(Location.get_iris())[0]
+    dataset_spatial = [list(Location.get_iris())[0]]
 
     dataset = factories.Dataset(
         owner_org=org["id"],
@@ -95,7 +95,7 @@ class TestDatasetValidators:
     def test_location_validator(self):
         self.vocabulary_test(
             field_name="spatial",
-            valid_value=list(Location.get_iris())[0],
+            valid_value=[list(Location.get_iris())[0]],
             invalid_value="suomi",
             match_message="does not belong to",
         )
@@ -103,7 +103,7 @@ class TestDatasetValidators:
     def test_transport_mode_validator(self):
         self.vocabulary_test(
             field_name="transport_mode",
-            valid_value=list(TransportMode.get_iris())[0],
+            valid_value=[list(TransportMode.get_iris())[0]],
             invalid_value="car",
             match_message="does not belong to",
         )
@@ -165,27 +165,30 @@ class TestDatasetValidators:
                 "contact_point_type": "http://www.w3.org/2006/vcard/ns#Organization",
                 "has_email": "foo@example.com",
                 "fn": "Foo Bar",
-                "country_name": "http://publications.europa.eu/resource/authority/country/FIN"
+                "country_name": "http://publications.europa.eu/resource/authority/country/FIN",
             }
         ]
         dataset["rights_holder"] = [
             {
                 "type": "http://purl.org/adms/publishertype/Company",
                 "name": "Bar Foo",
-                "admin_unit_l1": "http://publications.europa.eu/resource/authority/country/ESP"
+                "admin_unit_l1": "http://publications.europa.eu/resource/authority/country/ESP",
             }
         ]
         helpers.call_action("package_update", **dataset)
 
         updated_dataset = helpers.call_action("package_show", id=dataset["id"])
-        assert (
-            updated_dataset["contact_point"][0]
-            == {"contact_point_type": "http://www.w3.org/2006/vcard/ns#Organization", "country_name": "http://publications.europa.eu/resource/authority/country/FIN", "has_email": "foo@example.com", "fn": "Foo Bar"}
-        )
-        assert (
-            updated_dataset["rights_holder"][0]
-            == {"type": "http://purl.org/adms/publishertype/Company", "admin_unit_l1": "http://publications.europa.eu/resource/authority/country/ESP", "name": "Bar Foo"}
-        )
+        assert updated_dataset["contact_point"][0] == {
+            "contact_point_type": "http://www.w3.org/2006/vcard/ns#Organization",
+            "country_name": "http://publications.europa.eu/resource/authority/country/FIN",
+            "has_email": "foo@example.com",
+            "fn": "Foo Bar",
+        }
+        assert updated_dataset["rights_holder"][0] == {
+            "type": "http://purl.org/adms/publishertype/Company",
+            "admin_unit_l1": "http://publications.europa.eu/resource/authority/country/ESP",
+            "name": "Bar Foo",
+        }
 
         dataset["contact_point"] = [{"country_name": "phrygia"}]
         dataset["rights_holder"] = [{"admin_unit_l1": "persia"}]
@@ -287,7 +290,10 @@ class TestDatasetValidators:
         updated_dataset_3 = helpers.call_action("package_show", id=dataset_3["id"])
 
         # Check that related_resource is set correctly
-        assert set(updated_dataset_1.get("related_resource", [])) == {dataset_2["id"], dataset_3["id"]}
+        assert set(updated_dataset_1.get("related_resource", [])) == {
+            dataset_2["id"],
+            dataset_3["id"],
+        }
         # Check that is_referenced_by is set correctly
         assert dataset_1["id"] in updated_dataset_2.get("is_referenced_by", [])
         assert dataset_1["id"] in updated_dataset_3.get("is_referenced_by", [])
