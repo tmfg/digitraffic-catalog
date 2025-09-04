@@ -62,7 +62,10 @@ def sort_location(field: Dict[str, Any]):
 def sort_dropdowns(schemas: List[Dict[str, Any]]):
     for schema in schemas:
         # sort here fields needing a specific order of choices
-        if schema.get("preset", "") == "select":
+        if (
+            schema.get("preset", "") == "select"
+            or schema.get("preset", "") == "multi_select"
+        ):
             if schema.get("field_name") == "spatial":
                 schema["choices"].sort(key=sort_location)
             else:
@@ -130,13 +133,20 @@ def modifications_to_dataset_spec(dataset_fields: List[Dict[str, Any]]):
     rights_holder_type_subfield["form_include_blank_choice"] = False
     rights_holder_type_subfield["necessity"] = Necessity.MANDATORY.value
     rights_holder_type_subfield["required"] = True
-    rights_holder_type_subfield["default"] = "http://purl.org/adms/publishertype/Company"
-    rights_holder_member_of = list(filter(lambda x: x.get("field_name") == "member_of", rights_holder["repeating_subfields"]))[0]
-    del rights_holder_member_of['repeating_subfields']
+    rights_holder_type_subfield["default"] = (
+        "http://purl.org/adms/publishertype/Company"
+    )
+    rights_holder_member_of = list(
+        filter(
+            lambda x: x.get("field_name") == "member_of",
+            rights_holder["repeating_subfields"],
+        )
+    )[0]
+    del rights_holder_member_of["repeating_subfields"]
     if ORG.memberOf not in Agent.optional_properties:
         raise Exception("ORG.memberOf should be in Agent.optional_properties")
-    rights_holder_member_of['necessity'] = Necessity.OPTIONAL.value
-    rights_holder_member_of['required'] = False
+    rights_holder_member_of["necessity"] = Necessity.OPTIONAL.value
+    rights_holder_member_of["required"] = False
 
 
 def sort_dataset_fields(dataset_fields: List[Dict[str, Any]]):
