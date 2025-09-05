@@ -1016,7 +1016,7 @@ dataset_fields:
     fi: Liikennemuoto
     sv: Transportsätt
   required: false
-  preset: select
+  preset: multi_select
   sorted_choices: true
   form_include_blank_choice: true
   choices:
@@ -1140,7 +1140,8 @@ dataset_fields:
       en: Truck
       fi: Kuorma-auto
       sv: Lastbil
-  validators: scheming_required transport_mode_validator
+  validators: scheming_required value_to_list transport_mode_validator
+  output_validators: transport_mode_validator
   necessity: recommended
 - field_name: spatial
   label:
@@ -1148,7 +1149,7 @@ dataset_fields:
     fi: Alueellinen kattavuus
     sv: Regional täckning
   required: true
-  preset: select
+  preset: multi_select
   form_include_blank_choice: true
   choices:
   - value: http://data.europa.eu/nuts/code/FI
@@ -2851,7 +2852,8 @@ dataset_fields:
       en: Äänekoski
       fi: Äänekoski
       sv: Äänekoski
-  validators: scheming_required location_validator
+  validators: scheming_required value_to_list location_validator
+  output_validators: location_validator
   necessity: mandatory
 - field_name: version
   label:

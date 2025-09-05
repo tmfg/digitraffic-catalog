@@ -18,7 +18,9 @@ from ckanext.digitraffic_theme.model.mobility_theme import (
 )
 from ckanext.digitraffic_theme.model.spatial_reference import SpatialReference
 from ckanext.digitraffic_theme.model.frequency import Frequency
-from ckanext.digitraffic_theme.model.schema_choice_vocabulary import SchemaChoiceVocabulary
+from ckanext.digitraffic_theme.model.schema_choice_vocabulary import (
+    SchemaChoiceVocabulary,
+)
 from ckanext.digitraffic_theme.model.transport_mode import TransportMode
 from ckanext.digitraffic_theme.model.theme import Theme
 from ckanext.digitraffic_theme.model.location import Location
@@ -76,18 +78,26 @@ def phone_number_validator(value: Any, context: Context):
 
 
 def vocabulary_validator(value: Any, _class: type):
+    def iris_are_valid(iri_or_iris: Any, _class: type) -> bool:
+        values = iri_or_iris if isinstance(iri_or_iris, (list, set)) else [iri_or_iris]
+        return all(_class.is_known_iri(iri) for iri in values)
+
     if value:
-        if issubclass(_class, SchemaChoiceVocabulary) and _class.is_known_iri(value):
+        if issubclass(_class, SchemaChoiceVocabulary) and iris_are_valid(value, _class):
             return value
         else:
-            schema = scheming_get_dataset_schema('dataset')
-            field = scheming_field_by_name(schema['resource_fields'], 'mobility_data_standard')
-            logger.info(_("{value} does not belong to {namespace}").format(
-                value=value, namespace=_class.namespace
-            ))
+            schema = scheming_get_dataset_schema("dataset")
+            field = scheming_field_by_name(
+                schema["resource_fields"], "mobility_data_standard"
+            )
+            logger.info(
+                _("{value} of type {type} does not belong to {namespace}").format(
+                    value=value, type=type(value), namespace=_class.namespace
+                )
+            )
             raise toolkit.Invalid(
                 _("Provided value does not belong to {namespace}").format(
-                    namespace=field['label']['fi']
+                    namespace=field["label"]["fi"], value=value, type=type(value)
                 )
             )
     return value
@@ -99,39 +109,44 @@ def spatial_reference_validator(value: Any, context: Context):
             value_with_prefix = str(SpatialReference.namespace[value])
             if SpatialReference.is_known_iri(value_with_prefix):
                 return value_with_prefix
-            raise toolkit.Invalid(_("Provide a valid EPSG number between 2000 and 69036405"))
+            raise toolkit.Invalid(
+                _("Provide a valid EPSG number between 2000 and 69036405")
+            )
     return value
+
 
 ValueType = TypeVar("ValueType")
 
-def multiple_values_converter(validator: Callable[[Type[ValueType], ...], Any], value: list[Type[ValueType]] | str, *args, **kwargs):
+
+def multiple_values_converter(
+    validator: Callable[[Type[ValueType], ...], Any],
+    value: list[Type[ValueType]] | str,
+    *args,
+    **kwargs
+):
     if not value:
         return value
+
     def json_to_list(value: str) -> list[Type[ValueType]]:
         if isinstance(value, str):
             # If the value is a string, assume it to be a JSON list
             try:
                 value = json.loads(value)
-                return [
-                    validator(item, *args, **kwargs)
-                    for item
-                    in value
-                ]
+                return [validator(item, *args, **kwargs) for item in value]
             except json.JSONDecodeError:
                 raise toolkit.Invalid(_("Value must be a JSON list"))
         raise toolkit.Invalid(_("Value must be a JSON list"))
+
     def list_to_json(value: list[Type[ValueType]]) -> str:
-        return json.dumps([
-            validator(item, *args, **kwargs)
-            for item
-            in value
-        ])
+        return json.dumps([validator(item, *args, **kwargs) for item in value])
+
     # determine which converter to use and call it
     if isinstance(value, str):
         return json_to_list(value)
     if isinstance(value, list):
         return list_to_json(value)
     raise toolkit.Invalid(_("Value must either be a JSON list (str) or a list"))
+
 
 def value_to_list(value: Any):
     if isinstance(value, list):
@@ -142,12 +157,16 @@ def value_to_list(value: Any):
         return ""
     return [value]
 
+
 def frequency_validator(value: Any, context: Context):
-    return vocabulary_validator(value,Frequency)
+    return vocabulary_validator(value, Frequency)
 
 
 def transport_mode_validator(value: Any, context: Context):
-    return vocabulary_validator(value, TransportMode)
+    def validator(val, *args):
+        return vocabulary_validator(val, TransportMode)
+
+    return multiple_values_converter(validator, value, context)
 
 
 def theme_validator(value: Any, context: Context):
@@ -155,7 +174,10 @@ def theme_validator(value: Any, context: Context):
 
 
 def location_validator(value: Any, context: Context):
-    return vocabulary_validator(value, Location)
+    def validator(val, *args):
+        return vocabulary_validator(val, Location)
+
+    return multiple_values_converter(validator, value, context)
 
 
 def language_validator(value: Any, context: Context):
@@ -177,6 +199,7 @@ def intended_information_service_validator(value: Any, context: Context):
 def country_validator(value: Any, context: Context):
     return vocabulary_validator(value, Country)
 
+
 def single_is_referenced_by_validator(value: str, context: Context):
     return value
 
@@ -194,6 +217,7 @@ def is_referenced_by_validator(value: Any, context: Context):
         value = package_details.get("is_referenced_by", None)
     return multiple_values_converter(single_is_referenced_by_validator, value, context)
 
+
 def related_resource_validator(value: str, context: Context):
     """
     Validate a related resource.
@@ -206,7 +230,9 @@ def related_resource_validator(value: str, context: Context):
         raise toolkit.Invalid(_("Session is required for related resource validation."))
     if not value:
         raise toolkit.Invalid(_("Related resource id cannot be empty."))
-    if not session.query(exists().select_from(Package).where(Package.id == value)).scalar():
+    if not session.query(
+        exists().select_from(Package).where(Package.id == value)
+    ).scalar():
         raise toolkit.Invalid(
             _(
                 "Related resource with id {value} does not exist or is not a valid dataset."

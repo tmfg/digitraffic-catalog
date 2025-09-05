@@ -4,7 +4,11 @@ from typing import Any, Dict
 from rdflib import URIRef, Literal
 from datetime import datetime
 
-from ckanext.dcat.utils import publisher_uri_organization_fallback, resource_uri, catalog_uri
+from ckanext.dcat.utils import (
+    publisher_uri_organization_fallback,
+    resource_uri,
+    catalog_uri,
+)
 from ckanext.digitraffic_theme.model.address import VCARDAddress, LOCNAddress
 from ckanext.digitraffic_theme.model.agent_type import AgentType
 from ckanext.digitraffic_theme.model.agent import Agent
@@ -239,7 +243,15 @@ class MobilityData:
 
             def data_service_ref(service_endpoint_url: str) -> URIRef:
                 ref_base = catalog_uri().rstrip("/") + "/"
-                unique_service_name = re.sub(r'-+', '-', re.sub(r'[^a-zA-Z0-9]', '-', service_endpoint_url.split("?")[0].rstrip("/")))
+                unique_service_name = re.sub(
+                    r"-+",
+                    "-",
+                    re.sub(
+                        r"[^a-zA-Z0-9]",
+                        "-",
+                        service_endpoint_url.split("?")[0].rstrip("/"),
+                    ),
+                )
                 return URIRef(f"{ref_base}data-service/{unique_service_name}")
 
             temporal = (
@@ -274,7 +286,9 @@ class MobilityData:
             access_service = (
                 {
                     "access_service": DataService(
-                        data_service_ref(dist["data_service"][0]["data_service_endpoint_url"]),
+                        data_service_ref(
+                            dist["data_service"][0]["data_service_endpoint_url"]
+                        ),
                         {
                             **(dist["data_service"][0]),
                             "access_rights": RightsStatement(None, dist["rights_type"]),
@@ -368,7 +382,7 @@ class MobilityData:
                     ),
                     "sample": URIRef(dist["sample"]) if dist.get("sample") else None,
                     **temporal,
-                    **access_service
+                    **access_service,
                 },
             )
 
@@ -407,10 +421,16 @@ class MobilityData:
             {"theme": Theme(dataset_dict["theme"])} if dataset_dict.get("theme") else {}
         )
         transport_mode = (
-            {"transport_mode": TransportMode(dataset_dict["transport_mode"])}
+            {
+                "transport_mode": [
+                    TransportMode(entry) for entry in dataset_dict["transport_mode"]
+                ]
+            }
             if dataset_dict.get("transport_mode")
             else {}
         )
+
+        spatial = {"spatial": [Location(entry) for entry in dataset_dict["spatial"]]}
 
         def maybe_many(value, model):
             if isinstance(value, list):
@@ -429,7 +449,6 @@ class MobilityData:
                 "distribution": distribution,
                 "accrualPeriodicity": maybe_many(dataset_dict["frequency"], Frequency),
                 "mobility_theme": MobilityTheme(dataset_dict["mobility_theme"]),
-                "spatial": Location(dataset_dict["spatial"]),
                 "title": [
                     Literal(
                         dataset_dict.get("title_translated", {}).get(key, ""), lang=key
@@ -490,6 +509,7 @@ class MobilityData:
                 **temporal,
                 **theme,
                 **transport_mode,
+                **spatial,
             },
         )
 
