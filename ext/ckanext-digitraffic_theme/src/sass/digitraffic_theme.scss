@@ -8,6 +8,12 @@
 @import '@fintraffic/fds-coreui-css/src/scss/tokens';
 @import '@fintraffic/fds-coreui-css/src/scss/variables';
 
+
+// Bootstrap Icons (MIT License) - https://icons.getbootstrap.com/
+// The font files are included from the bootstrap-icons npm package
+$bootstrap-icons-font-dir: "/fonts/";
+@import 'bootstrap-icons/font/bootstrap-icons';
+
 @import 'tokens';
 
 @import 'variables';
