@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@fintraffic/fds-coreui-components':
-        specifier: github:fintraffic-design/fds-coreui-components#cec2833f42ccd09ee52d4f1aa9b4eda45dce6c37
-        version: https://codeload.github.com/fintraffic-design/fds-coreui-components/tar.gz/cec2833f42ccd09ee52d4f1aa9b4eda45dce6c37
+        specifier: github:fintraffic-design/fds-coreui-components#d1b835d0a6be1c83c7e74a91dfbcf43f5f39285e
+        version: https://codeload.github.com/fintraffic-design/fds-coreui-components/tar.gz/d1b835d0a6be1c83c7e74a91dfbcf43f5f39285e
       '@fintraffic/fds-coreui-css':
         specifier: ^0.1.3
         version: 0.1.3
@@ -78,8 +78,8 @@ importers:
 
 packages:
 
-  '@fintraffic/fds-coreui-components@https://codeload.github.com/fintraffic-design/fds-coreui-components/tar.gz/cec2833f42ccd09ee52d4f1aa9b4eda45dce6c37':
-    resolution: {tarball: https://codeload.github.com/fintraffic-design/fds-coreui-components/tar.gz/cec2833f42ccd09ee52d4f1aa9b4eda45dce6c37}
+  '@fintraffic/fds-coreui-components@https://codeload.github.com/fintraffic-design/fds-coreui-components/tar.gz/d1b835d0a6be1c83c7e74a91dfbcf43f5f39285e':
+    resolution: {tarball: https://codeload.github.com/fintraffic-design/fds-coreui-components/tar.gz/d1b835d0a6be1c83c7e74a91dfbcf43f5f39285e}
     version: 0.2.0
 
   '@fintraffic/fds-coreui-css@0.1.3':
@@ -1205,7 +1205,7 @@ packages:
 
 snapshots:
 
-  '@fintraffic/fds-coreui-components@https://codeload.github.com/fintraffic-design/fds-coreui-components/tar.gz/cec2833f42ccd09ee52d4f1aa9b4eda45dce6c37':
+  '@fintraffic/fds-coreui-components@https://codeload.github.com/fintraffic-design/fds-coreui-components/tar.gz/d1b835d0a6be1c83c7e74a91dfbcf43f5f39285e':
     dependencies:
       '@fintraffic/fds-coreui-css': 0.1.3
       '@popperjs/core': 2.11.8

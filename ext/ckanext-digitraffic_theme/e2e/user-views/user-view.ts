@@ -1,14 +1,14 @@
-import {BasePage} from "../page-object-models/base";
-import {KnownUser} from "../users/known-user";
-import {URL} from "../page-object-models/pages-controller";
-import {UnexpectedPageError} from "../models/error";
-import {gotoNewPage} from "../page-object-models/util";
-import {EditUserPage, HomePage, OrganizationPage, OrganizationsListPage} from "../page-object-models";
-import {Organization} from "../models/organization";
-import {type Page, test} from "@playwright/test";
-import type {IUserView} from "./user-view-types"
-import {addMixinForUserView, MixinName} from "./mixins/mixins-controller";
-import {type DatasetViewMixin} from "./mixins/mixin-types";
+import { BasePage } from "../page-object-models/base";
+import { KnownUser } from "../users/known-user";
+import { URL } from "../page-object-models/pages-controller";
+import { UnexpectedPageError } from "../models/error";
+import { gotoNewPage } from "../page-object-models/util";
+import { EditUserPage, HomePage, OrganizationPage, OrganizationsListPage } from "../page-object-models";
+import { Organization } from "../models/organization";
+import { type Page, test } from "@playwright/test";
+import type { IUserView } from "./user-view-types"
+import { addMixinForUserView, MixinName } from "./mixins/mixins-controller";
+import { type DatasetViewMixin } from "./mixins/mixin-types";
 
 export class UserView implements IUserView {
   readonly user: KnownUser
@@ -93,20 +93,19 @@ export class UserView implements IUserView {
     const pomUrl = pom.page.url()
     const urlPathRegexPattern = url.replace(/\{[^}]+\}/g, '([^/]+)')
     const regex = new RegExp(`^https?://([^/]+)${urlPathRegexPattern}$`)
-
     if (regex.test(pomUrl)) {
       return pom
     } else {
       throw new UnexpectedPageError(url, pomUrl)
     }
   }
-  getPOM<T extends BasePage>():T {
+  getPOM<T extends BasePage>(): T {
     return this.pom as T
   }
-  getPage():Page {
+  getPage(): Page {
     return this.pom.page
   }
-  getUser():KnownUser {
+  getUser(): KnownUser {
     return this.user
   }
 }

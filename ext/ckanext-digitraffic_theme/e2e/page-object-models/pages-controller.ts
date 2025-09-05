@@ -1,4 +1,4 @@
-import type {Page} from "@playwright/test"
+import type { Page } from "@playwright/test"
 
 export enum URL {
   Home = '/',
@@ -13,6 +13,7 @@ export enum URL {
   DatasetsList = '/dataset',
   Dataset = '/dataset/{datasetId}',
   NewDataset = '/dataset/new',
+  EditDataset = '/dataset/edit/{datasetId}',
   NewResource = '/dataset/{datasetId}/resource/new',
 }
 export interface POMConstructor {

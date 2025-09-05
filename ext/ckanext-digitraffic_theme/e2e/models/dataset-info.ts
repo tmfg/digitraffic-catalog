@@ -1,12 +1,12 @@
-import {type Frequency} from "../../src/ts/model/frequency"
-import type {RegionalCoverage} from "../../src/ts/model/regional-coverage";
-import type {Theme} from "../../src/ts/model/theme";
-import type {TransportMode} from "../../src/ts/model/transport-mode";
-import type {TOP_MOBILITY_THEMES_T, SUB_MOBILITY_THEMES_T} from "../../src/ts/model/mobility-theme";
-import type {Language} from "../../src/ts/model/language";
-import type {GeoreferencingMethod} from "../../src/ts/model/georeferencing-method";
-import type {NetworkCoverage} from "../../src/ts/model/network-coverage";
-import type {IntendedInformationService} from "../../src/ts/model/intended-information-service";
+import { type Frequency } from "../../src/ts/model/frequency"
+import type { RegionalCoverage } from "../../src/ts/model/regional-coverage";
+import type { Theme } from "../../src/ts/model/theme";
+import type { TransportMode } from "../../src/ts/model/transport-mode";
+import type { TOP_MOBILITY_THEMES_T, SUB_MOBILITY_THEMES_T } from "../../src/ts/model/mobility-theme";
+import type { Language } from "../../src/ts/model/language";
+import type { GeoreferencingMethod } from "../../src/ts/model/georeferencing-method";
+import type { NetworkCoverage } from "../../src/ts/model/network-coverage";
+import type { IntendedInformationService } from "../../src/ts/model/intended-information-service";
 
 export type Visibility = 'public' | 'private';
 
@@ -33,7 +33,7 @@ export interface PersonContactPoint extends ContactPoint {
 }
 
 export function isPersonContactPoint(contactPoint: ContactPoint): contactPoint is PersonContactPoint {
-    return contactPoint.type === 'http://www.w3.org/2006/vcard/ns#Individual';
+  return contactPoint.type === 'http://www.w3.org/2006/vcard/ns#Individual';
 }
 
 export interface RightsHolder {
@@ -61,7 +61,7 @@ export interface PersonRightsHolder extends RightsHolder {
 }
 
 export function isPersonRightsHolder(rightsHolder: RightsHolder): rightsHolder is PersonRightsHolder {
-    return rightsHolder.type === 'http://purl.org/adms/publishertype/PrivateIndividual(s)';
+  return rightsHolder.type === 'http://purl.org/adms/publishertype/PrivateIndividual(s)';
 }
 
 export type Assessment = {
@@ -72,7 +72,7 @@ export type Assessment = {
 export type OptionalDatasetInfoValues = {
   dataContentSubCategory?: SUB_MOBILITY_THEMES_T,
   theme?: Theme,
-  transportMode?: TransportMode,
+  transportMode?: TransportMode[],
   startTimestamp?: Date,
   endTimestamp?: Date,
   ianaTimezone?: 'Europe/Helsinki' | 'UTC',
@@ -96,7 +96,7 @@ export class DatasetInfo {
   visibility: Visibility;
   title: string;
   frequency: Frequency;
-  regionalCoverage: RegionalCoverage;
+  regionalCoverage: Set<RegionalCoverage>;
   dataContentCategory: TOP_MOBILITY_THEMES_T;
   description: string;
   optionalValues?: OptionalDatasetInfoValues;
@@ -105,7 +105,7 @@ export class DatasetInfo {
     visibility: Visibility,
     title: string,
     frequency: Frequency,
-    regionalCoverage: RegionalCoverage,
+    regionalCoverage: Set<RegionalCoverage>,
     dataContentCategory: TOP_MOBILITY_THEMES_T,
     description: string,
     id?: string,
@@ -125,7 +125,7 @@ export class DatasetInfo {
     return new DatasetInfo(
       partialDatasetInfo.visibility ?? this.visibility,
       partialDatasetInfo.title ?? this.title,
-      partialDatasetInfo.frequency?? this.frequency,
+      partialDatasetInfo.frequency ?? this.frequency,
       partialDatasetInfo.regionalCoverage ?? this.regionalCoverage,
       partialDatasetInfo.dataContentCategory ?? this.dataContentCategory,
       partialDatasetInfo.description ?? this.description,

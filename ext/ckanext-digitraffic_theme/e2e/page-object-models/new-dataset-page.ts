@@ -11,6 +11,8 @@ import {
 } from '../models/dataset-info';
 import { dateToDateAndTimeString, getNewestRepeatingFieldGroupIndex, getRepeatingFieldGropField, gotoNewPage } from "./util";
 import { NewResourcePage } from "./new-resource-page";
+import { transportModeLabels } from "../../src/ts/model/transport-mode";
+import { regionalCoverageLabels } from "../../src/ts/model/regional-coverage";
 
 export class NewDatasetPage extends BasePage implements JSLoadedInterface<NewDatasetPage> {
   readonly visibilityFields: Locator
@@ -30,6 +32,7 @@ export class NewDatasetPage extends BasePage implements JSLoadedInterface<NewDat
   readonly endDateField: Locator
   readonly endTimeField: Locator
   readonly additionalInformationGroup: Locator
+  readonly generallInformationGroup: Locator
   readonly ianaTimezoneField: Locator
   readonly addContactPointButton: Locator
   readonly versionField: Locator
@@ -54,13 +57,13 @@ export class NewDatasetPage extends BasePage implements JSLoadedInterface<NewDat
     this.visibilityFieldPrivate = this.visibilityFields.getByLabel('Yksityinen');
     this.titleField = page.getByLabel('Nimike englanniksi')
     this.frequencyField = page.getByLabel('* Päivitysten tiheys');
-    this.regionalCoverageField = page.getByLabel('Alueellinen kattavuus');
+    this.regionalCoverageField = page.locator('#field-spatial').getByRole('combobox');
     this.dataContentCategoryField = page.getByLabel('* Kategoria');
     this.descriptionField = page.getByLabel('Kuvaus englanniksi');
     this.saveButton = page.getByRole('button', { name: 'Seuraava: Lisää dataa' });
     this.dataContentSubCategoryField = page.getByLabel('Alakategoria');
     this.themeField = page.getByLabel('Aihe');
-    this.transportModeField = page.getByLabel('Liikennemuoto');
+    this.transportModeField = page.locator('#field-transport_mode').getByRole('combobox');
     this.startDateField = page.getByLabel('Alkamisaika');
     this.startTimeField = page.locator('.datetime-row', { has: this.startDateField }).getByLabel('Kellonaika');
     this.endDateField = page.getByLabel('Päättymisaika');
@@ -69,6 +72,9 @@ export class NewDatasetPage extends BasePage implements JSLoadedInterface<NewDat
     this.additionalInformationGroup = page.locator(
       '.field-group',
       { has: page.getByRole('heading', { name: 'Lisätiedot' }) })
+    this.generallInformationGroup = page.locator(
+      '.field-group',
+      { has: page.getByRole('heading', { name: 'Yleiset' }) })
     this.contactPointGroup = page.locator('.field-group')
       .filter({ has: page.getByRole('heading', { name: 'Yhteyspisteet' }) })
     this.addContactPointButton = this.contactPointGroup.getByRole('link', { name: 'Lisää' });
@@ -110,7 +116,12 @@ export class NewDatasetPage extends BasePage implements JSLoadedInterface<NewDat
       return customElements.get("fds-dropdown") !== undefined;
     });
 
-    await this.page.locator("fds-dropdown").waitFor({ state: "attached" });
+    const count = await this.page.locator("fds-dropdown").count();
+    await Promise.all(
+      Array.from({ length: count }, (_, i) =>
+        this.page.locator("fds-dropdown").nth(i).waitFor({ state: "attached" })
+      )
+    );
 
     return this as unknown as NewDatasetPage;
   }
@@ -124,7 +135,9 @@ export class NewDatasetPage extends BasePage implements JSLoadedInterface<NewDat
     }
     await this.titleField.fill(datasetInfo.title)
     await this.frequencyField.selectOption(datasetInfo.frequency)
-    await this.regionalCoverageField.selectOption(datasetInfo.regionalCoverage)
+    for (const iri of datasetInfo.regionalCoverage) {
+      await this.addRegionalCoverage(regionalCoverageLabels[iri]);
+    }
     await this.dataContentCategoryField.selectOption(datasetInfo.dataContentCategory)
     await this.descriptionField.fill(datasetInfo.description)
     if (datasetInfo.optionalValues?.dataContentSubCategory) {
@@ -134,7 +147,9 @@ export class NewDatasetPage extends BasePage implements JSLoadedInterface<NewDat
       await this.themeField.selectOption(datasetInfo.optionalValues.theme);
     }
     if (datasetInfo.optionalValues?.transportMode) {
-      await this.transportModeField.selectOption(datasetInfo.optionalValues.transportMode);
+      for (const transportMode of datasetInfo.optionalValues.transportMode) {
+        await this.addTransportMode(transportModeLabels[transportMode]);
+      }
     }
     if (datasetInfo.optionalValues?.startTimestamp) {
       const { date, time } = dateToDateAndTimeString(datasetInfo.optionalValues.startTimestamp);
@@ -291,6 +306,21 @@ export class NewDatasetPage extends BasePage implements JSLoadedInterface<NewDat
     }
     await this.relatedDatasetField.click();
   }
+
+  async addTransportMode(transportMode: string): Promise<void> {
+    await this.transportModeField.click();
+    const transportModeOption = await this.generallInformationGroup.locator("span.label").filter({ hasText: new RegExp(`^${transportMode}$`) })
+    await transportModeOption.click();
+    await this.transportModeField.click();
+  }
+
+  async addRegionalCoverage(location: string): Promise<void> {
+    await this.regionalCoverageField.click();
+    const locationOption = await this.generallInformationGroup.locator("span.label").filter({ hasText: new RegExp(`^${location}$`) })
+    await locationOption.click();
+    await this.regionalCoverageField.click();
+  }
+
 
   async setDatasetInfo(datasetInfo: DatasetInfo): Promise<NewResourcePage> {
     await this.fillForm(datasetInfo);

@@ -346,13 +346,17 @@ class DCATDataset(RangeValueConverter):
                     "field_name": self.ckan_field(p),
                     **super().get_property_label_with_help_text(p.iri),
                     "required": is_required,
-                    "preset": "select",
+                    "preset": "multi_select",
                     "form_include_blank_choice": True,
                     "choices": RangeValueConverter.vocab_choices(
                         g_nuts + g_lau, is_finnish_place
                     ),
-                    "validators": super().get_validators(["location_validator"]),
+                    "validators": super().get_validators(
+                        ["value_to_list", "location_validator"]
+                    ),
+                    "output_validators": "location_validator",
                 }
+
             case MOBILITYDCATAP.georeferencingMethod:
                 g = ds.get_graph(URIRef(CVOCAB_GEOREFERENCING_METHOD))
                 return {
@@ -401,13 +405,16 @@ class DCATDataset(RangeValueConverter):
                     "field_name": self.ckan_field(p),
                     **super().get_property_label_with_help_text(p.iri),
                     "required": is_required,
-                    "preset": "select",
+                    "preset": "multi_select",
                     "sorted_choices": True,
                     "form_include_blank_choice": True,
                     "choices": RangeValueConverter.vocab_choices(
                         graph=g, vocab=CVOCAB_TRANSPORT_MODE
                     ),
-                    "validators": super().get_validators(["transport_mode_validator"]),
+                    "validators": super().get_validators(
+                        ["value_to_list", "transport_mode_validator"]
+                    ),
+                    "output_validators": "transport_mode_validator",
                 }
             case MOBILITYDCATAP.intendedInformationService:
                 g = ds.get_graph(URIRef(CVOCAB_INTENDED_INFORMATION_SERVICE))
