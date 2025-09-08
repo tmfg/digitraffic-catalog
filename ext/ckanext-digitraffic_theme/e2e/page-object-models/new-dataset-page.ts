@@ -54,7 +54,7 @@ export class NewDatasetPage extends BasePage implements JSLoadedInterface<NewDat
     super(page, [page.getByRole('heading', { name: 'Yleiset' }), page.getByRole('heading', { name: 'Versiointi' })]);
     this.visibilityFields = page.locator('.control-group:has([for="field-private"])');
     this.visibilityFieldPublic = this.visibilityFields.getByLabel('Julkinen');
-    this.visibilityFieldPrivate = this.visibilityFields.getByLabel('Yksityinen');
+    this.visibilityFieldPrivate = this.visibilityFields.getByLabel('Organisaation jäsenille');
     this.titleField = page.getByLabel('Nimike englanniksi')
     this.frequencyField = page.getByLabel('* Päivitysten tiheys');
     this.regionalCoverageField = page.locator('#field-spatial').getByRole('combobox');
