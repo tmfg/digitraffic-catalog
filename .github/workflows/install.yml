@@ -84,7 +84,7 @@ jobs:
           registry: ${{ secrets.ECR_URL }}
 
       - name: Use Node.js 22
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: 22
 
