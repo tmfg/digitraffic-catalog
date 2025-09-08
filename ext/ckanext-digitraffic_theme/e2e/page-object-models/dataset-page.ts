@@ -17,6 +17,7 @@ import { labelToLanguage } from "../../src/ts/model/language";
 import { labelToGeoreferencingMethod } from "../../src/ts/model/georeferencing-method";
 import { labelToNetworkCoverage } from "../../src/ts/model/network-coverage";
 import { labelToIntendedInformationService } from "../../src/ts/model/intended-information-service";
+import { TZDate } from "@date-fns/tz";
 
 export class DatasetPage extends BasePage {
   readonly datasetId: string
@@ -172,12 +173,18 @@ export class DatasetPage extends BasePage {
       // Helper function to safely parse dates
       const parseDate = (dateString: string): Date | undefined => {
         if (!dateString) return undefined;
-
         try {
-          // Try to parse the date and ensure it's valid
-          const date = new Date(dateString);
-          // Check if the date is valid (invalid dates return NaN for getTime())
-          return isNaN(date.getTime()) ? undefined : date;
+          // Date strings will look like e.g. "2023-01-01 00:00 EET"
+          // need to parse them so that zoned time is finally displayed correctly
+          if (dateString.includes(" EET") || dateString.includes(" EEST")) {
+            const dateWithoutTz = dateString.replace(/ (EET|EEST)$/, "");
+            const tzDate = new TZDate(dateWithoutTz, "Europe/Helsinki");
+            const date = new Date(tzDate.getTime());
+            return isNaN(date.getTime()) ? undefined : date;
+          } else {
+            const date = new Date(dateString);
+            return isNaN(date.getTime()) ? undefined : date;
+          }
         } catch (error) {
           console.log(`Error parsing date: ${dateString}`, error);
           return undefined;
@@ -198,6 +205,7 @@ export class DatasetPage extends BasePage {
       // Improved date parsing with validation
       const startTimestampText = await getTextContent(this.startTimestamp, 'startTimestamp');
       const endTimestampText = await getTextContent(this.endTimestamp, 'endTimestamp');
+
       const startTimestampValue = parseDate(startTimestampText);
       const endTimestampValue = parseDate(endTimestampText);
 
@@ -231,7 +239,7 @@ export class DatasetPage extends BasePage {
         'intendedInformationService': intendedInformationServiceValue,
         'urlToQualityDescription': urlToQualityDescriptionValue,
         'spatialReferenceSystem': intSpatialReferenceSystemValue,
-        'ianaTimezone': 'UTC'
+        'ianaTimezone': 'Europe/Helsinki'
       };
 
       // Only add date fields if they're valid
