@@ -57,9 +57,17 @@ export function urlify(text: string) {
 }
 
 export function dateToDateAndTimeString(date: Date): { date: string, time: string } {
-  const tzTimestampString = new Date(date.getTime()).toISOString().slice(0, -1);
-  const dateString = tzTimestampString.split('T')[0]!;
-  const timeString = tzTimestampString.split('T')[1]!.substring(0, 5);
+  // Get date parts in local timezone instead of converting to UTC
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  const hours = String(date.getHours()).padStart(2, '0');
+  const minutes = String(date.getMinutes()).padStart(2, '0');
+
+  // Format as YYYY-MM-DD and HH:MM
+  const dateString = `${year}-${month}-${day}`;
+  const timeString = `${hours}:${minutes}`;
+
   return { date: dateString, time: timeString };
 }
 
