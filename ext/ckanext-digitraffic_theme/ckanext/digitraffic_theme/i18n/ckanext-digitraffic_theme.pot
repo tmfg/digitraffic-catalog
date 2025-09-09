@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-digitraffic_theme 0.0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-08-25 11:22+0000\n"
+"POT-Creation-Date: 2025-09-09 11:44+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -316,26 +316,23 @@ msgstr ""
 msgid "Source: <a href=\"%(url)s\">%(dataset)s</a>"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/package/snippets/package_form.html:40
-msgid ""
-"The <i>data license</i> you select above only applies to the contents of any "
-"resource files that you add to this dataset. By submitting this form, you "
-"agree to release the <i>metadata</i> values that you enter into the form "
-"under the <a href=\"http://opendatacommons.org/licenses/odbl/1-0/\">Open "
-"Database License</a>."
-msgstr ""
-
-#: ckanext/digitraffic_theme/templates/package/snippets/package_form.html:51
+#: ckanext/digitraffic_theme/templates/package/snippets/package_form.html:48
 msgid "Are you sure you want to delete this dataset?"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/package/snippets/package_form.html:51
-#: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:77
+#: ckanext/digitraffic_theme/templates/package/snippets/package_form.html:49
+#: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:78
 msgid "Delete"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/package/snippets/package_form.html:55
+#: ckanext/digitraffic_theme/templates/package/snippets/package_form.html:56
 msgid "Next: Add data"
+msgstr ""
+
+#: ckanext/digitraffic_theme/templates/package/snippets/package_form.html:58
+msgid ""
+"Form information will be saved as a draft in your datasets when you continue "
+"to the next step."
 msgstr ""
 
 #: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:35
@@ -398,23 +395,23 @@ msgstr ""
 msgid "eg. application/json"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:77
+#: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:78
 msgid "Are you sure you want to delete this resource?"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:83
+#: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:84
 msgid "Previous"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:87
+#: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:88
 msgid "Save & add another"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:91
+#: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:92
 msgid "Finish"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:95
+#: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:96
 #: ckanext/digitraffic_theme/templates/scheming/form_snippets/repeating_subfields.html:74
 msgid "Add"
 msgstr ""
@@ -476,7 +473,7 @@ msgstr ""
 msgid "JSON format"
 msgstr ""
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/additional_info.html:90
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/additional_info.html:89
 msgid "State"
 msgstr ""
 
@@ -850,54 +847,54 @@ msgstr ""
 msgid "Manage"
 msgstr ""
 
-#: ckanext/digitraffic_theme/validators/common_validators.py:45
+#: ckanext/digitraffic_theme/validators/common_validators.py:8
 msgid "Make sure the URL starts with http:// or https://"
 msgstr ""
 
-#: ckanext/digitraffic_theme/validators/dataset_validators.py:45
+#: ckanext/digitraffic_theme/validators/dataset_validators.py:47
 msgid "Invalid value of mobility theme sub category"
 msgstr ""
 
-#: ckanext/digitraffic_theme/validators/dataset_validators.py:54
+#: ckanext/digitraffic_theme/validators/dataset_validators.py:56
 msgid "Invalid value of mobility theme category"
 msgstr ""
 
-#: ckanext/digitraffic_theme/validators/dataset_validators.py:71
+#: ckanext/digitraffic_theme/validators/dataset_validators.py:73
 msgid ""
 "Phone number is not in a valid format. Make sure it starts with a valid "
 "country code. e.g. +358"
 msgstr ""
 
-#: ckanext/digitraffic_theme/validators/dataset_validators.py:85
-msgid "{value} does not belong to {namespace}"
+#: ckanext/digitraffic_theme/validators/dataset_validators.py:94
+msgid "{value} of type {type} does not belong to {namespace}"
 msgstr ""
 
-#: ckanext/digitraffic_theme/validators/dataset_validators.py:89
+#: ckanext/digitraffic_theme/validators/dataset_validators.py:99
 msgid "Provided value does not belong to {namespace}"
 msgstr ""
 
-#: ckanext/digitraffic_theme/validators/dataset_validators.py:102
+#: ckanext/digitraffic_theme/validators/dataset_validators.py:113
 msgid "Provide a valid EPSG number between 2000 and 69036405"
 msgstr ""
 
-#: ckanext/digitraffic_theme/validators/dataset_validators.py:121
-#: ckanext/digitraffic_theme/validators/dataset_validators.py:122
+#: ckanext/digitraffic_theme/validators/dataset_validators.py:137
+#: ckanext/digitraffic_theme/validators/dataset_validators.py:138
 msgid "Value must be a JSON list"
 msgstr ""
 
-#: ckanext/digitraffic_theme/validators/dataset_validators.py:134
+#: ckanext/digitraffic_theme/validators/dataset_validators.py:148
 msgid "Value must either be a JSON list (str) or a list"
 msgstr ""
 
-#: ckanext/digitraffic_theme/validators/dataset_validators.py:206
+#: ckanext/digitraffic_theme/validators/dataset_validators.py:230
 msgid "Session is required for related resource validation."
 msgstr ""
 
-#: ckanext/digitraffic_theme/validators/dataset_validators.py:208
+#: ckanext/digitraffic_theme/validators/dataset_validators.py:232
 msgid "Related resource id cannot be empty."
 msgstr ""
 
-#: ckanext/digitraffic_theme/validators/dataset_validators.py:211
+#: ckanext/digitraffic_theme/validators/dataset_validators.py:237
 msgid "Related resource with id {value} does not exist or is not a valid dataset."
 msgstr ""
 
