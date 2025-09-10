@@ -55,9 +55,9 @@ TRANSLATIONS = {
                 "sv": "Rumsligt referenssystem",
             },
             "help_text": {
-                "en": "Value must be an EPSG number.",
-                "fi": "Arvon tulee olla EPSG-tunniste.",
-                "sv": "Värdet måste vara ett EPSG-nummer.",
+                "en": "Value must be an <a href='https://www.epsg.org' target='_blank'>EPSG</a> number.",
+                "fi": "Arvon tulee olla <a href='https://www.epsg.org' target='_blank'>EPSG</a>-tunniste.",
+                "sv": "Värdet måste vara ett <a href='https://www.epsg.org' target='_blank'>EPSG</a>-nummer.",
             },
         },
         DCTERMS.relation: {
