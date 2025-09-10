@@ -8,16 +8,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-digitraffic_theme 0.0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-08-25 11:22+0000\n"
-"PO-Revision-Date: 2025-08-25 14:11+0300\n"
+"POT-Creation-Date: 2025-09-09 11:44+0000\n"
+"PO-Revision-Date: 2025-09-09 14:44+0300\n"
 "Last-Translator: \n"
-"Language: sv\n"
 "Language-Team: sv <LL@li.org>\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "Generated-By: Babel 2.15.0\n"
+"X-Generator: Poedit 3.7\n"
 
 #: ckanext/digitraffic_theme/assets/js/digitrafficMain.js:974
 msgid "Upload"
@@ -74,16 +75,15 @@ msgstr "Synlighet och användare för din data"
 
 #: ckanext/digitraffic_theme/templates/home/index.html:4
 msgid ""
-"The Transport Data Catalog is an open national access point (NAP) for "
-"traffic data, where traffic data providers submit information about the "
-"data and APIs they offer. For data users, the catalog provides an "
-"overview of available data sources, their providers, usage methods, and "
-"terms."
+"The Transport Data Catalog is an open national access point (NAP) for traffic "
+"data, where traffic data providers submit information about the data and APIs "
+"they offer. For data users, the catalog provides an overview of available data "
+"sources, their providers, usage methods, and terms."
 msgstr ""
-"Trafikdatakatalogen är en öppen nationell åtkomstpunkt (NAP) för "
-"trafikdata, där trafikdataleverantörer lämnar information om data och "
-"API:er de erbjuder. För dataanvändare ger katalogen en översikt över "
-"tillgängliga datakällor, leverantörer, användningsmetoder och villkor."
+"Trafikdatakatalogen är en öppen nationell åtkomstpunkt (NAP) för trafikdata, "
+"där trafikdataleverantörer lämnar information om data och API:er de erbjuder. "
+"För dataanvändare ger katalogen en översikt över tillgängliga datakällor, "
+"leverantörer, användningsmetoder och villkor."
 
 #: ckanext/digitraffic_theme/templates/home/index.html:17
 msgid "You are logged in as"
@@ -108,8 +108,7 @@ msgstr "Registrera dig och gå med i en organisation"
 #: ckanext/digitraffic_theme/templates/home/index.html:42
 msgid "Datasets and their descriptions are always linked to an organization."
 msgstr ""
-"Datamängder och deras beskrivningar är alltid kopplade till en "
-"organisation."
+"Datamängder och deras beskrivningar är alltid kopplade till en organisation."
 
 #: ckanext/digitraffic_theme/templates/home/index.html:46
 #: ckanext/digitraffic_theme/templates/home/instructions.html:36
@@ -127,8 +126,7 @@ msgstr "Lägg till datakällor (resurser)"
 #: ckanext/digitraffic_theme/templates/home/index.html:52
 msgid "Add to the description the different ways to access the dataset."
 msgstr ""
-"Lägg till i beskrivningen de olika sätten att få tillgång till "
-"datamängden."
+"Lägg till i beskrivningen de olika sätten att få tillgång till datamängden."
 
 # | msgid "Publish the dataset"
 #: ckanext/digitraffic_theme/templates/home/index.html:56
@@ -137,11 +135,11 @@ msgstr "Publicera datamängden"
 
 #: ckanext/digitraffic_theme/templates/home/index.html:57
 msgid ""
-"Published dataset descriptions can be browsed by users via the catalog's "
-"search functions."
+"Published dataset descriptions can be browsed by users via the catalog's search "
+"functions."
 msgstr ""
-"Publicerade datamängdsbeskrivningar kan bläddras av användare via "
-"katalogens sökfunktioner."
+"Publicerade datamängdsbeskrivningar kan bläddras av användare via katalogens "
+"sökfunktioner."
 
 #: ckanext/digitraffic_theme/templates/home/index.html:70
 msgid "Read more about creating datasets"
@@ -153,11 +151,10 @@ msgstr "Sök efter datamängder"
 
 #: ckanext/digitraffic_theme/templates/home/index.html:78
 msgid ""
-"Datasets will be added to the catalog as the service is adopted more "
-"widely."
+"Datasets will be added to the catalog as the service is adopted more widely."
 msgstr ""
-"Datamängder kommer att läggas till i katalogen i takt med att tjänsten "
-"används mer allmänt."
+"Datamängder kommer att läggas till i katalogen i takt med att tjänsten används "
+"mer allmänt."
 
 #: ckanext/digitraffic_theme/templates/home/index.html:85
 msgid "Organizations with datasets in the catalog"
@@ -194,8 +191,7 @@ msgstr "Integrationer"
 #: ckanext/digitraffic_theme/templates/home/index.html:124
 msgid "Metadata transfer to other catalogs and harvesting from other catalogs"
 msgstr ""
-"Metadataöverföring till andra kataloger och inhämtning från andra "
-"kataloger"
+"Metadataöverföring till andra kataloger och inhämtning från andra kataloger"
 
 #: ckanext/digitraffic_theme/templates/home/index.html:130
 msgid "Single NAP"
@@ -203,11 +199,11 @@ msgstr "Single NAP"
 
 #: ckanext/digitraffic_theme/templates/home/index.html:131
 msgid ""
-"Completing the catalog with mobility service information, a single "
-"national access point model"
+"Completing the catalog with mobility service information, a single national "
+"access point model"
 msgstr ""
-"Komplettering av katalogen med information om mobilitetstjänster, en "
-"modell med en nationell åtkomstpunkt"
+"Komplettering av katalogen med information om mobilitetstjänster, en modell med "
+"en nationell åtkomstpunkt"
 
 #: ckanext/digitraffic_theme/templates/home/instructions.html:8
 msgid "Why publish your data in the Transport Data Catalog?"
@@ -229,31 +225,28 @@ msgstr "Registrera dig som användare"
 
 #: ckanext/digitraffic_theme/templates/home/instructions.html:28
 msgid ""
-"Start by registering at <a href=\"https://id.fintraffic.fi\">Fintraffic "
-"ID</a>. After you have registered as a user, you need to request "
-"membership in your organization from your organization admin. If your "
-"organization does not yet exist in the catalog, you need to request its "
-"creation from <a "
+"Start by registering at <a href=\"https://id.fintraffic.fi\">Fintraffic ID</a>. "
+"After you have registered as a user, you need to request membership in your "
+"organization from your organization admin. If your organization does not yet "
+"exist in the catalog, you need to request its creation from <a "
 "href=\"mailto:digitraffic@fintraffic.fi\">digitraffic@fintraffic.fi</a>"
 msgstr ""
-"Börja med att registrera dig på <a "
-"href=\"https://id.fintraffic.fi\">Fintraffic ID</a>. Efter att du har "
-"registrerat dig som användare måste du begära medlemskap i din "
-"organisation från organisationens administratör. Om din organisation ännu"
-" inte finns i katalogen behöver du begära att den skapas via <a "
-"href=\"mailto:digitraffic@fintraffic.fi\">digitraffic@fintraffic.fi</a>"
+"Börja med att registrera dig på <a href=\"https://id.fintraffic.fi\">Fintraffic "
+"ID</a>. Efter att du har registrerat dig som användare måste du begära "
+"medlemskap i din organisation från organisationens administratör. Om din "
+"organisation ännu inte finns i katalogen behöver du begära att den skapas via "
+"<a href=\"mailto:digitraffic@fintraffic.fi\">digitraffic@fintraffic.fi</a>"
 
 #: ckanext/digitraffic_theme/templates/home/instructions.html:37
 msgid ""
-"Describe and create your dataset according to the fields and instructions"
-" on the form. At the dataset level, you describe the general properties "
-"of the data. The actual data and the APIs or services distributing it are"
-" described in the next step."
+"Describe and create your dataset according to the fields and instructions on "
+"the form. At the dataset level, you describe the general properties of the "
+"data. The actual data and the APIs or services distributing it are described in "
+"the next step."
 msgstr ""
-"Beskriv och skapa din datamängd enligt fälten och instruktionerna i "
-"formuläret. På datamängdsnivå beskriver du datans allmänna egenskaper. "
-"Själva datan och API:erna eller tjänsterna som distribuerar den beskrivs "
-"i nästa steg."
+"Beskriv och skapa din datamängd enligt fälten och instruktionerna i formuläret. "
+"På datamängdsnivå beskriver du datans allmänna egenskaper. Själva datan och "
+"API:erna eller tjänsterna som distribuerar den beskrivs i nästa steg."
 
 #: ckanext/digitraffic_theme/templates/home/instructions.html:45
 msgid "Add resources"
@@ -261,12 +254,11 @@ msgstr "Lägg till resurser"
 
 #: ckanext/digitraffic_theme/templates/home/instructions.html:46
 msgid ""
-"A single dataset can have several data sources, such as APIs and file "
-"packages. At this stage, add the different ways to access the dataset."
+"A single dataset can have several data sources, such as APIs and file packages. "
+"At this stage, add the different ways to access the dataset."
 msgstr ""
-"En enskild datamängd kan ha flera datakällor, såsom API:er och filpaket. "
-"I detta steg lägger du till de olika sätten att få tillgång till "
-"datamängden."
+"En enskild datamängd kan ha flera datakällor, såsom API:er och filpaket. I "
+"detta steg lägger du till de olika sätten att få tillgång till datamängden."
 
 #: ckanext/digitraffic_theme/templates/home/instructions.html:54
 msgid "Publish the dataset"
@@ -274,17 +266,15 @@ msgstr "Publicera datamängden"
 
 #: ckanext/digitraffic_theme/templates/home/instructions.html:55
 msgid ""
-"By setting the dataset's visibility to \"Public\", your dataset will be "
-"visible to all users in the catalog and can be found using the catalog's "
-"search functions. If you wish, you can set private visibility, in which "
-"case your dataset will only be visible to members of your own "
-"organization."
+"By setting the dataset's visibility to \"Public\", your dataset will be visible "
+"to all users in the catalog and can be found using the catalog's search "
+"functions. If you wish, you can set private visibility, in which case your "
+"dataset will only be visible to members of your own organization."
 msgstr ""
-"Genom att ställa in datamängdens synlighet på \"Offentlig\" blir din "
-"datamängd synlig för alla användare i katalogen och kan hittas med "
-"katalogens sökfunktioner. Om du vill kan du ställa in privat synlighet, "
-"då blir din datamängd endast synlig för medlemmar i din egen "
-"organisation."
+"Genom att ställa in datamängdens synlighet på \"Offentlig\" blir din datamängd "
+"synlig för alla användare i katalogen och kan hittas med katalogens "
+"sökfunktioner. Om du vill kan du ställa in privat synlighet, då blir din "
+"datamängd endast synlig för medlemmar i din egen organisation."
 
 # | msgid "http://example.com/external-data.csv"
 #: ckanext/digitraffic_theme/templates/macros/form/image_upload.html:15
@@ -311,13 +301,13 @@ msgstr "Anpassad"
 #: ckanext/digitraffic_theme/templates/macros/form/markdown.html:31
 #, python-format
 msgid ""
-"You can use <a href=\"#markdown\" title=\"Markdown quick reference\" "
-"data-bs-toggle=\"popover\" data-bs-content=\"%(markdown_tooltip)s\" data-"
-"bs-html=\"true\">Markdown formatting</a> here"
+"You can use <a href=\"#markdown\" title=\"Markdown quick reference\" data-bs-"
+"toggle=\"popover\" data-bs-content=\"%(markdown_tooltip)s\" data-bs-"
+"html=\"true\">Markdown formatting</a> here"
 msgstr ""
-"Du kan använda <a href=\"#markdown\" title=\"Snabbreferens för Markdown\""
-" data-bs-toggle=\"popover\" data-bs-content=\"%(markdown_tooltip)s\" "
-"data-bs-html=\"true\">Markdown-formatering</a> här"
+"Du kan använda <a href=\"#markdown\" title=\"Snabbreferens för Markdown\" data-"
+"bs-toggle=\"popover\" data-bs-content=\"%(markdown_tooltip)s\" data-bs-"
+"html=\"true\">Markdown-formatering</a> här"
 
 #: ckanext/digitraffic_theme/templates/package/edit_base.html:11
 msgid "Edit"
@@ -363,34 +353,26 @@ msgstr "Beskrivning av datamängd:"
 msgid "Source: <a href=\"%(url)s\">%(dataset)s</a>"
 msgstr "Källa: <a href=\"%(url)s\">%(dataset)s</a>"
 
-#: ckanext/digitraffic_theme/templates/package/snippets/package_form.html:40
-msgid ""
-"The <i>data license</i> you select above only applies to the contents of "
-"any resource files that you add to this dataset. By submitting this form,"
-" you agree to release the <i>metadata</i> values that you enter into the "
-"form under the <a "
-"href=\"http://opendatacommons.org/licenses/odbl/1-0/\">Open Database "
-"License</a>."
-msgstr ""
-"Den <i>datalisens</i> du väljer ovan gäller endast för innehållet i "
-"resursfiler som du lägger till i denna datamängd. Genom att skicka in "
-"detta formulär godkänner du att <i>metadata-värdena</i> som du anger i "
-"formuläret publiceras under <a "
-"href=\"http://opendatacommons.org/licenses/odbl/1-0/\">Open Database "
-"License</a>."
-
-#: ckanext/digitraffic_theme/templates/package/snippets/package_form.html:51
+#: ckanext/digitraffic_theme/templates/package/snippets/package_form.html:48
 msgid "Are you sure you want to delete this dataset?"
 msgstr "Är du säker på att du vill radera denna datamängd?"
 
-#: ckanext/digitraffic_theme/templates/package/snippets/package_form.html:51
-#: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:77
+#: ckanext/digitraffic_theme/templates/package/snippets/package_form.html:49
+#: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:78
 msgid "Delete"
 msgstr "Radera"
 
-#: ckanext/digitraffic_theme/templates/package/snippets/package_form.html:55
+#: ckanext/digitraffic_theme/templates/package/snippets/package_form.html:56
 msgid "Next: Add data"
 msgstr "Nästa: Lägg till data"
+
+#: ckanext/digitraffic_theme/templates/package/snippets/package_form.html:58
+msgid ""
+"Form information will be saved as a draft in your datasets when you continue to "
+"the next step."
+msgstr ""
+"Formulärinformationen kommer att sparas som ett utkast i dina dataset när du "
+"fortsätter till nästa steg."
 
 #: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:35
 msgid "http://example.com/external-data.csv"
@@ -452,23 +434,23 @@ msgstr "MIME-typ"
 msgid "eg. application/json"
 msgstr "t.ex. application/json"
 
-#: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:77
+#: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:78
 msgid "Are you sure you want to delete this resource?"
 msgstr "Är du säker på att du vill radera denna resurs?"
 
-#: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:83
+#: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:84
 msgid "Previous"
 msgstr "Föregående"
 
-#: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:87
+#: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:88
 msgid "Save & add another"
 msgstr "Spara och lägg till en till"
 
-#: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:91
+#: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:92
 msgid "Finish"
 msgstr "Slutför"
 
-#: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:95
+#: ckanext/digitraffic_theme/templates/package/snippets/resource_form.html:96
 #: ckanext/digitraffic_theme/templates/scheming/form_snippets/repeating_subfields.html:74
 msgid "Add"
 msgstr "Lägg till"
@@ -502,11 +484,9 @@ msgstr "på svenska"
 
 #: ckanext/digitraffic_theme/templates/scheming/form_snippets/iri_fragment_input.html:19
 msgid ""
-"With no JavaScript enabled, you need to specify the full IRI for this "
-"field"
+"With no JavaScript enabled, you need to specify the full IRI for this field"
 msgstr ""
-"Utan JavaScript aktiverat måste du ange den fullständiga IRI:n för detta "
-"fält"
+"Utan JavaScript aktiverat måste du ange den fullständiga IRI:n för detta fält"
 
 #: ckanext/digitraffic_theme/templates/scheming/form_snippets/organization.html:31
 msgid "Visibility"
@@ -537,7 +517,7 @@ msgstr "TTL-format"
 msgid "JSON format"
 msgstr "JSON-format"
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/additional_info.html:90
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/additional_info.html:89
 msgid "State"
 msgstr "Status"
 
@@ -555,11 +535,11 @@ msgstr "Tidsmässig täckning"
 
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:12
 msgid ""
-"This section describes the temporal coverage of the dataset, if "
-"applicable. May be left empty for continuously updated data."
+"This section describes the temporal coverage of the dataset, if applicable. May "
+"be left empty for continuously updated data."
 msgstr ""
-"Detta avsnitt beskriver datamängdens tidsmässiga täckning, om "
-"tillämpligt. Kan lämnas tomt för kontinuerligt uppdaterad data."
+"Detta avsnitt beskriver datamängdens tidsmässiga täckning, om tillämpligt. Kan "
+"lämnas tomt för kontinuerligt uppdaterad data."
 
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:21
 msgid "Versioning"
@@ -579,15 +559,13 @@ msgstr "Bedömning"
 
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:27
 msgid ""
-"This section describes the result and date of an assessment or "
-"assessments made by a third party or parties. The assessment of data sets"
-" under EU delegated regulations is usually carried out by a national "
-"supervisory authority."
+"This section describes the result and date of an assessment or assessments made "
+"by a third party or parties. The assessment of data sets under EU delegated "
+"regulations is usually carried out by a national supervisory authority."
 msgstr ""
 "Detta avsnitt beskriver resultatet och datumet för en bedömning eller "
-"bedömningar gjorda av tredje part. Bedömningen av datamängder enligt EU:s"
-" delegerade förordningar utförs vanligtvis av en nationell "
-"tillsynsmyndighet."
+"bedömningar gjorda av tredje part. Bedömningen av datamängder enligt EU:s "
+"delegerade förordningar utförs vanligtvis av en nationell tillsynsmyndighet."
 
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:31
 msgid "Additional information"
@@ -622,12 +600,11 @@ msgstr "Lägg till data"
 
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:97
 msgid ""
-"In CKAN, a dataset refers to a collection of resources (e.g., files) "
-"along with their descriptions and other metadata, such as a permanent "
-"URL."
+"In CKAN, a dataset refers to a collection of resources (e.g., files) along with "
+"their descriptions and other metadata, such as a permanent URL."
 msgstr ""
-"I CKAN avser en datamängd en samling resurser (t.ex. filer) tillsammans "
-"med deras beskrivningar och andra metadata, såsom en permanent URL."
+"I CKAN avser en datamängd en samling resurser (t.ex. filer) tillsammans med "
+"deras beskrivningar och andra metadata, såsom en permanent URL."
 
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:156
 msgid "Update {page}"
@@ -651,12 +628,11 @@ msgstr "Datatjänst"
 
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:12
 msgid ""
-"If the resource is accessed through a data service (such as an API or "
-"platform that provides access to various data), describe that data "
-"service here."
+"If the resource is accessed through a data service (such as an API or platform "
+"that provides access to various data), describe that data service here."
 msgstr ""
-"Om resursen nås via en datatjänst (såsom ett API eller en plattform som "
-"ger tillgång till olika data), beskriv den datatjänsten här."
+"Om resursen nås via en datatjänst (såsom ett API eller en plattform som ger "
+"tillgång till olika data), beskriv den datatjänsten här."
 
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:16
 msgid "Resource description"
@@ -689,8 +665,8 @@ msgstr "Period under vilken resursen är tillgänglig."
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:69
 msgid "A resource is any file or a link to a file that contains useful data."
 msgstr ""
-"En resurs är vilken fil som helst eller en länk till en fil som "
-"innehåller användbar data."
+"En resurs är vilken fil som helst eller en länk till en fil som innehåller "
+"användbar data."
 
 #: ckanext/digitraffic_theme/templates/snippets/language_selector_base.html:28
 msgid "Go"
@@ -849,11 +825,11 @@ msgstr "Återaktivera användare"
 
 #: ckanext/digitraffic_theme/templates/user/edit_user_form.html:26
 msgid ""
-"This account is deactivated. If you want to reactivate it, please click "
-"on the checkbox."
+"This account is deactivated. If you want to reactivate it, please click on the "
+"checkbox."
 msgstr ""
-"Detta konto är inaktiverat. Om du vill återaktivera det, vänligen klicka "
-"i kryssrutan."
+"Detta konto är inaktiverat. Om du vill återaktivera det, vänligen klicka i "
+"kryssrutan."
 
 #: ckanext/digitraffic_theme/templates/user/edit_user_form.html:30
 msgid "First name"
@@ -928,54 +904,54 @@ msgstr "Användare"
 msgid "Manage"
 msgstr "Hantera"
 
-#: ckanext/digitraffic_theme/validators/common_validators.py:45
+#: ckanext/digitraffic_theme/validators/common_validators.py:8
 msgid "Make sure the URL starts with http:// or https://"
 msgstr ""
 
-#: ckanext/digitraffic_theme/validators/dataset_validators.py:45
+#: ckanext/digitraffic_theme/validators/dataset_validators.py:47
 msgid "Invalid value of mobility theme sub category"
 msgstr ""
 
-#: ckanext/digitraffic_theme/validators/dataset_validators.py:54
+#: ckanext/digitraffic_theme/validators/dataset_validators.py:56
 msgid "Invalid value of mobility theme category"
 msgstr ""
 
-#: ckanext/digitraffic_theme/validators/dataset_validators.py:71
+#: ckanext/digitraffic_theme/validators/dataset_validators.py:73
 msgid ""
-"Phone number is not in a valid format. Make sure it starts with a valid "
-"country code. e.g. +358"
+"Phone number is not in a valid format. Make sure it starts with a valid country "
+"code. e.g. +358"
 msgstr ""
 
-#: ckanext/digitraffic_theme/validators/dataset_validators.py:85
-msgid "{value} does not belong to {namespace}"
+#: ckanext/digitraffic_theme/validators/dataset_validators.py:94
+msgid "{value} of type {type} does not belong to {namespace}"
 msgstr ""
 
-#: ckanext/digitraffic_theme/validators/dataset_validators.py:89
+#: ckanext/digitraffic_theme/validators/dataset_validators.py:99
 msgid "Provided value does not belong to {namespace}"
 msgstr ""
 
-#: ckanext/digitraffic_theme/validators/dataset_validators.py:102
+#: ckanext/digitraffic_theme/validators/dataset_validators.py:113
 msgid "Provide a valid EPSG number between 2000 and 69036405"
 msgstr ""
 
-#: ckanext/digitraffic_theme/validators/dataset_validators.py:121
-#: ckanext/digitraffic_theme/validators/dataset_validators.py:122
+#: ckanext/digitraffic_theme/validators/dataset_validators.py:137
+#: ckanext/digitraffic_theme/validators/dataset_validators.py:138
 msgid "Value must be a JSON list"
 msgstr ""
 
-#: ckanext/digitraffic_theme/validators/dataset_validators.py:134
+#: ckanext/digitraffic_theme/validators/dataset_validators.py:148
 msgid "Value must either be a JSON list (str) or a list"
 msgstr ""
 
-#: ckanext/digitraffic_theme/validators/dataset_validators.py:206
+#: ckanext/digitraffic_theme/validators/dataset_validators.py:230
 msgid "Session is required for related resource validation."
 msgstr ""
 
-#: ckanext/digitraffic_theme/validators/dataset_validators.py:208
+#: ckanext/digitraffic_theme/validators/dataset_validators.py:232
 msgid "Related resource id cannot be empty."
 msgstr ""
 
-#: ckanext/digitraffic_theme/validators/dataset_validators.py:211
+#: ckanext/digitraffic_theme/validators/dataset_validators.py:237
 msgid "Related resource with id {value} does not exist or is not a valid dataset."
 msgstr ""
 
@@ -991,3 +967,15 @@ msgstr ""
 #~ msgid "Link"
 #~ msgstr "Logga in"
 
+#~ msgid ""
+#~ "The <i>data license</i> you select above only applies to the contents of any "
+#~ "resource files that you add to this dataset. By submitting this form, you "
+#~ "agree to release the <i>metadata</i> values that you enter into the form "
+#~ "under the <a href=\"http://opendatacommons.org/licenses/odbl/1-0/\">Open "
+#~ "Database License</a>."
+#~ msgstr ""
+#~ "Den <i>datalisens</i> du väljer ovan gäller endast för innehållet i "
+#~ "resursfiler som du lägger till i denna datamängd. Genom att skicka in detta "
+#~ "formulär godkänner du att <i>metadata-värdena</i> som du anger i formuläret "
+#~ "publiceras under <a href=\"http://opendatacommons.org/licenses/odbl/"
+#~ "1-0/\">Open Database License</a>."
