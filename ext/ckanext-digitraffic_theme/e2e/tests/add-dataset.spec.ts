@@ -125,9 +125,9 @@ test.describe.serial('Add new dataset', () => {
         dataContentSubCategory: MOBILITY_THEME_TREE[topMobilityTheme][0],
         theme: Theme.TRAN,
         transportMode: [TransportMode.CAR, TransportMode.BIKE_HIRE],
-        startTimestamp: new Date('2023-01-01T00:00:00Z'),
-        endTimestamp: new Date('2023-12-31T23:59:00Z'),
-        ianaTimezone: 'UTC',
+        startTimestamp: new Date('2023-01-01T00:00:00+0200'),
+        endTimestamp: new Date('2023-12-31T23:59:00+0200'),
+        ianaTimezone: 'Europe/Helsinki',
         contactPoints: [
           {
             type: 'http://www.w3.org/2006/vcard/ns#Organization',
@@ -229,9 +229,9 @@ test.describe.serial('Add new dataset', () => {
         communicationMethod: CommunicationMethod.PULL,
         sample: 'https://example.com/sample.csv',
         licenceId: LicenseId.AGPL_3_0,
-        startTimestamp: new Date('2023-01-01T00:00:00Z'),
-        endTimestamp: new Date('2023-12-31T23:59:00Z'),
-        ianaTimezone: 'UTC',
+        startTimestamp: new Date('2023-01-01T00:00:00+0200'),
+        endTimestamp: new Date('2023-12-31T23:59:00+0200'),
+        ianaTimezone: 'Europe/Helsinki',
       }
     )
 

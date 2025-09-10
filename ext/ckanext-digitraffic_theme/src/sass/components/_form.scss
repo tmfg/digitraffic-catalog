@@ -29,8 +29,8 @@
 @media (min-width: 768px) {
     .field-group-cell-container {
         grid-template-areas:
-        "left-1 right-1"
-        "left-2 right-2";
+            "left-1 right-1"
+            "left-2 right-2";
     }
 
     .field-group-cell {
@@ -60,9 +60,11 @@
         margin-top: 30px;
         justify-content: space-between;
     }
+
     .form-bottom-end {
         justify-content: flex-end;
     }
+
     .form-actions {
         justify-content: right;
     }
@@ -139,6 +141,7 @@
                 margin: 0;
                 margin-right: 0.5rem;
             }
+
             label {
                 margin: 0;
             }
@@ -217,4 +220,30 @@
             right: 0;
         }
     }
+}
+
+.form-actions .save-button-block {
+    display: block;
+    overflow: hidden;
+}
+
+.form-actions .save-button-block .info-block {
+    position: relative;
+    display: block;
+    text-align: left;
+    font-size: 11px;
+    color: $emptyTextColor;
+    line-height: 1.3;
+    margin-top: 6px;
+    margin-left: 10px;
+    /* Force width to be determined by parent constraints 
+    -  info block should not be wider than save button */
+    width: 0;
+    min-width: 100%;
+    padding-right: 10px;
+}
+
+.form-actions .save-button-block .info-block .fa-info-circle {
+    margin-top: 2px;
+    margin-right: 1px;
 }
