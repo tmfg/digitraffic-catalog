@@ -500,7 +500,7 @@ msgstr "Privat"
 #: ckanext/digitraffic_theme/templates/snippets/package_basic_fields.html:8
 #: ckanext/digitraffic_theme/templates/snippets/package_item.html:31
 msgid "For organization members"
-msgstr ""
+msgstr "För organisationsmedlemmar"
 
 #: ckanext/digitraffic_theme/templates/scheming/form_snippets/organization.html:34
 msgid "Public"
