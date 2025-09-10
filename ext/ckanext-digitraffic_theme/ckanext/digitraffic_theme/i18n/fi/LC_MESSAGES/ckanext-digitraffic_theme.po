@@ -507,9 +507,14 @@ msgid "Visibility"
 msgstr "Näkyvyys"
 
 #: ckanext/digitraffic_theme/templates/scheming/form_snippets/organization.html:34
-#: ckanext/digitraffic_theme/templates/snippets/package_item.html:31
 msgid "Private"
 msgstr "Yksityinen"
+
+#: ckanext/digitraffic_theme/templates/package/read.html:7
+#: ckanext/digitraffic_theme/templates/snippets/package_basic_fields.html:8
+#: ckanext/digitraffic_theme/templates/snippets/package_item.html:31
+msgid "For organization members"
+msgstr "Organisaation jäsenille"
 
 #: ckanext/digitraffic_theme/templates/scheming/form_snippets/organization.html:34
 msgid "Public"
