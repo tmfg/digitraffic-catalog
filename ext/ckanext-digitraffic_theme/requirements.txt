@@ -1,5 +1,5 @@
 isodate==0.7.2
-phonenumbers==9.0.6
+phonenumbers==9.0.13
 pyparsing==3.2.3
 rdflib==7.1.4
 six==1.17.0
