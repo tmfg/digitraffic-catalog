@@ -1,0 +1,27 @@
+.popover-header-wrapper {
+  @extend .popover-header;
+  display: flex;
+  flex-wrap: nowrap;
+  padding: 0;
+  justify-content: space-between;
+
+  h3 {
+    font-size: .875rem;
+    padding: .5rem 1rem;
+    border: none;
+  }
+
+  .popover-close-button {
+    border: none;
+    background: none;
+    cursor: pointer;
+    padding: 4px;
+
+    &:hover {
+    }
+  }
+}
+
+.popover-markdown {
+  min-width: 290px;
+}
