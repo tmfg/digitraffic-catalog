@@ -311,9 +311,9 @@ TRANSLATIONS = {
                     "sv": "Starttid för tillgänglighet",
                 },
                 "help_text": {
-                    "en": "The beginning of the time interval when a data service, e.g., a data feed, is delivered technically via the data platform. If there is no entry it means that the publication gets valid immediately.",
-                    "fi": "Aikavälin alku, jolla tietoaineisto on saatavilla jakelualustan kautta. Tyhjä arvo tarkoittaa välitöntä julkaisua.",
-                    "sv": "Början på det tidsintervall då en datatjänst, t.ex. en datafeed, levereras tekniskt via dataplattformen. Om det inte finns någon post betyder det att publikationen blir giltig direkt.",
+                    "en": "The beginning of the time interval when a data service, e.g., a data feed, is delivered technically via the data platform.",
+                    "fi": "Aikavälin alku, jolla tietoaineisto on saatavilla jakelualustan kautta.",
+                    "sv": "Början på det tidsintervall då en datatjänst, t.ex. en datafeed, levereras tekniskt via dataplattformen.",
                 },
             },
             DCAT.endDate: {
@@ -323,9 +323,9 @@ TRANSLATIONS = {
                     "sv": "Sluttid för tillgänglighet",
                 },
                 "help_text": {
-                    "en": "The end of the time interval when a data service, e.g., a data feed, is delivered technically via the data platform. If there is no entry it means that the publication gets valid immediately.",
-                    "fi": "Aikavälin loppu, jolla tietoaineisto on saatavilla jakelualustan kautta. Tyhjä arvo tarkoittaa välitöntä julkaisua.",
-                    "sv": "Slutet på det tidsintervall då en datatjänst, t.ex. en datafeed, levereras tekniskt via dataplattformen. Om det inte finns någon post betyder det att publikationen blir giltig direkt.",
+                    "en": "The end of the time interval when a data service, e.g., a data feed, is delivered technically via the data platform.",
+                    "fi": "Aikavälin loppu, jolla tietoaineisto on saatavilla jakelualustan kautta.",
+                    "sv": "Slutet på det tidsintervall då en datatjänst, t.ex. en datafeed, levereras tekniskt via dataplattformen.",
                 },
             },
         },

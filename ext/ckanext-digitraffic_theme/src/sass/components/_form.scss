@@ -84,6 +84,20 @@
 
 }
 
+.datetime-row {
+    .label-necessity-group {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        align-items: flex-start;
+
+        label {
+            flex: 1;
+            text-wrap: nowrap;
+        }
+    }
+}
+
 .form-group {
     .form-necessity {
         float: right;
@@ -124,7 +138,14 @@
 
     input[id$="translated-fi"],
     input[id$="translated-sv"] {
-        width: 90%
+        margin-right: 6px;
+    }
+
+    .controls:has(input[id$="translated-fi"],
+                  input[id$="translated-sv"]) {
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: center;
     }
 }
 
