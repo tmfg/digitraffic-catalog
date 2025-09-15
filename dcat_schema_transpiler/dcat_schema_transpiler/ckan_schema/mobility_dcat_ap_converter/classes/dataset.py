@@ -177,6 +177,7 @@ class DCATDataset(RangeValueConverter):
                 "input_type": "number",
                 "form_attrs": {"min": "2000", "max": "69036405"},
                 "display_snippet": "display_snippets/conforms_to.html",
+                "help_allow_html": True,
                 "validators": super().get_validators(
                     [
                         "remove_whitespace",

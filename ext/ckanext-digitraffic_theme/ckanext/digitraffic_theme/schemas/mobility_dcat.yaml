@@ -3357,9 +3357,9 @@ dataset_fields:
     fi: Paikkaviittausjärjestelmä
     sv: Rumsligt referenssystem
   help_text:
-    en: Value must be an EPSG number.
-    fi: Arvon tulee olla EPSG-tunniste.
-    sv: Värdet måste vara ett EPSG-nummer.
+    en: Value must be an <a href='https://www.epsg.org' target='_blank'>EPSG</a> number.
+    fi: Arvon tulee olla <a href='https://www.epsg.org' target='_blank'>EPSG</a>-tunniste.
+    sv: Värdet måste vara ett <a href='https://www.epsg.org' target='_blank'>EPSG</a>-nummer.
   required: false
   preset: iri_fragment
   input_type: number
@@ -3367,6 +3367,7 @@ dataset_fields:
     min: '2000'
     max: '69036405'
   display_snippet: display_snippets/conforms_to.html
+  help_allow_html: true
   validators: scheming_required remove_whitespace spatial_reference_validator
   necessity: recommended
 - field_name: intended_information_service
