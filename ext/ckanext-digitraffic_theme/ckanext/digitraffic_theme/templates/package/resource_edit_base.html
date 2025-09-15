@@ -1,0 +1,19 @@
+{% ckan_extends %}
+
+{% block primary %}
+  {#
+    Override original styles for wider form
+  #}
+  <div class="primary col-md-12 col-xs-12 resource-edit-base" role="main">
+    {% block primary_content %}
+      {{ super() }}
+    {% endblock %}
+  </div>
+{% endblock %}
+
+{#
+  Hide secondary content column on the left-hand side
+#}
+{% block secondary %}
+{% endblock %}
+
