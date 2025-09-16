@@ -11,6 +11,7 @@ import "./modules/contact-detail";
 import "./modules/rights-holder";
 import "./modules/form-layout";
 import "./modules/image-upload";
+import "./popover-listener";
 import {
   ChevronDown,
   ChevronUp,

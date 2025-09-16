@@ -24,10 +24,11 @@ Examples:
 {% set classes = (classes|list) %}
 {% do classes.append('control-full') %}
 {% set markdown_tooltip = "<pre><p>__Bold text__ or _italic text_</p><p># title<br>## secondary title<br>### etc</p><p>* list<br>* of<br>* items</p><p>http://auto.link.ed/</p></pre><p><b><a href='http://daringfireball.net/projects/markdown/syntax' target='_blank'>Full markdown syntax</a></b></p><p class='text-muted'><b>Please note:</b> HTML tags are stripped out for security reasons</p>" %}
+{% set markdown_template = "<div class='popover popover-markdown' role='tooltip'><div class='popover-arrow'></div><div class='popover-header-wrapper'><h3 class='popover-header'></h3><span role='button' class='popover-close-button'>" ~ _('Close') ~ " <i class='fa fa-times'></i></span></div><div class='popover-body'></div></div>" %}
 
 {%- set extra_html = caller() if caller -%}
 {% call input_block(id or name, label or name, error, classes, control_classes=["editor"], extra_html=extra_html, is_required=is_required, necessity=necessity) %}
 <textarea id="{{ id or name }}" name="{{ name }}" cols="20" rows="5" placeholder="{{ placeholder }}" {{ attributes(attrs) }}>{{ value | empty_and_escape }}</textarea>
-<span class="editor-info-block">{% trans %}You can use <a href="#markdown" title="Markdown quick reference" data-bs-toggle="popover" data-bs-content="{{ markdown_tooltip }}" data-bs-html="true">Markdown formatting</a> here{% endtrans %}</span>
+<span class="editor-info-block">{% trans %}You can use <a href="#markdown" title="Markdown quick reference" data-bs-toggle="popover" data-bs-template="{{ markdown_template }}" data-bs-content="{{ markdown_tooltip }}" data-bs-html="true">Markdown formatting</a> here{% endtrans %}</span>
 {% endcall %}
 {% endmacro %}
