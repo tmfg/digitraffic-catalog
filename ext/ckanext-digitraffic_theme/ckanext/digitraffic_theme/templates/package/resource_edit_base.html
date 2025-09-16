@@ -1,5 +1,10 @@
 {% ckan_extends %}
 
+{# Remove 'views' tab #}
+{% block content_primary_nav %}
+  {{ h.build_nav_icon(pkg.type ~ '_resource.edit', _('Edit resource'), id=pkg.name, resource_id=res.id, icon='pencil') }}
+  {% block inner_primary_nav %}{% endblock %}
+{% endblock %}
 {% block primary %}
   {#
     Override original styles for wider form
@@ -16,4 +21,3 @@
 #}
 {% block secondary %}
 {% endblock %}
-
