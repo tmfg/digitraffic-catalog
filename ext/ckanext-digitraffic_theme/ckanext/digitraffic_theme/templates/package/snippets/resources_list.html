@@ -1,0 +1,10 @@
+{% ckan_extends %}
+
+{# Modifications add button for linking to resource creation for existing dataset #}
+
+{% block resource_list_inner %}
+  {{ super() }}
+  {% if h.check_access('resource_create', {'package_id': pkg['id']}) %}
+		<li><a class="btn btn-default btn-sm add-resource" href="/dataset/{{pkg['id']}}/resource/new"><i class="fa fa-plus"></i>{{_("Add new resource")}}</a></li>
+	{% endif %}
+{% endblock %}
