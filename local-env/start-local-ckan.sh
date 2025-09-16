@@ -73,7 +73,7 @@ if [ "$CI" != "ci" ]; then
   fi
 
   export -f run_python_install
-  #ls -I -d -1 "$PWD"/../ext/{*,} | tail -n +2 | xargs -I % bash -c 'run_python_install "%"'
+  ls -I -d -1 "$PWD"/../ext/{*,} | tail -n +2 | xargs -I % bash -c 'run_python_install "%"'
 fi
 
 build_image_conditionally() {
