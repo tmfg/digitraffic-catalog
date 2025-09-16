@@ -84,7 +84,7 @@ $stagesCounterTextColor: $stagesTextColor;
 $stagesCounterBackground: $stagesBackground;
 $stagesCounterActiveTextColor: $stagesTextColor;
 $stagesCounterActiveBackground: $stagesActiveBackground;
-$stagesCounterCompleteTextColor: $stagesTextColor;
+$stagesCounterCompleteTextColor: tokens.$color-interactive-400;
 $stagesCounterCompleteBackground: $stagesCompleteBackground;
 
 $codeTextColor: tokens.$color-text-1000;

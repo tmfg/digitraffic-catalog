@@ -49,6 +49,9 @@ msgstr ""
 msgid "File"
 msgstr ""
 
+msgid "Close"
+msgstr ""
+
 #: ckanext/digitraffic_theme/templates/admin/base.html:5
 msgid "Sysadmins"
 msgstr ""
@@ -266,10 +269,7 @@ msgstr ""
 
 #: ckanext/digitraffic_theme/templates/macros/form/markdown.html:31
 #, python-format
-msgid ""
-"You can use <a href=\"#markdown\" title=\"Markdown quick reference\" data-bs-"
-"toggle=\"popover\" data-bs-content=\"%(markdown_tooltip)s\" data-bs-"
-"html=\"true\">Markdown formatting</a> here"
+msgid "You can use <a href=\"#markdown\" title=\"Markdown quick reference\" data-bs-toggle=\"popover\" data-bs-template=\"%(markdown_template)s\" data-bs-content=\"%(markdown_tooltip)s\" data-bs-html=\"true\">Markdown formatting</a> here"
 msgstr ""
 
 #: ckanext/digitraffic_theme/templates/package/edit_base.html:11
