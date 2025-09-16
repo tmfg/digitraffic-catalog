@@ -24,6 +24,16 @@
       }
     },
     {
+      "preset_name": "textarea",
+      "values": {
+        "form_snippet": "fluent_textarea.html",
+        "display_snippet": "fluent_text.html",
+        "error_snippet": "fluent_text.html",
+        "validators": "fluent_text scheming_required unicode_safe remove_whitespace ignore_missing",
+        "output_validators": "fluent_core_translated_output"
+      }
+    },
+    {
       "preset_name": "iri_fragment",
       "values": {
         "form_snippet": "iri_fragment_input.html",

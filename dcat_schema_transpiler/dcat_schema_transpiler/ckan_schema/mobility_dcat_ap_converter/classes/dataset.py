@@ -148,15 +148,23 @@ class DCATDataset(RangeValueConverter):
             Controlled vocabulary fields.
             """
             schema = self.controlled_vocab_field(clazz_p, ds, is_required)
-        elif (
-            clazz_p.is_iri(DCTERMS.title)
-            or clazz_p.is_iri(DCTERMS.description)
-            or clazz_p.is_iri(ADMS.versionNotes)
-        ):
-            """
-            Multilingual fields should have "required: false" at the field level.
-            Required input languages are given in separate field "required_languages".
-            """
+
+        # Multilingual fields should have "required: false" at the field level.
+        # Required input languages are given in separate field "required_languages".
+        elif clazz_p.is_iri(DCTERMS.description):
+            super_schema = super().get_schema(ds, clazz_p, is_required=False)
+            schema = {
+                **(
+                    super_schema
+                    | RangeValueConverter.get_translated_field_properties(
+                        super_schema.get("label", {}) if super_schema else {},
+                        is_required,
+                    )
+                    | super().get_property_label_with_help_text(clazz_p.iri)
+                ),
+                "preset": "textarea",
+            }
+        elif clazz_p.is_iri(DCTERMS.title) or clazz_p.is_iri(ADMS.versionNotes):
             super_schema = super().get_schema(ds, clazz_p, is_required=False)
             schema = {
                 **(

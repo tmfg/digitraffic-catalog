@@ -40,7 +40,7 @@ dataset_fields:
     sv: Beskrivning
   required: false
   necessity: mandatory
-  preset: fluent_core_translated
+  preset: textarea
   form_languages:
   - en
   - fi
@@ -3966,7 +3966,7 @@ resource_fields:
     sv: Beskrivning
   required: false
   necessity: recommended
-  preset: fluent_core_translated
+  preset: textarea
   form_languages:
   - en
   - fi
