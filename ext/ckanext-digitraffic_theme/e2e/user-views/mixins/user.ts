@@ -9,7 +9,7 @@ import {URL} from "../../page-object-models/pages-controller";
 const userNavigationMixin: UserNavigationMixin = {
   async gotoUserProfilePage<T extends IUserView & UserNavigationMixin>(this: T, userName: string) {
     return await test.step(`Going to user's ${userName} profile page as ${this.user.identity}`, async () => {
-      const pom = this.0();
+      const pom = this.getPOM();
       const userProfilePage = await pom.gotoUserProfilePage(userName);
       this.pom = userProfilePage;
       return addMixinForUserView<UserWriteMixin, typeof this>(this, MixinName.UserWrite);
