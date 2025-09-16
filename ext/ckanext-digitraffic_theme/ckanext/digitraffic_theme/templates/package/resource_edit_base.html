@@ -5,3 +5,19 @@
   {{ h.build_nav_icon(pkg.type ~ '_resource.edit', _('Edit resource'), id=pkg.name, resource_id=res.id, icon='pencil') }}
   {% block inner_primary_nav %}{% endblock %}
 {% endblock %}
+{% block primary %}
+  {#
+    Override original styles for wider form
+  #}
+  <div class="primary col-md-12 col-xs-12 resource-edit-base" role="main">
+    {% block primary_content %}
+      {{ super() }}
+    {% endblock %}
+  </div>
+{% endblock %}
+
+{#
+  Hide secondary content column on the left-hand side
+#}
+{% block secondary %}
+{% endblock %}

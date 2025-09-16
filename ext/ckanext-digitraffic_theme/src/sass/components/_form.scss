@@ -281,3 +281,12 @@
     margin-top: 2px;
     margin-right: 1px;
 }
+
+/* 
+ Remove extra padding from the resource form when editing an existing resource
+ or adding a new resource to an existing dataset.
+*/
+.resource-edit-base .module div.module-content {
+    padding-left: 0;
+    padding-right: 0;
+}
