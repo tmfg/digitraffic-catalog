@@ -110,8 +110,9 @@ class Distribution(RangeValueConverter):
 
             # Multilingual fields should have "required: false" at the field level.
             # Required input languages are given in separate field "required_languages".
-            elif clazz_p.is_iri(DCTERMS.description):
-
+            elif clazz_p.is_iri(DCTERMS.description) or clazz_p.is_iri(
+                MOBILITYDCATAP.dataFormatNotes
+            ):
                 super_schema = super().get_schema(ds, clazz_p, is_required=False)
                 schema = {
                     **(
@@ -121,12 +122,9 @@ class Distribution(RangeValueConverter):
                             is_required,
                         )
                     ),
-                    "preset": "textarea",
+                    "preset": "fluent_textarea",
                 }
-            elif clazz_p.is_iri(DCTERMS.title) or clazz_p.is_iri(
-                MOBILITYDCATAP.dataFormatNotes
-            ):
-
+            elif clazz_p.is_iri(DCTERMS.title):
                 super_schema = super().get_schema(ds, clazz_p, is_required=False)
                 schema = {
                     **(

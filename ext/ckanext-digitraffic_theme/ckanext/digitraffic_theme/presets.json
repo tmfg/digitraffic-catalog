@@ -24,7 +24,7 @@
       }
     },
     {
-      "preset_name": "textarea",
+      "preset_name": "fluent_textarea",
       "values": {
         "form_snippet": "fluent_textarea.html",
         "display_snippet": "fluent_text.html",
