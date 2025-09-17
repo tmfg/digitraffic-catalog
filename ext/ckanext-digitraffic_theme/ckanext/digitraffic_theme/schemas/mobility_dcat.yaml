@@ -3936,9 +3936,9 @@ resource_fields:
     preset: url
 - field_name: name_translated
   label:
-    en: Title
-    fi: Nimike
-    sv: Titel
+    en: Resource title
+    fi: Resurssin nimike
+    sv: Distribution titel
   required: false
   necessity: optional
   preset: fluent_core_translated
@@ -3948,17 +3948,17 @@ resource_fields:
   - sv
   fluent_form_label:
     en:
-      en: Title
-      fi: Nimike
-      sv: Titel
+      en: Resource title
+      fi: Resurssin nimike
+      sv: Distribution titel
     fi:
-      en: Title
-      fi: Nimike
-      sv: Titel
+      en: Resource title
+      fi: Resurssin nimike
+      sv: Distribution titel
     sv:
-      en: Title
-      fi: Nimike
-      sv: Titel
+      en: Resource title
+      fi: Resurssin nimike
+      sv: Distribution titel
 - field_name: description_translated
   label:
     en: Description
@@ -6801,13 +6801,10 @@ resource_fields:
     sv: Starttid för tillgänglighet
   help_text:
     en: The beginning of the time interval when a data service, e.g., a data feed,
-      is delivered technically via the data platform. If there is no entry it means
-      that the publication gets valid immediately.
-    fi: Aikavälin alku, jolla tietoaineisto on saatavilla jakelualustan kautta. Tyhjä
-      arvo tarkoittaa välitöntä julkaisua.
+      is delivered technically via the data platform.
+    fi: Aikavälin alku, jolla tietoaineisto on saatavilla jakelualustan kautta.
     sv: Början på det tidsintervall då en datatjänst, t.ex. en datafeed, levereras
-      tekniskt via dataplattformen. Om det inte finns någon post betyder det att publikationen
-      blir giltig direkt.
+      tekniskt via dataplattformen.
   preset: datetime_tz
   required: false
   classes:
@@ -6821,13 +6818,10 @@ resource_fields:
     sv: Sluttid för tillgänglighet
   help_text:
     en: The end of the time interval when a data service, e.g., a data feed, is delivered
-      technically via the data platform. If there is no entry it means that the publication
-      gets valid immediately.
-    fi: Aikavälin loppu, jolla tietoaineisto on saatavilla jakelualustan kautta. Tyhjä
-      arvo tarkoittaa välitöntä julkaisua.
+      technically via the data platform.
+    fi: Aikavälin loppu, jolla tietoaineisto on saatavilla jakelualustan kautta.
     sv: Slutet på det tidsintervall då en datatjänst, t.ex. en datafeed, levereras
-      tekniskt via dataplattformen. Om det inte finns någon post betyder det att publikationen
-      blir giltig direkt.
+      tekniskt via dataplattformen.
   preset: datetime_tz
   required: false
   classes:
