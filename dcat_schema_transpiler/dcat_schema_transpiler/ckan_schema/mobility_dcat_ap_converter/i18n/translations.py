@@ -298,9 +298,9 @@ TRANSLATIONS = {
         ADMS.sample: {
             "label": {"en": "Sample", "fi": "Näyte", "sv": "Prov"},
             "help_text": {
-                "en": "A sample Distribution of the Dataset. A data sample allows data users to investigate the data content and data structure, without subscribing to a data feed or downloading a complete data set.",
-                "fi": "Ote tietoaineistosta sisällön arviointia varten.",
-                "sv": "Ett exempel på distribution av datauppsättningen. Med hjälp av ett dataurval kan dataanvändare undersöka datainnehållet och datastrukturen utan att prenumerera på en datafeed eller ladda ned en fullständig datamängd.",
+                "en": "A sample Distribution of the Dataset. A data sample allows data users to investigate the data content and data structure, without subscribing to a data feed or downloading a complete data set. The value must be a URL.",
+                "fi": "Ote tietoaineistosta sisällön arviointia varten. Arvon pitää olla URL.",
+                "sv": "Ett exempel på distribution av datauppsättningen. Med hjälp av ett dataurval kan dataanvändare undersöka datainnehållet och datastrukturen utan att prenumerera på en datafeed eller ladda ned en fullständig datamängd. Värdet måste vara en URL.",
             },
         },
         DCTERMS.PeriodOfTime: {
