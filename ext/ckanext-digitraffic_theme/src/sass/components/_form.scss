@@ -32,7 +32,9 @@
 }
 
 [data-module="digitraffic_theme_dataset_form_wrapper"] form {
-    input, select {
+
+    input,
+    select {
         @include input-defaults;
     }
 }
@@ -138,14 +140,31 @@
 
     input[id$="translated-fi"],
     input[id$="translated-sv"] {
-        margin-right: 6px;
+        flex: 1;
+        min-width: 0;
+    }
+
+    svg[id$="translated-fi"],
+    svg[id$="translated-sv"] {
+        flex-shrink: 0;
+        width: 30px;
+    }
+
+    .controls .info-block {
+        width: 100%;
+        flex-basis: 100%;
     }
 
     .controls:has(input[id$="translated-fi"],
-                  input[id$="translated-sv"]) {
+        input[id$="translated-sv"]) {
         display: flex;
-        flex-wrap: nowrap;
+        flex-wrap: wrap;
         align-items: center;
+        width: 100%;
+    }
+
+    .fieldset-parent {
+        width: 100%;
     }
 }
 
