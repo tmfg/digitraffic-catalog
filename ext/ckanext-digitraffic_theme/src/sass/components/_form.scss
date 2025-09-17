@@ -31,9 +31,11 @@
     grid-area: left-4;
 }
 
-[data-module="digitraffic_theme_dataset_form_wrapper"] form {
-    input, select {
-        @include input-defaults;
+form {
+    &#dataset-edit, &#resource-edit {
+        input, select {
+            @include input-defaults;
+        }
     }
 }
 
