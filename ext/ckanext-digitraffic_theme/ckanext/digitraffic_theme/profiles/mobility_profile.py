@@ -1,16 +1,18 @@
-from datetime import datetime, timezone
+from datetime import timezone, datetime
+from typing import TypedDict
 
-from rdflib import Graph, URIRef, Literal, BNode
-from rdflib.namespace import DCTERMS, DCAT, RDF, XSD
+import ckan.plugins.toolkit as toolkit
+
 from ckanext.dcat.profiles import RDFProfile
 
+from ckanext.digitraffic_theme.model.language import Language
 from ckanext.digitraffic_theme.model.organization import Organization
-from ckanext.digitraffic_theme.model.agent import Agent
+from ckanext.digitraffic_theme.model.standard_license import StandardLicense
+from ckanext.digitraffic_theme.model.theme import Theme
+
 from ckanext.digitraffic_theme.rdf.oa import OA
 from ckanext.digitraffic_theme.rdf.cnt import CNT
 from ckanext.digitraffic_theme.rdf.dqv import DQV
-from ckanext.digitraffic_theme.model.location import Location
-from ckanext.digitraffic_theme.model.mobility_data import MobilityData
 from ckanext.digitraffic_theme.profiles.graph_modifiers.adder import (
     add_class_instance_values,
     add_class_instance_with_children,
@@ -22,8 +24,23 @@ from ckanext.digitraffic_theme.model.location import Location
 from ckanext.digitraffic_theme.model.mobility_data import MobilityData
 from ckanext.digitraffic_theme.rdf.mobility_dcat_ap import MOBILITYDCATAP
 from rdflib import BNode, Graph, Literal, URIRef
-from rdflib.namespace import DCAT, DCTERMS, RDF, XSD
+from rdflib.namespace import DCAT, DCTERMS, RDF, XSD, FOAF
 
+class Translations(TypedDict):
+    fi: str
+    en: str
+    sv: str
+
+class CatalogMetadata(TypedDict):
+    description: Translations
+    homepage: str
+    publisher: Organization
+    spatial: Location
+    title: Translations
+    language: list[Language]
+    license: StandardLicense
+    release_date: datetime
+    theme: list[Theme]
 
 class MobilityDCATAPProfile(RDFProfile):
 
@@ -59,63 +76,37 @@ class MobilityDCATAPProfile(RDFProfile):
         for obj in g.objects(catalog_ref, DCTERMS.language):
             g.remove((catalog_ref, DCTERMS.language, obj))
 
-        # Mandatory properties
+        catalog_metadata = {
+            'description': {
+                'fi': 'Tämä kansallinen yhteyspiste toteuttaa EU:n ITS-direktiivin ja komission delegoitujen asetusten 2022/670 (nk. RTTI-asetus), 886/2013 (nk. SRTI-asetus) sekä vaihtoehtoisten polttoaineiden infrastruktuuria koskevan asetuksen 2023/1804 (nk. AFIR-asetus) mukaisen kansallisen yhteyspisteen.',
+                'en': 'This national access point implements the EU ITS Directive and the Commission\'s delegated regulations 2022/670 (known as the RTTI regulation), 886/2013 (known as the SRTI regulation), and the regulation on alternative fuel infrastructure 2023/1804 (known as the AFIR regulation).',
+                'sv': 'Denna nationella kontaktpunkt implementerar EU:s ITS-direktiv och kommissionens delegerade förordningar 2022/670 (s.k. RTTI-förordningen), 886/2013 (s.k. SRTI-förordningen) samt förordningen om infrastruktur för alternativa bränslen 2023/1804 (s.k. AFIR-förordningen).'
+            },
+            'homepage': toolkit.config.get('ckan.site_url'),
+            'publisher': Organization(
+                None,
+                {
+                    "name": Literal("Fintraffic"),
+                    "url": URIRef("https://www.fintraffic.fi/")
+                }
+            ),
+            'spatial': Location("http://data.europa.eu/nuts/code/FI"),
+            'title': {
+                'fi': 'Liikennedatakatalogi',
+                'en': 'Traffic Data Catalog',
+                'sv': 'Trafikdatakatalog'
+            },
+            'language': [
+                Language("http://publications.europa.eu/resource/authority/language/FIN"),
+                Language("http://publications.europa.eu/resource/authority/language/ENG"),
+                Language("http://publications.europa.eu/resource/authority/language/SWE")
+            ],
+            'license': StandardLicense("http://publications.europa.eu/resource/authority/licence/CC_BY_4_0"),
+            'release_date': None,
+            'theme': [Theme("http://publications.europa.eu/resource/authority/data-theme/TRAN")],
+        }
+        self._catalog_metadata(g, catalog_ref, catalog_metadata)
 
-        add_literal_to_graph(
-            g,
-            catalog_ref,
-            DCTERMS.description,
-            Literal("Digitraffic tuottaa ajantasaista avointa liikennetietoa sovelluskehitykseen Suomen tie-, rautatie- ja vesiliikenteestä.", lang="fi"),
-        )
-        add_literal_to_graph(
-            g,
-            catalog_ref,
-            DCTERMS.description,
-            Literal("Digitraffic provides open data for application development from Finnish road, railway and marine traffic.", lang="en"),
-        )
-        add_class_instance_with_children(
-            g,
-            catalog_ref,
-            DCTERMS.publisher,
-            Organization(None, {"name": Literal("Digitraffic")}),
-        )
-        add_vocabulary_to_graph(
-            g,
-            catalog_ref,
-            DCTERMS.spatial,
-            Location("http://data.europa.eu/nuts/code/FI"),
-        )
-        add_literal_to_graph(
-            g, catalog_ref, DCTERMS.title, Literal("Liikennedatakatalogi", lang="fi")
-        )
-
-        # Recommended properties
-
-        # Add all languages supported by the catalog
-        add_uriref_to_graph(
-            g,
-            catalog_ref,
-            DCTERMS.language,
-            URIRef("http://publications.europa.eu/resource/authority/language/ENG"),
-        )
-        add_uriref_to_graph(
-            g,
-            catalog_ref,
-            DCTERMS.language,
-            URIRef("http://publications.europa.eu/resource/authority/language/FIN"),
-        )
-        add_uriref_to_graph(
-            g,
-            catalog_ref,
-            DCTERMS.language,
-            URIRef("http://publications.europa.eu/resource/authority/language/SWE"),
-        )
-
-        # Optional properties
-
-        # dct:identifier should contain the value of rdf:about (the subject URI)
-        # catalog_ref contains this value
-        add_literal_to_graph(g, catalog_ref, DCTERMS.identifier, Literal(catalog_ref))
 
         # Special handling for dcat:DataService
         # The database might have multiple identical values for dcat:DataService properties. Remove the dublicates.
@@ -127,6 +118,51 @@ class MobilityDCATAPProfile(RDFProfile):
                         g.remove((service, p, o))
                         g.add((service, p, o))
 
+    def _add_translation(self, g: Graph, subject: URIRef, predicate: URIRef, translation: Translations):
+        for lang, text in translation.items():
+            add_literal_to_graph(g, subject, predicate, Literal(text, lang=lang))
+
+    def _catalog_metadata(self, g: Graph, catalog_ref: URIRef, catalog_metadata: CatalogMetadata):
+        # Mandatory properties
+
+        self._add_translation(g, catalog_ref, DCTERMS.description, catalog_metadata['description'])
+        add_uriref_to_graph(g, catalog_ref, FOAF.homepage, URIRef(catalog_metadata['homepage']))
+        add_class_instance_with_children(
+            g,
+            catalog_ref,
+            DCTERMS.publisher,
+            catalog_metadata['publisher'],
+        )
+        add_vocabulary_to_graph(
+            g,
+            catalog_ref,
+            DCTERMS.spatial,
+            catalog_metadata['spatial'],
+        )
+        self._add_translation(g, catalog_ref, DCTERMS.title, catalog_metadata['title'])
+
+        # Recommended properties
+        for lang in catalog_metadata['language']:
+            add_vocabulary_to_graph(g, catalog_ref, DCTERMS.language, lang)
+        add_vocabulary_to_graph(g, catalog_ref, DCTERMS.license, catalog_metadata['license'])
+        if catalog_metadata['release_date']:
+            add_literal_to_graph(
+                g,
+                catalog_ref,
+                DCTERMS.issued,
+                Literal(
+                    catalog_metadata['release_date'].astimezone(tz=timezone.utc),
+                    datatype=XSD.dateTime,
+                ),
+            )
+        for theme in catalog_metadata['theme']:
+            add_vocabulary_to_graph(g, catalog_ref, DCAT.themeTaxonomy, theme)
+
+        # Optional properties
+
+        # dct:identifier should contain the value of rdf:about (the subject URI)
+        # catalog_ref contains this value
+        add_literal_to_graph(g, catalog_ref, DCTERMS.identifier, Literal(catalog_ref))
 
     def _remove_existing_self_managed_graph_data(self, dataset_ref):
         g: Graph = self.g
