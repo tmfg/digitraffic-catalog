@@ -3938,7 +3938,7 @@ resource_fields:
   label:
     en: Resource title
     fi: Resurssin nimike
-    sv: Distribution titel
+    sv: Resursens titel
   required: false
   necessity: optional
   preset: fluent_core_translated
@@ -3950,15 +3950,15 @@ resource_fields:
     en:
       en: Resource title
       fi: Resurssin nimike
-      sv: Distribution titel
+      sv: Resursens titel
     fi:
       en: Resource title
       fi: Resurssin nimike
-      sv: Distribution titel
+      sv: Resursens titel
     sv:
       en: Resource title
       fi: Resurssin nimike
-      sv: Distribution titel
+      sv: Resursens titel
 - field_name: description_translated
   label:
     en: Description
