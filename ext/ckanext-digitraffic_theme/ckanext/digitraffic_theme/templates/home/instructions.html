@@ -5,9 +5,17 @@
 
     <section class="homepage-hero instructions">
         <div class="hero-content instructions">
-            <h1>{% trans %}Why publish your data in the Transport Data Catalog?{% endtrans %}</h1>
+            <h1>{% trans %}Why Publish Data in the Traffic Data Catalogue?{% endtrans %}</h1>
             <p>
-                {% trans %}Explain here the benefits of publishing data, e.g. visibility, users, interoperability, etc. Add your own text as needed.{% endtrans %}
+                {% trans %}Legislation requires traffic data holders, such as municipalities, to make their data available through the National Access Point (NAP). However, this is not just an obligation – it also brings significant opportunities:{% endtrans %}
+            </p>
+            <ul>
+                <li>{% trans %}Traffic data increases its visibility and impact both nationally and internationally.{% endtrans %}</li>
+                <li>{% trans %}The data is interoperable and easy to use in, for example, digital services, research, and traffic planning.{% endtrans %}</li>
+                <li>{% trans %}Open data enables new innovations and better services for travellers, residents, and businesses.{% endtrans %}</li>
+            </ul>
+            <p>
+                {% trans %}By publishing your data through the NAP, you meet the legal requirements while also advancing the development of smart mobility.{% endtrans %}
             </p>
             {% if c.user %}
                 <a href="{{h.url_for('dataset.new')}}" class="btn btn-primary">{% trans %}Add new dataset{% endtrans %}</a>
@@ -25,7 +33,10 @@
             </div>
             <div class="step-content">
                 <div class="step-title">{% trans %}Register as a user{% endtrans %}</div>
-                <div class="step-desc">{% trans %}Start by registering at <a href="https://id.fintraffic.fi">Fintraffic ID</a>. After you have registered as a user, you need to request membership in your organization from your organization admin. If your organization does not yet exist in the catalog, you need to request its creation from <a href="mailto:digitraffic@fintraffic.fi">digitraffic@fintraffic.fi</a> {% endtrans %}</div>
+                <div class="step-desc">
+                    <p>{% trans %}Start <a href="https://catalog.digitraffic.fi/user/register">by registering</a> as a user of the Traffic Data Catalogue. If you already have Fintraffic ID in use, you can skip the registration and log in using your Fintraffic ID.{% endtrans %}</p>
+                    <p>{% trans %}Once you are logged in to the Traffic Data Catalog, you need to request your organization's membership from your organization's administrator. If your organization is not already in the catalog, please request to be added by emailing us at: <a href="mailto:nap@fintraffic.fi">nap@fintraffic.fi</a>{% endtrans %}</p>
+                </div>
             </div>
         </div>
         <div class="instruction-step">

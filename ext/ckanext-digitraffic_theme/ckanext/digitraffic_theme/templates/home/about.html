@@ -1,0 +1,27 @@
+{% ckan_extends %}
+
+{% block about %}
+  <section>
+      <h1 class="page-heading">{{ _('About') }}</h1>
+      <p>
+          {% trans %}
+          The Traffic Data Catalogue is an open national access point (NAP) defined in EU legislation, where road operators and various service providers must submit information about the traffic infrastructure and road traffic data they produce. The aim of national access points is to enable smooth sharing and utilization of traffic data in various digital traffic management and information services, such as navigation services. NAP is not a service intended for road users or travelers but rather facilitates information exchange between traffic sector stakeholders.
+          {% endtrans %}
+      </p>
+      <p>
+          {% trans %}
+          This national access point implements the EU ITS Directive and the Commission's delegated regulations 2022/670 (known as the RTTI regulation), 886/2013 (known as the SRTI regulation), and the regulation on alternative fuel infrastructure 2023/1804 (known as the AFIR regulation).
+          {% endtrans %}
+      </p>
+      <p>
+          {% trans %}
+          The corresponding national access point for multimodal mobility services (known as the MMTIS regulation) is the Mobility Services Catalogue (finap.fi).
+          {% endtrans %}
+      </p>
+      <p>
+          {% trans %}
+          The Traffic Data Catalogue functions as a metadata catalogue, where the content of datasets is described using metadata and the address of the interface or service where the data is available is provided. Conditions for utilization, such as license terms, are also described in the catalogue. Thus, the national access point becomes a directory of Finland's road traffic data, providing data users a clear overview of the available data.
+          {% endtrans %}
+      </p>
+  </section>
+{% endblock %}

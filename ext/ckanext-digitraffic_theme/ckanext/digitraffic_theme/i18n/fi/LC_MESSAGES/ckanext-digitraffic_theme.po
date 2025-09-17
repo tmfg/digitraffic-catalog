@@ -65,6 +65,22 @@ msgstr "Ylläpitäjät"
 msgid "Trash"
 msgstr "Roskakori"
 
+#: ckanext/digitraffic_theme/templates/home/about.html:8
+msgid "The Traffic Data Catalogue is an open national access point (NAP) defined in EU legislation, where road operators and various service providers must submit information about the traffic infrastructure and road traffic data they produce. The aim of national access points is to enable smooth sharing and utilization of traffic data in various digital traffic management and information services, such as navigation services. NAP is not a service intended for road users or travelers but rather facilitates information exchange between traffic sector stakeholders."
+msgstr "Liikennedatakatalogi on EU-lainsäädännössä määritetty avoin kansallinen yhteyspiste (eng. National Access Point, NAP), johon tienpitäjien ja erilaisten palveluntarjoajien on toimitettava tiedot tuottamistaan tieliikenteen liikenneinfrastruktuuria ja tieliikennettä koskevista tiedoista. Kansallisten yhteyspisteiden tavoitteena on mahdollistaa liikennetietojen sujuva jakaminen ja hyödyntäminen erilaisissa digitaalisissa liikenteen ohjaus- ja informaatiopalveluissa, kuten navigointipalveluissa. NAP ei siis ole suoraan liikkujille suunnattu palvelu, vaan se palvelee liikennealan toimijoiden välistä tiedonvaihtoa."
+
+#: ckanext/digitraffic_theme/templates/home/about.html:13
+msgid "This national access point implements the EU ITS Directive and the Commission's delegated regulations 2022/670 (known as the RTTI regulation), 886/2013 (known as the SRTI regulation), and the regulation on alternative fuel infrastructure 2023/1804 (known as the AFIR regulation)."
+msgstr "Tämä kansallinen yhteyspiste toteuttaa EU:n ITS-direktiivin ja komission delegoitujen asetusten 2022/670 (nk. RTTI-asetus), 886/2013 (nk. SRTI-asetus) sekä vaihtoehtoisten polttoaineiden infrastruktuuria koskevan asetuksen 2023/1804 (nk. AFIR-asetus) mukaisen kansallisen yhteyspisteen."
+
+#: ckanext/digitraffic_theme/templates/home/about.html:18
+msgid "The corresponding national access point for multimodal mobility services (known as the MMTIS regulation) is the Mobility Services Catalogue (finap.fi)."
+msgstr "Multimodaalisten liikkumispalveluiden (nk. MMTIS-asetus) vastaava kansallinen yhteyspiste on Liikkumispalvelukatalogi (finap.fi)."
+
+#: ckanext/digitraffic_theme/templates/home/about.html:23
+msgid "The Traffic Data Catalogue functions as a metadata catalogue, where the content of datasets is described using metadata and the address of the interface or service where the data is available is provided. Conditions for utilization, such as license terms, are also described in the catalogue. Thus, the national access point becomes a directory of Finland's road traffic data, providing data users a clear overview of the available data."
+msgstr "Liikennedatakatalogi on toiminnoiltaan metadatakatalogi, jossa kuvataan metatietojen avulla tietoaineistojen sisältöä sekä ilmoitetaan rajapinnan tai palvelun osoite, josta tieto on saatavilla hyödynnettäväksi. Myös hyödyntämiseen liittyvät reunaehdot kuten lisenssiehdot kuvataan katalogiin. Siten kansallisesta yhteyspisteestä muodostuu Suomen tieliikenteen datan hakemisto, josta erilaiset datan hyödyntäjät saavat helposti käsityksen tarjolla olevista datoista."
+
 #: ckanext/digitraffic_theme/templates/home/hero_buttons.html:2
 msgid "Register"
 msgstr "Rekisteröidy"
@@ -212,42 +228,50 @@ msgstr ""
 "yhteyspisteen malli"
 
 #: ckanext/digitraffic_theme/templates/home/instructions.html:8
-msgid "Why publish your data in the Transport Data Catalog?"
+msgid "Why Publish Data in the Traffic Data Catalogue?"
 msgstr "Miksi julkaista dataa Liikennedatakatalogissa?"
 
 #: ckanext/digitraffic_theme/templates/home/instructions.html:10
-msgid ""
-"Explain here the benefits of publishing data, e.g. visibility, users, "
-"interoperability, etc. Add your own text as needed."
-msgstr ""
+msgid "Legislation requires traffic data holders, such as municipalities, to make their data available through the National Access Point (NAP). However, this is not just an obligation – it also brings significant opportunities:"
+msgstr "Lainsäädäntö velvoittaa liikennedatan haltijoita, kuten kuntia, tuomaan tietonsa saataville kansallisen yhteyspisteen kautta. Tämä ei kuitenkaan ole pelkkä velvollisuus – se tarjoaa myös merkittäviä mahdollisuuksia:"
+
+#: ckanext/digitraffic_theme/templates/home/instructions.html:13
+msgid "Traffic data increases its visibility and impact both nationally and internationally."
+msgstr "Liikennetieto saa näkyvyyttä ja vaikuttavuutta sekä valtakunnallisesti että kansainvälisesti."
+
+#: ckanext/digitraffic_theme/templates/home/instructions.html:14
+msgid "The data is interoperable and easy to use in, for example, digital services, research, and traffic planning."
+msgstr "Data on yhteentoimivaa ja helposti hyödynnettävää esimerkiksi digipalveluissa, tutkimuksessa ja liikennesuunnittelussa."
+
+#: ckanext/digitraffic_theme/templates/home/instructions.html:15
+msgid "Open data enables new innovations and better services for travellers, residents, and businesses."
+msgstr "Avoin data luo uusia innovaatioita ja parempia palveluja liikkujille, asukkaille ja yrityksille."
+
+#: ckanext/digitraffic_theme/templates/home/instructions.html:18
+msgid "By publishing your data through the NAP, you meet the legal requirements while also advancing the development of smart mobility."
+msgstr "Julkaisemalla datanne yhteyspisteen kautta täytätte lakisääteiset velvoitteet ja edistätte samalla älykkään liikenteen kehitystä."
 
 # | msgid "Search datasets..."
 # | msgid "Create new dataset"
-#: ckanext/digitraffic_theme/templates/home/instructions.html:13
+#: ckanext/digitraffic_theme/templates/home/instructions.html:21
 msgid "Add new dataset"
 msgstr "Luo uusi tietoaineisto"
 
 # | msgid "Search datasets..."
 # | msgid "Create a dataset"
-#: ckanext/digitraffic_theme/templates/home/instructions.html:27
+#: ckanext/digitraffic_theme/templates/home/instructions.html:35
 msgid "Register as a user"
 msgstr "Rekisteröidy käyttäjäksi"
 
-#: ckanext/digitraffic_theme/templates/home/instructions.html:28
-msgid ""
-"Start by registering at <a href=\"https://id.fintraffic.fi\">Fintraffic ID</a>. "
-"After you have registered as a user, you need to request membership in your "
-"organization from your organization admin. If your organization does not yet "
-"exist in the catalog, you need to request its creation from <a "
-"href=\"mailto:digitraffic@fintraffic.fi\">digitraffic@fintraffic.fi</a>"
-msgstr ""
-"Aloita rekisteröitymällä Fintraffic ID -käyttäjäksi. Kun olet rekisteröitynyt "
-"käyttäjäksi, sinun täytyy pyytää organisaatiosi jäsenyyttä organisaatiosi "
-"pääkäyttäjältä. Jos organisaatiotasi ei vielä ole katalogissa, pyydä sen "
-"lisäämistä ottamalla yhteyttä sähköpostitse osoitteeseen: <a "
-"href=\"mailto:digitraffic@fintraffic.fi\">digitraffic@fintraffic.fi</a>"
-
 #: ckanext/digitraffic_theme/templates/home/instructions.html:37
+msgid "Start <a href=\"https://catalog.digitraffic.fi/user/register\">by registering</a> as a user of the Traffic Data Catalogue. If you already have Fintraffic ID in use, you can skip the registration and log in using your Fintraffic ID."
+msgstr "Aloita <a href=\"https://catalog.digitraffic.fi/user/register\">rekisteröitymällä</a> Liikennedatakatalogin käyttäjäksi. Jos sinulla on jo Fintraffic ID käytössä, voit ohittaa rekisteröitymisen ja kirjautua sisään käyttäen Fintraffic ID:tä."
+
+#: ckanext/digitraffic_theme/templates/home/instructions.html:38
+msgid "Once you are logged in to the Traffic Data Catalog, you need to request your organization's membership from your organization's administrator. If your organization is not already in the catalog, please request to be added by emailing us at: <a href=\"mailto:nap@fintraffic.fi\">nap@fintraffic.fi</a>"
+msgstr "Kun olet kirjautunut Liikennedatakatalogiin, sinun täytyy pyytää organisaatiosi jäsenyyttä organisaatiosi pääkäyttäjältä. Jos organisaatiotasi ei vielä ole katalogissa, pyydä sen lisäämistä ottamalla yhteyttä sähköpostitse osoitteeseen: <a href=\"mailto:nap@fintraffic.fi\">nap@fintraffic.fi</a>"
+
+#: ckanext/digitraffic_theme/templates/home/instructions.html:47
 msgid ""
 "Describe and create your dataset according to the fields and instructions on "
 "the form. At the dataset level, you describe the general properties of the "
@@ -259,11 +283,11 @@ msgstr ""
 "jakelevat rajapinnat tai palvelut kuvataan seuraavassa vaiheessa."
 
 # | msgid "Resource URLs"
-#: ckanext/digitraffic_theme/templates/home/instructions.html:45
+#: ckanext/digitraffic_theme/templates/home/instructions.html:55
 msgid "Add resources"
 msgstr "Lisää datalähteet (resurssit)"
 
-#: ckanext/digitraffic_theme/templates/home/instructions.html:46
+#: ckanext/digitraffic_theme/templates/home/instructions.html:56
 msgid ""
 "A single dataset can have several data sources, such as APIs and file packages. "
 "At this stage, add the different ways to access the dataset."
@@ -273,11 +297,11 @@ msgstr ""
 "vaiheessa nämä eri tavat, joilla tietoaineistoon pääsee käsiksi."
 
 # | msgid "Publish your dataset"
-#: ckanext/digitraffic_theme/templates/home/instructions.html:54
+#: ckanext/digitraffic_theme/templates/home/instructions.html:64
 msgid "Publish the dataset"
 msgstr "Julkaise tietoaineistosi"
 
-#: ckanext/digitraffic_theme/templates/home/instructions.html:55
+#: ckanext/digitraffic_theme/templates/home/instructions.html:65
 msgid ""
 "By setting the dataset's visibility to \"Public\", your dataset will be visible "
 "to all users in the catalog and can be found using the catalog's search "
