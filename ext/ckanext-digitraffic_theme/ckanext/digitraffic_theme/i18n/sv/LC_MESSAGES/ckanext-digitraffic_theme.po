@@ -257,8 +257,8 @@ msgid "Register as a user"
 msgstr "Registrera dig som användare"
 
 #: ckanext/digitraffic_theme/templates/home/instructions.html:37
-msgid "Start <a href=\"https://catalog.digitraffic.fi/user/register\">by registering</a> as a user of the Traffic Data Catalogue. If you already have Fintraffic ID in use, you can skip the registration and log in using your Fintraffic ID."
-msgstr "Börja <a href=\"https://catalog.digitraffic.fi/user/register\">med att registrera</a> dig som användare av Trafikdatakatalogen. Om du redan har ett Fintraffic ID i bruk kan du hoppa över registreringen och logga in med Fintraffic ID."
+msgid "Start <a href=\"{{ register_url }}\">by registering</a> as a user of the Traffic Data Catalogue. If you already have Fintraffic ID in use, you can skip the registration and log in using your Fintraffic ID."
+msgstr "Börja <a href=\"{{ register_url }}\">med att registrera</a> dig som användare av Trafikdatakatalogen. Om du redan har ett Fintraffic ID i bruk kan du hoppa över registreringen och logga in med Fintraffic ID."
 
 #: ckanext/digitraffic_theme/templates/home/instructions.html:38
 msgid "Once you are logged in to the Traffic Data Catalog, you need to request your organization's membership from your organization's administrator. If your organization is not already in the catalog, please request to be added by emailing us at: <a href=\"mailto:nap@fintraffic.fi\">nap@fintraffic.fi</a>"

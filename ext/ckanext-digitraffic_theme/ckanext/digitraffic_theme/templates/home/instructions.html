@@ -1,5 +1,8 @@
 {% extends "page.html" %}
 
+{% set register_url = h.url_for('user.register') %}
+
+
 {% block content %}
 <div class="digitraffic-catalog-homepage instructions-page">
 
@@ -34,7 +37,7 @@
             <div class="step-content">
                 <div class="step-title">{% trans %}Register as a user{% endtrans %}</div>
                 <div class="step-desc">
-                    <p>{% trans %}Start <a href="https://catalog.digitraffic.fi/user/register">by registering</a> as a user of the Traffic Data Catalogue. If you already have Fintraffic ID in use, you can skip the registration and log in using your Fintraffic ID.{% endtrans %}</p>
+                    <p>{% trans %}Start <a href="{{ register_url }}">by registering</a> as a user of the Traffic Data Catalogue. If you already have Fintraffic ID in use, you can skip the registration and log in using your Fintraffic ID.{% endtrans %}</p>
                     <p>{% trans %}Once you are logged in to the Traffic Data Catalog, you need to request your organization's membership from your organization's administrator. If your organization is not already in the catalog, please request to be added by emailing us at: <a href="mailto:nap@fintraffic.fi">nap@fintraffic.fi</a>{% endtrans %}</p>
                 </div>
             </div>
