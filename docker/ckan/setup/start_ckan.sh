@@ -6,6 +6,7 @@ if grep -E "beaker.session.secret ?= ?$" "${CKAN_INI}"
 then
     echo "Setting beaker.session.secret in ini file"
     ckan config-tool $CKAN_INI "beaker.session.secret=$(python3 -c 'import secrets; print(secrets.token_urlsafe())')"
+    ckan config-tool $CKAN_INI "beaker.session.secure=true"
     ckan config-tool $CKAN_INI "beaker.session.validate_key=$(python3 -c 'import secrets; print(secrets.token_urlsafe())')"
     ckan config-tool $CKAN_INI "WTF_CSRF_SECRET_KEY=$(python3 -c 'import secrets; print(secrets.token_urlsafe())')"
     JWT_SECRET=$(python3 -c 'import secrets; print("string:" + secrets.token_urlsafe())')
@@ -38,6 +39,9 @@ ckan config-tool "${CKAN_INI}" -s logger_otel "handlers = console"
 # Configure OpenTelemetry plugin
 ckan config-tool "${CKAN_INI}" "digitraffic_opentelemetry.baggage_keys = w3c.trace_id aws.cf.id user.id"
 ckan config-tool "${CKAN_INI}" "digitraffic_opentelemetry.otel_logger_name = otel"
+
+# Configure plugins
+ckan config-tool "${CKAN_INI}" "ckan.csrf_protection.ignore_extensions = False"
 
 # Run the prerun script to init CKAN
 python3 prerun.py
