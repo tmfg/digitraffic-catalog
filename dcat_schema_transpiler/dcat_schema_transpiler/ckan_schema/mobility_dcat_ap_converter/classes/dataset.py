@@ -162,7 +162,7 @@ class DCATDataset(RangeValueConverter):
                     )
                     | super().get_property_label_with_help_text(clazz_p.iri)
                 ),
-                "preset": "textarea",
+                "preset": "fluent_textarea",
             }
         elif clazz_p.is_iri(DCTERMS.title) or clazz_p.is_iri(ADMS.versionNotes):
             super_schema = super().get_schema(ds, clazz_p, is_required=False)
