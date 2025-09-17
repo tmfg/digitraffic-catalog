@@ -329,7 +329,7 @@ TRANSLATIONS = {
                 },
             },
         },
-        DCTERMS.title: {"label": {"en": "Title", "fi": "Nimike", "sv": "Titel"}},
+        DCTERMS.title: {"label": {"en": "Resource title", "fi": "Resurssin nimike", "sv": "Resursens titel"}},
     },
     DCAT.DataService: {
         "label": {"en": "Data Service", "fi": "Tietopalvelu", "sv": "Datatjänst"},
