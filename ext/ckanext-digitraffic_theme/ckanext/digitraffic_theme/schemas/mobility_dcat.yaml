@@ -5969,11 +5969,12 @@ resource_fields:
   help_text:
     en: A sample Distribution of the Dataset. A data sample allows data users to investigate
       the data content and data structure, without subscribing to a data feed or downloading
-      a complete data set.
-    fi: Ote tietoaineistosta sisällön arviointia varten.
+      a complete data set. The value must be a URL.
+    fi: Ote tietoaineistosta sisällön arviointia varten. Arvon pitää olla URL.
     sv: Ett exempel på distribution av datauppsättningen. Med hjälp av ett dataurval
       kan dataanvändare undersöka datainnehållet och datastrukturen utan att prenumerera
-      på en datafeed eller ladda ned en fullständig datamängd.
+      på en datafeed eller ladda ned en fullständig datamängd. Värdet måste vara en
+      URL.
   necessity: optional
   preset: url
 - field_name: mobility_data_standard
