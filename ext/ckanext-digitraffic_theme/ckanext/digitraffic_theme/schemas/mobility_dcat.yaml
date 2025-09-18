@@ -40,7 +40,7 @@ dataset_fields:
     sv: Beskrivning
   required: false
   necessity: mandatory
-  preset: fluent_core_translated
+  preset: fluent_textarea
   form_languages:
   - en
   - fi
@@ -3890,7 +3890,7 @@ resource_fields:
       en: Description of the data service the API is a part of, if applicable.
       fi: Kuvaus palvelusta mikäli rajapinta on osa laajempaa palvelukokonaisuutta.
       sv: Beskrivning av den datatjänst som gränssnittet är en del av, om tillämpligt.
-    preset: fluent_core_translated
+    preset: fluent_textarea
     form_languages:
     - en
     - fi
@@ -3966,7 +3966,7 @@ resource_fields:
     sv: Beskrivning
   required: false
   necessity: recommended
-  preset: fluent_core_translated
+  preset: fluent_textarea
   form_languages:
   - en
   - fi
@@ -5392,7 +5392,7 @@ resource_fields:
     sv: Anteckningar om dataformat
   required: false
   necessity: optional
-  preset: fluent_core_translated
+  preset: fluent_textarea
   form_languages:
   - en
   - fi
@@ -5969,11 +5969,12 @@ resource_fields:
   help_text:
     en: A sample Distribution of the Dataset. A data sample allows data users to investigate
       the data content and data structure, without subscribing to a data feed or downloading
-      a complete data set.
-    fi: Ote tietoaineistosta sisällön arviointia varten.
+      a complete data set. The value must be a URL.
+    fi: Ote tietoaineistosta sisällön arviointia varten. Arvon pitää olla URL.
     sv: Ett exempel på distribution av datauppsättningen. Med hjälp av ett dataurval
       kan dataanvändare undersöka datainnehållet och datastrukturen utan att prenumerera
-      på en datafeed eller ladda ned en fullständig datamängd.
+      på en datafeed eller ladda ned en fullständig datamängd. Värdet måste vara en
+      URL.
   necessity: optional
   preset: url
 - field_name: mobility_data_standard
