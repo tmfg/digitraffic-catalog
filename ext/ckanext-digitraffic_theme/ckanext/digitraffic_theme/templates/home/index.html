@@ -1,7 +1,7 @@
 {% extends "page.html" %}
 
 {% set hero_title_text = _("Visibility and users for your data") %}
-{% set hero_text =_("The Transport Data Catalog is an open national access point (NAP) for traffic data, where traffic data providers submit information about the data and APIs they offer. For data users, the catalog provides an overview of available data sources, their providers, usage methods, and terms.") %}
+{% set hero_text =_("The Traffic Data Catalogue is an open national access point (NAP) for traffic data, where traffic data providers submit information about the data and APIs they offer. For data users, the catalogue provides an overview of available data sources, their providers, usage methods, and terms.") %}
 
 {% block content %}
 <div class="digitraffic-catalog-homepage">
@@ -34,7 +34,7 @@
 
         {% endif %}
     <section class="steps">
-        <h2>{% trans %}How do I submit my dataset to the catalog?{% endtrans %}</h2>
+        <h2>{% trans %}How do I submit my dataset to the catalogue?{% endtrans %}</h2>
         <div class="step-cards">
             <div class="step-card blue">
                 <div class="step-number">01</div>
@@ -54,7 +54,7 @@
             <div class="step-card black">
                 <div class="step-number">04</div>
                 <div class="step-title">{% trans %}Publish your dataset{% endtrans %}</div>
-                <div class="step-desc">{% trans %}Published dataset descriptions can be browsed by users via the catalog's search functions.{% endtrans %}</div>
+                <div class="step-desc">{% trans %}Published dataset descriptions can be browsed by users via the catalogue's search functions.{% endtrans %}</div>
             </div>
         </div>
         <div class="steps-info-btn">
@@ -68,14 +68,14 @@
 
     <section class="search">
         <h2>{% trans %}Search for datasets{% endtrans %}</h2>
-        <p>{% trans %}Datasets will be added to the catalog as the service is adopted more widely.{% endtrans %}</p>
+        <p>{% trans %}Datasets will be added to the catalogue as the service is adopted more widely.{% endtrans %}</p>
         {% snippet "snippets/dt_header/search_box.html" %}  
     </section>
 
     {% set orgs = h.get_organization_dataset_counts() %}
     {% if orgs %}
     <section class="organizations">
-        <h2>{% trans %}Organizations with datasets in the catalog{% endtrans %}</h2>
+        <h2>{% trans %}Organizations with datasets in the catalogue{% endtrans %}</h2>
         <div class="organization-tags">
             {% for org in orgs %}
                 {% if org.dataset_count > 0 %}
@@ -100,7 +100,7 @@
             <div class="step-counter">2</div>
             <div class="step-texts">
                 <h2 class="step-title">{% trans %}Data collection{% endtrans %}</h2>
-                <div class="step-description">{% trans %}Describing existing datasets in the catalog{% endtrans %}</div>
+                <div class="step-description">{% trans %}Describing existing datasets in the catalogue{% endtrans %}</div>
             </div>
           </div>
           <div class="progress-step">
@@ -121,7 +121,7 @@
             <div class="step-counter">5</div>
             <div class="step-texts">
               <h2 class="step-title">{% trans %}Single NAP{% endtrans %}</h2>
-              <div class="step-description">{% trans %}Completing the catalog with mobility service information, a single national access point model{% endtrans %}</div>
+              <div class="step-description">{% trans %}Completing the catalogue with mobility service information, a single national access point model{% endtrans %}</div>
             </div>
           </div>
         </div>
