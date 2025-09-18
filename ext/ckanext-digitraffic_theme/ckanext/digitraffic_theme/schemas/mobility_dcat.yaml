@@ -40,7 +40,7 @@ dataset_fields:
     sv: Beskrivning
   required: false
   necessity: mandatory
-  preset: fluent_core_translated
+  preset: fluent_textarea
   form_languages:
   - en
   - fi
@@ -3890,7 +3890,7 @@ resource_fields:
       en: Description of the data service the API is a part of, if applicable.
       fi: Kuvaus palvelusta mikäli rajapinta on osa laajempaa palvelukokonaisuutta.
       sv: Beskrivning av den datatjänst som gränssnittet är en del av, om tillämpligt.
-    preset: fluent_core_translated
+    preset: fluent_textarea
     form_languages:
     - en
     - fi
@@ -3966,7 +3966,7 @@ resource_fields:
     sv: Beskrivning
   required: false
   necessity: recommended
-  preset: fluent_core_translated
+  preset: fluent_textarea
   form_languages:
   - en
   - fi
@@ -5392,7 +5392,7 @@ resource_fields:
     sv: Anteckningar om dataformat
   required: false
   necessity: optional
-  preset: fluent_core_translated
+  preset: fluent_textarea
   form_languages:
   - en
   - fi
