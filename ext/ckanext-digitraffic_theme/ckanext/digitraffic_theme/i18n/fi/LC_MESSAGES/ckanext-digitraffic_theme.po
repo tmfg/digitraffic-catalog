@@ -548,11 +548,15 @@ msgstr "Yleiset"
 msgid "This section provides basic information about the dataset."
 msgstr "Tässä osiossa kuvataan tietoaineiston yleiset ominaisuudet."
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:11
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:9
+msgid "See the user manual<br/>for details"
+msgstr "Lue lisää<br/>käyttöoppaasta"
+
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:15
 msgid "Temporal coverage"
 msgstr "Ajallinen kattavuus"
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:12
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:16
 msgid ""
 "This section describes the temporal coverage of the dataset, if applicable. May "
 "be left empty for continuously updated data."
@@ -560,11 +564,11 @@ msgstr ""
 "Tässä osiossa kuvaillaan tietoaineiston ajallinen kattavuus, jos se on "
 "määriteltävissä. Jatkuvasti päivittyville tiedoille tämän voi jättää tyhjäksi."
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:21
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:25
 msgid "Versioning"
 msgstr "Versiointi"
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:22
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:26
 msgid ""
 "This section provides information regarding the dataset version. Mostly "
 "applicable for static datasets."
@@ -572,11 +576,11 @@ msgstr ""
 "Tässä osiossa kuvataan tietoaineiston versiotiedot. Soveltuu käytettäväksi "
 "lähinnä staattisissa aineistopaketeissa."
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:26
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:30
 msgid "Assessment"
 msgstr "Arvio"
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:27
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:31
 msgid ""
 "This section describes the result and date of an assessment or assessments made "
 "by a third party or parties. The assessment of data sets under EU delegated "
@@ -586,39 +590,39 @@ msgstr ""
 "tulos. EU:n delegoitujen asetusten mukaisten tietoaineistojen arvioinnin "
 "suorittaa yleensä kansallinen valvova viranomainen."
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:31
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:35
 msgid "Additional information"
 msgstr "Lisätiedot"
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:32
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:36
 msgid "Additional details concerning the dataset."
 msgstr "Lisätietoja tietoaineistoon liittyen."
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:38
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:42
 msgid "Contact points"
 msgstr "Yhteyspisteet"
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:39
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:43
 msgid "Contact details for a person or organization."
 msgstr "Henkilön tai organisaation yhteystiedot."
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:45
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:49
 msgid "Rights holders"
 msgstr "Oikeuksien haltijat"
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:46
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:50
 msgid "Contact details for the rights holder."
 msgstr "Oikeuksien haltijan yhteystiedot."
 
 # | msgid "Next: Add data"
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:78
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:82
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:84
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:86
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:88
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:59
 msgid "Add data"
 msgstr "Lisää dataa"
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:97
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:101
 msgid ""
 "In CKAN, a dataset refers to a collection of resources (e.g., files) along with "
 "their descriptions and other metadata, such as a permanent URL."
@@ -626,11 +630,11 @@ msgstr ""
 "Tietoaineisto tarkoittaa CKAN:issa kokoelmaa resursseja (esim. tiedostoja) sekä "
 "niihin liittyvää kuvausta ja muuta metatietoa, kuten pysyvää URL-osoitetta."
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:156
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:160
 msgid "Update {page}"
 msgstr "Päivitä {page}"
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:158
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/package_form.html:162
 msgid "Next"
 msgstr "Seuraava"
 
