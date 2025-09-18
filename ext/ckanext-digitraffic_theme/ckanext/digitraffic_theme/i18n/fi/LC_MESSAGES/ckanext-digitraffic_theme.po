@@ -228,7 +228,7 @@ msgstr ""
 "yhteyspisteen malli"
 
 #: ckanext/digitraffic_theme/templates/home/instructions.html:8
-msgid "Why publish data in Traffic Data Catalogue?"
+msgid "Why publish data in the Traffic Data Catalogue?"
 msgstr "Miksi julkaista dataa Liikennedatakatalogissa?"
 
 #: ckanext/digitraffic_theme/templates/home/instructions.html:10

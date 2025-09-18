@@ -225,7 +225,7 @@ msgstr ""
 "en nationell åtkomstpunkt"
 
 #: ckanext/digitraffic_theme/templates/home/instructions.html:8
-msgid "Why publish data in Traffic Data Catalogue?"
+msgid "Why publish data in the Traffic Data Catalogue?"
 msgstr "Varför publicera data i Trafikdatakatalogen?"
 
 #: ckanext/digitraffic_theme/templates/home/instructions.html:10
