@@ -1,9 +1,8 @@
 {% extends "multilingual_field.html" %}
 
-
 {%- block field_inputs -%}
     {%- for lang in h.fluent_form_languages(field, entity_type, object_type, schema) -%}
-      {% call form.input(
+      {% call form.textarea(
         field.field_name + '-' + lang,
         id='field-' + field.field_name + '-' + lang,
         label=h.fluent_form_label(field, lang) + " " + language_specifiers[lang],

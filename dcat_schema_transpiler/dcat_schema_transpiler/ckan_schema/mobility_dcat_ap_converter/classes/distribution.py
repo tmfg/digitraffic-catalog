@@ -107,15 +107,24 @@ class Distribution(RangeValueConverter):
                         ["character_encoding_validator"]
                     ),
                 }
-            elif (
-                clazz_p.is_iri(DCTERMS.description)
-                or clazz_p.is_iri(DCTERMS.title)
-                or clazz_p.is_iri(MOBILITYDCATAP.dataFormatNotes)
+
+            # Multilingual fields should have "required: false" at the field level.
+            # Required input languages are given in separate field "required_languages".
+            elif clazz_p.is_iri(DCTERMS.description) or clazz_p.is_iri(
+                MOBILITYDCATAP.dataFormatNotes
             ):
-                """
-                Multilingual fields should have "required: false" at the field level.
-                Required input languages are given in separate field "required_languages".
-                """
+                super_schema = super().get_schema(ds, clazz_p, is_required=False)
+                schema = {
+                    **(
+                        super_schema
+                        | RangeValueConverter.get_translated_field_properties(
+                            super_schema.get("label", {}) if super_schema else {},
+                            is_required,
+                        )
+                    ),
+                    "preset": "fluent_textarea",
+                }
+            elif clazz_p.is_iri(DCTERMS.title):
                 super_schema = super().get_schema(ds, clazz_p, is_required=False)
                 schema = {
                     **(
