@@ -66,7 +66,18 @@ class DataService(AggregateRangeValueConverter):
         Multilingual fields should have "required: false" at the field level.
         Required input languages are given in separate field "required_languages".
         """
-        if clazz_p.is_iri(DCTERMS.title) or clazz_p.is_iri(DCTERMS.description):
+        if clazz_p.is_iri(DCTERMS.description):
+            schema = super().get_schema(ds, clazz_p, is_required=False)
+            return {
+                **(
+                    schema
+                    | RangeValueConverter.get_translated_field_properties(
+                        schema.get("label", {}) if schema else {}, is_required
+                    )
+                ),
+                "preset": "fluent_textarea",
+            }
+        if clazz_p.is_iri(DCTERMS.title):
             schema = super().get_schema(ds, clazz_p, is_required=False)
             return {
                 **(

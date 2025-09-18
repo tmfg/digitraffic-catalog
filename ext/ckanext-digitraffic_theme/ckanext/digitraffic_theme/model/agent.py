@@ -18,6 +18,7 @@ class AgentInput(TypedDict):
     address: NotRequired[LOCNAddress]
     mbox: NotRequired[Literal]
     phone: NotRequired[Literal]
+    url: NotRequired[URIRef]
 
 
 class Agent(ClassInstance):
@@ -32,6 +33,7 @@ class Agent(ClassInstance):
         self.address = input.get("address")
         self.mbox = input.get("mbox")
         self.phone = input.get("phone")
+        self.url = input.get("url")
 
     def predicate_objects(self):
         return self.filter_used_properties(
@@ -42,5 +44,6 @@ class Agent(ClassInstance):
                 (LOCN.address, self.address),
                 (FOAF.mbox, self.mbox),
                 (FOAF.phone, self.phone),
+                (FOAF.workplaceHomepage, self.url)
             ]
         )
