@@ -61,7 +61,15 @@ Example:
     {% for group_key, group in groups.items() %}
     <div class="field-group"{%- if group.module -%} data-module="{{ group.module }}"{%- endif -%}>
       <h3>{{ group.label }}</h3>
-      <p class="help-text">{{ group.help_text }}</p>
+      <div class="field-group-help">
+        <p class="help-text">{{ group.help_text }}</p>
+        {% if group.help_link %}
+          <a href="{{ group.help_link.url }}" target="_blank" rel="noopener noreferrer" class="help-link">
+            <i class="bi bi-book" aria-hidden="true"></i>
+            {{ group.help_link.text }}
+          </a>
+        {% endif %}
+      </div>
         {%- snippet 'package/snippets/form_field_renderer.html',
           fields=group.fields,
           schema_fields=schema_fields,
