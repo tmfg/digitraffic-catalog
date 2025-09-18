@@ -15,6 +15,25 @@
         "left-4";
 }
 
+.field-group-help {
+    display: flex;
+    align-items: start;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+
+    p:first-child {
+        flex: 1;
+    }
+
+    .help-link {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding-left: 6px;
+    }
+}
+
 .left-1 {
     grid-area: left-1;
 }
