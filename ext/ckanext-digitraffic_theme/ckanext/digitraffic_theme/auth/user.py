@@ -108,8 +108,8 @@ def member_list(context: Context, data_dict: DataDict) -> AuthResult:
     """The member list of an organization or group should only be visible for
     its members and sysadmins."""
     user = context.get("user")
-    roles = authz.users_role_for_group_or_org(data_dict["id"], user)
-    if not user or roles is None:
+    role = authz.users_role_for_group_or_org(data_dict["id"], user)
+    if not user or not role:
         return {"success": False}
 
     return {"success": True}
