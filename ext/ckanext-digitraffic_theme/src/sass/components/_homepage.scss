@@ -94,12 +94,12 @@
     }
 
     .hero-content p {
-        font-size: 1.2rem;
+        font-size: 1rem;
         line-height: 1.5;
     }
 
     .hero-content li {
-        font-size: 1.2rem;
+        font-size: 1rem;
         line-height: 1.5;
     }
 
@@ -647,7 +647,7 @@
 
         .hero-image {
             width: 50%;
-            background: url(/images/Fintraffic_F-merkki_musta_rgb.png) center center/cover no-repeat;
+            background: url(/images/Fintraffic_F-merkki_musta_rgb.png) center center/contain no-repeat;
             display: block;
 
             @media (max-width: 900px) {

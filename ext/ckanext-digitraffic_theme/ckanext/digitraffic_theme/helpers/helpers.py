@@ -113,7 +113,7 @@ def get_organization_dataset_counts():
 
 def get_site_title():
     titles = {
-        "en": "Transport Data Catalog",
+        "en": "Traffic Data Catalogue",
         "fi": "Liikennedatakatalogi",
         "sv": "Trafikdatakatalog",
     }
