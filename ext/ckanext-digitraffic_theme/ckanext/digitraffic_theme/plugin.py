@@ -43,6 +43,7 @@ from ckanext.digitraffic_theme.validators.resource_validators import (
     application_layer_protocol_validator,
     character_encoding_validator,
 )
+from ckanext.digitraffic_theme.profiles.metadata_middleware import add_encoding_middleware
 from ckanext.digitraffic_theme.helpers.helpers import helpers
 from ckanext.digitraffic_theme.search.search import before_dataset_index
 
@@ -63,6 +64,14 @@ class DigitrafficThemePlugin(plugins.SingletonPlugin, DefaultTranslation):
     plugins.implements(plugins.IBlueprint)
     plugins.implements(plugins.IPackageController, inherit=True)
     plugins.implements(plugins.IConfigurer)
+    plugins.implements(plugins.IMiddleware)
+
+    def make_middleware(self, app, config):
+        add_encoding_middleware(app)
+        return app
+
+    def make_error_log_middleware(self, app, config):
+        return app
 
     def get_validators(self):
         return {
