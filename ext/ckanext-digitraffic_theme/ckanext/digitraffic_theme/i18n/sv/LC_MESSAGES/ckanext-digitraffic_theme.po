@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-digitraffic_theme 0.0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-09-09 11:44+0000\n"
-"PO-Revision-Date: 2025-09-09 14:44+0300\n"
+"POT-Creation-Date: 2025-09-29 08:26+0000\n"
+"PO-Revision-Date: 2025-09-29 11:44+0300\n"
 "Last-Translator: \n"
 "Language-Team: sv <LL@li.org>\n"
 "Language: sv\n"
@@ -52,8 +52,20 @@ msgstr "URL"
 msgid "File"
 msgstr "Fil"
 
-msgid "Close"
-msgstr "Stäng"
+# | msgid "Finish"
+#: ckanext/digitraffic_theme/templates/multilingual_field.html:4
+msgid "in English"
+msgstr "på engelska"
+
+# | msgid "Add Finnish"
+#: ckanext/digitraffic_theme/templates/multilingual_field.html:5
+msgid "in Finnish"
+msgstr "på finska"
+
+# | msgid "Add Swedish"
+#: ckanext/digitraffic_theme/templates/multilingual_field.html:6
+msgid "in Swedish"
+msgstr "på svenska"
 
 #: ckanext/digitraffic_theme/templates/admin/base.html:5
 msgid "Sysadmins"
@@ -63,21 +75,81 @@ msgstr "Systemadministratörer"
 msgid "Trash"
 msgstr "Papperskorg"
 
-#: ckanext/digitraffic_theme/templates/home/about.html:8
-msgid "The Traffic Data Catalogue is an open national access point (NAP) defined in EU legislation, where road operators and various service providers must submit information about the traffic infrastructure and road traffic data they produce. The aim of national access points is to enable the smooth sharing and use of traffic data in various digital traffic management and information services, such as navigation services. NAP is not a service intended for road users or travelers but rather facilitates information exchange between traffic sector stakeholders."
-msgstr "Trafikdatakatalogen är en öppen nationell kontaktpunkt (National Access Point, NAP) definierad i EU-lagstiftningen, där väghållare och olika tjänsteleverantörer ska lämna information om den trafikrelaterade infrastrukturen och vägtrafiken de producerar. Syftet med nationella kontaktpunkter är att möjliggöra smidig delning och användning av trafikdata i olika digitala trafikstyrnings- och informationssystem, såsom navigeringstjänster. NAP är alltså inte en tjänst riktad till trafikanter, utan den tjänar informationsutbytet mellan aktörer inom trafiksektorn."
+#: ckanext/digitraffic_theme/templates/group/read_base.html:4
+#: ckanext/digitraffic_theme/templates/organization/read_base.html:4
+#: ckanext/digitraffic_theme/templates/snippets/dt_header/app_navigation.html:5
+#: ckanext/digitraffic_theme/templates/user/read_base.html:22
+msgid "Datasets"
+msgstr "Datamängder"
 
-#: ckanext/digitraffic_theme/templates/home/about.html:13
-msgid "This national access point implements the EU ITS Directive and the Commission's delegated regulations 2022/670 (known as the RTTI regulation), 886/2013 (known as the SRTI regulation), and the regulation on alternative fuel infrastructure 2023/1804 (known as the AFIR regulation)."
-msgstr "Denna nationella kontaktpunkt implementerar EU:s ITS-direktiv och kommissionens delegerade förordningar 2022/670 (s.k. RTTI-förordningen), 886/2013 (s.k. SRTI-förordningen) samt förordningen om infrastruktur för alternativa bränslen 2023/1804 (s.k. AFIR-förordningen)."
+#: ckanext/digitraffic_theme/templates/group/read_base.html:7
+#: ckanext/digitraffic_theme/templates/organization/read_base.html:7
+msgid "Members"
+msgstr ""
 
-#: ckanext/digitraffic_theme/templates/home/about.html:18
-msgid "The corresponding national access point for multimodal mobility services (known as the MMTIS regulation) is the Mobility Services Catalogue (finap.fi)."
-msgstr "Den motsvarande nationella kontaktpunkten för multimodala mobilitetstjänster (s.k. MMTIS-förordningen) är Mobilitetstjänstkatalogen (finap.fi)."
+#: ckanext/digitraffic_theme/templates/group/read_base.html:9
+#: ckanext/digitraffic_theme/templates/home/about.html:5
+#: ckanext/digitraffic_theme/templates/organization/read_base.html:9
+#: ckanext/digitraffic_theme/templates/snippets/dt_header/app_navigation.html:8
+#: ckanext/digitraffic_theme/templates/user/edit_user_form.html:14
+msgid "About"
+msgstr "Om"
 
-#: ckanext/digitraffic_theme/templates/home/about.html:23
-msgid "The Traffic Data Catalogue functions as a metadata catalogue, where the content of datasets is described using metadata and the address of the interface or service where the data is available. Conditions of use, such as license terms, are also described in the catalogue. Thus, the national access point becomes a directory of Finland's road traffic data, providing data users a clear overview of the available data."
-msgstr "Trafikdatakatalogen fungerar som en metadatakatalog, där innehållet i datamaterialet beskrivs med metadata och adressen till gränssnittet eller tjänsten där informationen är tillgänglig anges. Även villkor för användning, såsom licensvillkor, beskrivs i katalogen. Därmed blir den nationella kontaktpunkten ett register över vägtrafikdata i Finland, varifrån olika aktörer som använder data enkelt får en överblick över tillgänglig information."
+#: ckanext/digitraffic_theme/templates/home/about.html:7
+msgid ""
+"The Traffic Data Catalogue is an open national access point (NAP) defined in EU "
+"legislation, where road operators and various service providers must submit "
+"information about the traffic infrastructure and road traffic data they produce. "
+"The aim of national access points is to enable the smooth sharing and use of "
+"traffic data in various digital traffic management and information services, "
+"such as navigation services. NAP is not a service intended for road users or "
+"travelers but rather facilitates information exchange between traffic sector "
+"stakeholders."
+msgstr ""
+"Trafikdatakatalogen är en öppen nationell kontaktpunkt (National Access Point, "
+"NAP) definierad i EU-lagstiftningen, där väghållare och olika "
+"tjänsteleverantörer ska lämna information om den trafikrelaterade "
+"infrastrukturen och vägtrafiken de producerar. Syftet med nationella "
+"kontaktpunkter är att möjliggöra smidig delning och användning av trafikdata i "
+"olika digitala trafikstyrnings- och informationssystem, såsom "
+"navigeringstjänster. NAP är alltså inte en tjänst riktad till trafikanter, utan "
+"den tjänar informationsutbytet mellan aktörer inom trafiksektorn."
+
+#: ckanext/digitraffic_theme/templates/home/about.html:12
+msgid ""
+"This national access point implements the EU ITS Directive and the Commission's "
+"delegated regulations 2022/670 (known as the RTTI regulation), 886/2013 (known "
+"as the SRTI regulation), and the regulation on alternative fuel infrastructure "
+"2023/1804 (known as the AFIR regulation)."
+msgstr ""
+"Denna nationella kontaktpunkt implementerar EU:s ITS-direktiv och kommissionens "
+"delegerade förordningar 2022/670 (s.k. RTTI-förordningen), 886/2013 (s.k. SRTI-"
+"förordningen) samt förordningen om infrastruktur för alternativa bränslen "
+"2023/1804 (s.k. AFIR-förordningen)."
+
+#: ckanext/digitraffic_theme/templates/home/about.html:17
+msgid ""
+"The corresponding national access point for multimodal mobility services (known "
+"as the MMTIS regulation) is the Mobility Services Catalogue (finap.fi)."
+msgstr ""
+"Den motsvarande nationella kontaktpunkten för multimodala mobilitetstjänster "
+"(s.k. MMTIS-förordningen) är Mobilitetstjänstkatalogen (finap.fi)."
+
+#: ckanext/digitraffic_theme/templates/home/about.html:22
+msgid ""
+"The Traffic Data Catalogue functions as a metadata catalogue, where the content "
+"of datasets is described using metadata and the address of the interface or "
+"service where the data is available. Conditions of use, such as license terms, "
+"are also described in the catalogue. Thus, the national access point becomes a "
+"directory of Finland's road traffic data, providing data users a clear overview "
+"of the available data."
+msgstr ""
+"Trafikdatakatalogen fungerar som en metadatakatalog, där innehållet i "
+"datamaterialet beskrivs med metadata och adressen till gränssnittet eller "
+"tjänsten där informationen är tillgänglig anges. Även villkor för användning, "
+"såsom licensvillkor, beskrivs i katalogen. Därmed blir den nationella "
+"kontaktpunkten ett register över vägtrafikdata i Finland, varifrån olika aktörer "
+"som använder data enkelt får en överblick över tillgänglig information."
 
 #: ckanext/digitraffic_theme/templates/home/hero_buttons.html:2
 msgid "Register"
@@ -99,9 +171,9 @@ msgid ""
 "they offer. For data users, the catalogue provides an overview of available data "
 "sources, their providers, usage methods, and terms."
 msgstr ""
-"Trafikdatakatalogen är en öppen nationell åtkomstpunkt (NAP) för trafikdata, "
-"där trafikdataleverantörer lämnar information om data och API:er de erbjuder. "
-"För dataanvändare ger katalogen en översikt över tillgängliga datakällor, "
+"Trafikdatakatalogen är en öppen nationell åtkomstpunkt (NAP) för trafikdata, där "
+"trafikdataleverantörer lämnar information om data och API:er de erbjuder. För "
+"dataanvändare ger katalogen en översikt över tillgängliga datakällor, "
 "leverantörer, användningsmetoder och villkor."
 
 #: ckanext/digitraffic_theme/templates/home/index.html:17
@@ -130,7 +202,7 @@ msgstr ""
 "Datamängder och deras beskrivningar är alltid kopplade till en organisation."
 
 #: ckanext/digitraffic_theme/templates/home/index.html:46
-#: ckanext/digitraffic_theme/templates/home/instructions.html:36
+#: ckanext/digitraffic_theme/templates/home/instructions.html:50
 msgid "Create a dataset"
 msgstr "Skapa en datamängd"
 
@@ -154,69 +226,69 @@ msgstr "Publicera datamängden"
 
 #: ckanext/digitraffic_theme/templates/home/index.html:57
 msgid ""
-"Published dataset descriptions can be browsed by users via the catalogue's search "
-"functions."
+"Published dataset descriptions can be browsed by users via the catalogue's "
+"search functions."
 msgstr ""
 "Publicerade datamängdsbeskrivningar kan bläddras av användare via katalogens "
 "sökfunktioner."
 
-#: ckanext/digitraffic_theme/templates/home/index.html:70
+#: ckanext/digitraffic_theme/templates/home/index.html:63
 msgid "Read more about creating datasets"
 msgstr "Läs mer om att skapa datamängder"
 
-#: ckanext/digitraffic_theme/templates/home/index.html:77
+#: ckanext/digitraffic_theme/templates/home/index.html:70
 msgid "Search for datasets"
 msgstr "Sök efter datamängder"
 
-#: ckanext/digitraffic_theme/templates/home/index.html:78
+#: ckanext/digitraffic_theme/templates/home/index.html:71
 msgid ""
 "Datasets will be added to the catalogue as the service is adopted more widely."
 msgstr ""
 "Datamängder kommer att läggas till i katalogen i takt med att tjänsten används "
 "mer allmänt."
 
-#: ckanext/digitraffic_theme/templates/home/index.html:85
+#: ckanext/digitraffic_theme/templates/home/index.html:78
 msgid "Organizations with datasets in the catalogue"
 msgstr "Organisationer med datamängder i katalogen"
 
-#: ckanext/digitraffic_theme/templates/home/index.html:97
+#: ckanext/digitraffic_theme/templates/home/index.html:90
 msgid "Development path"
 msgstr "Utvecklingsväg"
 
-#: ckanext/digitraffic_theme/templates/home/index.html:102
+#: ckanext/digitraffic_theme/templates/home/index.html:95
 msgid "Launch"
 msgstr "Lansering"
 
-#: ckanext/digitraffic_theme/templates/home/index.html:109
+#: ckanext/digitraffic_theme/templates/home/index.html:102
 msgid "Data collection"
 msgstr "Datainsamling"
 
-#: ckanext/digitraffic_theme/templates/home/index.html:110
+#: ckanext/digitraffic_theme/templates/home/index.html:103
 msgid "Describing existing datasets in the catalogue"
 msgstr "Beskrivning av befintliga datamängder i katalogen"
 
-#: ckanext/digitraffic_theme/templates/home/index.html:116
+#: ckanext/digitraffic_theme/templates/home/index.html:109
 msgid "Established use"
 msgstr "Etablerad användning"
 
-#: ckanext/digitraffic_theme/templates/home/index.html:117
+#: ckanext/digitraffic_theme/templates/home/index.html:110
 msgid "Dataset information is maintained and new datasets are added"
 msgstr "Datamängdsinformation underhålls och nya datamängder läggs till"
 
-#: ckanext/digitraffic_theme/templates/home/index.html:123
+#: ckanext/digitraffic_theme/templates/home/index.html:116
 msgid "Integrations"
 msgstr "Integrationer"
 
-#: ckanext/digitraffic_theme/templates/home/index.html:124
+#: ckanext/digitraffic_theme/templates/home/index.html:117
 msgid "Metadata transfer to other catalogs and harvesting from other catalogs"
 msgstr ""
 "Metadataöverföring till andra kataloger och inhämtning från andra kataloger"
 
-#: ckanext/digitraffic_theme/templates/home/index.html:130
+#: ckanext/digitraffic_theme/templates/home/index.html:123
 msgid "Single NAP"
 msgstr "Single NAP"
 
-#: ckanext/digitraffic_theme/templates/home/index.html:131
+#: ckanext/digitraffic_theme/templates/home/index.html:124
 msgid ""
 "Completing the catalogue with mobility service information, a single national "
 "access point model"
@@ -224,74 +296,122 @@ msgstr ""
 "Komplettering av katalogen med information om mobilitetstjänster, en modell med "
 "en nationell åtkomstpunkt"
 
-#: ckanext/digitraffic_theme/templates/home/instructions.html:8
+#: ckanext/digitraffic_theme/templates/home/instructions.html:11
 msgid "Why publish data in the Traffic Data Catalogue?"
 msgstr "Varför publicera data i Trafikdatakatalogen?"
 
-#: ckanext/digitraffic_theme/templates/home/instructions.html:10
-msgid "Legislation requires traffic data holders, such as municipalities, to make their data available through the National Access Point (NAP). However, this is not just an obligation – it also brings significant opportunities:"
-msgstr "Lagstiftningen förpliktar innehavare av trafikdata, såsom kommuner, att göra sina uppgifter tillgängliga via den nationella kontaktpunkten. Detta är dock inte bara en skyldighet – det erbjuder också stora möjligheter:"
-
 #: ckanext/digitraffic_theme/templates/home/instructions.html:13
-msgid "The visibility and impact of traffic data is increased both nationally and internationally."
+msgid ""
+"Legislation requires traffic data holders, such as municipalities, to make their "
+"data available through the National Access Point (NAP). However, this is not "
+"just an obligation – it also brings significant opportunities:"
+msgstr ""
+"Lagstiftningen förpliktar innehavare av trafikdata, såsom kommuner, att göra "
+"sina uppgifter tillgängliga via den nationella kontaktpunkten. Detta är dock "
+"inte bara en skyldighet – det erbjuder också stora möjligheter:"
+
+#: ckanext/digitraffic_theme/templates/home/instructions.html:16
+msgid ""
+"The visibility and impact of traffic data is increased both nationally and "
+"internationally."
 msgstr "Trafikdata får synlighet och påverkan både nationellt och internationellt."
 
-#: ckanext/digitraffic_theme/templates/home/instructions.html:14
-msgid "The data is interoperable and easy to use in, for example, digital services, research, and traffic planning."
-msgstr "Data är interoperabel och lätt att använda, till exempel i digitala tjänster, forskning och trafikplanering."
-
-#: ckanext/digitraffic_theme/templates/home/instructions.html:15
-msgid "Open data enables new innovations and better services for travellers, residents, and businesses."
-msgstr "Öppna data skapar nya innovationer och bättre tjänster för resenärer, invånare och företag."
+#: ckanext/digitraffic_theme/templates/home/instructions.html:17
+msgid ""
+"The data is interoperable and easy to use in, for example, digital services, "
+"research, and traffic planning."
+msgstr ""
+"Data är interoperabel och lätt att använda, till exempel i digitala tjänster, "
+"forskning och trafikplanering."
 
 #: ckanext/digitraffic_theme/templates/home/instructions.html:18
-msgid "By publishing your data through the NAP, you meet the legal requirements while also advancing the development of smart mobility."
-msgstr "Genom att publicera era data via kontaktpunkten uppfyller ni lagkraven och främjar samtidigt utvecklingen av smart trafik."
+msgid ""
+"Open data enables new innovations and better services for travellers, residents, "
+"and businesses."
+msgstr ""
+"Öppna data skapar nya innovationer och bättre tjänster för resenärer, invånare "
+"och företag."
 
 #: ckanext/digitraffic_theme/templates/home/instructions.html:21
+msgid ""
+"By publishing your data through the NAP, you meet the legal requirements while "
+"also advancing the development of smart mobility."
+msgstr ""
+"Genom att publicera era data via kontaktpunkten uppfyller ni lagkraven och "
+"främjar samtidigt utvecklingen av smart trafik."
+
+#: ckanext/digitraffic_theme/templates/home/instructions.html:24
 msgid "Add new dataset"
 msgstr "Lägg till ny datamängd"
 
-#: ckanext/digitraffic_theme/templates/home/instructions.html:35
+#: ckanext/digitraffic_theme/templates/home/instructions.html:38
 msgid "Register as a user"
 msgstr "Registrera dig som användare"
 
-#: ckanext/digitraffic_theme/templates/home/instructions.html:37
-msgid "Start <a href=\"{{ register_url }}\">by registering</a> as a user of the Traffic Data Catalogue. If you already have Fintraffic ID in use, you can skip the registration and log in using your Fintraffic ID."
-msgstr "Börja <a href=\"{{ register_url }}\">med att registrera</a> dig som användare av Trafikdatakatalogen. Om du redan har ett Fintraffic ID i bruk kan du hoppa över registreringen och logga in med Fintraffic ID."
+# | msgid "State"
+#: ckanext/digitraffic_theme/templates/home/instructions.html:40
+msgid "Start"
+msgstr "Börja"
 
-#: ckanext/digitraffic_theme/templates/home/instructions.html:38
-msgid "Once you are logged in to the Traffic Data Catalogue, you need to request your organization's membership from your organization's administrator. If your organization is not already in the catalogue, please request to be added by emailing us at: <a href=\"mailto:nap@fintraffic.fi\">nap@fintraffic.fi</a>"
-msgstr "När du har loggat in på Trafikdatakatalogen måste du begära medlemskap för din organisation från organisationens administratör. Om din organisation inte redan finns i katalogen kan du begära att bli tillagd genom att skicka ett e-postmeddelande till oss på: <a href=\"mailto:nap@fintraffic.fi\">nap@fintraffic.fi</a>"
+# | msgid "Register"
+#: ckanext/digitraffic_theme/templates/home/instructions.html:40
+msgid "by registering"
+msgstr "med att registrera"
 
-#: ckanext/digitraffic_theme/templates/home/instructions.html:47
+# | msgid "" "Start <a href=\"{{ register_url }}\">by registering</a> as a
+# user
+# | of the " "Traffic Data Catalogue. If you already have Fintraffic ID in
+# use,
+# | you can" " skip the registration and log in using your Fintraffic ID."
+#: ckanext/digitraffic_theme/templates/home/instructions.html:40
 msgid ""
-"Describe and create your dataset according to the fields and instructions on "
-"the form. At the dataset level, you describe the general properties of the "
-"data. The actual data and the APIs or services distributing it are described in "
-"the next step."
+"as a user of the Traffic Data Catalogue. If you already have Fintraffic ID in "
+"use, you can skip the registration and log in using your Fintraffic ID."
+msgstr ""
+"dig som användare av Trafikdatakatalogen. Om du redan har ett Fintraffic ID i "
+"bruk kan du hoppa över registreringen och logga in med Fintraffic ID."
+
+#: ckanext/digitraffic_theme/templates/home/instructions.html:41
+msgid ""
+"Once you are logged in to the Traffic Data Catalogue, you need to request your "
+"organization's membership from your organization's administrator. If your "
+"organization is not already in the catalogue, please request to be added by "
+"emailing us at: <a href=\"mailto:nap@fintraffic.fi\">nap@fintraffic.fi</a>"
+msgstr ""
+"När du har loggat in på Trafikdatakatalogen måste du begära medlemskap för din "
+"organisation från organisationens administratör. Om din organisation inte redan "
+"finns i katalogen kan du begära att bli tillagd genom att skicka ett e-"
+"postmeddelande till oss på: <a "
+"href=\"mailto:nap@fintraffic.fi\">nap@fintraffic.fi</a>"
+
+#: ckanext/digitraffic_theme/templates/home/instructions.html:51
+msgid ""
+"Describe and create your dataset according to the fields and instructions on the "
+"form. At the dataset level, you describe the general properties of the data. The "
+"actual data and the APIs or services distributing it are described in the next "
+"step."
 msgstr ""
 "Beskriv och skapa din datamängd enligt fälten och instruktionerna i formuläret. "
 "På datamängdsnivå beskriver du datans allmänna egenskaper. Själva datan och "
 "API:erna eller tjänsterna som distribuerar den beskrivs i nästa steg."
 
-#: ckanext/digitraffic_theme/templates/home/instructions.html:55
+#: ckanext/digitraffic_theme/templates/home/instructions.html:59
 msgid "Add resources"
 msgstr "Lägg till resurser"
 
-#: ckanext/digitraffic_theme/templates/home/instructions.html:56
+#: ckanext/digitraffic_theme/templates/home/instructions.html:60
 msgid ""
 "A single dataset can have several data sources, such as APIs and file packages. "
 "At this stage, add the different ways to access the dataset."
 msgstr ""
-"En enskild datamängd kan ha flera datakällor, såsom API:er och filpaket. I "
-"detta steg lägger du till de olika sätten att få tillgång till datamängden."
+"En enskild datamängd kan ha flera datakällor, såsom API:er och filpaket. I detta "
+"steg lägger du till de olika sätten att få tillgång till datamängden."
 
-#: ckanext/digitraffic_theme/templates/home/instructions.html:64
+#: ckanext/digitraffic_theme/templates/home/instructions.html:68
 msgid "Publish the dataset"
 msgstr "Publicera datamängden"
 
-#: ckanext/digitraffic_theme/templates/home/instructions.html:65
+#: ckanext/digitraffic_theme/templates/home/instructions.html:69
 msgid ""
 "By setting the dataset's visibility to \"Public\", your dataset will be visible "
 "to all users in the catalogue and can be found using the catalogue's search "
@@ -321,17 +441,26 @@ msgstr "Bild (PNG/JPG/GIF)"
 msgid "Clear Upload"
 msgstr "Rensa uppladdning"
 
-#: ckanext/digitraffic_theme/templates/macros/form/input_block.html:27
+#: ckanext/digitraffic_theme/templates/macros/form/input_block.html:28
 msgid "Custom"
 msgstr "Anpassad"
 
-#: ckanext/digitraffic_theme/templates/macros/form/markdown.html:31
+#: ckanext/digitraffic_theme/templates/macros/form/markdown.html:27
+msgid "Close"
+msgstr "Stäng"
+
+#: ckanext/digitraffic_theme/templates/macros/form/markdown.html:32
 #, python-format
-msgid "You can use <a href=\"#markdown\" title=\"Markdown quick reference\" data-bs-toggle=\"popover\" data-bs-template=\"%(markdown_template)s\" data-bs-content=\"%(markdown_tooltip)s\" data-bs-html=\"true\">Markdown formatting</a> here"
+msgid ""
+"You can use <a href=\"#markdown\" title=\"Markdown quick reference\" data-bs-"
+"toggle=\"popover\" data-bs-template=\"%(markdown_template)s\" data-bs-"
+"content=\"%(markdown_tooltip)s\" data-bs-html=\"true\">Markdown formatting</a> "
+"here"
 msgstr ""
 "Du kan använda <a href=\"#markdown\" title=\"Snabbreferens för Markdown\" data-"
-"bs-toggle=\"popover\" data-bs-template=\"%(markdown_template)s\" data-bs-content=\"%(markdown_tooltip)s\" data-bs-"
-"html=\"true\">Markdown-formatering</a> här"
+"bs-toggle=\"popover\" data-bs-template=\"%(markdown_template)s\" data-bs-"
+"content=\"%(markdown_tooltip)s\" data-bs-html=\"true\">Markdown-formatering</a> "
+"här"
 
 #: ckanext/digitraffic_theme/templates/package/edit_base.html:11
 msgid "Edit"
@@ -353,29 +482,55 @@ msgstr "Ordna om resurser"
 msgid "Collaborators"
 msgstr "Medarbetare"
 
-#: ckanext/digitraffic_theme/templates/package/read.html:8
+#: ckanext/digitraffic_theme/templates/package/read.html:7
+#: ckanext/digitraffic_theme/templates/package/snippets/package_basic_fields.html:8
+#: ckanext/digitraffic_theme/templates/scheming/form_snippets/organization.html:34
+#: ckanext/digitraffic_theme/templates/snippets/package_item.html:31
+msgid "For organization members"
+msgstr "För organisationsmedlemmar"
+
+#: ckanext/digitraffic_theme/templates/package/read.html:16
 #: ckanext/digitraffic_theme/templates/snippets/package_item.html:42
 msgid "Draft"
 msgstr "Utkast"
 
-#: ckanext/digitraffic_theme/templates/package/read.html:11
+#: ckanext/digitraffic_theme/templates/package/read.html:19
 #: ckanext/digitraffic_theme/templates/snippets/package_item.html:44
 msgid "Deleted"
 msgstr "Raderad"
 
-#: ckanext/digitraffic_theme/templates/package/resource_read.html:7
-#: ckanext/digitraffic_theme/templates/package/resource_read.html:9
+# | msgid "Add resources"
+#: ckanext/digitraffic_theme/templates/package/resource_edit_base.html:5
+#: ckanext/digitraffic_theme/templates/package/resource_read.html:5
+#: ckanext/digitraffic_theme/templates/package/snippets/resource_item.html:33
+#: ckanext/digitraffic_theme/templates/package/snippets/resources.html:18
+#, fuzzy
+msgid "Edit resource"
+msgstr "Lägg till resurser"
+
+#: ckanext/digitraffic_theme/templates/package/resource_read.html:14
+#: ckanext/digitraffic_theme/templates/package/resource_read.html:16
 msgid "URL:"
 msgstr "URL:"
 
-#: ckanext/digitraffic_theme/templates/package/resource_read.html:18
+#: ckanext/digitraffic_theme/templates/package/resource_read.html:25
 msgid "Dataset description:"
 msgstr "Beskrivning av datamängd:"
 
-#: ckanext/digitraffic_theme/templates/package/resource_read.html:20
+#: ckanext/digitraffic_theme/templates/package/resource_read.html:27
 #, python-format
 msgid "Source: <a href=\"%(url)s\">%(dataset)s</a>"
 msgstr "Källa: <a href=\"%(url)s\">%(dataset)s</a>"
+
+#: ckanext/digitraffic_theme/templates/package/snippets/package_basic_fields.html:5
+#: ckanext/digitraffic_theme/templates/scheming/form_snippets/organization.html:31
+msgid "Visibility"
+msgstr "Synlighet"
+
+#: ckanext/digitraffic_theme/templates/package/snippets/package_basic_fields.html:8
+#: ckanext/digitraffic_theme/templates/scheming/form_snippets/organization.html:34
+msgid "Public"
+msgstr "Offentlig"
 
 #: ckanext/digitraffic_theme/templates/package/snippets/package_form.html:48
 msgid "Are you sure you want to delete this dataset?"
@@ -390,7 +545,7 @@ msgstr "Radera"
 msgid "Next: Add data"
 msgstr "Nästa: Lägg till data"
 
-#: ckanext/digitraffic_theme/templates/package/snippets/package_form.html:58
+#: ckanext/digitraffic_theme/templates/package/snippets/package_form.html:59
 msgid ""
 "Form information will be saved as a draft in your datasets when you continue to "
 "the next step."
@@ -479,6 +634,40 @@ msgstr "Slutför"
 msgid "Add"
 msgstr "Lägg till"
 
+# | msgid "Previous"
+#: ckanext/digitraffic_theme/templates/package/snippets/resource_item.html:10
+#, fuzzy
+msgid "Preview"
+msgstr "Föregående"
+
+# | msgid "Additional information"
+#: ckanext/digitraffic_theme/templates/package/snippets/resource_item.html:13
+#, fuzzy
+msgid "More information"
+msgstr "Ytterligare information"
+
+#: ckanext/digitraffic_theme/templates/package/snippets/resource_item.html:24
+msgid "Download"
+msgstr ""
+
+# | msgid "Add resources"
+#: ckanext/digitraffic_theme/templates/package/snippets/resource_item.html:27
+#, fuzzy
+msgid "Go to resource"
+msgstr "Lägg till resurser"
+
+#: ckanext/digitraffic_theme/templates/package/snippets/resources.html:10
+#: ckanext/digitraffic_theme/templates/package/snippets/resources.html:14
+#: ckanext/digitraffic_theme/templates/package/snippets/resources.html:25
+msgid "Navigate to resource: {name}"
+msgstr ""
+
+# | msgid "Add resources"
+#: ckanext/digitraffic_theme/templates/package/snippets/resources_list.html:8
+#, fuzzy
+msgid "Add new resource"
+msgstr "Lägg till resurser"
+
 #: ckanext/digitraffic_theme/templates/scheming/form_snippets/_organization_select.html:24
 msgid "No organization"
 msgstr "Ingen organisation"
@@ -491,44 +680,10 @@ msgstr "Tid"
 msgid "Timezone"
 msgstr "Tidszon"
 
-# | msgid "Finish"
-#: ckanext/digitraffic_theme/templates/scheming/form_snippets/fluent_text.html:4
-msgid "in English"
-msgstr "på engelska"
-
-# | msgid "Add Finnish"
-#: ckanext/digitraffic_theme/templates/scheming/form_snippets/fluent_text.html:5
-msgid "in Finnish"
-msgstr "på finska"
-
-# | msgid "Add Swedish"
-#: ckanext/digitraffic_theme/templates/scheming/form_snippets/fluent_text.html:6
-msgid "in Swedish"
-msgstr "på svenska"
-
 #: ckanext/digitraffic_theme/templates/scheming/form_snippets/iri_fragment_input.html:19
-msgid ""
-"With no JavaScript enabled, you need to specify the full IRI for this field"
+msgid "With no JavaScript enabled, you need to specify the full IRI for this field"
 msgstr ""
 "Utan JavaScript aktiverat måste du ange den fullständiga IRI:n för detta fält"
-
-#: ckanext/digitraffic_theme/templates/scheming/form_snippets/organization.html:31
-msgid "Visibility"
-msgstr "Synlighet"
-
-#: ckanext/digitraffic_theme/templates/scheming/form_snippets/organization.html:34
-msgid "Private"
-msgstr "Privat"
-
-#: ckanext/digitraffic_theme/templates/package/read.html:7
-#: ckanext/digitraffic_theme/templates/snippets/package_basic_fields.html:8
-#: ckanext/digitraffic_theme/templates/snippets/package_item.html:31
-msgid "For organization members"
-msgstr "För organisationsmedlemmar"
-
-#: ckanext/digitraffic_theme/templates/scheming/form_snippets/organization.html:34
-msgid "Public"
-msgstr "Offentlig"
 
 #: ckanext/digitraffic_theme/templates/scheming/package/read.html:25
 msgid "XML format"
@@ -648,32 +803,32 @@ msgid "Next"
 msgstr "Nästa"
 
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:6
+msgid "Resource description"
+msgstr "Resursbeskrivning"
+
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:7
+msgid "Description of the resource."
+msgstr "Beskrivning av resursen."
+
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:11
 msgid "Resource URLs"
 msgstr "Resurs-URL:er"
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:7
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:12
 msgid "URLs giving access to the resource."
 msgstr "URL:er som ger åtkomst till resursen."
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:11
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:16
 msgid "Data service"
 msgstr "Datatjänst"
 
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:12
+#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:17
 msgid ""
 "If the resource is accessed through a data service (such as an API or platform "
 "that provides access to various data), describe that data service here."
 msgstr ""
 "Om resursen nås via en datatjänst (såsom ett API eller en plattform som ger "
 "tillgång till olika data), beskriv den datatjänsten här."
-
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:16
-msgid "Resource description"
-msgstr "Resursbeskrivning"
-
-#: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:17
-msgid "Description of the resource."
-msgstr "Beskrivning av resursen."
 
 #: ckanext/digitraffic_theme/templates/scheming/package/snippets/resource_form.html:24
 msgid "Additional information concerning related formats and data standards."
@@ -721,11 +876,6 @@ msgstr "Valfri"
 msgid "There is no description for this dataset"
 msgstr "Det finns ingen beskrivning för denna datamängd"
 
-#: ckanext/digitraffic_theme/templates/snippets/dt_header/app_navigation.html:5
-#: ckanext/digitraffic_theme/templates/user/read_base.html:22
-msgid "Datasets"
-msgstr "Datamängder"
-
 #: ckanext/digitraffic_theme/templates/snippets/dt_header/app_navigation.html:6
 #: ckanext/digitraffic_theme/templates/user/read_base.html:23
 msgid "Organizations"
@@ -735,11 +885,6 @@ msgstr "Organisationer"
 #: ckanext/digitraffic_theme/templates/user/read_base.html:24
 msgid "Groups"
 msgstr "Grupper"
-
-#: ckanext/digitraffic_theme/templates/snippets/dt_header/app_navigation.html:8
-#: ckanext/digitraffic_theme/templates/user/edit_user_form.html:14
-msgid "About"
-msgstr "Om"
 
 #: ckanext/digitraffic_theme/templates/snippets/dt_header/app_navigation.html:16
 msgid "Menu"
@@ -1012,3 +1157,6 @@ msgstr ""
 #~ "formulär godkänner du att <i>metadata-värdena</i> som du anger i formuläret "
 #~ "publiceras under <a href=\"http://opendatacommons.org/licenses/odbl/"
 #~ "1-0/\">Open Database License</a>."
+
+#~ msgid "Private"
+#~ msgstr "Privat"

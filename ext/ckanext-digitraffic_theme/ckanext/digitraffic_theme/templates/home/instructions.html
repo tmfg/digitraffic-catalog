@@ -37,7 +37,9 @@
             <div class="step-content">
                 <div class="step-title">{% trans %}Register as a user{% endtrans %}</div>
                 <div class="step-desc">
-                    <p>{% trans %}Start <a href="{{ register_url }}">by registering</a> as a user of the Traffic Data Catalogue. If you already have Fintraffic ID in use, you can skip the registration and log in using your Fintraffic ID.{% endtrans %}</p>
+                    {# The first paragraph is split into several strings to avoid including the <a> element in the translation template.
+                        For some reason including a variable in the translatable string results in the translation not being rendered on the web page. #}
+                    <p>{% trans %}Start{% endtrans %} <a href="{{ register_url }}">{% trans %}by registering{% endtrans %}</a> {% trans %}as a user of the Traffic Data Catalogue. If you already have Fintraffic ID in use, you can skip the registration and log in using your Fintraffic ID.{% endtrans %}</p>
                     <p>{% trans %}Once you are logged in to the Traffic Data Catalogue, you need to request your organization's membership from your organization's administrator. If your organization is not already in the catalogue, please request to be added by emailing us at: <a href="mailto:nap@fintraffic.fi">nap@fintraffic.fi</a>{% endtrans %}</p>
                 </div>
             </div>
