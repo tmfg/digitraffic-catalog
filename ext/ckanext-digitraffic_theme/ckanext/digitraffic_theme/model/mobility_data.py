@@ -1,6 +1,6 @@
 import json
 import re
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 from rdflib import URIRef, Literal
 from datetime import datetime
 
@@ -166,23 +166,28 @@ class MobilityData:
             else {}
         )
 
+        def optional_literal(value: Any) -> Optional[Literal]:
+            return Literal(value) if value else None
+
         def create_agent(ref: URIRef | None, agent_data: Dict[str, Any]):
             agent_type = (
                 AgentType(agent_data["type"]) if agent_data.get("type") else None
             )
+            address_input = {
+                "admin_unit_L1": optional_literal(agent_data.get("admin_unit_l1")),
+                "admin_unit_L2": optional_literal(agent_data.get("admin_unit_l2")),
+                "post_name": optional_literal(agent_data.get("post_name")),
+                "post_code": optional_literal(agent_data.get("post_code")),
+                "thoroughfare": optional_literal(agent_data.get("thoroughfare")),
+            }
+            is_address_info_given = any(address_input.values())
             address = LOCNAddress(
                 None,
-                {
-                    "admin_unit_L1": Literal(agent_data.get("admin_unit_l1")),
-                    "admin_unit_L2": Literal(agent_data.get("admin_unit_l2")),
-                    "post_name": Literal(agent_data.get("post_name")),
-                    "post_code": Literal(agent_data.get("post_code")),
-                    "thoroughfare": Literal(agent_data.get("thoroughfare")),
-                },
-            )
-            mbox = Literal(agent_data.get("mbox"))
-            phone = Literal(agent_data.get("phone"))
-            organizations = Literal(agent_data.get("member_of"))
+                address_input,
+            ) if is_address_info_given else None
+            mbox = optional_literal(agent_data.get("mbox"))
+            phone = optional_literal(agent_data.get("phone"))
+            organizations = optional_literal(agent_data.get("member_of"))
             common_input = {
                 "agent_type": agent_type,
                 "address": address,
@@ -194,14 +199,14 @@ class MobilityData:
                 agent_type
                 and agent_type.iri == AgentType.namespace["PrivateIndividual(s)"]
             ):
-                first_name = Literal(agent_data.get("first_name", ""))
-                surname = Literal(agent_data.get("surname"))
-                workplace_homepage = Literal(agent_data.get("workplace_homepage"))
+                first_name = optional_literal(agent_data.get("first_name"))
+                surname = optional_literal(agent_data.get("surname"))
+                workplace_homepage = optional_literal(agent_data.get("workplace_homepage"))
                 return Person(
                     ref,
                     common_input
                     | {
-                        "name": first_name + ((" " + surname) if surname else ""),
+                        "name": (first_name if first_name else Literal("")) + ((" " + surname) if surname else ""),
                         "first_name": first_name,
                         "surname": surname,
                         "workplace_homepage": workplace_homepage,
@@ -209,7 +214,7 @@ class MobilityData:
                 )
             else:
                 return Organization(
-                    ref, common_input | {"name": Literal(agent_data.get("name"))}
+                    ref, common_input | {"name": Literal(agent_data.get("organization_name"))}
                 )
 
         rights_holder = (
