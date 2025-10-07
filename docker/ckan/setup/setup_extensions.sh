@@ -25,6 +25,6 @@ ckan config-tool $CKAN_INI "scheming.presets = ckanext.scheming:presets.json cka
 ## be returned
 ckan config-tool $CKAN_INI "ckanext.dcat.enable_content_negotiation = True"
 ## Add mobility_dcat_ap profile
-ckan config-tool $CKAN_INI "ckanext.dcat.rdf.profiles = euro_dcat_ap mobility_dcat_ap"
+ckan config-tool $CKAN_INI "ckanext.dcat.rdf.profiles = mobility_dcat_ap"
 ## If this is True, it will break the package_dict data model
 ckan config-tool $CKAN_INI "ckanext.dcat.translate_keys = False"
