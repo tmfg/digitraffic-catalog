@@ -8,7 +8,7 @@ def add_encoding_middleware(response: Response, url_data: DcatURLData) -> Respon
     """Add a middleware to ensure UTF-8 encoding for all metadata responses."""
     content_type = response.headers.get('Content-Type', '')
     if 'charset=' not in content_type:
-        response.headers['Content-Type'] = f'{content_type}; charset=utf-8'
+        response.headers['Content-Type'] = f'{content_type}; charset=utf-8' if content_type.strip() != '' else 'text/plain; charset=utf-8'
     return response
 
 @dcat_metadata_middleware("before")
