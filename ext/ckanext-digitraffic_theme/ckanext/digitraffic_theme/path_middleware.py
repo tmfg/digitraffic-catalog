@@ -58,9 +58,9 @@ def dcat_metadata_middleware(point_of_execution: Literal["before", "after"] = "a
         id_pattern = "[a-zA-Z0-9-]{1,100}"
         catalog_path = toolkit.config.get(
             "ckanext.dcat.catalog_endpoint", dcat_utils.DEFAULT_CATALOG_ENDPOINT
-        ).replace("{_format}", format_pattern)
+        ).replace(".{_format}", f"\.(?P<format>{format_pattern})")
         paths_to_modify = [
-            (rf'{catalog_path}\.(?P<format>{format_pattern})', _get_dcat_url_data),
+            (rf'{catalog_path}', _get_dcat_url_data),
             (rf'/dataset/(?P<dataset_id>{id_pattern})\.(?P<format>{format_pattern})', _get_dcat_url_data),
         ]
         if point_of_execution=="before":
