@@ -16,8 +16,8 @@ class AgentInput(TypedDict):
     agent_type: NotRequired[AgentType]
     # Optional properties
     address: NotRequired[LOCNAddress]
-    mbox: NotRequired[Literal]
-    phone: NotRequired[Literal]
+    mbox: NotRequired[URIRef]
+    phone: NotRequired[URIRef]
     url: NotRequired[URIRef]
 
 

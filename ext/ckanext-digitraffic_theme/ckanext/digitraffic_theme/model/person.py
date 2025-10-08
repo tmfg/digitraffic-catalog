@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from typing import TypedDict, NotRequired
-from rdflib import Literal
+from rdflib import Literal, URIRef
 from rdflib.namespace import FOAF, ORG
 from ckanext.digitraffic_theme.model.agent import Agent, AgentInput
 from ckanext.digitraffic_theme.model.organization import Organization
@@ -10,7 +10,7 @@ from ckanext.digitraffic_theme.model.organization import Organization
 class PersonInput(TypedDict, AgentInput):
     first_name: NotRequired[Literal]
     surname: NotRequired[Literal]
-    workplace_homepage: NotRequired[Literal]
+    workplace_homepage: NotRequired[URIRef]
     member_of: NotRequired[Organization]
 
 
