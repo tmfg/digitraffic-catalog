@@ -66,6 +66,7 @@ class MobilityDCATAPProfile(RDFProfile):
 
         # We'll end up adding Dataset metadata when injecting record
         self._inject_record(mobility_data, dataset_ref)
+        self._remove_empty_values(g)
 
     def graph_from_catalog(self, catalog_dict, catalog_ref):
         g: Graph = self.g
@@ -117,6 +118,12 @@ class MobilityDCATAPProfile(RDFProfile):
                     if len(same_triples) > 1:
                         g.remove((service, p, o))
                         g.add((service, p, o))
+
+    def _remove_empty_values(self, g:Graph):
+        """CKAN saves empty strings to the database. Remove those from the graph."""
+        for s, p, o in g:
+            if isinstance(o, Literal) and o.value == "":
+                g.remove((s, p, o))
 
     def _add_translation(self, g: Graph, subject: URIRef, predicate: URIRef, translation: Translations):
         for lang, text in translation.items():

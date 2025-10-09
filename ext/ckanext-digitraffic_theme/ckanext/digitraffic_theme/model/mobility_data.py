@@ -1,7 +1,7 @@
 import json
 import re
-from typing import Any, Dict
-from rdflib import URIRef, Literal
+from typing import Any, Dict, Optional
+from rdflib import URIRef, Literal, XSD
 from datetime import datetime
 
 from ckanext.dcat.utils import (
@@ -68,29 +68,29 @@ class MobilityData:
                     ContactPoint(
                         None,
                         {
-                            "email": Literal(contact_point["has_email"]),
+                            "email": self._mail_to_uri(contact_point["has_email"]),
                             "full_name": Literal(contact_point["fn"]),
-                            "website": Literal(contact_point.get("has_url")),
-                            "address": VCARDAddress(
-                                None,
+                            "website": self._url_to_uri(contact_point.get("has_url")) if contact_point.get("has_url") else None,
+                            "address": self._optional_resource(
+                                VCARDAddress,
                                 {
-                                    "country_name": Literal(
+                                    "country_name": self._optional_literal(
                                         contact_point.get("country_name")
                                     ),
-                                    "locality": Literal(contact_point.get("locality")),
-                                    "postal_code": Literal(
+                                    "locality": self._optional_literal(contact_point.get("locality")),
+                                    "postal_code": self._optional_literal(
                                         contact_point.get("postal_code")
                                     ),
-                                    "region": Literal(contact_point.get("region")),
-                                    "street_address": Literal(
+                                    "region": self._optional_literal(contact_point.get("region")),
+                                    "street_address": self._optional_literal(
                                         contact_point.get("street_address")
                                     ),
                                 },
                             ),
-                            "affiliation": Literal(
+                            "affiliation": self._optional_literal(
                                 contact_point.get("organization_name")
                             ),
-                            "telephone": Literal(contact_point.get("has_telephone")),
+                            "telephone": self._phonenumber_to_uri(contact_point.get("has_telephone")) if contact_point.get("has_telephone") else None,
                         },
                     )
                     for contact_point in dataset_dict["contact_point"]
@@ -106,12 +106,13 @@ class MobilityData:
                     Assessment(
                         None,
                         {
-                            "assessment_date": Literal(
-                                assessment.get("assessment_date")
+                            "assessment_date": self._optional_literal(
+                                assessment.get("assessment_date"),
+                                datatype=XSD.date
                             ),
                             "assessment_result": URIRef(
                                 assessment.get("assessment_result")
-                            ),
+                            ) if assessment.get("assessment_result") else None,
                             # assessmment_target is not included in the schema - give it the required value here
                             "assessment_target": URIRef(dataset_ref),
                         },
@@ -170,20 +171,19 @@ class MobilityData:
             agent_type = (
                 AgentType(agent_data["type"]) if agent_data.get("type") else None
             )
-            address = LOCNAddress(
-                None,
-                {
-                    "admin_unit_L1": Literal(agent_data.get("admin_unit_l1")),
-                    "admin_unit_L2": Literal(agent_data.get("admin_unit_l2")),
-                    "post_name": Literal(agent_data.get("post_name")),
-                    "post_code": Literal(agent_data.get("post_code")),
-                    "thoroughfare": Literal(agent_data.get("thoroughfare")),
-                },
-            )
-            mbox = Literal(agent_data.get("mbox"))
-            phone = Literal(agent_data.get("phone"))
-            organizations = Literal(agent_data.get("member_of"))
+            address_input = {
+                "admin_unit_L1": self._optional_literal(agent_data.get("admin_unit_l1")),
+                "admin_unit_L2": self._optional_literal(agent_data.get("admin_unit_l2")),
+                "post_name": self._optional_literal(agent_data.get("post_name")),
+                "post_code": self._optional_literal(agent_data.get("post_code")),
+                "thoroughfare": self._optional_literal(agent_data.get("thoroughfare")),
+            }
+            address = self._optional_resource(LOCNAddress, address_input)
+            mbox = self._mail_to_uri(agent_data.get("mbox")) if agent_data.get("mbox") else None
+            phone = self._phonenumber_to_uri(agent_data.get("phone")) if agent_data.get("phone") else None
+            organizations = self._optional_literal(agent_data.get("member_of"))
             common_input = {
+                "name": Literal(agent_data.get("name")),
                 "agent_type": agent_type,
                 "address": address,
                 "mbox": mbox,
@@ -194,14 +194,13 @@ class MobilityData:
                 agent_type
                 and agent_type.iri == AgentType.namespace["PrivateIndividual(s)"]
             ):
-                first_name = Literal(agent_data.get("first_name", ""))
-                surname = Literal(agent_data.get("surname"))
-                workplace_homepage = Literal(agent_data.get("workplace_homepage"))
+                first_name = self._optional_literal(agent_data.get("first_name"))
+                surname = self._optional_literal(agent_data.get("surname"))
+                workplace_homepage = self._url_to_uri(agent_data.get("workplace_homepage")) if agent_data.get("workplace_homepage") else None
                 return Person(
                     ref,
                     common_input
                     | {
-                        "name": first_name + ((" " + surname) if surname else ""),
                         "first_name": first_name,
                         "surname": surname,
                         "workplace_homepage": workplace_homepage,
@@ -209,7 +208,7 @@ class MobilityData:
                 )
             else:
                 return Organization(
-                    ref, common_input | {"name": Literal(agent_data.get("name"))}
+                    ref, common_input
                 )
 
         rights_holder = (
@@ -457,7 +456,7 @@ class MobilityData:
                 ],
                 "publisher": create_agent(
                     organization_ref,
-                    {"organization_name": dataset_dict["organization"]["name"]},
+                    {"name": dataset_dict["organization"]["name"]},
                 ),
                 **(
                     {
@@ -522,3 +521,28 @@ class MobilityData:
                 "modified": Literal(dataset_dict["metadata_modified"]),
             },
         )
+
+    def _optional_literal(self, value: Any, datatype:str=None) -> Optional[Literal]:
+        return Literal(value, datatype=datatype) if value else None
+
+    def _optional_resource(self, resource_constructor, values_dict: dict[str, Any]):
+        is_values_given = any(values_dict.values())
+        return resource_constructor(
+            None,
+            values_dict,
+        ) if is_values_given else None
+
+    def _mail_to_uri(self, email: str) -> URIRef:
+        if email.startswith("mailto:"):
+            return URIRef(email)
+        return URIRef(f"mailto:{email}")
+
+    def _url_to_uri(self, url: str) -> URIRef:
+        if url.startswith("http://") or url.startswith("https://"):
+            return URIRef(url)
+        return URIRef(f"http://{url}")
+
+    def _phonenumber_to_uri(self, phone: str) -> URIRef:
+        if phone.startswith("tel:"):
+            return URIRef(phone)
+        return URIRef(f"tel:{phone.replace(" ", "")}")

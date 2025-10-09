@@ -11,14 +11,14 @@ from ckanext.digitraffic_theme.model.class_instance import ClassInstance
 
 class ContactPointInput(TypedDict):
     # Mandatory properties
-    email: Literal
+    email: URIRef
     full_name: Literal
     # Recommended properties
-    website: NotRequired[Literal]
+    website: NotRequired[URIRef]
     # Optional properties
     address: NotRequired[VCARDAddress]
     affiliation: NotRequired[Literal]
-    telephone: NotRequired[Literal]
+    telephone: NotRequired[URIRef]
 
 
 class ContactPoint(ClassInstance):
@@ -34,18 +34,27 @@ class ContactPoint(ClassInstance):
         self.telephone = input.get("telephone")
 
     def predicate_objects(self):
-        return [
+        pos = [
             (RDF.type, self.type),
             (VCARD.hasEmail, self.email),
-            (VCARD.fn, self.full_name),
-            (VCARD.hasURL, self.website),
-            (VCARD.hasAddress, self.address),
-            (VCARD["organization-name"], self.affiliation),
-            (VCARD.hasTelephone, self.telephone),
+            (VCARD.fn, self.full_name) if self.full_name else None,
+            (VCARD.hasURL, self.website) if self.website else None,
+            (VCARD.hasAddress, self.address) if self.address else None,
+            (VCARD["organization-name"], self.affiliation) if self.affiliation else None,
+            (VCARD.hasTelephone, self.telephone) if self.telephone else None,
         ]
+        return [po for po in pos if po is not None]
 
     def validate(self, input: ContactPointInput):
         mandatory_properties = ["email", "full_name"]
         for mp in mandatory_properties:
-            if input.get(mp).value is None:
-                raise ValueError(f"{mp} property cannot be None")
+            property = input.get(mp)
+            match property:
+                case URIRef():
+                    if str(property).strip() == "":
+                        raise ValueError(f"{mp} property cannot be empty")
+                case Literal():
+                    if property.value is None:
+                        raise ValueError(f"{mp} property cannot be None")
+                case _:
+                    raise ValueError(f"{mp} property is not valid type: {type(property)}")

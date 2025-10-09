@@ -10,20 +10,20 @@ from ckanext.digitraffic_theme.model.class_instance import ClassInstance
 
 class VCARDAddressInput(TypedDict):
     # Optional properties
-    country_name: Literal
-    locality: Literal
-    postal_code: Literal
-    region: Literal
-    street_address: Literal
+    country_name: NotRequired[Literal]
+    locality: NotRequired[Literal]
+    postal_code: NotRequired[Literal]
+    region: NotRequired[Literal]
+    street_address: NotRequired[Literal]
 
 
 class LOCNAddressInput(TypedDict):
     # Optional properties
-    admin_unit_L1: Literal
-    admin_unit_L2: Literal
-    post_name: Literal
-    post_code: Literal
-    thoroughfare: Literal
+    admin_unit_L1: NotRequired[Literal]
+    admin_unit_L2: NotRequired[Literal]
+    post_name: NotRequired[Literal]
+    post_code: NotRequired[Literal]
+    thoroughfare: NotRequired[Literal]
 
 
 class VCARDAddress(ClassInstance):
@@ -37,14 +37,15 @@ class VCARDAddress(ClassInstance):
         self.street_address = input.get("street_address")
 
     def predicate_objects(self):
-        return [
+        pos = [
             (RDF.type, self.type),
-            (VCARD["country-name"], self.country_name),
-            (VCARD.locality, self.locality),
-            (VCARD["postal-code"], self.postal_code),
-            (VCARD.region, self.region),
-            (VCARD["street-address"], self.street_address),
+            (VCARD["country-name"], self.country_name) if self.country_name else None,
+            (VCARD.locality, self.locality) if self.locality else None,
+            (VCARD["postal-code"], self.postal_code) if self.postal_code else None,
+            (VCARD.region, self.region) if self.region else None,
+            (VCARD["street-address"], self.street_address) if self.street_address else None,
         ]
+        return [po for po in pos if po is not None]
 
 
 class LOCNAddress(ClassInstance):
@@ -58,11 +59,12 @@ class LOCNAddress(ClassInstance):
         self.thoroughfare = input.get("thoroughfare")
 
     def predicate_objects(self):
-        return [
+        pos = [
             (RDF.type, self.type),
-            (LOCN.adminUnitL1, self.admin_unit_L1),
-            (LOCN.adminUnitL2, self.admin_unit_L2),
-            (LOCN.postName, self.post_name),
-            (LOCN.postCode, self.post_code),
-            (LOCN.thoroughfare, self.thoroughfare),
+            (LOCN.adminUnitL1, self.admin_unit_L1) if self.admin_unit_L1 else None,
+            (LOCN.adminUnitL2, self.admin_unit_L2) if self.admin_unit_L2 else None,
+            (LOCN.postName, self.post_name) if self.post_name else None,
+            (LOCN.postCode, self.post_code) if self.post_code else None,
+            (LOCN.thoroughfare, self.thoroughfare) if self.thoroughfare else None,
         ]
+        return [po for po in pos if po is not None]
