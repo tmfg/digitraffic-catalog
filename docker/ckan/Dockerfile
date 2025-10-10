@@ -125,7 +125,7 @@ ONBUILD RUN mkdir /docker-entrypoint.d
 RUN mkdir -p /var/lib/amazon && \
     mkdir -p /var/log/amazon && \
     chmod 777 /var/lib/amazon && \
-    chmod 777 /var/log/amazon \
+    chmod 777 /var/log/amazon
 
 # Create other volumes
 RUN mkdir -p /srv/app/config && \
