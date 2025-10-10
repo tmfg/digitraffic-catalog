@@ -16,4 +16,10 @@ COPY setup/otel.conf.${ENVIRONMENT} ${NGINX_DIR}/otel.conf
 # custom pages
 COPY custompages/* /usr/share/nginx/html/
 
+# add these locations as volumes to enable readonlyRootFilesystem: true in the ECS container 
+VOLUME ["/var/cache/nginx"]
+VOLUME ["/var/run"]
+VOLUME ["/tmp"]
+VOLUME ["/etc/nginx"]
+
 EXPOSE 81
