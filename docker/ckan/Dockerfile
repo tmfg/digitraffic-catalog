@@ -121,11 +121,17 @@ RUN ${APP_DIR}/setup_extensions.sh
 # Create entrypoint directory for children image scripts
 ONBUILD RUN mkdir /docker-entrypoint.d
 
-# Need to declare volumes used for writing so that we can set the root filesystem as read only
-# - It would be better if /srv/app/src did not need writing, but the ckan version 3.10 writes
-#   i18n translations into this directory. In newer CKAN version the translations are written into
-#   CKAN_STORAGE_PATH
-VOLUME ["/srv/app/data", "/srv/app/src", "/srv/app/config", "/tmp"]
+# ECS Exec workaround for readonlyRootFilesystem
+RUN mkdir -p /var/lib/amazon && \
+    mkdir -p /var/log/amazon && \
+    chmod 777 /var/lib/amazon && \
+    chmod 777 /var/log/amazon \
+
+# Create other volumes
+RUN mkdir -p /srv/app/config && \
+    chown -R ckan:ckan /srv/app/config
+
+VOLUME ["$CKAN_STORAGE_PATH", "/srv/app/config", "/tmp", "/var/lib/amazon", "/var/log/amazon"]
 
 EXPOSE 5000
 
