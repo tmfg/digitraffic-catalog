@@ -71,12 +71,6 @@ class MobilityDCATAPProfile(RDFProfile):
     def graph_from_catalog(self, catalog_dict, catalog_ref):
         g: Graph = self.g
 
-        # Remove data that we are going to add ourselves
-        for obj in g.objects(catalog_ref, DCTERMS.title):
-            g.remove((catalog_ref, DCTERMS.title, obj))
-        for obj in g.objects(catalog_ref, DCTERMS.language):
-            g.remove((catalog_ref, DCTERMS.language, obj))
-
         catalog_metadata = {
             'description': {
                 'fi': 'Tämä kansallinen yhteyspiste toteuttaa EU:n ITS-direktiivin ja komission delegoitujen asetusten 2022/670 (nk. RTTI-asetus), 886/2013 (nk. SRTI-asetus) sekä vaihtoehtoisten polttoaineiden infrastruktuuria koskevan asetuksen 2023/1804 (nk. AFIR-asetus) mukaisen kansallisen yhteyspisteen.',
@@ -131,6 +125,10 @@ class MobilityDCATAPProfile(RDFProfile):
 
     def _catalog_metadata(self, g: Graph, catalog_ref: URIRef, catalog_metadata: CatalogMetadata):
         # Mandatory properties
+        add_uriref_to_graph(g, catalog_ref, RDF.type, DCAT.Catalog)
+        last_catalog_modified = self._last_catalog_modification()
+        if last_catalog_modified:
+            self._add_date_triple(catalog_ref, DCTERMS.modified, last_catalog_modified)
 
         self._add_translation(g, catalog_ref, DCTERMS.description, catalog_metadata['description'])
         add_uriref_to_graph(g, catalog_ref, FOAF.homepage, URIRef(catalog_metadata['homepage']))
