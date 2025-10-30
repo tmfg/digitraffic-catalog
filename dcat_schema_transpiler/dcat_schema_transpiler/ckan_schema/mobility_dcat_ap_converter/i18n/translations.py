@@ -329,7 +329,13 @@ TRANSLATIONS = {
                 },
             },
         },
-        DCTERMS.title: {"label": {"en": "Resource title", "fi": "Resurssin nimike", "sv": "Resursens titel"}},
+        DCTERMS.title: {
+            "label": {
+                "en": "Resource title",
+                "fi": "Resurssin nimike",
+                "sv": "Resursens titel",
+            }
+        },
     },
     DCAT.DataService: {
         "label": {"en": "Data Service", "fi": "Tietopalvelu", "sv": "Datatjänst"},
@@ -383,7 +389,11 @@ TRANSLATIONS = {
         },
     },
     DCTERMS.Frequency: {
-        "label": {"en": "Frequency", "fi": "Päivitysten tiheys", "sv": "Frekvens"},
+        "label": {
+            "en": "Update frequency",
+            "fi": "Päivitysten tiheys",
+            "sv": "Uppdateringsfrekvens",
+        },
     },
     DCTERMS.LicenseDocument: {
         DCTERMS.identifier: {

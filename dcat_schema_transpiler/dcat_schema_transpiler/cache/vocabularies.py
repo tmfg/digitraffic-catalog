@@ -38,7 +38,7 @@ def create_cached_file(name: str, format: Literal["rdf", "ttl", "csv"]) -> str:
         file_abspath = os.path.abspath(
             "./vocabularies/" + cached_file_name + "." + format
         )
-        pprint.pprint(f"Creating file {file_abspath}")
+        pprint.pprint(f"Creating file {file_abspath} for ${name}")
         file_dirname = os.path.dirname(file_abspath)
         os.makedirs(file_dirname, exist_ok=True)
         with open(file_abspath, "w"):
