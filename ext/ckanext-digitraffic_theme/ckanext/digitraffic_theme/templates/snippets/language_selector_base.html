@@ -12,7 +12,12 @@ id - id for select
     <nav class="form-group custom-language-dropdown" tabindex="0">
         <div class="custom-language-options" role="menu">
             {% for locale in h.get_available_locales() %}
-            <div class="custom-language-option" data-value="{% url_for h.current_url(), locale=locale.short_name %}" {% if locale.short_name == current_lang %}selected="selected"{% endif %} role="menuitem" tabindex="0">
+            {% set lang_url %}
+                {%- url_for h.current_url(), locale=locale.short_name -%}
+            {% endset %}
+            {% set clean_url = lang_url.strip().rstrip('/') + '/' %}
+
+            <div class="custom-language-option" data-value="{{ clean_url }}"  {% if locale.short_name == current_lang %}selected="selected"{% endif %} role="menuitem" tabindex="0">
                 <span class="checkmark-container">
                     {% if locale.short_name == current_lang %}
                     <span class="checkmark">✔</span>
