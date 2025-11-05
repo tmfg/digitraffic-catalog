@@ -316,7 +316,7 @@ test.describe.serial('Add new dataset', () => {
 
       // All Dataset properties according to mobilityDCAT-AP specification
       const datasetProperties = new Set<string>([
-        // Mandatory properties (4.10.1)
+        // Mandatory properties
         rdf.RDF.type,
         rdf.DCT.description,
         rdf.DCAT.distribution,
@@ -326,7 +326,7 @@ test.describe.serial('Add new dataset', () => {
         rdf.DCT.title,
         rdf.DCT.publisher,
 
-        // Recommended properties (4.10.2)
+        // Recommended properties
         rdf.MOBILITYDCATAP.georeferencingMethod,
         rdf.DCAT.contactPoint,
         // rdf.DCAT.keyword, According to the spec keywords should not be used
@@ -337,7 +337,7 @@ test.describe.serial('Add new dataset', () => {
         rdf.DCT.temporal,
         rdf.MOBILITYDCATAP.transportMode,
 
-        // Optional properties (4.10.3)
+        // Optional properties
         // rdf.DCATAP.applicableLegislation, Applicable legislation is not used
         rdf.MOBILITYDCATAP.assessmentResult,
         //rdf.DCT.hasVersion, Version info is collected but there is no linking between versions, yet.
@@ -361,6 +361,45 @@ test.describe.serial('Add new dataset', () => {
       for (const property of datasetProperties) {
         const hasProperty = rdfQuads.some(quad => quad.subject.value === datasetSubject && quad.predicate.value === property);
         test.expect(hasProperty, `Dataset is missing property: ${property}`).toBeTruthy();
+      }
+
+      // All Distribution properties according to mobilityDCAT-AP specification
+      const distributionProperties = new Set<string>([
+        // Mandatory properties
+        rdf.RDF.type,
+        rdf.DCAT.accessURL,
+        rdf.MOBILITYDCATAP.mobilityDataStandard,
+        rdf.DCT.format,
+        rdf.DCT.rights,
+
+        // Recommended properties
+        rdf.MOBILITYDCATAP.applicationLayerProtocol,
+        rdf.DCT.description,
+        rdf.DCT.license,
+
+        // Optional properties
+        rdf.DCAT.accessService,
+        rdf.CNT.characterEncoding,
+        rdf.MOBILITYDCATAP.communicationMethod,
+        rdf.MOBILITYDCATAP.dataFormatNotes,
+        rdf.DCAT.downloadURL,
+        rdf.MOBILITYDCATAP.grammar,
+        rdf.ADMS.sample,
+        rdf.DCT.temporal,
+        rdf.DCT.title,
+      ]);
+
+      const distributionSubjects = rdfQuads
+        .filter(quad => quad.predicate.value === rdf.RDF.type && quad.object.value === rdf.DCAT.Distribution)
+        .map(quad => quad.subject.value);
+
+      test.expect(distributionSubjects.length, 'No Distribution found in RDF data').toBeGreaterThan(0);
+
+      for (const distributionSubject of distributionSubjects) {
+        for (const property of distributionProperties) {
+          const hasProperty = rdfQuads.some(quad => quad.subject.value === distributionSubject && quad.predicate.value === property);
+          test.expect(hasProperty, `Distribution ${distributionSubject} is missing property: ${property}`).toBeTruthy();
+        }
       }
 
       await datasetView.getPage().bringToFront()

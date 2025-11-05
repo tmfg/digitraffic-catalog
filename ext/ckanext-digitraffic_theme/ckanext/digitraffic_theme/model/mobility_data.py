@@ -378,6 +378,18 @@ class MobilityData:
                     "sample": URIRef(dist["sample"]) if dist.get("sample") else None,
                     **temporal,
                     **access_service,
+                    **(
+                        {
+                            "title": [
+                                Literal(
+                                    dist.get("name_translated", {}).get(key, ""), lang=key
+                                )
+                                for key
+                                in (dist.get("name_translated") or {}).keys()
+                                if dist.get("name_translated")[key] != ""
+                            ],
+                        }
+                    ),
                 },
             )
 

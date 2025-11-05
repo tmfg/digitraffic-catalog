@@ -1,4 +1,4 @@
-from typing import Any, List, TypedDict, NotRequired
+from typing import Any, List, TypedDict, NotRequired, Optional
 
 from rdflib import Literal, DCAT, DCTERMS, RDF, URIRef
 
@@ -24,18 +24,26 @@ from ckanext.digitraffic_theme.rdf.adms import ADMS
 
 class DistributionInput(TypedDict):
     access_url: URIRef
+    mobility_data_standard: MobilityDataStandard
     format: Format
+    rights: RightsStatement
+
+    # Recommended properties
+    application_layer_protocol: NotRequired[ApplicationLayerProtocol]
+    license: NotRequired[LicenseDocument]
     description: List[Literal]
 
     # optional properties
-    communication_method: CommunicationMethod | None
-    character_encoding: Literal | None
+    communication_method: Optional[CommunicationMethod]
+    character_encoding: Optional[Literal]
+    data_format_notes: List[Literal]
     access_service: DataService
     data_format_notes: List[Literal]
-    download_url: URIRef | None
-    data_grammar: URIRef | None
-    sample: URIRef | None
-    temporal: PeriodOfTime | None
+    download_url: Optional[URIRef]
+    data_grammar: Optional[URIRef]
+    sample: Optional[URIRef]
+    temporal: Optional[PeriodOfTime]
+    title: NotRequired[List[Literal]]
 
 
 class Distribution(ClassInstance):
@@ -59,6 +67,7 @@ class Distribution(ClassInstance):
         self.data_grammar = data.get("data_grammar")
         self.sample = data.get("sample")
         self.temporal = data.get("temporal")
+        self.title = data.get("title")
 
     def predicate_objects(self):
         pos = [
@@ -102,5 +111,9 @@ class Distribution(ClassInstance):
             ),
             (DCTERMS.license, self.license) if self.license else None,
             (DCTERMS.temporal, self.temporal) if self.temporal else None,
+            *[
+                (DCTERMS.title, title)
+                for title in self.title
+            ],
         ]
         return [po for po in pos if po is not None]

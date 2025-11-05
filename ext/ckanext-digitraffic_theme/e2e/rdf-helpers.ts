@@ -10,6 +10,7 @@ export const NS_VCARD = "http://www.w3.org/2006/vcard/ns#"
 export const NS_ADMS = "http://www.w3.org/ns/adms#"
 export const NS_OWL = "http://www.w3.org/2002/07/owl#"
 export const NS_DQV = "http://www.w3.org/ns/dqv#"
+export const NS_CNT = "http://www.w3.org/2011/content#"
 
 export enum RDF {
   type = `${NS_RDF}type`,
@@ -22,6 +23,9 @@ export enum DCAT {
   contactPoint = `${NS_DCAT}contactPoint`,
   keyword = `${NS_DCAT}keyword`,
   theme = `${NS_DCAT}theme`,
+  accessService = `${NS_DCAT}accessService`,
+  downloadURL = `${NS_DCAT}downloadURL`,
+  accessURL = `${NS_DCAT}accessURL`,
 }
 
 export enum DCT {
@@ -41,6 +45,9 @@ export enum DCT {
   relation = `${NS_DCT}relation`,
   issued = `${NS_DCT}issued`,
   modified = `${NS_DCT}modified`,
+  format = `${NS_DCT}format`,
+  license = `${NS_DCT}license`,
+  rights = `${NS_DCT}rights`,
 }
 
 export enum MOBILITYDCATAP {
@@ -50,6 +57,11 @@ export enum MOBILITYDCATAP {
   transportMode = `${NS_MOBILITYDCATAP}transportMode`,
   assessmentResult = `${NS_MOBILITYDCATAP}assessmentResult`,
   intendedInformationService = `${NS_MOBILITYDCATAP}intendedInformationService`,
+  mobilityDataStandard = `${NS_MOBILITYDCATAP}mobilityDataStandard`,
+  applicationLayerProtocol = `${NS_MOBILITYDCATAP}applicationLayerProtocol`,
+  communicationMethod = `${NS_MOBILITYDCATAP}communicationMethod`,
+  dataFormatNotes = `${NS_MOBILITYDCATAP}dataFormatNotes`,
+  grammar = `${NS_MOBILITYDCATAP}grammar`,
 }
 
 export enum DCATAP {
@@ -59,6 +71,7 @@ export enum DCATAP {
 export enum ADMS {
   identifier = `${NS_ADMS}identifier`,
   versionNotes = `${NS_ADMS}versionNotes`,
+  sample = `${NS_ADMS}sample`,
 }
 
 export enum OWL {
@@ -67,4 +80,8 @@ export enum OWL {
 
 export enum DQV {
   hasQualityAnnotation = `${NS_DQV}hasQualityAnnotation`,
+}
+
+export enum CNT {
+  characterEncoding = `${NS_CNT}characterEncoding`,
 }
