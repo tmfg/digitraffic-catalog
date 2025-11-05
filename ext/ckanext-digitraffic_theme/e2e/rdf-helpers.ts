@@ -1,0 +1,70 @@
+export const NS_RDF = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+export const NS_DCAT = "http://www.w3.org/ns/dcat#"
+export const NS_DCT = "http://purl.org/dc/terms/"
+export const NS_MOBILITYDCATAP = "https://w3id.org/mobilitydcat-ap#"
+export const NS_DCATAP = "http://data.europa.eu/r5r/"
+export const NS_ORG = "http://www.w3.org/ns/org#"
+export const NS_XSD = "http://www.w3.org/2001/XMLSchema#"
+export const NS_FOAF = "http://xmlns.com/foaf/0.1/"
+export const NS_VCARD = "http://www.w3.org/2006/vcard/ns#"
+export const NS_ADMS = "http://www.w3.org/ns/adms#"
+export const NS_OWL = "http://www.w3.org/2002/07/owl#"
+export const NS_DQV = "http://www.w3.org/ns/dqv#"
+
+export enum RDF {
+  type = `${NS_RDF}type`,
+}
+
+export enum DCAT {
+  Dataset = `${NS_DCAT}Dataset`,
+  Distribution = `${NS_DCAT}Distribution`,
+  distribution = `${NS_DCAT}distribution`,
+  contactPoint = `${NS_DCAT}contactPoint`,
+  keyword = `${NS_DCAT}keyword`,
+  theme = `${NS_DCAT}theme`,
+}
+
+export enum DCT {
+  title = `${NS_DCT}title`,
+  description = `${NS_DCT}description`,
+  accrualPeriodicity = `${NS_DCT}accrualPeriodicity`,
+  spatial = `${NS_DCT}spatial`,
+  publisher = `${NS_DCT}publisher`,
+  conformsTo = `${NS_DCT}conformsTo`,
+  rightsHolder = `${NS_DCT}rightsHolder`,
+  temporal = `${NS_DCT}temporal`,
+  hasVersion = `${NS_DCT}hasVersion`,
+  identifier = `${NS_DCT}identifier`,
+  isReferencedBy = `${NS_DCT}isReferencedBy`,
+  isVersionOf = `${NS_DCT}isVersionOf`,
+  language = `${NS_DCT}language`,
+  relation = `${NS_DCT}relation`,
+  issued = `${NS_DCT}issued`,
+  modified = `${NS_DCT}modified`,
+}
+
+export enum MOBILITYDCATAP {
+  mobilityTheme = `${NS_MOBILITYDCATAP}mobilityTheme`,
+  georeferencingMethod = `${NS_MOBILITYDCATAP}georeferencingMethod`,
+  networkCoverage = `${NS_MOBILITYDCATAP}networkCoverage`,
+  transportMode = `${NS_MOBILITYDCATAP}transportMode`,
+  assessmentResult = `${NS_MOBILITYDCATAP}assessmentResult`,
+  intendedInformationService = `${NS_MOBILITYDCATAP}intendedInformationService`,
+}
+
+export enum DCATAP {
+  applicableLegislation = `${NS_DCATAP}applicableLegislation`,
+}
+
+export enum ADMS {
+  identifier = `${NS_ADMS}identifier`,
+  versionNotes = `${NS_ADMS}versionNotes`,
+}
+
+export enum OWL {
+  versionInfo = `${NS_OWL}versionInfo`,
+}
+
+export enum DQV {
+  hasQualityAnnotation = `${NS_DQV}hasQualityAnnotation`,
+}

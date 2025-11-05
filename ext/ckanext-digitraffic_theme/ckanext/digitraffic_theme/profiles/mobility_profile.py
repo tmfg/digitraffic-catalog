@@ -57,7 +57,7 @@ class MobilityDCATAPProfile(RDFProfile):
         g.bind("dqv", DQV)
         g.bind("cnt", CNT)
 
-        self._remove_existing_self_managed_graph_data(dataset_ref)
+        #self._remove_existing_self_managed_graph_data(dataset_ref)
         self._update_existing_graph_data(dataset_ref, mobility_data)
 
         # dct:identifier should contain the value of rdf:about (the subject URI)

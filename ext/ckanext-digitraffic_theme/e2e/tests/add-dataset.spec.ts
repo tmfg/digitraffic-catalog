@@ -15,13 +15,15 @@ import { GeoreferencingMethod } from "../../src/ts/model/georeferencing-method";
 import { NetworkCoverage } from "../../src/ts/model/network-coverage";
 import { IntendedInformationService } from "../../src/ts/model/intended-information-service";
 import { OrganizationEditorView } from "../user-views/organization-editor-view";
-import { DatasetPage, EditDatasetPage, NewResourcePage } from "../page-object-models";
+import { DatasetPage, NewResourcePage } from "../page-object-models";
 import { ApplicationLayerProtocol } from "../../src/ts/model/application-layer-protocol";
 import { DataGrammar } from "../../src/ts/model/data-grammar";
 import { CharacterEncoding } from "../../src/ts/model/character-encoding";
 import { CommunicationMethod } from "../../src/ts/model/communication-method";
 import { LicenseId } from "../../src/ts/model/license-id";
 import { OrganizationMemberView } from "../user-views/organization-member-view";
+import { Parser } from 'n3';
+import * as rdf from "../rdf-helpers";
 
 const identitiesToUse = [Identity.OrganizationEditor, Identity.OrganizationMember] as const
 
@@ -295,9 +297,74 @@ test.describe.serial('Add new dataset', () => {
     await organizationView.browseToDatasetPage(secondDatasetInfo.title).then(datasetView => {
       secondDatasetInfo!.id = datasetView.getPOM<DatasetPage>().datasetId
       return datasetView.checkDatasetInfo(secondDatasetInfo!)
-    })
-
-
+    });
   });
 
+  test('Metadata completeness check', async ({ users }) => {
+    if (secondDatasetInfo === undefined) {
+      throw new Error('Second dataset info is not set. Ensure the previous test has run successfully.');
+    }
+    const organizationEditor = getKnownUserOrThrow(users, Identity.OrganizationEditor);
+    const organizationView = await OrganizationEditorView.of(organizationEditor);
+    await organizationView.browseToDatasetPage(secondDatasetInfo.title).then(async datasetView => {
+      const pom = datasetView.getPOM<DatasetPage>();
+      await pom.openRDFTurtleToNewPage();
+      const [rdfPageName, rdfPage] = await datasetView.getUser().getRecentlyOpenedPage();
+      await rdfPage.bringToFront()
+      const serializedRDF = await rdfPage.textContent('body pre');
+      const rdfQuads = (new Parser()).parse(serializedRDF!)
+
+      // All Dataset properties according to mobilityDCAT-AP specification
+      const datasetProperties = new Set<string>([
+        // Mandatory properties (4.10.1)
+        rdf.RDF.type,
+        rdf.DCT.description,
+        rdf.DCAT.distribution,
+        rdf.DCT.accrualPeriodicity,
+        rdf.MOBILITYDCATAP.mobilityTheme,
+        rdf.DCT.spatial,
+        rdf.DCT.title,
+        rdf.DCT.publisher,
+
+        // Recommended properties (4.10.2)
+        rdf.MOBILITYDCATAP.georeferencingMethod,
+        rdf.DCAT.contactPoint,
+        // rdf.DCAT.keyword, According to the spec keywords should not be used
+        rdf.MOBILITYDCATAP.networkCoverage,
+        rdf.DCT.conformsTo,
+        rdf.DCT.rightsHolder,
+        rdf.DCAT.theme,
+        rdf.DCT.temporal,
+        rdf.MOBILITYDCATAP.transportMode,
+
+        // Optional properties (4.10.3)
+        // rdf.DCATAP.applicableLegislation, Applicable legislation is not used
+        rdf.MOBILITYDCATAP.assessmentResult,
+        //rdf.DCT.hasVersion, Version info is collected but there is no linking between versions, yet.
+        rdf.DCT.identifier,
+        // rdf.DCT.isReferencedBy, This is included in the dataset as well in the metadata, but this particular dataset is not referenced by any other dataset.
+        //rdf.DCT.isVersionOf, , Version info is collected but there is no linking between versions, yet.
+        rdf.MOBILITYDCATAP.intendedInformationService,
+        rdf.DCT.language,
+        // rdf.ADMS.identifier, Datasets don't have additional identifiers
+        rdf.DCT.relation,
+        //rdf.DCT.issued, According to the spec issued date should not be used. Instead, Catalogue Record's "created" date is used.
+        //rdf.DCT.modified, This refers to the modification date of the actual data. Cases where the data is changing constantly, this metadata is redundant. We are not asking for it in the dataset metadata.
+        rdf.OWL.versionInfo,
+        rdf.ADMS.versionNotes,
+        rdf.DQV.hasQualityAnnotation,
+      ]);
+
+      const datasetSubject = rdfQuads.find(quad => quad.predicate.value === rdf.RDF.type && quad.object.value === rdf.DCAT.Dataset)?.subject.value;
+      test.expect(datasetSubject, 'Dataset subject not found in RDF data').toBeDefined();
+
+      for (const property of datasetProperties) {
+        const hasProperty = rdfQuads.some(quad => quad.subject.value === datasetSubject && quad.predicate.value === property);
+        test.expect(hasProperty, `Dataset is missing property: ${property}`).toBeTruthy();
+      }
+
+      await datasetView.getPage().bringToFront()
+      await datasetView.getUser().removePage(rdfPageName)
+    });
+  })
 })

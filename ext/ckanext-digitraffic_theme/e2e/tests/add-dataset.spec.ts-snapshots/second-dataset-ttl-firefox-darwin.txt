@@ -1,0 +1,124 @@
+@prefix cnt: <http://www.w3.org/2011/content#> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix dqv: <http://www.w3.org/ns/dqv#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix mobilitydcatap: <https://w3id.org/mobilitydcat-ap#> .
+@prefix ns1: <http://www.w3.org/ns/locn#> .
+@prefix ns2: <http://www.w3.org/2006/vcard/ns#> .
+@prefix ns3: <http://www.w3.org/ns/adms#> .
+@prefix oa: <https://www.w3.org/ns/oa#> .
+@prefix org: <http://www.w3.org/ns/org#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://localhost:8080/data-service/https-example-com-service> a dcat:DataService ;
+    dcterms:accessRights [ a dcterms:RightsStatement ;
+            dcterms:type <https://w3id.org/mobilitydcat-ap/conditions-for-access-and-usage/licence-provided> ] ;
+    dcterms:description "This is a test data service."@en ;
+    dcterms:title "Test Data Service"@en ;
+    dcat:endpointDescription <https://example.com/service-description> ;
+    dcat:endpointURL <https://example.com/service> ;
+    dcat:servesDataset <http://localhost:8080/dataset/19aff238-e9fe-4d23-905d-01807c233520> .
+
+<http://localhost:8080/dataset/19aff238-e9fe-4d23-905d-01807c233520/resource/0b50e3c2-41a0-40e2-ac31-0b8f3a7e70fd> a dcat:Distribution ;
+    dcterms:description "This is a test resource description with all fields."@en ;
+    dcterms:format <http://publications.europa.eu/resource/authority/file-type/CSV> ;
+    dcterms:license [ a dcterms:LicenseDocument ;
+            dcterms:identifier <http://publications.europa.eu/resource/authority/licence/AGPL_3_0> ] ;
+    dcterms:rights [ a dcterms:RightsStatement ;
+            dcterms:type <https://w3id.org/mobilitydcat-ap/conditions-for-access-and-usage/licence-provided> ] ;
+    dcterms:temporal [ a dcterms:PeriodOfTime ;
+            dcat:endDate "2023-12-31T21:59:00+00:00"^^xsd:dateTime ;
+            dcat:startDate "2022-12-31T22:00:00+00:00"^^xsd:dateTime ] ;
+    cnt:characterEncoding "UTF-8" ;
+    ns3:sample <https://example.com/sample.csv> ;
+    dcat:accessService <http://localhost:8080/data-service/https-example-com-service> ;
+    dcat:accessURL "https://example.com/data.csv" ;
+    dcat:downloadURL <https://example.com/download.csv> ;
+    mobilitydcatap:applicationLayerProtocol <https://w3id.org/mobilitydcat-ap/application-layer-protocol/http-https> ;
+    mobilitydcatap:communicationMethod <https://w3id.org/mobilitydcat-ap/communication-method/pull> ;
+    mobilitydcatap:dataFormatNotes "No specific notes."@en ;
+    mobilitydcatap:grammar <https://w3id.org/mobilitydcat-ap/grammar/xsd> ;
+    mobilitydcatap:mobilityDataStandard <https://w3id.org/mobilitydcat-ap/mobility-data-standard/datex-II> .
+
+<http://localhost:8080/organization/ece85e3b-bdac-4e9b-a7b7-7022fcf663b9> a org:Organization ;
+    foaf:name "test-organization" .
+
+<http://localhost:8080/dataset/19aff238-e9fe-4d23-905d-01807c233520> a dcat:Dataset ;
+    dcterms:accrualPeriodicity <http://publications.europa.eu/resource/authority/frequency/DAILY> ;
+    dcterms:description "This is a test dataset description with all fields."@en ;
+    dcterms:identifier "http://localhost:8080/dataset/19aff238-e9fe-4d23-905d-01807c233520" ;
+    dcterms:language <http://publications.europa.eu/resource/authority/language/ENG> ;
+    dcterms:publisher <http://localhost:8080/organization/ece85e3b-bdac-4e9b-a7b7-7022fcf663b9> ;
+    dcterms:relation <http://localhost:8080/dataset/136ea402-75e2-419d-aca9-b6c185adec57> ;
+    dcterms:rightsHolder [ a org:Organization ;
+            dcterms:type <http://purl.org/adms/publishertype/Company> ;
+            ns1:address [ a ns1:Address ;
+                    ns1:adminUnitL1 "http://publications.europa.eu/resource/authority/country/FIN" ;
+                    ns1:adminUnitL2 "Uusimaa" ;
+                    ns1:postCode "01300" ;
+                    ns1:postName "Vantaa" ;
+                    ns1:thoroughfare "Yrityskatu 3" ] ;
+            foaf:mbox <mailto:company@example.com> ;
+            foaf:name "Test Company" ;
+            foaf:phone <tel:+358403456789> ],
+        [ a foaf:Person ;
+            dcterms:type <http://purl.org/adms/publishertype/PrivateIndividual(s)> ;
+            ns1:address [ a ns1:Address ;
+                    ns1:adminUnitL1 "http://publications.europa.eu/resource/authority/country/FIN" ;
+                    ns1:adminUnitL2 "Pirkanmaa" ;
+                    ns1:postCode "33100" ;
+                    ns1:postName "Tampere" ;
+                    ns1:thoroughfare "Yksilökatu 4" ] ;
+            org:memberOf "Test Org" ;
+            foaf:firstName "Test" ;
+            foaf:mbox <mailto:individual@example.com> ;
+            foaf:name "Test Individual" ;
+            foaf:phone <tel:+358404567890> ;
+            foaf:surname "Individual" ;
+            foaf:workplaceHomepage <https://workplace.example.com> ] ;
+    dcterms:spatial <https://w3id.org/stirdata/resource/lau/item/FI_005>,
+        <https://w3id.org/stirdata/resource/lau/item/FI_009> ;
+    dcterms:temporal [ a dcterms:PeriodOfTime ;
+            dcat:endDate "2023-12-31T21:59:00+00:00"^^xsd:dateTime ;
+            dcat:startDate "2022-12-31T22:00:00+00:00"^^xsd:dateTime ] ;
+    dcterms:title "Test Dataset Full Info"@en ;
+    dcat:contactPoint [ a ns2:Kind ;
+            ns2:fn "Test Person" ;
+            ns2:hasAddress [ a ns2:Address ;
+                    ns2:country-name "http://publications.europa.eu/resource/authority/country/FIN" ;
+                    ns2:locality "Espoo" ;
+                    ns2:postal-code "02100" ;
+                    ns2:region "Uusimaa" ;
+                    ns2:street-address "Henkilökatu 2" ] ;
+            ns2:hasEmail <mailto:person@example.com> ;
+            ns2:hasTelephone <tel:+358402345678> ;
+            ns2:hasURL <https://person.example.com> ;
+            ns2:organization-name "Test Organization" ],
+        [ a ns2:Kind ;
+            ns2:fn "Test Organization" ;
+            ns2:hasAddress [ a ns2:Address ;
+                    ns2:country-name "http://publications.europa.eu/resource/authority/country/FIN" ;
+                    ns2:locality "Helsinki" ;
+                    ns2:postal-code "00100" ;
+                    ns2:region "Uusimaa" ;
+                    ns2:street-address "Testikatu 1" ] ;
+            ns2:hasEmail <mailto:org@example.com> ;
+            ns2:hasTelephone <tel:+358401234567> ;
+            ns2:hasURL <https://org.example.com> ] ;
+    dcat:distribution <http://localhost:8080/dataset/19aff238-e9fe-4d23-905d-01807c233520/resource/0b50e3c2-41a0-40e2-ac31-0b8f3a7e70fd> ;
+    dcat:theme <http://publications.europa.eu/resource/authority/data-theme/TRAN> ;
+    dqv:QualityAnnotation [ a dqv:QualityAnnotation ;
+            dcat:Dataset <http://localhost:8080/dataset/19aff238-e9fe-4d23-905d-01807c233520> ;
+            oa:hasBody <https://example.com/quality-description> ] ;
+    mobilitydcatap:Assessment [ a mobilitydcatap:Assessment ;
+            dcterms:issued "2023-06-01"^^xsd:date ;
+            oa:hasBody <https://example.com/assessment-result> ;
+            oa:hasTarget <http://localhost:8080/dataset/19aff238-e9fe-4d23-905d-01807c233520> ] ;
+    mobilitydcatap:georeferencingMethod <https://w3id.org/mobilitydcat-ap/georeferencing-method/other> ;
+    mobilitydcatap:intendedInformationService <https://w3id.org/mobilitydcat-ap/intended-information-service/location-search> ;
+    mobilitydcatap:mobilityTheme <https://w3id.org/mobilitydcat-ap/mobility-theme/bridge-closures-and-access-conditions>,
+        <https://w3id.org/mobilitydcat-ap/mobility-theme/dynamic-traffic-signs-and-regulations> ;
+    mobilitydcatap:networkCoverage <https://w3id.org/mobilitydcat-ap/network-coverage/motorways> ;
+    mobilitydcatap:transportMode <https://w3id.org/mobilitydcat-ap/transport-mode/bike-hire>,
+        <https://w3id.org/mobilitydcat-ap/transport-mode/car> .
