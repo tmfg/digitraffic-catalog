@@ -12,7 +12,19 @@ id - id for select
     <nav class="form-group custom-language-dropdown" tabindex="0">
         <div class="custom-language-options" role="menu">
             {% for locale in h.get_available_locales() %}
-            <div class="custom-language-option" data-value="{% url_for h.current_url(), locale=locale.short_name %}" {% if locale.short_name == current_lang %}selected="selected"{% endif %} role="menuitem" tabindex="0">
+            {% set lang_url %}
+                {%- url_for h.current_url(), locale=locale.short_name -%}
+            {% endset %}
+
+            {# In some environments the language version link might erroneously get two trailing slashes at the root address.
+               We want to remove extra trailing slashes but not add any to links that shouldn't have a trailing slash (e.g. link to the lanugage version of a dataset).  #}
+            {% set trimmed_url = lang_url.strip() %}
+            {% set clean_url = trimmed_url.rstrip('/') %}
+            {% if trimmed_url.endswith('/') %}
+                {% set clean_url = clean_url + '/' %}
+            {% endif %}
+
+            <div class="custom-language-option" data-value="{{ clean_url }}"  {% if locale.short_name == current_lang %}selected="selected"{% endif %} role="menuitem" tabindex="0">
                 <span class="checkmark-container">
                     {% if locale.short_name == current_lang %}
                     <span class="checkmark">✔</span>

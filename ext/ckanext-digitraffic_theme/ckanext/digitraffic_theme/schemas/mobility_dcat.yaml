@@ -62,9 +62,9 @@ dataset_fields:
   - en
 - field_name: frequency
   label:
-    en: Frequency
+    en: Update frequency
     fi: Päivitysten tiheys
-    sv: Frekvens
+    sv: Uppdateringsfrekvens
   necessity: mandatory
   required: true
   preset: select
