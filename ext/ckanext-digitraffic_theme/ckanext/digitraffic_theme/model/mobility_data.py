@@ -460,7 +460,9 @@ class MobilityData:
                     Literal(
                         dataset_dict.get("title_translated", {}).get(key, ""), lang=key
                     )
-                    for key in (dataset_dict.get("title_translated") or {}).keys()
+                    for key
+                    in (dataset_dict.get("title_translated"), {}).keys()
+                    if dataset_dict.get("title_translated", {})[key] != ""
                 ],
                 "publisher": create_agent(
                     organization_ref,

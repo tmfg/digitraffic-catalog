@@ -26,18 +26,22 @@ class CatalogRecord(ClassInstance):
     def __init__(self, iri: str | None, input: CatalogRecordInput):
         super().__init__(iri, DCAT.CatalogRecord)
         self.created = input["created"]
-        self.languages = [Language(self._language_tag_to_iri(entry.language)) for entry in input['primary_topic'].title]
+        self.languages = [
+            Language(self._language_tag_to_iri(entry.language))
+            for entry
+            in input['primary_topic'].title
+
+        ]
         self.primary_topic = input["primary_topic"]
         self.modified = input["modified"]
 
     def _language_tag_to_iri(self, tag: str) -> str:
-        [Language(iri) for iri in Language.get_iris()]
         def rdf_lang_tag_to_iri_lang_tag(iri_lang_tag: str) -> str:
             default_tag = iri_lang_tag[0:2]
-            exeptions = {
+            exceptions = {
                 'SWE': 'SV',
             }
-            return exeptions.get(iri_lang_tag, default_tag).lower()
+            return exceptions.get(iri_lang_tag, default_tag).lower()
         mapping = {
             rdf_lang_tag_to_iri_lang_tag(iri.rsplit('/', 1)[1]): iri
             for iri
