@@ -130,6 +130,8 @@ class MobilityDCATAPProfile(RDFProfile):
         if last_catalog_modified:
             self._add_date_triple(catalog_ref, DCTERMS.modified, last_catalog_modified)
 
+        self._add_date_triple(catalog_ref, DCTERMS.issued, '2025-10-07')
+
         self._add_translation(g, catalog_ref, DCTERMS.description, catalog_metadata['description'])
         add_uriref_to_graph(g, catalog_ref, FOAF.homepage, URIRef(catalog_metadata['homepage']))
         add_class_instance_with_children(

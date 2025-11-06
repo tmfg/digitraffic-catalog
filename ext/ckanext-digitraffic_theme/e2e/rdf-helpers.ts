@@ -19,6 +19,8 @@ export enum RDF {
 export enum DCAT {
   Dataset = `${NS_DCAT}Dataset`,
   Distribution = `${NS_DCAT}Distribution`,
+  Catalog = `${NS_DCAT}Catalog`,
+  CatalogRecord = `${NS_DCAT}CatalogRecord`,
   distribution = `${NS_DCAT}distribution`,
   contactPoint = `${NS_DCAT}contactPoint`,
   keyword = `${NS_DCAT}keyword`,
@@ -26,6 +28,9 @@ export enum DCAT {
   accessService = `${NS_DCAT}accessService`,
   downloadURL = `${NS_DCAT}downloadURL`,
   accessURL = `${NS_DCAT}accessURL`,
+  dataset = `${NS_DCAT}dataset`,
+  record = `${NS_DCAT}record`,
+  themeTaxonomy = `${NS_DCAT}themeTaxonomy`,
 }
 
 export enum DCT {
@@ -48,6 +53,8 @@ export enum DCT {
   format = `${NS_DCT}format`,
   license = `${NS_DCT}license`,
   rights = `${NS_DCT}rights`,
+  hasPart = `${NS_DCT}hasPart`,
+  isPartOf = `${NS_DCT}isPartOf`,
 }
 
 export enum MOBILITYDCATAP {
@@ -84,4 +91,12 @@ export enum DQV {
 
 export enum CNT {
   characterEncoding = `${NS_CNT}characterEncoding`,
+}
+
+export enum FOAF {
+  homepage = `${NS_FOAF}homepage`,
+}
+
+export enum XSD {
+    date = `${NS_XSD}date`,
 }
