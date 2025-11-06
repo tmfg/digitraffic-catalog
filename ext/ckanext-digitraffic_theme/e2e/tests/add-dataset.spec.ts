@@ -22,7 +22,7 @@ import { CharacterEncoding } from "../../src/ts/model/character-encoding";
 import { CommunicationMethod } from "../../src/ts/model/communication-method";
 import { LicenseId } from "../../src/ts/model/license-id";
 import { OrganizationMemberView } from "../user-views/organization-member-view";
-import {Literal, Parser} from 'n3';
+import { Literal, Parser } from 'n3';
 import * as rdf from "../rdf-helpers";
 
 const identitiesToUse = [Identity.OrganizationEditor, Identity.OrganizationMember] as const
@@ -446,10 +446,9 @@ test.describe.serial('Add new dataset', () => {
         test.expect(hasProperty, `Catalogue is missing property: ${property}`).toBeTruthy();
       }
 
-      // Check the value of publication date
-        const publicationDateQuad = rdfQuads.find(quad => quad.subject.value === catalogueSubject && quad.predicate.value === rdf.DCT.issued);
-        test.expect(publicationDateQuad!.object.value).toBe("2025-10-07")
-        test.expect((publicationDateQuad!.object as Literal).datatypeString).toBe(rdf.XSD.date)
+      const publicationDateQuad = rdfQuads.find(quad => quad.subject.value === catalogueSubject && quad.predicate.value === rdf.DCT.issued);
+      test.expect(publicationDateQuad!.object.value).toBe("2025-10-07")
+      test.expect((publicationDateQuad!.object as Literal).datatypeString).toBe(rdf.XSD.date)
     })
   })
 })
