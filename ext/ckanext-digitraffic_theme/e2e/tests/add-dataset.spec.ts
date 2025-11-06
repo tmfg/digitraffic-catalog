@@ -15,13 +15,15 @@ import { GeoreferencingMethod } from "../../src/ts/model/georeferencing-method";
 import { NetworkCoverage } from "../../src/ts/model/network-coverage";
 import { IntendedInformationService } from "../../src/ts/model/intended-information-service";
 import { OrganizationEditorView } from "../user-views/organization-editor-view";
-import { DatasetPage, EditDatasetPage, NewResourcePage } from "../page-object-models";
+import { DatasetPage, NewResourcePage } from "../page-object-models";
 import { ApplicationLayerProtocol } from "../../src/ts/model/application-layer-protocol";
 import { DataGrammar } from "../../src/ts/model/data-grammar";
 import { CharacterEncoding } from "../../src/ts/model/character-encoding";
 import { CommunicationMethod } from "../../src/ts/model/communication-method";
 import { LicenseId } from "../../src/ts/model/license-id";
 import { OrganizationMemberView } from "../user-views/organization-member-view";
+import { Literal, Parser } from 'n3';
+import * as rdf from "../rdf-helpers";
 
 const identitiesToUse = [Identity.OrganizationEditor, Identity.OrganizationMember] as const
 
@@ -295,9 +297,158 @@ test.describe.serial('Add new dataset', () => {
     await organizationView.browseToDatasetPage(secondDatasetInfo.title).then(datasetView => {
       secondDatasetInfo!.id = datasetView.getPOM<DatasetPage>().datasetId
       return datasetView.checkDatasetInfo(secondDatasetInfo!)
-    })
-
-
+    });
   });
 
+  test('Metadata completeness check', async ({ users }) => {
+    const organizationEditor = getKnownUserOrThrow(users, Identity.OrganizationEditor);
+    const organizationView = await OrganizationEditorView.of(organizationEditor);
+
+    const catalogueProperties = new Set<string>([
+      // Mandatory properties
+      rdf.RDF.type,
+      rdf.DCAT.dataset,
+      rdf.DCT.description,
+      rdf.FOAF.homepage,
+      rdf.DCT.publisher,
+      rdf.DCAT.record,
+      rdf.DCT.spatial,
+      rdf.DCT.title,
+
+      // Recommended properties
+      rdf.DCT.language,
+      rdf.DCT.license,
+      rdf.DCT.issued,
+      rdf.DCAT.themeTaxonomy,
+      rdf.DCT.modified,
+
+      // Optional properties
+      // rdf.DCT.hasPart, We don't include other catalogs' data in our catalog
+      rdf.DCT.identifier,
+      // rdf.DCT.isPartOf, Our catalog is not part of any other catalog
+      // rdf.ADMS.identifier, Catalog don't have additional identifiers
+    ]);
+
+    const datasetProperties = new Set<string>([
+      // Mandatory properties
+      rdf.RDF.type,
+      rdf.DCT.description,
+      rdf.DCAT.distribution,
+      rdf.DCT.accrualPeriodicity,
+      rdf.MOBILITYDCATAP.mobilityTheme,
+      rdf.DCT.spatial,
+      rdf.DCT.title,
+      rdf.DCT.publisher,
+
+      // Recommended properties
+      rdf.MOBILITYDCATAP.georeferencingMethod,
+      rdf.DCAT.contactPoint,
+      // rdf.DCAT.keyword, According to the spec keywords should not be used
+      rdf.MOBILITYDCATAP.networkCoverage,
+      rdf.DCT.conformsTo,
+      rdf.DCT.rightsHolder,
+      rdf.DCAT.theme,
+      rdf.DCT.temporal,
+      rdf.MOBILITYDCATAP.transportMode,
+
+      // Optional properties
+      // rdf.DCATAP.applicableLegislation, Applicable legislation is not used
+      rdf.MOBILITYDCATAP.assessmentResult,
+      //rdf.DCT.hasVersion, Version info is collected but there is no linking between versions, yet.
+      rdf.DCT.identifier,
+      // rdf.DCT.isReferencedBy, This is included in the dataset as well in the metadata, but this particular dataset is not referenced by any other dataset.
+      //rdf.DCT.isVersionOf, , Version info is collected but there is no linking between versions, yet.
+      rdf.MOBILITYDCATAP.intendedInformationService,
+      rdf.DCT.language,
+      // rdf.ADMS.identifier, Datasets don't have additional identifiers
+      rdf.DCT.relation,
+      //rdf.DCT.issued, According to the spec issued date should not be used. Instead, Catalogue Record's "created" date is used.
+      //rdf.DCT.modified, This refers to the modification date of the actual data. Cases where the data is changing constantly, this metadata is redundant. We are not asking for it in the dataset metadata.
+      rdf.OWL.versionInfo,
+      rdf.ADMS.versionNotes,
+      rdf.DQV.hasQualityAnnotation,
+    ]);
+
+    const distributionProperties = new Set<string>([
+      // Mandatory properties
+      rdf.RDF.type,
+      rdf.DCAT.accessURL,
+      rdf.MOBILITYDCATAP.mobilityDataStandard,
+      rdf.DCT.format,
+      rdf.DCT.rights,
+
+      // Recommended properties
+      rdf.MOBILITYDCATAP.applicationLayerProtocol,
+      rdf.DCT.description,
+      rdf.DCT.license,
+
+      // Optional properties
+      rdf.DCAT.accessService,
+      rdf.CNT.characterEncoding,
+      rdf.MOBILITYDCATAP.communicationMethod,
+      rdf.MOBILITYDCATAP.dataFormatNotes,
+      rdf.DCAT.downloadURL,
+      rdf.MOBILITYDCATAP.grammar,
+      rdf.ADMS.sample,
+      rdf.DCT.temporal,
+      rdf.DCT.title,
+    ]);
+
+    await test.step('Check all properties exist in dataset RDF serialization', async () => {
+      if (secondDatasetInfo === undefined) {
+        throw new Error('Second dataset info is not set. Ensure the previous test has run successfully.');
+      }
+
+      await organizationView.browseToDatasetPage(secondDatasetInfo.title).then(async datasetView => {
+        const pom = datasetView.getPOM<DatasetPage>();
+        await pom.openRDFTurtleToNewPage();
+        const [rdfPageName, rdfPage] = await datasetView.getUser().getRecentlyOpenedPage();
+        await rdfPage.bringToFront()
+        const serializedRDF = await rdfPage.textContent('body pre');
+        const rdfQuads = (new Parser()).parse(serializedRDF!)
+
+        const datasetSubject = rdfQuads.find(quad => quad.predicate.value === rdf.RDF.type && quad.object.value === rdf.DCAT.Dataset)?.subject.value;
+        test.expect(datasetSubject, 'Dataset subject not found in RDF data').toBeDefined();
+
+        for (const property of datasetProperties) {
+          const hasProperty = rdfQuads.some(quad => quad.subject.value === datasetSubject && quad.predicate.value === property);
+          test.expect(hasProperty, `Dataset is missing property: ${property}`).toBeTruthy();
+        }
+
+        const distributionSubjects = rdfQuads
+          .filter(quad => quad.predicate.value === rdf.RDF.type && quad.object.value === rdf.DCAT.Distribution)
+          .map(quad => quad.subject.value);
+
+        test.expect(distributionSubjects.length, 'No Distribution found in RDF data').toBeGreaterThan(0);
+
+        for (const distributionSubject of distributionSubjects) {
+          for (const property of distributionProperties) {
+            const hasProperty = rdfQuads.some(quad => quad.subject.value === distributionSubject && quad.predicate.value === property);
+            test.expect(hasProperty, `Distribution ${distributionSubject} is missing property: ${property}`).toBeTruthy();
+          }
+        }
+
+        await datasetView.getPage().bringToFront()
+        await datasetView.getUser().removePage(rdfPageName)
+      });
+    })
+    await test.step('Check all properties exist in catalog RDF serialization', async () => {
+      const page = organizationView.getPage()
+      await page.goto("/catalog.ttl");
+      const serializedRDF = await page.textContent('body pre');
+      const rdfQuads = (new Parser()).parse(serializedRDF!)
+      const catalogueSubject = rdfQuads.find(quad => quad.predicate.value === rdf.RDF.type && quad.object.value === rdf.DCAT.Catalog)?.subject.value;
+
+      test.expect(catalogueSubject, 'Catalogue subject not found in RDF data').toBeDefined();
+
+      for (const property of catalogueProperties) {
+        const hasProperty = rdfQuads.some(quad => quad.subject.value === catalogueSubject && quad.predicate.value === property);
+        test.expect(hasProperty, `Catalogue is missing property: ${property}`).toBeTruthy();
+      }
+
+      const publicationDateQuad = rdfQuads.find(quad => quad.subject.value === catalogueSubject && quad.predicate.value === rdf.DCT.issued);
+      test.expect(publicationDateQuad!.object.value).toBe("2025-10-07")
+      test.expect((publicationDateQuad!.object as Literal).datatypeString).toBe(rdf.XSD.date)
+    })
+  })
 })

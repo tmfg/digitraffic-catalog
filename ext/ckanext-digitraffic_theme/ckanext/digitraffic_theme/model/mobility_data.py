@@ -29,6 +29,7 @@ from ckanext.digitraffic_theme.model.application_layer_protocol import (
 )
 from ckanext.digitraffic_theme.model.format import Format
 from ckanext.digitraffic_theme.model.license_document import LicenseDocument
+from ckanext.digitraffic_theme.model.spatial_reference import SpatialReference
 from ckanext.digitraffic_theme.model.standard_license import StandardLicense
 from ckanext.digitraffic_theme.model.mobility_theme import (
     MobilityTheme,
@@ -112,9 +113,7 @@ class MobilityData:
                             ),
                             "assessment_result": URIRef(
                                 assessment.get("assessment_result")
-                            ) if assessment.get("assessment_result") else None,
-                            # assessmment_target is not included in the schema - give it the required value here
-                            "assessment_target": URIRef(dataset_ref),
+                            ) if assessment.get("assessment_result") else None
                         },
                     )
                     for assessment in dataset_dict["assessment"]
@@ -124,9 +123,6 @@ class MobilityData:
             else {}
         )
 
-        # we have left out "quality annotation target" of class dqv:QualityAnnotation from the schema used with CKAN
-        # here the property is added for each language version ("quality annotation resource" is a multilingual field)
-        # for correct RDF representation
         quality_annotation = (
             {
                 "quality_annotation": QualityAnnotation(
@@ -382,6 +378,18 @@ class MobilityData:
                     "sample": URIRef(dist["sample"]) if dist.get("sample") else None,
                     **temporal,
                     **access_service,
+                    **(
+                        {
+                            "title": [
+                                Literal(
+                                    dist.get("name_translated", {}).get(key, ""), lang=key
+                                )
+                                for key
+                                in (dist.get("name_translated") or {}).keys()
+                                if dist.get("name_translated")[key] != ""
+                            ],
+                        }
+                    ),
                 },
             )
 
@@ -450,9 +458,11 @@ class MobilityData:
                 "mobility_theme": MobilityTheme(dataset_dict["mobility_theme"]),
                 "title": [
                     Literal(
-                        dataset_dict.get("title_translated", {}).get(key, ""), lang=key
+                        dataset_dict["title_translated"][key], lang=key
                     )
-                    for key in (dataset_dict.get("title_translated") or {}).keys()
+                    for key
+                    in (dataset_dict.get("title_translated", {})).keys()
+                    if dataset_dict["title_translated"][key] != ""
                 ],
                 "publisher": create_agent(
                     organization_ref,
@@ -485,6 +495,34 @@ class MobilityData:
                     if dataset_dict.get("network_coverage")
                     else {}
                 ),
+                **(
+                    {
+                        "conforms_to": SpatialReference(
+                            dataset_dict["conforms_to"]
+                        )
+                    }
+                    if dataset_dict.get("conforms_to")
+                    else {}
+                ),
+                **(
+                    {
+                        "version_info": Literal(dataset_dict.get("version"))
+                    }
+                    if dataset_dict.get("version")
+                    else {}
+                ),
+                **(
+                    {
+                        "version_notes": [
+                            Literal(
+                                dataset_dict.get("version_notes_translated", {}).get(key, ""), lang=key
+                            )
+                            for key
+                            in (dataset_dict.get("version_notes_translated") or {}).keys()
+                            if dataset_dict.get("version_notes_translated")[key] != ""
+                        ],
+                    }
+                ),
                 **contact_points,
                 **rights_holder,
                 **(
@@ -501,6 +539,7 @@ class MobilityData:
                     if dataset_dict.get("language")
                     else {}
                 ),
+
                 **quality_annotation,
                 **assessments,
                 **related_resource,

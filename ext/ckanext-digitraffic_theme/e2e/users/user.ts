@@ -106,6 +106,14 @@ export abstract class User {
     return returnedPages
   }
 
+  async getRecentlyOpenedPage(): Promise<[string, Page]> {
+    const unmanagedPage = (await this.resolveUnmanagedPages()).entries().next().value
+    if (!unmanagedPage) {
+      throw new Error("Recently opened page not found");
+    }
+    return unmanagedPage;
+  }
+
   async goToNewPage(url: string, options?: {name?: string}) {
     const name = options?.name ?? url
     this.checkPageExists(name)

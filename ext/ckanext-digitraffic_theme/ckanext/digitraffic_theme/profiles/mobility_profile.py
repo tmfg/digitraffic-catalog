@@ -57,7 +57,7 @@ class MobilityDCATAPProfile(RDFProfile):
         g.bind("dqv", DQV)
         g.bind("cnt", CNT)
 
-        self._remove_existing_self_managed_graph_data(dataset_ref)
+        #self._remove_existing_self_managed_graph_data(dataset_ref)
         self._update_existing_graph_data(dataset_ref, mobility_data)
 
         # dct:identifier should contain the value of rdf:about (the subject URI)
@@ -70,12 +70,6 @@ class MobilityDCATAPProfile(RDFProfile):
 
     def graph_from_catalog(self, catalog_dict, catalog_ref):
         g: Graph = self.g
-
-        # Remove data that we are going to add ourselves
-        for obj in g.objects(catalog_ref, DCTERMS.title):
-            g.remove((catalog_ref, DCTERMS.title, obj))
-        for obj in g.objects(catalog_ref, DCTERMS.language):
-            g.remove((catalog_ref, DCTERMS.language, obj))
 
         catalog_metadata = {
             'description': {
@@ -131,6 +125,12 @@ class MobilityDCATAPProfile(RDFProfile):
 
     def _catalog_metadata(self, g: Graph, catalog_ref: URIRef, catalog_metadata: CatalogMetadata):
         # Mandatory properties
+        add_uriref_to_graph(g, catalog_ref, RDF.type, DCAT.Catalog)
+        last_catalog_modified = self._last_catalog_modification()
+        if last_catalog_modified:
+            self._add_date_triple(catalog_ref, DCTERMS.modified, last_catalog_modified)
+
+        self._add_date_triple(catalog_ref, DCTERMS.issued, '2025-10-07')
 
         self._add_translation(g, catalog_ref, DCTERMS.description, catalog_metadata['description'])
         add_uriref_to_graph(g, catalog_ref, FOAF.homepage, URIRef(catalog_metadata['homepage']))

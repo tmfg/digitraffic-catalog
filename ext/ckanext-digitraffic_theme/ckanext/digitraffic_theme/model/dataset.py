@@ -1,7 +1,7 @@
 from typing import TypedDict, List, NotRequired, Optional
 
-from rdflib import Literal, DCAT, DCTERMS, RDF, URIRef
-
+from rdflib import Literal, DCAT, DCTERMS, RDF, URIRef, OWL
+from ckanext.digitraffic_theme.rdf.adms import ADMS
 from ckanext.digitraffic_theme.model.agent import Agent
 
 from ckanext.digitraffic_theme.model.assessment import Assessment
@@ -15,6 +15,7 @@ from ckanext.digitraffic_theme.model.intended_information_service import (
 from ckanext.digitraffic_theme.model.location import Location
 from ckanext.digitraffic_theme.model.georeferencing_method import GeoreferencingMethod
 from ckanext.digitraffic_theme.model.network_coverage import NetworkCoverage
+from ckanext.digitraffic_theme.model.spatial_reference import SpatialReference
 from ckanext.digitraffic_theme.model.theme import Theme
 from ckanext.digitraffic_theme.model.transport_mode import TransportMode
 from ckanext.digitraffic_theme.model.mobility_theme import (
@@ -42,6 +43,7 @@ class DatasetInput(TypedDict):
     georeferencing_method: NotRequired[GeoreferencingMethod]
     contact_points: NotRequired[List[ContactPoint]]
     network_coverage: NotRequired[NetworkCoverage]
+    conforms_to: NotRequired[SpatialReference]
     rights_holders: NotRequired[List[Agent]]
     temporal: NotRequired[PeriodOfTime]
     theme: NotRequired[Theme]
@@ -53,6 +55,8 @@ class DatasetInput(TypedDict):
     language: NotRequired[URIRef]
     related_resource: NotRequired[List[URIRef]]
     is_referenced_by: NotRequired[List[URIRef]]
+    version_info: NotRequired[Literal]
+    version_notes: NotRequired[List[Literal]]
 
 
 class Dataset(ClassInstance):
@@ -74,6 +78,7 @@ class Dataset(ClassInstance):
         self.georeferencing_method = input.get("georeferencing_method")
         self.contact_points = input.get("contact_points")
         self.network_coverage = input.get("network_coverage")
+        self.conforms_to = input.get("conforms_to")
         self.rights_holders = input.get("rights_holders")
         self.temporal = input.get("temporal")
         self.theme = input.get("theme")
@@ -85,6 +90,8 @@ class Dataset(ClassInstance):
         self.language = input.get("language")
         self.related_resource = input.get("related_resource")
         self.is_referenced_by = input.get("is_referenced_by")
+        self.version_info = input.get("version_info")
+        self.version_notes = input.get("version_notes")
 
     def _is_valid_input(self, input: DatasetInput) -> bool:
         mobility_theme_sub = input.get("mobility_theme_sub")
@@ -128,6 +135,11 @@ class Dataset(ClassInstance):
                 if self.network_coverage
                 else None
             ),
+            (
+                (DCTERMS.conformsTo, self.conforms_to)
+                if self.conforms_to
+                else None
+            ),
             *(
                 [
                     (DCTERMS.rightsHolder, rights_holder)
@@ -153,7 +165,7 @@ class Dataset(ClassInstance):
             ),
             *(
                 [
-                    (MOBILITYDCATAP.Assessment, assessment)
+                    (MOBILITYDCATAP.assessmentResult, assessment)
                     for assessment in self.assessments
                 ]
                 if self.assessments
@@ -168,7 +180,7 @@ class Dataset(ClassInstance):
                 else None
             ),
             (
-                (DQV.QualityAnnotation, self.quality_annotation)
+                (DQV.hasQualityAnnotation, self.quality_annotation)
                 if self.quality_annotation
                 else None
             ),
@@ -179,6 +191,19 @@ class Dataset(ClassInstance):
                     for dataset_url in self.related_resource
                 ]
                 if self.related_resource
+                else []
+            ),
+            (
+                (OWL.versionInfo, self.version_info)
+                if self.version_info
+                else None
+            ),
+            *(
+                [
+                    (ADMS.versionNotes, version_note)
+                    for version_note in self.version_notes
+                ]
+                if self.version_notes
                 else []
             ),
             *(

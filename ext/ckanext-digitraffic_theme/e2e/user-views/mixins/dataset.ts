@@ -118,11 +118,7 @@ const datasetViewMixin: DatasetViewMixin = {
     return await test.step(`Checking RDF Turtle works as ${this.user.identity}`, async () => {
       const pom = this.getAndValidatePOM<DatasetPage>(URL.Dataset);
       await pom.openRDFTurtleToNewPage();
-      const rdfPageTuple = (await this.user.resolveUnmanagedPages()).entries().next().value
-      if (!rdfPageTuple) {
-        throw new Error("RDF Turtle page not found");
-      }
-      const [rdfPageName, rdfPage] = rdfPageTuple;
+      const [rdfPageName, rdfPage] = await this.user.getRecentlyOpenedPage();
       await rdfPage.bringToFront()
       await test.expect(rdfPage.getByText("a dcat:Dataset")).toBeVisible();
       await this.getPage().bringToFront()

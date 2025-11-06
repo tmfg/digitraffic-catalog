@@ -12,7 +12,6 @@ class AssessmentInput(TypedDict):
     # Optional properties
     assessment_date: NotRequired[Literal]
     assessment_result: NotRequired[URIRef]
-    assessment_target: NotRequired[URIRef]
 
 
 class Assessment(ClassInstance):
@@ -25,13 +24,11 @@ class Assessment(ClassInstance):
                 raise ValueError("assessment_date must be of type xsd:date")
         self.assessment_date = input.get("assessment_date")
         self.assessment_result = input.get("assessment_result")
-        self.assessment_target = input.get("assessment_target")
 
     def predicate_objects(self):
         pos = [
             (RDF.type, self.type),
             (DCTERMS.issued, self.assessment_date) if self.assessment_date else None,
             (OA.hasBody, self.assessment_result) if self.assessment_result else None,
-            (OA.hasTarget, self.assessment_target) if self.assessment_target else None,
         ]
         return [po for po in pos if po is not None]
