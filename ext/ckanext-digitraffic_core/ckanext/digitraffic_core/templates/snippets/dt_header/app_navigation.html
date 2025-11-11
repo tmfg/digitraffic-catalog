@@ -1,0 +1,33 @@
+{% set dataset_type = h.default_package_type() %}
+{% set org_type = h.default_group_type('organization') %}
+{% set group_type = h.default_group_type('group') %}
+
+{% with dataset=(dataset_type ~ '.search', h.humanize_entity_type('package', dataset_type, 'main nav') or _('Datasets'), ["dataset", "resource"]),
+organization=(org_type ~ '.index', h.humanize_entity_type('organization', org_type, 'main nav') or _('Organizations'), ['organization']),
+group=(group_type ~ '.index', h.humanize_entity_type('group', group_type, 'main nav') or _('Groups'), ['group']),
+about=('home.about', _('About'))%}
+<div id="app-nav-bar-wrapper">
+    <div id="app-nav-bar" data-module="digitraffic_core_app_navigation">
+        <span class="datacatalog-header"><a href="{{ h.url_for('/') }}">{{ h.get_site_title() }}</a></span>
+        <button id="app-nav-hamburger-button"
+                aria-controls="nav-interactions-wrapper"
+                aria-label="Show navigation menu"
+                aria-expanded="false">
+            <span>{% trans %}Menu{% endtrans %}</span>
+            <i aria-hidden="true" data-lucide="menu"></i>
+        </button>
+        <div id="nav-interactions-wrapper" aria-labelledby="app-nav-hamburger-button">
+            <nav id="app-navigation">
+                <ul>
+                    {{ h.build_nav_main(dataset, organization, group, about) }}
+                </ul>
+            </nav>
+            <div id="nav-actions">
+                {% snippet "snippets/dt_header/search_box.html" %}
+                {% snippet "snippets/dt_header/user_actions.html" %}
+                {% snippet "snippets/language_selector_icon.html" %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endwith %}

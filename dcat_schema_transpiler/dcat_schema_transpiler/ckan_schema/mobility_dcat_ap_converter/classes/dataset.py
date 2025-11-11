@@ -450,7 +450,7 @@ class DCATDataset(RangeValueConverter):
                 field |= {
                     "field_name": self.ckan_field_by_id(DCAT.contactPoint),
                     "subfield_form_attrs": {
-                        "data-module": "digitraffic_theme_contact_detail"
+                        "data-module": "digitraffic_core_contact_detail"
                     },
                     "form_blanks": 0,
                 } | self.get_property_label_with_help_text(DCAT.contactPoint)
@@ -459,7 +459,7 @@ class DCATDataset(RangeValueConverter):
                 field |= {
                     "field_name": self.ckan_field_by_id(DCTERMS.rightsHolder),
                     "subfield_form_attrs": {
-                        "data-module": "digitraffic_theme_rights_holder"
+                        "data-module": "digitraffic_core_rights_holder"
                     },
                     "form_blanks": 0,
                 } | self.get_property_label_with_help_text(DCTERMS.rightsHolder)

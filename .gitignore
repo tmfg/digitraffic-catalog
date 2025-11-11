@@ -4,8 +4,8 @@
 !docker
 !docker/**
 !ext
-!ext/ckanext-digitraffic_theme
-!ext/ckanext-digitraffic_theme/*/
+!ext/ckanext-digitraffic_core
+!ext/ckanext-digitraffic_core/*/
 !ext/ckanext-entraid_authenticator
 !ext/ckanext-entraid_authenticator/*/
 !ext/ckanext-digitraffic_fluent

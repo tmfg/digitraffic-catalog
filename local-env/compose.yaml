@@ -33,7 +33,7 @@ services:
           deactivate
       };
       #run_python_install '/srv/app/ckanext/ckanext-entraid_authenticator';
-      #run_python_install '/srv/app/ckanext/ckanext-digitraffic_theme';
+      #run_python_install '/srv/app/ckanext/ckanext-digitraffic_core';
       #run_python_install '/srv/app/ckanext/ckanext-digitraffic_fluent';
       #run_python_install '/srv/app/ckanext/ckanext-digitraffic_opentelemetry';
       "

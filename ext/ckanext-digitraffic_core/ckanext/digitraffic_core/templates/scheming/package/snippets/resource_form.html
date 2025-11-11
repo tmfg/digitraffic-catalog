@@ -1,0 +1,113 @@
+{% extends 'package/snippets/resource_form.html' %}
+
+{% set field_groups = {
+  "left-1": {
+    "resource_description": {
+      "label": _("Resource description"),
+      "help_text": _("Description of the resource."),
+      "fields": ["name_translated", "format", "description_translated", "communication_method", "sample"]
+    },
+    "resource_urls": {
+      "label": _("Resource URLs"),
+      "help_text": _("URLs giving access to the resource."),
+      "fields": ["url", "download_url"]
+    },
+    "data_service": {
+      "label": _("Data service"),
+      "help_text": _("If the resource is accessed through a data service (such as an API or platform that provides access to various data), describe that data service here."),
+      "fields": ["data_service"]
+    },
+  },
+  "right-1": {
+    "format": {
+      "label": _("Format"),
+      "help_text": _("Additional information concerning related formats and data standards."),
+      "fields": ["mobility_data_standard", "data_grammar", "application_layer_protocol", "data_format_notes_translated", "character_encoding"]
+    },
+    "terms_and_licenses": {
+      "label": _("Licenses and terms of use"),
+      "help_text": _("Licenses and terms of use pertaining to this resource."),
+      "fields": ["rights_type", "license_id", "license_text"]
+    },
+    "dates": {
+      "label": _("Time range"),
+      "help_text": _("Period during which resource is available."),
+      "fields": ["start_timestamp", "end_timestamp"],
+      "module": "digitraffic_core_temporal_coverage"
+    }
+  }
+} %}
+
+{% block stages %}
+  {%- set pages = h.scheming_get_dataset_form_pages(dataset_type) -%}
+  {%- if pages and stage -%}
+    <ol class="stages stage-1">
+      {%- for p in pages -%}
+        <li class="{{
+          'first ' if loop.first else ''}}"
+          style="width:{{ 100 / (loop.length + 1) }}%">
+          <span class="highlight" style="padding-right:0"><a href="{{
+              h.url_for(dataset_type + '.scheming_new_page',
+                package_type=dataset_type,
+                id=pkg_name,
+                page=loop.index)
+            }}">{{ h.scheming_language_text(p.title) }}</a>
+          </span>
+        </li>
+      {%- endfor -%}
+      <li class="last active" style="width:{{ 100 / (pages | length + 1) }}%">
+        <span class="highlight">{{ _('Add data') }}</span>
+      </li>
+    </ol>
+  {%- else -%}
+    {{ super() }}
+  {%- endif -%}
+{% endblock %}
+
+{% block introduction %}
+<p class="package-introduction">
+  {%- trans -%}
+  A resource is any file or a link to a file that contains useful data.
+  {%- endtrans -%}
+</p>
+{% endblock %}
+
+{% block errors %}
+  {%- if errors -%}
+    {%- set schema = h.scheming_get_dataset_schema(dataset_type) -%}
+    {%- snippet 'scheming/snippets/errors.html',
+      errors=errors, fields=schema.resource_fields,
+      entity_type='dataset', object_type=dataset_type -%}
+  {%- else -%}
+    {# Resource CreateView You must add at least one data resource #}
+    {{ super() }}
+  {%- endif -%}
+{% endblock %}
+
+{% block basic_fields %}
+  {%- if not dataset_type -%}
+    <p>
+    dataset_type not passed to template. your version of CKAN
+    might not be compatible with ckanext-scheming
+    </p>
+  {%- endif -%}
+
+  {%- set schema = h.scheming_get_dataset_schema(dataset_type) -%}
+
+  {# Render field groups.
+     We pass pkg_name as the package_id because that's the only
+    variable available in this snippet #}
+  {% snippet 'package/snippets/field_groups.html',
+    field_groups=field_groups,
+    schema_fields=schema.resource_fields,
+    data=data,
+    errors=errors,
+    dataset_type=dataset_type,
+    package_id=pkg_name
+  -%}
+
+{% endblock %}
+
+
+{% block metadata_fields %}
+{% endblock %}

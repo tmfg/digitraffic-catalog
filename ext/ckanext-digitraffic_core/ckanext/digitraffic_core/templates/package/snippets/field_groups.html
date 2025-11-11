@@ -1,0 +1,103 @@
+{# 
+Generates given groupings of fields under headers.
+The result is a 2x2 layout using the class identifiers "left-1", "right-1", "left-2", "right-2".
+Use these classes to correctly order the groups. 
+
+Example:
+
+{% set field_groups = {
+  "left-1": {
+    "general": {
+      "label": _("General"),
+      "help_text": _("This section provides basic information about the dataset."),
+      "fields": ["owner_org", "title_translated", "frequency", "spatial", "mobility_theme", "notes_translated", "category", "transport_mode"],
+      "subgroups": {
+        "time_range": {
+          "label": _("Temporal coverage"),
+          "help_text": _("This section describes the temporal coverage of the dataset, if applicable. May be left empty for continuously updated data."),
+          "fields": ["start_timestamp", "end_timestamp"]
+        }
+      },
+    }
+  },
+  "right-1": {
+    "versioning" : {
+      "label": _("Versioning"),
+      "help_text": _("This section provides information regarding the dataset version. Mostly applicable for static datasets."),
+      "fields": ["version", "version_notes_translated"]
+    },
+    "assessment": {
+      "label": _("Assessment"),
+      "help_text": _("This section describes the result and date of an assessment or assessments made by a third party or parties. The assessment of data sets under EU delegated regulations is usually carried out by a national supervisory authority."),
+      "fields": ["assessment"]
+    },
+    "additional_information": {
+      "label": _("Additional information"),
+      "help_text": _("Additional details concerning the dataset."),
+      "fields": ["language", "georeferencing_method", "network_coverage", "conforms_to", "intended_information_service", "quality_description", "related_resource"]
+    },
+  },
+  "left-2": {
+    "contact_point": {
+      "label": _("Contact point"),
+      "help_text": _("Contact details for a person or organization."),
+      "fields": ["contact_point"]
+    },
+  },
+  "right-2": {
+    "rights_holder": {
+      "label": _("Rights holder"),
+      "help_text": _("Contact details for the rights holder."),
+      "fields": ["rights_holder"]
+    }
+}
+} %}
+
+#}
+
+<div class="field-group-cell-container" data-module="digitraffic_core_form_layout">
+{% for position, groups in field_groups.items() %}
+  <div class="{{position}} field-group-cell">
+    {% for group_key, group in groups.items() %}
+    <div class="field-group"{%- if group.module -%} data-module="{{ group.module }}"{%- endif -%}>
+      <h3>{{ group.label }}</h3>
+      <div class="field-group-help">
+        <p class="help-text">{{ group.help_text }}</p>
+        {% if group.help_link %}
+          <a href="{{ group.help_link.url }}" target="_blank" rel="noopener noreferrer" class="help-link">
+            <i class="bi bi-book" aria-hidden="true"></i>
+            {{ group.help_link.text }}
+          </a>
+        {% endif %}
+      </div>
+        {%- snippet 'package/snippets/form_field_renderer.html',
+          fields=group.fields,
+          schema_fields=schema_fields,
+          data=data,
+          errors=errors,
+          dataset_type=dataset_type,
+          package_id=package_id if package_id is defined else None
+      -%}
+      <!-- for additional groupings of fields under a smaller header inside the main group -->
+      {% if group.subgroups %}
+        {% for subgroup_name, subgroup in group.subgroups.items() %}
+          <div class="form-field-subgroup"{%- if subgroup.module -%} data-module="{{ subgroup.module }}"{%- endif -%}>
+            <h6>{{ subgroup.label }}</h6>
+            <p class="help-text">{{ subgroup.help_text }}</p>
+            {%- snippet 'package/snippets/form_field_renderer.html',
+              fields=subgroup.fields,
+              schema_fields=schema_fields,
+              data=data,
+              errors=errors,
+              dataset_type=dataset_type,
+              package_id=package_id if package_id is defined else None
+            -%}
+          </div>
+        {% endfor %}
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+{% endfor %}
+</div>
+

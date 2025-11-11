@@ -9,7 +9,7 @@ usage: update-language-translation.sh { fi | sv }
 
 NOTE: After running this script, you need to restart the docker containers.
 
-Updates the .po file of the given language under i18n folder. The update is based on the ckanext-digitraffic_theme.pot
+Updates the .po file of the given language under i18n folder. The update is based on the ckanext-digitraffic_core.pot
 file under i18n folder.
 
 EOM
@@ -28,6 +28,6 @@ fi
 
 TRANSLATION_LANGUAGE="$1"
 
-docker exec -u ckan datakatalogi-local-ckan-1 bash -c "cd ckanext/ckanext-digitraffic_theme && \
+docker exec -u ckan datakatalogi-local-ckan-1 bash -c "cd ckanext/ckanext-digitraffic_core && \
 python setup.py update_catalog -l ${TRANSLATION_LANGUAGE} && \
 python setup.py compile_catalog"

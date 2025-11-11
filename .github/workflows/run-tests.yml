@@ -28,7 +28,7 @@ jobs:
 
       - name: Run tests
         working-directory: local-env
-        run: ./run-digitraffic-theme-tests-on-docker.sh
+        run: ./run-digitraffic-core-tests-on-docker.sh
 
       - name: Upload Docker logs
         if: always()
