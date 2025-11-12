@@ -2,7 +2,11 @@ name: Run E2E tests
 
 on:
   workflow_dispatch:
-  push:
+    inputs:
+      config-repo-branch:
+        description: "Branch or tag of CI-repo"
+        required: true
+        default: "master"
 
 jobs:
   run_tests:
@@ -12,6 +16,14 @@ jobs:
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v5
+
+      - name: Checkout CI-repo
+        uses: actions/checkout@v5
+        with:
+          repository: ${{ secrets.CONFIG_REPO_NAME }}
+          ssh-key: ${{ secrets.CONFIG_REPO_SSH_KEY }}
+          ref: ${{ inputs.config-repo-branch || 'master' }}
+          path: digitraffic-ci
 
       - name: Setup environment
         env:
@@ -32,7 +44,6 @@ jobs:
           ENTRA_AUTHORITY: ${{ secrets.ENTRA_AUTHORITY }}
           CKAN_SITE_URL: ${{ vars.CKAN_SITE_URL }}
         run: |
-          cp -r ext docker/ckan/ckanext
           touch local-env/.env_entra
           echo "ENTRA_CLIENT_ID=${ENTRA_CLIENT_ID}" > local-env/.env_entra
           echo "ENTRA_CLIENT_SECRET=${ENTRA_CLIENT_SECRET}" >> local-env/.env_entra
@@ -58,7 +69,7 @@ jobs:
 
       - name: Start CKAN
         working-directory: local-env
-        run: ./start-local-ckan.sh up build_image ci
+        run: DIGITRAFFIC_CI_PATH=${{ GITHUB_WORKSPACE }}/digitraffic-ci ./start-local-ckan.sh up build_image ci
 
       - name: Wait for containers
         working-directory: local-env

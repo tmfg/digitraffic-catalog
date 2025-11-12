@@ -4,11 +4,14 @@ set -euo pipefail
 USAGE=$(
   cat <<-EOM
 
-usage: start_local_ckan.sh { up | down } [ build_image ] [ ci ]
+usage: DIGITRAFFIC_CI_PATH=/path/to/ci/project start_local_ckan.sh { up | down } [ build_image ] [ ci ]
 
 Starts or stops a local CKAN server inside docker compose.
 
 Also, builds a CKAN docker image if one does not exists or build_image argument is given.
+
+Environment variables:
+  DIGITRAFFIC_CI_PATH  Path to CI repository (required)
 
 EOM
 )
@@ -26,6 +29,13 @@ fi
 COMPOSE_COMMAND="$1"
 BUILD_IMAGE="${2:-}"
 CI="${3:-}"
+
+# Check for DIGITRAFFIC_CI_PATH only when building images
+if [[ "$COMPOSE_COMMAND" == "up" ]] && [[ -z "${DIGITRAFFIC_CI_PATH:-}" ]]; then
+  echo "Error: DIGITRAFFIC_CI_PATH environment variable is required when starting CKAN"
+  echo "$USAGE"
+  exit 1
+fi
 
 cd "$(dirname "${BASH_SOURCE[0]}")"
 
@@ -52,13 +62,6 @@ if [ "$COMPOSE_COMMAND" == "down" ]; then
 fi
 
 if [ "$CI" != "ci" ]; then
-  # Create necessary files if they do not exist
-  EXTENSIONS_FOR_CKAN_DOCKER_PATH=../docker/ckan/ckanext
-  if [[ ! -d $EXTENSIONS_FOR_CKAN_DOCKER_PATH ]]; then
-    echo "$EXTENSIONS_FOR_CKAN_DOCKER_PATH extensions folder does not exist. Creating one..."
-    cp -r ../ext $EXTENSIONS_FOR_CKAN_DOCKER_PATH
-  fi
-
   ENTRA_ENV_FILE=./.env_entra
 
   if [[ ! -f $ENTRA_ENV_FILE ]]; then
@@ -76,32 +79,11 @@ if [ "$CI" != "ci" ]; then
   ls -I -d -1 "$PWD"/../ext/{*,} | tail -n +2 | xargs -I % bash -c 'run_python_install "%"'
 fi
 
-build_image_conditionally() {
-  set -euo pipefail
-  PATH_TO_DOCKERFILE="$1"
-  shift;
-  IMAGE_NAME="$1"
-  shift;
-  DOCKERFILE_ARGS="$@"
-  if [[ $(docker image ls "$IMAGE_NAME" -q | wc -l) -eq 0 ]] ||
-     [[ "$BUILD_IMAGE" = 'build_image' ]]
-  then
-    pushd "$PATH_TO_DOCKERFILE"
-    if [[ -z "$DOCKERFILE_ARGS" ]]
-    then
-        docker image build -t "$IMAGE_NAME" .
-    else
-        docker image build -t "$IMAGE_NAME" --build-arg "$DOCKERFILE_ARGS" .
-    fi
-    popd
-  fi
-}
-
-build_image_conditionally ../docker/ckan local_catalog_ckan:latest
-build_image_conditionally ./ckan local_catalog_ckan_dev:latest
-build_image_conditionally ../docker/solr local_catalog_solr:latest
-build_image_conditionally ../docker/nginx local_catalog_nginx:latest ENVIRONMENT=local
-build_image_conditionally ./postgresql local_catalog_postgresql:latest
+# Build images using the build scripts
+./ckan/build-image.sh "$BUILD_IMAGE"
+./solr/build-image.sh "$BUILD_IMAGE"
+./nginx/build-image.sh "$BUILD_IMAGE"
+./postgresql/build-image.sh "$BUILD_IMAGE"
 
 if [ "$COMPOSE_COMMAND" == "up" ]; then
   if [ "$CI" == "ci" ]; then
