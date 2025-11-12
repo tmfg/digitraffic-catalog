@@ -69,7 +69,7 @@ jobs:
 
       - name: Start CKAN
         working-directory: local-env
-        run: DIGITRAFFIC_CI_PATH=${{ GITHUB_WORKSPACE }}/digitraffic-ci ./start-local-ckan.sh up build_image ci
+        run: DIGITRAFFIC_CI_PATH=${{ github.workspace }}/digitraffic-ci ./start-local-ckan.sh up build_image ci
 
       - name: Wait for containers
         working-directory: local-env
