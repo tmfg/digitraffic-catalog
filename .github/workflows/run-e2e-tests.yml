@@ -2,7 +2,11 @@ name: Run E2E tests
 
 on:
   workflow_dispatch:
-  push:
+    inputs:
+      config-repo-branch:
+        description: "Branch or tag of CI-repo"
+        required: true
+        default: "master"
 
 jobs:
   run_tests:
@@ -12,6 +16,14 @@ jobs:
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v5
+
+      - name: Checkout CI-repo
+        uses: actions/checkout@v5
+        with:
+          repository: ${{ secrets.CONFIG_REPO_NAME }}
+          ssh-key: ${{ secrets.CONFIG_REPO_SSH_KEY }}
+          ref: ${{ inputs.config-repo-branch || 'master' }}
+          path: digitraffic-ci
 
       - name: Setup environment
         env:
@@ -32,7 +44,6 @@ jobs:
           ENTRA_AUTHORITY: ${{ secrets.ENTRA_AUTHORITY }}
           CKAN_SITE_URL: ${{ vars.CKAN_SITE_URL }}
         run: |
-          cp -r ext docker/ckan/ckanext
           touch local-env/.env_entra
           echo "ENTRA_CLIENT_ID=${ENTRA_CLIENT_ID}" > local-env/.env_entra
           echo "ENTRA_CLIENT_SECRET=${ENTRA_CLIENT_SECRET}" >> local-env/.env_entra
@@ -45,20 +56,20 @@ jobs:
           echo "E2E_SYSADMIN_EMAIL=${E2E_SYSADMIN_EMAIL}" >> local-env/.env_test_users
           echo "E2E_SYSADMIN_FULLNAME=${E2E_SYSADMIN_FULLNAME}" >> local-env/.env_test_users
           
-          touch ext/ckanext-digitraffic_theme/.env.playwright
-          echo "TEST_SITE_URL=${CKAN_SITE_URL}" > ext/ckanext-digitraffic_theme/.env.playwright
-          echo "E2E_SYSADMIN_USERNAME=${E2E_SYSADMIN_USERNAME}" >> ext/ckanext-digitraffic_theme/.env.playwright
-          echo "E2E_SYSADMIN_PASSWORD=${E2E_SYSADMIN_PASSWORD}" >> ext/ckanext-digitraffic_theme/.env.playwright
-          echo "E2E_ORGANIZATION_ADMIN_USERNAME=${E2E_ORGANIZATION_ADMIN_USERNAME}" >> ext/ckanext-digitraffic_theme/.env.playwright
-          echo "E2E_ORGANIZATION_ADMIN_PASSWORD=${E2E_ORGANIZATION_ADMIN_PASSWORD}" >> ext/ckanext-digitraffic_theme/.env.playwright
-          echo "E2E_ORGANIZATION_EDITOR_USERNAME=${E2E_ORGANIZATION_EDITOR_USERNAME}" >> ext/ckanext-digitraffic_theme/.env.playwright
-          echo "E2E_ORGANIZATION_EDITOR_PASSWORD=${E2E_ORGANIZATION_EDITOR_PASSWORD}" >> ext/ckanext-digitraffic_theme/.env.playwright
-          echo "E2E_ORGANIZATION_MEMBER_USERNAME=${E2E_ORGANIZATION_MEMBER_USERNAME}" >> ext/ckanext-digitraffic_theme/.env.playwright
-          echo "E2E_ORGANIZATION_MEMBER_PASSWORD=${E2E_ORGANIZATION_MEMBER_PASSWORD}" >> ext/ckanext-digitraffic_theme/.env.playwright
+          touch ext/ckanext-digitraffic_core/.env.playwright
+          echo "TEST_SITE_URL=${CKAN_SITE_URL}" > ext/ckanext-digitraffic_core/.env.playwright
+          echo "E2E_SYSADMIN_USERNAME=${E2E_SYSADMIN_USERNAME}" >> ext/ckanext-digitraffic_core/.env.playwright
+          echo "E2E_SYSADMIN_PASSWORD=${E2E_SYSADMIN_PASSWORD}" >> ext/ckanext-digitraffic_core/.env.playwright
+          echo "E2E_ORGANIZATION_ADMIN_USERNAME=${E2E_ORGANIZATION_ADMIN_USERNAME}" >> ext/ckanext-digitraffic_core/.env.playwright
+          echo "E2E_ORGANIZATION_ADMIN_PASSWORD=${E2E_ORGANIZATION_ADMIN_PASSWORD}" >> ext/ckanext-digitraffic_core/.env.playwright
+          echo "E2E_ORGANIZATION_EDITOR_USERNAME=${E2E_ORGANIZATION_EDITOR_USERNAME}" >> ext/ckanext-digitraffic_core/.env.playwright
+          echo "E2E_ORGANIZATION_EDITOR_PASSWORD=${E2E_ORGANIZATION_EDITOR_PASSWORD}" >> ext/ckanext-digitraffic_core/.env.playwright
+          echo "E2E_ORGANIZATION_MEMBER_USERNAME=${E2E_ORGANIZATION_MEMBER_USERNAME}" >> ext/ckanext-digitraffic_core/.env.playwright
+          echo "E2E_ORGANIZATION_MEMBER_PASSWORD=${E2E_ORGANIZATION_MEMBER_PASSWORD}" >> ext/ckanext-digitraffic_core/.env.playwright
 
       - name: Start CKAN
         working-directory: local-env
-        run: ./start-local-ckan.sh up build_image ci
+        run: DIGITRAFFIC_CI_PATH=${{ github.workspace }}/digitraffic-ci ./start-local-ckan.sh up build_image ci
 
       - name: Wait for containers
         working-directory: local-env
@@ -74,22 +85,22 @@ jobs:
         with:
           node-version: 22.x
           cache: "pnpm"
-          cache-dependency-path: ./ext/ckanext-digitraffic_theme
+          cache-dependency-path: ./ext/ckanext-digitraffic_core
 
       - name: Install dependencies for E2E-tests
-        working-directory: ./ext/ckanext-digitraffic_theme
+        working-directory: ./ext/ckanext-digitraffic_core
         run: pnpm install
 
       - name: Install Playwright Browsers
-        working-directory: ./ext/ckanext-digitraffic_theme
+        working-directory: ./ext/ckanext-digitraffic_core
         run: pnpm dlx playwright install --with-deps
 
       - name: Update Playwright
-        working-directory: ./ext/ckanext-digitraffic_theme
+        working-directory: ./ext/ckanext-digitraffic_core
         run: pnpm exec playwright install
 
       - name: Run E2E-tests
-        working-directory: ./ext/ckanext-digitraffic_theme
+        working-directory: ./ext/ckanext-digitraffic_core
         run: pnpm run e2e
 
       - name: Upload Playwright report
@@ -97,7 +108,7 @@ jobs:
         if: ${{ !cancelled() }}
         with:
           name: playwright-report
-          path: ./ext/ckanext-digitraffic_theme/playwright-report/
+          path: ./ext/ckanext-digitraffic_core/playwright-report/
           retention-days: 30
 
       - name: Upload Docker logs

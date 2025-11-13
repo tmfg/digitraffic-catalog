@@ -1,0 +1,10 @@
+digitraffic_core-css:
+  filter: cssrewrite
+  output: ckanext-digitraffic_core/%(version)s-digitraffic-core.css
+  contents:
+    - css/digitraffic-core.css
+digitraffic_main-js:
+  filter: rjsmin
+  output: ckanext-digitraffic_core/%(version)sDigitrafficMain.js
+  contents:
+    - js/digitrafficMain.js

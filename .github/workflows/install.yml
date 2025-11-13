@@ -88,59 +88,82 @@ jobs:
         with:
           node-version: 22
 
+      - name: Checkout CI-repo
+        uses: actions/checkout@v5
+        with:
+          repository: ${{ secrets.CONFIG_REPO_NAME }}
+          ssh-key: ${{ secrets.CONFIG_REPO_SSH_KEY }}
+          ref: ${{ inputs.config-repo-branch }}
+          path: digitraffic-ci
+
       - name: create extensions
         if: github.event.inputs.install_ckan == 'true'
         run: |
           # npm ci  
 
-          mkdir docker/ckan/ckanext
+          mkdir digitraffic-ci/aws/ckan/ckanext
           # copy directory
-          cp -R ext/ckanext-digitraffic_theme docker/ckan/ckanext/ckanext-digitraffic_theme
-          cp -R ext/ckanext-entraid_authenticator docker/ckan/ckanext/ckanext-entraid_authenticator
-          cp -R ext/ckanext-digitraffic_fluent docker/ckan/ckanext/ckanext-digitraffic_fluent
-          cp -R ext/ckanext-digitraffic_opentelemetry docker/ckan/ckanext/ckanext-digitraffic_opentelemetry
+          cp -R ext/ckanext-digitraffic_core digitraffic-ci/aws/ckan/ckanext/ckanext-digitraffic_core
+          cp -R ext/ckanext-entraid_authenticator digitraffic-ci/aws/ckan/ckanext/ckanext-entraid_authenticator
+          cp -R ext/ckanext-digitraffic_fluent digitraffic-ci/aws/ckan/ckanext/ckanext-digitraffic_fluent
+          cp -R ext/ckanext-digitraffic_opentelemetry digitraffic-ci/aws/ckan/ckanext/ckanext-digitraffic_opentelemetry
 
       - name: CKAN build
         if: github.event.inputs.install_ckan == 'true'
         uses: docker/build-push-action@v6
         with:
-          context: ./docker/ckan
-          file: ./docker/ckan/Dockerfile
+          context: digitraffic-ci/aws/ckan
+          file: digitraffic-ci/aws/docker/Dockerfile-catalog-ckan
           push: true
           platforms: linux/amd64
           tags: ${{ secrets.ECR_URL }}/dt-ckan-repository:${{ github.sha }}
+          build-args: |
+            SETUP_DIR=./setup
+            CKANEXT_DIR=./ckanext
 
       - name: Solr build
         if: github.event.inputs.install_solr == 'true'
         uses: docker/build-push-action@v6
         with:
-          context: ./docker/solr
-          file: ./docker/solr/Dockerfile
+          context: digitraffic-ci/aws/solr
+          file: digitraffic-ci/aws/docker/Dockerfile-catalog-solr
           push: true
           platforms: linux/arm64
           tags: ${{ secrets.ECR_URL }}/dt-solr-repository:${{ github.sha }}
+          build-args: |
+            SOLR_CONFIG_FILE=./solrconfig.xml
+            SOLR_SCHEMA_FILE=./schema.xml
+            SOLR_LOG4J_FILE=./log4j2.xml
 
       - name: Adot build
         if: github.event.inputs.install_adot == 'true'
         uses: docker/build-push-action@v6
         with:
-          context: ./docker/adot-collector
-          file: ./docker/adot-collector/Dockerfile
+          context: digitraffic-ci/aws/opentelemetry-distro
+          file: digitraffic-ci/aws/docker/Dockerfile-catalog-adot
           push: true
           platforms: linux/arm64,linux/amd64
           tags: ${{ secrets.ECR_URL }}/dt-adot-collector-repository:${{ github.sha }}
+          build-args: |
+            COLLECTOR_CONFIG=./collector-config.yaml
 
       - name: Nginx build
         if: github.event.inputs.install_nginx == 'true'
         uses: docker/build-push-action@v6
         with:
-          context: ./docker/nginx
-          file: ./docker/nginx/Dockerfile
+          context: digitraffic-ci/aws/nginx-catalog
+          file: digitraffic-ci/aws/docker/Dockerfile-catalog-nginx
           push: true
           platforms: linux/arm64
           tags: ${{ secrets.ECR_URL }}/dt-nginx-repository:${{ github.sha }}
           build-args: |
-            ENVIRONMENT=${{ github.event.inputs.env }}
+            VARIABLES_TEMPLATE_FILE=./setup/server.variables.template
+            ERROR_PAGES_CONFIG_FILE=./setup/errorpages.conf
+            NGINX_CONFIG_FILE=./setup/nginx.conf
+            OTEL_CONFIG_FILE=./setup/otel.conf.${{ github.event.inputs.env }}
+            SECURITY_HEADERS_CONFIG_FILE=./setup/security_headers.conf
+            SERVER_CONFIG_FILE=./setup/server.conf.${{ github.event.inputs.env }}
+            CUSTOM_PAGES_DIR=./custompages
 
       - name: Put CKAN image tag in Parameter Store
         if: github.event.inputs.install_ckan == 'true'
@@ -189,15 +212,7 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: 9
-
-      - name: Checkout CI-repo
-        uses: actions/checkout@v5
-        with:
-          repository: ${{ secrets.CONFIG_REPO_NAME }}
-          ssh-key: ${{ secrets.CONFIG_REPO_SSH_KEY }}
-          ref: ${{ inputs.config-repo-branch }}
-          path: digitraffic-ci
+          version: 10
 
       - name: Build CDK project
         working-directory: digitraffic-ci/aws/cdk/infra
@@ -270,7 +285,7 @@ jobs:
             --task "$TASK_ID" \
             --container "ckan" \
             --interactive \
-            --command "ckan db upgrade -p digitraffic_theme"
+            --command "ckan db upgrade -p digitraffic_core"
   
 
   rebuild_search_index:

@@ -1,0 +1,42 @@
+<!-- Original CKAN template uses <select> and <option> elements which render differently in different browsers.
+    They have been replaced here with a custom solution. -->
+{#
+is_icon_select - true or false
+id - id for select
+#}
+
+{% set current_lang = request.environ.CKAN_LANG %}
+<div data-module="digitraffic_core_language_menu">
+<form id="language-menu-form" class="lang-select {% if is_icon_select %}lang-icon{% endif %}" action="{% url_for 'util.internal_redirect' %}" method="POST">
+    {{ h.csrf_input() }}
+    <nav class="form-group custom-language-dropdown" tabindex="0">
+        <div class="custom-language-options" role="menu">
+            {% for locale in h.get_available_locales() %}
+            {% set lang_url %}
+                {%- url_for h.current_url(), locale=locale.short_name -%}
+            {% endset %}
+
+            {# In some environments the language version link might erroneously get two trailing slashes at the root address.
+               We want to remove extra trailing slashes but not add any to links that shouldn't have a trailing slash (e.g. link to the lanugage version of a dataset).  #}
+            {% set trimmed_url = lang_url.strip() %}
+            {% set clean_url = trimmed_url.rstrip('/') %}
+            {% if trimmed_url.endswith('/') %}
+                {% set clean_url = clean_url + '/' %}
+            {% endif %}
+
+            <div class="custom-language-option" data-value="{{ clean_url }}"  {% if locale.short_name == current_lang %}selected="selected"{% endif %} role="menuitem" tabindex="0">
+                <span class="checkmark-container">
+                    {% if locale.short_name == current_lang %}
+                    <span class="checkmark">✔</span>
+                    {% endif %}
+                </span>
+                {{ (locale.display_name or locale.english_name).capitalize() }}
+            </div>
+            {% endfor %}
+        </div>
+        <i data-lucide="globe"></i>
+    </nav>
+    <input type="hidden" name="url" id="language-option-hidden" />
+    <button class="btn btn-default d-none" type="submit">{{ _('Go') }}</button>
+</form>
+</div>

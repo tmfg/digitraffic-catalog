@@ -1,0 +1,66 @@
+{
+  "scheming_presets_version": 1,
+  "about": "These are presets used in digitraffic core plugin",
+  "presets": [
+    {
+      "preset_name": "url",
+      "values": {
+        "form_snippet": "url_input.html",
+        "validators": "scheming_required unicode_safe remove_whitespace ignore_missing url_validator url_error_message_formatting"
+      }
+    },
+    {
+      "preset_name": "email",
+      "values": {
+        "form_snippet": "email_input.html",
+        "validators": "scheming_required remove_whitespace ignore_missing email_validator"
+      }
+    },
+    {
+      "preset_name": "phone",
+      "values": {
+        "form_snippet": "phone_input.html",
+        "validators": "scheming_required remove_whitespace ignore_missing phone_number_validator"
+      }
+    },
+    {
+      "preset_name": "fluent_textarea",
+      "values": {
+        "form_snippet": "fluent_textarea.html",
+        "display_snippet": "fluent_text.html",
+        "error_snippet": "fluent_text.html",
+        "validators": "fluent_text scheming_required unicode_safe remove_whitespace ignore_missing",
+        "output_validators": "fluent_core_translated_output"
+      }
+    },
+    {
+      "preset_name": "iri_fragment",
+      "values": {
+        "form_snippet": "iri_fragment_input.html",
+        "validators": "scheming_required remove_whitespace ignore_missing"
+      }
+    },
+    {
+      "preset_name": "dataset_reference_select",
+      "values": {
+        "form_snippet": "dataset_reference_select.html",
+        "validators": "scheming_required ignore_missing"
+      }
+    },
+    {
+      "preset_name": "select_mobility_sub_theme",
+      "values": {
+        "form_snippet": "select_mobility_sub_theme.html",
+        "validators": "scheming_required scheming_choices"
+      }
+    },
+    {
+      "preset_name": "multi_select",
+      "values": {
+        "form_snippet": "multi_select.html",
+        "display_snippet": "multiple_choice.html",
+        "validators": "scheming_required scheming_choices value_to_list"
+      }
+    }
+  ]
+}

@@ -16,20 +16,20 @@ To reload configuration or code changes, run `./reload-ckan.sh` script
 
 ### Plugins
 
-#### digitraffic_theme
+#### digitraffic_core
 
 At the moment, this plugin is heavily developed and contains more than just theming related code.
 
-If you want to change some frontend code, like SASS, HTML or TS files, you'll find the code in `ckanext/digitraffic_theme/src`
-and `ckanext/digitraffic_theme/templates` folders. You can build the SASS and TS files by running `npm run bundle`
+If you want to change some frontend code, like SASS, HTML or TS files, you'll find the code in `ckanext/digitraffic_core/src`
+and `ckanext/digitraffic_core/templates` folders. You can build the SASS and TS files by running `npm run bundle`
 
-If you have transpiled a new ckanext-scheming file, copy it into `ckanext/digitraffic_theme/schemas` folder
+If you have transpiled a new ckanext-scheming file, copy it into `ckanext/digitraffic_core/schemas` folder
 
-If you are modifying mobilityDCAT-AP profile for ckanext-dcat plugin, you can find the code in `ckanext/digitraffic_theme/profiles`
+If you are modifying mobilityDCAT-AP profile for ckanext-dcat plugin, you can find the code in `ckanext/digitraffic_core/profiles`
 
 ##### Running tests
 
-Inside `local-env` folder, first start the local env, then run `./run-digitraffic-theme-tests-on-docker.sh` script
+Inside `local-env` folder, first start the local env, then run `./run-digitraffic-core-tests-on-docker.sh` script
 
 ## E2E-tests
 

@@ -4,8 +4,8 @@
 !docker
 !docker/**
 !ext
-!ext/ckanext-digitraffic_theme
-!ext/ckanext-digitraffic_theme/*/
+!ext/ckanext-digitraffic_core
+!ext/ckanext-digitraffic_core/*/
 !ext/ckanext-entraid_authenticator
 !ext/ckanext-entraid_authenticator/*/
 !ext/ckanext-digitraffic_fluent
@@ -23,6 +23,7 @@
 !package.json
 !package-lock.json
 !README.md
+!LICENSE
 
 # Github
 !.github/
@@ -35,3 +36,4 @@ docker/ckan/ckanext
 local-env/.env_entra
 local-env/.env_test_users
 local-env/.idea
+local-env/*/build

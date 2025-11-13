@@ -2,7 +2,11 @@ name: Run tests
 
 on:
   workflow_dispatch:
-  push:
+    inputs:
+      config-repo-branch:
+        description: "Branch or tag of CI-repo"
+        required: true
+        default: "master"
 
 jobs:
   run_tests:
@@ -12,15 +16,22 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
+      - name: Checkout CI-repo
+        uses: actions/checkout@v5
+        with:
+          repository: ${{ secrets.CONFIG_REPO_NAME }}
+          ssh-key: ${{ secrets.CONFIG_REPO_SSH_KEY }}
+          ref: ${{ inputs.config-repo-branch || 'master' }}
+          path: digitraffic-ci
+
       - name: Setup environment
         run: |
-          cp -r ext docker/ckan/ckanext
           cp ext/ckanext-entraid_authenticator/.env.example local-env/.env_entra
           touch local-env/.env_test_users
 
       - name: Start CKAN
         working-directory: local-env
-        run: ./start-local-ckan.sh up build_image ci
+        run: DIGITRAFFIC_CI_PATH=${{ github.workspace }}/digitraffic-ci ./start-local-ckan.sh up build_image ci
 
       - name: Wait for containers
         working-directory: local-env
@@ -28,7 +39,7 @@ jobs:
 
       - name: Run tests
         working-directory: local-env
-        run: ./run-digitraffic-theme-tests-on-docker.sh
+        run: ./run-digitraffic-core-tests-on-docker.sh
 
       - name: Upload Docker logs
         if: always()

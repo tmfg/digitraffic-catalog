@@ -1,0 +1,22 @@
+{% ckan_extends %}
+
+{%- block title -%}
+  {{ h.get_site_title() }}
+{% endblock -%}
+
+{% block styles %}
+  {{ super() }}
+  {# Import digitraffic_core.css using Webassets. 'digitraffic_core/' is
+    the name that the digitraffic_core/fanstatic directory was registered
+    with when the toolkit.add_resource() function was called.
+    'digitraffic_core' is the name to the Webassets bundle file,
+    registered inside webassets.yml file. #}
+  {% asset 'digitraffic_core/digitraffic_core-css' %}
+{% endblock %}
+{%- block head_extras %}
+  {% snippet 'snippets/tracking/matomo.html' %}
+  {% snippet 'snippets/tracking/cookie_consent.html' %}
+{% endblock %}
+{% block scripts %}
+  {% asset 'digitraffic_core/digitraffic_main-js'%}
+{% endblock %}
