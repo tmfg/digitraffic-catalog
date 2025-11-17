@@ -10,15 +10,13 @@ Contains all code for Digitraffic Catalog service.
 
 ### Environment
 
-To set up a development environment, go to `local-env` folder and run `./start-local-ckan.sh up build_image`.
+To set up a development environment, go to `local-env` folder and run `DIGITRAFFIC_CI_PATH=/path/to/ci/project ./start-local-ckan.sh up build_image`.
 
 To reload configuration or code changes, run `./reload-ckan.sh` script
 
 ### Plugins
 
 #### digitraffic_core
-
-At the moment, this plugin is heavily developed and contains more than just theming related code.
 
 If you want to change some frontend code, like SASS, HTML or TS files, you'll find the code in `ckanext/digitraffic_core/src`
 and `ckanext/digitraffic_core/templates` folders. You can build the SASS and TS files by running `npm run bundle`
