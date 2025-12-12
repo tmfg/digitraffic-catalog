@@ -10,5 +10,6 @@
 !scripts/**/*.py
 !poetry.lock
 !pyproject.toml
+!poetry.toml
 !README.md
 !.gitignore

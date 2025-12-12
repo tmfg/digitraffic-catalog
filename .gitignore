@@ -1,8 +1,10 @@
 *
 
 !dcat_schema_transpiler
-!docker
-!docker/**
+!scripts
+!scripts/*.py
+!scripts/*.txt
+
 !ext
 !ext/ckanext-digitraffic_core
 !ext/ckanext-digitraffic_core/*/
@@ -24,6 +26,7 @@
 !package-lock.json
 !README.md
 !LICENSE
+!lefthook.yml
 
 # Github
 !.github/
