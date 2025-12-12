@@ -98,10 +98,22 @@ def check_requirements_age(file_path, cooldown_days=7):
     errors = []
 
     with open(file_path, 'r') as f:
-        for line in f:
+        for line_num, line in enumerate(f, 1):
             line = line.strip()
             if line and not line.startswith('#'):
-                package, version = line.split('==')
+                # Check if line has a pinned version with ==
+                if '==' not in line:
+                    errors.append(f"Line {line_num}: Package is not pinned to a specific version: {line}")
+                    continue
+
+                try:
+                    package, version = line.split('==', 1)
+                    package = package.strip()
+                    version = version.strip()
+                except ValueError:
+                    errors.append(f"Line {line_num}: Could not parse requirement: {line}")
+                    continue
+
                 package_version = f"{package}=={version}"
 
                 # Skip whitelisted packages
