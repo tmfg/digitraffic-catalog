@@ -270,4 +270,3 @@ If not using an editor (such as poedit) that compiles automatically on save, you
 - **CKAN Documentation**: https://docs.ckan.org/en/latest/
 - **MobilityDCAT-AP Specification**: https://mobilitydcat-ap.github.io/mobilityDCAT-AP/releases/
 - **Fintraffic Design System**: https://github.com/fintraffic-design
-
