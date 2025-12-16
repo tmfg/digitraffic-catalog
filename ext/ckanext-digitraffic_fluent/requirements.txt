@@ -1,3 +1,5 @@
+docopt==0.6.2
+ckanapi==4.9
 ckanext-scheming==3.1.0
 six==1.17.0
 ckantoolkit==0.0.7

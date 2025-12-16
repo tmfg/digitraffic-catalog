@@ -1,5 +1,5 @@
-include README.rst
+include README.md
 include LICENSE
 include requirements.txt
-recursive-include ckanext/digitraffic_core *.html *.json *.js *.less *.css *.mo *.yml
+recursive-include ckanext/digitraffic_core *.html *.json *.js *.less *.css *.mo *.yml *.yaml *.png *.woff *.woff2 *.svg *.ico *.jpg
 recursive-include ckanext/digitraffic_core/migration *.ini *.py *.mako

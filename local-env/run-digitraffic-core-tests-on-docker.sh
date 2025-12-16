@@ -42,5 +42,5 @@ else
 fi
 
 docker exec -u ckan datakatalogi-local-ckan-1 bash -c "cd ckanext/ckanext-digitraffic_core && \
-pip install -r dev-requirements.txt && \
+pip install --only-binary=:all: -r dev-requirements.txt && \
 pytest --ckan-ini=test.ini ${PYTEST_ARGS}"
