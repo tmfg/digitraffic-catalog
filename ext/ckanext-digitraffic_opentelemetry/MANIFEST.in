@@ -3,3 +3,11 @@ include LICENSE
 include requirements.txt
 recursive-include ckanext/digitraffic_opentelemetry *.html *.json *.js *.less *.css *.mo *.yml *.yaml
 recursive-include ckanext/digitraffic_opentelemetry/migration *.ini *.py *.mako
+
+# Exclude test files and development dependencies
+recursive-exclude ckanext/digitraffic_opentelemetry/tests *
+exclude test.ini
+exclude dev-requirements.txt
+global-exclude __pycache__
+global-exclude *.py[co]
+

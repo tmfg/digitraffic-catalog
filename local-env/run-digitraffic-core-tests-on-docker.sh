@@ -41,6 +41,8 @@ else
     PYTEST_ARGS="-rA ${TESTS_DIRECTORY}"
 fi
 
+# We need to install in editable mode to run the tests
 docker exec -u ckan datakatalogi-local-ckan-1 bash -c "cd ckanext/ckanext-digitraffic_core && \
-pip install --only-binary=:all: -r dev-requirements.txt && \
+pip uninstall -y ckanext-digitraffic-core 2>/dev/null || true && \
+pip install -e . && \
 pytest --ckan-ini=test.ini ${PYTEST_ARGS}"

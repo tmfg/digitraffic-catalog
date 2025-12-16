@@ -1,5 +1,13 @@
 include README.md
 include LICENSE
 include requirements.txt
-recursive-include ckanext/digitraffic_core *.html *.json *.js *.less *.css *.mo *.yml *.yaml *.png *.woff *.woff2 *.svg *.ico *.jpg
+recursive-include ckanext/digitraffic_core *.html *.json *.js *.css *.mo *.yml *.yaml *.png *.woff *.woff2 *.svg *.ico *.jpg
 recursive-include ckanext/digitraffic_core/migration *.ini *.py *.mako
+
+# Exclude test files and development dependencies
+recursive-exclude ckanext/digitraffic_core/tests *
+exclude test.ini
+exclude dev-requirements.txt
+global-exclude __pycache__
+global-exclude *.py[co]
+
