@@ -25,8 +25,8 @@ def load_whitelist():
 
     return whitelist
 
-def check_package_age(package, version):
-    """Checks the age of a specific package version from PyPI.
+def get_package_age(package, version):
+    """Gets the age of a specific package version from PyPI.
     Returns (release_date, error_message) tuple.
     If successful, error_message is None. If failed, release_date is None.
     """
@@ -67,7 +67,7 @@ def check_poetry_lock_age(file_path, cooldown_days=7):
                 print(f"⚪ Skipping whitelisted package: {package_version}")
                 continue
 
-            release_date, error_msg = check_package_age(name, version)
+            release_date, error_msg = get_package_age(name, version)
             if error_msg:
                 errors.append(error_msg)
             elif release_date:
@@ -121,7 +121,7 @@ def check_requirements_age(file_path, cooldown_days=7):
                     print(f"⚪ Skipping whitelisted package: {package_version}")
                     continue
 
-                release_date, error_msg = check_package_age(package, version)
+                release_date, error_msg = get_package_age(package, version)
                 if error_msg:
                     errors.append(error_msg)
                 elif release_date:
