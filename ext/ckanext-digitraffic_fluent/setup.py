@@ -15,7 +15,12 @@ setup(
     author_email="ian@excess.org",
     url="",
     license="MIT",
-    packages=find_packages(exclude=["ez_setup", "examples", "tests"]),
+    packages=find_packages(exclude=[
+        "ez_setup",
+        "examples",
+        "ckanext.fluent.tests",
+        "ckanext.fluent.tests.*",
+    ]),
     namespace_packages=["ckanext"],
     include_package_data=True,
     zip_safe=False,

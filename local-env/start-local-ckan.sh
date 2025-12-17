@@ -43,15 +43,28 @@ run_python_install() {
   set -euo pipefail
   PATH_TO_EXT="$1"
   PYTHON_VIRTUAL_ENV_DIR='venv'
+  echo "Installing Python dependencies for extension at $PATH_TO_EXT"
   pushd "$PATH_TO_EXT"
   if [[ ! -d "$PYTHON_VIRTUAL_ENV_DIR" ]]; then
     python -m venv "$PYTHON_VIRTUAL_ENV_DIR"
   fi
   source venv/bin/activate
-  pip install -e .
   if [[ -f requirements.txt ]]; then
-    pip install -r requirements.txt
+    # Whitelist of packages that are allowed to be installed from source
+    # because they don't provide binary distributions
+    ALLOW_SOURCE_PACKAGES="ckanext-scheming ckantoolkit docopt"
+
+    # Build the --only-binary flag with exceptions for whitelisted packages
+    ONLY_BINARY_FLAG="--only-binary=:all:"
+    for pkg in $ALLOW_SOURCE_PACKAGES; do
+      ONLY_BINARY_FLAG="$ONLY_BINARY_FLAG --no-binary=$pkg"
+    done
+
+    pip install $ONLY_BINARY_FLAG -r requirements.txt
+  else
+    echo "No requirements.txt found for extension at $PATH_TO_EXT"
   fi
+  pip install -e .
   deactivate
   popd
 }
@@ -62,6 +75,7 @@ if [ "$COMPOSE_COMMAND" == "down" ]; then
 fi
 
 if [ "$CI" != "ci" ]; then
+  echo "Setting up CKAN extensions..."
   ENTRA_ENV_FILE=./.env_entra
 
   if [[ ! -f $ENTRA_ENV_FILE ]]; then

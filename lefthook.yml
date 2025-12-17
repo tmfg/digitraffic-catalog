@@ -1,0 +1,19 @@
+pre-push:
+  commands:
+    check-poetry-lock:
+      run: python scripts/check_dependency_age.py dcat_schema_transpiler/poetry.lock
+    check-digitraffic-core-requirements:
+      run: python scripts/check_dependency_age.py ext/ckanext-digitraffic_core/requirements.txt
+    check-digitraffic-core-dev-requirements:
+      run: python scripts/check_dependency_age.py ext/ckanext-digitraffic_core/dev-requirements.txt
+    check-digitraffic-fluent-requirements:
+      run: python scripts/check_dependency_age.py ext/ckanext-digitraffic_fluent/requirements.txt
+    check-digitraffic-fluent-dev-requirements:
+      run: python scripts/check_dependency_age.py ext/ckanext-digitraffic_fluent/dev-requirements.txt
+    check-digitraffic-opentelemetry-requirements:
+      run: python scripts/check_dependency_age.py ext/ckanext-digitraffic_opentelemetry/requirements.txt
+    check-digitraffic-opentelemetry-dev-requirements:
+      run: python scripts/check_dependency_age.py ext/ckanext-digitraffic_opentelemetry/dev-requirements.txt
+    check-entraid-authenticator-requirements:
+      run: python scripts/check_dependency_age.py ext/ckanext-entraid_authenticator/requirements.txt
+

@@ -18,3 +18,6 @@ ckan config-tool "${CKAN_INI}" "ckan.display_timezone = Europe/Helsinki"
 #ckan config-tool "${CKAN_INI}" "digitraffic_opentelemetry.loggers_to_set_events = ckan ckanext"
 #ckan config-tool "${CKAN_INI}" "digitraffic_opentelemetry.enter_pdb_on_error = true"
 #ckan config-tool "${CKAN_INI}" "digitraffic_opentelemetry.instrument_ckan_alpha = true"
+
+## Install dev-requirements
+pip install --only-binary=:all: -r "${EXT_DIR}/ckanext-digitraffic_core/dev-requirements.txt"

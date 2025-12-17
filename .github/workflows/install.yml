@@ -88,6 +88,11 @@ jobs:
         with:
           node-version: 22
 
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+
       - name: Checkout CI-repo
         uses: actions/checkout@v6
         with:
@@ -95,6 +100,17 @@ jobs:
           ssh-key: ${{ secrets.CONFIG_REPO_SSH_KEY }}
           ref: ${{ inputs.config-repo-branch }}
           path: digitraffic-ci
+
+      - name: Check dependency age
+        run: |
+          python scripts/check_dependency_age.py dcat_schema_transpiler/poetry.lock
+          python scripts/check_dependency_age.py ext/ckanext-digitraffic_core/requirements.txt
+          python scripts/check_dependency_age.py ext/ckanext-digitraffic_core/dev-requirements.txt
+          python scripts/check_dependency_age.py ext/ckanext-digitraffic_fluent/requirements.txt
+          python scripts/check_dependency_age.py ext/ckanext-digitraffic_fluent/dev-requirements.txt
+          python scripts/check_dependency_age.py ext/ckanext-digitraffic_opentelemetry/requirements.txt
+          python scripts/check_dependency_age.py ext/ckanext-digitraffic_opentelemetry/dev-requirements.txt
+          python scripts/check_dependency_age.py ext/ckanext-entraid_authenticator/requirements.txt
 
       - name: create extensions
         if: github.event.inputs.install_ckan == 'true'

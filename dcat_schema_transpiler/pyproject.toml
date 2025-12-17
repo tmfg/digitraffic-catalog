@@ -6,17 +6,16 @@ authors = ["Joonas-M-S <joonas.mikkonen@solita.fi>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.12"
-rdflib = "^7.0.0"
-httpx = {version = "^0.28.1", extras = ["http2"]}
-owlready2 = "^0.48"
-pyyaml = "^6.0.1"
+python = "3.12.10"
+rdflib = "7.0.0"
+httpx = {version = "0.28.1", extras = ["http2"]}
+pyyaml = "6.0.1"
 
 [tool.poetry.group.test]
 optional = true
 
 [tool.poetry.group.test.dependencies]
-pytest = "^8.4.2"
+pytest = "8.4.2"
 
 
 [build-system]

@@ -12,7 +12,7 @@ extension is required for this extension to work.
 git clone https://github.com/ckan/ckanext-fluent.git
 cd ckanext-fluent
 python setup.py develop
-pip install -r requirements.txt
+pip install --only-binary=:all: -r requirements.txt
 ```
 
 Add the `fluent` plugin to your ckan.plugins configuration

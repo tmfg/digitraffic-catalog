@@ -1,2 +1,10 @@
 recursive-include ckanext *.html *.json *.yaml
 include README.md CHANGELOG.md
+
+# Exclude test files and development dependencies
+recursive-exclude ckanext/fluent/tests *
+exclude test.ini
+exclude dev-requirements.txt
+global-exclude __pycache__
+global-exclude *.py[co]
+

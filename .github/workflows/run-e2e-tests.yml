@@ -7,6 +7,7 @@ on:
         description: "Branch or tag of CI-repo"
         required: true
         default: "master"
+  push:
 
 jobs:
   run_tests:
