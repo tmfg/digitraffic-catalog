@@ -6,10 +6,10 @@ authors = ["Joonas-M-S <joonas.mikkonen@solita.fi>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "3.12.10"
-rdflib = "7.0.0"
+python = "3.12.12"
+rdflib = "7.5.0"
 httpx = {version = "0.28.1", extras = ["http2"]}
-pyyaml = "6.0.1"
+pyyaml = "6.0.3"
 
 [tool.poetry.group.test]
 optional = true
