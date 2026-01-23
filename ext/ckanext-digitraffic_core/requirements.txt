@@ -1,6 +1,6 @@
 isodate==0.7.2
-phonenumbers==9.0.13
-pyparsing==3.2.3
-rdflib==7.1.4
+phonenumbers==9.0.21
+pyparsing==3.3.1
+rdflib==7.5.0
 six==1.17.0
 validators==0.35.0
