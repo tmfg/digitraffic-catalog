@@ -34,6 +34,7 @@
 !.github/workflows/**/**.yml
 !.github/CODEOWNERS
 !/.github/dependabot.yml
+!.github/trufflehog-exclude.txt
 
 docker/ckan/ckanext
 local-env/.env_entra
