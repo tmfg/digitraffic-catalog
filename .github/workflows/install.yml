@@ -349,6 +349,11 @@ jobs:
           aws s3 cp ${{ steps.environment.outputs.directory }}/solr-sbom.json \
             s3://${{ fromJson(steps.sbom-config.outputs.common).bucketArn }}/${{ fromJson(steps.sbom-config.outputs.config)[github.event.inputs.env]['solr'] }}/${{ github.run_id }}-${{ github.sha }}.json
 
+      - name: Upload Adot SBOM
+        if: github.event.inputs.install_adot == 'true'
+        run: |          
+          aws s3 cp ${{ steps.environment.outputs.directory }}/adot-sbom.json \
+            s3://${{ fromJson(steps.sbom-config.outputs.common).bucketArn }}/${{ fromJson(steps.sbom-config.outputs.config)[github.event.inputs.env]['adot'] }}/${{ github.run_id }}-${{ github.sha }}.json
   run_db_migrations:
     if: ${{ github.repository != 'tmfg/digitraffic-catalog' && needs.build_and_deploy.result != 'failure' && github.event.inputs.run_migrations == 'true'}}
     needs: build_and_deploy
