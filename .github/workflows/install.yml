@@ -157,7 +157,7 @@ jobs:
           format: cyclonedx
           scanners: vuln,license
           version: latest
-          output: ${{ steps.environment.outputs.directory }}/ckan-sbom.json
+          output: ckan-sbom.json
 
       - name: Solr build
         if: github.event.inputs.install_solr == 'true'
@@ -182,7 +182,7 @@ jobs:
           format: cyclonedx
           scanners: vuln,license
           version: latest
-          output: ${{ steps.environment.outputs.directory }}/solr-sbom.json
+          output: solr-sbom.json
 
       - name: Adot build
         if: github.event.inputs.install_adot == 'true'
@@ -205,7 +205,7 @@ jobs:
           format: cyclonedx
           scanners: vuln,license
           version: latest
-          output: ${{ steps.environment.outputs.directory }}/adot-sbom.json
+          output: adot-sbom.json
 
       - name: Nginx build
         if: github.event.inputs.install_nginx == 'true'
@@ -234,7 +234,7 @@ jobs:
           format: cyclonedx
           scanners: vuln,license
           version: latest
-          output: ${{ steps.environment.outputs.directory }}/nginx-sbom.json
+          output: nginx-sbom.json
 
       - name: Put CKAN image tag in Parameter Store
         if: github.event.inputs.install_ckan == 'true'
@@ -334,26 +334,27 @@ jobs:
       - name: Upload CKAN SBOM
         if: github.event.inputs.install_ckan == 'true'
         run: |          
-          aws s3 cp ${{ steps.environment.outputs.directory }}/ckan-sbom.json \
+          aws s3 cp ckan-sbom.json \
             s3://${{ fromJson(steps.sbom-config.outputs.common).bucketArn }}/${{ fromJson(steps.sbom-config.outputs.config)[github.event.inputs.env]['ckan'] }}/${{ github.run_id }}-${{ github.sha }}.json
 
       - name: Upload Nginx SBOM
         if: github.event.inputs.install_nginx == 'true'
         run: |          
-          aws s3 cp ${{ steps.environment.outputs.directory }}/nginx-sbom.json \
+          aws s3 cp nginx-sbom.json \
             s3://${{ fromJson(steps.sbom-config.outputs.common).bucketArn }}/${{ fromJson(steps.sbom-config.outputs.config)[github.event.inputs.env]['nginx'] }}/${{ github.run_id }}-${{ github.sha }}.json
 
       - name: Upload Solr SBOM
         if: github.event.inputs.install_solr == 'true'
         run: |          
-          aws s3 cp ${{ steps.environment.outputs.directory }}/solr-sbom.json \
+          aws s3 cp solr-sbom.json \
             s3://${{ fromJson(steps.sbom-config.outputs.common).bucketArn }}/${{ fromJson(steps.sbom-config.outputs.config)[github.event.inputs.env]['solr'] }}/${{ github.run_id }}-${{ github.sha }}.json
 
       - name: Upload Adot SBOM
         if: github.event.inputs.install_adot == 'true'
         run: |          
-          aws s3 cp ${{ steps.environment.outputs.directory }}/adot-sbom.json \
+          aws s3 cp adot-sbom.json \
             s3://${{ fromJson(steps.sbom-config.outputs.common).bucketArn }}/${{ fromJson(steps.sbom-config.outputs.config)[github.event.inputs.env]['adot'] }}/${{ github.run_id }}-${{ github.sha }}.json
+            
   run_db_migrations:
     if: ${{ github.repository != 'tmfg/digitraffic-catalog' && needs.build_and_deploy.result != 'failure' && github.event.inputs.run_migrations == 'true'}}
     needs: build_and_deploy
