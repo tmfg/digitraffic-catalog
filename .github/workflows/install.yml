@@ -112,6 +112,17 @@ jobs:
           python scripts/check_dependency_age.py ext/ckanext-digitraffic_opentelemetry/dev-requirements.txt
           python scripts/check_dependency_age.py ext/ckanext-entraid_authenticator/requirements.txt
 
+      - name: Read SBOM config
+        id: sbom-config
+        run: |
+            echo "config<<EOF" >> $GITHUB_OUTPUT
+            cat digitraffic-ci/aws/sbom/catalog.json >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
+
+            echo "common<<EOF" >> $GITHUB_OUTPUT
+            cat digitraffic-ci/aws/sbom/config.json >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
+
       - name: create extensions
         if: github.event.inputs.install_ckan == 'true'
         run: |
@@ -137,6 +148,17 @@ jobs:
             SETUP_DIR=./setup
             CKANEXT_DIR=./ckanext
 
+      - name: Generate CKAN SBOM
+        if: github.event.inputs.install_ckan == 'true'
+        uses: aquasecurity/trivy-action@0.33.1
+        with:
+          scan-type: image
+          image-ref: ${{ secrets.ECR_URL }}/dt-ckan-repository:${{ github.sha }}
+          format: cyclonedx
+          scanners: vuln,license
+          version: latest
+          output: ckan-sbom.json
+
       - name: Solr build
         if: github.event.inputs.install_solr == 'true'
         uses: docker/build-push-action@v6
@@ -151,6 +173,19 @@ jobs:
             SOLR_SCHEMA_FILE=./schema.xml
             SOLR_LOG4J_FILE=./log4j2.xml
 
+      - name: Generate Solr SBOM
+        if: github.event.inputs.install_solr == 'true'
+        uses: aquasecurity/trivy-action@0.33.1
+        env:
+          TRIVY_PLATFORM: linux/arm64
+        with:
+          scan-type: image
+          image-ref: ${{ secrets.ECR_URL }}/dt-solr-repository:${{ github.sha }}
+          format: cyclonedx
+          scanners: vuln,license
+          version: latest
+          output: solr-sbom.json
+
       - name: Adot build
         if: github.event.inputs.install_adot == 'true'
         uses: docker/build-push-action@v6
@@ -162,6 +197,17 @@ jobs:
           tags: ${{ secrets.ECR_URL }}/dt-adot-collector-repository:${{ github.sha }}
           build-args: |
             COLLECTOR_CONFIG=./collector-config.yaml
+
+      - name: Generate Adot SBOM
+        if: github.event.inputs.install_adot == 'true'
+        uses: aquasecurity/trivy-action@0.33.1
+        with:
+          scan-type: image
+          image-ref: ${{ secrets.ECR_URL }}/dt-adot-collector-repository:${{ github.sha }}
+          format: cyclonedx
+          scanners: vuln,license
+          version: latest
+          output: adot-sbom.json
 
       - name: Nginx build
         if: github.event.inputs.install_nginx == 'true'
@@ -180,6 +226,19 @@ jobs:
             SECURITY_HEADERS_CONFIG_FILE=./setup/security_headers.conf
             SERVER_CONFIG_FILE=./setup/server.conf.${{ github.event.inputs.env }}
             CUSTOM_PAGES_DIR=./custompages
+
+      - name: Generate Ngin SBOM
+        if: github.event.inputs.install_nginx == 'true'
+        uses: aquasecurity/trivy-action@0.33.1
+        env:
+          TRIVY_PLATFORM: linux/arm64
+        with:
+          scan-type: image
+          image-ref: ${{ secrets.ECR_URL }}/dt-nginx-repository:${{ github.sha }}
+          format: cyclonedx
+          scanners: vuln,license
+          version: latest
+          output: nginx-sbom.json
 
       - name: Put CKAN image tag in Parameter Store
         if: github.event.inputs.install_ckan == 'true'
@@ -268,6 +327,37 @@ jobs:
           pnpm install
           pnpm build
           pnpm run start:diff-and-deploy ${{steps.get-stacks.outputs.result}}
+
+      - name: Configure AWS credentials for SBOM
+        uses: aws-actions/configure-aws-credentials@v5
+        with:
+          role-to-assume: ${{ fromJson(steps.sbom-config.outputs.common).sbomUploadRoleArn }}
+          role-session-name: gh-actions-upload-sbom-${{ github.event.inputs.env }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Upload CKAN SBOM
+        if: github.event.inputs.install_ckan == 'true'
+        run: |          
+          aws s3 cp ckan-sbom.json \
+            s3://${{ fromJson(steps.sbom-config.outputs.common).bucketArn }}/${{ fromJson(steps.sbom-config.outputs.config)[github.event.inputs.env]['ckan'] }}/${{ github.run_id }}-${{ github.sha }}.json
+
+      - name: Upload Nginx SBOM
+        if: github.event.inputs.install_nginx == 'true'
+        run: |          
+          aws s3 cp nginx-sbom.json \
+            s3://${{ fromJson(steps.sbom-config.outputs.common).bucketArn }}/${{ fromJson(steps.sbom-config.outputs.config)[github.event.inputs.env]['nginx'] }}/${{ github.run_id }}-${{ github.sha }}.json
+
+      - name: Upload Solr SBOM
+        if: github.event.inputs.install_solr == 'true'
+        run: |          
+          aws s3 cp solr-sbom.json \
+            s3://${{ fromJson(steps.sbom-config.outputs.common).bucketArn }}/${{ fromJson(steps.sbom-config.outputs.config)[github.event.inputs.env]['solr'] }}/${{ github.run_id }}-${{ github.sha }}.json
+
+      - name: Upload Adot SBOM
+        if: github.event.inputs.install_adot == 'true'
+        run: |          
+          aws s3 cp adot-sbom.json \
+            s3://${{ fromJson(steps.sbom-config.outputs.common).bucketArn }}/${{ fromJson(steps.sbom-config.outputs.config)[github.event.inputs.env]['adot'] }}/${{ github.run_id }}-${{ github.sha }}.json
 
   run_db_migrations:
     if: ${{ github.repository != 'tmfg/digitraffic-catalog' && needs.build_and_deploy.result != 'failure' && github.event.inputs.run_migrations == 'true'}}
