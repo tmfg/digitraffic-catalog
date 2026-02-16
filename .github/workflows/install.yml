@@ -150,7 +150,7 @@ jobs:
 
       - name: Generate CKAN SBOM
         if: github.event.inputs.install_ckan == 'true'
-        uses: aquasecurity/trivy-action@0.33.1
+        uses: aquasecurity/trivy-action@0.34.0
         with:
           scan-type: image
           image-ref: ${{ secrets.ECR_URL }}/dt-ckan-repository:${{ github.sha }}
@@ -175,7 +175,7 @@ jobs:
 
       - name: Generate Solr SBOM
         if: github.event.inputs.install_solr == 'true'
-        uses: aquasecurity/trivy-action@0.33.1
+        uses: aquasecurity/trivy-action@0.34.0
         env:
           TRIVY_PLATFORM: linux/arm64
         with:
@@ -200,7 +200,7 @@ jobs:
 
       - name: Generate Adot SBOM
         if: github.event.inputs.install_adot == 'true'
-        uses: aquasecurity/trivy-action@0.33.1
+        uses: aquasecurity/trivy-action@0.34.0
         with:
           scan-type: image
           image-ref: ${{ secrets.ECR_URL }}/dt-adot-collector-repository:${{ github.sha }}
@@ -229,7 +229,7 @@ jobs:
 
       - name: Generate Ngin SBOM
         if: github.event.inputs.install_nginx == 'true'
-        uses: aquasecurity/trivy-action@0.33.1
+        uses: aquasecurity/trivy-action@0.34.0
         env:
           TRIVY_PLATFORM: linux/arm64
         with:
