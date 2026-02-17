@@ -47,6 +47,11 @@ on:
         type: boolean
         required: true
         default: false
+      generate_sbom:
+        description: Generate SBOM
+        type: boolean
+        required: true
+        default: true
 
 jobs:
   build_and_deploy:
@@ -113,6 +118,7 @@ jobs:
           python scripts/check_dependency_age.py ext/ckanext-entraid_authenticator/requirements.txt
 
       - name: Read SBOM config
+        if: github.event.inputs.generate_sbom == 'true'
         id: sbom-config
         run: |
             echo "config<<EOF" >> $GITHUB_OUTPUT
@@ -149,7 +155,9 @@ jobs:
             CKANEXT_DIR=./ckanext
 
       - name: Generate CKAN SBOM
-        if: github.event.inputs.install_ckan == 'true'
+        if: |
+          github.event.inputs.install_ckan == 'true' &&
+          github.event.inputs.generate_sbom == 'true'
         uses: aquasecurity/trivy-action@0.34.0
         with:
           scan-type: image
@@ -174,7 +182,9 @@ jobs:
             SOLR_LOG4J_FILE=./log4j2.xml
 
       - name: Generate Solr SBOM
-        if: github.event.inputs.install_solr == 'true'
+        if: |
+          github.event.inputs.install_solr == 'true' &&
+          github.event.inputs.generate_sbom == 'true'
         uses: aquasecurity/trivy-action@0.34.0
         env:
           TRIVY_PLATFORM: linux/arm64
@@ -199,7 +209,9 @@ jobs:
             COLLECTOR_CONFIG=./collector-config.yaml
 
       - name: Generate Adot SBOM
-        if: github.event.inputs.install_adot == 'true'
+        if: |
+          github.event.inputs.install_adot == 'true' &&
+          github.event.inputs.generate_sbom == 'true'
         uses: aquasecurity/trivy-action@0.34.0
         with:
           scan-type: image
@@ -228,7 +240,9 @@ jobs:
             CUSTOM_PAGES_DIR=./custompages
 
       - name: Generate Ngin SBOM
-        if: github.event.inputs.install_nginx == 'true'
+        if: |
+          github.event.inputs.install_nginx == 'true' &&
+          github.event.inputs.generate_sbom == 'true'
         uses: aquasecurity/trivy-action@0.34.0
         env:
           TRIVY_PLATFORM: linux/arm64
@@ -329,6 +343,7 @@ jobs:
           pnpm run start:diff-and-deploy ${{steps.get-stacks.outputs.result}}
 
       - name: Configure AWS credentials for SBOM
+        if: github.event.inputs.generate_sbom == 'true'
         uses: aws-actions/configure-aws-credentials@v5
         with:
           role-to-assume: ${{ fromJson(steps.sbom-config.outputs.common).sbomUploadRoleArn }}
@@ -336,25 +351,33 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Upload CKAN SBOM
-        if: github.event.inputs.install_ckan == 'true'
+        if: |
+          github.event.inputs.install_ckan == 'true' &&
+          github.event.inputs.generate_sbom == 'true'
         run: |          
           aws s3 cp ckan-sbom.json \
             s3://${{ fromJson(steps.sbom-config.outputs.common).bucketArn }}/${{ fromJson(steps.sbom-config.outputs.config)[github.event.inputs.env]['ckan'] }}/${{ github.run_id }}-${{ github.sha }}.json
 
       - name: Upload Nginx SBOM
-        if: github.event.inputs.install_nginx == 'true'
+        if: |
+          github.event.inputs.install_nginx == 'true' &&
+          github.event.inputs.generate_sbom == 'true'
         run: |          
           aws s3 cp nginx-sbom.json \
             s3://${{ fromJson(steps.sbom-config.outputs.common).bucketArn }}/${{ fromJson(steps.sbom-config.outputs.config)[github.event.inputs.env]['nginx'] }}/${{ github.run_id }}-${{ github.sha }}.json
 
       - name: Upload Solr SBOM
-        if: github.event.inputs.install_solr == 'true'
+        if: |
+          github.event.inputs.install_solr == 'true' &&
+          github.event.inputs.generate_sbom == 'true'
         run: |          
           aws s3 cp solr-sbom.json \
             s3://${{ fromJson(steps.sbom-config.outputs.common).bucketArn }}/${{ fromJson(steps.sbom-config.outputs.config)[github.event.inputs.env]['solr'] }}/${{ github.run_id }}-${{ github.sha }}.json
 
       - name: Upload Adot SBOM
-        if: github.event.inputs.install_adot == 'true'
+        if: |
+          github.event.inputs.install_adot == 'true' &&
+          github.event.inputs.generate_sbom == 'true'
         run: |          
           aws s3 cp adot-sbom.json \
             s3://${{ fromJson(steps.sbom-config.outputs.common).bucketArn }}/${{ fromJson(steps.sbom-config.outputs.config)[github.event.inputs.env]['adot'] }}/${{ github.run_id }}-${{ github.sha }}.json
