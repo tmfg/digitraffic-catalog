@@ -158,7 +158,7 @@ jobs:
         if: |
           github.event.inputs.install_ckan == 'true' &&
           github.event.inputs.generate_sbom == 'true'
-        uses: aquasecurity/trivy-action@0.34.1
+        uses: aquasecurity/trivy-action@0.34.2
         with:
           scan-type: image
           image-ref: ${{ secrets.ECR_URL }}/dt-ckan-repository:${{ github.sha }}
@@ -185,7 +185,7 @@ jobs:
         if: |
           github.event.inputs.install_solr == 'true' &&
           github.event.inputs.generate_sbom == 'true'
-        uses: aquasecurity/trivy-action@0.34.1
+        uses: aquasecurity/trivy-action@0.34.2
         env:
           TRIVY_PLATFORM: linux/arm64
         with:
@@ -212,7 +212,7 @@ jobs:
         if: |
           github.event.inputs.install_adot == 'true' &&
           github.event.inputs.generate_sbom == 'true'
-        uses: aquasecurity/trivy-action@0.34.1
+        uses: aquasecurity/trivy-action@0.34.2
         with:
           scan-type: image
           image-ref: ${{ secrets.ECR_URL }}/dt-adot-collector-repository:${{ github.sha }}
@@ -243,7 +243,7 @@ jobs:
         if: |
           github.event.inputs.install_nginx == 'true' &&
           github.event.inputs.generate_sbom == 'true'
-        uses: aquasecurity/trivy-action@0.34.1
+        uses: aquasecurity/trivy-action@0.34.2
         env:
           TRIVY_PLATFORM: linux/arm64
         with:
