@@ -96,7 +96,7 @@ jobs:
       - name: Set up Python 3.12
         uses: actions/setup-python@v6
         with:
-          python-version: '3.12'
+          python-version: "3.12"
 
       - name: Checkout CI-repo
         uses: actions/checkout@v6
@@ -121,13 +121,13 @@ jobs:
         if: github.event.inputs.generate_sbom == 'true'
         id: sbom-config
         run: |
-            echo "config<<EOF" >> $GITHUB_OUTPUT
-            cat digitraffic-ci/aws/sbom/catalog.json >> $GITHUB_OUTPUT
-            echo "EOF" >> $GITHUB_OUTPUT
+          echo "config<<EOF" >> $GITHUB_OUTPUT
+          cat digitraffic-ci/aws/sbom/catalog.json >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
 
-            echo "common<<EOF" >> $GITHUB_OUTPUT
-            cat digitraffic-ci/aws/sbom/config.json >> $GITHUB_OUTPUT
-            echo "EOF" >> $GITHUB_OUTPUT
+          echo "common<<EOF" >> $GITHUB_OUTPUT
+          cat digitraffic-ci/aws/sbom/config.json >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
 
       - name: create extensions
         if: github.event.inputs.install_ckan == 'true'
@@ -158,7 +158,7 @@ jobs:
         if: |
           github.event.inputs.install_ckan == 'true' &&
           github.event.inputs.generate_sbom == 'true'
-        uses: aquasecurity/trivy-action@0.34.2
+        uses: aquasecurity/trivy-action@0.35.0
         with:
           scan-type: image
           image-ref: ${{ secrets.ECR_URL }}/dt-ckan-repository:${{ github.sha }}
@@ -354,7 +354,7 @@ jobs:
         if: |
           github.event.inputs.install_ckan == 'true' &&
           github.event.inputs.generate_sbom == 'true'
-        run: |          
+        run: |
           aws s3 cp ckan-sbom.json \
             s3://${{ fromJson(steps.sbom-config.outputs.common).bucketArn }}/${{ fromJson(steps.sbom-config.outputs.config)[github.event.inputs.env]['ckan'] }}/${{ github.run_id }}-${{ github.sha }}.json
 
@@ -362,7 +362,7 @@ jobs:
         if: |
           github.event.inputs.install_nginx == 'true' &&
           github.event.inputs.generate_sbom == 'true'
-        run: |          
+        run: |
           aws s3 cp nginx-sbom.json \
             s3://${{ fromJson(steps.sbom-config.outputs.common).bucketArn }}/${{ fromJson(steps.sbom-config.outputs.config)[github.event.inputs.env]['nginx'] }}/${{ github.run_id }}-${{ github.sha }}.json
 
@@ -370,7 +370,7 @@ jobs:
         if: |
           github.event.inputs.install_solr == 'true' &&
           github.event.inputs.generate_sbom == 'true'
-        run: |          
+        run: |
           aws s3 cp solr-sbom.json \
             s3://${{ fromJson(steps.sbom-config.outputs.common).bucketArn }}/${{ fromJson(steps.sbom-config.outputs.config)[github.event.inputs.env]['solr'] }}/${{ github.run_id }}-${{ github.sha }}.json
 
@@ -378,7 +378,7 @@ jobs:
         if: |
           github.event.inputs.install_adot == 'true' &&
           github.event.inputs.generate_sbom == 'true'
-        run: |          
+        run: |
           aws s3 cp adot-sbom.json \
             s3://${{ fromJson(steps.sbom-config.outputs.common).bucketArn }}/${{ fromJson(steps.sbom-config.outputs.config)[github.event.inputs.env]['adot'] }}/${{ github.run_id }}-${{ github.sha }}.json
 
@@ -415,7 +415,6 @@ jobs:
             --container "ckan" \
             --interactive \
             --command "ckan db upgrade -p digitraffic_core"
-  
 
   rebuild_search_index:
     if: |
@@ -447,7 +446,7 @@ jobs:
         # aws ecs execute-command needs to be run with unbuffer, otherwise it fails due to tty not being available
         run: |
           TASK_ID=$(aws ecs list-tasks --cluster ${{ secrets.ECS_CLUSTER_NAME }} --service-name ${{ secrets.ECS_SERVICE_NAME }} --query "taskArns[0]" --output text) 
-          
+
           unbuffer aws ecs execute-command \
             --cluster ${{ secrets.ECS_CLUSTER_NAME }} \
             --task "$TASK_ID" \
@@ -485,7 +484,7 @@ jobs:
         # aws ecs execute-command needs to be run with unbuffer, otherwise it fails due to tty not being available
         run: |
           TASK_ID=$(aws ecs list-tasks --cluster ${{ secrets.ECS_CLUSTER_NAME }} --service-name ${{ secrets.ECS_SERVICE_NAME }} --query "taskArns[0]" --output text) 
-          
+
           unbuffer aws ecs execute-command \
             --cluster ${{ secrets.ECS_CLUSTER_NAME }} \
             --task "$TASK_ID" \
