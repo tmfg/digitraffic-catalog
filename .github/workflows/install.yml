@@ -164,7 +164,7 @@ jobs:
           image-ref: ${{ secrets.ECR_URL }}/dt-ckan-repository:${{ github.sha }}
           format: cyclonedx
           scanners: vuln,license
-          version: latest
+          version: v0.69.3
           output: ckan-sbom.json
 
       - name: Solr build
@@ -193,7 +193,7 @@ jobs:
           image-ref: ${{ secrets.ECR_URL }}/dt-solr-repository:${{ github.sha }}
           format: cyclonedx
           scanners: vuln,license
-          version: latest
+          version: v0.69.3
           output: solr-sbom.json
 
       - name: Adot build
@@ -218,7 +218,7 @@ jobs:
           image-ref: ${{ secrets.ECR_URL }}/dt-adot-collector-repository:${{ github.sha }}
           format: cyclonedx
           scanners: vuln,license
-          version: latest
+          version: v0.69.3
           output: adot-sbom.json
 
       - name: Nginx build
@@ -251,7 +251,7 @@ jobs:
           image-ref: ${{ secrets.ECR_URL }}/dt-nginx-repository:${{ github.sha }}
           format: cyclonedx
           scanners: vuln,license
-          version: latest
+          version: v0.69.3
           output: nginx-sbom.json
 
       - name: Put CKAN image tag in Parameter Store
