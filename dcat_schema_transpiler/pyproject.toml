@@ -15,7 +15,7 @@ pyyaml = "6.0.3"
 optional = true
 
 [tool.poetry.group.test.dependencies]
-pytest = "8.4.2"
+pytest = "9.0.3"
 
 
 [build-system]
