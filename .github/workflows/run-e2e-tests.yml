@@ -105,7 +105,7 @@ jobs:
         run: pnpm run e2e
 
       - name: Upload Playwright report
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         if: ${{ !cancelled() }}
         with:
           name: playwright-report
@@ -114,7 +114,7 @@ jobs:
 
       - name: Upload Docker logs
         if: always()
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: docker-logs
           path: ./local-env/docker-logs.txt
