@@ -17,14 +17,9 @@ import {
   ChevronUp,
   createIcons,
   ExternalLink,
-  Facebook,
   Globe,
-  Instagram,
-  Linkedin,
   Menu,
-  Twitter,
   User,
-  Youtube,
 } from "lucide";
 
 jQuery(function () {
@@ -37,11 +32,6 @@ jQuery(function () {
       Globe,
       ChevronDown,
       ChevronUp,
-      Facebook,
-      Twitter,
-      Instagram,
-      Youtube,
-      Linkedin,
     },
   });
 });

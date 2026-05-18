@@ -11,7 +11,7 @@ export default Object.entries(inputs).map(([name, file]) => {
             exportConditions: ["node", "default", "module", "import", "require"],
             preferBuiltins: true
         }),
-        typescript(),
+        typescript({ outDir: "." }),
     ]
     const jsPlugins = [
         ...tsCompilePlugins,
