@@ -8,6 +8,6 @@ pytest==9.0.3
 rdflib==7.6.0
 six==1.17.0
 tomli==2.0.1
-pytest-factoryboy==2.7.0
+pytest-factoryboy==2.8.1
 pytest-ckan==0.0.12
 phonenumbers==9.0.30
