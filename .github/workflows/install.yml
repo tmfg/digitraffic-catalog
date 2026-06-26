@@ -143,7 +143,7 @@ jobs:
 
       - name: CKAN build
         if: github.event.inputs.install_ckan == 'true'
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
           context: digitraffic-ci/aws/ckan
           file: digitraffic-ci/aws/docker/Dockerfile-catalog-ckan
@@ -169,7 +169,7 @@ jobs:
 
       - name: Solr build
         if: github.event.inputs.install_solr == 'true'
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
           context: digitraffic-ci/aws/solr
           file: digitraffic-ci/aws/docker/Dockerfile-catalog-solr
@@ -198,7 +198,7 @@ jobs:
 
       - name: Adot build
         if: github.event.inputs.install_adot == 'true'
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
           context: digitraffic-ci/aws/opentelemetry-distro
           file: digitraffic-ci/aws/docker/Dockerfile-catalog-adot
@@ -223,7 +223,7 @@ jobs:
 
       - name: Nginx build
         if: github.event.inputs.install_nginx == 'true'
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
           context: digitraffic-ci/aws/nginx-catalog
           file: digitraffic-ci/aws/docker/Dockerfile-catalog-nginx
