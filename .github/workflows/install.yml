@@ -310,7 +310,7 @@ jobs:
           pnpm build:ci
 
       - name: Get stacks to deploy
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         id: get-stacks
         env:
           ENV: ${{ github.event.inputs.env }}
