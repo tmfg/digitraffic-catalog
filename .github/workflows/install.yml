@@ -187,6 +187,7 @@ jobs:
         uses: anchore/sbom-action@e22c389904149dbc22b58101806040fa8d37a610 #v0.24.0
         env:
           SYFT_FILE_METADATA_SELECTION: "none"
+          SYFT_PLATFORM: "linux/arm64"
         with:
           image: ${{ secrets.ECR_URL }}/dt-solr-repository:${{ github.sha }}
           format: cyclonedx-json
@@ -241,6 +242,7 @@ jobs:
         uses: anchore/sbom-action@e22c389904149dbc22b58101806040fa8d37a610 #v0.24.0
         env:
           SYFT_FILE_METADATA_SELECTION: "none"
+          SYFT_PLATFORM: "linux/arm64"
         with:
           image: ${{ secrets.ECR_URL }}/dt-nginx-repository:${{ github.sha }}
           format: cyclonedx-json
