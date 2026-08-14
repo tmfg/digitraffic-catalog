@@ -158,14 +158,13 @@ jobs:
         if: |
           github.event.inputs.install_ckan == 'true' &&
           github.event.inputs.generate_sbom == 'true'
-        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
+        uses: anchore/sbom-action@e22c389904149dbc22b58101806040fa8d37a610 #v0.24.0
+        env:
+          SYFT_FILE_METADATA_SELECTION: "none"
         with:
-          scan-type: image
-          image-ref: ${{ secrets.ECR_URL }}/dt-ckan-repository:${{ github.sha }}
-          format: cyclonedx
-          scanners: vuln,license
-          version: v0.72.0
-          output: ckan-sbom.json
+          image: ${{ secrets.ECR_URL }}/dt-ckan-repository:${{ github.sha }}
+          format: cyclonedx-json
+          output-file: ckan-sbom.json
 
       - name: Solr build
         if: github.event.inputs.install_solr == 'true'
@@ -185,16 +184,13 @@ jobs:
         if: |
           github.event.inputs.install_solr == 'true' &&
           github.event.inputs.generate_sbom == 'true'
-        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
+        uses: anchore/sbom-action@e22c389904149dbc22b58101806040fa8d37a610 #v0.24.0
         env:
-          TRIVY_PLATFORM: linux/arm64
+          SYFT_FILE_METADATA_SELECTION: "none"
         with:
-          scan-type: image
-          image-ref: ${{ secrets.ECR_URL }}/dt-solr-repository:${{ github.sha }}
-          format: cyclonedx
-          scanners: vuln,license
-          version: v0.72.0
-          output: solr-sbom.json
+          image: ${{ secrets.ECR_URL }}/dt-solr-repository:${{ github.sha }}
+          format: cyclonedx-json
+          output-file: solr-sbom.json
 
       - name: Adot build
         if: github.event.inputs.install_adot == 'true'
@@ -212,14 +208,13 @@ jobs:
         if: |
           github.event.inputs.install_adot == 'true' &&
           github.event.inputs.generate_sbom == 'true'
-        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
+        uses: anchore/sbom-action@e22c389904149dbc22b58101806040fa8d37a610 #v0.24.0
+        env:
+          SYFT_FILE_METADATA_SELECTION: "none"
         with:
-          scan-type: image
-          image-ref: ${{ secrets.ECR_URL }}/dt-adot-collector-repository:${{ github.sha }}
-          format: cyclonedx
-          scanners: vuln,license
-          version: v0.72.0
-          output: adot-sbom.json
+          image: ${{ secrets.ECR_URL }}/dt-adot-collector-repository:${{ github.sha }}
+          format: cyclonedx-json
+          output-file: adot-sbom.json
 
       - name: Nginx build
         if: github.event.inputs.install_nginx == 'true'
@@ -243,16 +238,13 @@ jobs:
         if: |
           github.event.inputs.install_nginx == 'true' &&
           github.event.inputs.generate_sbom == 'true'
-        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
+        uses: anchore/sbom-action@e22c389904149dbc22b58101806040fa8d37a610 #v0.24.0
         env:
-          TRIVY_PLATFORM: linux/arm64
+          SYFT_FILE_METADATA_SELECTION: "none"
         with:
-          scan-type: image
-          image-ref: ${{ secrets.ECR_URL }}/dt-nginx-repository:${{ github.sha }}
-          format: cyclonedx
-          scanners: vuln,license
-          version: v0.72.0
-          output: nginx-sbom.json
+          image: ${{ secrets.ECR_URL }}/dt-nginx-repository:${{ github.sha }}
+          format: cyclonedx-json
+          output-file: nginx-sbom.json
 
       - name: Put CKAN image tag in Parameter Store
         if: github.event.inputs.install_ckan == 'true'
