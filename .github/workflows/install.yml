@@ -56,7 +56,7 @@ on:
 jobs:
   build_and_deploy:
     if: ${{ github.repository != 'tmfg/digitraffic-catalog' && (github.event.inputs.install_ckan == 'true' || github.event.inputs.install_solr == 'true' || github.event.inputs.install_nginx == 'true' || github.event.inputs.install_adot == 'true') }}
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       id-token: write
       contents: read
@@ -379,7 +379,7 @@ jobs:
   run_db_migrations:
     if: ${{ github.repository != 'tmfg/digitraffic-catalog' && needs.build_and_deploy.result != 'failure' && github.event.inputs.run_migrations == 'true'}}
     needs: build_and_deploy
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       id-token: write
       contents: read
@@ -417,7 +417,7 @@ jobs:
       (needs.run_db_migrations.result == 'success' || github.event.inputs.run_migrations == 'false') &&
       (needs.build_and_deploy.result == 'success' || needs.build_and_deploy.result == 'skipped')
     needs: [build_and_deploy, run_db_migrations]
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       id-token: write
       contents: read
@@ -454,7 +454,7 @@ jobs:
       github.event.inputs.generate_js_translations == 'true' &&
       github.repository != 'tmfg/digitraffic-catalog' && 
       needs.rebuild_search_index.result == 'success'
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     needs: [rebuild_search_index]
     permissions:
       id-token: write
