@@ -768,8 +768,8 @@ msgid "Contact points"
 msgstr "Kontaktpunkter"
 
 #: ckanext/digitraffic_core/templates/scheming/package/snippets/package_form.html:43
-msgid "Contact details for a person or organization."
-msgstr "Kontaktuppgifter för en person eller organisation."
+msgid "Contact details for a person or organization. At least one contact point is required."
+msgstr "Kontaktuppgifter för en person eller organisation. Minst en kontaktpunkt krävs."
 
 #: ckanext/digitraffic_core/templates/scheming/package/snippets/package_form.html:49
 msgid "Rights holders"
@@ -1120,6 +1120,10 @@ msgstr ""
 #: ckanext/digitraffic_core/validators/dataset_validators.py:148
 msgid "Value must either be a JSON list (str) or a list"
 msgstr ""
+
+#: ckanext/digitraffic_core/validators/dataset_validators.py:254
+msgid "At least one contact point is required"
+msgstr "Minst en kontaktpunkt krävs"
 
 #: ckanext/digitraffic_core/validators/dataset_validators.py:230
 msgid "Session is required for related resource validation."

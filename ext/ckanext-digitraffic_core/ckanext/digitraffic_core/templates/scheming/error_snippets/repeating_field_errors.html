@@ -1,0 +1,8 @@
+{# Errors about the whole field, e.g. a missing contact point, are plain strings instead of one dict per group #}
+{%- set field_errors = unprocessed.get(field.field_name) -%}
+{%- if field_errors and field_errors[0] is string -%}
+  <li data-field-label="{{ field.field_name }}">{{
+    h.scheming_language_text(field.label) }}:
+    {{ field_errors[0] }}</li>
+  {%- set _ = unprocessed.pop(field.field_name) -%}
+{%- endif -%}

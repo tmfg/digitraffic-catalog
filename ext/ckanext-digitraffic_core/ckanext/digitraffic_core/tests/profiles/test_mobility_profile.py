@@ -73,6 +73,13 @@ class TestProfile:
             notes_translated=notes,
             title_translated=titles,
             is_referenced_by=[],
+            contact_point=[
+                {
+                    "contact_point_type": "http://www.w3.org/2006/vcard/ns#Organization",
+                    "fn": "Foo Bar",
+                    "has_email": "foo@example.com",
+                }
+            ],
         )
         serializer = RDFSerializer()
         dataset_ref = serializer.graph_from_dataset(dataset)

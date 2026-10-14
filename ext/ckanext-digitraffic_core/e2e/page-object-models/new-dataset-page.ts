@@ -165,8 +165,9 @@ export class NewDatasetPage extends BasePage implements JSLoadedInterface<NewDat
       await this.ianaTimezoneField.selectOption(datasetInfo.optionalValues.ianaTimezone);
     }
     if (datasetInfo.optionalValues?.contactPoints) {
-      for (const contactPoint of datasetInfo.optionalValues.contactPoints) {
-        await this.addContactPoint(contactPoint);
+      for (const [i, contactPoint] of datasetInfo.optionalValues.contactPoints.entries()) {
+        // The form opens with one empty contact point block
+        await this.addContactPoint(contactPoint, i === 0);
       }
     }
     if (datasetInfo.optionalValues?.version) {
@@ -210,8 +211,10 @@ export class NewDatasetPage extends BasePage implements JSLoadedInterface<NewDat
     }
   }
 
-  async addContactPoint(contactPoint: ContactPoint): Promise<void> {
-    await this.addContactPointButton.click();
+  async addContactPoint(contactPoint: ContactPoint, fillOpenBlock = false): Promise<void> {
+    if (!fillOpenBlock) {
+      await this.addContactPointButton.click();
+    }
     const newContactPointIndex = await getNewestRepeatingFieldGroupIndex(this.contactPointGroup)
     await (await getRepeatingFieldGropField(this.contactPointGroup, newContactPointIndex, 'Yhteyspisteen tyyppi')).selectOption(contactPoint.type);
     await (await getRepeatingFieldGropField(this.contactPointGroup, newContactPointIndex, 'Koko nimi')).fill(contactPoint.fullName);

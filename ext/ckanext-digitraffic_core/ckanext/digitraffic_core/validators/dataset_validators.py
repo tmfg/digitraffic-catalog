@@ -243,3 +243,13 @@ def related_resource_validator(value: str, context: Context):
 
 def dataset_reference_validator(value: Any, context: Context):
     return multiple_values_converter(related_resource_validator, value, context)
+
+
+def contact_point_required_validator(key, data, errors, context):
+    has_contact_point = any(
+        len(k) == 3 and k[0] == "contact_point" for k in data
+    )
+    if not has_contact_point:
+        errors.setdefault(("contact_point",), []).append(
+            _("At least one contact point is required")
+        )
