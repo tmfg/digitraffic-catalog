@@ -25,7 +25,7 @@ CONTACT_POINT = {
 }
 
 
-def create_dataset(org: Organization, **kwargs):
+def create_dataset(org: Organization, contact_point=[CONTACT_POINT], **kwargs):
     notes = {
         "en": "English description",
         "fi": "Suomenkielinen kuvaus",
@@ -53,7 +53,8 @@ def create_dataset(org: Organization, **kwargs):
         frequency=dataset_frequency,
         mobility_theme=dataset_mobility_theme,
         spatial=dataset_spatial,
-        **({"contact_point": [CONTACT_POINT]} | kwargs),
+        **({"contact_point": contact_point} if contact_point is not None else {}),
+        **kwargs,
     )
 
     return dataset
@@ -215,6 +216,7 @@ class TestDatasetValidators:
         with pytest.raises(
             ValidationError, match="At least one contact point is required"
         ):
+            # None leaves the field out of the request
             create_dataset(organization, contact_point=None)
 
     def test_contact_point_cannot_be_removed(self):
