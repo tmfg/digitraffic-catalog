@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# shellcheck shell=busybox
+# Local dev and E2E only: insert the E2E sysadmin (E2E_SYSADMIN_* from .env.local) on every start.
 set -euo pipefail
 
 if [ -n "${E2E_SYSADMIN_ID:-}" ]; then

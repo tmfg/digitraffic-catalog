@@ -33,6 +33,15 @@ from ckanext.digitraffic_core.validators.dataset_validators import (
 from ckanext.digitraffic_core.validators.common_validators import (
     url_error_message_formatting,
 )
+from ckanext.digitraffic_core.validators.organization_validators import (
+    ignore_blank_validator,
+    ytunnus_validator,
+    euid_validator,
+    eudi_validator,
+    organization_identifier_unique_validator,
+    organization_identifier_sysadmin_only_validator,
+    organization_identifiers_validator,
+)
 from ckanext.digitraffic_core.validators.resource_validators import (
     set_format_iri,
     data_grammar_validator,
@@ -53,6 +62,7 @@ from ckanext.digitraffic_core.views.digitraffic_edit_view import DigitrafficEdit
 from ckanext.digitraffic_core.views.removed_view import RemovedView
 
 
+@toolkit.blanket.config_declarations
 class DigitrafficCorePlugin(plugins.SingletonPlugin, DefaultTranslation):
     """Digitraffic core plugin."""
 
@@ -101,6 +111,13 @@ class DigitrafficCorePlugin(plugins.SingletonPlugin, DefaultTranslation):
             "character_encoding_validator": character_encoding_validator,
             "country_validator": country_validator,
             "url_error_message_formatting": url_error_message_formatting,
+            "ignore_blank_validator": ignore_blank_validator,
+            "ytunnus_validator": ytunnus_validator,
+            "euid_validator": euid_validator,
+            "eudi_validator": eudi_validator,
+            "organization_identifier_unique_validator": organization_identifier_unique_validator,
+            "organization_identifier_sysadmin_only_validator": organization_identifier_sysadmin_only_validator,
+            "organization_identifiers_validator": organization_identifiers_validator,
         }
 
     def update_config(self, config):

@@ -14,6 +14,9 @@ jobs:
     if: github.repository != 'tmfg/digitraffic-catalog'
     runs-on: ubuntu-26.04
     timeout-minutes: 15
+    env:
+      # local-env builds its images from the CI repo checked out below.
+      DIGITRAFFIC_CI_PATH: ${{ github.workspace }}/digitraffic-ci
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
@@ -25,22 +28,18 @@ jobs:
           ref: ${{ inputs.config-repo-branch || 'master' }}
           path: digitraffic-ci
 
-      - name: Setup environment
-        run: |
-          cp ext/ckanext-entraid_authenticator/.env.example local-env/.env_entra
-          touch local-env/.env_test_users
-
       - name: Start CKAN
         working-directory: local-env
-        run: DIGITRAFFIC_CI_PATH=${{ github.workspace }}/digitraffic-ci ./start-local-ckan.sh up build_image ci
-
-      - name: Wait for containers
-        working-directory: local-env
-        run: bash ./wait-for-containers.sh
+        run: ./dev.sh up -d --build
 
       - name: Run tests
         working-directory: local-env
-        run: ./run-digitraffic-core-tests-on-docker.sh
+        run: ./dev.sh test
+
+      - name: Collect Docker logs
+        if: always()
+        working-directory: local-env
+        run: docker compose logs --no-color > docker-logs.txt 2>&1
 
       - name: Upload Docker logs
         if: always()

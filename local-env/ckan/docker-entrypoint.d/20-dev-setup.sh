@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+# shellcheck shell=busybox
+# Local dev only: debug mode and verbose logging.
+# Sourced by start_ckan.sh (in the CI repo) on every container start, so it must stay POSIX sh.
 set -euo pipefail
 
 ckan config-tool "${CKAN_INI}" -s DEFAULT "debug = true"
@@ -6,18 +9,7 @@ ckan config-tool "${CKAN_INI}" -s logger_ckan "level = DEBUG"
 ckan config-tool "${CKAN_INI}" -s logger_ckanext "level = DEBUG"
 ckan config-tool "${CKAN_INI}" -s logger_otel "level = DEBUG"
 
-ckan config-tool "${CKAN_INI}" "ckan.auth.user_create_groups = false"
-ckan config-tool "${CKAN_INI}" "ckan.auth.user_create_organizations = false"
-ckan config-tool "${CKAN_INI}" "ckan.auth.user_delete_groups = false"
-ckan config-tool "${CKAN_INI}" "ckan.auth.user_delete_organizations = false"
-
-ckan config-tool "${CKAN_INI}" "ckan.display_timezone = Europe/Helsinki"
-
-
 ## Uncomment these if you want to do debugging
 #ckan config-tool "${CKAN_INI}" "digitraffic_opentelemetry.loggers_to_set_events = ckan ckanext"
 #ckan config-tool "${CKAN_INI}" "digitraffic_opentelemetry.enter_pdb_on_error = true"
 #ckan config-tool "${CKAN_INI}" "digitraffic_opentelemetry.instrument_ckan_alpha = true"
-
-## Install dev-requirements
-pip install --only-binary=:all: -r "${EXT_DIR}/ckanext-digitraffic_core/dev-requirements.txt"

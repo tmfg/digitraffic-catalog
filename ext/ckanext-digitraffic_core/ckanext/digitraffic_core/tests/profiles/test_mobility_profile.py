@@ -115,6 +115,8 @@ class TestProfile:
         assert str(g.value(dataset_ref, DCTERMS.title, None)) != dataset_name
         assert dataset["id"] == dataset["name"]
         publisher_ref = g.value(dataset_ref, DCTERMS.publisher, None)
-        assert owner_org["display_name"] in [
-            str(name) for name in list(g.objects(publisher_ref, FOAF.name))
+        # the publisher is named once, by the organisation's title — not by its slug
+        assert owner_org["title"] != owner_org["name"]
+        assert [str(name) for name in g.objects(publisher_ref, FOAF.name)] == [
+            owner_org["title"]
         ]
