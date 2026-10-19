@@ -3506,94 +3506,16 @@ dataset_fields:
     fi: Oikeuksien haltija
     sv: Rättighetsinnehavare
   repeating_subfields:
-  - field_name: type
+  - field_name: organization
+    label:
+      en: Organization
+      fi: Organisaatio
+      sv: Organisation
     required: true
+    necessity: mandatory
     preset: select
-    sorted_choices: true
-    form_include_blank_choice: false
-    choices:
-    - value: http://purl.org/adms/publishertype/Academia-ScientificOrganisation
-      label:
-        en: Academia/Scientific organisation
-        fi: Akateeminen tai tieteellinen organisaatio
-        sv: Akademisk/vetenskaplig organisation
-    - value: http://purl.org/adms/publishertype/Company
-      label:
-        en: Company
-        fi: Yritys
-        sv: Företag
-    - value: http://purl.org/adms/publishertype/IndustryConsortium
-      label:
-        en: Industry consortium
-        fi: Yrityskonsortio
-        sv: Branschkonsortium
-    - value: http://purl.org/adms/publishertype/LocalAuthority
-      label:
-        en: Local Authority
-        fi: Paikallisviranomainen
-        sv: Lokal myndighet
-    - value: http://purl.org/adms/publishertype/NationalAuthority
-      label:
-        en: National authority
-        fi: Kansallinen viranomainen
-        sv: Nationell myndighet
-    - value: http://purl.org/adms/publishertype/NonGovernmentalOrganisation
-      label:
-        en: Non-Governmental Organisation
-        fi: Kansalaisjärjestö
-        sv: Icke-statlig organisation
-    - value: http://purl.org/adms/publishertype/NonProfitOrganisation
-      label:
-        en: Non-Profit Organisation
-        fi: Voittoa tavoittelematon organisaatio
-        sv: Ideell organisation
-    - value: http://purl.org/adms/publishertype/PrivateIndividual(s)
-      label:
-        en: Private Individual(s)
-        fi: Yksityishenkilö(t)
-        sv: Privatperson(er)
-    - value: http://purl.org/adms/publishertype/RegionalAuthority
-      label:
-        en: Regional authority
-        fi: Alueellinen viranomainen
-        sv: Regional myndighet
-    - value: http://purl.org/adms/publishertype/StandardisationBody
-      label:
-        en: Standardisation body
-        fi: Standardointielin
-        sv: Standardiseringsorgan
-    - value: http://purl.org/adms/publishertype/SupraNationalAuthority
-      label:
-        en: Supra-national authority
-        fi: Ylikansallinen viranomainen
-        sv: Överstatlig myndighet
-    label:
-      en: Agent type
-      fi: Toimijan tyyppi
-      sv: Typ av agent
-    necessity: mandatory
-    default: http://purl.org/adms/publishertype/Company
-  - field_name: name
-    label:
-      en: Name
-      fi: Nimi
-      sv: Namn
-    required: true
-    necessity: mandatory
-  - field_name: first_name
-    label:
-      en: First name
-      fi: Etunimi
-      sv: Förnamn
-    required: false
-    necessity: optional
-  - field_name: surname
-    label:
-      en: Surname
-      fi: Sukunimi
-      sv: Efternamn
-    required: false
-    necessity: optional
+    form_include_blank_choice: true
+    choices_helper: get_organizations_as_form_choices
   - field_name: mbox
     required: false
     preset: email
@@ -3795,23 +3717,6 @@ dataset_fields:
         sv: Sverige
     validators: scheming_required country_validator
     necessity: recommended
-  - field_name: workplace_homepage
-    required: false
-    preset: url
-    label:
-      en: Workplace homepage
-      fi: Työpaikan kotisivu
-      sv: Arbetsplatsens hemsida
-    necessity: optional
-  - field_name: member_of
-    label:
-      en: Member of
-      fi: Jäsenyydet
-      sv: Medlem i
-    necessity: optional
-    required: false
-  subfield_form_attrs:
-    data-module: digitraffic_core_rights_holder
   form_blanks: 0
 resource_fields:
 - field_name: url

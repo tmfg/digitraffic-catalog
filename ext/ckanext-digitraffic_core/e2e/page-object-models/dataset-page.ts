@@ -312,25 +312,11 @@ export class DatasetPage extends BasePage {
         return {
           countryName: finnishRightsHolder["Maa"],
           email: finnishRightsHolder["Sähköposti"],
-          name: finnishRightsHolder["Nimi"],
           phone: phoneNumber ? phoneNumber.replace(/ /g, '') : undefined,
           streetAddress: finnishRightsHolder["Katuosoite"],
           city: finnishRightsHolder["Kaupunki"],
           postalCode: finnishRightsHolder["Postinumero"],
           region: finnishRightsHolder["Alue"],
-          type: (finnishRightsHolder["Toimijan tyyppi"] === "Yritys" ? 'http://purl.org/adms/publishertype/Company' : 'http://purl.org/adms/publishertype/PrivateIndividual(s)'),
-          ...(finnishRightsHolder["Jäsenyydet"] ? {
-            organizationName: finnishRightsHolder["Jäsenyydet"]
-          } : {}),
-          ...(finnishRightsHolder["Etunimi"] ? {
-            firstName: finnishRightsHolder["Etunimi"]
-          } : {}),
-          ...(finnishRightsHolder["Sukunimi"] ? {
-            surname: finnishRightsHolder["Sukunimi"]
-          } : {}),
-          ...(finnishRightsHolder["Työpaikan kotisivu"] ? {
-            workplaceHomepage: finnishRightsHolder["Työpaikan kotisivu"]
-          } : {})
         }
       }
 

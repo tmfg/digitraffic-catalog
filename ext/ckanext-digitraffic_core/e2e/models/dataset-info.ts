@@ -37,8 +37,6 @@ export function isPersonContactPoint(contactPoint: ContactPoint): contactPoint i
 }
 
 export interface RightsHolder {
-  type: string
-  name: string
   email?: string
   phone?: string
   streetAddress?: string
@@ -46,22 +44,6 @@ export interface RightsHolder {
   postalCode?: string
   region?: string
   countryName?: string
-}
-
-export interface OrganizationRightsHolder extends RightsHolder {
-  type: 'http://purl.org/adms/publishertype/Company'
-}
-
-export interface PersonRightsHolder extends RightsHolder {
-  type: 'http://purl.org/adms/publishertype/PrivateIndividual(s)'
-  firstName?: string
-  surname?: string
-  workplaceHomepage?: string
-  organizationName?: string
-}
-
-export function isPersonRightsHolder(rightsHolder: RightsHolder): rightsHolder is PersonRightsHolder {
-  return rightsHolder.type === 'http://purl.org/adms/publishertype/PrivateIndividual(s)';
 }
 
 export type Assessment = {

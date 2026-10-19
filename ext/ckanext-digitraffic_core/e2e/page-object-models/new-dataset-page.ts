@@ -1,18 +1,17 @@
 import type { Locator, Page } from "@playwright/test";
-import { BasePage, type JSLoadedInterface } from './base';
-import { setPom, URL } from "./pages-controller";
-import {
-  type Assessment,
-  type ContactPoint,
-  type DatasetInfo,
-  isPersonContactPoint,
-  isPersonRightsHolder,
-  type RightsHolder
-} from '../models/dataset-info';
-import { dateToDateAndTimeString, getNewestRepeatingFieldGroupIndex, getRepeatingFieldGropField, gotoNewPage } from "./util";
-import { NewResourcePage } from "./new-resource-page";
-import { transportModeLabels } from "../../src/ts/model/transport-mode";
 import { regionalCoverageLabels } from "../../src/ts/model/regional-coverage";
+import { transportModeLabels } from "../../src/ts/model/transport-mode";
+import {
+    type Assessment,
+    type ContactPoint,
+    type DatasetInfo,
+    isPersonContactPoint,
+    type RightsHolder
+} from '../models/dataset-info';
+import { BasePage, type JSLoadedInterface } from './base';
+import { NewResourcePage } from "./new-resource-page";
+import { setPom, URL } from "./pages-controller";
+import { dateToDateAndTimeString, getNewestRepeatingFieldGroupIndex, getRepeatingFieldGropField, gotoNewPage } from "./util";
 
 export class NewDatasetPage extends BasePage implements JSLoadedInterface<NewDatasetPage> {
   readonly visibilityFields: Locator
@@ -259,8 +258,8 @@ export class NewDatasetPage extends BasePage implements JSLoadedInterface<NewDat
   async addRightsHolder(rightsHolder: RightsHolder): Promise<void> {
     await this.addRightsHolderButton.click();
     const newRightsHolderIndex = await getNewestRepeatingFieldGroupIndex(this.rightsHolderGroup);
-    await (await getRepeatingFieldGropField(this.rightsHolderGroup, newRightsHolderIndex, 'Toimijan tyyppi')).selectOption(rightsHolder.type);
-    await (await getRepeatingFieldGropField(this.rightsHolderGroup, newRightsHolderIndex, '* Nimi')).fill(rightsHolder.name);
+    // Index 0 is the empty choice; the test organisations' names are not known here
+    await (await getRepeatingFieldGropField(this.rightsHolderGroup, newRightsHolderIndex, '* Organisaatio')).selectOption({ index: 1 });
     if (rightsHolder.email) {
       await (await getRepeatingFieldGropField(this.rightsHolderGroup, newRightsHolderIndex, 'Sähköposti')).fill(rightsHolder.email);
     }
@@ -281,20 +280,6 @@ export class NewDatasetPage extends BasePage implements JSLoadedInterface<NewDat
     }
     if (rightsHolder.countryName) {
       await (await getRepeatingFieldGropField(this.rightsHolderGroup, newRightsHolderIndex, 'Maa')).selectOption(rightsHolder.countryName);
-    }
-    if (isPersonRightsHolder(rightsHolder)) {
-      if (rightsHolder.firstName) {
-        await (await getRepeatingFieldGropField(this.rightsHolderGroup, newRightsHolderIndex, 'Etunimi')).fill(rightsHolder.firstName);
-      }
-      if (rightsHolder.surname) {
-        await (await getRepeatingFieldGropField(this.rightsHolderGroup, newRightsHolderIndex, 'Sukunimi')).fill(rightsHolder.surname);
-      }
-      if (rightsHolder.workplaceHomepage) {
-        await (await getRepeatingFieldGropField(this.rightsHolderGroup, newRightsHolderIndex, 'Työpaikan kotisivu')).fill(rightsHolder.workplaceHomepage);
-      }
-      if (rightsHolder.organizationName) {
-        await (await getRepeatingFieldGropField(this.rightsHolderGroup, newRightsHolderIndex, 'Jäsenyydet')).fill(rightsHolder.organizationName);
-      }
     }
   }
 

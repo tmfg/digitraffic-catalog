@@ -1,21 +1,20 @@
 import json
+
 import ckan.tests.factories as factories
 import pytest
+from ckan.logic import ValidationError
 from ckan.tests import factories, helpers
 from ckan.tests.factories import Organization
-from ckan.logic import ValidationError
 from ckanext.digitraffic_core.model.frequency import Frequency
-from ckanext.digitraffic_core.model.location import Location
-from ckanext.digitraffic_core.model.transport_mode import TransportMode
+from ckanext.digitraffic_core.model.georeferencing_method import GeoreferencingMethod
 from ckanext.digitraffic_core.model.intended_information_service import (
     IntendedInformationService,
 )
 from ckanext.digitraffic_core.model.language import Language
-from ckanext.digitraffic_core.model.georeferencing_method import GeoreferencingMethod
-from ckanext.digitraffic_core.model.network_coverage import NetworkCoverage
-
-
+from ckanext.digitraffic_core.model.location import Location
 from ckanext.digitraffic_core.model.mobility_theme import MOBILITY_THEME_TREE
+from ckanext.digitraffic_core.model.network_coverage import NetworkCoverage
+from ckanext.digitraffic_core.model.transport_mode import TransportMode
 
 
 def create_dataset(org: Organization):
@@ -170,8 +169,7 @@ class TestDatasetValidators:
         ]
         dataset["rights_holder"] = [
             {
-                "type": "http://purl.org/adms/publishertype/Company",
-                "name": "Bar Foo",
+                "organization": organization["id"],
                 "admin_unit_l1": "http://publications.europa.eu/resource/authority/country/ESP",
             }
         ]
@@ -185,9 +183,8 @@ class TestDatasetValidators:
             "fn": "Foo Bar",
         }
         assert updated_dataset["rights_holder"][0] == {
-            "type": "http://purl.org/adms/publishertype/Company",
+            "organization": organization["id"],
             "admin_unit_l1": "http://publications.europa.eu/resource/authority/country/ESP",
-            "name": "Bar Foo",
         }
 
         dataset["contact_point"] = [{"country_name": "phrygia"}]
@@ -195,6 +192,28 @@ class TestDatasetValidators:
 
         with pytest.raises(ValidationError, match="does not belong to"):
             helpers.call_action("package_update", **dataset)
+
+    def test_rights_holder_organization(self):
+        organization = factories.Organization()
+        other_organization = factories.Organization()
+        dataset = create_dataset(organization)
+        rights_holder = {
+            "post_name": "Helsinki",
+        }
+
+        dataset["rights_holder"] = [rights_holder]
+        with pytest.raises(ValidationError, match="organization"):
+            helpers.call_action("package_update", **dataset)
+
+        dataset["rights_holder"] = [rights_holder | {"organization": "no-such-organization"}]
+        with pytest.raises(ValidationError, match="unexpected choice"):
+            helpers.call_action("package_update", **dataset)
+
+        # Any organization in the catalogue, not only the one owning the dataset
+        dataset["rights_holder"] = [rights_holder | {"organization": other_organization["id"]}]
+        helpers.call_action("package_update", **dataset)
+        updated_dataset = helpers.call_action("package_show", id=dataset["id"])
+        assert updated_dataset["rights_holder"][0]["organization"] == other_organization["id"]
 
     def test_add_and_remove_reference(self):
         organization = factories.Organization()

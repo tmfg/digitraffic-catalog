@@ -1,36 +1,30 @@
-from rdflib import Dataset
-from rdflib.namespace import DCAT, DCTERMS, OWL, FOAF, ORG, SKOS
-from typing import List, Dict, Any
-
 from functools import partial
+from typing import Any, Dict, List
 
 from ckan_schema.mobility_dcat_ap_converter.class_converter import ClassConverter
-from ckan_schema.mobility_dcat_ap_converter.classes.dataset import DCATDataset
 from ckan_schema.mobility_dcat_ap_converter.classes.agent import Agent
-from ckan_schema.mobility_dcat_ap_converter.classes.organization import Organization
+from ckan_schema.mobility_dcat_ap_converter.classes.dataset import DCATDataset
 from ckan_schema.mobility_dcat_ap_converter.classes.distribution import Distribution
-from ckan_schema.mobility_dcat_ap_converter.range_value_converter import Necessity
-from dcat_schema_transpiler.mobility_dcat_ap.dataset import CNT, OA
-from dcat_schema_transpiler.namespaces.VCARD import VCARD
-
-from ckan_schema.mobility_dcat_ap_converter.i18n.translations import TRANSLATIONS
-
-
 from ckan_schema.mobility_dcat_ap_converter.classes.license_document import (
     LicenseDocument,
 )
+from ckan_schema.mobility_dcat_ap_converter.classes.locn_address import LOCNAddress
+from ckan_schema.mobility_dcat_ap_converter.classes.organization import Organization
 from ckan_schema.mobility_dcat_ap_converter.classes.rights_statement import (
     RightsStatement,
 )
-
-from dcat_schema_transpiler.namespaces.DQV import DQV
-
-from ckan_schema.mobility_dcat_ap_converter.classes.locn_address import LOCNAddress
-
-from dcat_schema_transpiler.namespaces.ADMS import ADMS
-from dcat_schema_transpiler.namespaces.LOCN import LOCN
-from dcat_schema_transpiler.rdfs.rdfs_class import RDFSClass
+from ckan_schema.mobility_dcat_ap_converter.i18n.translations import TRANSLATIONS
+from ckan_schema.mobility_dcat_ap_converter.range_value_converter import Necessity
 from mobility_dcat_ap.namespace import MOBILITYDCATAP
+from rdflib import Dataset
+from rdflib.namespace import DCAT, DCTERMS, FOAF, ORG, OWL, SKOS
+
+from dcat_schema_transpiler.mobility_dcat_ap.dataset import CNT, OA
+from dcat_schema_transpiler.namespaces.ADMS import ADMS
+from dcat_schema_transpiler.namespaces.DQV import DQV
+from dcat_schema_transpiler.namespaces.LOCN import LOCN
+from dcat_schema_transpiler.namespaces.VCARD import VCARD
+from dcat_schema_transpiler.rdfs.rdfs_class import RDFSClass
 
 
 def sort_by_field_name(order_list: List[str], field: Dict[str, Any]):
@@ -124,29 +118,25 @@ def modifications_to_dataset_spec(dataset_fields: List[Dict[str, Any]]):
     rights_holder = list(
         filter(lambda x: x.get("field_name") == "rights_holder", dataset_fields)
     )[0]
-    rights_holder_type_subfield = list(
-        filter(
-            lambda x: x.get("field_name") == "type",
-            rights_holder["repeating_subfields"],
-        )
-    )[0]
-    rights_holder_type_subfield["form_include_blank_choice"] = False
-    rights_holder_type_subfield["necessity"] = Necessity.MANDATORY.value
-    rights_holder_type_subfield["required"] = True
-    rights_holder_type_subfield["default"] = (
-        "http://purl.org/adms/publishertype/Company"
+    # Rights holders are always organizations in the catalogue
+    rights_holder["repeating_subfields"] = [
+        subfield
+        for subfield in rights_holder["repeating_subfields"]
+        if subfield.get("field_name")
+        not in {"type", "name", "first_name", "surname", "workplace_homepage", "member_of"}
+    ]
+    rights_holder["repeating_subfields"].insert(
+        0,
+        {
+            "field_name": "organization",
+            "label": {"en": "Organization", "fi": "Organisaatio", "sv": "Organisation"},
+            "required": True,
+            "necessity": Necessity.MANDATORY.value,
+            "preset": "select",
+            "form_include_blank_choice": True,
+            "choices_helper": "get_organizations_as_form_choices",
+        },
     )
-    rights_holder_member_of = list(
-        filter(
-            lambda x: x.get("field_name") == "member_of",
-            rights_holder["repeating_subfields"],
-        )
-    )[0]
-    del rights_holder_member_of["repeating_subfields"]
-    if ORG.memberOf not in Agent.optional_properties:
-        raise Exception("ORG.memberOf should be in Agent.optional_properties")
-    rights_holder_member_of["necessity"] = Necessity.OPTIONAL.value
-    rights_holder_member_of["required"] = False
 
 
 def sort_dataset_fields(dataset_fields: List[Dict[str, Any]]):
@@ -211,10 +201,6 @@ def sort_resource_fields(resource_fields: List[Dict[str, Any]]):
 
 def sort_rights_holder_fields(rights_holder_fields: List[Dict[str, Any]]):
     order = [
-        "type",
-        "name",
-        "first_name",
-        "surname",
         "mbox",
         "phone",
         "thoroughfare",
@@ -222,8 +208,6 @@ def sort_rights_holder_fields(rights_holder_fields: List[Dict[str, Any]]):
         "post_code",
         "admin_unit_l2",
         "admin_unit_l1",
-        "workplace_homepage",
-        "member_of",
     ]
     rights_holder_fields.sort(key=partial(sort_by_field_name, order))
     sort_dropdowns(rights_holder_fields)
