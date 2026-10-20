@@ -11,7 +11,7 @@ from ckanext.dcat.utils import (
 )
 from ckanext.digitraffic_core.helpers import helpers
 from ckanext.digitraffic_core.helpers.helpers import url_from_dataset_id
-from ckanext.digitraffic_core.model.address import LOCNAddress, VCARDAddress
+from ckanext.digitraffic_core.model.address import VCARDAddress
 from ckanext.digitraffic_core.model.agent import Agent
 from ckanext.digitraffic_core.model.application_layer_protocol import (
     ApplicationLayerProtocol,
@@ -171,64 +171,25 @@ class MobilityData:
             else {}
         )
 
-        def create_agent(ref: URIRef | None, agent_data: Dict[str, Any]):
-            address_input = {
-                "admin_unit_L1": self._optional_literal(
-                    agent_data.get("admin_unit_l1")
-                ),
-                "admin_unit_L2": self._optional_literal(
-                    agent_data.get("admin_unit_l2")
-                ),
-                "post_name": self._optional_literal(agent_data.get("post_name")),
-                "post_code": self._optional_literal(agent_data.get("post_code")),
-                "thoroughfare": self._optional_literal(agent_data.get("thoroughfare")),
-            }
-            address = self._optional_resource(LOCNAddress, address_input)
-            mbox = (
-                self._mail_to_uri(agent_data.get("mbox"))
-                if agent_data.get("mbox")
-                else None
-            )
-            phone = (
-                self._phonenumber_to_uri(agent_data.get("phone"))
-                if agent_data.get("phone")
-                else None
-            )
-            return Organization(
-                ref,
-                {
-                    "name": Literal(agent_data.get("name")),
-                    "address": address,
-                    "mbox": mbox,
-                    "phone": phone,
-                },
-            )
+        def create_organization_agent(ref: str | None, name: str):
+            return Organization(ref, {"name": Literal(name)})
 
         def create_rights_holder(rights_holder_data: Dict[str, Any]):
-            organization = (
-                model.Group.get(rights_holder_data["organization"])
-                if rights_holder_data.get("organization")
-                else None
-            )
-            # Rights holders saved before they were tied to an organisation only have a typed name
+            organization = model.Group.get(rights_holder_data.get("organization"))
             if organization is None:
-                return create_agent(None, rights_holder_data)
-            return create_agent(
+                return None
+            return create_organization_agent(
                 f"{catalog_uri().rstrip('/')}/organization/{organization.id}",
-                rights_holder_data
-                | {"name": organization.title or organization.name},
+                organization.title or organization.name,
             )
 
-        rights_holder = (
-            {
-                "rights_holders": [
-                    create_rights_holder(rights_holder)
-                    for rights_holder in dataset_dict["rights_holder"]
-                ]
-            }
-            if dataset_dict.get("rights_holder")
-            else {}
-        )
+        # Rights holders saved before they were tied to an organisation are left out
+        rights_holders = [
+            agent
+            for agent in map(create_rights_holder, dataset_dict.get("rights_holder") or [])
+            if agent is not None
+        ]
+        rights_holder = {"rights_holders": rights_holders} if rights_holders else {}
         start_timestamp_str = (
             dataset_dict.get("start_timestamp") + "Z"
             if dataset_dict.get("start_timestamp")
@@ -473,12 +434,10 @@ class MobilityData:
                     for key in (dataset_dict.get("title_translated", {})).keys()
                     if dataset_dict["title_translated"][key] != ""
                 ],
-                "publisher": create_agent(
+                "publisher": create_organization_agent(
                     organization_ref,
-                    {
-                        "name": dataset_dict["organization"]["title"]
-                        or dataset_dict["organization"]["name"]
-                    },
+                    dataset_dict["organization"]["title"]
+                    or dataset_dict["organization"]["name"],
                 ),
                 **(
                     {

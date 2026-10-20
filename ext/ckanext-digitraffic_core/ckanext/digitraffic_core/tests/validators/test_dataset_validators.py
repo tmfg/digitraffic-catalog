@@ -143,12 +143,6 @@ class TestDatasetValidators:
         organization = factories.Organization()
         dataset = create_dataset(organization)
 
-        dataset["rights_holder"] = [{"phone": "+358123"}]
-        with pytest.raises(
-            ValidationError, match="Phone number is not in a valid format"
-        ):
-            helpers.call_action("package_update", **dataset)
-
         dataset["contact_point"] = [{"has_telephone": "1234567"}]
         with pytest.raises(
             ValidationError, match="Phone number is not in a valid format"
@@ -167,12 +161,6 @@ class TestDatasetValidators:
                 "country_name": "http://publications.europa.eu/resource/authority/country/FIN",
             }
         ]
-        dataset["rights_holder"] = [
-            {
-                "organization": organization["id"],
-                "admin_unit_l1": "http://publications.europa.eu/resource/authority/country/ESP",
-            }
-        ]
         helpers.call_action("package_update", **dataset)
 
         updated_dataset = helpers.call_action("package_show", id=dataset["id"])
@@ -182,13 +170,8 @@ class TestDatasetValidators:
             "has_email": "foo@example.com",
             "fn": "Foo Bar",
         }
-        assert updated_dataset["rights_holder"][0] == {
-            "organization": organization["id"],
-            "admin_unit_l1": "http://publications.europa.eu/resource/authority/country/ESP",
-        }
 
         dataset["contact_point"] = [{"country_name": "phrygia"}]
-        dataset["rights_holder"] = [{"admin_unit_l1": "persia"}]
 
         with pytest.raises(ValidationError, match="does not belong to"):
             helpers.call_action("package_update", **dataset)
@@ -197,23 +180,23 @@ class TestDatasetValidators:
         organization = factories.Organization()
         other_organization = factories.Organization()
         dataset = create_dataset(organization)
-        rights_holder = {
-            "post_name": "Helsinki",
-        }
 
-        dataset["rights_holder"] = [rights_holder]
+        dataset["rights_holder"] = [{"organization": ""}]
         with pytest.raises(ValidationError, match="organization"):
             helpers.call_action("package_update", **dataset)
 
-        dataset["rights_holder"] = [rights_holder | {"organization": "no-such-organization"}]
+        dataset["rights_holder"] = [{"organization": "no-such-organization"}]
         with pytest.raises(ValidationError, match="unexpected choice"):
             helpers.call_action("package_update", **dataset)
 
         # Any organization in the catalogue, not only the one owning the dataset
-        dataset["rights_holder"] = [rights_holder | {"organization": other_organization["id"]}]
+        dataset["rights_holder"] = [{"organization": other_organization["id"]}]
         helpers.call_action("package_update", **dataset)
         updated_dataset = helpers.call_action("package_show", id=dataset["id"])
-        assert updated_dataset["rights_holder"][0]["organization"] == other_organization["id"]
+        assert (
+            updated_dataset["rights_holder"][0]["organization"]
+            == other_organization["id"]
+        )
 
     def test_add_and_remove_reference(self):
         organization = factories.Organization()

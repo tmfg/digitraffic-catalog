@@ -21,6 +21,7 @@ import { DatasetInfo, type PersonContactPoint } from "../models/dataset-info";
 import { ResourceInfo } from "../models/resource-info";
 import { DatasetPage, NewResourcePage } from "../page-object-models";
 import * as rdf from "../rdf-helpers";
+import { organization } from "../testdata";
 import { OrganizationEditorView } from "../user-views/organization-editor-view";
 import { OrganizationMemberView } from "../user-views/organization-member-view";
 import { Identity } from '../users/identity-user';
@@ -174,24 +175,7 @@ test.describe.serial('Add new dataset', () => {
         relatedDatasets: [firstDatasetName],
         isReferencedBy: [],
         rightsHolders: [
-          {
-            email: 'company@example.com',
-            phone: '+358403456789',
-            streetAddress: 'Yrityskatu 3',
-            city: 'Vantaa',
-            postalCode: '01300',
-            region: 'Uusimaa',
-            countryName: 'Suomi'
-          },
-          {
-            email: 'individual@example.com',
-            phone: '+358404567890',
-            streetAddress: 'Yksilökatu 4',
-            city: 'Tampere',
-            postalCode: '33100',
-            region: 'Pirkanmaa',
-            countryName: 'Suomi'
-          }
+          { organization: organization.name }
         ]
       }
     );

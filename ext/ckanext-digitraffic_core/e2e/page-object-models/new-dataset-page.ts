@@ -258,29 +258,7 @@ export class NewDatasetPage extends BasePage implements JSLoadedInterface<NewDat
   async addRightsHolder(rightsHolder: RightsHolder): Promise<void> {
     await this.addRightsHolderButton.click();
     const newRightsHolderIndex = await getNewestRepeatingFieldGroupIndex(this.rightsHolderGroup);
-    // Index 0 is the empty choice; the test organisations' names are not known here
-    await (await getRepeatingFieldGropField(this.rightsHolderGroup, newRightsHolderIndex, '* Organisaatio')).selectOption({ index: 1 });
-    if (rightsHolder.email) {
-      await (await getRepeatingFieldGropField(this.rightsHolderGroup, newRightsHolderIndex, 'Sähköposti')).fill(rightsHolder.email);
-    }
-    if (rightsHolder.phone) {
-      await (await getRepeatingFieldGropField(this.rightsHolderGroup, newRightsHolderIndex, 'Puhelinnumero')).fill(rightsHolder.phone);
-    }
-    if (rightsHolder.streetAddress) {
-      await (await getRepeatingFieldGropField(this.rightsHolderGroup, newRightsHolderIndex, 'Katuosoite')).fill(rightsHolder.streetAddress);
-    }
-    if (rightsHolder.city) {
-      await (await getRepeatingFieldGropField(this.rightsHolderGroup, newRightsHolderIndex, 'Kaupunki')).fill(rightsHolder.city);
-    }
-    if (rightsHolder.postalCode) {
-      await (await getRepeatingFieldGropField(this.rightsHolderGroup, newRightsHolderIndex, 'Postinumero')).fill(rightsHolder.postalCode);
-    }
-    if (rightsHolder.region) {
-      await (await getRepeatingFieldGropField(this.rightsHolderGroup, newRightsHolderIndex, 'Alue')).fill(rightsHolder.region);
-    }
-    if (rightsHolder.countryName) {
-      await (await getRepeatingFieldGropField(this.rightsHolderGroup, newRightsHolderIndex, 'Maa')).selectOption(rightsHolder.countryName);
-    }
+    await (await getRepeatingFieldGropField(this.rightsHolderGroup, newRightsHolderIndex, '* Organisaatio')).selectOption({ label: rightsHolder.organization });
   }
 
   async addRelatedDataset(relatedDataset: string): Promise<void> {

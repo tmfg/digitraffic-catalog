@@ -1,23 +1,23 @@
-import { BasePage } from "./base";
+import { TZDate } from "@date-fns/tz";
 import type { Locator, Page } from "@playwright/test";
-import { setPom, URL } from "./pages-controller";
-import { pathParameterURL, urlify } from "./util";
-import { DatasetInfo, type Visibility, type OptionalDatasetInfoValues, type ContactPoint, type RightsHolder, type Assessment } from "../models/dataset-info";
 import { labelToFrequency } from "../../src/ts/model/frequency";
-import { labelToRegionalCoverage, RegionalCoverage } from "../../src/ts/model/regional-coverage";
+import { labelToGeoreferencingMethod } from "../../src/ts/model/georeferencing-method";
+import { labelToIntendedInformationService } from "../../src/ts/model/intended-information-service";
+import { labelToLanguage } from "../../src/ts/model/language";
 import {
-  labelToMobilityTheme,
-  type SUB_MOBILITY_THEMES_T,
-  type TOP_MOBILITY_THEMES_T
+    labelToMobilityTheme,
+    type SUB_MOBILITY_THEMES_T,
+    type TOP_MOBILITY_THEMES_T
 } from "../../src/ts/model/mobility-theme";
-import { isVisible } from "../util";
+import { labelToNetworkCoverage } from "../../src/ts/model/network-coverage";
+import { labelToRegionalCoverage, RegionalCoverage } from "../../src/ts/model/regional-coverage";
 import { labelToTheme } from "../../src/ts/model/theme";
 import { labelToTransportMode } from "../../src/ts/model/transport-mode";
-import { labelToLanguage } from "../../src/ts/model/language";
-import { labelToGeoreferencingMethod } from "../../src/ts/model/georeferencing-method";
-import { labelToNetworkCoverage } from "../../src/ts/model/network-coverage";
-import { labelToIntendedInformationService } from "../../src/ts/model/intended-information-service";
-import { TZDate } from "@date-fns/tz";
+import { DatasetInfo, type Assessment, type ContactPoint, type OptionalDatasetInfoValues, type RightsHolder, type Visibility } from "../models/dataset-info";
+import { isVisible } from "../util";
+import { BasePage } from "./base";
+import { setPom, URL } from "./pages-controller";
+import { pathParameterURL, urlify } from "./util";
 
 export class DatasetPage extends BasePage {
   readonly datasetId: string
@@ -308,15 +308,8 @@ export class DatasetPage extends BasePage {
       }
 
       const finnishObjectToRightsHolder = (finnishRightsHolder: Record<string, any>): RightsHolder => {
-        const phoneNumber = finnishRightsHolder["Puhelinnumero"]
         return {
-          countryName: finnishRightsHolder["Maa"],
-          email: finnishRightsHolder["Sähköposti"],
-          phone: phoneNumber ? phoneNumber.replace(/ /g, '') : undefined,
-          streetAddress: finnishRightsHolder["Katuosoite"],
-          city: finnishRightsHolder["Kaupunki"],
-          postalCode: finnishRightsHolder["Postinumero"],
-          region: finnishRightsHolder["Alue"],
+          organization: finnishRightsHolder["Organisaatio"],
         }
       }
 

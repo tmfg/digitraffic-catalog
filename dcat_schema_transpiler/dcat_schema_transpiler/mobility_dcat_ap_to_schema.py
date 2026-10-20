@@ -118,15 +118,8 @@ def modifications_to_dataset_spec(dataset_fields: List[Dict[str, Any]]):
     rights_holder = list(
         filter(lambda x: x.get("field_name") == "rights_holder", dataset_fields)
     )[0]
-    # Rights holders are always organizations in the catalogue
+    # Contact details will come from the organisation itself once the catalogue collects them
     rights_holder["repeating_subfields"] = [
-        subfield
-        for subfield in rights_holder["repeating_subfields"]
-        if subfield.get("field_name")
-        not in {"type", "name", "first_name", "surname", "workplace_homepage", "member_of"}
-    ]
-    rights_holder["repeating_subfields"].insert(
-        0,
         {
             "field_name": "organization",
             "label": {"en": "Organization", "fi": "Organisaatio", "sv": "Organisation"},
@@ -136,7 +129,7 @@ def modifications_to_dataset_spec(dataset_fields: List[Dict[str, Any]]):
             "form_include_blank_choice": True,
             "choices_helper": "get_organizations_as_form_choices",
         },
-    )
+    ]
 
 
 def sort_dataset_fields(dataset_fields: List[Dict[str, Any]]):
@@ -197,20 +190,6 @@ def sort_resource_fields(resource_fields: List[Dict[str, Any]]):
     resource_fields.sort(key=partial(sort_by_field_name, order))
     sort_dropdowns(resource_fields)
     sort_repeating_subfields(resource_fields)
-
-
-def sort_rights_holder_fields(rights_holder_fields: List[Dict[str, Any]]):
-    order = [
-        "mbox",
-        "phone",
-        "thoroughfare",
-        "post_name",
-        "post_code",
-        "admin_unit_l2",
-        "admin_unit_l1",
-    ]
-    rights_holder_fields.sort(key=partial(sort_by_field_name, order))
-    sort_dropdowns(rights_holder_fields)
 
 
 def sort_contact_point_fields(contact_point_fields: List[Dict[str, Any]]):
@@ -376,14 +355,6 @@ def dataset_fields(ds: Dataset) -> List:
     dataset_fields = dataset_fields_required_by_ckan + dataset_fields_schema_map
 
     sort_dataset_fields(dataset_fields)
-
-    # sort rights_holder subfields
-    rights_holder_fields = next(
-        (field for field in dataset_fields if field["field_name"] == "rights_holder"),
-        None,
-    )
-    if rights_holder_fields and rights_holder_fields.get("repeating_subfields"):
-        sort_rights_holder_fields(rights_holder_fields["repeating_subfields"])
 
     # sort contact_point subfields
     contact_point_fields = next(
