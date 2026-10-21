@@ -1,15 +1,15 @@
 # Translations template for ckanext-digitraffic_core.
-# Copyright (C) 2025 ORGANIZATION
+# Copyright (C) 2026 ORGANIZATION
 # This file is distributed under the same license as the
 # ckanext-digitraffic_core project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
 #
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-digitraffic_core 0.0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-09-29 08:26+0000\n"
+"POT-Creation-Date: 2026-10-21 10:19+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,33 +18,33 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.15.0\n"
 
-#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:974
+#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:980
 msgid "Upload"
 msgstr ""
 
-#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:974
+#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:980
 msgid "Please select the file to upload again"
 msgstr ""
 
-#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:974
+#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:980
 #: ckanext/digitraffic_core/templates/scheming/form_snippets/repeating_subfields.html:13
 msgid "Remove"
 msgstr ""
 
-#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:974
+#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:980
 msgid "Image"
 msgstr ""
 
-#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:974
+#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:980
 msgid "Upload a file on your computer"
 msgstr ""
 
-#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:974
+#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:980
 #: ckanext/digitraffic_core/templates/package/snippets/resource_form.html:33
 msgid "URL"
 msgstr ""
 
-#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:974
+#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:980
 #: ckanext/digitraffic_core/templates/package/snippets/resource_form.html:34
 msgid "File"
 msgstr ""
@@ -172,7 +172,7 @@ msgid "Datasets and their descriptions are always linked to an organization."
 msgstr ""
 
 #: ckanext/digitraffic_core/templates/home/index.html:46
-#: ckanext/digitraffic_core/templates/home/instructions.html:50
+#: ckanext/digitraffic_core/templates/home/instructions.html:52
 msgid "Create a dataset"
 msgstr ""
 
@@ -299,21 +299,21 @@ msgstr ""
 msgid "Register as a user"
 msgstr ""
 
-#: ckanext/digitraffic_core/templates/home/instructions.html:40
+#: ckanext/digitraffic_core/templates/home/instructions.html:42
 msgid "Start"
 msgstr ""
 
-#: ckanext/digitraffic_core/templates/home/instructions.html:40
+#: ckanext/digitraffic_core/templates/home/instructions.html:42
 msgid "by registering"
 msgstr ""
 
-#: ckanext/digitraffic_core/templates/home/instructions.html:40
+#: ckanext/digitraffic_core/templates/home/instructions.html:42
 msgid ""
 "as a user of the Traffic Data Catalogue. If you already have Fintraffic ID in"
 " use, you can skip the registration and log in using your Fintraffic ID."
 msgstr ""
 
-#: ckanext/digitraffic_core/templates/home/instructions.html:41
+#: ckanext/digitraffic_core/templates/home/instructions.html:43
 msgid ""
 "Once you are logged in to the Traffic Data Catalogue, you need to request "
 "your organization's membership from your organization's administrator. If "
@@ -322,7 +322,7 @@ msgid ""
 "href=\"mailto:nap@fintraffic.fi\">nap@fintraffic.fi</a>"
 msgstr ""
 
-#: ckanext/digitraffic_core/templates/home/instructions.html:51
+#: ckanext/digitraffic_core/templates/home/instructions.html:53
 msgid ""
 "Describe and create your dataset according to the fields and instructions on "
 "the form. At the dataset level, you describe the general properties of the "
@@ -330,21 +330,21 @@ msgid ""
 "in the next step."
 msgstr ""
 
-#: ckanext/digitraffic_core/templates/home/instructions.html:59
+#: ckanext/digitraffic_core/templates/home/instructions.html:61
 msgid "Add resources"
 msgstr ""
 
-#: ckanext/digitraffic_core/templates/home/instructions.html:60
+#: ckanext/digitraffic_core/templates/home/instructions.html:62
 msgid ""
 "A single dataset can have several data sources, such as APIs and file "
 "packages. At this stage, add the different ways to access the dataset."
 msgstr ""
 
-#: ckanext/digitraffic_core/templates/home/instructions.html:68
+#: ckanext/digitraffic_core/templates/home/instructions.html:70
 msgid "Publish the dataset"
 msgstr ""
 
-#: ckanext/digitraffic_core/templates/home/instructions.html:69
+#: ckanext/digitraffic_core/templates/home/instructions.html:71
 msgid ""
 "By setting the dataset's visibility to \"Public\", your dataset will be "
 "visible to all users in the catalogue and can be found using the catalogue's "
@@ -755,7 +755,7 @@ msgstr ""
 msgid "A resource is any file or a link to a file that contains useful data."
 msgstr ""
 
-#: ckanext/digitraffic_core/templates/snippets/language_selector_base.html:28
+#: ckanext/digitraffic_core/templates/snippets/language_selector_base.html:40
 msgid "Go"
 msgstr ""
 
@@ -983,50 +983,54 @@ msgstr ""
 msgid "Make sure the URL starts with http:// or https://"
 msgstr ""
 
-#: ckanext/digitraffic_core/validators/dataset_validators.py:47
+#: ckanext/digitraffic_core/validators/dataset_validators.py:46
 msgid "Invalid value of mobility theme sub category"
 msgstr ""
 
-#: ckanext/digitraffic_core/validators/dataset_validators.py:56
+#: ckanext/digitraffic_core/validators/dataset_validators.py:55
 msgid "Invalid value of mobility theme category"
 msgstr ""
 
-#: ckanext/digitraffic_core/validators/dataset_validators.py:73
+#: ckanext/digitraffic_core/validators/dataset_validators.py:72
 msgid ""
 "Phone number is not in a valid format. Make sure it starts with a valid "
 "country code. e.g. +358"
 msgstr ""
 
-#: ckanext/digitraffic_core/validators/dataset_validators.py:94
+#: ckanext/digitraffic_core/validators/dataset_validators.py:93
 msgid "{value} of type {type} does not belong to {namespace}"
 msgstr ""
 
-#: ckanext/digitraffic_core/validators/dataset_validators.py:99
+#: ckanext/digitraffic_core/validators/dataset_validators.py:98
 msgid "Provided value does not belong to {namespace}"
 msgstr ""
 
-#: ckanext/digitraffic_core/validators/dataset_validators.py:113
+#: ckanext/digitraffic_core/validators/dataset_validators.py:112
 msgid "Provide a valid EPSG number between 2000 and 69036405"
 msgstr ""
 
+#: ckanext/digitraffic_core/validators/dataset_validators.py:136
 #: ckanext/digitraffic_core/validators/dataset_validators.py:137
-#: ckanext/digitraffic_core/validators/dataset_validators.py:138
 msgid "Value must be a JSON list"
 msgstr ""
 
-#: ckanext/digitraffic_core/validators/dataset_validators.py:148
+#: ckanext/digitraffic_core/validators/dataset_validators.py:147
 msgid "Value must either be a JSON list (str) or a list"
 msgstr ""
 
-#: ckanext/digitraffic_core/validators/dataset_validators.py:230
+#: ckanext/digitraffic_core/validators/dataset_validators.py:217
+msgid "You cannot add this organization as a rights holder"
+msgstr ""
+
+#: ckanext/digitraffic_core/validators/dataset_validators.py:248
 msgid "Session is required for related resource validation."
 msgstr ""
 
-#: ckanext/digitraffic_core/validators/dataset_validators.py:232
+#: ckanext/digitraffic_core/validators/dataset_validators.py:250
 msgid "Related resource id cannot be empty."
 msgstr ""
 
-#: ckanext/digitraffic_core/validators/dataset_validators.py:237
+#: ckanext/digitraffic_core/validators/dataset_validators.py:255
 msgid "Related resource with id {value} does not exist or is not a valid dataset."
 msgstr ""
 

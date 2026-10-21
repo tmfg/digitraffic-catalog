@@ -1,0 +1,10 @@
+{# The organisation already chosen stays in the list even if the user could not choose it #}
+{%- set allowed = h.organizations_available('create_dataset') | map(attribute='id') | list -%}
+{%- if data[field.field_name] -%}
+  {%- do allowed.append(data[field.field_name]) -%}
+{%- endif -%}
+{%- snippet 'scheming/form_snippets/select.html',
+  field=dict(field, form_restrict_choices_to=allowed),
+  data=data,
+  errors=errors
+-%}

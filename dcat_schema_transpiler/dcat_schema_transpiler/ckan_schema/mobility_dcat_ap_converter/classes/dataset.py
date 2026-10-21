@@ -1,38 +1,38 @@
-from typing import List, Dict
+from typing import Dict, List
 
-from ckan_schema.mobility_dcat_ap_converter.classes.period_of_time import PeriodOfTime
 from ckan_schema.mobility_dcat_ap_converter.classes.assessment import Assessment
-from rdflib import Dataset, URIRef
-from rdflib.namespace import DCTERMS, SKOS, DCAT, FOAF, OWL
-from rdflib.term import Node
-
+from ckan_schema.mobility_dcat_ap_converter.classes.period_of_time import PeriodOfTime
 from ckan_schema.mobility_dcat_ap_converter.range_value_converter import (
-    RangeValueConverter,
     Necessity,
+    RangeValueConverter,
 )
 from mobility_dcat_ap.dataset import (
-    CVOCAB_MOBILITY_THEME,
-    CVOCAB_NUTS,
-    CVOCAB_LAU,
     CVOCAB_GEOREFERENCING_METHOD,
-    CVOCAB_NETWORK_COVERAGE,
     CVOCAB_INTENDED_INFORMATION_SERVICE,
+    CVOCAB_LAU,
+    CVOCAB_MOBILITY_THEME,
+    CVOCAB_NETWORK_COVERAGE,
+    CVOCAB_NUTS,
     CVOCAB_THEME,
     CVOCAB_TRANSPORT_MODE,
 )
 from mobility_dcat_ap.namespace import MOBILITYDCATAP
+from rdflib import Dataset, URIRef
+from rdflib.namespace import DCAT, DCTERMS, FOAF, OWL, SKOS
+from rdflib.term import Node
+
+from dcat_schema_transpiler.ckan_schema.mobility_dcat_ap_converter.classes.agent import (
+    Agent,
+)
+from dcat_schema_transpiler.ckan_schema.mobility_dcat_ap_converter.classes.kind import (
+    Kind,
+)
 from dcat_schema_transpiler.namespaces.ADMS import ADMS
 from dcat_schema_transpiler.namespaces.DCAT_AP import DCATAP
 from dcat_schema_transpiler.namespaces.DQV import DQV
 from dcat_schema_transpiler.rdfs.rdfs_class import RDFSClass
 from dcat_schema_transpiler.rdfs.rdfs_property import RDFSProperty
 from dcat_schema_transpiler.rdfs.rdfs_resource import RDFSResource
-from dcat_schema_transpiler.ckan_schema.mobility_dcat_ap_converter.classes.kind import (
-    Kind,
-)
-from dcat_schema_transpiler.ckan_schema.mobility_dcat_ap_converter.classes.agent import (
-    Agent,
-)
 
 
 class DCATDataset(RangeValueConverter):

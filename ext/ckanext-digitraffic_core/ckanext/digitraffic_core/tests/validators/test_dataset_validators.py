@@ -177,26 +177,61 @@ class TestDatasetValidators:
             helpers.call_action("package_update", **dataset)
 
     def test_rights_holder_organization(self):
-        organization = factories.Organization()
-        other_organization = factories.Organization()
+        user = factories.User()
+        other_user = factories.User()
+        sysadmin = factories.Sysadmin()
+        organization = factories.Organization(
+            users=[
+                {"name": user["name"], "capacity": "editor"},
+                {"name": other_user["name"], "capacity": "editor"},
+            ]
+        )
+        member_organization = factories.Organization(
+            users=[{"name": user["name"], "capacity": "member"}]
+        )
+        other_organization = factories.Organization(
+            users=[{"name": other_user["name"], "capacity": "editor"}]
+        )
         dataset = create_dataset(organization)
 
-        dataset["rights_holder"] = [{"organization": ""}]
+        def update(user_name, rights_holders):
+            return helpers.call_action(
+                "package_update",
+                context={"user": user_name, "ignore_auth": False},
+                **(dataset | {"rights_holder": rights_holders}),
+            )
+
         with pytest.raises(ValidationError, match="organization"):
-            helpers.call_action("package_update", **dataset)
+            update(user["name"], [{"organization": ""}])
 
-        dataset["rights_holder"] = [{"organization": "no-such-organization"}]
         with pytest.raises(ValidationError, match="unexpected choice"):
-            helpers.call_action("package_update", **dataset)
+            update(user["name"], [{"organization": "no-such-organization"}])
 
-        # Any organization in the catalogue, not only the one owning the dataset
-        dataset["rights_holder"] = [{"organization": other_organization["id"]}]
-        helpers.call_action("package_update", **dataset)
-        updated_dataset = helpers.call_action("package_show", id=dataset["id"])
-        assert (
-            updated_dataset["rights_holder"][0]["organization"]
-            == other_organization["id"]
+        with pytest.raises(ValidationError, match="cannot add this organization"):
+            update(user["name"], [{"organization": other_organization["id"]}])
+
+        # Same as for the dataset's own organisation, the member role is not enough
+        with pytest.raises(ValidationError, match="cannot add this organization"):
+            update(user["name"], [{"organization": member_organization["id"]}])
+
+        updated_dataset = update(user["name"], [{"organization": organization["id"]}])
+        assert updated_dataset["rights_holder"] == [{"organization": organization["id"]}]
+
+        updated_dataset = update(
+            sysadmin["name"], [{"organization": member_organization["id"]}]
         )
+        assert updated_dataset["rights_holder"] == [
+            {"organization": member_organization["id"]}
+        ]
+
+        # A rights holder added by someone else stays when the user edits the dataset
+        update(other_user["name"], [{"organization": other_organization["id"]}])
+        updated_dataset = update(
+            user["name"], [{"organization": other_organization["id"]}]
+        )
+        assert updated_dataset["rights_holder"] == [
+            {"organization": other_organization["id"]}
+        ]
 
     def test_add_and_remove_reference(self):
         organization = factories.Organization()

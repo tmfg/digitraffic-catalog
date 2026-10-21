@@ -1,12 +1,13 @@
 import json
 import pprint
-from ckan.logic import get_action, check_access, NotFound, NotAuthorized
-import ckan.model as model
 from typing import Any, Union, cast
-from ckan.common import current_user, config
-from ckan.types import Context
+
+import ckan.model as model
+from ckan.common import config, current_user
 from ckan.lib.helpers import get_translated
+from ckan.logic import NotAuthorized, NotFound, check_access, get_action
 from ckan.plugins import toolkit
+from ckan.types import Context
 
 
 def print_field_and_data(field_name: str, data: dict):

@@ -8,47 +8,46 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-digitraffic_core 0.0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-09-29 08:26+0000\n"
+"POT-Creation-Date: 2026-10-21 10:19+0000\n"
 "PO-Revision-Date: 2025-09-29 11:26+0300\n"
 "Last-Translator: \n"
-"Language-Team: fi <LL@li.org>\n"
 "Language: fi\n"
+"Language-Team: fi <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "Generated-By: Babel 2.15.0\n"
-"X-Generator: Poedit 3.7\n"
 
-#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:974
+#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:980
 msgid "Upload"
 msgstr "Lataa"
 
-#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:974
+#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:980
 msgid "Please select the file to upload again"
 msgstr "Valitse ladattava tiedosto uudelleen"
 
-#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:974
+#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:980
 #: ckanext/digitraffic_core/templates/scheming/form_snippets/repeating_subfields.html:13
 msgid "Remove"
 msgstr "Poista"
 
 # | msgid "Manage"
-#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:974
+#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:980
 msgid "Image"
 msgstr "Kuva (PNG/JPG/GIF)"
 
-#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:974
+#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:980
 msgid "Upload a file on your computer"
 msgstr "Lataa kuva koneeltasi"
 
-#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:974
+#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:980
 #: ckanext/digitraffic_core/templates/package/snippets/resource_form.html:33
 msgid "URL"
 msgstr "URL"
 
 # | msgid "Profile"
-#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:974
+#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:980
 #: ckanext/digitraffic_core/templates/package/snippets/resource_form.html:34
 msgid "File"
 msgstr "Tiedosto"
@@ -99,61 +98,63 @@ msgstr "Tietoa"
 
 #: ckanext/digitraffic_core/templates/home/about.html:7
 msgid ""
-"The Traffic Data Catalogue is an open national access point (NAP) defined in EU "
-"legislation, where road operators and various service providers must submit "
-"information about the traffic infrastructure and road traffic data they "
-"produce. The aim of national access points is to enable the smooth sharing and "
-"use of traffic data in various digital traffic management and information "
-"services, such as navigation services. NAP is not a service intended for road "
-"users or travelers but rather facilitates information exchange between traffic "
-"sector stakeholders."
+"The Traffic Data Catalogue is an open national access point (NAP) defined"
+" in EU legislation, where road operators and various service providers "
+"must submit information about the traffic infrastructure and road traffic"
+" data they produce. The aim of national access points is to enable the "
+"smooth sharing and use of traffic data in various digital traffic "
+"management and information services, such as navigation services. NAP is "
+"not a service intended for road users or travelers but rather facilitates"
+" information exchange between traffic sector stakeholders."
 msgstr ""
 "Liikennedatakatalogi on EU-lainsäädännössä määritetty avoin kansallinen "
-"yhteyspiste (eng. National Access Point, NAP), johon tienpitäjien ja erilaisten "
-"palveluntarjoajien on toimitettava tiedot tuottamistaan tieliikenteen "
-"liikenneinfrastruktuuria ja tieliikennettä koskevista tiedoista. Kansallisten "
-"yhteyspisteiden tavoitteena on mahdollistaa liikennetietojen sujuva jakaminen "
-"ja hyödyntäminen erilaisissa digitaalisissa liikenteen ohjaus- ja "
-"informaatiopalveluissa, kuten navigointipalveluissa. NAP ei siis ole suoraan "
-"liikkujille suunnattu palvelu, vaan se palvelee liikennealan toimijoiden "
-"välistä tiedonvaihtoa."
+"yhteyspiste (eng. National Access Point, NAP), johon tienpitäjien ja "
+"erilaisten palveluntarjoajien on toimitettava tiedot tuottamistaan "
+"tieliikenteen liikenneinfrastruktuuria ja tieliikennettä koskevista "
+"tiedoista. Kansallisten yhteyspisteiden tavoitteena on mahdollistaa "
+"liikennetietojen sujuva jakaminen ja hyödyntäminen erilaisissa "
+"digitaalisissa liikenteen ohjaus- ja informaatiopalveluissa, kuten "
+"navigointipalveluissa. NAP ei siis ole suoraan liikkujille suunnattu "
+"palvelu, vaan se palvelee liikennealan toimijoiden välistä tiedonvaihtoa."
 
 #: ckanext/digitraffic_core/templates/home/about.html:12
 msgid ""
-"This national access point implements the EU ITS Directive and the Commission's "
-"delegated regulations 2022/670 (known as the RTTI regulation), 886/2013 (known "
-"as the SRTI regulation), and the regulation on alternative fuel infrastructure "
-"2023/1804 (known as the AFIR regulation)."
+"This national access point implements the EU ITS Directive and the "
+"Commission's delegated regulations 2022/670 (known as the RTTI "
+"regulation), 886/2013 (known as the SRTI regulation), and the regulation "
+"on alternative fuel infrastructure 2023/1804 (known as the AFIR "
+"regulation)."
 msgstr ""
 "Tämä kansallinen yhteyspiste toteuttaa EU:n ITS-direktiivin ja komission "
-"delegoitujen asetusten 2022/670 (nk. RTTI-asetus), 886/2013 (nk. SRTI-asetus) "
-"sekä vaihtoehtoisten polttoaineiden infrastruktuuria koskevan asetuksen "
-"2023/1804 (nk. AFIR-asetus) mukaisen kansallisen yhteyspisteen."
+"delegoitujen asetusten 2022/670 (nk. RTTI-asetus), 886/2013 (nk. SRTI-"
+"asetus) sekä vaihtoehtoisten polttoaineiden infrastruktuuria koskevan "
+"asetuksen 2023/1804 (nk. AFIR-asetus) mukaisen kansallisen yhteyspisteen."
 
 #: ckanext/digitraffic_core/templates/home/about.html:17
 msgid ""
-"The corresponding national access point for multimodal mobility services (known "
-"as the MMTIS regulation) is the Mobility Services Catalogue (finap.fi)."
+"The corresponding national access point for multimodal mobility services "
+"(known as the MMTIS regulation) is the Mobility Services Catalogue "
+"(finap.fi)."
 msgstr ""
-"Multimodaalisten liikkumispalveluiden (nk. MMTIS-asetus) vastaava kansallinen "
-"yhteyspiste on Liikkumispalvelukatalogi (finap.fi)."
+"Multimodaalisten liikkumispalveluiden (nk. MMTIS-asetus) vastaava "
+"kansallinen yhteyspiste on Liikkumispalvelukatalogi (finap.fi)."
 
 #: ckanext/digitraffic_core/templates/home/about.html:22
 msgid ""
-"The Traffic Data Catalogue functions as a metadata catalogue, where the content "
-"of datasets is described using metadata and the address of the interface or "
-"service where the data is available. Conditions of use, such as license terms, "
-"are also described in the catalogue. Thus, the national access point becomes a "
-"directory of Finland's road traffic data, providing data users a clear overview "
-"of the available data."
+"The Traffic Data Catalogue functions as a metadata catalogue, where the "
+"content of datasets is described using metadata and the address of the "
+"interface or service where the data is available. Conditions of use, such"
+" as license terms, are also described in the catalogue. Thus, the "
+"national access point becomes a directory of Finland's road traffic data,"
+" providing data users a clear overview of the available data."
 msgstr ""
 "Liikennedatakatalogi on toiminnoiltaan metadatakatalogi, jossa kuvataan "
-"metatietojen avulla tietoaineistojen sisältöä sekä ilmoitetaan rajapinnan tai "
-"palvelun osoite, josta tieto on saatavilla hyödynnettäväksi. Myös "
-"hyödyntämiseen liittyvät reunaehdot kuten lisenssiehdot kuvataan katalogiin. "
-"Siten kansallisesta yhteyspisteestä muodostuu Suomen tieliikenteen datan "
-"hakemisto, josta erilaiset datan hyödyntäjät saavat helposti käsityksen "
-"tarjolla olevista datoista."
+"metatietojen avulla tietoaineistojen sisältöä sekä ilmoitetaan rajapinnan"
+" tai palvelun osoite, josta tieto on saatavilla hyödynnettäväksi. Myös "
+"hyödyntämiseen liittyvät reunaehdot kuten lisenssiehdot kuvataan "
+"katalogiin. Siten kansallisesta yhteyspisteestä muodostuu Suomen "
+"tieliikenteen datan hakemisto, josta erilaiset datan hyödyntäjät saavat "
+"helposti käsityksen tarjolla olevista datoista."
 
 #: ckanext/digitraffic_core/templates/home/hero_buttons.html:2
 msgid "Register"
@@ -170,16 +171,17 @@ msgstr "Datalle näkyvyyttä ja käyttäjiä"
 
 #: ckanext/digitraffic_core/templates/home/index.html:4
 msgid ""
-"The Traffic Data Catalogue is an open national access point (NAP) for traffic "
-"data, where traffic data providers submit information about the data and APIs "
-"they offer. For data users, the catalogue provides an overview of available "
-"data sources, their providers, usage methods, and terms."
+"The Traffic Data Catalogue is an open national access point (NAP) for "
+"traffic data, where traffic data providers submit information about the "
+"data and APIs they offer. For data users, the catalogue provides an "
+"overview of available data sources, their providers, usage methods, and "
+"terms."
 msgstr ""
-"Liikennedatakatalogi on liikennetiedon avoin kansallinen yhteyspiste (National "
-"Access Point, NAP), johon tiedon tuottajat toimittavat tietoja tarjoamastaan "
-"liikennedatasta ja rajapinnoista. Liikennedatan hyödyntäjille katalogi tarjoaa "
-"näkymän tarjolla oleviin datalähteisiin ja niiden tuottajiin, käyttötapoihin ja "
-"ehtoihin."
+"Liikennedatakatalogi on liikennetiedon avoin kansallinen yhteyspiste "
+"(National Access Point, NAP), johon tiedon tuottajat toimittavat tietoja "
+"tarjoamastaan liikennedatasta ja rajapinnoista. Liikennedatan "
+"hyödyntäjille katalogi tarjoaa näkymän tarjolla oleviin datalähteisiin ja"
+" niiden tuottajiin, käyttötapoihin ja ehtoihin."
 
 #: ckanext/digitraffic_core/templates/home/index.html:17
 msgid "You are logged in as"
@@ -209,7 +211,7 @@ msgstr "Tietoaineistot ja niiden kuvailut liittyvät aina organisaatioon."
 
 # | msgid "Search datasets..."
 #: ckanext/digitraffic_core/templates/home/index.html:46
-#: ckanext/digitraffic_core/templates/home/instructions.html:50
+#: ckanext/digitraffic_core/templates/home/instructions.html:52
 msgid "Create a dataset"
 msgstr "Luo tietoaineisto"
 
@@ -224,7 +226,8 @@ msgstr "Lisää datalähteet (resurssit)"
 #: ckanext/digitraffic_core/templates/home/index.html:52
 msgid "Add to the description the different ways to access the dataset."
 msgstr ""
-"Lisää kuvaukseen eri tavat, joilla kyseiseen tietoaineistoon pääsee käsiksi."
+"Lisää kuvaukseen eri tavat, joilla kyseiseen tietoaineistoon pääsee "
+"käsiksi."
 
 #: ckanext/digitraffic_core/templates/home/index.html:56
 msgid "Publish your dataset"
@@ -232,11 +235,11 @@ msgstr "Julkaise tietoaineistosi"
 
 #: ckanext/digitraffic_core/templates/home/index.html:57
 msgid ""
-"Published dataset descriptions can be browsed by users via the catalogue's "
-"search functions."
+"Published dataset descriptions can be browsed by users via the "
+"catalogue's search functions."
 msgstr ""
-"Julkaistut tietoaineistokuvaukset ovat käyttäjien selailtavissa katalogin "
-"hakutoiminnoilla."
+"Julkaistut tietoaineistokuvaukset ovat käyttäjien selailtavissa katalogin"
+" hakutoiminnoilla."
 
 #: ckanext/digitraffic_core/templates/home/index.html:63
 msgid "Read more about creating datasets"
@@ -248,10 +251,11 @@ msgstr "Etsi tietoaineistoja"
 
 #: ckanext/digitraffic_core/templates/home/index.html:71
 msgid ""
-"Datasets will be added to the catalogue as the service is adopted more widely."
+"Datasets will be added to the catalogue as the service is adopted more "
+"widely."
 msgstr ""
-"Katalogiin lisätään tietoaineistoja sitä mukaa, kun palvelua otetaan laajemmin "
-"käyttöön."
+"Katalogiin lisätään tietoaineistoja sitä mukaa, kun palvelua otetaan "
+"laajemmin käyttöön."
 
 #: ckanext/digitraffic_core/templates/home/index.html:78
 msgid "Organizations with datasets in the catalogue"
@@ -295,11 +299,11 @@ msgstr "Single NAP"
 
 #: ckanext/digitraffic_core/templates/home/index.html:124
 msgid ""
-"Completing the catalogue with mobility service information, a single national "
-"access point model"
+"Completing the catalogue with mobility service information, a single "
+"national access point model"
 msgstr ""
-"Katalogin täydentäminen liikkumispalveluiden tiedoilla, yhden kansallisen "
-"yhteyspisteen malli"
+"Katalogin täydentäminen liikkumispalveluiden tiedoilla, yhden kansallisen"
+" yhteyspisteen malli"
 
 #: ckanext/digitraffic_core/templates/home/instructions.html:11
 msgid "Why publish data in the Traffic Data Catalogue?"
@@ -307,29 +311,30 @@ msgstr "Miksi julkaista dataa Liikennedatakatalogissa?"
 
 #: ckanext/digitraffic_core/templates/home/instructions.html:13
 msgid ""
-"Legislation requires traffic data holders, such as municipalities, to make "
-"their data available through the National Access Point (NAP). However, this is "
-"not just an obligation – it also brings significant opportunities:"
+"Legislation requires traffic data holders, such as municipalities, to "
+"make their data available through the National Access Point (NAP). "
+"However, this is not just an obligation – it also brings significant "
+"opportunities:"
 msgstr ""
 "Lainsäädäntö velvoittaa liikennedatan haltijoita, kuten kuntia, tuomaan "
-"tietonsa saataville kansallisen yhteyspisteen kautta. Tämä ei kuitenkaan ole "
-"pelkkä velvollisuus – se tarjoaa myös merkittäviä mahdollisuuksia:"
+"tietonsa saataville kansallisen yhteyspisteen kautta. Tämä ei kuitenkaan "
+"ole pelkkä velvollisuus – se tarjoaa myös merkittäviä mahdollisuuksia:"
 
 #: ckanext/digitraffic_core/templates/home/instructions.html:16
 msgid ""
-"The visibility and impact of traffic data is increased both nationally and "
-"internationally."
+"The visibility and impact of traffic data is increased both nationally "
+"and internationally."
 msgstr ""
-"Liikennetieto saa näkyvyyttä ja vaikuttavuutta sekä valtakunnallisesti että "
-"kansainvälisesti."
+"Liikennetieto saa näkyvyyttä ja vaikuttavuutta sekä valtakunnallisesti "
+"että kansainvälisesti."
 
 #: ckanext/digitraffic_core/templates/home/instructions.html:17
 msgid ""
-"The data is interoperable and easy to use in, for example, digital services, "
-"research, and traffic planning."
+"The data is interoperable and easy to use in, for example, digital "
+"services, research, and traffic planning."
 msgstr ""
-"Data on yhteentoimivaa ja helposti hyödynnettävää esimerkiksi digipalveluissa, "
-"tutkimuksessa ja liikennesuunnittelussa."
+"Data on yhteentoimivaa ja helposti hyödynnettävää esimerkiksi "
+"digipalveluissa, tutkimuksessa ja liikennesuunnittelussa."
 
 #: ckanext/digitraffic_core/templates/home/instructions.html:18
 msgid ""
@@ -341,11 +346,11 @@ msgstr ""
 
 #: ckanext/digitraffic_core/templates/home/instructions.html:21
 msgid ""
-"By publishing your data through the NAP, you meet the legal requirements while "
-"also advancing the development of smart mobility."
+"By publishing your data through the NAP, you meet the legal requirements "
+"while also advancing the development of smart mobility."
 msgstr ""
-"Julkaisemalla datanne yhteyspisteen kautta täytätte lakisääteiset velvoitteet "
-"ja edistätte samalla älykkään liikenteen kehitystä."
+"Julkaisemalla datanne yhteyspisteen kautta täytätte lakisääteiset "
+"velvoitteet ja edistätte samalla älykkään liikenteen kehitystä."
 
 # | msgid "Search datasets..."
 # | msgid "Create new dataset"
@@ -360,12 +365,12 @@ msgid "Register as a user"
 msgstr "Rekisteröidy käyttäjäksi"
 
 # | msgid "State"
-#: ckanext/digitraffic_core/templates/home/instructions.html:40
+#: ckanext/digitraffic_core/templates/home/instructions.html:42
 msgid "Start"
 msgstr "Aloita"
 
 # | msgid "Register"
-#: ckanext/digitraffic_core/templates/home/instructions.html:40
+#: ckanext/digitraffic_core/templates/home/instructions.html:42
 msgid "by registering"
 msgstr "rekisteröitymällä"
 
@@ -375,67 +380,73 @@ msgstr "rekisteröitymällä"
 # | of the " "Traffic Data Catalogue. If you already have Fintraffic ID in
 # use,
 # | you can" " skip the registration and log in using your Fintraffic ID."
-#: ckanext/digitraffic_core/templates/home/instructions.html:40
+#: ckanext/digitraffic_core/templates/home/instructions.html:42
 msgid ""
-"as a user of the Traffic Data Catalogue. If you already have Fintraffic ID in "
-"use, you can skip the registration and log in using your Fintraffic ID."
+"as a user of the Traffic Data Catalogue. If you already have Fintraffic "
+"ID in use, you can skip the registration and log in using your Fintraffic"
+" ID."
 msgstr ""
-"Liikennedatakatalogin käyttäjäksi. Jos sinulla on jo Fintraffic ID käytössä, "
-"voit ohittaa rekisteröitymisen ja kirjautua sisään käyttäen Fintraffic ID:tä."
+"Liikennedatakatalogin käyttäjäksi. Jos sinulla on jo Fintraffic ID "
+"käytössä, voit ohittaa rekisteröitymisen ja kirjautua sisään käyttäen "
+"Fintraffic ID:tä."
 
-#: ckanext/digitraffic_core/templates/home/instructions.html:41
+#: ckanext/digitraffic_core/templates/home/instructions.html:43
 msgid ""
-"Once you are logged in to the Traffic Data Catalogue, you need to request your "
-"organization's membership from your organization's administrator. If your "
-"organization is not already in the catalogue, please request to be added by "
-"emailing us at: <a href=\"mailto:nap@fintraffic.fi\">nap@fintraffic.fi</a>"
+"Once you are logged in to the Traffic Data Catalogue, you need to request"
+" your organization's membership from your organization's administrator. "
+"If your organization is not already in the catalogue, please request to "
+"be added by emailing us at: <a "
+"href=\"mailto:nap@fintraffic.fi\">nap@fintraffic.fi</a>"
 msgstr ""
-"Kun olet kirjautunut Liikennedatakatalogiin, sinun täytyy pyytää organisaatiosi "
-"jäsenyyttä organisaatiosi pääkäyttäjältä. Jos organisaatiotasi ei vielä ole "
-"katalogissa, pyydä sen lisäämistä ottamalla yhteyttä sähköpostitse "
-"osoitteeseen: <a href=\"mailto:nap@fintraffic.fi\">nap@fintraffic.fi</a>"
+"Kun olet kirjautunut Liikennedatakatalogiin, sinun täytyy pyytää "
+"organisaatiosi jäsenyyttä organisaatiosi pääkäyttäjältä. Jos "
+"organisaatiotasi ei vielä ole katalogissa, pyydä sen lisäämistä ottamalla"
+" yhteyttä sähköpostitse osoitteeseen: <a "
+"href=\"mailto:nap@fintraffic.fi\">nap@fintraffic.fi</a>"
 
-#: ckanext/digitraffic_core/templates/home/instructions.html:51
+#: ckanext/digitraffic_core/templates/home/instructions.html:53
 msgid ""
-"Describe and create your dataset according to the fields and instructions on "
-"the form. At the dataset level, you describe the general properties of the "
-"data. The actual data and the APIs or services distributing it are described in "
-"the next step."
+"Describe and create your dataset according to the fields and instructions"
+" on the form. At the dataset level, you describe the general properties "
+"of the data. The actual data and the APIs or services distributing it are"
+" described in the next step."
 msgstr ""
-"Luo ja kuvaile tietoaineistosi lomakkeella pyydettyjen tietojen mukaisesti. "
-"Tietoaineistotasolla kuvataan datan yleiset ominaisuudet. Itse data ja sitä "
-"jakelevat rajapinnat tai palvelut kuvataan seuraavassa vaiheessa."
+"Luo ja kuvaile tietoaineistosi lomakkeella pyydettyjen tietojen "
+"mukaisesti. Tietoaineistotasolla kuvataan datan yleiset ominaisuudet. "
+"Itse data ja sitä jakelevat rajapinnat tai palvelut kuvataan seuraavassa "
+"vaiheessa."
 
 # | msgid "Resource URLs"
-#: ckanext/digitraffic_core/templates/home/instructions.html:59
+#: ckanext/digitraffic_core/templates/home/instructions.html:61
 msgid "Add resources"
 msgstr "Lisää datalähteet (resurssit)"
 
-#: ckanext/digitraffic_core/templates/home/instructions.html:60
+#: ckanext/digitraffic_core/templates/home/instructions.html:62
 msgid ""
-"A single dataset can have several data sources, such as APIs and file packages. "
-"At this stage, add the different ways to access the dataset."
+"A single dataset can have several data sources, such as APIs and file "
+"packages. At this stage, add the different ways to access the dataset."
 msgstr ""
-"Yksittäiseen tietoaineistoon voi liittyä useita datalähteitä, esimerkiksi "
-"ohjelmointirajapintoja (API) ja tiedostomuotoisia paketteja. Lisää tässä "
-"vaiheessa nämä eri tavat, joilla tietoaineistoon pääsee käsiksi."
+"Yksittäiseen tietoaineistoon voi liittyä useita datalähteitä, esimerkiksi"
+" ohjelmointirajapintoja (API) ja tiedostomuotoisia paketteja. Lisää tässä"
+" vaiheessa nämä eri tavat, joilla tietoaineistoon pääsee käsiksi."
 
 # | msgid "Publish your dataset"
-#: ckanext/digitraffic_core/templates/home/instructions.html:68
+#: ckanext/digitraffic_core/templates/home/instructions.html:70
 msgid "Publish the dataset"
 msgstr "Julkaise tietoaineistosi"
 
-#: ckanext/digitraffic_core/templates/home/instructions.html:69
+#: ckanext/digitraffic_core/templates/home/instructions.html:71
 msgid ""
-"By setting the dataset's visibility to \"Public\", your dataset will be visible "
-"to all users in the catalogue and can be found using the catalogue's search "
-"functions. If you wish, you can set private visibility, in which case your "
-"dataset will only be visible to members of your own organization."
+"By setting the dataset's visibility to \"Public\", your dataset will be "
+"visible to all users in the catalogue and can be found using the "
+"catalogue's search functions. If you wish, you can set private "
+"visibility, in which case your dataset will only be visible to members of"
+" your own organization."
 msgstr ""
-"Asettamalla tietoaineiston näkyvyyden tilaan “Julkinen”, saat tietoaineistosi "
-"esille katalogiin, jolloin se on katalogin hakutoiminnoilla löydettävissä. "
-"Halutessasi voit tallentaa kuvauksen yksityisenä, jolloin se näkyy vain oman "
-"organisaatiosi jäsenille."
+"Asettamalla tietoaineiston näkyvyyden tilaan “Julkinen”, saat "
+"tietoaineistosi esille katalogiin, jolloin se on katalogin "
+"hakutoiminnoilla löydettävissä. Halutessasi voit tallentaa kuvauksen "
+"yksityisenä, jolloin se näkyy vain oman organisaatiosi jäsenille."
 
 # | msgid "http://example.com/external-data.csv"
 #: ckanext/digitraffic_core/templates/macros/form/image_upload.html:15
@@ -466,14 +477,16 @@ msgstr "Sulje"
 #: ckanext/digitraffic_core/templates/macros/form/markdown.html:32
 #, python-format
 msgid ""
-"You can use <a href=\"#markdown\" title=\"Markdown quick reference\" data-bs-"
-"toggle=\"popover\" data-bs-template=\"%(markdown_template)s\" data-bs-"
-"content=\"%(markdown_tooltip)s\" data-bs-html=\"true\">Markdown formatting</a> "
-"here"
+"You can use <a href=\"#markdown\" title=\"Markdown quick reference\" "
+"data-bs-toggle=\"popover\" data-bs-template=\"%(markdown_template)s\" "
+"data-bs-content=\"%(markdown_tooltip)s\" data-bs-html=\"true\">Markdown "
+"formatting</a> here"
 msgstr ""
-"Voit käyttää tässä <a href=\"#markdown\" title=\"Markdown quick reference\" "
-"data-bs-toggle=\"popover\" data-bs-template=\"%(markdown_template)s\" data-bs-"
-"content=\"%(markdown_tooltip)s\" data-bs-html=\"true\">Markdown-formatointia</a>"
+"Voit käyttää tässä <a href=\"#markdown\" title=\"Markdown quick "
+"reference\" data-bs-toggle=\"popover\" data-bs-"
+"template=\"%(markdown_template)s\" data-bs-"
+"content=\"%(markdown_tooltip)s\" data-bs-html=\"true\">Markdown-"
+"formatointia</a>"
 
 #: ckanext/digitraffic_core/templates/package/edit_base.html:11
 msgid "Edit"
@@ -562,11 +575,11 @@ msgstr "Seuraava: Lisää dataa"
 
 #: ckanext/digitraffic_core/templates/package/snippets/package_form.html:59
 msgid ""
-"Form information will be saved as a draft in your datasets when you continue to "
-"the next step."
+"Form information will be saved as a draft in your datasets when you "
+"continue to the next step."
 msgstr ""
-"Lomakkeen tiedot tallentuvat vedoksena omiin tietoaineistoihisi, kun siirryt "
-"lisäämään dataa."
+"Lomakkeen tiedot tallentuvat vedoksena omiin tietoaineistoihisi, kun "
+"siirryt lisäämään dataa."
 
 #: ckanext/digitraffic_core/templates/package/snippets/resource_form.html:35
 msgid "http://example.com/external-data.csv"
@@ -703,7 +716,8 @@ msgstr "Aikavyöhyke"
 
 #: ckanext/digitraffic_core/templates/scheming/form_snippets/iri_fragment_input.html:19
 msgid ""
-"With no JavaScript enabled, you need to specify the full IRI for this field"
+"With no JavaScript enabled, you need to specify the full IRI for this "
+"field"
 msgstr "Kun JavaScript ei ole käytössä, täytyy tähän kenttään syöttää koko IRI"
 
 #: ckanext/digitraffic_core/templates/scheming/package/read.html:25
@@ -744,11 +758,12 @@ msgstr "Ajallinen kattavuus"
 
 #: ckanext/digitraffic_core/templates/scheming/package/snippets/package_form.html:16
 msgid ""
-"This section describes the temporal coverage of the dataset, if applicable. May "
-"be left empty for continuously updated data."
+"This section describes the temporal coverage of the dataset, if "
+"applicable. May be left empty for continuously updated data."
 msgstr ""
 "Tässä osiossa kuvaillaan tietoaineiston ajallinen kattavuus, jos se on "
-"määriteltävissä. Jatkuvasti päivittyville tiedoille tämän voi jättää tyhjäksi."
+"määriteltävissä. Jatkuvasti päivittyville tiedoille tämän voi jättää "
+"tyhjäksi."
 
 #: ckanext/digitraffic_core/templates/scheming/package/snippets/package_form.html:25
 msgid "Versioning"
@@ -759,8 +774,8 @@ msgid ""
 "This section provides information regarding the dataset version. Mostly "
 "applicable for static datasets."
 msgstr ""
-"Tässä osiossa kuvataan tietoaineiston versiotiedot. Soveltuu käytettäväksi "
-"lähinnä staattisissa aineistopaketeissa."
+"Tässä osiossa kuvataan tietoaineiston versiotiedot. Soveltuu "
+"käytettäväksi lähinnä staattisissa aineistopaketeissa."
 
 #: ckanext/digitraffic_core/templates/scheming/package/snippets/package_form.html:30
 msgid "Assessment"
@@ -768,13 +783,15 @@ msgstr "Arvio"
 
 #: ckanext/digitraffic_core/templates/scheming/package/snippets/package_form.html:31
 msgid ""
-"This section describes the result and date of an assessment or assessments made "
-"by a third party or parties. The assessment of data sets under EU delegated "
-"regulations is usually carried out by a national supervisory authority."
+"This section describes the result and date of an assessment or "
+"assessments made by a third party or parties. The assessment of data sets"
+" under EU delegated regulations is usually carried out by a national "
+"supervisory authority."
 msgstr ""
-"Tähän osioon kuvataan ulkopuolisen tahon suorittaman arvioinnin päivämäärä ja "
-"tulos. EU:n delegoitujen asetusten mukaisten tietoaineistojen arvioinnin "
-"suorittaa yleensä kansallinen valvova viranomainen."
+"Tähän osioon kuvataan ulkopuolisen tahon suorittaman arvioinnin "
+"päivämäärä ja tulos. EU:n delegoitujen asetusten mukaisten "
+"tietoaineistojen arvioinnin suorittaa yleensä kansallinen valvova "
+"viranomainen."
 
 #: ckanext/digitraffic_core/templates/scheming/package/snippets/package_form.html:35
 msgid "Additional information"
@@ -810,11 +827,13 @@ msgstr "Lisää dataa"
 
 #: ckanext/digitraffic_core/templates/scheming/package/snippets/package_form.html:101
 msgid ""
-"In CKAN, a dataset refers to a collection of resources (e.g., files) along with "
-"their descriptions and other metadata, such as a permanent URL."
+"In CKAN, a dataset refers to a collection of resources (e.g., files) "
+"along with their descriptions and other metadata, such as a permanent "
+"URL."
 msgstr ""
-"Tietoaineisto tarkoittaa CKAN:issa kokoelmaa resursseja (esim. tiedostoja) sekä "
-"niihin liittyvää kuvausta ja muuta metatietoa, kuten pysyvää URL-osoitetta."
+"Tietoaineisto tarkoittaa CKAN:issa kokoelmaa resursseja (esim. "
+"tiedostoja) sekä niihin liittyvää kuvausta ja muuta metatietoa, kuten "
+"pysyvää URL-osoitetta."
 
 #: ckanext/digitraffic_core/templates/scheming/package/snippets/package_form.html:160
 msgid "Update {page}"
@@ -846,11 +865,12 @@ msgstr "Tietopalvelu"
 
 #: ckanext/digitraffic_core/templates/scheming/package/snippets/resource_form.html:17
 msgid ""
-"If the resource is accessed through a data service (such as an API or platform "
-"that provides access to various data), describe that data service here."
+"If the resource is accessed through a data service (such as an API or "
+"platform that provides access to various data), describe that data "
+"service here."
 msgstr ""
-"Jos resurssi on saatavilla erityisen tietopalvelun kautta (kuten erilaista "
-"dataa tarjoava alusta tai rajapinta), kuvaile se tässä."
+"Jos resurssi on saatavilla erityisen tietopalvelun kautta (kuten "
+"erilaista dataa tarjoava alusta tai rajapinta), kuvaile se tässä."
 
 #: ckanext/digitraffic_core/templates/scheming/package/snippets/resource_form.html:24
 msgid "Additional information concerning related formats and data standards."
@@ -875,10 +895,10 @@ msgstr "Ajanjakso, jonka aikana resurssi on saatavilla."
 #: ckanext/digitraffic_core/templates/scheming/package/snippets/resource_form.html:69
 msgid "A resource is any file or a link to a file that contains useful data."
 msgstr ""
-"Resurssi on mikä tahansa tiedosto tai linkki tiedostoon, jossa on hyödyllistä "
-"dataa."
+"Resurssi on mikä tahansa tiedosto tai linkki tiedostoon, jossa on "
+"hyödyllistä dataa."
 
-#: ckanext/digitraffic_core/templates/snippets/language_selector_base.html:28
+#: ckanext/digitraffic_core/templates/snippets/language_selector_base.html:40
 msgid "Go"
 msgstr "Mene"
 
@@ -1026,11 +1046,11 @@ msgstr "Aktivoi käyttäjä uudelleen"
 
 #: ckanext/digitraffic_core/templates/user/edit_user_form.html:26
 msgid ""
-"This account is deactivated. If you want to reactivate it, please click on the "
-"checkbox."
+"This account is deactivated. If you want to reactivate it, please click "
+"on the checkbox."
 msgstr ""
-"Tämä käyttäjätili on deaktivoitu. Jos haluat aktivoida sen uudelleen, klikkaa "
-"valintaruutua."
+"Tämä käyttäjätili on deaktivoitu. Jos haluat aktivoida sen uudelleen, "
+"klikkaa valintaruutua."
 
 #: ckanext/digitraffic_core/templates/user/edit_user_form.html:30
 msgid "First name"
@@ -1109,52 +1129,56 @@ msgstr "Hallinnoi"
 msgid "Make sure the URL starts with http:// or https://"
 msgstr "Varmista, että URL alkaa http:// tai https://"
 
-#: ckanext/digitraffic_core/validators/dataset_validators.py:47
+#: ckanext/digitraffic_core/validators/dataset_validators.py:46
 msgid "Invalid value of mobility theme sub category"
 msgstr ""
 
-#: ckanext/digitraffic_core/validators/dataset_validators.py:56
+#: ckanext/digitraffic_core/validators/dataset_validators.py:55
 msgid "Invalid value of mobility theme category"
 msgstr ""
 
-#: ckanext/digitraffic_core/validators/dataset_validators.py:73
+#: ckanext/digitraffic_core/validators/dataset_validators.py:72
 msgid ""
-"Phone number is not in a valid format. Make sure it starts with a valid country "
-"code. e.g. +358"
+"Phone number is not in a valid format. Make sure it starts with a valid "
+"country code. e.g. +358"
 msgstr ""
-"Puhelinnumero ei ole oikeassa muodossa. Varmista, että se alkaa maakoodilla, "
-"esim. +358"
+"Puhelinnumero ei ole oikeassa muodossa. Varmista, että se alkaa "
+"maakoodilla, esim. +358"
 
-#: ckanext/digitraffic_core/validators/dataset_validators.py:94
+#: ckanext/digitraffic_core/validators/dataset_validators.py:93
 msgid "{value} of type {type} does not belong to {namespace}"
 msgstr ""
 
-#: ckanext/digitraffic_core/validators/dataset_validators.py:99
+#: ckanext/digitraffic_core/validators/dataset_validators.py:98
 msgid "Provided value does not belong to {namespace}"
 msgstr ""
 
-#: ckanext/digitraffic_core/validators/dataset_validators.py:113
+#: ckanext/digitraffic_core/validators/dataset_validators.py:112
 msgid "Provide a valid EPSG number between 2000 and 69036405"
 msgstr "Anna EPSG-numero väliltä 2000–69036405"
 
+#: ckanext/digitraffic_core/validators/dataset_validators.py:136
 #: ckanext/digitraffic_core/validators/dataset_validators.py:137
-#: ckanext/digitraffic_core/validators/dataset_validators.py:138
 msgid "Value must be a JSON list"
 msgstr ""
 
-#: ckanext/digitraffic_core/validators/dataset_validators.py:148
+#: ckanext/digitraffic_core/validators/dataset_validators.py:147
 msgid "Value must either be a JSON list (str) or a list"
 msgstr ""
 
-#: ckanext/digitraffic_core/validators/dataset_validators.py:230
+#: ckanext/digitraffic_core/validators/dataset_validators.py:217
+msgid "You cannot add this organization as a rights holder"
+msgstr "Et voi lisätä tätä organisaatiota oikeuksien haltijaksi"
+
+#: ckanext/digitraffic_core/validators/dataset_validators.py:248
 msgid "Session is required for related resource validation."
 msgstr ""
 
-#: ckanext/digitraffic_core/validators/dataset_validators.py:232
+#: ckanext/digitraffic_core/validators/dataset_validators.py:250
 msgid "Related resource id cannot be empty."
 msgstr ""
 
-#: ckanext/digitraffic_core/validators/dataset_validators.py:237
+#: ckanext/digitraffic_core/validators/dataset_validators.py:255
 msgid "Related resource with id {value} does not exist or is not a valid dataset."
 msgstr ""
 
@@ -1168,7 +1192,8 @@ msgstr ""
 
 #~ msgid "Describe here the time period covered by the dataset, if applicable."
 #~ msgstr ""
-#~ "Tässä osiossa kuvaillaan tietoaineiston ajallinen kattavuus, jos se on "
+#~ "Tässä osiossa kuvaillaan tietoaineiston "
+#~ "ajallinen kattavuus, jos se on "
 #~ "määritettävissä."
 
 #~ msgid "Fill in versioning details where applicable."
@@ -1176,25 +1201,35 @@ msgstr ""
 
 #~ msgid "Fill in assessment details where applicable."
 #~ msgstr ""
-#~ "Tähän osioon kuvataan ulkopuolisen tahon suorittaman arvioinnin päivämäärä "
-#~ "ja tulos. EU:n delegoitujen asetusten mukaisten tietoaineistojen arvioinnin "
-#~ "suorittaa yleensä kansallinen valvova viranomainen."
+#~ "Tähän osioon kuvataan ulkopuolisen tahon "
+#~ "suorittaman arvioinnin päivämäärä ja tulos."
+#~ " EU:n delegoitujen asetusten mukaisten "
+#~ "tietoaineistojen arvioinnin suorittaa yleensä "
+#~ "kansallinen valvova viranomainen."
 
 # | msgid "Log in"
 #~ msgid "Link"
 #~ msgstr "Kirjaudu sisään"
 
 #~ msgid ""
-#~ "The <i>data license</i> you select above only applies to the contents of any "
-#~ "resource files that you add to this dataset. By submitting this form, you "
-#~ "agree to release the <i>metadata</i> values that you enter into the form "
-#~ "under the <a href=\"http://opendatacommons.org/licenses/odbl/1-0/\">Open "
+#~ "The <i>data license</i> you select above"
+#~ " only applies to the contents of "
+#~ "any resource files that you add to"
+#~ " this dataset. By submitting this "
+#~ "form, you agree to release the "
+#~ "<i>metadata</i> values that you enter "
+#~ "into the form under the <a "
+#~ "href=\"http://opendatacommons.org/licenses/odbl/1-0/\">Open "
 #~ "Database License</a>."
 #~ msgstr ""
-#~ "Yllä valitsemasi <i>lisenssi</i> pätee vain tähän tietoaineistoon lisäämiesi "
-#~ "resurssitiedostojen kohdalla. Lähettäessäsi tämän lomakkeen hyväksyt, että "
-#~ "lomakkeelle syöttämäsi <i>metadata</i> julkaistaan <a href=“http://"
-#~ "opendatacommons.org/licenses/odbl/1-0/“>Open Database License</a>:n alaisena."
+#~ "Yllä valitsemasi <i>lisenssi</i> pätee vain"
+#~ " tähän tietoaineistoon lisäämiesi "
+#~ "resurssitiedostojen kohdalla. Lähettäessäsi tämän"
+#~ " lomakkeen hyväksyt, että lomakkeelle "
+#~ "syöttämäsi <i>metadata</i> julkaistaan <a "
+#~ "href=“http://opendatacommons.org/licenses/odbl/1-0/“>Open "
+#~ "Database License</a>:n alaisena."
 
 #~ msgid "Private"
 #~ msgstr "Yksityinen"
+
