@@ -120,6 +120,11 @@ form {
 }
 
 .form-group {
+    // A dataset must have at least one contact point
+    .scheming-subfield-group[data-field="contact_point"]:first-child .btn-repeating-remove {
+        display: none;
+    }
+
     .form-necessity {
         float: right;
         border: 1px solid;

@@ -99,12 +99,17 @@ def modifications_to_dataset_spec(dataset_fields: List[Dict[str, Any]]):
     contact_point = list(
         filter(lambda x: x.get("field_name") == "contact_point", dataset_fields)
     )[0]
+    # Recommended in mobilityDCAT-AP, but we require at least one contact point per dataset.
+    contact_point["required"] = True
+    contact_point["error_snippet"] = "repeating_field_errors.html"
+    contact_point["form_blanks"] = 1
     contact_point["repeating_subfields"].insert(
         0,
         {
             "field_name": "contact_point_type",
             "label": TRANSLATIONS[VCARD.Kind]["contact_point_type"],
             "required": True,
+            "necessity": Necessity.MANDATORY.value,
             "preset": "select",
             "form_include_blank_choice": False,
             "sorted_choices": True,
@@ -420,6 +425,8 @@ def schema(ds: Dataset):
     return {
         "scheming_version": 2,
         "dataset_type": "dataset",
+        # ckanext-scheming ignores "required" on fields with repeating subfields
+        "after_validators": "contact_point_required_validator",
         "dataset_fields": dataset_fields(ds),
         "resource_fields": resource_fields(ds),
     }

@@ -90,7 +90,17 @@ test.describe.serial('Add new dataset', () => {
       Frequency.NEVER,
       new Set([RegionalCoverage.LAU_FI_005]),
       Array.from(TOP_MOBILITY_THEMES)[0]!,
-      'This is a test dataset description.'
+      'This is a test dataset description.',
+      undefined,
+      {
+        contactPoints: [
+          {
+            type: 'http://www.w3.org/2006/vcard/ns#Organization',
+            fullName: 'Test Organization',
+            email: 'org@example.com'
+          }
+        ]
+      }
     )
     const newResourceInfo = new ResourceInfo(
       'https://example.com/data.csv',
