@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-digitraffic_core 0.0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-10-21 11:25+0000\n"
+"POT-Creation-Date: 2026-10-21 12:19+0000\n"
 "PO-Revision-Date: 2025-09-29 11:44+0300\n"
 "Last-Translator: \n"
 "Language: sv\n"
@@ -19,34 +19,34 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.15.0\n"
 
-#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:980
+#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:449
 msgid "Upload"
 msgstr "Ladda upp"
 
-#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:980
+#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:449
 msgid "Please select the file to upload again"
 msgstr "Vänligen välj filen att ladda upp igen"
 
-#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:980
+#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:449
 #: ckanext/digitraffic_core/templates/scheming/form_snippets/repeating_subfields.html:13
 msgid "Remove"
 msgstr "Ta bort"
 
 # | msgid "Manage"
-#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:980
+#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:449
 msgid "Image"
 msgstr "Bild (PNG/JPG/GIF)"
 
-#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:980
+#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:449
 msgid "Upload a file on your computer"
 msgstr "Ladda upp en fil från din dator"
 
-#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:980
+#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:449
 #: ckanext/digitraffic_core/templates/package/snippets/resource_form.html:33
 msgid "URL"
 msgstr "URL"
 
-#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:980
+#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:449
 #: ckanext/digitraffic_core/templates/package/snippets/resource_form.html:34
 msgid "File"
 msgstr "Fil"
@@ -793,7 +793,9 @@ msgstr "Kontaktpunkter"
 msgid ""
 "Contact details for a person or organization. At least one contact point "
 "is required."
-msgstr "Kontaktuppgifter för en person eller organisation. Minst en kontaktpunkt krävs."
+msgstr ""
+"Kontaktuppgifter för en person eller organisation. Minst en kontaktpunkt "
+"krävs."
 
 #: ckanext/digitraffic_core/templates/scheming/package/snippets/package_form.html:49
 msgid "Rights holders"
@@ -1147,23 +1149,27 @@ msgstr ""
 msgid "Value must either be a JSON list (str) or a list"
 msgstr ""
 
-#: ckanext/digitraffic_core/validators/dataset_validators.py:217
+#: ckanext/digitraffic_core/validators/dataset_validators.py:213
+msgid "Organization does not exist"
+msgstr "Organisationen finns inte"
+
+#: ckanext/digitraffic_core/validators/dataset_validators.py:224
 msgid "You cannot add this organization as a rights holder"
 msgstr "Du kan inte lägga till den här organisationen som rättighetsinnehavare"
 
-#: ckanext/digitraffic_core/validators/dataset_validators.py:248
+#: ckanext/digitraffic_core/validators/dataset_validators.py:255
 msgid "Session is required for related resource validation."
 msgstr ""
 
-#: ckanext/digitraffic_core/validators/dataset_validators.py:250
+#: ckanext/digitraffic_core/validators/dataset_validators.py:257
 msgid "Related resource id cannot be empty."
 msgstr ""
 
-#: ckanext/digitraffic_core/validators/dataset_validators.py:255
+#: ckanext/digitraffic_core/validators/dataset_validators.py:262
 msgid "Related resource with id {value} does not exist or is not a valid dataset."
 msgstr ""
 
-#: ckanext/digitraffic_core/validators/dataset_validators.py:272
+#: ckanext/digitraffic_core/validators/dataset_validators.py:279
 msgid "At least one contact point is required"
 msgstr "Minst en kontaktpunkt krävs"
 

@@ -176,14 +176,14 @@ class MobilityData:
 
         def create_rights_holder(rights_holder_data: Dict[str, Any]):
             organization = model.Group.get(rights_holder_data.get("organization"))
-            if organization is None:
+            if organization is None or organization.state != "active":
                 return None
             return create_organization_agent(
                 f"{catalog_uri().rstrip('/')}/organization/{organization.id}",
                 organization.title or organization.name,
             )
 
-        # Rights holders saved before they were tied to an organisation are left out
+        # Left out: rights holders saved before they were tied to an organisation, and deleted organisations
         rights_holders = [
             agent
             for agent in map(create_rights_holder, dataset_dict.get("rights_holder") or [])

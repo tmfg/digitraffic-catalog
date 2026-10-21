@@ -49,21 +49,6 @@ def get_datasets_as_form_choices():
     return choices
 
 
-def get_organizations_as_form_choices(field: dict[str, Any]):
-    organizations = (
-        model.Session.query(model.Group)
-        .filter(model.Group.is_organization == True, model.Group.state == "active")
-        .all()
-    )
-    return sorted(
-        (
-            {"value": organization.id, "label": organization.title or organization.name}
-            for organization in organizations
-        ),
-        key=lambda choice: choice["label"].lower(),
-    )
-
-
 def url_from_dataset_id(dataset_id: str) -> str:
     ckan_site_url = config.get("ckan.site_url", "").rstrip("/")
     return f"{ckan_site_url}/dataset/{dataset_id}"
@@ -140,7 +125,6 @@ def get_site_title():
 helpers = {
     "print_field_and_data": print_field_and_data,
     "get_datasets_as_form_choices": get_datasets_as_form_choices,
-    "get_organizations_as_form_choices": get_organizations_as_form_choices,
     "url_from_dataset_id": url_from_dataset_id,
     "from_json": from_json,
     "is_dataset_public": is_dataset_public,

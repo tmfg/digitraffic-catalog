@@ -200,22 +200,29 @@ def country_validator(value: Any, context: Context):
 
 
 def rights_holder_organization_validator(value: Any, context: Context):
-    if not value or context.get("ignore_auth"):
+    if not value:
         return value
+    organization = model.Group.get(value)
+    if not organization or not organization.is_organization or organization.state != "active":
+        raise toolkit.Invalid(_("Organization does not exist"))
     package = context.get("package")
     if package is not None:
         # Keeps rights holders added earlier by users of other organisations
         stored_rights_holders = json.loads(package.extras.get("rights_holder") or "[]")
-        if value in {rights_holder.get("organization") for rights_holder in stored_rights_holders}:
-            return value
+        if organization.id in {rights_holder.get("organization") for rights_holder in stored_rights_holders}:
+            return organization.id
+    if context.get("ignore_auth"):
+        return organization.id
     user = model.User.get(context.get("user") or "")
     # Same rule as CKAN's owner_org_validator uses for the dataset's own organisation
     if not user or not (
         user.sysadmin
-        or authz.has_user_permission_for_group_or_org(value, user.name, "create_dataset")
+        or authz.has_user_permission_for_group_or_org(
+            organization.id, user.name, "create_dataset"
+        )
     ):
         raise toolkit.Invalid(_("You cannot add this organization as a rights holder"))
-    return value
+    return organization.id
 
 
 def single_is_referenced_by_validator(value: str, context: Context):

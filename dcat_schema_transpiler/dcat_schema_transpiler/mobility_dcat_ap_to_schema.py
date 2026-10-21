@@ -130,11 +130,9 @@ def modifications_to_dataset_spec(dataset_fields: List[Dict[str, Any]]):
             "label": {"en": "Organization", "fi": "Organisaatio", "sv": "Organisation"},
             "required": True,
             "necessity": Necessity.MANDATORY.value,
-            "preset": "select",
             "form_snippet": "rights_holder_organization.html",
-            "form_include_blank_choice": True,
-            "choices_helper": "get_organizations_as_form_choices",
-            "validators": "scheming_required scheming_choices rights_holder_organization_validator",
+            "display_snippet": "rights_holder_organization.html",
+            "validators": "scheming_required rights_holder_organization_validator",
         },
     ]
 

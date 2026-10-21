@@ -3517,11 +3517,9 @@ dataset_fields:
       sv: Organisation
     required: true
     necessity: mandatory
-    preset: select
     form_snippet: rights_holder_organization.html
-    form_include_blank_choice: true
-    choices_helper: get_organizations_as_form_choices
-    validators: scheming_required scheming_choices rights_holder_organization_validator
+    display_snippet: rights_holder_organization.html
+    validators: scheming_required rights_holder_organization_validator
   form_blanks: 0
 resource_fields:
 - field_name: url

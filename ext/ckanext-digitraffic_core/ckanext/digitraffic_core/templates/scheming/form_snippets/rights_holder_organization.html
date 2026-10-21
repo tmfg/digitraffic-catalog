@@ -1,10 +1,12 @@
-{# The organisation already chosen stays in the list even if the user could not choose it #}
-{%- set allowed = h.organizations_available('create_dataset') | map(attribute='id') | list -%}
-{%- if data[field.field_name] -%}
-  {%- do allowed.append(data[field.field_name]) -%}
+{%- set choices = [] -%}
+{%- for organization in h.organizations_available('create_dataset') -%}
+  {%- do choices.append({'value': organization.id, 'label': organization.display_name}) -%}
+{%- endfor -%}
+{# Keeps an organisation chosen earlier by someone else, which this user could not choose #}
+{%- set selected = data[field.field_name] -%}
+{%- set chosen = h.get_organization(selected) if selected else {} -%}
+{%- if chosen.state == 'active' and selected not in choices | map(attribute='value') -%}
+  {%- do choices.append({'value': selected, 'label': chosen.display_name}) -%}
 {%- endif -%}
 {%- snippet 'scheming/form_snippets/select.html',
-  field=dict(field, form_restrict_choices_to=allowed),
-  data=data,
-  errors=errors
--%}
+  field=dict(field, choices=choices, form_include_blank_choice=true), data=data, errors=errors -%}

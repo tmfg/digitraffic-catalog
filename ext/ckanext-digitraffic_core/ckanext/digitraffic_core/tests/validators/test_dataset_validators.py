@@ -213,7 +213,7 @@ class TestDatasetValidators:
         with pytest.raises(ValidationError, match="organization"):
             update(user["name"], [{"organization": ""}])
 
-        with pytest.raises(ValidationError, match="unexpected choice"):
+        with pytest.raises(ValidationError, match="Organization does not exist"):
             update(user["name"], [{"organization": "no-such-organization"}])
 
         with pytest.raises(ValidationError, match="cannot add this organization"):
@@ -241,6 +241,11 @@ class TestDatasetValidators:
         assert updated_dataset["rights_holder"] == [
             {"organization": other_organization["id"]}
         ]
+
+        # A stored organisation that has since been deleted is no longer accepted
+        helpers.call_action("organization_delete", id=other_organization["id"])
+        with pytest.raises(ValidationError, match="Organization does not exist"):
+            update(user["name"], [{"organization": other_organization["id"]}])
 
     def test_dataset_without_contact_point_is_not_created(self):
         organization = factories.Organization()
