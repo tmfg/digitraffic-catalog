@@ -11,9 +11,11 @@ rdflib = "7.6.0"
 httpx = {version = "0.28.1", extras = ["http2"]}
 pyyaml = "6.0.3"
 # Fix CVE-2026-45409
-idna = ">=3.15"
+idna = "3.17"
 # Fix CVE-2026-63374 (httpx dependency)
 anyio = "4.15.1"
+# Fix CVE-2026-71554 (httpx[http2] dependency)
+h2 = "4.4.1"
 
 
 [tool.poetry.group.test]

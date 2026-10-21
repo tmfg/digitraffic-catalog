@@ -17,7 +17,14 @@ from ckanext.digitraffic_core.model.network_coverage import NetworkCoverage
 from ckanext.digitraffic_core.model.transport_mode import TransportMode
 
 
-def create_dataset(org: Organization):
+CONTACT_POINT = {
+    "contact_point_type": "http://www.w3.org/2006/vcard/ns#Organization",
+    "fn": "Foo Bar",
+    "has_email": "foo@example.com",
+}
+
+
+def create_dataset(org: Organization, contact_point=[CONTACT_POINT], **kwargs):
     notes = {
         "en": "English description",
         "fi": "Suomenkielinen kuvaus",
@@ -45,6 +52,8 @@ def create_dataset(org: Organization):
         frequency=dataset_frequency,
         mobility_theme=dataset_mobility_theme,
         spatial=dataset_spatial,
+        **({"contact_point": contact_point} if contact_point is not None else {}),
+        **kwargs,
     )
 
     return dataset
@@ -232,6 +241,36 @@ class TestDatasetValidators:
         assert updated_dataset["rights_holder"] == [
             {"organization": other_organization["id"]}
         ]
+
+    def test_dataset_without_contact_point_is_not_created(self):
+        organization = factories.Organization()
+
+        with pytest.raises(
+            ValidationError, match="At least one contact point is required"
+        ):
+            create_dataset(organization, contact_point=[])
+
+        with pytest.raises(
+            ValidationError, match="At least one contact point is required"
+        ):
+            # None leaves the field out of the request
+            create_dataset(organization, contact_point=None)
+
+    def test_contact_point_cannot_be_removed(self):
+        organization = factories.Organization()
+        dataset = create_dataset(organization)
+
+        dataset["contact_point"] = []
+        with pytest.raises(
+            ValidationError, match="At least one contact point is required"
+        ):
+            helpers.call_action("package_update", **dataset)
+
+        del dataset["contact_point"]
+        with pytest.raises(
+            ValidationError, match="At least one contact point is required"
+        ):
+            helpers.call_action("package_update", **dataset)
 
     def test_add_and_remove_reference(self):
         organization = factories.Organization()

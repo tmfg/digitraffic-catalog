@@ -21,6 +21,7 @@ from ckanext.digitraffic_core.validators.common_validators import (
     url_error_message_formatting,
 )
 from ckanext.digitraffic_core.validators.dataset_validators import (
+    contact_point_required_validator,
     country_validator,
     dataset_reference_validator,
     frequency_validator,
@@ -82,6 +83,7 @@ class DigitrafficCorePlugin(plugins.SingletonPlugin, DefaultTranslation):
             "phone_number_validator": phone_number_validator,
             "spatial_reference_validator": spatial_reference_validator,
             "dataset_reference_validator": dataset_reference_validator,
+            "contact_point_required_validator": contact_point_required_validator,
             "mobility_theme_validator": mobility_theme_validator,
             "is_referenced_by_validator": is_referenced_by_validator,
             "set_format_iri": set_format_iri,

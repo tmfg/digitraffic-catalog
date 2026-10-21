@@ -40,12 +40,15 @@
 {% endmacro %}
 
 {% set flat = h.scheming_flatten_subfield(field, data) %}
-{% set flaterr = h.scheming_flatten_subfield(field, errors) %}
+{# Errors about the whole field, e.g. a missing contact point, are plain strings instead of one dict per group #}
+{% set field_errors = errors.get(field.field_name) or [] %}
+{% set whole_field_errors = field_errors if field_errors and field_errors[0] is string else [] %}
+{% set flaterr = errors if whole_field_errors else h.scheming_flatten_subfield(field, errors) %}
 
 {% call form.input_block(
   'field-' + field.field_name,
   h.scheming_language_text(field.label) or field.field_name,
-  [],
+  whole_field_errors,
   field.classes if 'classes' in field else ['control-medium'],
   is_required=h.scheming_field_required(field),
   show_label=false)%}

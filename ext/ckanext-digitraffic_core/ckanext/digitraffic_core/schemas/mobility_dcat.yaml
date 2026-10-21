@@ -1,5 +1,6 @@
 scheming_version: 2
 dataset_type: dataset
+after_validators: contact_point_required_validator
 dataset_fields:
 - field_name: owner_org
   label: Organization
@@ -3034,6 +3035,7 @@ dataset_fields:
       fi: Yhteyspisteen tyyppi
       sv: Typ av kontaktpunkt
     required: true
+    necessity: mandatory
     preset: select
     form_include_blank_choice: false
     sorted_choices: true
@@ -3274,7 +3276,9 @@ dataset_fields:
     necessity: optional
   subfield_form_attrs:
     data-module: digitraffic_core_contact_detail
-  form_blanks: 0
+  form_blanks: 1
+  required: true
+  error_snippet: repeating_field_errors.html
 - field_name: network_coverage
   label:
     en: Network coverage

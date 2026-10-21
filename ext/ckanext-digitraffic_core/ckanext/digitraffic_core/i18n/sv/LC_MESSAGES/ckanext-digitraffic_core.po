@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-digitraffic_core 0.0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-10-21 10:19+0000\n"
+"POT-Creation-Date: 2026-10-21 11:25+0000\n"
 "PO-Revision-Date: 2025-09-29 11:44+0300\n"
 "Last-Translator: \n"
 "Language: sv\n"
@@ -647,7 +647,7 @@ msgid "Finish"
 msgstr "Slutför"
 
 #: ckanext/digitraffic_core/templates/package/snippets/resource_form.html:96
-#: ckanext/digitraffic_core/templates/scheming/form_snippets/repeating_subfields.html:74
+#: ckanext/digitraffic_core/templates/scheming/form_snippets/repeating_subfields.html:77
 msgid "Add"
 msgstr "Lägg till"
 
@@ -790,8 +790,10 @@ msgid "Contact points"
 msgstr "Kontaktpunkter"
 
 #: ckanext/digitraffic_core/templates/scheming/package/snippets/package_form.html:43
-msgid "Contact details for a person or organization."
-msgstr "Kontaktuppgifter för en person eller organisation."
+msgid ""
+"Contact details for a person or organization. At least one contact point "
+"is required."
+msgstr "Kontaktuppgifter för en person eller organisation. Minst en kontaktpunkt krävs."
 
 #: ckanext/digitraffic_core/templates/scheming/package/snippets/package_form.html:49
 msgid "Rights holders"
@@ -1160,6 +1162,10 @@ msgstr ""
 #: ckanext/digitraffic_core/validators/dataset_validators.py:255
 msgid "Related resource with id {value} does not exist or is not a valid dataset."
 msgstr ""
+
+#: ckanext/digitraffic_core/validators/dataset_validators.py:272
+msgid "At least one contact point is required"
+msgstr "Minst en kontaktpunkt krävs"
 
 #: ckanext/digitraffic_core/validators/resource_validators.py:69
 msgid "{value} is not a valid character encoding"
