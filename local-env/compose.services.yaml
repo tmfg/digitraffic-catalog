@@ -1,0 +1,48 @@
+# Backing services for local CKAN: PostgreSQL, Solr and Redis.
+#
+# Included by compose.yaml, and by the AI devcontainer
+# (digitraffic-ai-private/knowledge-base/graph-rag/.devcontainer/workspace-example), so keep
+# it self-contained: relative paths resolve against this file, and nothing here may refer to
+# services defined in compose.yaml. Service names carry a `catalog-` prefix because the
+# devcontainer shares one Compose project between domains.
+services:
+  catalog-postgresql:
+    image: postgres:15.12
+    environment:
+      POSTGRES_PASSWORD: superuserPass123 # local-only superuser
+      TZ: UTC
+    command:
+      - postgres
+      - -c
+      - timezone=UTC
+      - -c
+      - log_timezone=UTC
+      - -c
+      - log_lock_waits=on
+      - -c
+      - "log_line_prefix=%m [%u %p][SESSION %s][TX %x] "
+    volumes:
+      - ./postgresql/init-local.sql:/docker-entrypoint-initdb.d/init-local.sql:ro
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    healthcheck:
+      # Over TCP: during first-start init the server listens on the Unix socket only.
+      test: ["CMD", "pg_isready", "-h", "127.0.0.1", "-U", "postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+
+  catalog-solr:
+    build:
+      context: ${DIGITRAFFIC_CI_PATH:?Set DIGITRAFFIC_CI_PATH to the CI repository checkout in local-env/.env}/aws/solr
+      dockerfile: ../docker/Dockerfile-catalog-solr
+      args:
+        SOLR_SCHEMA_FILE: ./schema.xml
+        SOLR_LOG4J_FILE: ./log4j2.xml
+    environment:
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4318
+    ports:
+      - "${SOLR_PORT:-8983}:8983"
+
+  catalog-redis:
+    image: redis:7.4.0
