@@ -4,7 +4,11 @@ from html.parser import HTMLParser
 
 import pytest
 from ckan.plugins.toolkit import url_for
-from ckan.tests import factories
+from ckan.tests import factories, helpers
+
+from ckanext.digitraffic_core.validators.organization_validators import (
+    IDENTIFIER_REQUIRED_OPTION,
+)
 
 IDENTIFIER_INPUTS = ("field-ytunnus", "field-euid", "field-eudi")
 
@@ -68,3 +72,51 @@ class TestOrganizationForm:
 
         for input_id in IDENTIFIER_INPUTS:
             assert "readonly" not in page.find(input_id), input_id
+
+    @pytest.mark.ckan_config("WTF_CSRF_ENABLED", False)
+    def test_sysadmin_clearing_the_only_identifier_in_the_form_deletes_it(self, app):
+        sysadmin = factories.SysadminWithToken()
+        organization = factories.Organization(ytunnus="9000001-1")
+
+        app.post(
+            url_for("organization.edit", id=organization["name"]),
+            headers={"Authorization": sysadmin["token"]},
+            data={
+                "name": organization["name"],
+                "title": organization["title"],
+                "description": "",
+                "ytunnus": "",
+                "euid": "",
+                "eudi": "",
+                "save": "",
+            },
+            status=200,
+        )
+
+        shown = helpers.call_action("organization_show", id=organization["id"])
+        assert shown.get("ytunnus") is None
+
+    @pytest.mark.ckan_config("WTF_CSRF_ENABLED", False)
+    @pytest.mark.ckan_config(IDENTIFIER_REQUIRED_OPTION, "true")
+    def test_clearing_the_only_identifier_in_the_form_is_refused_when_required(self, app):
+        sysadmin = factories.SysadminWithToken()
+        organization = factories.Organization(ytunnus="9000001-1")
+
+        response = app.post(
+            url_for("organization.edit", id=organization["name"]),
+            headers={"Authorization": sysadmin["token"]},
+            data={
+                "name": organization["name"],
+                "title": organization["title"],
+                "description": "",
+                "ytunnus": "",
+                "euid": "",
+                "eudi": "",
+                "save": "",
+            },
+            status=200,
+        )
+
+        assert "An organisation needs a Y-tunnus, an EUID or an EUDI." in response.body
+        shown = helpers.call_action("organization_show", id=organization["id"])
+        assert shown["ytunnus"] == "9000001-1"

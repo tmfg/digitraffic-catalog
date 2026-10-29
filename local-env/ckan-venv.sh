@@ -110,11 +110,15 @@ migrate() {
   local permissions_sql
   permissions_sql="$(ckan -c "$CKAN_INI" datastore set-permissions)"
   python - "$CKAN_DATASTORE_WRITE_URL" "$permissions_sql" <<'PY'
+import re
 import sys
 import psycopg2
 
+# The script starts with psql's `\connect "<datastore db>"`, which is not SQL; the connection is
+# already to that database, as in the image's prerun.py.
+sql = re.sub(r'^\\connect .*$', "", sys.argv[2], flags=re.MULTILINE)
 with psycopg2.connect(sys.argv[1]) as connection, connection.cursor() as cursor:
-    cursor.execute(sys.argv[2])
+    cursor.execute(sql)
 PY
 }
 

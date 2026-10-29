@@ -112,8 +112,6 @@ class TestIdentifierStorage:
         )
 
     def test_sysadmin_can_clear_an_identifier(self):
-        # Two identifiers: CKAN leaves the extras untouched when an update sends none,
-        # so blanking an organisation's only identifier would not remove it.
         organization = create_organization(ytunnus="9000001-1", eudi="eudi-example-1")
 
         helpers.call_action(
@@ -126,6 +124,72 @@ class TestIdentifierStorage:
         shown = show(organization)
         assert shown.get("ytunnus") is None
         assert shown["eudi"] == "eudi-example-1"
+
+    def test_sysadmin_can_clear_the_only_identifier(self):
+        # The update then sends no extras at all, and CKAN keeps the stored ones unless told to delete.
+        organization = create_organization(ytunnus="9000001-1")
+
+        helpers.call_action(
+            "organization_patch",
+            context=sysadmin_context(),
+            id=organization["id"],
+            ytunnus="  ",
+        )
+
+        shown = show(organization)
+        assert shown.get("ytunnus") is None
+        assert all(
+            extra["key"] not in IDENTIFIER_KEYS for extra in shown.get("extras", [])
+        )
+
+    def test_sysadmin_can_clear_every_identifier_as_the_form_does(self):
+        # The edit form submits every field, the cleared ones as empty strings.
+        organization = create_organization(
+            ytunnus="9000001-1", euid="FIFPRO.9000001-1", eudi="eudi-example-1"
+        )
+
+        helpers.call_action(
+            "organization_update",
+            context=sysadmin_context(),
+            id=organization["id"],
+            name=organization["name"],
+            title=organization["title"],
+            description="",
+            ytunnus="",
+            euid="",
+            eudi="",
+        )
+
+        shown = show(organization)
+        for key in IDENTIFIER_KEYS:
+            assert shown.get(key) is None, key
+
+    def test_clearing_an_identifier_that_is_not_stored_changes_nothing(self):
+        organization = create_organization(eudi="eudi-example-1")
+
+        helpers.call_action(
+            "organization_patch",
+            context=sysadmin_context(),
+            id=organization["id"],
+            ytunnus="",
+            euid="",
+        )
+
+        shown = show(organization)
+        assert (shown.get("ytunnus"), shown.get("euid")) == (None, None)
+        assert shown["eudi"] == "eudi-example-1"
+
+    def test_cleared_identifier_can_be_set_again(self):
+        organization = create_organization(ytunnus="9000001-1")
+        for ytunnus in ("", "9000003-8"):
+            helpers.call_action(
+                "organization_patch",
+                context=sysadmin_context(),
+                id=organization["id"],
+                ytunnus=ytunnus,
+            )
+
+        assert show(organization)["ytunnus"] == "9000003-8"
 
 
 @pytest.mark.usefixtures("clean_db", "with_plugins")
@@ -189,6 +253,61 @@ class TestIdentifierRequirement:
         organization = create_organization(eudi="eudi-example-1")
 
         assert show(organization)["eudi"] == "eudi-example-1"
+
+    @pytest.mark.ckan_config(IDENTIFIER_REQUIRED_OPTION, "true")
+    def test_clearing_the_only_identifier_is_rejected_when_required(self):
+        organization = create_organization(ytunnus="9000001-1")
+
+        with pytest.raises(ValidationError) as excinfo:
+            helpers.call_action(
+                "organization_patch",
+                context=sysadmin_context(),
+                id=organization["id"],
+                ytunnus="",
+            )
+
+        assert "EUDI" in error_text(excinfo)
+        assert show(organization)["ytunnus"] == "9000001-1"
+
+    @pytest.mark.ckan_config(IDENTIFIER_REQUIRED_OPTION, "true")
+    def test_clearing_every_identifier_is_rejected_when_required(self):
+        organization = create_organization(
+            ytunnus="9000001-1", euid="FIFPRO.9000001-1", eudi="eudi-example-1"
+        )
+
+        with pytest.raises(ValidationError):
+            helpers.call_action(
+                "organization_update",
+                context=sysadmin_context(),
+                id=organization["id"],
+                name=organization["name"],
+                title=organization["title"],
+                ytunnus="",
+                euid="",
+                eudi="",
+            )
+
+        shown = show(organization)
+        assert (shown["ytunnus"], shown["euid"], shown["eudi"]) == (
+            "9000001-1",
+            "FIFPRO.9000001-1",
+            "eudi-example-1",
+        )
+
+    @pytest.mark.ckan_config(IDENTIFIER_REQUIRED_OPTION, "true")
+    def test_clearing_one_of_two_identifiers_is_allowed_when_required(self):
+        organization = create_organization(ytunnus="9000001-1", eudi="eudi-example-1")
+
+        helpers.call_action(
+            "organization_patch",
+            context=sysadmin_context(),
+            id=organization["id"],
+            ytunnus="",
+        )
+
+        shown = show(organization)
+        assert shown.get("ytunnus") is None
+        assert shown["eudi"] == "eudi-example-1"
 
     def test_existing_organisation_without_identifier_cannot_be_saved_once_required(
         self, ckan_config, monkeypatch

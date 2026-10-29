@@ -58,13 +58,37 @@ def _own_organization(data: FlattenDataDict) -> Optional[model.Group]:
     return model.Group.get(own_id)
 
 
+def _record_deleted_extra(
+    key: FlattenKey, data: FlattenDataDict, errors: FlattenErrorDict, context: Context
+) -> None:
+    """Pass `key` to CKAN as a deleted extra: CKAN's `convert_to_extras` adds the entry, flagged `deleted` as in
+    CKAN's extras schema."""
+    data[key] = ""
+    toolkit.get_converter("convert_to_extras")(key, data, errors, context)
+    # convert_to_extras appends at the next index, so its entry is the last one.
+    index = max(k[1] for k in data if len(k) > 1 and k[0] == "extras")
+    data[("extras", index, "deleted")] = True
+
+
 def ignore_blank_validator(
     key: FlattenKey, data: FlattenDataDict, errors: FlattenErrorDict, context: Context
 ) -> None:
-    """Treat a missing, empty or whitespace-only value as not given: drop it and skip the remaining validators."""
-    if _is_blank(data.get(key)):
-        data.pop(key, None)
-        raise StopOnError
+    """Treat a missing, empty or whitespace-only value as not given: drop it and skip the remaining validators.
+
+    A value given as empty or whitespace for a field the organisation stores deletes it. CKAN's `group_dict_save`
+    leaves every stored extra in place when an update sends no extras, so without an explicit deletion clearing
+    an organisation's only identifier would keep it. A field left out is not deleted here.
+
+    The stored organisation is the one CKAN's update puts in `context["group"]` before validating; a create
+    has none, and nothing to delete."""
+    value = data.get(key)
+    if not _is_blank(value):
+        return
+    stored = context.get("group")
+    if value is not missing and stored is not None and key[-1] in stored.extras:
+        _record_deleted_extra(key, data, errors, context)
+    data.pop(key, None)
+    raise StopOnError
 
 
 def ytunnus_validator(value: Any, context: Context) -> Any:
