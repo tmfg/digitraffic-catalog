@@ -4,7 +4,6 @@ from sqlalchemy.dialects.postgresql import JSONB
 from ckan.types import AlchemySession, Context
 from ckan.plugins.toolkit import get_action
 from ckan.model.package import Package
-from ckan.model.package_extra import PackageExtra
 
 def get_old_related_resource_ids(dataset_id: str, session: AlchemySession) -> set:
     """
@@ -12,10 +11,8 @@ def get_old_related_resource_ids(dataset_id: str, session: AlchemySession) -> se
     """
     referring_dataset_ids = (session.query(Package)
                              .with_entities(Package.id)
-                             .join(PackageExtra, (Package.id == PackageExtra.package_id))
                              .filter(
-        PackageExtra.key == "is_referenced_by",
-        cast(PackageExtra.value, JSONB).has_key(dataset_id)
+        cast(Package.extras["is_referenced_by"].astext, JSONB).has_key(dataset_id)
     )
                              .all())
 
@@ -24,14 +21,11 @@ def get_old_related_resource_ids(dataset_id: str, session: AlchemySession) -> se
     return set([row[0] for row in referring_dataset_ids])
 
 def _existing_is_referenced_by(session: AlchemySession, related_resource_id: str) -> AlchemySession.query:
-    is_referenced_by_row = (session.query(PackageExtra)
-    .with_entities(PackageExtra.value)
-    .filter(
-        PackageExtra.package_id == related_resource_id,
-        PackageExtra.key == "is_referenced_by"
-    )
+    is_referenced_by_row = (session.query(Package)
+    .with_entities(Package.extras["is_referenced_by"].astext)
+    .filter(Package.id == related_resource_id)
     .first())
-    if not is_referenced_by_row:
+    if not is_referenced_by_row or is_referenced_by_row[0] is None:
         return None
     return json.loads(is_referenced_by_row[0])
 

@@ -21,17 +21,13 @@ def package_update(
     if (context.get("create_in_process") != _CREATE_KEY_VALUE and
         "name" in data_dict):
         del data_dict["name"]
-    context["defer_commit"] = True
     try:
         saved_data = original_action(context, data_dict)
         handle_related_resource_upsert(saved_data["id"], saved_data.get("related_resource", []), context)
-        model.repo.commit()
-        context["defer_commit"] = False
         return saved_data
     except Exception as e:
         log.error("Error during package update: %s", e)
         model.repo.session.rollback()
-        context["defer_commit"] = False
         raise e
 
 
@@ -43,17 +39,13 @@ def package_patch(
     if (context.get("create_in_process") != _CREATE_KEY_VALUE and
         "name" in data_dict):
         del data_dict["name"]
-    context["defer_commit"] = True
     try:
         saved_data = original_action(context, data_dict)
         handle_related_resource_upsert(saved_data["id"], saved_data.get("related_resource", []), context)
-        model.repo.commit()
-        context["defer_commit"] = False
         return saved_data
     except Exception as e:
         log.error("Error during package patch: %s", e)
         model.repo.session.rollback()
-        context["defer_commit"] = False
         raise e
 
 
@@ -77,13 +69,7 @@ def package_create(
     """
     tmp_name = str(uuid.uuid4())
     data_dict["name"] = tmp_name
-    def context_before_mod():
-        context["defer_commit"] = True
-        context["create_in_process"] = _CREATE_KEY_VALUE
-    def context_after_mod():
-        context["defer_commit"] = False
-        del context["create_in_process"]
-    context_before_mod()
+    context["create_in_process"] = _CREATE_KEY_VALUE
     try:
         saved_data = original_action(context, data_dict)
 
@@ -95,11 +81,10 @@ def package_create(
 
         handle_related_resource_upsert(saved_data["id"], saved_data.get("related_resource", []), context)
 
-        model.repo.commit()
-        context_after_mod()
         return saved_data
     except Exception as e:
         log.error("Error during package creation: %s", e)
         model.repo.session.rollback()
-        context_after_mod()
         raise e
+    finally:
+        del context["create_in_process"]
