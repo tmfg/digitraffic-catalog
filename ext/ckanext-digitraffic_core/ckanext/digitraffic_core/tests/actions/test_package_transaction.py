@@ -23,6 +23,13 @@ def _dataset_fields(org_id: str, title: str) -> dict:
         "frequency": list(Frequency.get_iris())[0],
         "mobility_theme": mobility_theme,
         "spatial": [list(Location.get_iris())[0]],
+        "contact_point": [
+            {
+                "contact_point_type": "http://www.w3.org/2006/vcard/ns#Organization",
+                "fn": "Foo Bar",
+                "has_email": "foo@example.com",
+            }
+        ],
     }
 
 
