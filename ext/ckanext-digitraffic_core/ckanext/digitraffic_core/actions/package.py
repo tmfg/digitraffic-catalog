@@ -2,9 +2,9 @@ from typing import Callable
 from ckan.types import ActionResult, Context, DataDict, Schema
 import ckan.plugins.toolkit as toolkit
 import uuid
-import ckan.model as model
 import logging
 from ckanext.digitraffic_core.actions.dataset import handle_related_resource_upsert
+from ckanext.digitraffic_core.actions.package_transaction import PackageTransaction
 
 
 
@@ -21,13 +21,17 @@ def package_update(
     if (context.get("create_in_process") != _CREATE_KEY_VALUE and
         "name" in data_dict):
         del data_dict["name"]
+    transaction = PackageTransaction(context)
     try:
-        saved_data = original_action(context, data_dict)
-        handle_related_resource_upsert(saved_data["id"], saved_data.get("related_resource", []), context)
-        return saved_data
+        package_id = transaction.call(original_action, data_dict)
+        saved_data = toolkit.get_action("package_show")(
+            {"user": context.get("user"), "ignore_auth": True, "use_cache": False}, {"id": package_id}
+        )
+        handle_related_resource_upsert(package_id, saved_data.get("related_resource", []), context)
+        return transaction.complete(package_id)
     except Exception as e:
         log.error("Error during package update: %s", e)
-        model.repo.session.rollback()
+        transaction.abort()
         raise e
 
 
@@ -39,13 +43,13 @@ def package_patch(
     if (context.get("create_in_process") != _CREATE_KEY_VALUE and
         "name" in data_dict):
         del data_dict["name"]
+    transaction = PackageTransaction(context)
     try:
-        saved_data = original_action(context, data_dict)
-        handle_related_resource_upsert(saved_data["id"], saved_data.get("related_resource", []), context)
-        return saved_data
+        package_id = transaction.call(original_action, data_dict)
+        return transaction.complete(package_id)
     except Exception as e:
         log.error("Error during package patch: %s", e)
-        model.repo.session.rollback()
+        transaction.abort()
         raise e
 
 
@@ -70,21 +74,17 @@ def package_create(
     tmp_name = str(uuid.uuid4())
     data_dict["name"] = tmp_name
     context["create_in_process"] = _CREATE_KEY_VALUE
+    transaction = PackageTransaction(context)
     try:
-        saved_data = original_action(context, data_dict)
-
+        package_id = transaction.call(original_action, data_dict)
         toolkit.get_action('package_patch')(context, {
-            "id": saved_data["id"],
-            "name": saved_data["id"]
+            "id": package_id,
+            "name": package_id
         })
-        saved_data["name"] = saved_data["id"]
-
-        handle_related_resource_upsert(saved_data["id"], saved_data.get("related_resource", []), context)
-
-        return saved_data
+        return transaction.complete(package_id)
     except Exception as e:
         log.error("Error during package creation: %s", e)
-        model.repo.session.rollback()
+        transaction.abort()
         raise e
     finally:
         del context["create_in_process"]
