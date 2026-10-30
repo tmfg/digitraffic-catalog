@@ -1,2 +1,4 @@
-msal==1.36.0
+msal==1.37.0
 python-dotenv==1.2.2
+# Fix CVE-2026-69247, CVE-2026-69248, CVE-2026-69249 (msal dependency)
+cryptography==50.0.0
