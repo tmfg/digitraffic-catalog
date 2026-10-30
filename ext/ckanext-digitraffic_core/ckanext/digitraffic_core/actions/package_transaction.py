@@ -40,6 +40,7 @@ class PackageTransaction:
         if self._commits:
             model.repo.commit()
             for touched_id in touched:
+                # rebuild is CKAN-internal; replace it with the package_reindex action once a CKAN release ships it.
                 rebuild(package_id=touched_id)
         if self._caller_wants_id:
             return package_id
