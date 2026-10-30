@@ -50,7 +50,7 @@
     "@types/n3": "1.26.1",
     "@types/node": "25.6.0",
     "autoprefixer": "10.5.4",
-    "ckan": "github:ckan/ckan#ckan-2.11.3",
+    "ckan": "github:ckan/ckan#ckan-2.12.1",
     "cssnano": "7.1.9",
     "date-fns": "4.1.0",
     "dotenv": "17.4.2",
