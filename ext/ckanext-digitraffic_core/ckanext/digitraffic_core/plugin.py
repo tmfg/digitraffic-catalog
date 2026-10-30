@@ -40,6 +40,15 @@ from ckanext.digitraffic_core.validators.dataset_validators import (
     transport_mode_validator,
     value_to_list,
 )
+from ckanext.digitraffic_core.validators.organization_validators import (
+    ignore_blank_validator,
+    ytunnus_validator,
+    euid_validator,
+    eudi_validator,
+    organization_identifier_unique_validator,
+    organization_identifier_sysadmin_only_validator,
+    organization_identifiers_validator,
+)
 from ckanext.digitraffic_core.validators.resource_validators import (
     application_layer_protocol_validator,
     character_encoding_validator,
@@ -55,6 +64,7 @@ from ckanext.digitraffic_core.views.removed_view import RemovedView
 from flask import Blueprint
 
 
+@toolkit.blanket.config_declarations
 class DigitrafficCorePlugin(plugins.SingletonPlugin, DefaultTranslation):
     """Digitraffic core plugin."""
 
@@ -105,6 +115,13 @@ class DigitrafficCorePlugin(plugins.SingletonPlugin, DefaultTranslation):
             "country_validator": country_validator,
             "rights_holder_organization_validator": rights_holder_organization_validator,
             "url_error_message_formatting": url_error_message_formatting,
+            "ignore_blank_validator": ignore_blank_validator,
+            "ytunnus_validator": ytunnus_validator,
+            "euid_validator": euid_validator,
+            "eudi_validator": eudi_validator,
+            "organization_identifier_unique_validator": organization_identifier_unique_validator,
+            "organization_identifier_sysadmin_only_validator": organization_identifier_sysadmin_only_validator,
+            "organization_identifiers_validator": organization_identifiers_validator,
         }
 
     def update_config(self, config):

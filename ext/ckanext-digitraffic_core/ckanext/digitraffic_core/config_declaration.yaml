@@ -1,0 +1,12 @@
+version: 1
+groups:
+- annotation: Digitraffic core settings
+  options:
+  - key: ckanext.digitraffic_core.organization_identifier_required
+    type: bool
+    default: false
+    example: "true"
+    description: >-
+      Require every organisation to have at least one identifier: a Y-tunnus, an EUID or an
+      EUDI. Switch it on only after every existing organisation has one, because saving an
+      organisation without an identifier is rejected while it is on.

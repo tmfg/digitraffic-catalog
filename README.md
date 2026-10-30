@@ -57,7 +57,8 @@ OpenTelemetry integration for monitoring and tracing.
 
 #### 6. `local-env/`
 
-Docker-based local development environment.
+Docker Compose environment for local development and the GitHub test workflows.See [local-env/README.md](local-env/README.md)
+for what each file does.
 
 **Components**:
 
@@ -66,13 +67,15 @@ Docker-based local development environment.
 - Apache Solr search engine
 - Redis cache
 - Nginx reverse proxy
-- OpenTelemetry collector
+- OpenTelemetry collector and Jaeger
 
 ## Quick Start
 
 ### Prerequisites
 
-- Docker and Docker Compose
+- Docker and Docker Compose (2.24 or newer)
+- The CI repository checked out locally, with `DIGITRAFFIC_CI_PATH` pointing to it: set it in
+  `local-env/.env` (git-ignored), relative to `local-env/`, e.g. `DIGITRAFFIC_CI_PATH=../../<ci-repository>`
 - Node.js and pnpm
 - Python (for transpiler development)
 - Poetry (for transpiler dependencies)
@@ -81,30 +84,46 @@ Docker-based local development environment.
 
 ```bash
 cd local-env
-DIGITRAFFIC_CI_PATH=/path/to/ci/project ./start-local-ckan.sh up build_image
+./dev.sh up            # docker compose up --renew-anon-volumes; add -d to run in the background
 ```
 
+`./dev.sh help` lists every command and the `docker compose` command behind it.
+
 **What this does**:
-- Builds Docker images for CKAN, PostgreSQL, Solr, Nginx
-- Starts all containers, including OpenTelemetry collector, Redis, and Jaeger
-- Initializes the database
-- Sets up test users
+- Builds the CKAN, Solr and Nginx images from the prod Dockerfiles in the CI repository
+  (only when missing; `./dev.sh up --build` rebuilds)
+- Starts all containers, including PostgreSQL, Redis, the OpenTelemetry collector and Jaeger
+- Installs the extensions in `ext/` in editable mode, runs migrations and inserts the E2E
+  sysadmin (scripts in `local-env/ckan/docker-entrypoint.d/`)
 
 **Configuration**:
 
-For local development, you may change CKAN settings using `local-env/ckan/dev-setup.sh`.
-For more detailed debugging info, set the following properties:
-- `digitraffic_opentelemetry.loggers_to_set_events = ckan ckanext`
-- `digitraffic_opentelemetry.enter_pdb_on_error = true`
-- `digitraffic_opentelemetry.instrument_ckan_alpha = true`
+- CKAN settings: `local-env/ckan.env`. Secrets and personal overrides (Entra test app, E2E
+  sysadmin): copy `local-env/.env.local.example` to `local-env/.env.local`.
+- Debug logging: `local-env/ckan/docker-entrypoint.d/20-dev-setup.sh`. For more detailed
+  debugging info, uncomment the following properties there:
+  - `digitraffic_opentelemetry.loggers_to_set_events = ckan ckanext`
+  - `digitraffic_opentelemetry.enter_pdb_on_error = true`
+  - `digitraffic_opentelemetry.instrument_ckan_alpha = true`
+- Debugging with pdb: uWSGI runs a single worker without threads (`CKAN_UWSGI_MODE=pdb`), so a
+  `breakpoint()` halts the request. Run `./dev.sh attach` to reach the debugger; detach with
+  Ctrl-P Ctrl-Q. `CKAN_UWSGI_MODE= ./dev.sh up` runs the prod process model instead.
 
-**Access the catalog**: http://localhost:8080
+**Access the catalog**: http://localhost:8080 (nginx) or http://localhost:5000 (CKAN directly).
+Traces: http://localhost:16686.
 
 ### 2. Reload After Code Changes
 
 ```bash
 cd local-env
-./reload-ckan.sh
+./dev.sh reload        # docker compose restart ckan
+```
+
+### 3. Stop
+
+```bash
+cd local-env
+./dev.sh down          # add -v to also delete the database and Solr data
 ```
 
 ## Development Workflows
@@ -146,7 +165,7 @@ cd local-env
 4. **Reload CKAN**:
    ```bash
    cd ../../local-env
-   ./reload-ckan.sh
+   ./dev.sh reload
    ```
 
 5. **Refresh browser** to see changes
@@ -188,7 +207,7 @@ cd local-env
 5. **Reload CKAN**:
    ```bash
    cd ../local-env
-   ./reload-ckan.sh
+   ./dev.sh reload
    ```
 
 ## Testing
@@ -197,14 +216,17 @@ cd local-env
 
 **Location**: `ext/ckanext-digitraffic_core/ckanext/digitraffic_core/tests/`
 
-**Run tests**:
+**Run tests** (the environment must be running):
 ```bash
 cd local-env
-# Start environment first
-./start-local-ckan.sh up
-# Run tests
-./run-digitraffic-core-tests-on-docker.sh
+./dev.sh test                                             # all tests
+./dev.sh test validators/test_dataset_validators.py       # one file
+./dev.sh test auth/test_user_auth.py TestUserAuth::test_user_show_self   # one test
+./dev.sh test -k uniqueness ckanext/digitraffic_core/tests   # raw pytest arguments
 ```
+
+Without Docker (the AI devcontainer), `local-env/ckan-venv.sh` installs CKAN into a venv and runs
+the same tests against the backing services: `./ckan-venv.sh setup`, then `./ckan-venv.sh test`.
 
 ### E2E Tests (Playwright)
 
@@ -238,6 +260,8 @@ See also the [CKAN documentation on translating CKAN](https://docs.ckan.org/en/2
 #### Generating and updating translations
 
 The commands need to be run in the container where you are running CKAN. `setup.py` below is the `setup.py` of this extension.
+For the common case, `./dev.sh translate fi` (or `sv`) in `local-env/` runs `update_catalog` and `compile_catalog` for one locale; `./dev.sh reload` then loads the result.
+To run the others, open a shell in the container: `docker compose exec -u ckan -w /srv/app/ckanext/ckanext-digitraffic_core ckan sh`.
 
 ##### Generate the translation template
 `python setup.py extract_messages`

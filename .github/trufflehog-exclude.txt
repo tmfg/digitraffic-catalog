@@ -1,3 +1,4 @@
 docker/nginx/setup/ckan-local.key
 local-env/ckan/ckan.ini
 ckanext-digitraffic_theme/.github/workflows/test.yml
+local-env/ckan.env

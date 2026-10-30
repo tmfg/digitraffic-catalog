@@ -12,8 +12,10 @@
 
 {%- set prefix = h.url_for(object_type + read_endpoint, id='') -%}
 
-{# 
-Leaving attrs out disables the "preview" and makes the field editable by default. 
+{%- set attrs = {} -%}
+
+{%- if entity_type == 'organization' or entity_type == 'group' %}
+{# Leaving attrs out disables the "preview" and makes the field editable by default. Which is what is wanted for datasets #}
 {%- set domain = h.url_for(object_type + read_endpoint, id='', qualified=true) -%}
 {%- set domain = domain|replace("http://", "")|replace("https://", "") -%}
 {%- set module_placeholder = '<' + object_type + '>' -%}
@@ -21,7 +23,7 @@ Leaving attrs out disables the "preview" and makes the field editable by default
     'data-module': 'slug-preview-slug', 
     'data-module-prefix': domain,
     'data-module-placeholder': module_placeholder } -%}
-#}
+{%- endif %}
 
 {{ form.prepend(
     field.field_name,
@@ -31,7 +33,7 @@ Leaving attrs out disables the "preview" and makes the field editable by default
     placeholder=h.scheming_language_text(field.form_placeholder),
     value=data[field.field_name],
     error=errors[field.field_name],
-    attrs={},
+    attrs=attrs,
     is_required=h.scheming_field_required(field)
     ) }}
 

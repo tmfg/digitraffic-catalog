@@ -1,0 +1,67 @@
+scheming_version: 2
+organization_type: organization
+about_url: https://github.com/ckan/ckanext-scheming
+after_validators: organization_identifiers_validator
+fields:
+- field_name: title
+  label:
+    en: Name
+    fi: Nimi
+    sv: Namn
+  validators: not_empty unicode_safe
+  form_snippet: large_text.html
+  form_attrs:
+    data-module: slug-preview-target
+  form_placeholder: Oy Esimerkki Ab
+  required: true
+- field_name: name
+  label:
+    en: URL
+    fi: URL
+    sv: URL
+  validators: not_empty unicode_safe name_validator group_name_validator
+  form_snippet: slug.html
+  form_placeholder: oy-esimerkki-ab
+  required: true
+- field_name: description
+  label:
+    en: Description
+    fi: Kuvaus
+    sv: Beskrivning
+  validators: ignore_missing unicode_safe
+  form_snippet: markdown.html
+- field_name: ytunnus
+  label:
+    en: Business ID (Y-tunnus)
+    fi: Y-tunnus
+    sv: FO-nummer
+  help_text:
+    en: Finnish Business ID, e.g. 1234567-8. Only a system administrator can change it.
+    fi: Suomalainen Y-tunnus, esim. 1234567-8. Vain järjestelmän pääkäyttäjä voi muuttaa sitä.
+    sv: Finskt FO-nummer, t.ex. 1234567-8. Endast en systemadministratör kan ändra det.
+  validators: organization_identifier_sysadmin_only_validator ignore_blank_validator ytunnus_validator organization_identifier_unique_validator
+  form_snippet: organization_identifier.html
+  form_placeholder: 1234567-8
+- field_name: euid
+  label:
+    en: EUID
+    fi: EUID
+    sv: EUID
+  help_text:
+    en: European Unique Identifier from the EU business registers, e.g. FIFPRO.1234567-8. Only a system administrator can change it.
+    fi: EU:n yritysrekisterien yksilöllinen tunniste (EUID), esim. FIFPRO.1234567-8. Vain järjestelmän pääkäyttäjä voi muuttaa sitä.
+    sv: Europeisk unik identifierare från EU:s företagsregister (EUID), t.ex. FIFPRO.1234567-8. Endast en systemadministratör kan ändra det.
+  validators: organization_identifier_sysadmin_only_validator ignore_blank_validator euid_validator organization_identifier_unique_validator
+  form_snippet: organization_identifier.html
+  form_placeholder: FIFPRO.1234567-8
+- field_name: eudi
+  label:
+    en: EUDI
+    fi: EUDI
+    sv: EUDI
+  help_text:
+    en: European Digital Identity identifier of the organisation. Only a system administrator can change it.
+    fi: Organisaation eurooppalaisen digitaalisen identiteetin (EUDI) tunniste. Vain järjestelmän pääkäyttäjä voi muuttaa sitä.
+    sv: Organisationens identifierare för europeisk digital identitet (EUDI). Endast en systemadministratör kan ändra det.
+  validators: organization_identifier_sysadmin_only_validator ignore_blank_validator eudi_validator organization_identifier_unique_validator
+  form_snippet: organization_identifier.html

@@ -150,6 +150,10 @@ jobs:
           push: true
           platforms: linux/amd64
           tags: ${{ secrets.ECR_URL }}/dt-ckan-repository:${{ github.sha }}
+          # Extensions as a named build context (Dockerfile: COPY --from=ckanext). Until the
+          # CI repo's Dockerfile uses it, the copy step above and CKANEXT_DIR still apply.
+          build-contexts: |
+            ckanext=./ext
           build-args: |
             SETUP_DIR=./setup
             CKANEXT_DIR=./ckanext

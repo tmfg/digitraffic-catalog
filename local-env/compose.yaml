@@ -1,109 +1,79 @@
+# Local CKAN: `./dev.sh up` (or `docker compose up`) in this directory.
+#
+# Config: ckan.env (committed) and .env.local (gitignored, optional).
+name: datakatalogi-local
+
+include:
+  - compose.services.yaml
+
 services:
-  # This init service is needed in order to change the localy bind volume's ownership to ckan user
-  ckan-init:
-    image: local_catalog_ckan_dev:latest
-    user: ckan
-    read_only: true
-    group_add:
-      - ckan
-    volumes:
-      - ckanext:/srv/app/ckanext
-      - ckan_storage:/var/lib/ckan
-      - ckan_config:/srv/app/config
-      - ckan_src:/srv/app/src
-      - supervisord:/tmp
-    command: |
-      /bin/bash -c "
-      run_python_install() {
-          set -euo pipefail
-          echo $$1
-          PATH_TO_EXT=$$1
-          PYTHON_VIRTUAL_ENV_DIR='venv'
-          cd $$PATH_TO_EXT
-          echo $$PATH_TO_EXT
-          pwd
-          if [ ! -d $$PYTHON_VIRTUAL_ENV_DIR ]; then
-              python -m venv $$PYTHON_VIRTUAL_ENV_DIR
-          fi
-          source venv/bin/activate
-          pip install -e .
-          if [ -f requirements.txt ]; then
-              pip install --only-binary=:all: -r requirements.txt
-          fi
-          deactivate
-      };
-      #run_python_install '/srv/app/ckanext/ckanext-entraid_authenticator';
-      #run_python_install '/srv/app/ckanext/ckanext-digitraffic_core';
-      #run_python_install '/srv/app/ckanext/ckanext-digitraffic_fluent';
-      #run_python_install '/srv/app/ckanext/ckanext-digitraffic_opentelemetry';
-      "
   ckan:
-    image: local_catalog_ckan_dev:latest
-    group_add:
-      - ckan
+    build:
+      context: ${DIGITRAFFIC_CI_PATH:?Set DIGITRAFFIC_CI_PATH to the CI repository checkout in local-env/.env}/aws/ckan
+      dockerfile: ../docker/Dockerfile-catalog-ckan
+      args:
+        SETUP_DIR: ./setup
+      additional_contexts:
+        ckanext: ../ext
+    env_file:
+      - path: ckan.env
+      - path: .env.local
+        required: false
+    environment:
+      # pdb: one worker, no master, no threads. `CKAN_UWSGI_MODE= ./dev.sh up` runs the prod model.
+      CKAN_UWSGI_MODE: ${CKAN_UWSGI_MODE-pdb}
     ports:
-      - "${CKAN_PORT}:${CKAN_PORT}"
-      - "${CKAN_DATAPUSHER_PORT}:${CKAN_DATAPUSHER_PORT}"
-    depends_on:
-      postgresql:
-        condition: service_started
-      solr:
-        condition: service_started
-      redis:
-        condition: service_started
-      ckan-init:
-        condition: service_completed_successfully
-      otel-collector:
-        condition: service_started
+      - "${CKAN_PORT:-5000}:5000"
+    volumes:
+      - ../ext:/srv/app/ckanext
+      - ./ckan/docker-entrypoint.d:/docker-entrypoint.d:ro
+      - ckan_storage:/var/lib/ckan
+    # pdb at a breakpoint: ./dev.sh attach
     stdin_open: true
     tty: true
-    env_file:
-      - .env_postgresql_common
-      - .env_solr_common
-      - .env_ckan_common
-      - .env_ckan
-      - .env_entra
-      - .env_test_users
-    volumes:
-      - ckanext:/srv/app/ckanext
-      - ckan_storage:/var/lib/ckan
-      - ckan_config:/srv/app/config
-      - ckan_src:/srv/app/src
-      - supervisord:/tmp
-  postgresql:
-    image: local_catalog_postgresql:latest
-    ports:
-      - "5432:5432"
-    env_file:
-      - .env_postgresql_common
-      - .env_postgresql
-    command: ["postgres", "-c", "config_file=/etc/postgresql/postgresql.conf"]
-  solr:
-    image: local_catalog_solr:latest
-    ports:
-      - "${SOLR_PORT}:${SOLR_PORT}"
-    env_file:
-      - .env_solr_common
-      - .env_solr
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:5000/api/3/action/status_show"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      # First start installs the extensions and runs migrations.
+      start_period: 5m
     depends_on:
+      catalog-postgresql:
+        condition: service_healthy
+      catalog-solr:
+        condition: service_started
+      catalog-redis:
+        condition: service_started
       otel-collector:
         condition: service_started
+
   nginx:
-    image: local_catalog_nginx:latest
+    build:
+      context: ${DIGITRAFFIC_CI_PATH:?Set DIGITRAFFIC_CI_PATH to the CI repository checkout in local-env/.env}/aws/nginx-catalog
+      dockerfile: ../docker/Dockerfile-catalog-nginx
+      args:
+        VARIABLES_TEMPLATE_FILE: ./setup/server.variables.template
+        ERROR_PAGES_CONFIG_FILE: ./setup/errorpages.conf
+        NGINX_CONFIG_FILE: ./setup/nginx.conf
+        OTEL_CONFIG_FILE: ./setup/otel.conf.local
+        SECURITY_HEADERS_CONFIG_FILE: ./setup/security_headers.conf
+        SERVER_CONFIG_FILE: ./setup/server.conf.local
+        CUSTOM_PAGES_DIR: ./custompages
+    environment:
+      NGINX_CKAN_TARGET: http://ckan:5000
     ports:
-      - "8080:80"
-    env_file:
-      - .env_ckan_common
-      - .env_nginx
+      - "${NGINX_PORT:-8080}:80"
     depends_on:
+      ckan:
+        condition: service_started
       otel-collector:
         condition: service_started
-  redis:
-    image: redis:7.4
+
   otel-collector:
     image: otel/opentelemetry-collector-contrib:latest
     volumes:
-      - ./otel-collector-config.yaml:/etc/otel-collector-config.yaml
+      - ./otel-collector-config.yaml:/etc/otel-collector-config.yaml:ro
     ports:
       - "14317:4317"
       - "14318:4318"
@@ -111,6 +81,7 @@ services:
     depends_on:
       jaeger:
         condition: service_started
+
   jaeger:
     image: jaegertracing/jaeger:2.4.0
     ports:
@@ -121,14 +92,6 @@ services:
       - "9411:9411"
     environment:
       - COLLECTOR_OTLP_ENABLED=true
+
 volumes:
-  ckanext:
-    driver: local
-    driver_opts:
-      o: bind
-      type: none
-      device: ../ext
   ckan_storage:
-  ckan_config:
-  ckan_src:
-  supervisord:
