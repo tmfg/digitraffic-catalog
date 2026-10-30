@@ -29,7 +29,7 @@
         errors=errors,
         is_url=data.url and not is_upload,
         is_upload=is_upload,
-        is_upload_enabled=h.uploads_enabled(),
+        is_upload_enabled=h.uploads_enabled("resource"),
         url_label=_('URL'),
         upload_label=_('File'),
         placeholder=_('http://example.com/external-data.csv') %}
@@ -81,11 +81,11 @@
       {% endblock %}
       {% if stage %}
         {% block previous_button %}
-          <button class="btn btn-default" name="save" value="go-dataset" type="submit">{{ _('Previous') }}</button>
+          <button class="btn btn-secondary" name="save" value="go-dataset" type="submit">{{ _('Previous') }}</button>
         {% endblock %}
       {% endif %}
       {% block again_button %}
-        <button class="btn btn-default" name="save" value="again" type="submit">{{ _('Save & add another') }}</button>
+        <button class="btn btn-secondary" name="save" value="again" type="submit">{{ _('Save & add another') }}</button>
       {% endblock %}
       {% if stage %}
         {% block save_button %}
