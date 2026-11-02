@@ -62,9 +62,9 @@ export class EditOrganizationPage extends BasePage implements JSLoadedInterface<
       .filter({has: this.page.locator(`a[href~="${pathParameterURL(URL.User, {name})}"]`)})
     if (await isVisible(userRow)) {
       await userRow
-        .locator('a[title="Poista"]')
+        .locator('a[href*="/member_delete/"]')
         .click()
-      await this.page.getByRole('button', {name: "Confirm"}).click()
+      await this.page.getByRole('dialog').getByRole('button', {name: "Vahvista"}).click()
     }
   }
 }
