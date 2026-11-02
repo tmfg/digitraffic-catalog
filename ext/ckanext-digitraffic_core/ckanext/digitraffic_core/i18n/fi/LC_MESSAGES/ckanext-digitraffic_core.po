@@ -1166,6 +1166,22 @@ msgstr ""
 msgid "Value does not belong to {namespace}"
 msgstr ""
 
+#: ckanext/digitraffic_core/js_translations.py:14
+msgid "Please Confirm"
+msgstr "Vahvista toiminto"
+
+#: ckanext/digitraffic_core/js_translations.py:15
+msgid "Searching..."
+msgstr "Haetaan..."
+
+#: ckanext/digitraffic_core/js_translations.py:16
+msgid "Notification"
+msgstr "Ilmoitus"
+
+#: ckanext/digitraffic_core/js_translations.py:17
+msgid "Reorder resource view"
+msgstr "Uudelleenjärjestä resurssin näkymät"
+
 #~ msgid "Describe here the time period covered by the dataset, if applicable."
 #~ msgstr ""
 #~ "Tässä osiossa kuvaillaan tietoaineiston ajallinen kattavuus, jos se on "
@@ -1179,10 +1195,6 @@ msgstr ""
 #~ "Tähän osioon kuvataan ulkopuolisen tahon suorittaman arvioinnin päivämäärä "
 #~ "ja tulos. EU:n delegoitujen asetusten mukaisten tietoaineistojen arvioinnin "
 #~ "suorittaa yleensä kansallinen valvova viranomainen."
-
-# | msgid "Log in"
-#~ msgid "Link"
-#~ msgstr "Kirjaudu sisään"
 
 #~ msgid ""
 #~ "The <i>data license</i> you select above only applies to the contents of any "

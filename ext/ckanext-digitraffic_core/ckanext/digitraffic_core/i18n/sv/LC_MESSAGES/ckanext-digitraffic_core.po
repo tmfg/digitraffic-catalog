@@ -1141,9 +1141,21 @@ msgstr ""
 msgid "Value does not belong to {namespace}"
 msgstr ""
 
-# | msgid "Log in"
-#~ msgid "Link"
-#~ msgstr "Logga in"
+#: ckanext/digitraffic_core/js_translations.py:14
+msgid "Please Confirm"
+msgstr "Bekräfta åtgärden"
+
+#: ckanext/digitraffic_core/js_translations.py:15
+msgid "Searching..."
+msgstr "Söker..."
+
+#: ckanext/digitraffic_core/js_translations.py:16
+msgid "Notification"
+msgstr "Meddelande"
+
+#: ckanext/digitraffic_core/js_translations.py:17
+msgid "Reorder resource view"
+msgstr "Ordna om resursvyer"
 
 #~ msgid ""
 #~ "The <i>data license</i> you select above only applies to the contents of any "
