@@ -24,8 +24,8 @@ export class AddOrganizationMemberPage extends BasePage implements JSLoadedInter
     super(page, [page.getByRole('heading', {name: 'Lisää jäsen'})]);
     this.organization = organization
     this.pageUrl = pathParameterURL(URL.AddOrganizationMember, {'name': organization.name})
-    this.existingUserSelector = page.getByRole('link', { name: 'Käyttäjänimi' })
-    this.roleSelector = page.getByRole('link', { name: 'Jäsen', exact: true })
+    this.existingUserSelector = page.locator('#username + .select2-container').getByRole('combobox')
+    this.roleSelector = page.locator('#role + .select2-container').getByRole('combobox')
     this.addUserButton = page.getByRole('button', {name: 'Lisää jäsen'})
   }
   async goto(): Promise<AddOrganizationMemberPage> {
@@ -41,14 +41,14 @@ export class AddOrganizationMemberPage extends BasePage implements JSLoadedInter
   async selectExistingUser(user: KnownUser): Promise<void> {
     const userName = user.getUserAttribute("name")
     await this.existingUserSelector.click()
-    await this.page.locator('#s2id_autogen1_search').fill(userName)
+    await this.page.locator('.select2-container--open').getByRole('searchbox').fill(userName)
     await this.page.getByRole('option', { name: userName }).click()
   }
 
   async selectRole(role: Role):Promise<void> {
     await this.roleSelector.click()
-    await this.page.locator('#s2id_autogen2_search').fill(role)
-    await this.page.getByRole('option', { name: role }).click()
+    await this.page.locator('.select2-container--open').getByRole('searchbox').fill(role)
+    await this.page.getByRole('option', { name: role, exact: true }).click()
   }
 
   async pressAdd(): Promise<EditOrganizationPage> {
