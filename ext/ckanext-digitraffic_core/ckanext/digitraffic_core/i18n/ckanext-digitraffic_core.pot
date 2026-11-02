@@ -1,50 +1,66 @@
 # Translations template for ckanext-digitraffic_core.
-# Copyright (C) 2025 ORGANIZATION
+# Copyright (C) 2026 ORGANIZATION
 # This file is distributed under the same license as the
 # ckanext-digitraffic_core project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
 #
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-digitraffic_core 0.0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-09-29 08:26+0000\n"
+"POT-Creation-Date: 2026-11-02 08:49+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.15.0\n"
+"Generated-By: Babel 2.18.0\n"
 
-#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:974
+#: ckanext/digitraffic_core/js_translations.py:14
+msgid "Please Confirm"
+msgstr ""
+
+#: ckanext/digitraffic_core/js_translations.py:15
+msgid "Searching..."
+msgstr ""
+
+#: ckanext/digitraffic_core/js_translations.py:16
+msgid "Notification"
+msgstr ""
+
+#: ckanext/digitraffic_core/js_translations.py:17
+msgid "Reorder resource view"
+msgstr ""
+
+#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:980
 msgid "Upload"
 msgstr ""
 
-#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:974
+#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:980
 msgid "Please select the file to upload again"
 msgstr ""
 
-#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:974
+#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:980
 #: ckanext/digitraffic_core/templates/scheming/form_snippets/repeating_subfields.html:13
 msgid "Remove"
 msgstr ""
 
-#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:974
+#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:980
 msgid "Image"
 msgstr ""
 
-#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:974
+#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:980
 msgid "Upload a file on your computer"
 msgstr ""
 
-#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:974
+#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:980
 #: ckanext/digitraffic_core/templates/package/snippets/resource_form.html:33
 msgid "URL"
 msgstr ""
 
-#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:974
+#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:980
 #: ckanext/digitraffic_core/templates/package/snippets/resource_form.html:34
 msgid "File"
 msgstr ""
@@ -172,7 +188,7 @@ msgid "Datasets and their descriptions are always linked to an organization."
 msgstr ""
 
 #: ckanext/digitraffic_core/templates/home/index.html:46
-#: ckanext/digitraffic_core/templates/home/instructions.html:50
+#: ckanext/digitraffic_core/templates/home/instructions.html:52
 msgid "Create a dataset"
 msgstr ""
 
@@ -299,21 +315,21 @@ msgstr ""
 msgid "Register as a user"
 msgstr ""
 
-#: ckanext/digitraffic_core/templates/home/instructions.html:40
+#: ckanext/digitraffic_core/templates/home/instructions.html:42
 msgid "Start"
 msgstr ""
 
-#: ckanext/digitraffic_core/templates/home/instructions.html:40
+#: ckanext/digitraffic_core/templates/home/instructions.html:42
 msgid "by registering"
 msgstr ""
 
-#: ckanext/digitraffic_core/templates/home/instructions.html:40
+#: ckanext/digitraffic_core/templates/home/instructions.html:42
 msgid ""
 "as a user of the Traffic Data Catalogue. If you already have Fintraffic ID in"
 " use, you can skip the registration and log in using your Fintraffic ID."
 msgstr ""
 
-#: ckanext/digitraffic_core/templates/home/instructions.html:41
+#: ckanext/digitraffic_core/templates/home/instructions.html:43
 msgid ""
 "Once you are logged in to the Traffic Data Catalogue, you need to request "
 "your organization's membership from your organization's administrator. If "
@@ -322,7 +338,7 @@ msgid ""
 "href=\"mailto:nap@fintraffic.fi\">nap@fintraffic.fi</a>"
 msgstr ""
 
-#: ckanext/digitraffic_core/templates/home/instructions.html:51
+#: ckanext/digitraffic_core/templates/home/instructions.html:53
 msgid ""
 "Describe and create your dataset according to the fields and instructions on "
 "the form. At the dataset level, you describe the general properties of the "
@@ -330,21 +346,21 @@ msgid ""
 "in the next step."
 msgstr ""
 
-#: ckanext/digitraffic_core/templates/home/instructions.html:59
+#: ckanext/digitraffic_core/templates/home/instructions.html:61
 msgid "Add resources"
 msgstr ""
 
-#: ckanext/digitraffic_core/templates/home/instructions.html:60
+#: ckanext/digitraffic_core/templates/home/instructions.html:62
 msgid ""
 "A single dataset can have several data sources, such as APIs and file "
 "packages. At this stage, add the different ways to access the dataset."
 msgstr ""
 
-#: ckanext/digitraffic_core/templates/home/instructions.html:68
+#: ckanext/digitraffic_core/templates/home/instructions.html:70
 msgid "Publish the dataset"
 msgstr ""
 
-#: ckanext/digitraffic_core/templates/home/instructions.html:69
+#: ckanext/digitraffic_core/templates/home/instructions.html:71
 msgid ""
 "By setting the dataset's visibility to \"Public\", your dataset will be "
 "visible to all users in the catalogue and can be found using the catalogue's "
@@ -453,20 +469,24 @@ msgstr ""
 msgid "Public"
 msgstr ""
 
-#: ckanext/digitraffic_core/templates/package/snippets/package_form.html:48
+#: ckanext/digitraffic_core/templates/package/snippets/package_form.html:50
 msgid "Are you sure you want to delete this dataset?"
 msgstr ""
 
-#: ckanext/digitraffic_core/templates/package/snippets/package_form.html:49
+#: ckanext/digitraffic_core/templates/package/snippets/package_form.html:51
 #: ckanext/digitraffic_core/templates/package/snippets/resource_form.html:78
 msgid "Delete"
 msgstr ""
 
-#: ckanext/digitraffic_core/templates/package/snippets/package_form.html:56
+#: ckanext/digitraffic_core/templates/package/snippets/package_form.html:60
+msgid "Update Dataset"
+msgstr ""
+
+#: ckanext/digitraffic_core/templates/package/snippets/package_form.html:62
 msgid "Next: Add data"
 msgstr ""
 
-#: ckanext/digitraffic_core/templates/package/snippets/package_form.html:59
+#: ckanext/digitraffic_core/templates/package/snippets/package_form.html:67
 msgid ""
 "Form information will be saved as a draft in your datasets when you continue "
 "to the next step."
@@ -549,7 +569,7 @@ msgid "Finish"
 msgstr ""
 
 #: ckanext/digitraffic_core/templates/package/snippets/resource_form.html:96
-#: ckanext/digitraffic_core/templates/scheming/form_snippets/repeating_subfields.html:74
+#: ckanext/digitraffic_core/templates/scheming/form_snippets/repeating_subfields.html:77
 msgid "Add"
 msgstr ""
 
@@ -572,6 +592,7 @@ msgstr ""
 #: ckanext/digitraffic_core/templates/package/snippets/resources.html:10
 #: ckanext/digitraffic_core/templates/package/snippets/resources.html:14
 #: ckanext/digitraffic_core/templates/package/snippets/resources.html:25
+#, python-brace-format
 msgid "Navigate to resource: {name}"
 msgstr ""
 
@@ -672,7 +693,9 @@ msgid "Contact points"
 msgstr ""
 
 #: ckanext/digitraffic_core/templates/scheming/package/snippets/package_form.html:43
-msgid "Contact details for a person or organization. At least one contact point is required."
+msgid ""
+"Contact details for a person or organization. At least one contact point is "
+"required."
 msgstr ""
 
 #: ckanext/digitraffic_core/templates/scheming/package/snippets/package_form.html:49
@@ -697,6 +720,7 @@ msgid ""
 msgstr ""
 
 #: ckanext/digitraffic_core/templates/scheming/package/snippets/package_form.html:160
+#, python-brace-format
 msgid "Update {page}"
 msgstr ""
 
@@ -755,7 +779,7 @@ msgstr ""
 msgid "A resource is any file or a link to a file that contains useful data."
 msgstr ""
 
-#: ckanext/digitraffic_core/templates/snippets/language_selector_base.html:28
+#: ckanext/digitraffic_core/templates/snippets/language_selector_base.html:40
 msgid "Go"
 msgstr ""
 
@@ -991,17 +1015,19 @@ msgstr ""
 msgid "Invalid value of mobility theme category"
 msgstr ""
 
-#: ckanext/digitraffic_core/validators/dataset_validators.py:73
+#: ckanext/digitraffic_core/validators/dataset_validators.py:74
 msgid ""
 "Phone number is not in a valid format. Make sure it starts with a valid "
 "country code. e.g. +358"
 msgstr ""
 
 #: ckanext/digitraffic_core/validators/dataset_validators.py:94
+#, python-brace-format
 msgid "{value} of type {type} does not belong to {namespace}"
 msgstr ""
 
 #: ckanext/digitraffic_core/validators/dataset_validators.py:99
+#, python-brace-format
 msgid "Provided value does not belong to {namespace}"
 msgstr ""
 
@@ -1018,10 +1044,6 @@ msgstr ""
 msgid "Value must either be a JSON list (str) or a list"
 msgstr ""
 
-#: ckanext/digitraffic_core/validators/dataset_validators.py:254
-msgid "At least one contact point is required"
-msgstr ""
-
 #: ckanext/digitraffic_core/validators/dataset_validators.py:230
 msgid "Session is required for related resource validation."
 msgstr ""
@@ -1030,15 +1052,48 @@ msgstr ""
 msgid "Related resource id cannot be empty."
 msgstr ""
 
-#: ckanext/digitraffic_core/validators/dataset_validators.py:237
+#: ckanext/digitraffic_core/validators/dataset_validators.py:238
+#, python-brace-format
 msgid "Related resource with id {value} does not exist or is not a valid dataset."
 msgstr ""
 
+#: ckanext/digitraffic_core/validators/dataset_validators.py:254
+msgid "At least one contact point is required"
+msgstr ""
+
+#: ckanext/digitraffic_core/validators/organization_validators.py:46
+msgid "The identifier must be text."
+msgstr ""
+
+#: ckanext/digitraffic_core/validators/organization_validators.py:117
+msgid "This identifier is already in use."
+msgstr ""
+
+#: ckanext/digitraffic_core/validators/organization_validators.py:139
+msgid ""
+"The stored identifiers are invalid; ask a system administrator to correct "
+"them."
+msgstr ""
+
+#: ckanext/digitraffic_core/validators/organization_validators.py:151
+msgid "Only a system administrator can set or change this identifier."
+msgstr ""
+
+#: ckanext/digitraffic_core/validators/organization_validators.py:179
+msgid "The Finnish EUID does not match the Y-tunnus."
+msgstr ""
+
+#: ckanext/digitraffic_core/validators/organization_validators.py:191
+msgid "An organisation needs a Y-tunnus, an EUID or an EUDI."
+msgstr ""
+
 #: ckanext/digitraffic_core/validators/resource_validators.py:69
+#, python-brace-format
 msgid "{value} is not a valid character encoding"
 msgstr ""
 
 #: ckanext/digitraffic_core/validators/resource_validators.py:94
+#, python-brace-format
 msgid "Value does not belong to {namespace}"
 msgstr ""
 

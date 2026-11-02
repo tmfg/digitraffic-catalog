@@ -50,7 +50,7 @@ export const RepeatingSubfield = (): ckan.Module<HTMLDivElement, RepeatingSubfie
     if (i === undefined) {
       throw new Error("Index not found")
     }
-    if (i.startsWith("REPEATING-INDEX")) {
+    if (i.includes("REPEATING-INDEX")) {
       throw new TemplateError("Template")
     }
     return parseInt(i)

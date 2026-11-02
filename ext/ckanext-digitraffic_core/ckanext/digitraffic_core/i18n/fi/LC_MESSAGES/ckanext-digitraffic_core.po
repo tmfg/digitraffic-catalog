@@ -1170,6 +1170,46 @@ msgstr ""
 msgid "Value does not belong to {namespace}"
 msgstr ""
 
+#: ckanext/digitraffic_core/js_translations.py:14
+msgid "Please Confirm"
+msgstr "Vahvista toiminto"
+
+#: ckanext/digitraffic_core/js_translations.py:15
+msgid "Searching..."
+msgstr "Haetaan..."
+
+#: ckanext/digitraffic_core/js_translations.py:16
+msgid "Notification"
+msgstr "Ilmoitus"
+
+#: ckanext/digitraffic_core/js_translations.py:17
+msgid "Reorder resource view"
+msgstr "Uudelleenjärjestä resurssin näkymät"
+
+#: ckanext/digitraffic_core/validators/organization_validators.py:191
+msgid "An organisation needs a Y-tunnus, an EUID or an EUDI."
+msgstr "Organisaatiolla on oltava Y-tunnus, EUID tai EUDI."
+
+#: ckanext/digitraffic_core/validators/organization_validators.py:151
+msgid "Only a system administrator can set or change this identifier."
+msgstr "Vain järjestelmän pääkäyttäjä voi asettaa tai muuttaa tämän tunnisteen."
+
+#: ckanext/digitraffic_core/validators/organization_validators.py:179
+msgid "The Finnish EUID does not match the Y-tunnus."
+msgstr "Suomalainen EUID ei vastaa Y-tunnusta."
+
+#: ckanext/digitraffic_core/validators/organization_validators.py:46
+msgid "The identifier must be text."
+msgstr "Tunnisteen on oltava tekstiä."
+
+#: ckanext/digitraffic_core/validators/organization_validators.py:139
+msgid "The stored identifiers are invalid; ask a system administrator to correct them."
+msgstr "Tallennetut tunnisteet ovat virheellisiä; pyydä järjestelmän pääkäyttäjää korjaamaan ne."
+
+#: ckanext/digitraffic_core/validators/organization_validators.py:117
+msgid "This identifier is already in use."
+msgstr "Tämä tunniste on jo käytössä."
+
 #~ msgid "Describe here the time period covered by the dataset, if applicable."
 #~ msgstr ""
 #~ "Tässä osiossa kuvaillaan tietoaineiston ajallinen kattavuus, jos se on "
@@ -1183,10 +1223,6 @@ msgstr ""
 #~ "Tähän osioon kuvataan ulkopuolisen tahon suorittaman arvioinnin päivämäärä "
 #~ "ja tulos. EU:n delegoitujen asetusten mukaisten tietoaineistojen arvioinnin "
 #~ "suorittaa yleensä kansallinen valvova viranomainen."
-
-# | msgid "Log in"
-#~ msgid "Link"
-#~ msgstr "Kirjaudu sisään"
 
 #~ msgid ""
 #~ "The <i>data license</i> you select above only applies to the contents of any "

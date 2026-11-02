@@ -62,9 +62,10 @@ export class EditOrganizationPage extends BasePage implements JSLoadedInterface<
       .filter({has: this.page.locator(`a[href~="${pathParameterURL(URL.User, {name})}"]`)})
     if (await isVisible(userRow)) {
       await userRow
-        .locator('a[title="Poista"]')
+        .locator('a[href*="/member_delete/"]')
         .click()
-      await this.page.getByRole('button', {name: "Confirm"}).click()
+      // The dialog's labels come from CKAN's JS translations, which the image does not build
+      await this.page.locator('#ckan-confirm-yes').click()
     }
   }
 }

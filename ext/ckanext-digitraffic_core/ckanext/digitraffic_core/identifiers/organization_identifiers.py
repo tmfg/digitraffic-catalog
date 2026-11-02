@@ -86,7 +86,7 @@ class OrganizationIdentifiers:
         return str(stored)
 
     def to_extras(self) -> dict[str, str]:
-        """The given identifiers in their stored form, keyed by their `group_extra` key."""
+        """The given identifiers in their stored form, keyed by their extras key."""
         return {identifier.KEY: str(identifier) for identifier in self._identifiers()}
 
     def _identifier(self, key: str) -> Optional[Identifier]:

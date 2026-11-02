@@ -103,7 +103,7 @@ class TestIdentifierStorage:
     def test_blank_identifiers_store_nothing(self):
         organization = create_organization(ytunnus="", euid="", eudi="   ")
 
-        # `None`, not "": no group_extra row is written for a blank value.
+        # `None`, not "": no extra is stored for a blank value.
         shown = show(organization)
         for key in IDENTIFIER_KEYS:
             assert shown.get(key) is None

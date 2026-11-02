@@ -115,7 +115,7 @@ const ImageUpload: ckan.Module<HTMLDivElement, ImageUploadMO> = {
             .appendTo(this.el);
 
         // Button to attach local file to the form
-        this.button_upload = $('<a href="javascript:;" class="btn btn-default">' +
+        this.button_upload = $('<a href="javascript:;" class="btn btn-secondary">' +
             '<i class="fa fa-cloud-upload"></i>' +
             this._('Upload') + '</a>')
             .insertAfter(this.input);

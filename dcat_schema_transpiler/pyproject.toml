@@ -16,6 +16,8 @@ idna = "3.17"
 anyio = "4.15.1"
 # Fix CVE-2026-71554 (httpx[http2] dependency)
 h2 = "4.4.1"
+# Fix GHSA-6q48-6c7w-9gw2 (httpx and httpcore dependency)
+certifi = "2026.10.18"
 
 
 [tool.poetry.group.test]
