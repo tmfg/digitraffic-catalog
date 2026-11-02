@@ -64,7 +64,8 @@ export class EditOrganizationPage extends BasePage implements JSLoadedInterface<
       await userRow
         .locator('a[href*="/member_delete/"]')
         .click()
-      await this.page.getByRole('dialog').getByRole('button', {name: "Vahvista"}).click()
+      // The dialog's labels come from CKAN's JS translations, which the image does not build
+      await this.page.locator('#ckan-confirm-yes').click()
     }
   }
 }
