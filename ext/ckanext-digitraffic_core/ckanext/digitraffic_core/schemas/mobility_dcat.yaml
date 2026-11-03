@@ -3817,6 +3817,14 @@ dataset_fields:
   subfield_form_attrs:
     data-module: digitraffic_core_rights_holder
   form_blanks: 0
+- field_name: applicable_legislation
+  label:
+    en: Applicable legislation
+    fi: Sovellettava lainsäädäntö
+    sv: Tillämplig lagstiftning
+  required: false
+  form_snippet: null
+  validators: keep_stored_extras_value ignore_missing unicode_safe
 resource_fields:
 - field_name: url
   label:
