@@ -351,3 +351,45 @@ class TestDatasetValidators:
         assert dataset_1["id"] not in updated_dataset_2.get("is_referenced_by", [])
         # dataset_3 should still have is_referenced_by
         assert dataset_1["id"] in updated_dataset_3.get("is_referenced_by", [])
+
+    def test_applicable_legislation_is_stored_and_shown(self):
+        organization = factories.Organization()
+        dataset = create_dataset(organization, applicable_legislation="MMTIS")
+
+        shown = helpers.call_action("package_show", id=dataset["id"])
+        assert shown.get("applicable_legislation") == "MMTIS"
+
+    def test_applicable_legislation_survives_form_save(self):
+        organization = factories.Organization()
+        dataset = create_dataset(organization, applicable_legislation="MMTIS")
+
+        # The field has no form input, so a save through the form posts no
+        # value for it; the stored value must be carried through regardless.
+        update = {
+            key: value
+            for key, value in dataset.items()
+            if key != "applicable_legislation"
+        }
+        helpers.call_action("package_update", **update)
+
+        shown = helpers.call_action("package_show", id=dataset["id"])
+        assert shown.get("applicable_legislation") == "MMTIS"
+
+    def test_applicable_legislation_survives_empty_value_save(self):
+        organization = factories.Organization()
+        dataset = create_dataset(organization, applicable_legislation="MMTIS")
+
+        dataset["applicable_legislation"] = ""
+        helpers.call_action("package_update", **dataset)
+
+        shown = helpers.call_action("package_show", id=dataset["id"])
+        assert shown.get("applicable_legislation") == "MMTIS"
+
+    def test_dataset_without_applicable_legislation_saves_cleanly(self):
+        organization = factories.Organization()
+        dataset = create_dataset(organization)
+
+        helpers.call_action("package_update", **dataset)
+
+        shown = helpers.call_action("package_show", id=dataset["id"])
+        assert "applicable_legislation" not in shown
