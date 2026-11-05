@@ -10,3 +10,26 @@ groups:
       Require every organisation to have at least one identifier: a Y-tunnus, an EUID or an
       EUDI. Switch it on only after every existing organisation has one, because saving an
       organisation without an identifier is rejected while it is on.
+  - key: ckanext.digitraffic_core.vaco.enabled
+    type: bool
+    default: false
+    example: "true"
+    description: >-
+      Let `ckan digitraffic-vaco submit` send the public GTFS, NeTEx and GBFS resources to VACO
+      for validation.
+  - key: ckanext.digitraffic_core.vaco.api_base_url
+    description: >-
+      Address of VACO, without the `/api` path.
+  - key: ckanext.digitraffic_core.vaco.token_url
+    description: >-
+      Trivore ID token address, where the catalog gets its access token for VACO.
+  - key: ckanext.digitraffic_core.vaco.client_id
+    description: >-
+      The catalog's client id in Trivore ID. VACO accepts only the client ids it has been told about.
+  - key: ckanext.digitraffic_core.vaco.client_secret
+    description: >-
+      The catalog's client secret in Trivore ID. Give it as an environment variable, never in a
+      committed file.
+  - key: ckanext.digitraffic_core.vaco.scope
+    description: >-
+      Scope sent with the token request, if Trivore ID requires one for the catalog's client.
