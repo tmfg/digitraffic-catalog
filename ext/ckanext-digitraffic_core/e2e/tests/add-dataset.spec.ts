@@ -1,29 +1,30 @@
-import { getKnownUserOrThrow, test } from '../fixtures/users'
-import { Identity } from '../users/identity-user';
-import { DatasetInfo, type PersonContactPoint, type PersonRightsHolder } from "../models/dataset-info";
-import { Frequency } from "../../src/ts/model/frequency";
-import { RegionalCoverage } from "../../src/ts/model/regional-coverage";
-import { MOBILITY_THEME_TREE, TOP_MOBILITY_THEMES } from "../../src/ts/model/mobility-theme";
-import { ResourceInfo } from "../models/resource-info";
+import { Literal, Parser } from 'n3';
+import { ApplicationLayerProtocol } from "../../src/ts/model/application-layer-protocol";
+import { CharacterEncoding } from "../../src/ts/model/character-encoding";
+import { CommunicationMethod } from "../../src/ts/model/communication-method";
+import { DataGrammar } from "../../src/ts/model/data-grammar";
 import { FileFormat } from "../../src/ts/model/file-format";
+import { Frequency } from "../../src/ts/model/frequency";
+import { GeoreferencingMethod } from "../../src/ts/model/georeferencing-method";
+import { IntendedInformationService } from "../../src/ts/model/intended-information-service";
+import { Language } from "../../src/ts/model/language";
+import { LicenseId } from "../../src/ts/model/license-id";
 import { MobilityDataStandard } from "../../src/ts/model/mobility-data-standard";
+import { MOBILITY_THEME_TREE, TOP_MOBILITY_THEMES } from "../../src/ts/model/mobility-theme";
+import { NetworkCoverage } from "../../src/ts/model/network-coverage";
+import { RegionalCoverage } from "../../src/ts/model/regional-coverage";
 import { RightsType } from "../../src/ts/model/rights-type";
 import { Theme } from "../../src/ts/model/theme";
 import { TransportMode } from "../../src/ts/model/transport-mode";
-import { Language } from "../../src/ts/model/language";
-import { GeoreferencingMethod } from "../../src/ts/model/georeferencing-method";
-import { NetworkCoverage } from "../../src/ts/model/network-coverage";
-import { IntendedInformationService } from "../../src/ts/model/intended-information-service";
-import { OrganizationEditorView } from "../user-views/organization-editor-view";
+import { getKnownUserOrThrow, test } from '../fixtures/users';
+import { DatasetInfo, type PersonContactPoint } from "../models/dataset-info";
+import { ResourceInfo } from "../models/resource-info";
 import { DatasetPage, NewResourcePage } from "../page-object-models";
-import { ApplicationLayerProtocol } from "../../src/ts/model/application-layer-protocol";
-import { DataGrammar } from "../../src/ts/model/data-grammar";
-import { CharacterEncoding } from "../../src/ts/model/character-encoding";
-import { CommunicationMethod } from "../../src/ts/model/communication-method";
-import { LicenseId } from "../../src/ts/model/license-id";
-import { OrganizationMemberView } from "../user-views/organization-member-view";
-import { Literal, Parser } from 'n3';
 import * as rdf from "../rdf-helpers";
+import { organization } from "../testdata";
+import { OrganizationEditorView } from "../user-views/organization-editor-view";
+import { OrganizationMemberView } from "../user-views/organization-member-view";
+import { Identity } from '../users/identity-user';
 
 const identitiesToUse = [Identity.OrganizationEditor, Identity.OrganizationMember] as const
 
@@ -184,32 +185,7 @@ test.describe.serial('Add new dataset', () => {
         relatedDatasets: [firstDatasetName],
         isReferencedBy: [],
         rightsHolders: [
-          {
-            type: 'http://purl.org/adms/publishertype/Company',
-            name: 'Test Company',
-            email: 'company@example.com',
-            phone: '+358403456789',
-            streetAddress: 'Yrityskatu 3',
-            city: 'Vantaa',
-            postalCode: '01300',
-            region: 'Uusimaa',
-            countryName: 'Suomi'
-          },
-          {
-            type: 'http://purl.org/adms/publishertype/PrivateIndividual(s)',
-            name: 'Test Individual',
-            email: 'individual@example.com',
-            phone: '+358404567890',
-            streetAddress: 'Yksilökatu 4',
-            city: 'Tampere',
-            postalCode: '33100',
-            region: 'Pirkanmaa',
-            countryName: 'Suomi',
-            firstName: 'Test',
-            surname: 'Individual',
-            workplaceHomepage: 'https://workplace.example.com',
-            organizationName: 'Test Org'
-          } as PersonRightsHolder
+          { organization: organization.name }
         ]
       }
     );

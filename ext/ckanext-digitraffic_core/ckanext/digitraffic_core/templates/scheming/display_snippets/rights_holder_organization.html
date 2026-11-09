@@ -1,0 +1,2 @@
+{%- set organization = h.get_organization(data[field.field_name]) -%}
+{{ organization.display_name or data[field.field_name] }}

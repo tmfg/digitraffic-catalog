@@ -51,8 +51,12 @@
 }
 
 form {
-    &#dataset-edit, &#resource-edit {
-        input, select {
+
+    &#dataset-edit,
+    &#resource-edit {
+
+        input,
+        select {
             @include input-defaults;
         }
     }
@@ -120,6 +124,7 @@ form {
 }
 
 .form-group {
+
     // A dataset must have at least one contact point
     .scheming-subfield-group[data-field="contact_point"]:first-child .btn-repeating-remove {
         display: none;

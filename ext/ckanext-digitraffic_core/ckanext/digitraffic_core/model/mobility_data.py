@@ -1,58 +1,51 @@
 import json
 import re
-from typing import Any, Dict, Optional
-from rdflib import URIRef, Literal, XSD
 from datetime import datetime
+from typing import Any, Dict, Optional
 
+from ckan import model
 from ckanext.dcat.utils import (
+    catalog_uri,
     publisher_uri_organization_fallback,
     resource_uri,
-    catalog_uri,
-)
-from ckanext.digitraffic_core.model.address import VCARDAddress, LOCNAddress
-from ckanext.digitraffic_core.model.agent_type import AgentType
-from ckanext.digitraffic_core.model.agent import Agent
-from ckanext.digitraffic_core.model.assessment import Assessment
-from ckanext.digitraffic_core.model.catalog_record import CatalogRecord
-from ckanext.digitraffic_core.model.contact_point import ContactPoint
-from ckanext.digitraffic_core.model.dataset import Dataset
-from ckanext.digitraffic_core.model.distribution import Distribution
-from ckanext.digitraffic_core.model.frequency import Frequency
-from ckanext.digitraffic_core.model.intended_information_service import (
-    IntendedInformationService,
 )
 from ckanext.digitraffic_core.helpers import helpers
-from ckanext.digitraffic_core.model.location import Location
-from ckanext.digitraffic_core.model.rights_statement import RightsStatement
+from ckanext.digitraffic_core.helpers.helpers import url_from_dataset_id
+from ckanext.digitraffic_core.model.address import VCARDAddress
+from ckanext.digitraffic_core.model.agent import Agent
 from ckanext.digitraffic_core.model.application_layer_protocol import (
     ApplicationLayerProtocol,
 )
+from ckanext.digitraffic_core.model.assessment import Assessment
+from ckanext.digitraffic_core.model.catalog_record import CatalogRecord
+from ckanext.digitraffic_core.model.communication_method import CommunicationMethod
+from ckanext.digitraffic_core.model.contact_point import ContactPoint
+from ckanext.digitraffic_core.model.data_service import DataService
+from ckanext.digitraffic_core.model.dataset import Dataset
+from ckanext.digitraffic_core.model.distribution import Distribution
 from ckanext.digitraffic_core.model.format import Format
+from ckanext.digitraffic_core.model.frequency import Frequency
+from ckanext.digitraffic_core.model.georeferencing_method import GeoreferencingMethod
+from ckanext.digitraffic_core.model.intended_information_service import (
+    IntendedInformationService,
+)
 from ckanext.digitraffic_core.model.license_document import LicenseDocument
-from ckanext.digitraffic_core.model.spatial_reference import SpatialReference
-from ckanext.digitraffic_core.model.standard_license import StandardLicense
+from ckanext.digitraffic_core.model.location import Location
+from ckanext.digitraffic_core.model.mobility_data_standard import MobilityDataStandard
 from ckanext.digitraffic_core.model.mobility_theme import (
     MobilityTheme,
     MobilityThemeSub,
 )
-from ckanext.digitraffic_core.model.mobility_data_standard import (
-    MobilityDataStandard,
-)
+from ckanext.digitraffic_core.model.network_coverage import NetworkCoverage
+from ckanext.digitraffic_core.model.organization import Organization
+from ckanext.digitraffic_core.model.period_of_time import PeriodOfTime
+from ckanext.digitraffic_core.model.quality_annotation import QualityAnnotation
+from ckanext.digitraffic_core.model.rights_statement import RightsStatement
+from ckanext.digitraffic_core.model.spatial_reference import SpatialReference
+from ckanext.digitraffic_core.model.standard_license import StandardLicense
 from ckanext.digitraffic_core.model.theme import Theme
 from ckanext.digitraffic_core.model.transport_mode import TransportMode
-from ckanext.digitraffic_core.model.georeferencing_method import GeoreferencingMethod
-from ckanext.digitraffic_core.model.network_coverage import NetworkCoverage
-from ckanext.digitraffic_core.model.quality_annotation import QualityAnnotation
-from ckanext.digitraffic_core.model.communication_method import CommunicationMethod
-
-
-from ckanext.digitraffic_core.model.organization import Organization
-from ckanext.digitraffic_core.model.data_service import DataService
-
-from ckanext.digitraffic_core.model.person import Person
-from ckanext.digitraffic_core.model.period_of_time import PeriodOfTime
-
-from ckanext.digitraffic_core.helpers.helpers import url_from_dataset_id
+from rdflib import XSD, Literal, URIRef
 
 
 class MobilityData:
@@ -71,18 +64,26 @@ class MobilityData:
                         {
                             "email": self._mail_to_uri(contact_point["has_email"]),
                             "full_name": Literal(contact_point["fn"]),
-                            "website": self._url_to_uri(contact_point.get("has_url")) if contact_point.get("has_url") else None,
+                            "website": (
+                                self._url_to_uri(contact_point.get("has_url"))
+                                if contact_point.get("has_url")
+                                else None
+                            ),
                             "address": self._optional_resource(
                                 VCARDAddress,
                                 {
                                     "country_name": self._optional_literal(
                                         contact_point.get("country_name")
                                     ),
-                                    "locality": self._optional_literal(contact_point.get("locality")),
+                                    "locality": self._optional_literal(
+                                        contact_point.get("locality")
+                                    ),
                                     "postal_code": self._optional_literal(
                                         contact_point.get("postal_code")
                                     ),
-                                    "region": self._optional_literal(contact_point.get("region")),
+                                    "region": self._optional_literal(
+                                        contact_point.get("region")
+                                    ),
                                     "street_address": self._optional_literal(
                                         contact_point.get("street_address")
                                     ),
@@ -91,7 +92,13 @@ class MobilityData:
                             "affiliation": self._optional_literal(
                                 contact_point.get("organization_name")
                             ),
-                            "telephone": self._phonenumber_to_uri(contact_point.get("has_telephone")) if contact_point.get("has_telephone") else None,
+                            "telephone": (
+                                self._phonenumber_to_uri(
+                                    contact_point.get("has_telephone")
+                                )
+                                if contact_point.get("has_telephone")
+                                else None
+                            ),
                         },
                     )
                     for contact_point in dataset_dict["contact_point"]
@@ -108,12 +115,13 @@ class MobilityData:
                         None,
                         {
                             "assessment_date": self._optional_literal(
-                                assessment.get("assessment_date"),
-                                datatype=XSD.date
+                                assessment.get("assessment_date"), datatype=XSD.date
                             ),
-                            "assessment_result": URIRef(
-                                assessment.get("assessment_result")
-                            ) if assessment.get("assessment_result") else None
+                            "assessment_result": (
+                                URIRef(assessment.get("assessment_result"))
+                                if assessment.get("assessment_result")
+                                else None
+                            ),
                         },
                     )
                     for assessment in dataset_dict["assessment"]
@@ -163,60 +171,25 @@ class MobilityData:
             else {}
         )
 
-        def create_agent(ref: URIRef | None, agent_data: Dict[str, Any]):
-            agent_type = (
-                AgentType(agent_data["type"]) if agent_data.get("type") else None
-            )
-            address_input = {
-                "admin_unit_L1": self._optional_literal(agent_data.get("admin_unit_l1")),
-                "admin_unit_L2": self._optional_literal(agent_data.get("admin_unit_l2")),
-                "post_name": self._optional_literal(agent_data.get("post_name")),
-                "post_code": self._optional_literal(agent_data.get("post_code")),
-                "thoroughfare": self._optional_literal(agent_data.get("thoroughfare")),
-            }
-            address = self._optional_resource(LOCNAddress, address_input)
-            mbox = self._mail_to_uri(agent_data.get("mbox")) if agent_data.get("mbox") else None
-            phone = self._phonenumber_to_uri(agent_data.get("phone")) if agent_data.get("phone") else None
-            organizations = self._optional_literal(agent_data.get("member_of"))
-            common_input = {
-                "name": Literal(agent_data.get("name")),
-                "agent_type": agent_type,
-                "address": address,
-                "mbox": mbox,
-                "phone": phone,
-                **({"member_of": organizations} if organizations else {}),
-            }
-            if (
-                agent_type
-                and agent_type.iri == AgentType.namespace["PrivateIndividual(s)"]
-            ):
-                first_name = self._optional_literal(agent_data.get("first_name"))
-                surname = self._optional_literal(agent_data.get("surname"))
-                workplace_homepage = self._url_to_uri(agent_data.get("workplace_homepage")) if agent_data.get("workplace_homepage") else None
-                return Person(
-                    ref,
-                    common_input
-                    | {
-                        "first_name": first_name,
-                        "surname": surname,
-                        "workplace_homepage": workplace_homepage,
-                    },
-                )
-            else:
-                return Organization(
-                    ref, common_input
-                )
+        def create_organization_agent(ref: str | None, name: str):
+            return Organization(ref, {"name": Literal(name)})
 
-        rights_holder = (
-            {
-                "rights_holders": [
-                    create_agent(None, rights_holder)
-                    for rights_holder in dataset_dict["rights_holder"]
-                ]
-            }
-            if dataset_dict.get("rights_holder")
-            else {}
-        )
+        def create_rights_holder(rights_holder_data: Dict[str, Any]):
+            organization = model.Group.get(rights_holder_data.get("organization"))
+            if organization is None or organization.state != "active":
+                return None
+            return create_organization_agent(
+                f"{catalog_uri().rstrip('/')}/organization/{organization.id}",
+                organization.title or organization.name,
+            )
+
+        # Left out: rights holders saved before they were tied to an organisation, and deleted organisations
+        rights_holders = [
+            agent
+            for agent in map(create_rights_holder, dataset_dict.get("rights_holder") or [])
+            if agent is not None
+        ]
+        rights_holder = {"rights_holders": rights_holders} if rights_holders else {}
         start_timestamp_str = (
             dataset_dict.get("start_timestamp") + "Z"
             if dataset_dict.get("start_timestamp")
@@ -382,10 +355,10 @@ class MobilityData:
                         {
                             "title": [
                                 Literal(
-                                    dist.get("name_translated", {}).get(key, ""), lang=key
+                                    dist.get("name_translated", {}).get(key, ""),
+                                    lang=key,
                                 )
-                                for key
-                                in (dist.get("name_translated") or {}).keys()
+                                for key in (dist.get("name_translated") or {}).keys()
                                 if dist.get("name_translated")[key] != ""
                             ],
                         }
@@ -457,19 +430,14 @@ class MobilityData:
                 "accrualPeriodicity": maybe_many(dataset_dict["frequency"], Frequency),
                 "mobility_theme": MobilityTheme(dataset_dict["mobility_theme"]),
                 "title": [
-                    Literal(
-                        dataset_dict["title_translated"][key], lang=key
-                    )
-                    for key
-                    in (dataset_dict.get("title_translated", {})).keys()
+                    Literal(dataset_dict["title_translated"][key], lang=key)
+                    for key in (dataset_dict.get("title_translated", {})).keys()
                     if dataset_dict["title_translated"][key] != ""
                 ],
-                "publisher": create_agent(
+                "publisher": create_organization_agent(
                     organization_ref,
-                    {
-                        "name": dataset_dict["organization"]["title"]
-                        or dataset_dict["organization"]["name"]
-                    },
+                    dataset_dict["organization"]["title"]
+                    or dataset_dict["organization"]["name"],
                 ),
                 **(
                     {
@@ -499,18 +467,12 @@ class MobilityData:
                     else {}
                 ),
                 **(
-                    {
-                        "conforms_to": SpatialReference(
-                            dataset_dict["conforms_to"]
-                        )
-                    }
+                    {"conforms_to": SpatialReference(dataset_dict["conforms_to"])}
                     if dataset_dict.get("conforms_to")
                     else {}
                 ),
                 **(
-                    {
-                        "version_info": Literal(dataset_dict.get("version"))
-                    }
+                    {"version_info": Literal(dataset_dict.get("version"))}
                     if dataset_dict.get("version")
                     else {}
                 ),
@@ -518,10 +480,14 @@ class MobilityData:
                     {
                         "version_notes": [
                             Literal(
-                                dataset_dict.get("version_notes_translated", {}).get(key, ""), lang=key
+                                dataset_dict.get("version_notes_translated", {}).get(
+                                    key, ""
+                                ),
+                                lang=key,
                             )
-                            for key
-                            in (dataset_dict.get("version_notes_translated") or {}).keys()
+                            for key in (
+                                dataset_dict.get("version_notes_translated") or {}
+                            ).keys()
                             if dataset_dict.get("version_notes_translated")[key] != ""
                         ],
                     }
@@ -542,7 +508,6 @@ class MobilityData:
                     if dataset_dict.get("language")
                     else {}
                 ),
-
                 **quality_annotation,
                 **assessments,
                 **related_resource,
@@ -564,15 +529,19 @@ class MobilityData:
             },
         )
 
-    def _optional_literal(self, value: Any, datatype:str=None) -> Optional[Literal]:
+    def _optional_literal(self, value: Any, datatype: str = None) -> Optional[Literal]:
         return Literal(value, datatype=datatype) if value else None
 
     def _optional_resource(self, resource_constructor, values_dict: dict[str, Any]):
         is_values_given = any(values_dict.values())
-        return resource_constructor(
-            None,
-            values_dict,
-        ) if is_values_given else None
+        return (
+            resource_constructor(
+                None,
+                values_dict,
+            )
+            if is_values_given
+            else None
+        )
 
     def _mail_to_uri(self, email: str) -> URIRef:
         if email.startswith("mailto:"):

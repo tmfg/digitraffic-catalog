@@ -1,26 +1,25 @@
-import "./modules/top-navigation";
+import {
+    ChevronDown,
+    ChevronUp,
+    createIcons,
+    ExternalLink,
+    Globe,
+    Menu,
+    User,
+} from "lucide";
 import "./modules/app-navigation";
-import "./modules/user-actions";
-import "./modules/dataset-form";
-import "./modules/iri-fragment-input";
-import "./modules/language-menu";
-import "./modules/temporal-coverage";
-import "./modules/multi-select";
-import "./modules/language-toggle-buttons";
 import "./modules/contact-detail";
-import "./modules/rights-holder";
+import "./modules/dataset-form";
 import "./modules/form-layout";
 import "./modules/image-upload";
+import "./modules/iri-fragment-input";
+import "./modules/language-menu";
+import "./modules/language-toggle-buttons";
+import "./modules/multi-select";
+import "./modules/temporal-coverage";
+import "./modules/top-navigation";
+import "./modules/user-actions";
 import "./popover-listener";
-import {
-  ChevronDown,
-  ChevronUp,
-  createIcons,
-  ExternalLink,
-  Globe,
-  Menu,
-  User,
-} from "lucide";
 
 jQuery(function () {
   $(".js-disabled").removeClass("js-disabled");
