@@ -3521,6 +3521,14 @@ dataset_fields:
     display_snippet: rights_holder_organization.html
     validators: scheming_required rights_holder_organization_validator
   form_blanks: 0
+- field_name: applicable_legislation
+  label:
+    en: Applicable legislation
+    fi: Sovellettava lainsäädäntö
+    sv: Tillämplig lagstiftning
+  required: false
+  form_snippet: null
+  validators: keep_stored_extras_value ignore_missing unicode_safe
 resource_fields:
 - field_name: url
   label:

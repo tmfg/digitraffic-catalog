@@ -5,14 +5,14 @@ settings:
   excludeLinksFromLockfile: false
 
 overrides:
-  serialize-javascript@<7.0.5: 7.0.5
+  serialize-javascript@<7.1.3: 7.1.3
   svgo@<4.1.0: 4.1.0
-  dompurify@<3.4.16: 3.4.16
+  dompurify@<3.4.17: 3.4.17
   picomatch@>=4.0.0 <4.0.4: 4.0.4
   brace-expansion@<1.1.21: 1.1.21
   immutable@>=5.0.0 <5.1.8: 5.1.8
   minimatch@<3.1.4: 3.1.4
-  qs@<6.16.0: 6.16.0
+  qs@<6.16.1: 6.16.1
   browserslist@<4.28.7: 4.28.7
   nanoid@<3.3.18: 3.3.18
   postcss-selector-parser@<7.1.6: 7.1.6
@@ -67,8 +67,8 @@ importers:
         specifier: 10.5.4
         version: 10.5.4(postcss@8.5.25)
       ckan:
-        specifier: github:ckan/ckan#ckan-2.11.3
-        version: https://codeload.github.com/ckan/ckan/tar.gz/9714f3d8781719265039a26aad401d8057f92e67
+        specifier: github:ckan/ckan#ckan-2.12.1
+        version: https://codeload.github.com/ckan/ckan/tar.gz/3e9afe078125182454c36c8adfc96f545d119553
       cssnano:
         specifier: 7.1.9
         version: 7.1.9(postcss@8.5.25)
@@ -481,21 +481,6 @@ packages:
     engines: {node: '>=6.0.0'}
     hasBin: true
 
-  blueimp-canvas-to-blob@3.29.0:
-    resolution: {integrity: sha512-0pcSSGxC0QxT+yVkivxIqW0Y4VlO2XSDPofBAqoJ1qJxgH9eiUDLv50Rixij2cDuEfx4M6DpD9UGZpRhT5Q8qg==}
-
-  blueimp-file-upload@10.32.0:
-    resolution: {integrity: sha512-3WMJw5Cbfz94Adl1OeyH+rRpGwHiNHzja+CR6aRWPoAtwrUwvP5gXKo0XdX+sdPE+iCU63Xmba88hoHQmzY8RQ==}
-    peerDependencies:
-      jquery: '>=1.7'
-
-  blueimp-load-image@5.16.0:
-    resolution: {integrity: sha512-3DUSVdOtlfNRk7moRZuTwDmA3NnG8KIJuLcq3c0J7/BIr6X3Vb/EpX3kUH1joxUhmoVF4uCpDfz7wHkz8pQajA==}
-
-  blueimp-tmpl@3.20.0:
-    resolution: {integrity: sha512-g6ln9L+VX8ZA4WA8mgKMethYH+5teroJ2uOkCvcthy9Y9d9LrQ42OAMn+r3ECKu9CB+xe9GOChlIUJBSxwkI6g==}
-    hasBin: true
-
   boolbase@1.0.0:
     resolution: {integrity: sha512-JZOSA7Mo9sNGB8+UjSgzdLtokWAky1zbztM3WRLCbZ70/3cTANmQmOdR7y2g+J0e2WXywy1yS468tY+IruqEww==}
 
@@ -542,9 +527,10 @@ packages:
     resolution: {integrity: sha512-TQMmc3w+5AxjpL8iIiwebF73dRDF4fBIieAqGn9RGCWaEVwQ6Fb2cGe31Yns0RRIzii5goJ1Y7xbMwo1TxMplw==}
     engines: {node: '>= 20.19.0'}
 
-  ckan@https://codeload.github.com/ckan/ckan/tar.gz/9714f3d8781719265039a26aad401d8057f92e67:
-    resolution: {gitHosted: true, tarball: https://codeload.github.com/ckan/ckan/tar.gz/9714f3d8781719265039a26aad401d8057f92e67}
+  ckan@https://codeload.github.com/ckan/ckan/tar.gz/3e9afe078125182454c36c8adfc96f545d119553:
+    resolution: {gitHosted: true, integrity: sha512-S8esiMpazrY94W/eKrjh2WuDB8ixXLb9gWdfRAcdGLsnC0ZgyZHMc4RzzeWl9v6WeWXdzTl6SqsX+b8YvXZwuw==, tarball: https://codeload.github.com/ckan/ckan/tar.gz/3e9afe078125182454c36c8adfc96f545d119553}
     version: 1.0.0
+    engines: {node: '>=24 <25'}
 
   cliui@9.0.1:
     resolution: {integrity: sha512-k7ndgKhwoQveBL+/1tqGJYNz097I7WOvwbmmU2AR5+magtbjPWQTS1C5vzGkBC8Ym8UWRzfKUzUUqFLypY4Q+w==}
@@ -636,8 +622,8 @@ packages:
     resolution: {integrity: sha512-cgwlv/1iFQiFnU96XXgROh8xTeetsnJiDsTc7TYCLFd9+/WNkIqPTxiM/8pSd8VIrhXGTf1Ny1q1hquVqDJB5w==}
     engines: {node: '>= 4'}
 
-  dompurify@3.4.16:
-    resolution: {integrity: sha512-sqo+pNp3qRhCIpbgRi1y8Tgk27Bo2Ry7w0dC1NBeNTdZChWjz9Xb/KOoZbRP/R6pQZ80Qw8YhXw13hWWBbMRnQ==}
+  dompurify@3.4.17:
+    resolution: {integrity: sha512-B/pSlYVHQ58kqISD/yDjuJ1yfzI34m1gF4lAod2bwSRhiN4K5Cl3H8Af7hqB2PmTL911tdEudnnXn5FnhRoz0w==}
 
   domutils@3.2.2:
     resolution: {integrity: sha512-6kZKyUajlDuqlHKVX1w7gyslj9MPIXzIFiz/rGu35uC1wMi+kMhQwGhl4lt9unC9Vb9INnY9Z3/ZA3+FhASLaw==}
@@ -740,8 +726,8 @@ packages:
     resolution: {integrity: sha512-ej4AhfhfL2Q2zpMmLo7U1Uv9+PyhIZpgQLGT1F9miIGmiCJIoCgSmczFdrc97mWT4kVY72KA+WnnhJ5pghSvSg==}
     engines: {node: '>= 0.4'}
 
-  htmx.org@1.9.12:
-    resolution: {integrity: sha512-VZAohXyF7xPGS52IM8d1T1283y+X4D+Owf3qY1NZ9RuBypyu9l8cGsxUMAG5fEAb/DhT7rDoJ9Hpu5/HxFD3cw==}
+  htmx.org@2.0.11:
+    resolution: {integrity: sha512-Thx/WtpeOQqSrqBCw/A1cwGJGg4UrVa3+sW0GmrM3p4gJgO89ecH4qtbnyzDDWFvBTqjnIMCgELTNt636dtamA==}
 
   ieee754@1.2.1:
     resolution: {integrity: sha512-dcyqhDvX1C46lXZcVqCpK+FtMRQVdIMN6/Df5js2zouUsqG7I6sFxitIC+7KYK29KdXOLHdu9zL4sFnoVQnqaA==}
@@ -1088,8 +1074,8 @@ packages:
     resolution: {integrity: sha512-cdGef/drWFoydD1JsMzuFf8100nZl+GT+yacc2bEced5f9Rjk4z+WtFUTBu9PhOi9j/jfmBPu0mMEY4wIdAF8A==}
     engines: {node: '>= 0.6.0'}
 
-  qs@6.16.0:
-    resolution: {integrity: sha512-h6fhOIaRrID2CbEY2fqs+7t+UXZo+MLAnU5gRIq85uFtdiUPCdsApMlHhXogKVM4HM2DVbIjGNTTYH2OcmP1vA==}
+  qs@6.16.1:
+    resolution: {integrity: sha512-5Px6J7rfHBAGUhNQ3es4YzcOdBBw0SDcVtThJml4RdnKw4tKs2epA0kPZ+K8X+WiHktT93RHVcQ/3ym5aTCgtg==}
     engines: {node: '>=0.6'}
 
   read-cache@1.0.0:
@@ -1125,12 +1111,16 @@ packages:
     resolution: {integrity: sha512-42tBVwLWnaQvW5zc4HbZrTuWccECCZfBi92FDuwtqxasH+JbPB3/FOKb1m222K42R4WxuxzzMsTswfzgtSu64Q==}
     engines: {node: '>=11.0.0'}
 
+  select2@4.1.0:
+    resolution: {integrity: sha512-i9KalWOP4/LRRGc8+rj2krNm0ZqP14cV+j1TRCEBSsOhCPkKH8rYZ2MCRXcgvqIqN+llqGci0hj9aVkCMvL0+g==}
+    engines: {node: '>=24'}
+
   semver@6.3.1:
     resolution: {integrity: sha512-BR7VvDCVHO+q2xBEWskxS6DJE1qRnb7DxzUrogb71CWoSficBxYsiAGd+Kl0mmq/MprG9yArRkyrQxTO6XjMzA==}
     hasBin: true
 
-  serialize-javascript@7.0.5:
-    resolution: {integrity: sha512-F4LcB0UqUl1zErq+1nYEEzSHJnIwb3AF2XWB94b+afhrekOUijwooAYqFyRbjYkm2PAKBabx6oYv/xDxNi8IBw==}
+  serialize-javascript@7.1.3:
+    resolution: {integrity: sha512-kYEnegpAxWFjUw3dSYdSM9zVlTrsxDbsSkq/qd3B7VanqyJ+JdDy6qVyuqVGBhSfuD/rLZQEKuXsO5KZFCrVYQ==}
     engines: {node: '>=20.0.0'}
 
   side-channel-list@1.0.1:
@@ -1378,7 +1368,7 @@ snapshots:
 
   '@rollup/plugin-terser@1.0.0(rollup@4.60.2)':
     dependencies:
-      serialize-javascript: 7.0.5
+      serialize-javascript: 7.1.3
       smob: 1.6.1
       terser: 5.46.2
     optionalDependencies:
@@ -1518,23 +1508,6 @@ snapshots:
 
   baseline-browser-mapping@2.11.8: {}
 
-  blueimp-canvas-to-blob@3.29.0:
-    optional: true
-
-  blueimp-file-upload@10.32.0(jquery@3.7.1):
-    dependencies:
-      jquery: 3.7.1
-    optionalDependencies:
-      blueimp-canvas-to-blob: 3.29.0
-      blueimp-load-image: 5.16.0
-      blueimp-tmpl: 3.20.0
-
-  blueimp-load-image@5.16.0:
-    optional: true
-
-  blueimp-tmpl@3.20.0:
-    optional: true
-
   boolbase@1.0.0: {}
 
   bootstrap-icons@1.13.1: {}
@@ -1588,18 +1561,18 @@ snapshots:
     dependencies:
       readdirp: 5.0.0
 
-  ckan@https://codeload.github.com/ckan/ckan/tar.gz/9714f3d8781719265039a26aad401d8057f92e67:
+  ckan@https://codeload.github.com/ckan/ckan/tar.gz/3e9afe078125182454c36c8adfc96f545d119553:
     dependencies:
       '@fortawesome/fontawesome-free': 6.7.2
       '@highlightjs/cdn-assets': 11.11.1
       '@popperjs/core': 2.11.8
-      blueimp-file-upload: 10.32.0(jquery@3.7.1)
       bootstrap: 5.3.8(@popperjs/core@2.11.8)
-      dompurify: 3.4.16
-      htmx.org: 1.9.12
+      dompurify: 3.4.17
+      htmx.org: 2.0.11
       jquery: 3.7.1
       moment: 2.31.0
-      qs: 6.16.0
+      qs: 6.16.1
+      select2: 4.1.0
 
   cliui@9.0.1:
     dependencies:
@@ -1710,7 +1683,7 @@ snapshots:
     dependencies:
       domelementtype: 2.3.0
 
-  dompurify@3.4.16:
+  dompurify@3.4.17:
     optionalDependencies:
       '@types/trusted-types': 2.0.7
 
@@ -1794,7 +1767,7 @@ snapshots:
     dependencies:
       function-bind: 1.1.2
 
-  htmx.org@1.9.12: {}
+  htmx.org@2.0.11: {}
 
   ieee754@1.2.1: {}
 
@@ -2104,7 +2077,7 @@ snapshots:
 
   process@0.11.10: {}
 
-  qs@6.16.0:
+  qs@6.16.1:
     dependencies:
       es-define-property: 1.0.1
       side-channel: 1.1.1
@@ -2173,9 +2146,11 @@ snapshots:
 
   sax@1.6.1: {}
 
+  select2@4.1.0: {}
+
   semver@6.3.1: {}
 
-  serialize-javascript@7.0.5: {}
+  serialize-javascript@7.1.3: {}
 
   side-channel-list@1.0.1:
     dependencies:

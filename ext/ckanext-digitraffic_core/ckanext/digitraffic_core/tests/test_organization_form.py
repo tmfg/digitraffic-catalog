@@ -117,6 +117,6 @@ class TestOrganizationForm:
             status=200,
         )
 
-        assert "An organisation needs a Y-tunnus, an EUID or an EUDI." in response.body
+        assert "Organisaatiolla on oltava Y-tunnus, EUID tai EUDI." in response.body
         shown = helpers.call_action("organization_show", id=organization["id"])
         assert shown["ytunnus"] == "9000001-1"

@@ -373,6 +373,20 @@ def dataset_fields(ds: Dataset) -> List:
 
     modifications_to_dataset_spec(dataset_fields)
 
+    dataset_fields.append(
+        {
+            "field_name": "applicable_legislation",
+            "label": {
+                "en": "Applicable legislation",
+                "fi": "Sovellettava lainsäädäntö",
+                "sv": "Tillämplig lagstiftning",
+            },
+            "required": False,
+            "form_snippet": None,
+            "validators": "keep_stored_extras_value ignore_missing unicode_safe",
+        }
+    )
+
     return dataset_fields
 
 

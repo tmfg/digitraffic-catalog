@@ -9,42 +9,58 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-digitraffic_core 0.0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-10-21 12:19+0000\n"
+"POT-Creation-Date: 2026-11-02 08:49+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.15.0\n"
+"Generated-By: Babel 2.18.0\n"
 
-#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:449
+#: ckanext/digitraffic_core/js_translations.py:14
+msgid "Please Confirm"
+msgstr ""
+
+#: ckanext/digitraffic_core/js_translations.py:15
+msgid "Searching..."
+msgstr ""
+
+#: ckanext/digitraffic_core/js_translations.py:16
+msgid "Notification"
+msgstr ""
+
+#: ckanext/digitraffic_core/js_translations.py:17
+msgid "Reorder resource view"
+msgstr ""
+
+#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:980
 msgid "Upload"
 msgstr ""
 
-#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:449
+#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:980
 msgid "Please select the file to upload again"
 msgstr ""
 
-#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:449
+#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:980
 #: ckanext/digitraffic_core/templates/scheming/form_snippets/repeating_subfields.html:13
 msgid "Remove"
 msgstr ""
 
-#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:449
+#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:980
 msgid "Image"
 msgstr ""
 
-#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:449
+#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:980
 msgid "Upload a file on your computer"
 msgstr ""
 
-#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:449
+#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:980
 #: ckanext/digitraffic_core/templates/package/snippets/resource_form.html:33
 msgid "URL"
 msgstr ""
 
-#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:449
+#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:980
 #: ckanext/digitraffic_core/templates/package/snippets/resource_form.html:34
 msgid "File"
 msgstr ""
@@ -453,20 +469,24 @@ msgstr ""
 msgid "Public"
 msgstr ""
 
-#: ckanext/digitraffic_core/templates/package/snippets/package_form.html:48
+#: ckanext/digitraffic_core/templates/package/snippets/package_form.html:50
 msgid "Are you sure you want to delete this dataset?"
 msgstr ""
 
-#: ckanext/digitraffic_core/templates/package/snippets/package_form.html:49
+#: ckanext/digitraffic_core/templates/package/snippets/package_form.html:51
 #: ckanext/digitraffic_core/templates/package/snippets/resource_form.html:78
 msgid "Delete"
 msgstr ""
 
-#: ckanext/digitraffic_core/templates/package/snippets/package_form.html:56
+#: ckanext/digitraffic_core/templates/package/snippets/package_form.html:60
+msgid "Update Dataset"
+msgstr ""
+
+#: ckanext/digitraffic_core/templates/package/snippets/package_form.html:62
 msgid "Next: Add data"
 msgstr ""
 
-#: ckanext/digitraffic_core/templates/package/snippets/package_form.html:59
+#: ckanext/digitraffic_core/templates/package/snippets/package_form.html:67
 msgid ""
 "Form information will be saved as a draft in your datasets when you continue "
 "to the next step."
@@ -572,6 +592,7 @@ msgstr ""
 #: ckanext/digitraffic_core/templates/package/snippets/resources.html:10
 #: ckanext/digitraffic_core/templates/package/snippets/resources.html:14
 #: ckanext/digitraffic_core/templates/package/snippets/resources.html:25
+#, python-brace-format
 msgid "Navigate to resource: {name}"
 msgstr ""
 
@@ -699,6 +720,7 @@ msgid ""
 msgstr ""
 
 #: ckanext/digitraffic_core/templates/scheming/package/snippets/package_form.html:160
+#, python-brace-format
 msgid "Update {page}"
 msgstr ""
 
@@ -993,17 +1015,19 @@ msgstr ""
 msgid "Invalid value of mobility theme category"
 msgstr ""
 
-#: ckanext/digitraffic_core/validators/dataset_validators.py:72
+#: ckanext/digitraffic_core/validators/dataset_validators.py:74
 msgid ""
 "Phone number is not in a valid format. Make sure it starts with a valid "
 "country code. e.g. +358"
 msgstr ""
 
-#: ckanext/digitraffic_core/validators/dataset_validators.py:93
+#: ckanext/digitraffic_core/validators/dataset_validators.py:94
+#, python-brace-format
 msgid "{value} of type {type} does not belong to {namespace}"
 msgstr ""
 
-#: ckanext/digitraffic_core/validators/dataset_validators.py:98
+#: ckanext/digitraffic_core/validators/dataset_validators.py:99
+#, python-brace-format
 msgid "Provided value does not belong to {namespace}"
 msgstr ""
 
@@ -1036,19 +1060,48 @@ msgstr ""
 msgid "Related resource id cannot be empty."
 msgstr ""
 
-#: ckanext/digitraffic_core/validators/dataset_validators.py:262
+#: ckanext/digitraffic_core/validators/dataset_validators.py:238
+#, python-brace-format
 msgid "Related resource with id {value} does not exist or is not a valid dataset."
 msgstr ""
 
-#: ckanext/digitraffic_core/validators/dataset_validators.py:279
+#: ckanext/digitraffic_core/validators/dataset_validators.py:254
 msgid "At least one contact point is required"
 msgstr ""
 
+#: ckanext/digitraffic_core/validators/organization_validators.py:46
+msgid "The identifier must be text."
+msgstr ""
+
+#: ckanext/digitraffic_core/validators/organization_validators.py:117
+msgid "This identifier is already in use."
+msgstr ""
+
+#: ckanext/digitraffic_core/validators/organization_validators.py:139
+msgid ""
+"The stored identifiers are invalid; ask a system administrator to correct "
+"them."
+msgstr ""
+
+#: ckanext/digitraffic_core/validators/organization_validators.py:151
+msgid "Only a system administrator can set or change this identifier."
+msgstr ""
+
+#: ckanext/digitraffic_core/validators/organization_validators.py:179
+msgid "The Finnish EUID does not match the Y-tunnus."
+msgstr ""
+
+#: ckanext/digitraffic_core/validators/organization_validators.py:191
+msgid "An organisation needs a Y-tunnus, an EUID or an EUDI."
+msgstr ""
+
 #: ckanext/digitraffic_core/validators/resource_validators.py:69
+#, python-brace-format
 msgid "{value} is not a valid character encoding"
 msgstr ""
 
 #: ckanext/digitraffic_core/validators/resource_validators.py:94
+#, python-brace-format
 msgid "Value does not belong to {namespace}"
 msgstr ""
 

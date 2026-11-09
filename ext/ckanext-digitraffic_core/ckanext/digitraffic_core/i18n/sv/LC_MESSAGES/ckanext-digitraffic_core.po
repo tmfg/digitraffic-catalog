@@ -1181,9 +1181,45 @@ msgstr ""
 msgid "Value does not belong to {namespace}"
 msgstr ""
 
-# | msgid "Log in"
-#~ msgid "Link"
-#~ msgstr "Logga in"
+#: ckanext/digitraffic_core/js_translations.py:14
+msgid "Please Confirm"
+msgstr "Bekräfta åtgärden"
+
+#: ckanext/digitraffic_core/js_translations.py:15
+msgid "Searching..."
+msgstr "Söker..."
+
+#: ckanext/digitraffic_core/js_translations.py:16
+msgid "Notification"
+msgstr "Meddelande"
+
+#: ckanext/digitraffic_core/js_translations.py:17
+msgid "Reorder resource view"
+msgstr "Ordna om resursvyer"
+
+#: ckanext/digitraffic_core/validators/organization_validators.py:191
+msgid "An organisation needs a Y-tunnus, an EUID or an EUDI."
+msgstr "En organisation behöver ett FO-nummer, ett EUID eller ett EUDI."
+
+#: ckanext/digitraffic_core/validators/organization_validators.py:151
+msgid "Only a system administrator can set or change this identifier."
+msgstr "Endast en systemadministratör kan ange eller ändra denna identifierare."
+
+#: ckanext/digitraffic_core/validators/organization_validators.py:179
+msgid "The Finnish EUID does not match the Y-tunnus."
+msgstr "Det finska EUID:t motsvarar inte FO-numret."
+
+#: ckanext/digitraffic_core/validators/organization_validators.py:46
+msgid "The identifier must be text."
+msgstr "Identifieraren måste vara text."
+
+#: ckanext/digitraffic_core/validators/organization_validators.py:139
+msgid "The stored identifiers are invalid; ask a system administrator to correct them."
+msgstr "De sparade identifierarna är ogiltiga; be en systemadministratör att rätta dem."
+
+#: ckanext/digitraffic_core/validators/organization_validators.py:117
+msgid "This identifier is already in use."
+msgstr "Denna identifierare används redan."
 
 #~ msgid ""
 #~ "The <i>data license</i> you select above"

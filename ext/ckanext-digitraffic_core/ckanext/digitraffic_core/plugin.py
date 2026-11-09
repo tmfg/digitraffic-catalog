@@ -94,6 +94,7 @@ class DigitrafficCorePlugin(plugins.SingletonPlugin, DefaultTranslation):
             "spatial_reference_validator": spatial_reference_validator,
             "dataset_reference_validator": dataset_reference_validator,
             "contact_point_required_validator": contact_point_required_validator,
+            "keep_stored_extras_value": keep_stored_extras_value,
             "mobility_theme_validator": mobility_theme_validator,
             "is_referenced_by_validator": is_referenced_by_validator,
             "set_format_iri": set_format_iri,

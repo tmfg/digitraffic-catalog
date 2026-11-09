@@ -270,6 +270,24 @@ def dataset_reference_validator(value: Any, context: Context):
     return multiple_values_converter(related_resource_validator, value, context)
 
 
+def keep_stored_extras_value(key, data, errors, context):
+    """
+    Carry the stored extras value through a save that posts no value.
+
+    Meant for computed, display-only fields
+    that have no form input: without this, scheming's convert_to_extras round
+    trip would silently drop the stored key the first time the dataset is saved
+    through the form.
+    """
+    value = data.get(key)
+    if value is not toolkit.missing and value is not None and value != "":
+        return
+    package = context.get("package")
+    stored = package.extras.get(key[-1]) if package is not None else None
+    if stored is not None:
+        data[key] = stored
+
+
 def contact_point_required_validator(key, data, errors, context):
     has_contact_point = any(
         len(k) == 3 and k[0] == "contact_point" for k in data
