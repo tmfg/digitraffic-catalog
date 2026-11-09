@@ -28,6 +28,7 @@ from ckanext.digitraffic_core.validators.dataset_validators import (
     georeferencing_method_validator,
     intended_information_service_validator,
     is_referenced_by_validator,
+    keep_stored_extras_value,
     language_validator,
     location_validator,
     mobility_theme_sub_validator,
@@ -41,13 +42,13 @@ from ckanext.digitraffic_core.validators.dataset_validators import (
     value_to_list,
 )
 from ckanext.digitraffic_core.validators.organization_validators import (
-    ignore_blank_validator,
-    ytunnus_validator,
-    euid_validator,
     eudi_validator,
-    organization_identifier_unique_validator,
+    euid_validator,
+    ignore_blank_validator,
     organization_identifier_sysadmin_only_validator,
+    organization_identifier_unique_validator,
     organization_identifiers_validator,
+    ytunnus_validator,
 )
 from ckanext.digitraffic_core.validators.resource_validators import (
     application_layer_protocol_validator,

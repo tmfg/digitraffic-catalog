@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-digitraffic_core 0.0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-11-02 08:49+0000\n"
+"POT-Creation-Date: 2026-11-09 10:46+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -34,33 +34,33 @@ msgstr ""
 msgid "Reorder resource view"
 msgstr ""
 
-#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:980
+#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:449
 msgid "Upload"
 msgstr ""
 
-#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:980
+#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:449
 msgid "Please select the file to upload again"
 msgstr ""
 
-#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:980
+#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:449
 #: ckanext/digitraffic_core/templates/scheming/form_snippets/repeating_subfields.html:13
 msgid "Remove"
 msgstr ""
 
-#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:980
+#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:449
 msgid "Image"
 msgstr ""
 
-#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:980
+#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:449
 msgid "Upload a file on your computer"
 msgstr ""
 
-#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:980
+#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:449
 #: ckanext/digitraffic_core/templates/package/snippets/resource_form.html:33
 msgid "URL"
 msgstr ""
 
-#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:980
+#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:449
 #: ckanext/digitraffic_core/templates/package/snippets/resource_form.html:34
 msgid "File"
 msgstr ""
@@ -1015,18 +1015,18 @@ msgstr ""
 msgid "Invalid value of mobility theme category"
 msgstr ""
 
-#: ckanext/digitraffic_core/validators/dataset_validators.py:74
+#: ckanext/digitraffic_core/validators/dataset_validators.py:73
 msgid ""
 "Phone number is not in a valid format. Make sure it starts with a valid "
 "country code. e.g. +358"
 msgstr ""
 
-#: ckanext/digitraffic_core/validators/dataset_validators.py:94
+#: ckanext/digitraffic_core/validators/dataset_validators.py:93
 #, python-brace-format
 msgid "{value} of type {type} does not belong to {namespace}"
 msgstr ""
 
-#: ckanext/digitraffic_core/validators/dataset_validators.py:99
+#: ckanext/digitraffic_core/validators/dataset_validators.py:98
 #, python-brace-format
 msgid "Provided value does not belong to {namespace}"
 msgstr ""
@@ -1044,7 +1044,7 @@ msgstr ""
 msgid "Value must either be a JSON list (str) or a list"
 msgstr ""
 
-#: ckanext/digitraffic_core/validators/dataset_validators.py:213
+#: ckanext/digitraffic_core/validators/dataset_validators.py:207
 msgid "Organization does not exist"
 msgstr ""
 
@@ -1060,12 +1060,12 @@ msgstr ""
 msgid "Related resource id cannot be empty."
 msgstr ""
 
-#: ckanext/digitraffic_core/validators/dataset_validators.py:238
+#: ckanext/digitraffic_core/validators/dataset_validators.py:263
 #, python-brace-format
 msgid "Related resource with id {value} does not exist or is not a valid dataset."
 msgstr ""
 
-#: ckanext/digitraffic_core/validators/dataset_validators.py:254
+#: ckanext/digitraffic_core/validators/dataset_validators.py:297
 msgid "At least one contact point is required"
 msgstr ""
 
