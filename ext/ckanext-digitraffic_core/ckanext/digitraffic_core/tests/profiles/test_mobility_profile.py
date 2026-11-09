@@ -1,25 +1,18 @@
-from rdflib import URIRef, RDF, DCAT, FOAF, DCTERMS
-
-import pytest
-
-from ckanext.dcat.processors import RDFSerializer
-
 import ckan.tests.factories as factories
-
-
+import pytest
+from ckanext.dcat.processors import RDFSerializer
 from ckanext.digitraffic_core.model.format import Format
 from ckanext.digitraffic_core.model.frequency import Frequency
 from ckanext.digitraffic_core.model.location import Location
-from ckanext.digitraffic_core.model.mobility_data_standard import (
-    MobilityDataStandard,
-)
+from ckanext.digitraffic_core.model.mobility_data_standard import MobilityDataStandard
 from ckanext.digitraffic_core.model.mobility_theme import (
+    MOBILITY_THEME_TREE,
     MobilityTheme,
     MobilityThemeSub,
-    MOBILITY_THEME_TREE,
 )
 from ckanext.digitraffic_core.model.rights_type import RightsType
 from ckanext.digitraffic_core.rdf.mobility_dcat_ap import MOBILITYDCATAP
+from rdflib import DCAT, DCTERMS, FOAF, RDF, URIRef
 
 
 # @pytest.mark.ckan_config('ckan.plugins', 'digitraffic_core')

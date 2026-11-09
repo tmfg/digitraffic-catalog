@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-digitraffic_core 0.0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-09-29 08:26+0000\n"
-"PO-Revision-Date: 2025-09-29 11:26+0300\n"
+"POT-Creation-Date: 2026-11-09 10:46+0000\n"
+"PO-Revision-Date: 2026-11-09 12:51+0200\n"
 "Last-Translator: \n"
 "Language-Team: fi <LL@li.org>\n"
 "Language: fi\n"
@@ -17,38 +17,54 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"Generated-By: Babel 2.15.0\n"
-"X-Generator: Poedit 3.7\n"
+"Generated-By: Babel 2.18.0\n"
+"X-Generator: Poedit 3.10\n"
 
-#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:974
+#: ckanext/digitraffic_core/js_translations.py:14
+msgid "Please Confirm"
+msgstr "Vahvista toiminto"
+
+#: ckanext/digitraffic_core/js_translations.py:15
+msgid "Searching..."
+msgstr "Haetaan..."
+
+#: ckanext/digitraffic_core/js_translations.py:16
+msgid "Notification"
+msgstr "Ilmoitus"
+
+#: ckanext/digitraffic_core/js_translations.py:17
+msgid "Reorder resource view"
+msgstr "Uudelleenjärjestä resurssin näkymät"
+
+#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:449
 msgid "Upload"
 msgstr "Lataa"
 
-#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:974
+#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:449
 msgid "Please select the file to upload again"
 msgstr "Valitse ladattava tiedosto uudelleen"
 
-#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:974
+#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:449
 #: ckanext/digitraffic_core/templates/scheming/form_snippets/repeating_subfields.html:13
 msgid "Remove"
 msgstr "Poista"
 
 # | msgid "Manage"
-#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:974
+#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:449
 msgid "Image"
 msgstr "Kuva (PNG/JPG/GIF)"
 
-#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:974
+#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:449
 msgid "Upload a file on your computer"
 msgstr "Lataa kuva koneeltasi"
 
-#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:974
+#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:449
 #: ckanext/digitraffic_core/templates/package/snippets/resource_form.html:33
 msgid "URL"
 msgstr "URL"
 
 # | msgid "Profile"
-#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:974
+#: ckanext/digitraffic_core/assets/js/digitrafficMain.js:449
 #: ckanext/digitraffic_core/templates/package/snippets/resource_form.html:34
 msgid "File"
 msgstr "Tiedosto"
@@ -87,7 +103,7 @@ msgstr "Tietoaineistot"
 #: ckanext/digitraffic_core/templates/group/read_base.html:7
 #: ckanext/digitraffic_core/templates/organization/read_base.html:7
 msgid "Members"
-msgstr ""
+msgstr "Jäsenet"
 
 #: ckanext/digitraffic_core/templates/group/read_base.html:9
 #: ckanext/digitraffic_core/templates/home/about.html:5
@@ -209,7 +225,7 @@ msgstr "Tietoaineistot ja niiden kuvailut liittyvät aina organisaatioon."
 
 # | msgid "Search datasets..."
 #: ckanext/digitraffic_core/templates/home/index.html:46
-#: ckanext/digitraffic_core/templates/home/instructions.html:50
+#: ckanext/digitraffic_core/templates/home/instructions.html:52
 msgid "Create a dataset"
 msgstr "Luo tietoaineisto"
 
@@ -360,12 +376,12 @@ msgid "Register as a user"
 msgstr "Rekisteröidy käyttäjäksi"
 
 # | msgid "State"
-#: ckanext/digitraffic_core/templates/home/instructions.html:40
+#: ckanext/digitraffic_core/templates/home/instructions.html:42
 msgid "Start"
 msgstr "Aloita"
 
 # | msgid "Register"
-#: ckanext/digitraffic_core/templates/home/instructions.html:40
+#: ckanext/digitraffic_core/templates/home/instructions.html:42
 msgid "by registering"
 msgstr "rekisteröitymällä"
 
@@ -375,7 +391,7 @@ msgstr "rekisteröitymällä"
 # | of the " "Traffic Data Catalogue. If you already have Fintraffic ID in
 # use,
 # | you can" " skip the registration and log in using your Fintraffic ID."
-#: ckanext/digitraffic_core/templates/home/instructions.html:40
+#: ckanext/digitraffic_core/templates/home/instructions.html:42
 msgid ""
 "as a user of the Traffic Data Catalogue. If you already have Fintraffic ID in "
 "use, you can skip the registration and log in using your Fintraffic ID."
@@ -383,7 +399,7 @@ msgstr ""
 "Liikennedatakatalogin käyttäjäksi. Jos sinulla on jo Fintraffic ID käytössä, "
 "voit ohittaa rekisteröitymisen ja kirjautua sisään käyttäen Fintraffic ID:tä."
 
-#: ckanext/digitraffic_core/templates/home/instructions.html:41
+#: ckanext/digitraffic_core/templates/home/instructions.html:43
 msgid ""
 "Once you are logged in to the Traffic Data Catalogue, you need to request your "
 "organization's membership from your organization's administrator. If your "
@@ -395,7 +411,7 @@ msgstr ""
 "katalogissa, pyydä sen lisäämistä ottamalla yhteyttä sähköpostitse "
 "osoitteeseen: <a href=\"mailto:nap@fintraffic.fi\">nap@fintraffic.fi</a>"
 
-#: ckanext/digitraffic_core/templates/home/instructions.html:51
+#: ckanext/digitraffic_core/templates/home/instructions.html:53
 msgid ""
 "Describe and create your dataset according to the fields and instructions on "
 "the form. At the dataset level, you describe the general properties of the "
@@ -407,11 +423,11 @@ msgstr ""
 "jakelevat rajapinnat tai palvelut kuvataan seuraavassa vaiheessa."
 
 # | msgid "Resource URLs"
-#: ckanext/digitraffic_core/templates/home/instructions.html:59
+#: ckanext/digitraffic_core/templates/home/instructions.html:61
 msgid "Add resources"
 msgstr "Lisää datalähteet (resurssit)"
 
-#: ckanext/digitraffic_core/templates/home/instructions.html:60
+#: ckanext/digitraffic_core/templates/home/instructions.html:62
 msgid ""
 "A single dataset can have several data sources, such as APIs and file packages. "
 "At this stage, add the different ways to access the dataset."
@@ -421,11 +437,11 @@ msgstr ""
 "vaiheessa nämä eri tavat, joilla tietoaineistoon pääsee käsiksi."
 
 # | msgid "Publish your dataset"
-#: ckanext/digitraffic_core/templates/home/instructions.html:68
+#: ckanext/digitraffic_core/templates/home/instructions.html:70
 msgid "Publish the dataset"
 msgstr "Julkaise tietoaineistosi"
 
-#: ckanext/digitraffic_core/templates/home/instructions.html:69
+#: ckanext/digitraffic_core/templates/home/instructions.html:71
 msgid ""
 "By setting the dataset's visibility to \"Public\", your dataset will be visible "
 "to all users in the catalogue and can be found using the catalogue's search "
@@ -519,9 +535,8 @@ msgstr "Poistettu"
 #: ckanext/digitraffic_core/templates/package/resource_read.html:5
 #: ckanext/digitraffic_core/templates/package/snippets/resource_item.html:33
 #: ckanext/digitraffic_core/templates/package/snippets/resources.html:18
-#, fuzzy
 msgid "Edit resource"
-msgstr "Lisää datalähteet (resurssit)"
+msgstr "Muokkaa resurssia"
 
 #: ckanext/digitraffic_core/templates/package/resource_read.html:14
 #: ckanext/digitraffic_core/templates/package/resource_read.html:16
@@ -547,20 +562,25 @@ msgstr "Näkyvyys"
 msgid "Public"
 msgstr "Julkinen"
 
-#: ckanext/digitraffic_core/templates/package/snippets/package_form.html:48
+#: ckanext/digitraffic_core/templates/package/snippets/package_form.html:50
 msgid "Are you sure you want to delete this dataset?"
 msgstr "Haluatko varmasti poistaa tämän tietoaineiston?"
 
-#: ckanext/digitraffic_core/templates/package/snippets/package_form.html:49
+#: ckanext/digitraffic_core/templates/package/snippets/package_form.html:51
 #: ckanext/digitraffic_core/templates/package/snippets/resource_form.html:78
 msgid "Delete"
 msgstr "Poista"
 
-#: ckanext/digitraffic_core/templates/package/snippets/package_form.html:56
+# | msgid "Search datasets..."
+#: ckanext/digitraffic_core/templates/package/snippets/package_form.html:60
+msgid "Update Dataset"
+msgstr "Päivitä tietoaineisto"
+
+#: ckanext/digitraffic_core/templates/package/snippets/package_form.html:62
 msgid "Next: Add data"
 msgstr "Seuraava: Lisää dataa"
 
-#: ckanext/digitraffic_core/templates/package/snippets/package_form.html:59
+#: ckanext/digitraffic_core/templates/package/snippets/package_form.html:67
 msgid ""
 "Form information will be saved as a draft in your datasets when you continue to "
 "the next step."
@@ -649,45 +669,42 @@ msgid "Finish"
 msgstr "Valmis"
 
 #: ckanext/digitraffic_core/templates/package/snippets/resource_form.html:96
-#: ckanext/digitraffic_core/templates/scheming/form_snippets/repeating_subfields.html:74
+#: ckanext/digitraffic_core/templates/scheming/form_snippets/repeating_subfields.html:77
 msgid "Add"
 msgstr "Lisää"
 
 # | msgid "Previous"
 #: ckanext/digitraffic_core/templates/package/snippets/resource_item.html:10
-#, fuzzy
 msgid "Preview"
-msgstr "Edellinen"
+msgstr "Esikatselu"
 
 # | msgid "Additional information"
 #: ckanext/digitraffic_core/templates/package/snippets/resource_item.html:13
-#, fuzzy
 msgid "More information"
 msgstr "Lisätiedot"
 
 #: ckanext/digitraffic_core/templates/package/snippets/resource_item.html:24
 msgid "Download"
-msgstr ""
+msgstr "Lataa"
 
 # | msgid "Resource URLs"
 # | msgid "Add resources"
 #: ckanext/digitraffic_core/templates/package/snippets/resource_item.html:27
-#, fuzzy
 msgid "Go to resource"
-msgstr "Lisää datalähteet (resurssit)"
+msgstr "Mene resurssiin"
 
 #: ckanext/digitraffic_core/templates/package/snippets/resources.html:10
 #: ckanext/digitraffic_core/templates/package/snippets/resources.html:14
 #: ckanext/digitraffic_core/templates/package/snippets/resources.html:25
+#, python-brace-format
 msgid "Navigate to resource: {name}"
-msgstr ""
+msgstr "Navigoi resurssiin: {name}"
 
 # | msgid "Resource URLs"
 # | msgid "Add resources"
 #: ckanext/digitraffic_core/templates/package/snippets/resources_list.html:8
-#, fuzzy
 msgid "Add new resource"
-msgstr "Lisää datalähteet (resurssit)"
+msgstr "Lisää uusi resurssi"
 
 #: ckanext/digitraffic_core/templates/scheming/form_snippets/_organization_select.html:24
 msgid "No organization"
@@ -789,8 +806,12 @@ msgid "Contact points"
 msgstr "Yhteyspisteet"
 
 #: ckanext/digitraffic_core/templates/scheming/package/snippets/package_form.html:43
-msgid "Contact details for a person or organization. At least one contact point is required."
-msgstr "Henkilön tai organisaation yhteystiedot. Vähintään yksi yhteyspiste on pakollinen."
+msgid ""
+"Contact details for a person or organization. At least one contact point is "
+"required."
+msgstr ""
+"Henkilön tai organisaation yhteystiedot. Vähintään yksi yhteyspiste on "
+"pakollinen."
 
 #: ckanext/digitraffic_core/templates/scheming/package/snippets/package_form.html:49
 msgid "Rights holders"
@@ -817,6 +838,7 @@ msgstr ""
 "niihin liittyvää kuvausta ja muuta metatietoa, kuten pysyvää URL-osoitetta."
 
 #: ckanext/digitraffic_core/templates/scheming/package/snippets/package_form.html:160
+#, python-brace-format
 msgid "Update {page}"
 msgstr "Päivitä {page}"
 
@@ -878,7 +900,7 @@ msgstr ""
 "Resurssi on mikä tahansa tiedosto tai linkki tiedostoon, jossa on hyödyllistä "
 "dataa."
 
-#: ckanext/digitraffic_core/templates/snippets/language_selector_base.html:28
+#: ckanext/digitraffic_core/templates/snippets/language_selector_base.html:40
 msgid "Go"
 msgstr "Mene"
 
@@ -1109,11 +1131,11 @@ msgstr "Hallinnoi"
 msgid "Make sure the URL starts with http:// or https://"
 msgstr "Varmista, että URL alkaa http:// tai https://"
 
-#: ckanext/digitraffic_core/validators/dataset_validators.py:47
+#: ckanext/digitraffic_core/validators/dataset_validators.py:46
 msgid "Invalid value of mobility theme sub category"
 msgstr ""
 
-#: ckanext/digitraffic_core/validators/dataset_validators.py:56
+#: ckanext/digitraffic_core/validators/dataset_validators.py:55
 msgid "Invalid value of mobility theme category"
 msgstr ""
 
@@ -1125,70 +1147,68 @@ msgstr ""
 "Puhelinnumero ei ole oikeassa muodossa. Varmista, että se alkaa maakoodilla, "
 "esim. +358"
 
-#: ckanext/digitraffic_core/validators/dataset_validators.py:94
+#: ckanext/digitraffic_core/validators/dataset_validators.py:93
+#, python-brace-format
 msgid "{value} of type {type} does not belong to {namespace}"
 msgstr ""
 
-#: ckanext/digitraffic_core/validators/dataset_validators.py:99
+#: ckanext/digitraffic_core/validators/dataset_validators.py:98
+#, python-brace-format
 msgid "Provided value does not belong to {namespace}"
 msgstr ""
 
-#: ckanext/digitraffic_core/validators/dataset_validators.py:113
+#: ckanext/digitraffic_core/validators/dataset_validators.py:112
 msgid "Provide a valid EPSG number between 2000 and 69036405"
 msgstr "Anna EPSG-numero väliltä 2000–69036405"
 
+#: ckanext/digitraffic_core/validators/dataset_validators.py:136
 #: ckanext/digitraffic_core/validators/dataset_validators.py:137
-#: ckanext/digitraffic_core/validators/dataset_validators.py:138
 msgid "Value must be a JSON list"
 msgstr ""
 
-#: ckanext/digitraffic_core/validators/dataset_validators.py:148
+#: ckanext/digitraffic_core/validators/dataset_validators.py:147
 msgid "Value must either be a JSON list (str) or a list"
 msgstr ""
 
-#: ckanext/digitraffic_core/validators/dataset_validators.py:254
-msgid "At least one contact point is required"
-msgstr "Vähintään yksi yhteyspiste on pakollinen"
+#: ckanext/digitraffic_core/validators/dataset_validators.py:207
+msgid "Organization does not exist"
+msgstr "Organisaatiota ei ole"
 
-#: ckanext/digitraffic_core/validators/dataset_validators.py:230
+#: ckanext/digitraffic_core/validators/dataset_validators.py:224
+msgid "You cannot add this organization as a rights holder"
+msgstr "Et voi lisätä tätä organisaatiota oikeuksien haltijaksi"
+
+#: ckanext/digitraffic_core/validators/dataset_validators.py:255
 msgid "Session is required for related resource validation."
 msgstr ""
 
-#: ckanext/digitraffic_core/validators/dataset_validators.py:232
+#: ckanext/digitraffic_core/validators/dataset_validators.py:257
 msgid "Related resource id cannot be empty."
 msgstr ""
 
-#: ckanext/digitraffic_core/validators/dataset_validators.py:237
+#: ckanext/digitraffic_core/validators/dataset_validators.py:263
+#, python-brace-format
 msgid "Related resource with id {value} does not exist or is not a valid dataset."
 msgstr ""
 
-#: ckanext/digitraffic_core/validators/resource_validators.py:69
-msgid "{value} is not a valid character encoding"
+#: ckanext/digitraffic_core/validators/dataset_validators.py:297
+msgid "At least one contact point is required"
+msgstr "Vähintään yksi yhteyspiste on pakollinen"
+
+#: ckanext/digitraffic_core/validators/organization_validators.py:46
+msgid "The identifier must be text."
+msgstr "Tunnisteen on oltava tekstiä."
+
+#: ckanext/digitraffic_core/validators/organization_validators.py:117
+msgid "This identifier is already in use."
+msgstr "Tämä tunniste on jo käytössä."
+
+#: ckanext/digitraffic_core/validators/organization_validators.py:139
+msgid ""
+"The stored identifiers are invalid; ask a system administrator to correct them."
 msgstr ""
-
-#: ckanext/digitraffic_core/validators/resource_validators.py:94
-msgid "Value does not belong to {namespace}"
-msgstr ""
-
-#: ckanext/digitraffic_core/js_translations.py:14
-msgid "Please Confirm"
-msgstr "Vahvista toiminto"
-
-#: ckanext/digitraffic_core/js_translations.py:15
-msgid "Searching..."
-msgstr "Haetaan..."
-
-#: ckanext/digitraffic_core/js_translations.py:16
-msgid "Notification"
-msgstr "Ilmoitus"
-
-#: ckanext/digitraffic_core/js_translations.py:17
-msgid "Reorder resource view"
-msgstr "Uudelleenjärjestä resurssin näkymät"
-
-#: ckanext/digitraffic_core/validators/organization_validators.py:191
-msgid "An organisation needs a Y-tunnus, an EUID or an EUDI."
-msgstr "Organisaatiolla on oltava Y-tunnus, EUID tai EUDI."
+"Tallennetut tunnisteet ovat virheellisiä; pyydä järjestelmän pääkäyttäjää "
+"korjaamaan ne."
 
 #: ckanext/digitraffic_core/validators/organization_validators.py:151
 msgid "Only a system administrator can set or change this identifier."
@@ -1198,17 +1218,19 @@ msgstr "Vain järjestelmän pääkäyttäjä voi asettaa tai muuttaa tämän tun
 msgid "The Finnish EUID does not match the Y-tunnus."
 msgstr "Suomalainen EUID ei vastaa Y-tunnusta."
 
-#: ckanext/digitraffic_core/validators/organization_validators.py:46
-msgid "The identifier must be text."
-msgstr "Tunnisteen on oltava tekstiä."
+#: ckanext/digitraffic_core/validators/organization_validators.py:191
+msgid "An organisation needs a Y-tunnus, an EUID or an EUDI."
+msgstr "Organisaatiolla on oltava Y-tunnus, EUID tai EUDI."
 
-#: ckanext/digitraffic_core/validators/organization_validators.py:139
-msgid "The stored identifiers are invalid; ask a system administrator to correct them."
-msgstr "Tallennetut tunnisteet ovat virheellisiä; pyydä järjestelmän pääkäyttäjää korjaamaan ne."
+#: ckanext/digitraffic_core/validators/resource_validators.py:69
+#, python-brace-format
+msgid "{value} is not a valid character encoding"
+msgstr ""
 
-#: ckanext/digitraffic_core/validators/organization_validators.py:117
-msgid "This identifier is already in use."
-msgstr "Tämä tunniste on jo käytössä."
+#: ckanext/digitraffic_core/validators/resource_validators.py:94
+#, python-brace-format
+msgid "Value does not belong to {namespace}"
+msgstr ""
 
 #~ msgid "Describe here the time period covered by the dataset, if applicable."
 #~ msgstr ""

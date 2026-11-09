@@ -1,38 +1,37 @@
 import json
 import logging
-from typing import Any, Callable, TypeVar, Type
+from typing import Any, Callable, Type, TypeVar
 
+import ckan.authz as authz
+import ckan.model as model
+import ckan.plugins.toolkit as toolkit
 import phonenumbers
 from ckan.common import _
-from ckan.types import Context
 from ckan.model.package import Package
-from sqlalchemy import exists
-
-from ckanext.scheming.helpers import scheming_get_dataset_schema, scheming_field_by_name
-
-from ckanext.digitraffic_core.model.mobility_theme import (
-    MobilityTheme,
-    MobilityThemeSub,
-    is_valid_mobility_theme_sub,
-    is_valid_mobility_theme,
-)
-from ckanext.digitraffic_core.model.spatial_reference import SpatialReference
-from ckanext.digitraffic_core.model.frequency import Frequency
-from ckanext.digitraffic_core.model.schema_choice_vocabulary import (
-    SchemaChoiceVocabulary,
-)
-from ckanext.digitraffic_core.model.transport_mode import TransportMode
-from ckanext.digitraffic_core.model.theme import Theme
-from ckanext.digitraffic_core.model.location import Location
-from ckanext.digitraffic_core.model.language import Language
+from ckan.types import Context
 from ckanext.digitraffic_core.model.country import Country
+from ckanext.digitraffic_core.model.frequency import Frequency
 from ckanext.digitraffic_core.model.georeferencing_method import GeoreferencingMethod
-from ckanext.digitraffic_core.model.network_coverage import NetworkCoverage
 from ckanext.digitraffic_core.model.intended_information_service import (
     IntendedInformationService,
 )
-import ckan.plugins.toolkit as toolkit
-
+from ckanext.digitraffic_core.model.language import Language
+from ckanext.digitraffic_core.model.location import Location
+from ckanext.digitraffic_core.model.mobility_theme import (
+    MobilityTheme,
+    MobilityThemeSub,
+    is_valid_mobility_theme,
+    is_valid_mobility_theme_sub,
+)
+from ckanext.digitraffic_core.model.network_coverage import NetworkCoverage
+from ckanext.digitraffic_core.model.schema_choice_vocabulary import (
+    SchemaChoiceVocabulary,
+)
+from ckanext.digitraffic_core.model.spatial_reference import SpatialReference
+from ckanext.digitraffic_core.model.theme import Theme
+from ckanext.digitraffic_core.model.transport_mode import TransportMode
+from ckanext.scheming.helpers import scheming_field_by_name, scheming_get_dataset_schema
+from sqlalchemy import exists
 
 logger = logging.getLogger(__name__)
 
@@ -198,6 +197,32 @@ def intended_information_service_validator(value: Any, context: Context):
 
 def country_validator(value: Any, context: Context):
     return vocabulary_validator(value, Country)
+
+
+def rights_holder_organization_validator(value: Any, context: Context):
+    if not value:
+        return value
+    organization = model.Group.get(value)
+    if not organization or not organization.is_organization or organization.state != "active":
+        raise toolkit.Invalid(_("Organization does not exist"))
+    package = context.get("package")
+    if package is not None:
+        # Keeps rights holders added earlier by users of other organisations
+        stored_rights_holders = json.loads(package.extras.get("rights_holder") or "[]")
+        if organization.id in {rights_holder.get("organization") for rights_holder in stored_rights_holders}:
+            return organization.id
+    if context.get("ignore_auth"):
+        return organization.id
+    user = model.User.get(context.get("user") or "")
+    # Same rule as CKAN's owner_org_validator uses for the dataset's own organisation
+    if not user or not (
+        user.sysadmin
+        or authz.has_user_permission_for_group_or_org(
+            organization.id, user.name, "create_dataset"
+        )
+    ):
+        raise toolkit.Invalid(_("You cannot add this organization as a rights holder"))
+    return organization.id
 
 
 def single_is_referenced_by_validator(value: str, context: Context):
