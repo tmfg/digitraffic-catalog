@@ -436,10 +436,8 @@ class MobilityData:
                 ],
                 "publisher": create_organization_agent(
                     organization_ref,
-                    {
-                        "name": dataset_dict["organization"]["title"]
-                        or dataset_dict["organization"]["name"]
-                    },
+                    dataset_dict["organization"]["title"]
+                    or dataset_dict["organization"]["name"],
                 ),
                 **(
                     {
