@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-digitraffic_core 0.0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-11-10 08:35+0000\n"
+"POT-Creation-Date: 2026-11-10 13:51+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -609,23 +609,19 @@ msgid "Resource data quality"
 msgstr ""
 
 #: ckanext/digitraffic_core/templates/package/snippets/vaco_validation.html:10
-msgid "Validation has not started."
-msgstr ""
-
-#: ckanext/digitraffic_core/templates/package/snippets/vaco_validation.html:12
-msgid "The resource does not return data."
-msgstr ""
-
-#: ckanext/digitraffic_core/templates/package/snippets/vaco_validation.html:14
 msgid "VACO validation status"
 msgstr ""
 
-#: ckanext/digitraffic_core/templates/package/snippets/vaco_validation.html:18
+#: ckanext/digitraffic_core/templates/package/snippets/vaco_validation.html:13
 msgid "Data validation service"
 msgstr ""
 
-#: ckanext/digitraffic_core/templates/package/snippets/vaco_validation.html:19
+#: ckanext/digitraffic_core/templates/package/snippets/vaco_validation.html:16
 msgid "View in data validation service"
+msgstr ""
+
+#: ckanext/digitraffic_core/templates/package/snippets/vaco_validation.html:18
+msgid "Validation has not started"
 msgstr ""
 
 #: ckanext/digitraffic_core/templates/scheming/form_snippets/_organization_select.html:24

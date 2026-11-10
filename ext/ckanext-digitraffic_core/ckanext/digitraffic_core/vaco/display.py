@@ -30,11 +30,8 @@ def vaco_validation(resource: dict[str, Any]) -> Optional[dict[str, Any]]:
         .first()
     )
     if validation is None:
-        return {"started": False}
+        return {"badge_url": None, "magic_link": None}
     return {
-        "started": True,
-        # VACO cancels the validation when it cannot download the feed
-        "no_data": validation.validation_status == "cancelled",
         # VACO draws the badge from the request's current state, so it also shows a validation still in progress
         "badge_url": f"{api_base_url.rstrip('/')}/api/badge/{validation.entry_public_id}/{VALIDATION_RULES[format]}",
         "magic_link": validation.magic_link,

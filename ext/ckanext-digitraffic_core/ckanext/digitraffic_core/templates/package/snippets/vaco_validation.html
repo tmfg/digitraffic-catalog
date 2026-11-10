@@ -6,18 +6,18 @@
       <dl class="scheming-subfield-list vaco-validation">
         <dt class="dataset-label">{{ _('Resource data quality') }}</dt>
         <dd>
-          {% if not vaco.started %}
-            {{ _('Validation has not started.') }}
-          {% elif vaco.no_data %}
-            {{ _('The resource does not return data.') }}
-          {% else %}
+          {% if vaco.badge_url %}
             <img src="{{ vaco.badge_url }}" height="24" alt="{{ _('VACO validation status') }}" title="{{ _('VACO validation status') }}">
           {% endif %}
         </dd>
-        {% if vaco.magic_link %}
-          <dt class="dataset-label">{{ _('Data validation service') }}</dt>
-          <dd><a href="{{ vaco.magic_link }}" target="_blank" rel="noopener noreferrer">{{ _('View in data validation service') }}</a></dd>
-        {% endif %}
+        <dt class="dataset-label">{{ _('Data validation service') }}</dt>
+        <dd>
+          {% if vaco.magic_link %}
+            <a href="{{ vaco.magic_link }}" target="_blank" rel="noopener noreferrer">{{ _('View in data validation service') }}</a>
+          {% elif not vaco.badge_url %}
+            {{ _('Validation has not started') }}
+          {% endif %}
+        </dd>
       </dl>
     </td>
   </tr>
