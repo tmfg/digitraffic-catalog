@@ -2,7 +2,7 @@ import pytest
 from ckan import model
 from ckan.tests import factories
 from ckanext.digitraffic_core.model.rights_type import RightsType
-from ckanext.digitraffic_core.orm_model.vaco_validation import VacoValidation
+from ckanext.digitraffic_core.orm_model.vaco_entry import VacoEntry
 from ckanext.digitraffic_core.tests.vaco.conftest import FakeVacoClient
 from ckanext.digitraffic_core.tests.validators.test_dataset_validators import (
     create_dataset,
@@ -22,11 +22,11 @@ def resource(url, standard, format, **fields):
     }
 
 
-def validations_of(resource_id):
+def entries_of(resource_id):
     return (
-        model.Session.query(VacoValidation)
-        .filter(VacoValidation.resource_id == resource_id)
-        .order_by(VacoValidation.submitted_at)
+        model.Session.query(VacoEntry)
+        .filter(VacoEntry.resource_id == resource_id)
+        .order_by(VacoEntry.submitted_at)
         .all()
     )
 
@@ -81,7 +81,7 @@ class TestSubmit:
                 "context": gbfs["id"],
             },
         ]
-        [validation] = validations_of(gtfs["id"])
+        [validation] = entries_of(gtfs["id"])
         assert validation.package_id == dataset["id"]
         assert validation.entry_public_id == "entry-1"
         assert validation.status == "received"
@@ -114,7 +114,7 @@ class TestSubmit:
 
         assert (result.sent, result.failed, result.skipped) == (0, 0, 1)
         assert client.payloads == []
-        assert validations_of(dataset["resources"][0]["id"]) == []
+        assert entries_of(dataset["resources"][0]["id"]) == []
 
     def test_a_failed_send_is_recorded_and_the_rest_are_sent(self):
         organization = factories.Organization(ytunnus="9000001-1")
@@ -131,12 +131,12 @@ class TestSubmit:
 
         assert (result.sent, result.failed) == (1, 1)
         broken, working = dataset["resources"]
-        [failed] = validations_of(broken["id"])
+        [failed] = entries_of(broken["id"])
         assert failed.entry_public_id is None
         assert failed.status == SEND_FAILED
         assert failed.complete
         assert "boom" in failed.error
-        [sent] = validations_of(working["id"])
+        [sent] = entries_of(working["id"])
         assert sent.entry_public_id == "entry-2"
 
     def test_does_not_send_the_etag_vaco_stored_last_time(self):
@@ -147,7 +147,7 @@ class TestSubmit:
         )
         resource_id = dataset["resources"][0]["id"]
         submit_all(FakeVacoClient())
-        [first] = validations_of(resource_id)
+        [first] = entries_of(resource_id)
         first.etag = '"feed-etag"'
         model.Session.commit()
         client = FakeVacoClient()

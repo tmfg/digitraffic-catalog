@@ -6,7 +6,7 @@ from typing import Any, Optional
 
 import requests
 from ckan import model
-from ckanext.digitraffic_core.orm_model.vaco_validation import VacoValidation
+from ckanext.digitraffic_core.orm_model.vaco_entry import VacoEntry
 from ckanext.digitraffic_core.vaco.client import VacoApiError, VacoClient
 from ckanext.digitraffic_core.vaco.submit import VALIDATION_RULES
 
@@ -29,13 +29,13 @@ class PollResult:
 def poll_all(client: VacoClient) -> PollResult:
     """Ask VACO for the state of every unfinished validation request sent in the last 7 days."""
     validations = (
-        model.Session.query(VacoValidation)
+        model.Session.query(VacoEntry)
         .filter(
-            VacoValidation.complete.is_(False),
-            VacoValidation.entry_public_id.isnot(None),
-            VacoValidation.submitted_at >= datetime.now(timezone.utc) - MAX_AGE,
+            VacoEntry.complete.is_(False),
+            VacoEntry.entry_public_id.isnot(None),
+            VacoEntry.submitted_at >= datetime.now(timezone.utc) - MAX_AGE,
         )
-        .order_by(VacoValidation.submitted_at)
+        .order_by(VacoEntry.submitted_at)
         .all()
     )
     finished = unfinished = failed = 0
@@ -51,7 +51,7 @@ def poll_all(client: VacoClient) -> PollResult:
     return PollResult(finished, unfinished, failed)
 
 
-def _poll(client: VacoClient, validation: VacoValidation) -> Optional[bool]:
+def _poll(client: VacoClient, validation: VacoEntry) -> Optional[bool]:
     """Updates the row from VACO's answer. Returns whether the request has finished, or `None` if polling failed."""
     resource_name = _english_name(validation.resource_id)
     log.info(

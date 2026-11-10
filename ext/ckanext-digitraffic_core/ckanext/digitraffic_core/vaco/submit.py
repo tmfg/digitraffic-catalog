@@ -7,7 +7,7 @@ import requests
 from ckan import model
 from ckan.plugins import toolkit
 from ckanext.digitraffic_core.identifiers.ytunnus import Ytunnus
-from ckanext.digitraffic_core.orm_model.vaco_validation import VacoValidation
+from ckanext.digitraffic_core.orm_model.vaco_entry import VacoEntry
 from ckanext.digitraffic_core.vaco.client import VacoApiError, VacoClient
 from ckanext.digitraffic_core.vaco.resources import (
     feed_url,
@@ -106,7 +106,7 @@ def _submit(
             raise VacoApiError("VACO response has no publicId")
     except (requests.RequestException, VacoApiError) as e:
         log.exception("Sending resource %s to VACO failed", resource["id"])
-        validation = VacoValidation(
+        validation = VacoEntry(
             resource["id"],
             package["id"],
             submitted_at,
@@ -125,7 +125,7 @@ def _submit(
             data.get("status"),
             magic_link,
         )
-        validation = VacoValidation(
+        validation = VacoEntry(
             resource["id"],
             package["id"],
             submitted_at,

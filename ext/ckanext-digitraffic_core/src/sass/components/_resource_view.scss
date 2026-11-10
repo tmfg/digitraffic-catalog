@@ -3,3 +3,7 @@
     color: var(--fds-color-text-1);
   }
 }
+
+.vaco-validation dd+dt {
+  margin-top: 1rem;
+}

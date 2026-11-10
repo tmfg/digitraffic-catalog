@@ -1,4 +1,4 @@
-"""VACO validation state
+"""VACO entries: validation and conversion requests and their state
 
 Revision ID: 5d2b8e7c4a19
 Revises: f1fe0e480f69
@@ -15,12 +15,12 @@ down_revision = "f1fe0e480f69"
 branch_labels = None
 depends_on = None
 
-VACO_VALIDATION_TABLE = "vaco_validation"
+VACO_ENTRY_TABLE = "vaco_entry"
 
 
 def upgrade():
     op.create_table(
-        VACO_VALIDATION_TABLE,
+        VACO_ENTRY_TABLE,
         sa.Column("id", sa.Integer, primary_key=True),
         sa.Column("resource_id", sa.Text, nullable=False),
         sa.Column("package_id", sa.Text, nullable=False),
@@ -38,11 +38,11 @@ def upgrade():
         sa.Column("error", sa.Text),
     )
     op.create_index(
-        "idx_vaco_validation_resource_id_submitted_at",
-        VACO_VALIDATION_TABLE,
+        "idx_vaco_entry_resource_id_submitted_at",
+        VACO_ENTRY_TABLE,
         ["resource_id", "submitted_at"],
     )
 
 
 def downgrade():
-    op.drop_table(VACO_VALIDATION_TABLE)
+    op.drop_table(VACO_ENTRY_TABLE)

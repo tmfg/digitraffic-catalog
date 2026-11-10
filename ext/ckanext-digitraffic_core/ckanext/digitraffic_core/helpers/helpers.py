@@ -5,9 +5,11 @@ from typing import Any, Union, cast
 import ckan.model as model
 from ckan.common import config, current_user
 from ckan.lib.helpers import get_translated
+from ckan.lib.helpers import resource_display_name as ckan_resource_display_name
 from ckan.logic import NotAuthorized, NotFound, check_access, get_action
 from ckan.plugins import toolkit
 from ckan.types import Context
+from ckanext.digitraffic_core.vaco.display import vaco_validation
 
 
 def print_field_and_data(field_name: str, data: dict):
@@ -74,6 +76,14 @@ def dataset_display_name(
         return package_or_package_dict.title or package_or_package_dict.name
 
 
+def resource_display_name(resource_dict: dict[str, Any]) -> str:
+    """CKAN's resource name, but in English when the resource has no name in the selected language."""
+    english_name = (resource_dict.get("name_translated") or {}).get("en")
+    if english_name and not get_translated(resource_dict, "name"):
+        return english_name
+    return ckan_resource_display_name(resource_dict)
+
+
 def get_organization_dataset_counts():
     context = cast(
         Context,
@@ -129,6 +139,8 @@ helpers = {
     "from_json": from_json,
     "is_dataset_public": is_dataset_public,
     "dataset_display_name": dataset_display_name,
+    "resource_display_name": resource_display_name,
     "get_organization_dataset_counts": get_organization_dataset_counts,
     "get_site_title": get_site_title,
+    "vaco_validation": vaco_validation,
 }

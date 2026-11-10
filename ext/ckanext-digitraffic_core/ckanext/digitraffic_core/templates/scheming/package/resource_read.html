@@ -37,6 +37,9 @@
                     </td>
                 </tr>
             {%- endif -%}
+            {%- if field.field_name == 'description_translated' -%}
+                {% snippet 'package/snippets/vaco_validation.html', res=res %}
+            {%- endif -%}
         {%- endfor -%}
     {% endwith %}
     {% with schema_resource_fields = schema.resource_fields|map(attribute="field_name")|list() %}

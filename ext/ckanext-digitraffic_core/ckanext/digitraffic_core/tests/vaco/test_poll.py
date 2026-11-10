@@ -3,14 +3,14 @@ from datetime import datetime, timedelta, timezone
 import pytest
 import requests
 from ckan import model
-from ckanext.digitraffic_core.orm_model.vaco_validation import VacoValidation
+from ckanext.digitraffic_core.orm_model.vaco_entry import VacoEntry
 from ckanext.digitraffic_core.tests.vaco.conftest import FakeVacoClient
 from ckanext.digitraffic_core.vaco.client import VacoApiError
 from ckanext.digitraffic_core.vaco.poll import FEED_UNCHANGED, poll_all
 
 
 def sent(public_id, submitted_at=None, complete=False):
-    validation = VacoValidation(
+    validation = VacoEntry(
         f"resource-of-{public_id}",
         "package-id",
         submitted_at or datetime.now(timezone.utc),
@@ -35,7 +35,7 @@ def entry(status, tasks, etag=None):
 
 def row(validation_id):
     model.Session.expire_all()
-    return model.Session.get(VacoValidation, validation_id)
+    return model.Session.get(VacoEntry, validation_id)
 
 
 @pytest.mark.usefixtures("vaco_table")
@@ -121,7 +121,7 @@ class TestPoll:
         sent("old", submitted_at=datetime.now(timezone.utc) - timedelta(days=8))
         sent("finished", complete=True)
         model.Session.add(
-            VacoValidation(
+            VacoEntry(
                 "resource-not-sent",
                 "package-id",
                 datetime.now(timezone.utc),

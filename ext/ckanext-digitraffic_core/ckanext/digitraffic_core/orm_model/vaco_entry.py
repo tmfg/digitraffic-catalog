@@ -5,10 +5,10 @@ import sqlalchemy as sa
 from ckan.plugins import toolkit
 
 
-class VacoValidation(toolkit.BaseModel):
-    """One validation request sent to VACO for one resource, and what came back."""
+class VacoEntry(toolkit.BaseModel):
+    """One request (entry) sent to VACO for one resource, and what came back."""
 
-    __tablename__ = "vaco_validation"
+    __tablename__ = "vaco_entry"
     id = sa.Column("id", sa.Integer, primary_key=True)
     resource_id = sa.Column("resource_id", sa.Text, nullable=False)
     package_id = sa.Column("package_id", sa.Text, nullable=False)
