@@ -13,7 +13,11 @@ def vaco_validation(resource: dict[str, Any]) -> Optional[dict[str, Any]]:
     """What the resource page shows about the resource's VACO validation, or `None` when it shows nothing."""
     format = vaco_format(resource)
     api_base_url = toolkit.config.get(API_BASE_URL)
-    if format is None or not api_base_url or not toolkit.asbool(toolkit.config.get(VACO_ENABLED)):
+    if (
+        format is None
+        or not api_base_url
+        or not toolkit.asbool(toolkit.config.get(VACO_ENABLED))
+    ):
         return None
     validation = (
         model.Session.query(VacoEntry)
