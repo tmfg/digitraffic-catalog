@@ -3,7 +3,6 @@ from typing import Optional
 
 import sqlalchemy as sa
 from ckan.plugins import toolkit
-from ckan.types import AlchemySession
 
 
 class VacoValidation(toolkit.BaseModel):
@@ -46,14 +45,3 @@ class VacoValidation(toolkit.BaseModel):
         self.complete = complete
         self.magic_link = magic_link
         self.error = error
-
-    @classmethod
-    def latest_etag(cls, session: AlchemySession, resource_id: str) -> Optional[str]:
-        """The ETag VACO reported for the resource's feed in its latest request that has one."""
-        row = (
-            session.query(cls.etag)
-            .filter(cls.resource_id == resource_id, cls.etag.isnot(None))
-            .order_by(cls.submitted_at.desc())
-            .first()
-        )
-        return row.etag if row else None

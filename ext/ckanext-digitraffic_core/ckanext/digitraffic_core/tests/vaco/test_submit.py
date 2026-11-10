@@ -1,13 +1,12 @@
 import pytest
 from ckan import model
 from ckan.tests import factories
-
 from ckanext.digitraffic_core.model.rights_type import RightsType
 from ckanext.digitraffic_core.orm_model.vaco_validation import VacoValidation
+from ckanext.digitraffic_core.tests.vaco.conftest import FakeVacoClient
 from ckanext.digitraffic_core.tests.validators.test_dataset_validators import (
     create_dataset,
 )
-from ckanext.digitraffic_core.tests.vaco.conftest import FakeVacoClient
 from ckanext.digitraffic_core.vaco.submit import SEND_FAILED, submit_all
 
 STANDARD = "https://w3id.org/mobilitydcat-ap/mobility-data-standard/"
@@ -140,7 +139,7 @@ class TestSubmit:
         [sent] = validations_of(working["id"])
         assert sent.entry_public_id == "entry-2"
 
-    def test_sends_the_etag_from_the_latest_request(self):
+    def test_does_not_send_the_etag_vaco_stored_last_time(self):
         organization = factories.Organization(ytunnus="9000001-1")
         dataset = create_dataset(
             organization,
@@ -155,5 +154,5 @@ class TestSubmit:
 
         submit_all(client)
 
-        assert client.payloads[0]["etag"] == '"feed-etag"'
+        assert "etag" not in client.payloads[0]
         assert client.payloads[0]["context"] == resource_id

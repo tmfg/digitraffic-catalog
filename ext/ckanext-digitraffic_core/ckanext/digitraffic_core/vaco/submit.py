@@ -1,7 +1,7 @@
 import logging
 from dataclasses import dataclass
 from datetime import datetime, timezone
-from typing import Any, Optional
+from typing import Any
 
 import requests
 from ckan import model
@@ -40,12 +40,13 @@ def build_payload(
     resource: dict[str, Any],
     format: str,
     business_id: str,
-    etag: Optional[str],
 ) -> dict[str, Any]:
     # package.name is just a UUID, prefer human-readable name
     dataset_title = (package.get("title_translated") or {}).get("en") or package["name"]
     resource_title = (resource.get("name_translated") or {}).get("en") or resource["id"]
-    payload = {
+    # No `etag`: VACO skips the download when it equals the ETag of its previous entry for this resource,
+    # so only the feed's current ETag would work, and the catalog does not ask the feed server for it.
+    return {
         "url": feed_url(resource),
         "format": format,
         "name": f"{dataset_title} / {resource_title} / {FORMAT_NAMES[format]}",
@@ -53,9 +54,6 @@ def build_payload(
         "validations": [{"name": VALIDATION_RULES[format]}],
         "context": resource["id"],
     }
-    if etag:
-        payload["etag"] = etag
-    return payload
 
 
 def submit_all(client: VacoClient) -> SubmitResult:
@@ -79,13 +77,7 @@ def submit_all(client: VacoClient) -> SubmitResult:
                 )
                 skipped += 1
                 continue
-            payload = build_payload(
-                package,
-                resource,
-                format,
-                business_id,
-                VacoValidation.latest_etag(model.Session, resource["id"]),
-            )
+            payload = build_payload(package, resource, format, business_id)
             if _submit(client, package, resource, payload):
                 sent += 1
             else:

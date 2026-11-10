@@ -36,6 +36,10 @@ class VacoClient:
         """Send a validation request ("entry" on the VACO side). Returns `{data, error, links}`."""
         return self._request("POST", self.queue_url, json=payload)
 
+    def queue_fetch(self, public_id: str) -> dict[str, Any]:
+        """The current state of a validation request. Returns `{data, error, links}`."""
+        return self._request("GET", f"{self.queue_url}/{public_id}")
+
     def _request(self, method: str, url: str, **kwargs: Any) -> dict[str, Any]:
         self._wait_for_turn()
         log.debug("%s %s request body: %s", method, url, kwargs.get("json"))

@@ -1,5 +1,4 @@
 import pytest
-
 from ckanext.digitraffic_core.vaco.resources import feed_url, vaco_format
 
 STANDARD = "https://w3id.org/mobilitydcat-ap/mobility-data-standard/"
@@ -33,11 +32,14 @@ class TestVacoFormat:
 
 class TestFeedUrl:
     def test_download_url_comes_first(self):
-        resource = {"url": "https://example.com/page", "download_url": "https://example.com/feed.zip"}
+        resource = {
+            "url": "https://example.com/page",
+            "download_url": "https://example.com/feed.zip",
+        }
 
         assert feed_url(resource) == "https://example.com/feed.zip"
 
     def test_url_when_no_download_url(self):
-        assert feed_url({"url": "https://example.com/feed.zip", "download_url": ""}) == (
-            "https://example.com/feed.zip"
-        )
+        assert feed_url(
+            {"url": "https://example.com/feed.zip", "download_url": ""}
+        ) == ("https://example.com/feed.zip")

@@ -1,6 +1,5 @@
 import pytest
 import requests
-
 from ckanext.digitraffic_core.tests.vaco.test_client import FakeResponse
 from ckanext.digitraffic_core.vaco import login as login_module
 from ckanext.digitraffic_core.vaco.login import TrivoreLogin, TrivoreLoginError
@@ -27,7 +26,9 @@ def token_requests(monkeypatch):
 
 
 def token_answer(token, expires_in=604799):
-    return FakeResponse(200, {"access_token": token, "token_type": "Bearer", "expires_in": expires_in})
+    return FakeResponse(
+        200, {"access_token": token, "token_type": "Bearer", "expires_in": expires_in}
+    )
 
 
 class TestTrivoreLogin:
@@ -35,7 +36,7 @@ class TestTrivoreLogin:
         calls, answers, _ = token_requests
         answers.append(token_answer("token-1"))
 
-        header = TrivoreLogin(TOKEN_URL, "client", "secret", "vaco").auth_header()
+        header = TrivoreLogin(TOKEN_URL, "client", "secret").auth_header()
 
         assert header == {"Authorization": "Bearer token-1"}
         assert calls[0]["url"] == TOKEN_URL
@@ -43,20 +44,14 @@ class TestTrivoreLogin:
             "grant_type": "client_credentials",
             "client_id": "client",
             "client_secret": "secret",
-            "scope": "vaco",
+            "scope": "openid",
         }
-
-    def test_scope_is_left_out_when_not_set(self, token_requests):
-        calls, answers, _ = token_requests
-        answers.append(token_answer("token-1"))
-
-        TrivoreLogin(TOKEN_URL, "client", "secret").auth_header()
-
-        assert "scope" not in calls[0]["data"]
 
     def test_reuses_the_token_until_shortly_before_it_runs_out(self, token_requests):
         calls, answers, now = token_requests
-        answers.extend([token_answer("token-1", expires_in=3600), token_answer("token-2")])
+        answers.extend(
+            [token_answer("token-1", expires_in=3600), token_answer("token-2")]
+        )
         login = TrivoreLogin(TOKEN_URL, "client", "secret")
 
         login.auth_header()
@@ -75,7 +70,9 @@ class TestTrivoreLogin:
             requests.ConnectionError("no route"),
         ],
     )
-    def test_a_failed_token_request_raises_without_the_secret(self, token_requests, answer):
+    def test_a_failed_token_request_raises_without_the_secret(
+        self, token_requests, answer
+    ):
         _, answers, _ = token_requests
         answers.append(answer)
 

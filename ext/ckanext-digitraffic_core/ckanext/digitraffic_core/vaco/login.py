@@ -8,6 +8,7 @@ log = logging.getLogger(__name__)
 
 # A new token is fetched this long before the old one runs out
 EXPIRY_MARGIN_SECONDS = 60
+SCOPE = "openid"
 
 
 class TrivoreLoginError(Exception):
@@ -22,13 +23,11 @@ class TrivoreLogin:
         token_url: str,
         client_id: str,
         client_secret: str,
-        scope: Optional[str] = None,
         timeout: float = 30,
     ):
         self._token_url = token_url
         self._client_id = client_id
         self._client_secret = client_secret
-        self._scope = scope
         self._timeout = timeout
         self._token: Optional[str] = None
         self._expires_at = 0.0
@@ -44,15 +43,13 @@ class TrivoreLogin:
             "grant_type": "client_credentials",
             "client_id": self._client_id,
             "client_secret": self._client_secret,
+            "scope": SCOPE,
         }
-        if self._scope:
-            form["scope"] = self._scope
         requested_at = time.monotonic()
         log.info(
-            "Getting a VACO access token from %s for client %s, scope %s",
+            "Getting a VACO access token from %s for client %s",
             self._token_url,
             self._client_id,
-            self._scope,
         )
         try:
             response = requests.post(self._token_url, data=form, timeout=self._timeout)
