@@ -59,7 +59,7 @@ class TestSubmit:
             {
                 "url": "https://feed.example/gtfs.zip",
                 "format": "gtfs",
-                "name": "English title / Timetables",
+                "name": "English title / Timetables / GTFS",
                 "businessId": "9000001-1",
                 "validations": [{"name": "gtfs.canonical"}],
                 "context": gtfs["id"],
@@ -67,7 +67,7 @@ class TestSubmit:
             {
                 "url": "https://feed.example/netex.zip",
                 "format": "netex",
-                "name": "English title / NeTEx",
+                "name": f"English title / {netex['id']} / NeTEx",
                 "businessId": "9000001-1",
                 "validations": [{"name": "netex.entur"}],
                 "context": netex["id"],
@@ -75,7 +75,7 @@ class TestSubmit:
             {
                 "url": "https://feed.example/gbfs.json",
                 "format": "gbfs",
-                "name": "English title / GBFS",
+                "name": f"English title / {gbfs['id']} / GBFS",
                 "businessId": "9000001-1",
                 "validations": [{"name": "gbfs.entur"}],
                 "context": gbfs["id"],
