@@ -63,7 +63,7 @@ def submit_all(client: VacoClient) -> SubmitResult:
     sent = failed = skipped = 0
     for package in public_datasets(context):
         organization = model.Group.get(package["owner_org"])
-        business_id = organization.extras.get(Ytunnus.KEY) if organization else None
+        business_id = (organization.extras or {}).get(Ytunnus.KEY) if organization else None
         for resource in package["resources"]:
             format = vaco_format(resource)
             if format is None:
