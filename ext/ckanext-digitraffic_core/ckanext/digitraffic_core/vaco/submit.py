@@ -40,6 +40,7 @@ def build_payload(
     resource: dict[str, Any],
     format: str,
     business_id: str,
+    operator_name: str,
 ) -> dict[str, Any]:
     # package.name is just a UUID, prefer human-readable name
     dataset_title = (package.get("title_translated") or {}).get("en") or package["name"]
@@ -53,6 +54,8 @@ def build_payload(
         "businessId": business_id,
         "validations": [{"name": VALIDATION_RULES[format]}],
         "context": resource["id"],
+        # VACO adds a company it does not know yet only when the caller is FINAP
+        "metadata": {"caller": "FINAP", "operator-name": operator_name},
     }
 
 
@@ -77,7 +80,9 @@ def submit_all(client: VacoClient) -> SubmitResult:
                 )
                 skipped += 1
                 continue
-            payload = build_payload(package, resource, format, business_id)
+            payload = build_payload(
+                package, resource, format, business_id, organization.title
+            )
             if _submit(client, package, resource, payload):
                 sent += 1
             else:

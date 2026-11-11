@@ -55,6 +55,7 @@ class TestSubmit:
 
         assert (result.sent, result.failed, result.skipped) == (3, 0, 0)
         gtfs, netex, gbfs, _ = dataset["resources"]
+        metadata = {"caller": "FINAP", "operator-name": organization["title"]}
         assert client.payloads == [
             {
                 "url": "https://feed.example/gtfs.zip",
@@ -63,6 +64,7 @@ class TestSubmit:
                 "businessId": "9000001-1",
                 "validations": [{"name": "gtfs.canonical"}],
                 "context": gtfs["id"],
+                "metadata": metadata,
             },
             {
                 "url": "https://feed.example/netex.zip",
@@ -71,6 +73,7 @@ class TestSubmit:
                 "businessId": "9000001-1",
                 "validations": [{"name": "netex.entur"}],
                 "context": netex["id"],
+                "metadata": metadata,
             },
             {
                 "url": "https://feed.example/gbfs.json",
@@ -79,6 +82,7 @@ class TestSubmit:
                 "businessId": "9000001-1",
                 "validations": [{"name": "gbfs.entur"}],
                 "context": gbfs["id"],
+                "metadata": metadata,
             },
         ]
         [validation] = entries_of(gtfs["id"])
