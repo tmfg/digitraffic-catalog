@@ -14,9 +14,6 @@ log = logging.getLogger(__name__)
 
 MAX_AGE = timedelta(days=7)
 UNFINISHED_STATUSES = {"received", "processing"}
-DOWNLOAD_TASK = "prepare.download"
-# VACO did not download the feed because its ETag had not changed since the previous request
-FEED_UNCHANGED = "feed_unchanged"
 
 
 @dataclass(frozen=True)
@@ -78,18 +75,14 @@ def _poll(client: VacoClient, validation: VacoEntry) -> Optional[bool]:
     validation.complete = status not in UNFINISHED_STATUSES
     if validation.complete:
         validation.etag = entry.get("etag")
-        status = FEED_UNCHANGED if tasks.get(DOWNLOAD_TASK) == "cancelled" else status
     validation.status = status
-    if status == FEED_UNCHANGED:
-        outcome = "feed unchanged, VACO did not download or validate it"
-    else:
-        outcome = f"validation {validation_rule} status: {validation.validation_status}"
     log.info(
-        "VACO entry %s of resource %s (%s): %s",
+        "VACO entry %s of resource %s (%s): validation %s status: %s",
         validation.entry_public_id,
         validation.resource_id,
         resource_name,
-        outcome,
+        validation_rule,
+        validation.validation_status,
     )
     return validation.complete
 

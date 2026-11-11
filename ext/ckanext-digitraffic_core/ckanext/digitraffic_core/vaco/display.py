@@ -4,7 +4,6 @@ from ckan import model
 from ckan.plugins import toolkit
 from ckanext.digitraffic_core.orm_model.vaco_entry import VacoEntry
 from ckanext.digitraffic_core.vaco.cli import API_BASE_URL, VACO_ENABLED
-from ckanext.digitraffic_core.vaco.poll import FEED_UNCHANGED
 from ckanext.digitraffic_core.vaco.resources import vaco_format
 from ckanext.digitraffic_core.vaco.submit import VALIDATION_RULES
 
@@ -24,7 +23,6 @@ def vaco_validation(resource: dict[str, Any]) -> Optional[dict[str, Any]]:
         .filter(
             VacoEntry.resource_id == resource["id"],
             VacoEntry.entry_public_id.isnot(None),
-            VacoEntry.status.is_distinct_from(FEED_UNCHANGED),
         )
         .order_by(VacoEntry.submitted_at.desc())
         .first()

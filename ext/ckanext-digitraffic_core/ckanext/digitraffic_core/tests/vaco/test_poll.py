@@ -6,7 +6,7 @@ from ckan import model
 from ckanext.digitraffic_core.orm_model.vaco_entry import VacoEntry
 from ckanext.digitraffic_core.tests.vaco.conftest import FakeVacoClient
 from ckanext.digitraffic_core.vaco.client import VacoApiError
-from ckanext.digitraffic_core.vaco.poll import FEED_UNCHANGED, poll_all
+from ckanext.digitraffic_core.vaco.poll import poll_all
 
 
 def sent(public_id, submitted_at=None, complete=False):
@@ -83,7 +83,7 @@ class TestPoll:
         assert validation.validation_status == "processing"
         assert validation.etag is None
 
-    def test_a_skipped_download_is_recorded_as_feed_unchanged(self):
+    def test_a_cancelled_download_keeps_vacos_status(self):
         validation_id = sent("entry-1")
         client = FakeVacoClient(
             entries={
@@ -99,7 +99,8 @@ class TestPoll:
 
         validation = row(validation_id)
         assert validation.complete
-        assert validation.status == FEED_UNCHANGED
+        assert validation.status == "cancelled"
+        assert validation.validation_status == "cancelled"
         assert validation.etag == '"feed-etag"'
 
     @pytest.mark.parametrize(
