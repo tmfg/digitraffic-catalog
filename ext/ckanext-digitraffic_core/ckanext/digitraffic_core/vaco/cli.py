@@ -1,3 +1,4 @@
+import logging
 from contextlib import contextmanager
 from typing import Generator, Optional
 
@@ -9,6 +10,8 @@ from ckanext.digitraffic_core.vaco.login import TrivoreLogin
 from ckanext.digitraffic_core.vaco.poll import poll_all
 from ckanext.digitraffic_core.vaco.submit import submit_all
 from sqlalchemy import text
+
+log = logging.getLogger(__name__)
 
 VACO_ENABLED = "ckanext.digitraffic_core.vaco.enabled"
 API_BASE_URL = "ckanext.digitraffic_core.vaco.api_base_url"
@@ -26,6 +29,7 @@ def vaco():
 @vaco.command()
 def submit():
     """Send every public GTFS, NeTEx and GBFS resource to VACO for validation."""
+    _set_log_event("vaco.submit")
     client = _vaco_client()
     if client is None:
         return
@@ -33,9 +37,11 @@ def submit():
         if not started:
             return
         result = submit_all(client)
-    click.echo(
-        f"Sent {result.sent}, failed {result.failed}, "
-        f"skipped {result.skipped} (organization without a Y-tunnus)."
+    log.info(
+        "VACO submit done: sent %d, failed %d, skipped %d (organization without a Y-tunnus)",
+        result.sent,
+        result.failed,
+        result.skipped,
     )
 
 
@@ -43,6 +49,7 @@ def submit():
 @vaco.command()
 def poll():
     """Collect the results of the validation requests sent in the last 7 days."""
+    _set_log_event("vaco.poll")
     client = _vaco_client()
     if client is None:
         return
@@ -50,10 +57,25 @@ def poll():
         if not started:
             return
         result = poll_all(client)
-    click.echo(
-        f"Finished {result.finished}, still in progress {result.unfinished}, "
-        f"failed to poll {result.failed}."
+    log.info(
+        "VACO poll done: finished %d, still in progress %d, failed to poll %d",
+        result.finished,
+        result.unfinished,
+        result.failed,
     )
+
+
+def _set_log_event(event: str) -> None:
+    """Adds `event` to every later log line of this process, also from CKAN and other libraries."""
+    # The deployed log formatter writes it as the `event` field, for searching a job's lines in OpenSearch
+    make_record = logging.getLogRecordFactory()
+
+    def make_record_with_event(*args, **kwargs) -> logging.LogRecord:
+        record = make_record(*args, **kwargs)
+        record.event = event
+        return record
+
+    logging.setLogRecordFactory(make_record_with_event)
 
 
 @contextmanager
@@ -66,7 +88,7 @@ def _only_run(command: str) -> Generator[bool, None, None]:
             {"command": command},
         ).scalar()
         if not got_lock:
-            click.echo(f"'{command}' is already running, not starting another.")
+            log.warning("'%s' is already running, not starting another", command)
         try:
             yield bool(got_lock)
         finally:
@@ -79,7 +101,7 @@ def _only_run(command: str) -> Generator[bool, None, None]:
 
 def _vaco_client() -> Optional[VacoClient]:
     if not toolkit.asbool(toolkit.config.get(VACO_ENABLED)):
-        click.echo(f"VACO validation is off ({VACO_ENABLED}).")
+        log.info("VACO validation is off (%s)", VACO_ENABLED)
         return None
     api_base_url = toolkit.config.get(API_BASE_URL)
     token_url = toolkit.config.get(TOKEN_URL)

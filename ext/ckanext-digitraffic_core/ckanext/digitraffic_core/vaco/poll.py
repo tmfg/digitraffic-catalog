@@ -35,6 +35,7 @@ def poll_all(client: VacoClient) -> PollResult:
         .order_by(VacoEntry.submitted_at)
         .all()
     )
+    log.info("Polling %d unfinished VACO entries sent in the last 7 days", len(validations))
     finished = unfinished = failed = 0
     for validation in validations:
         outcome = _poll(client, validation)
