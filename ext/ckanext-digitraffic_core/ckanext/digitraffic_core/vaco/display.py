@@ -28,7 +28,7 @@ def vaco_validation(resource: dict[str, Any]) -> Optional[dict[str, Any]]:
         .first()
     )
     if validation is None:
-        return {"badge_url": None, "magic_link": None}
+        return None
     return {
         # VACO draws the badge from the request's current state, so it also shows a validation still in progress
         "badge_url": f"{api_base_url.rstrip('/')}/api/badge/{validation.entry_public_id}/{VALIDATION_RULES[format]}",

@@ -706,8 +706,8 @@ msgid "Resource quality"
 msgstr "Resursens kvalitet"
 
 #: ckanext/digitraffic_core/templates/package/snippets/vaco_validation.html:7
-msgid "Resource data quality"
-msgstr "Resurs som validerats i VACO"
+msgid "Validation result"
+msgstr "Valideringsresultat"
 
 #: ckanext/digitraffic_core/templates/package/snippets/vaco_validation.html:10
 msgid "VACO validation status"
@@ -720,10 +720,6 @@ msgstr "Valideringstjänst"
 #: ckanext/digitraffic_core/templates/package/snippets/vaco_validation.html:16
 msgid "View in data validation service"
 msgstr "Visa i valideringstjänsten"
-
-#: ckanext/digitraffic_core/templates/package/snippets/vaco_validation.html:18
-msgid "Validation has not started"
-msgstr "Validering har inte startat"
 
 #: ckanext/digitraffic_core/templates/scheming/form_snippets/_organization_select.html:24
 msgid "No organization"

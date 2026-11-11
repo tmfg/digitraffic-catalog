@@ -605,7 +605,7 @@ msgid "Resource quality"
 msgstr ""
 
 #: ckanext/digitraffic_core/templates/package/snippets/vaco_validation.html:7
-msgid "Resource data quality"
+msgid "Validation result"
 msgstr ""
 
 #: ckanext/digitraffic_core/templates/package/snippets/vaco_validation.html:10
@@ -618,10 +618,6 @@ msgstr ""
 
 #: ckanext/digitraffic_core/templates/package/snippets/vaco_validation.html:16
 msgid "View in data validation service"
-msgstr ""
-
-#: ckanext/digitraffic_core/templates/package/snippets/vaco_validation.html:18
-msgid "Validation has not started"
 msgstr ""
 
 #: ckanext/digitraffic_core/templates/scheming/form_snippets/_organization_select.html:24

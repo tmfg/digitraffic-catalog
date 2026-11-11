@@ -4,18 +4,14 @@
     <th scope="row">{{ _('Resource quality') }}</th>
     <td>
       <dl class="scheming-subfield-list vaco-validation">
-        <dt class="dataset-label">{{ _('Resource data quality') }}</dt>
+        <dt class="dataset-label">{{ _('Validation result') }}</dt>
         <dd>
-          {% if vaco.badge_url %}
-            <img src="{{ vaco.badge_url }}" height="24" alt="{{ _('VACO validation status') }}" title="{{ _('VACO validation status') }}">
-          {% endif %}
+          <img src="{{ vaco.badge_url }}" height="24" alt="{{ _('VACO validation status') }}" title="{{ _('VACO validation status') }}">
         </dd>
         <dt class="dataset-label">{{ _('Data validation service') }}</dt>
         <dd>
           {% if vaco.magic_link %}
             <a href="{{ vaco.magic_link }}" target="_blank" rel="noopener noreferrer">{{ _('View in data validation service') }}</a>
-          {% elif not vaco.badge_url %}
-            {{ _('Validation has not started') }}
           {% endif %}
         </dd>
       </dl>
