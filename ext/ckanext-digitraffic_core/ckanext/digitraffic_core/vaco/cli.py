@@ -1,4 +1,5 @@
 import logging
+import sys
 import time
 from contextlib import contextmanager
 from typing import Generator, Optional
@@ -31,21 +32,25 @@ def vaco():
 def submit():
     """Send every public GTFS, NeTEx and GBFS resource to VACO for validation."""
     _set_log_event("vaco.submit")
-    client = _vaco_client()
-    if client is None:
-        return
-    with _only_run("digitraffic-vaco submit") as started:
-        if not started:
+    try:
+        client = _vaco_client()
+        if client is None:
             return
-        started_at = time.monotonic()
-        result = submit_all(client)
-    log.info(
-        "VACO submit done in %.1f s: sent %d, failed %d, skipped %d (organization without a Y-tunnus)",
-        time.monotonic() - started_at,
-        result.sent,
-        result.failed,
-        result.skipped,
-    )
+        with _only_run("digitraffic-vaco submit") as started:
+            if not started:
+                return
+            started_at = time.monotonic()
+            result = submit_all(client)
+        log.info(
+            "VACO submit done in %.1f s: sent %d, failed %d, skipped %d (organization without a Y-tunnus)",
+            time.monotonic() - started_at,
+            result.sent,
+            result.failed,
+            result.skipped,
+        )
+    except Exception:
+        log.exception("'digitraffic-vaco submit' failed")
+        sys.exit(1)
 
 
 # ckan digitraffic-vaco poll
@@ -53,21 +58,25 @@ def submit():
 def poll():
     """Collect the results of the validation requests sent in the last 7 days."""
     _set_log_event("vaco.poll")
-    client = _vaco_client()
-    if client is None:
-        return
-    with _only_run("digitraffic-vaco poll") as started:
-        if not started:
+    try:
+        client = _vaco_client()
+        if client is None:
             return
-        started_at = time.monotonic()
-        result = poll_all(client)
-    log.info(
-        "VACO poll done in %.1f s: finished %d, still in progress %d, failed to poll %d",
-        time.monotonic() - started_at,
-        result.finished,
-        result.unfinished,
-        result.failed,
-    )
+        with _only_run("digitraffic-vaco poll") as started:
+            if not started:
+                return
+            started_at = time.monotonic()
+            result = poll_all(client)
+        log.info(
+            "VACO poll done in %.1f s: finished %d, still in progress %d, failed to poll %d",
+            time.monotonic() - started_at,
+            result.finished,
+            result.unfinished,
+            result.failed,
+        )
+    except Exception:
+        log.exception("'digitraffic-vaco poll' failed")
+        sys.exit(1)
 
 
 def _set_log_event(event: str) -> None:
@@ -108,13 +117,9 @@ def _vaco_client() -> Optional[VacoClient]:
     if not toolkit.asbool(toolkit.config.get(VACO_ENABLED)):
         log.info("VACO validation is off (%s)", VACO_ENABLED)
         return None
-    api_base_url = toolkit.config.get(API_BASE_URL)
-    token_url = toolkit.config.get(TOKEN_URL)
-    client_id = toolkit.config.get(CLIENT_ID)
-    client_secret = toolkit.config.get(CLIENT_SECRET)
-    if not all([api_base_url, token_url, client_id, client_secret]):
-        raise click.UsageError(
-            f"Set {API_BASE_URL}, {TOKEN_URL}, " f"{CLIENT_ID} and {CLIENT_SECRET}."
-        )
-    login = TrivoreLogin(token_url, client_id, client_secret)
-    return VacoClient(api_base_url, login.auth_header)
+    login = TrivoreLogin(
+        toolkit.config.get(TOKEN_URL),
+        toolkit.config.get(CLIENT_ID),
+        toolkit.config.get(CLIENT_SECRET),
+    )
+    return VacoClient(toolkit.config.get(API_BASE_URL), login.auth_header)
