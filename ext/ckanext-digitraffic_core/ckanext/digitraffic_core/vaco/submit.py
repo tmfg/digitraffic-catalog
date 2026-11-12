@@ -1,7 +1,7 @@
 import logging
 from dataclasses import dataclass
 from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Optional
 
 import requests
 from ckan import model
@@ -16,9 +16,6 @@ from ckanext.digitraffic_core.vaco.resources import (
 )
 
 log = logging.getLogger(__name__)
-
-# netex.entur is sent without a codespace until the catalog's codespace is decided
-# (docs/vaco-validation-plan.md, open item 4)
 VALIDATION_RULES = {
     "gtfs": "gtfs.canonical",
     "netex": "netex.entur",
@@ -42,21 +39,37 @@ def build_payload(
     business_id: str,
     operator_name: str,
 ) -> dict[str, Any]:
-    # package.name is just a UUID, prefer human-readable name
-    dataset_title = (package.get("title_translated") or {}).get("en") or package["name"]
-    resource_title = (resource.get("name_translated") or {}).get("en") or resource["id"]
-    # No `etag`: VACO skips the download when it equals the ETag of its previous entry for this resource,
-    # so only the feed's current ETag would work, and the catalog does not ask the feed server for it.
+    dataset_label = _id_with_name(package["id"], package.get("title_translated"))
+    resource_label = _id_with_name(resource["id"], resource.get("name_translated"))
+
+    metadata = {"caller": "FINAP", "operator-name": operator_name}
+    contact_email = _contact_email(package)
+    if contact_email:
+        metadata["contact-email"] = contact_email
     return {
         "url": feed_url(resource),
         "format": format,
-        "name": f"{dataset_title} / {resource_title} / {FORMAT_NAMES[format]}",
+        "name": f"{dataset_label} / {resource_label} / {FORMAT_NAMES[format]}",
         "businessId": business_id,
         "validations": [{"name": VALIDATION_RULES[format]}],
         "context": resource["id"],
         # VACO adds a company it does not know yet only when the caller is FINAP
-        "metadata": {"caller": "FINAP", "operator-name": operator_name},
+        "metadata": metadata,
     }
+
+
+def _id_with_name(id: str, names: Optional[dict[str, str]]) -> str:
+    name = (names or {}).get("en")
+    return f"{id} ({name})" if name else id
+
+
+def _contact_email(package: dict[str, Any]) -> Optional[str]:
+    # currently VACO only takes one email address - if/when this behavior changes we must send all contact point emails
+    for contact_point in package.get("contact_point") or []:
+        email = (contact_point.get("has_email") or "").removeprefix("mailto:").strip()
+        if email:
+            return email
+    return None
 
 
 def submit_all(client: VacoClient) -> SubmitResult:

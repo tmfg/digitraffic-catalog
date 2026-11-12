@@ -5,6 +5,7 @@ from ckanext.digitraffic_core.model.rights_type import RightsType
 from ckanext.digitraffic_core.orm_model.vaco_entry import VacoEntry
 from ckanext.digitraffic_core.tests.vaco.conftest import FakeVacoClient
 from ckanext.digitraffic_core.tests.validators.test_dataset_validators import (
+    CONTACT_POINT,
     create_dataset,
 )
 from ckanext.digitraffic_core.vaco.submit import SEND_FAILED, submit_all
@@ -55,12 +56,16 @@ class TestSubmit:
 
         assert (result.sent, result.failed, result.skipped) == (3, 0, 0)
         gtfs, netex, gbfs, _ = dataset["resources"]
-        metadata = {"caller": "FINAP", "operator-name": organization["title"]}
+        metadata = {
+            "caller": "FINAP",
+            "operator-name": organization["title"],
+            "contact-email": "foo@example.com",
+        }
         assert client.payloads == [
             {
                 "url": "https://feed.example/gtfs.zip",
                 "format": "gtfs",
-                "name": "English title / Timetables / GTFS",
+                "name": f"{dataset['id']} (English title) / {gtfs['id']} (Timetables) / GTFS",
                 "businessId": "9000001-1",
                 "validations": [{"name": "gtfs.canonical"}],
                 "context": gtfs["id"],
@@ -69,7 +74,7 @@ class TestSubmit:
             {
                 "url": "https://feed.example/netex.zip",
                 "format": "netex",
-                "name": f"English title / {netex['id']} / NeTEx",
+                "name": f"{dataset['id']} (English title) / {netex['id']} / NeTEx",
                 "businessId": "9000001-1",
                 "validations": [{"name": "netex.entur"}],
                 "context": netex["id"],
@@ -78,7 +83,7 @@ class TestSubmit:
             {
                 "url": "https://feed.example/gbfs.json",
                 "format": "gbfs",
-                "name": f"English title / {gbfs['id']} / GBFS",
+                "name": f"{dataset['id']} (English title) / {gbfs['id']} / GBFS",
                 "businessId": "9000001-1",
                 "validations": [{"name": "gbfs.entur"}],
                 "context": gbfs["id"],
@@ -92,6 +97,22 @@ class TestSubmit:
         assert validation.magic_link == "https://vaco.example/ui/entry-1"
         assert not validation.complete
         assert validation.error is None
+
+    def test_sends_the_first_contact_points_email(self):
+        organization = factories.Organization(ytunnus="9000001-1")
+        create_dataset(
+            organization,
+            contact_point=[
+                {**CONTACT_POINT, "has_email": "first@example.com"},
+                {**CONTACT_POINT, "has_email": "second@example.com"},
+            ],
+            resources=[resource("https://feed.example/gtfs.zip", "gtfs", "GTFS")],
+        )
+        client = FakeVacoClient()
+
+        submit_all(client)
+
+        assert client.payloads[0]["metadata"]["contact-email"] == "first@example.com"
 
     def test_leaves_out_private_datasets(self):
         organization = factories.Organization(ytunnus="9000001-1")

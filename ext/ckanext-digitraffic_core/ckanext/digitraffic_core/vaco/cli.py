@@ -1,4 +1,5 @@
 import logging
+import time
 from contextlib import contextmanager
 from typing import Generator, Optional
 
@@ -36,9 +37,11 @@ def submit():
     with _only_run("digitraffic-vaco submit") as started:
         if not started:
             return
+        started_at = time.monotonic()
         result = submit_all(client)
     log.info(
-        "VACO submit done: sent %d, failed %d, skipped %d (organization without a Y-tunnus)",
+        "VACO submit done in %.1f s: sent %d, failed %d, skipped %d (organization without a Y-tunnus)",
+        time.monotonic() - started_at,
         result.sent,
         result.failed,
         result.skipped,
@@ -56,9 +59,11 @@ def poll():
     with _only_run("digitraffic-vaco poll") as started:
         if not started:
             return
+        started_at = time.monotonic()
         result = poll_all(client)
     log.info(
-        "VACO poll done: finished %d, still in progress %d, failed to poll %d",
+        "VACO poll done in %.1f s: finished %d, still in progress %d, failed to poll %d",
+        time.monotonic() - started_at,
         result.finished,
         result.unfinished,
         result.failed,
