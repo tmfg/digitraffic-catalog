@@ -59,7 +59,6 @@ class TestSubmit:
         metadata = {
             "caller": "FINAP",
             "operator-name": organization["title"],
-            "contact-email": "foo@example.com",
         }
         assert client.payloads == [
             {
@@ -70,6 +69,7 @@ class TestSubmit:
                 "validations": [{"name": "gtfs.canonical"}],
                 "context": gtfs["id"],
                 "metadata": metadata,
+                "notifications": ["foo@example.com"],
             },
             {
                 "url": "https://feed.example/netex.zip",
@@ -79,6 +79,7 @@ class TestSubmit:
                 "validations": [{"name": "netex.entur"}],
                 "context": netex["id"],
                 "metadata": metadata,
+                "notifications": ["foo@example.com"],
             },
             {
                 "url": "https://feed.example/gbfs.json",
@@ -88,6 +89,7 @@ class TestSubmit:
                 "validations": [{"name": "gbfs.entur"}],
                 "context": gbfs["id"],
                 "metadata": metadata,
+                "notifications": ["foo@example.com"],
             },
         ]
         [validation] = entries_of(gtfs["id"])
@@ -98,13 +100,14 @@ class TestSubmit:
         assert not validation.complete
         assert validation.error is None
 
-    def test_sends_the_first_contact_points_email(self):
+    def test_sends_every_contact_points_email_once_as_notifications(self):
         organization = factories.Organization(ytunnus="9000001-1")
         create_dataset(
             organization,
             contact_point=[
                 {**CONTACT_POINT, "has_email": "first@example.com"},
                 {**CONTACT_POINT, "has_email": "second@example.com"},
+                {**CONTACT_POINT, "has_email": "first@example.com"},
             ],
             resources=[resource("https://feed.example/gtfs.zip", "gtfs", "GTFS")],
         )
@@ -112,7 +115,10 @@ class TestSubmit:
 
         submit_all(client)
 
-        assert client.payloads[0]["metadata"]["contact-email"] == "first@example.com"
+        assert client.payloads[0]["notifications"] == [
+            "first@example.com",
+            "second@example.com",
+        ]
 
     def test_leaves_out_private_datasets(self):
         organization = factories.Organization(ytunnus="9000001-1")

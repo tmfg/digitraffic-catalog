@@ -42,10 +42,6 @@ def build_payload(
     dataset_label = _id_with_name(package["id"], package.get("title_translated"))
     resource_label = _id_with_name(resource["id"], resource.get("name_translated"))
 
-    metadata = {"caller": "FINAP", "operator-name": operator_name}
-    contact_email = _contact_email(package)
-    if contact_email:
-        metadata["contact-email"] = contact_email
     return {
         "url": feed_url(resource),
         "format": format,
@@ -53,8 +49,11 @@ def build_payload(
         "businessId": business_id,
         "validations": [{"name": VALIDATION_RULES[format]}],
         "context": resource["id"],
-        # VACO adds a company it does not know yet only when the caller is FINAP
-        "metadata": metadata,
+        # VACO adds a company it does not know yet only when the caller is FINAP.
+        # No contact-email: VACO stores it as the company's address, and the catalog has
+        # no organisation-level email yet.
+        "metadata": {"caller": "FINAP", "operator-name": operator_name},
+        "notifications": _contact_emails(package),
     }
 
 
@@ -63,13 +62,13 @@ def _id_with_name(id: str, names: Optional[dict[str, str]]) -> str:
     return f"{id} ({name})" if name else id
 
 
-def _contact_email(package: dict[str, Any]) -> Optional[str]:
-    # currently VACO only takes one email address - if/when this behavior changes we must send all contact point emails
+def _contact_emails(package: dict[str, Any]) -> list[str]:
+    emails: list[str] = []
     for contact_point in package.get("contact_point") or []:
-        email = (contact_point.get("has_email") or "").removeprefix("mailto:").strip()
-        if email:
-            return email
-    return None
+        email = (contact_point.get("has_email") or "").strip()
+        if email and email not in emails:
+            emails.append(email)
+    return emails
 
 
 def submit_all(client: VacoClient) -> SubmitResult:
