@@ -15,8 +15,9 @@ groups:
         default: false
         example: "true"
         description: >-
-          Let `ckan digitraffic-vaco submit` send the public GTFS, NeTEx and GBFS resources to VACO
-          for validation.
+          Enables:
+          1. The running of commands `ckan digitraffic-vaco submit` and `ckan digitraffic-vaco poll`.
+          2. The display of validation results on the resource/distribution page.
       - key: ckanext.digitraffic_core.vaco.api_base_url
         description: >-
           Address of VACO, without the `/api` path.
@@ -25,8 +26,7 @@ groups:
           Trivore ID token address, where the catalog gets its access token for VACO.
       - key: ckanext.digitraffic_core.vaco.client_id
         description: >-
-          The catalog's client id in Trivore ID. VACO accepts only the client ids it has been told about.
+          The catalog's client id in Trivore ID.
       - key: ckanext.digitraffic_core.vaco.client_secret
         description: >-
-          The catalog's client secret in Trivore ID. Give it as an environment variable, never in a
-          committed file.
+          The catalog's client secret in Trivore ID.
