@@ -23,9 +23,22 @@ class PollResult:
     failed: int
 
 
+@dataclass(frozen=True)
+class PollOutcome:
+    """What one poll learned about a validation request."""
+
+    status: Optional[str] = None
+    validation_rule: Optional[str] = None
+    validation_status: Optional[str] = None
+    complete: bool = False
+    etag: Optional[str] = None
+    # Set when VACO could not be asked; the request is asked again on the next run
+    error: Optional[str] = None
+
+
 def poll_all(client: VacoClient) -> PollResult:
     """Ask VACO for the state of every unfinished validation request sent in the last 7 days."""
-    validations = (
+    entries = (
         model.Session.query(VacoEntry)
         .filter(
             VacoEntry.complete.is_(False),
@@ -35,57 +48,79 @@ def poll_all(client: VacoClient) -> PollResult:
         .order_by(VacoEntry.submitted_at)
         .all()
     )
-    log.info("Polling %d unfinished VACO entries sent in the last 7 days", len(validations))
+    log.info(
+        "Polling %d unfinished VACO entries sent in the last 7 days", len(entries)
+    )
     finished = unfinished = failed = 0
-    for validation in validations:
-        outcome = _poll(client, validation)
+    for entry in entries:
+        outcome = _poll(client, entry)
+        _save(entry, outcome)
         model.Session.commit()
-        if outcome is None:
+        if outcome.error is not None:
             failed += 1
-        elif outcome:
+        elif outcome.complete:
             finished += 1
         else:
             unfinished += 1
     return PollResult(finished, unfinished, failed)
 
 
-def _poll(client: VacoClient, validation: VacoEntry) -> Optional[bool]:
-    """Updates the row from VACO's answer. Returns whether the request has finished, or `None` if polling failed."""
-    resource_name = _english_name(validation.resource_id)
+def _poll(client: VacoClient, entry: VacoEntry) -> PollOutcome:
+    resource_name = _english_name(entry.resource_id)
     log.info(
         "Polling VACO entry %s of resource %s (%s)",
-        validation.entry_public_id,
-        validation.resource_id,
+        entry.entry_public_id,
+        entry.resource_id,
         resource_name,
     )
     try:
-        response = client.queue_fetch(validation.entry_public_id)
+        response = client.queue_fetch(entry.entry_public_id)
     except (requests.RequestException, VacoApiError) as e:
-        # Asked again on the next run, until the request is 7 days old
-        log.exception("Polling VACO entry %s failed", validation.entry_public_id)
-        validation.error = str(e)
-        return None
+        log.exception("Polling VACO entry %s failed", entry.entry_public_id)
+        return PollOutcome(error=str(e))
 
-    entry = response.get("data") or {}
-    tasks = {task.get("name"): task.get("status") for task in entry.get("tasks") or []}
-    status = entry.get("status")
-    validation_rule = _validation_rule(tasks)
-    validation.polled_at = datetime.now(timezone.utc)
-    validation.error = None
-    validation.validation_status = tasks.get(validation_rule)
-    validation.complete = status not in UNFINISHED_STATUSES
-    if validation.complete:
-        validation.etag = entry.get("etag")
-    validation.status = status
+    outcome = _outcome_from(response.get("data") or {})
     log.info(
         "VACO entry %s of resource %s (%s): validation %s status: %s",
-        validation.entry_public_id,
-        validation.resource_id,
+        entry.entry_public_id,
+        entry.resource_id,
         resource_name,
-        validation_rule,
-        validation.validation_status,
+        outcome.validation_rule,
+        outcome.validation_status,
     )
-    return validation.complete
+    return outcome
+
+
+def _outcome_from(vaco_entry: dict[str, Any]) -> PollOutcome:
+    """Reads the validation's state from VACO's entry."""
+    tasks = {
+        task.get("name"): task.get("status") for task in vaco_entry.get("tasks") or []
+    }
+    status = vaco_entry.get("status")
+    complete = status not in UNFINISHED_STATUSES
+    validation_rule = _validation_rule(tasks)
+    return PollOutcome(
+        status=status,
+        validation_rule=validation_rule,
+        validation_status=tasks.get(validation_rule),
+        complete=complete,
+        # VACO sets the feed's ETag only after downloading it
+        etag=vaco_entry.get("etag") if complete else None,
+    )
+
+
+def _save(entry: VacoEntry, outcome: PollOutcome) -> None:
+    if outcome.error is not None:
+        # Keeps the last known state, so the next run asks again
+        entry.error = outcome.error
+        return
+    entry.polled_at = datetime.now(timezone.utc)
+    entry.error = None
+    entry.status = outcome.status
+    entry.validation_status = outcome.validation_status
+    entry.complete = outcome.complete
+    if outcome.complete:
+        entry.etag = outcome.etag
 
 
 def _english_name(resource_id: str) -> str:
