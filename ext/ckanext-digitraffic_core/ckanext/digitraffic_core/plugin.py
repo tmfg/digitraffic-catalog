@@ -17,6 +17,7 @@ from ckanext.digitraffic_core.profiles.metadata_middleware import (
     add_url_validity_check_middleware,
 )
 from ckanext.digitraffic_core.search.search import before_dataset_index
+from ckanext.digitraffic_core.vaco.cli import vaco
 from ckanext.digitraffic_core.validators.common_validators import (
     url_error_message_formatting,
 )
@@ -78,6 +79,10 @@ class DigitrafficCorePlugin(plugins.SingletonPlugin, DefaultTranslation):
     plugins.implements(plugins.IPackageController, inherit=True)
     plugins.implements(plugins.IConfigurer)
     plugins.implements(plugins.IMiddleware)
+    plugins.implements(plugins.IClick)
+
+    def get_commands(self):
+        return [vaco]
 
     def make_middleware(self, app, config):
         add_encoding_middleware(app)

@@ -8,6 +8,7 @@ from ckan.lib.helpers import get_translated
 from ckan.logic import NotAuthorized, NotFound, check_access, get_action
 from ckan.plugins import toolkit
 from ckan.types import Context
+from ckanext.digitraffic_core.vaco.display import vaco_validation
 
 
 def print_field_and_data(field_name: str, data: dict):
@@ -131,4 +132,5 @@ helpers = {
     "dataset_display_name": dataset_display_name,
     "get_organization_dataset_counts": get_organization_dataset_counts,
     "get_site_title": get_site_title,
+    "vaco_validation": vaco_validation,
 }

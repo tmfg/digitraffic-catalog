@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-digitraffic_core 0.0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-11-09 10:46+0000\n"
+"POT-Creation-Date: 2026-11-10 13:51+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -598,6 +598,26 @@ msgstr ""
 
 #: ckanext/digitraffic_core/templates/package/snippets/resources_list.html:8
 msgid "Add new resource"
+msgstr ""
+
+#: ckanext/digitraffic_core/templates/package/snippets/vaco_validation.html:4
+msgid "Resource quality"
+msgstr ""
+
+#: ckanext/digitraffic_core/templates/package/snippets/vaco_validation.html:7
+msgid "Validation result"
+msgstr ""
+
+#: ckanext/digitraffic_core/templates/package/snippets/vaco_validation.html:10
+msgid "VACO validation status"
+msgstr ""
+
+#: ckanext/digitraffic_core/templates/package/snippets/vaco_validation.html:13
+msgid "Data validation service"
+msgstr ""
+
+#: ckanext/digitraffic_core/templates/package/snippets/vaco_validation.html:16
+msgid "View in data validation service"
 msgstr ""
 
 #: ckanext/digitraffic_core/templates/scheming/form_snippets/_organization_select.html:24

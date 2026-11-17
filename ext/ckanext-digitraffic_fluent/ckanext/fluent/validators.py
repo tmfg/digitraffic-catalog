@@ -1,18 +1,16 @@
 import json
 import re
+
 import six
-
-from ckan.plugins.toolkit import missing, get_validator, Invalid
-from ckantoolkit import config, _
-
+from ckan.plugins.toolkit import Invalid, get_validator, missing
 from ckanext.fluent.helpers import (
-    fluent_form_languages,
     fluent_alternate_languages,
+    fluent_form_languages,
     fluent_required_languages,
 )
 from ckanext.scheming.helpers import scheming_language_text
 from ckanext.scheming.validation import scheming_validator, validators_from_string
-
+from ckantoolkit import _, config
 
 # loose definition of BCP47-like strings
 BCP_47_LANGUAGE = "^[a-z]{2,8}(-[0-9a-zA-Z]{1,8})*$"
@@ -40,12 +38,8 @@ def fluent_core_translated_output(field, schema):
         new_key = key[:-1] + (k[: -len(LANG_SUFFIX)],)
 
         if new_key in data:
-            current_lang = config.get("ckan.locale_default", "en")
-
-            if not data[key].get(current_lang):
-                data[new_key] = scheming_language_text(data[key], "en")
-            else:
-                data[new_key] = scheming_language_text(data[key], current_lang)
+            # English is the only language required for mandatory fields
+            data[new_key] = scheming_language_text(data[key], "en")
 
     return validator
 
@@ -175,14 +169,19 @@ def fluent_text_output(value):
     """
     Return stored json representation as a multilingual dict, if
     value is already a dict just pass it through.
+
+    Languages with empty text are left out, so that CKAN's translation lookup
+    falls back to the core field instead of showing nothing.
     """
-    if isinstance(value, dict):
-        return value
-    try:
-        return json.loads(value)
-    except ValueError:
-        # plain string in the db, assume default locale
-        return {config.get("ckan.locale_default", "en"): value}
+    if not isinstance(value, dict):
+        try:
+            value = json.loads(value)
+        except ValueError:
+            # plain string in the db, assume default locale
+            return {config.get("ckan.locale_default", "en"): value}
+        if not isinstance(value, dict):
+            return value
+    return {lang: text for lang, text in value.items() if text}
 
 
 @scheming_validator
