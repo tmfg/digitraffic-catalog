@@ -126,6 +126,13 @@ cd local-env
 ./dev.sh down          # add -v to also delete the database and Solr data
 ```
 
+### Admin access
+
+```
+cd local-env
+docker compose exec ckan ckan sysadmin add <your-username>
+```
+
 ## Development Workflows
 
 ### Working with Frontend Code (CSS/JavaScript)

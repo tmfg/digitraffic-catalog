@@ -20,6 +20,7 @@ usage: ./dev.sh <command> [args]
   translate fi|sv           docker compose exec -u ckan ckan python setup.py update_catalog/compile_catalog
   logs [service]            docker compose logs -f [service]
   reload                    docker compose restart ckan        (after Python changes)
+  reload-env                docker compose up -d --force-recreate (after .env.local changes)
   attach                    docker compose attach ckan         (pdb; detach with Ctrl-P Ctrl-Q)
 
 Set DIGITRAFFIC_CI_PATH env variable.
@@ -71,6 +72,9 @@ case "$command" in
     ;;
   reload)
     docker compose restart ckan
+    ;;
+  reload-env)
+    docker compose up -d --force-recreate
     ;;
   attach)
     docker compose attach ckan
