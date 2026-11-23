@@ -319,11 +319,14 @@ export class DatasetPage extends BasePage {
         'contactPoints'
       ).then(contactPoints => contactPoints.map(finnishObjectToContactPoint));
 
-      // Get assessments with improved typing
-      optionalValues.assessments = await getObjectsContent(
+      // Get assessment with improved typing (single assessment, not array)
+      const assessmentData = await getObjectsContent(
         this.assessments,
-        'assessments'
-      ).then(assessments => assessments.map(finnishObjectToAssessment));
+        'assessment'
+      );
+      if (assessmentData && assessmentData.length > 0) {
+        optionalValues.assessment = finnishObjectToAssessment(assessmentData[0]);
+      }
 
       // Get rights holders with improved typing
       optionalValues.rightsHolders = await getObjectsContent(

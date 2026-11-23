@@ -49,7 +49,7 @@ class DatasetInput(TypedDict):
     theme: NotRequired[Theme]
     transport_mode: NotRequired[TransportMode]
     # Optional properties
-    assessments: List[Assessment]
+    assessment: NotRequired[Assessment]
     intended_information_service: NotRequired[IntendedInformationService]
     quality_annotation: QualityAnnotation
     language: NotRequired[URIRef]
@@ -84,7 +84,7 @@ class Dataset(ClassInstance):
         self.theme = input.get("theme")
         self.transport_mode = input.get("transport_mode")
         # Optional properties
-        self.assessments = input.get("assessments")
+        self.assessment = input.get("assessment")
         self.intended_information_service = input.get("intended_information_service")
         self.quality_annotation = input.get("quality_annotation")
         self.language = input.get("language")
@@ -163,13 +163,10 @@ class Dataset(ClassInstance):
                 if self.rights_holders
                 else []
             ),
-            *(
-                [
-                    (MOBILITYDCATAP.assessmentResult, assessment)
-                    for assessment in self.assessments
-                ]
-                if self.assessments
-                else []
+            (
+                (MOBILITYDCATAP.assessmentResult, self.assessment)
+                if self.assessment
+                else None
             ),
             (
                 (

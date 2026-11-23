@@ -108,26 +108,24 @@ class MobilityData:
             else {}
         )
 
-        assessments = (
+        assessment = (
             {
-                "assessments": [
-                    Assessment(
-                        None,
-                        {
-                            "assessment_date": self._optional_literal(
-                                assessment.get("assessment_date"), datatype=XSD.date
-                            ),
-                            "assessment_result": (
-                                URIRef(assessment.get("assessment_result"))
-                                if assessment.get("assessment_result")
-                                else None
-                            ),
-                        },
-                    )
-                    for assessment in dataset_dict["assessment"]
-                ]
+                "assessment": Assessment(
+                    None,
+                    {
+                        "assessment_date": self._optional_literal(
+                            dataset_dict["assessment"][0].get("assessment_date"),
+                            datatype=XSD.date,
+                        ),
+                        "assessment_result": (
+                            URIRef(dataset_dict["assessment"][0].get("assessment_result"))
+                            if dataset_dict["assessment"][0].get("assessment_result")
+                            else None
+                        ),
+                    },
+                )
             }
-            if dataset_dict.get("assessment")
+            if dataset_dict.get("assessment") and len(dataset_dict["assessment"]) > 0
             else {}
         )
 
@@ -509,7 +507,7 @@ class MobilityData:
                     else {}
                 ),
                 **quality_annotation,
-                **assessments,
+                **assessment,
                 **related_resource,
                 **is_referenced_by,
                 **temporal,

@@ -1,0 +1,796 @@
+# Schema Changes Checklist
+
+This document outlines all the components that must be updated when making schema changes, particularly cardinality modifications to dataset properties.
+
+## Overview
+
+The catalog uses a **multi-layer architecture** where schema changes must propagate through several independent systems:
+
+```
+RDF/DCAT-AP Specification
+         ↓
+Schema Generator (dcat_schema_transpiler)
+         ↓
+YAML Schema (mobility_dcat.yaml)
+         ↓
+UI Forms & Validation
+         ↓
+Python Data Models
+         ↓
+Data Conversion & Serialization
+         ↓
+Search Indexing
+         ↓
+Database Storage
+         ↓
+RDF Export
+```
+
+**Critical rule:** Changes are **not complete** until ALL layers are updated and tested together.
+
+---
+
+## Checklist: Cardinality Changes
+
+Use this checklist when you change a property's cardinality (e.g., from 0..1 to 0..n, or single to repeating).
+
+### 1. Schema Generator (`dcat_schema_transpiler`)
+
+**Location:** `dcat_schema_transpiler/dcat_schema_transpiler/ckan_schema/mobility_dcat_ap_converter/classes/`
+
+**Files to modify:** Converter class for the affected property (e.g., `quality_annotation.py`, `assessment.py`)
+
+**Changes required:**
+
+- [ ] **For `0..1 → 0..n` (single to repeating):**
+  - Modify `get_schema()` method
+  - Add `form_blanks: 0` parameter
+  - Wrap field in `repeating_subfields` list
+  - Move validation/metadata to subfield level
+  - Extract `label` and `help_text` individually if needed
+  - Move `preset` to subfield definition
+  
+  Example:
+  ```python
+  return {
+      "field_name": "my_field",
+      "form_blanks": 0,
+      **super().get_necessity_mapping(clazz_p.iri),
+      "repeating_subfields": [
+          {
+              "field_name": "my_subfield",
+              "label": {...},
+              "preset": "url",
+          }
+      ],
+  }
+  ```
+
+- [ ] **For `0..n → 0..1` (repeating to single):**
+  - If using `AggregateRangeValueConverter`: modify `get_aggregate_schema()`
+  - Return the accumulated `self.__aggregate_schemas` list
+  - `ClassConverter._append_schema()` recognizes lists and appends each field separately
+  - Results in flat fields at top level, not wrapped in repeating_subfields
+  - Remove `repeating_subfields` logic
+  
+  Example:
+  ```python
+  def get_aggregate_schema(self) -> List[Dict]:
+      # Property changed from repeating (0..n) to single (0..1)
+      # Return accumulated individual field schemas
+      # ClassConverter will flatten these as separate fields
+      return self.__aggregate_schemas
+  ```
+  
+  **Important:** Returning `None` breaks the ClassConverter dispatch logic (inserts `None` into fields array). Always return the accumulated schemas list.
+
+- [ ] **Verify:** Run Python syntax check
+  ```bash
+  python3 -m py_compile <file>
+  ```
+
+**Why:** Schema generators are called during regeneration workflow (`README.md:182-204`). Without updates, regeneration will undo manual YAML fixes.
+
+---
+
+### 2. YAML Schema (`mobility_dcat.yaml`)
+
+**Location:** `ext/ckanext-digitraffic_core/ckanext/digitraffic_core/schemas/mobility_dcat.yaml`
+
+**Changes required:**
+
+- [ ] **For `0..1 → 0..n` (single to repeating):**
+  - Remove `preset` or `type` from parent field
+  - Add `repeating_subfields` section
+  - Define subfields with their own `preset`, `type`, or validation
+  - Set `form_blanks: 0` to allow empty form placeholders
+  
+  Example (before):
+  ```yaml
+  quality_description:
+    field_name: quality_description
+    preset: url
+    label:
+      en: Quality Description
+  ```
+  
+  Example (after):
+  ```yaml
+  quality_description:
+    field_name: quality_description
+    form_blanks: 0
+    repeating_subfields:
+      - field_name: quality_url
+        preset: url
+        label:
+          en: Quality Description
+  ```
+
+- [ ] **For `0..n → 0..1` (repeating to single):**
+  - Remove `repeating_subfields` section
+  - Create individual flat fields at same level
+  - Apply `preset`, `type`, and validation to each field
+  
+  Example (before):
+  ```yaml
+  assessment:
+    field_name: assessment
+    repeating_subfields:
+      - field_name: assessment_date
+        preset: date
+      - field_name: assessment_result
+        type: text
+  ```
+  
+  Example (after):
+  ```yaml
+  assessment_date:
+    field_name: assessment_date
+    preset: date
+  assessment_result:
+    field_name: assessment_result
+    type: text
+  ```
+
+- [ ] **Update validators:** If field has `validators` list, ensure they're applied at correct level
+- [ ] **Update help text:** Move translations from parent to subfield level if repeating
+- [ ] **Verify:** Run YAML syntax check or load test
+
+**Why:** This is the UI schema that defines form fields, their order, validation, and translations that users see.
+
+---
+
+### 3. Python Data Model (`dataset.py`)
+
+**Location:** `ext/ckanext-digitraffic_core/ckanext/digitraffic_core/model/dataset.py`
+
+**Changes required:**
+
+- [ ] **For `0..1 → 0..n` (single to repeating):**
+  - Change type from `str | dict` to `List[CustomClass]`
+  - If using TypedDict: `quality_annotations: NotRequired[List[QualityAnnotation]]`
+  - Add custom class if needed (e.g., `QualityAnnotation` with subfields)
+  - Update constructor initialization: `self.quality_annotations = []`
+  - Update property docstring to indicate "multiple"
+  
+  Example:
+  ```python
+  # Before
+  quality_annotation: NotRequired[str]
+  
+  # After
+  quality_annotations: NotRequired[List[QualityAnnotation]]
+  
+  class QualityAnnotation(TypedDict):
+      quality_url: str
+  ```
+
+- [ ] **For `0..n → 0..1` (repeating to single):**
+  - Change type from `List[CustomClass]` to single `CustomClass | None`
+  - If using TypedDict: `assessment: NotRequired[Assessment]`
+  - Update constructor initialization: `self.assessment = None`
+  - Update property docstring to indicate "single"
+  
+  Example:
+  ```python
+  # Before
+  assessments: NotRequired[List[Assessment]]
+  
+  # After
+  assessment: NotRequired[Assessment]
+  ```
+
+- [ ] **Update RDF serialization in `to_rdf_triples()`:**
+  - For repeating: use list comprehension to generate multiple triples
+  - For single: use conditional to generate zero or one triple
+  
+  Example (repeating):
+  ```python
+  for qa in (self.quality_annotations or []):
+      yield (self.uri, OA.hasBody, URIRef(qa["quality_url"]))
+  ```
+  
+  Example (single):
+  ```python
+  if self.assessment:
+      yield (self.uri, VCARD.hasResult, URIRef(self.assessment["result"]))
+  ```
+
+- [ ] **Verify:** Run Python type checker or syntax check
+
+**Why:** This is the runtime data structure that holds dataset metadata in memory and generates RDF triples.
+
+---
+
+### 4. Data Converter (`mobility_data.py`)
+
+**Location:** `ext/ckanext-digitraffic_core/ckanext/digitraffic_core/model/mobility_data.py`
+
+**Changes required:**
+
+- [ ] **For `0..1 → 0..n` (single to repeating):**
+  - Find converter method (e.g., `_quality_annotation`)
+  - Change from accessing single value to iterating over list
+  - Build list of objects with subfield values
+  
+  Example:
+  ```python
+  # Before
+  if "quality_description" in dataset_dict:
+      dataset["quality_annotation"] = dataset_dict["quality_description"]
+  
+  # After
+  if "quality_description" in dataset_dict:
+      quality_list = dataset_dict["quality_description"]
+      dataset["quality_annotations"] = [
+          {"quality_url": item.get("quality_url")}
+          for item in quality_list if item.get("quality_url")
+      ]
+  ```
+
+- [ ] **For `0..n → 0..1` (repeating to single):**
+  - Change from iterating over list to accessing single dict
+  - Extract individual field values from single dict
+  
+  Example:
+  ```python
+  # Before
+  if "assessment" in dataset_dict:
+      assessments = dataset_dict["assessment"]
+      dataset["assessments"] = [
+          {"date": a.get("assessment_date"), ...}
+          for a in assessments
+      ]
+  
+  # After
+  if "assessment_date" in dataset_dict or "assessment_result" in dataset_dict:
+      dataset["assessment"] = {
+          "date": dataset_dict.get("assessment_date"),
+          "result": dataset_dict.get("assessment_result"),
+      }
+  ```
+
+- [ ] **Update method signature if needed:** Parameter names should match new structure
+- [ ] **Add error handling:** Handle missing/null values gracefully
+- [ ] **Verify:** Test converter with sample data
+
+**⚠️ Special Note: Vocabulary Properties**
+
+For properties using `SchemaChoiceVocabulary` or `SchemaVocabulary` subclasses
+(e.g., `GeoreferencingMethod`, `TransportMode`, `Frequency`):
+
+The vocabulary class constructor expects a **single IRI string**, not a list. For repeating
+properties, **iterate and create one object per IRI** using a list comprehension:
+
+✅ **CORRECT**:
+```python
+"georeferencing_method": [
+    GeoreferencingMethod(entry)
+    for entry in dataset_dict["georeferencing_method"]
+]
+```
+
+❌ **INCORRECT** (causes `TypeError: unhashable type: 'list'`):
+```python
+"georeferencing_method": GeoreferencingMethod(dataset_dict["georeferencing_method"])
+```
+
+See reference implementations:
+- `transport_mode`: [mobility_data.py:405-410](/ext/ckanext-digitraffic_core/ckanext/digitraffic_core/model/mobility_data.py#L405)
+- `spatial`: [mobility_data.py:413](/ext/ckanext-digitraffic_core/ckanext/digitraffic_core/model/mobility_data.py#L413)
+
+**Why:** This converts CKAN form submission (key-value pairs) into runtime data model objects.
+
+---
+
+### 5. Search Indexing (`search.py`)
+
+**Location:** `ext/ckanext-digitraffic_core/ckanext/digitraffic_core/search/search.py`
+
+**Changes required:**
+
+- [ ] **For `0..1 → 0..n` (single to repeating):**
+  - **Add field to `DATASET_FIELDS_WITH_REPEATING_SUBFIELDS` list** (lines 5-9)
+  - Join/concatenate repeating values into single searchable string
+  - Use newlines or spaces as separator for readability
+  
+  Example:
+  ```python
+  DATASET_FIELDS_WITH_REPEATING_SUBFIELDS = [
+      "quality_description",  # newly repeating
+      # ... other fields
+  ]
+  ```
+
+- [ ] **For `0..n → 0..1` (repeating to single):**
+  - **Remove field from `DATASET_FIELDS_WITH_REPEATING_SUBFIELDS` list**
+  - Search indexing will treat it as single value automatically
+  
+  Example:
+  ```python
+  DATASET_FIELDS_WITH_REPEATING_SUBFIELDS = [
+      # "assessment" removed (now single field)
+      "quality_description",
+  ]
+  ```
+
+- [ ] **Verify:** Confirm field appears in search results after indexing
+
+**Why:** Search system handles repeating fields specially (joins values). Mismatch causes index errors or missing results.
+
+---
+
+### 6. Database Migration
+
+**Location:** `ext/ckanext-digitraffic_core/ckanext/digitraffic_core/migration/digitraffic_core/versions/`
+
+**Changes required:**
+
+- [ ] **Create new migration file:** `<YYYYMMDD>_<description>.py`
+  - Follow Alembic naming convention: 14-digit timestamp + snake_case description
+  
+- [ ] **For `0..1 → 0..n` (single to repeating):**
+  - Transform single string value → list of dicts
+  - Handle NULL/empty values (delete from JSON)
+  - Preserve data integrity (no data loss)
+  
+  Example:
+  ```python
+  def upgrade():
+      bind = op.get_bind()
+      for pkg in bind.execute(text("SELECT id, extras FROM package")):
+          extras = json.loads(pkg.extras or '{}')
+          if 'quality_description' in extras:
+              value = extras['quality_description']
+              extras['quality_description'] = [{"quality_url": value}]
+              bind.execute(
+                  text("UPDATE package SET extras = :extras WHERE id = :id"),
+                  {"extras": json.dumps(extras), "id": pkg.id}
+              )
+  ```
+
+- [ ] **For `0..n → 0..1` (repeating to single):**
+  - Transform list of dicts → single dict or value
+  - Keep first element if multiple exist (log warning)
+  - Handle empty list (delete from JSON)
+  
+  Example:
+  ```python
+  def upgrade():
+      bind = op.get_bind()
+      for pkg in bind.execute(text("SELECT id, extras FROM package")):
+          extras = json.loads(pkg.extras or '{}')
+          if 'assessment' in extras:
+              assessments = extras['assessment']
+              if assessments:
+                  extras['assessment_date'] = assessments[0].get('assessment_date')
+                  extras['assessment_result'] = assessments[0].get('assessment_result')
+              del extras['assessment']
+              bind.execute(
+                  text("UPDATE package SET extras = :extras WHERE id = :id"),
+                  {"extras": json.dumps(extras), "id": pkg.id}
+              )
+  ```
+
+- [ ] **Write downgrade function:** Reverse transformation (if possible)
+- [ ] **Add logging:** Log data transformations and warnings
+- [ ] **Handle all supported DBs:** PostgreSQL, SQLite, MySQL (use `op.get_bind()`)
+- [ ] **Verify:** Test migration on staging database
+
+**Why:** Database stores dataset metadata as JSON in `package.extras`. Must transform existing data before code changes apply.
+
+---
+
+### 7. Testing & Validation
+
+- [ ] **Unit tests:** Update or create tests for converter, model, search indexing
+- [ ] **Integration tests:** Test full pipeline (form → model → DB → RDF)
+- [ ] **UI testing:** Manually test form in browser
+  - Single fields should show one input
+  - Repeating fields should show "Add another" buttons
+  - Validation should work correctly
+- [ ] **Search testing:** Index dataset, search for values
+- [ ] **RDF export testing:** Validate generated RDF triples match spec
+- [ ] **Data integrity:** Verify no data loss in migration
+
+**⚠️ Special Note: Tests for Vocabulary Properties with `value_to_list` Validator**
+
+For repeating vocabulary properties using `value_to_list` validator (e.g., `georeferencing_method`, `transport_mode`):
+
+**Update existing validator test:**
+
+Change test to expect list format instead of scalar:
+
+```python
+# Before (single value - old cardinality)
+def test_georeferencing_method_validator(self):
+    self.vocabulary_test(
+        field_name="georeferencing_method",
+        valid_value=list(GeoreferencingMethod.get_iris())[0],  # Scalar ❌
+        invalid_value="gps",
+        match_message="does not belong to",
+    )
+
+# After (list value - new cardinality)
+def test_georeferencing_method_validator(self):
+    """Test that georeferencing_method accepts and normalizes scalar to list"""
+    self.vocabulary_test(
+        field_name="georeferencing_method",
+        valid_value=[list(GeoreferencingMethod.get_iris())[0]],  # List ✅
+        invalid_value="gps",
+        match_message="does not belong to",
+    )
+```
+
+**Add new test for scalar-to-list normalization:**
+
+Explicitly test the `value_to_list` validator behavior:
+
+```python
+def test_georeferencing_method_validator_scalar_normalization(self):
+    """Test that scalar georeferencing_method is normalized to list by value_to_list validator"""
+    organization = factories.Organization()
+    dataset = create_dataset(organization)
+    
+    # Get a valid georeferencing method IRI
+    geo_iri = list(GeoreferencingMethod.get_iris())[0]
+    
+    # Submit as scalar (backward compatibility scenario)
+    dataset["georeferencing_method"] = geo_iri
+    helpers.call_action("package_update", **dataset)
+    
+    # Verify it's normalized to a list by value_to_list validator
+    updated = helpers.call_action("package_show", id=dataset["id"])
+    assert updated["georeferencing_method"] == [geo_iri]  # Value check
+    assert isinstance(updated["georeferencing_method"], list)  # Type check
+```
+
+**Why these changes:**
+
+1. **Existing test update:** The `value_to_list` validator normalizes all values to lists, so tests must expect list format
+2. **New normalization test:** Verifies backward compatibility (scalar submissions still work) and type consistency (output is always list)
+3. **Validation chain verification:** Ensures `value_to_list` → `vocabulary_validator` chain works correctly
+
+**Reference implementations:**
+
+- `test_transport_mode_validator`: [test_dataset_validators.py:113](../ext/ckanext-digitraffic_core/ckanext/digitraffic_core/tests/validators/test_dataset_validators.py#L113)
+- `test_location_validator`: [test_dataset_validators.py:106](../ext/ckanext-digitraffic_core/ckanext/digitraffic_core/tests/validators/test_dataset_validators.py#L106)
+- `test_georeferencing_method_validator_scalar_normalization`: [test_dataset_validators.py:136](../ext/ckanext-digitraffic_core/ckanext/digitraffic_core/tests/validators/test_dataset_validators.py#L136)
+
+**⚠️ Special Note: E2E Test Consumer Updates for Repeating Properties**
+
+When a property becomes repeating (0..1 → 0..n), E2E test consumers in TypeScript/Playwright must also be updated. This applies to fields displayed in the UI that tests interact with.
+
+**Update test fixture** (e.g., `add-dataset.spec.ts`):
+
+Change scalar values to arrays:
+
+```typescript
+// Before (single value)
+georeferencingMethod: GeoreferencingMethod.OTHER,
+
+// After (array)
+georeferencingMethod: [GeoreferencingMethod.OTHER],
+```
+
+**Update readback parser** (e.g., `dataset-page.ts`):
+
+Change from scalar parsing to array parsing with label split:
+
+```typescript
+// Before (single value)
+const georeferencingMethodValue = labelToGeoreferencingMethod(
+  await getTextContent(this.georeferencingMethod, 'georeferencingMethod')
+);
+
+// After (multiple values split by capital letters)
+const georeferencingMethodText = await getTextContent(this.georeferencingMethod, 'georeferencingMethod');
+const georeferencingMethodValues: GeoreferencingMethod[] = [];
+if (georeferencingMethodText) {
+  const methods = georeferencingMethodText
+    .split(/(?=[A-Z])/)  // Split before capital letters (e.g., "MuuOther" → ["Muu", "Other"])
+    .map(item => item.trim())
+    .map(string => labelToGeoreferencingMethod(string));
+  georeferencingMethodValues.push(...methods);
+}
+
+// Update assignment in optionalValues
+'georeferencingMethod': georeferencingMethodValues,  // Was: georeferencingMethodValue
+```
+
+**Update form input handler** (e.g., `new-dataset-page.ts`):
+
+For multi-select fields, create an `add*` method that handles clicking each option:
+
+```typescript
+// 1. Import labels (at top of file)
+import { georeferencingMethodLabels } from "../../src/ts/model/georeferencing-method";
+
+// 2. Create add method (mimics pattern of addTransportMode)
+async addGeoreferencingMethod(method: string): Promise<void> {
+  await this.georeferencingMethodField.click();
+  const methodOption = await this.additionalInformationGroup
+    .locator("span.label")
+    .filter({ hasText: new RegExp(`^${method}$`) });
+  await methodOption.click();
+  await this.georeferencingMethodField.click();  // Close field
+}
+
+// 3. Update fillDataset to loop through array
+if (datasetInfo.optionalValues?.georeferencingMethod) {
+  for (const method of datasetInfo.optionalValues.georeferencingMethod) {
+    await this.addGeoreferencingMethod(georeferencingMethodLabels[method]);
+  }
+}
+```
+
+**Why these changes:**
+
+1. **Fixture update:** Type system enforces arrays; scalar values fail type checks
+2. **Parser update:** UI renders multiple selections concatenated; must split and parse each
+3. **Form input:** Multi-select fields in CKAN UI require clicking each option individually
+
+**Pattern recognition:**
+
+The same pattern applies to other repeating fields:
+- `transportMode`: [new-dataset-page.ts:278-282](../../e2e/page-object-models/new-dataset-page.ts#L278)
+- `regionalCoverage`: [new-dataset-page.ts:286-290](../../e2e/page-object-models/new-dataset-page.ts#L286)
+- `georeferencingMethod`: [new-dataset-page.ts:286-292](../../e2e/page-object-models/new-dataset-page.ts#L286)
+
+**Reference implementations:**
+
+- Fixture: [add-dataset.spec.ts:180](../../ext/ckanext-digitraffic_core/e2e/tests/add-dataset.spec.ts#L180)
+- Readback parser: [dataset-page.ts:215-245](../../ext/ckanext-digitraffic_core/e2e/page-object-models/dataset-page.ts#L215)
+- Form input: [new-dataset-page.ts:1-200](../../ext/ckanext-digitraffic_core/e2e/page-object-models/new-dataset-page.ts#L1)
+
+---
+
+### 8. Documentation & Communication
+
+- [ ] **Update inline code comments:** Explain cardinality and why (spec reference)
+- [ ] **Update docstrings:** Parameter and return type documentation
+- [ ] **Update README:** If public-facing, document breaking changes
+- [ ] **Communication:** Notify team of schema changes (may impact API consumers)
+
+---
+
+## Example: Quality Annotations (0..1 → 0..n)
+
+This shows a complete example of all changes made for quality_description cardinality fix:
+
+### Schema Generator
+```python
+# quality_annotation.py: get_schema()
+return {
+    "field_name": "quality_description",
+    "form_blanks": 0,
+    **super().get_necessity_mapping(clazz_p.iri),
+    "repeating_subfields": [
+        {
+            "field_name": "quality_url",
+            "label": super().get_property_label_with_help_text(clazz_p.iri).get("label", {}),
+            "help_text": super().get_property_label_with_help_text(clazz_p.iri).get("help_text", {}),
+            "required": is_required,
+            "necessity": "optional",
+            "preset": "url",
+        }
+    ],
+}
+```
+
+### YAML Schema
+```yaml
+quality_description:
+  field_name: quality_description
+  form_blanks: 0
+  necessity: optional
+  repeating_subfields:
+    - field_name: quality_url
+      preset: url
+      label:
+        en: Quality Description URL
+        fi: Laadun kuvaus URL
+```
+
+### Python Model
+```python
+class QualityAnnotation(TypedDict):
+    quality_url: str
+
+class DatasetInput(TypedDict, total=False):
+    quality_annotations: NotRequired[List[QualityAnnotation]]
+```
+
+### Data Converter
+```python
+if "quality_description" in dataset_dict:
+    quality_list = dataset_dict["quality_description"]
+    dataset["quality_annotations"] = [
+        {"quality_url": item.get("quality_url")}
+        for item in quality_list if item.get("quality_url")
+    ]
+```
+
+### RDF Serialization
+```python
+for qa in (self.quality_annotations or []):
+    yield (self.uri, OA.hasBody, URIRef(qa["quality_url"]))
+```
+
+### Search Indexing
+```python
+DATASET_FIELDS_WITH_REPEATING_SUBFIELDS = [
+    "quality_description",
+    # ...
+]
+```
+
+### Database Migration
+```python
+def upgrade():
+    bind = op.get_bind()
+    for pkg in bind.execute(text("SELECT id, extras FROM package")):
+        extras = json.loads(pkg.extras or '{}')
+        if 'quality_description' in extras:
+            value = extras['quality_description']
+            extras['quality_description'] = [{"quality_url": value}]
+            bind.execute(
+                text("UPDATE package SET extras = :extras WHERE id = :id"),
+                {"extras": json.dumps(extras), "id": pkg.id}
+            )
+```
+
+---
+
+## Common Pitfalls
+
+### ❌ Forgetting to update Schema Generator
+**Problem:** Next regeneration overwrites YAML fixes
+**Solution:** Always update converter when changing cardinality
+**Check:** Verify regenerated YAML matches expected structure
+
+### ❌ Mismatched Field Names
+**Problem:** `quality_description` in YAML but `quality_annotations` in Python model
+**Solution:** Keep names consistent across all layers, or add explicit mapping
+**Check:** Compare layer-by-layer during review
+
+### ❌ Missing Search Configuration
+**Problem:** Repeating field not indexed correctly, search fails
+**Solution:** Add field to `DATASET_FIELDS_WITH_REPEATING_SUBFIELDS` for repeating
+**Check:** Test search after deployment
+
+### ❌ Incomplete Database Migration
+**Problem:** Existing data not transformed, old code paths still used
+**Solution:** Always write both upgrade and downgrade functions
+**Check:** Test migration with real data before deploying
+
+### ❌ Breaking RDF Export
+**Problem:** Generated RDF doesn't match spec (single vs multiple properties)
+**Solution:** Verify list comprehension (repeating) vs conditional (single) in `to_rdf_triples()`
+**Check:** Validate RDF output against ontology
+
+### ❌ No Validator Updates
+**Problem:** Form accepts invalid data, validation doesn't work
+**Solution:** Check if field has custom validators, update if cardinality changes affect logic
+**Check:** Test form with boundary cases (empty, null, multiple values)
+
+---
+
+## Deep Dive: AggregateRangeValueConverter Dispatch Logic
+
+When a converter inherits from `AggregateRangeValueConverter`, the schema generation follows a specific pattern. Understanding this is critical for implementing `get_aggregate_schema()` correctly.
+
+### How ClassConverter Dispatches Aggregate Converters
+
+```python
+# ClassConverter.convert() excerpt:
+elif isinstance(converter, AggregateRangeValueConverter):
+    for p in included_properties:
+        schema = self._get_property_schema(p, converter, omit, is_required)
+        self._append_aggregate(schema, converter)      # Accumulates in __aggregate_schemas
+    
+    property_schemas = converter.get_aggregate_schema()
+    self._append_schema(property_schemas)               # Appends to __schema_fields
+```
+
+### The Pattern: Accumulate, Then Return
+
+**Step 1: Accumulation**
+- For each property (e.g., `assessment_date`, `assessment_result`):
+  - `converter.get_schema()` generates field definition
+  - `converter.add_to_aggregate()` accumulates it in `self.__aggregate_schemas`
+
+**Step 2: Return**
+- After all properties accumulated:
+  - `converter.get_aggregate_schema()` is called
+  - Returns the accumulated schemas
+  - `_append_schema()` processes the return value
+
+### Why Return None Fails
+
+If `get_aggregate_schema()` returns `None`:
+
+```python
+# _append_schema(None):
+def _append_schema(self, schema):
+    if isinstance(schema, list):
+        for field in schema:
+            self.__schema_fields.append(field)
+    else:
+        self.__schema_fields.append(schema)  # ← Appends None!
+
+# Later, post_process_schema() tries:
+for field in self.__schema_fields:
+    field.get("field_name")  # ← ERROR: 'NoneType' has no attribute 'get'
+```
+
+### The Correct Return Value
+
+Always return what was accumulated: `self.__aggregate_schemas`
+
+```python
+def get_aggregate_schema(self) -> List[Dict]:
+    # Converter accumulated assessment_date and assessment_result
+    return self.__aggregate_schemas  # Returns [field1_dict, field2_dict]
+    
+# _append_schema([field1_dict, field2_dict]):
+def _append_schema(self, schema):
+    if isinstance(schema, list):  # ← Recognized as list
+        for field in schema:
+            self.__schema_fields.append(field)  # ← Each field appended separately
+```
+
+### Result in YAML
+
+Flat fields at top level (not repeating):
+```yaml
+assessment_date:
+  field_name: assessment_date
+  preset: date
+assessment_result:
+  field_name: assessment_result
+  preset: url
+```
+
+### When to Use Which Pattern
+
+| Scenario | Converter | get_aggregate_schema() | Result |
+|----------|-----------|------------------------|--------|
+| Repeating section (0..n) | AggregateRangeValueConverter | Dict with repeating_subfields | Wraps fields in repeating section |
+| Flat fields (0..1) | AggregateRangeValueConverter | List[Dict] from __aggregate_schemas | Appends each field separately |
+| Single field | Non-aggregate converter | Single Dict | Appends one field |
+
+---
+
+## Related Documentation
+
+- [mobilityDCAT-AP v1.1.0 Specification](https://w3id.org/mobilitydcatap/mobilityDCAT-AP_v1.1.0.html)
+- [CKAN Schema Documentation](https://docs.ckan.org/en/ckan-2.9.0/maintaining/index.html)
+- [DCAT Schema Transpiler README](../dcat_schema_transpiler/README.md)
+- [Database Migration Guide](./DATABASE_MIGRATIONS.md)
+
+---
+
+## Questions?
+
+If you're unsure about a specific layer, check the corresponding example files or ask the team.

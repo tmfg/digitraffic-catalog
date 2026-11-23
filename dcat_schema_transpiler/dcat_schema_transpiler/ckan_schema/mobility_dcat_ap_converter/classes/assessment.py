@@ -1,6 +1,5 @@
 from ckan_schema.mobility_dcat_ap_converter.range_value_converter import (
     RangeValueConverter,
-    AggregateRangeValueConverter,
 )
 from typing import Dict
 from rdflib import DCTERMS, Dataset, URIRef
@@ -11,10 +10,8 @@ from rdfs.rdfs_class import RDFSClass
 from rdfs.rdfs_property import RDFSProperty
 
 
-class Assessment(AggregateRangeValueConverter):
+class Assessment(RangeValueConverter):
     iri = MOBILITYDCATAP.Assessment
-
-    aggregate_field_name = "mobilitydcatap_assessment"
 
     mandatory_properties = {}
 
@@ -22,11 +19,8 @@ class Assessment(AggregateRangeValueConverter):
 
     optional_properties = {DCTERMS.issued, OA.hasBody}
 
-    field_name = "assessment"
-
     def __init__(self, clazz: RDFSClass, parent_class_iri: URIRef = None):
         super().__init__(clazz)
-        self.__aggregate_schemas = []
 
     def ckan_field(self, p: RDFSProperty, pointer: str | None = None) -> str:
         mappings = {DCTERMS.issued: "assessment_date", OA.hasBody: "assessment_result"}
@@ -64,17 +58,6 @@ class Assessment(AggregateRangeValueConverter):
 
     def get_range_value(self, ds: Dataset, clazz_p: RDFSProperty) -> RDFSClass | None:
         return super().get_range_value(ds, clazz_p)
-
-    def get_aggregate_schema(self) -> Dict:
-        return {
-            "field_name": Assessment.field_name,
-            "form_blanks": 0,
-            **super().get_class_label_with_help_text(),
-            "repeating_subfields": self.__aggregate_schemas,
-        }
-
-    def add_to_aggregate(self, schema: Dict) -> None:
-        self.__aggregate_schemas.append(schema)
 
     def is_property_required(self, property: RDFSProperty) -> bool:
         return property.iri in Assessment.mandatory_properties

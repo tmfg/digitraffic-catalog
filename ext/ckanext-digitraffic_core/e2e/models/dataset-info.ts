@@ -55,7 +55,7 @@ export type OptionalDatasetInfoValues = {
   contactPoints?: ContactPoint[],
   version?: string,
   versionNotes?: string,
-  assessments?: Assessment[],
+  assessment?: Assessment,
   language?: Language,
   georeferencingMethod?: GeoreferencingMethod,
   networkCoverage?: NetworkCoverage,
