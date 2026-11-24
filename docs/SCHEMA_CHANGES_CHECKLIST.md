@@ -613,6 +613,101 @@ def test_georeferencing_method_validator_list_format(self):
 - `test_location_validator`: [test_dataset_validators.py:106](../ext/ckanext-digitraffic_core/ckanext/digitraffic_core/tests/validators/test_dataset_validators.py#L106)
 - `test_georeferencing_method_validator`: [test_dataset_validators.py:136](../ext/ckanext-digitraffic_core/ckanext/digitraffic_core/tests/validators/test_dataset_validators.py#L136)
 
+---
+
+## 🔍 Critical Principle: Model Consistency Across All Layers
+
+**When ANY property structure changes, the data model representation must be updated in ALL layers simultaneously.**
+
+This principle applies to:
+- Cardinality changes (0..1 ↔ 0..n)
+- Storage structure changes (nested object ↔ flat scalar fields)
+- Field composition changes (single field ↔ multiple related fields)
+
+### Why This Matters
+
+The catalog architecture has multiple independent models for the same data:
+
+| Layer | Model | Location |
+|-------|-------|----------|
+| **Schema Definition** | YAML field structure | `mobility_dcat.yaml` (auto-generated from converter) |
+| **Python Runtime** | Type annotations, Python class | `model/dataset.py` |
+| **Display HTML** | HTML structure (nested divs, tables, lists) | `templates/additional_info.html`, etc. |
+| **Page Object Readback** | Locator patterns, text parsing logic | `e2e/page-object-models/dataset-page.ts` |
+| **Database** | JSONB structure, column layout | `package.extras` JSON or separate columns |
+| **RDF Output** | Triple patterns, cardinality | `model/dataset.py` RDF serialization |
+
+**If these models don't match, tests will pass in one layer and fail silently in another.**
+
+### Real Example: Assessment Property
+
+Assessment changed from **repeating nested objects** (0..n) to **single object from flat fields** (0..1):
+
+**Before (nested object model):**
+```python
+# Python model
+assessment: list[Assessment]  # Repeating objects
+
+# Display HTML
+<div class="panel">  # Nested object structure
+  <dl>
+    <dt>Arvion päivämäärä</dt><dd>2024-01-01</dd>
+    <dt>Arvion tulos</dt><dd>http://example.com</dd>
+  </dl>
+</div>
+
+# Page object readback
+getObjectsContent(this.assessment, 'assessment')  # Expects nested .panel
+  .then(assessments => assessments.map(finnishObjectToAssessment))
+```
+
+**After (flat field model):**
+```python
+# Python model
+assessment: Assessment | None  # Single optional object
+
+# Display HTML
+<tr>  # Flat rows
+  <th>Arvion päivämäärä</th>
+  <td>2024-01-01</td>
+</tr>
+<tr>
+  <th>Arvion tulos</th>
+  <td>http://example.com</td>
+</tr>
+
+# Page object readback  ← ⚠️ MUST CHANGE TO MATCH
+this.assessmentDate = this.getMetadataTableRowLocator('Arvion päivämäärä');
+this.assessmentResult = this.getMetadataTableRowLocator('Arvion tulos');
+
+const assessmentDateText = await getTextContent(this.assessmentDate, 'assessmentDate');
+const assessmentResultText = await getTextContent(this.assessmentResult, 'assessmentResult');
+if (assessmentDateText || assessmentResultText) {
+  optionalValues.assessment = {
+    date: assessmentDateText ? parseDate(assessmentDateText) : undefined,
+    urlToResult: assessmentResultText || undefined
+  };
+}
+```
+
+### Verification Checklist for Structural Changes
+
+After updating display template, **immediately verify page object models match:**
+
+- [ ] **Display HTML structure changed?** → Update page-object locators
+- [ ] **Field reading method changed?** (nested object vs flat scalar) → Update readback parser
+- [ ] **Cardinality changed?** (repeating array vs single value) → Update type expectations
+- [ ] **Field names changed in YAML?** → Update form templates AND page-object labels
+- [ ] **Run E2E tests with populated fixtures** → Tests will fail immediately if models don't match
+
+**Common symptom of mismatch:**
+```
+Error in getDatasetInfo: undefined values in optionalValues
+// Assessment was not read because page-object used wrong HTML model
+```
+
+---
+
 **⚠️ Special Note: E2E Test Consumer Updates for Repeating Properties**
 
 When a property becomes repeating (0..1 → 0..n), E2E test consumers in TypeScript/Playwright must also be updated. This applies to fields displayed in the UI that tests interact with.

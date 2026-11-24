@@ -4,6 +4,23 @@
 
 ---
 
+## ⚠️ Model Consistency Principle
+
+**CRITICAL:** When a property's structure changes (cardinality, storage format, HTML representation), ALL models must be updated simultaneously. Models exist in multiple layers:
+
+- **Schema Definition** (YAML) — field structure
+- **Python Runtime** — type annotations
+- **Display HTML** — nested vs flat rows
+- **Page Object Readback** (E2E) — locator patterns and parsing logic ← Often forgotten!
+- **Database** — JSONB structure
+- **RDF Output** — triple cardinality
+
+**If these don't match, tests will fail silently.** For structural changes, **immediately verify page-object models after updating display templates.**
+
+**Reference example:** [SCHEMA_CHANGES_CHECKLIST.md § Critical Principle: Model Consistency Across All Layers](./SCHEMA_CHANGES_CHECKLIST.md#-critical-principle-model-consistency-across-all-layers) — Assessment property case study.
+
+---
+
 ## 📌 CKAN 2.12+ Database Structure
 
 **Extras are now stored in JSONB column, not separate table:**

@@ -39,7 +39,8 @@ export class DatasetPage extends BasePage {
   readonly contactPoints: Locator
   readonly version: Locator
   readonly versionNotes: Locator
-  readonly assessments: Locator
+  readonly assessmentDate: Locator
+  readonly assessmentResult: Locator
   readonly language: Locator
   readonly georeferencingMethod: Locator
   readonly networkCoverage: Locator
@@ -71,7 +72,8 @@ export class DatasetPage extends BasePage {
     this.contactPoints = this.getMetadataTableRowLocator('Yhteyspiste');
     this.version = this.getMetadataTableRowLocator('Tietoaineiston versio');
     this.versionNotes = this.getMetadataTableRowLocator('Version tiedot');
-    this.assessments = this.getMetadataTableRowLocator('Arvio');
+    this.assessmentDate = this.getMetadataTableRowLocator('Arvion päivämäärä');
+    this.assessmentResult = this.getMetadataTableRowLocator('Arvion tulos');
     this.language = this.getMetadataTableRowLocator('Kieli');
     this.georeferencingMethod = this.getMetadataTableRowLocator('Georeferointitapa');
     this.networkCoverage = this.getMetadataTableRowLocator('Liikenneverkko');
@@ -319,13 +321,15 @@ export class DatasetPage extends BasePage {
         'contactPoints'
       ).then(contactPoints => contactPoints.map(finnishObjectToContactPoint));
 
-      // Get assessment with improved typing (single assessment, not array)
-      const assessmentData = await getObjectsContent(
-        this.assessments,
-        'assessment'
-      );
-      if (assessmentData && assessmentData.length > 0) {
-        optionalValues.assessment = finnishObjectToAssessment(assessmentData[0]);
+      // Get assessment from two separate flat schema rows
+      const assessmentDateText = await getTextContent(this.assessmentDate, 'assessmentDate');
+      const assessmentResultText = await getTextContent(this.assessmentResult, 'assessmentResult');
+      
+      if (assessmentDateText || assessmentResultText) {
+        optionalValues.assessment = {
+          date: assessmentDateText ? parseDate(assessmentDateText) : undefined,
+          urlToResult: assessmentResultText || undefined
+        };
       }
 
       // Get rights holders with improved typing
