@@ -286,7 +286,62 @@ See reference implementations:
 
 ---
 
-### 5. Search Indexing (`search.py`)
+### 5. Form Templates (UI Field Groups)
+
+**Location:**
+- `ext/ckanext-digitraffic_core/ckanext/digitraffic_core/templates/scheming/package/snippets/package_form.html`
+- `ext/ckanext-digitraffic_core/ckanext/digitraffic_core/templates/package/snippets/field_groups.html`
+
+**Purpose:** Define which fields are grouped together in the web form UI. The form templates specify which YAML schema fields appear in each section.
+
+**Changes required:**
+
+- [ ] **For `0..1 → 0..n` (single to repeating):**
+  - In field group definition, change `"fields": ["old_field"]` to `"fields": ["new_field_1", "new_field_2", ...]`
+  - Multiple fields will appear as separate form inputs in the same group
+  - Example:
+    ```python
+    "quality_description": {
+      "label": _("Quality Description"),
+      "fields": ["quality_description"]  # Before (single field)
+    }
+    
+    # After
+    "quality_description": {
+      "label": _("Quality Description"),
+      "fields": ["quality_description", "quality_url"]  # After (multiple related fields)
+    }
+    ```
+
+- [ ] **For `0..n → 0..1` (repeating to single):**
+  - In field group definition, change `"fields": ["old_field_1", "old_field_2", ...]` to `"fields": ["new_field"]`
+  - Single field replaces multiple fields in the form
+  - Example:
+    ```python
+    "assessment": {
+      "label": _("Assessment"),
+      "fields": ["assessment"]  # Before (single generic field)
+    }
+    
+    # After
+    "assessment": {
+      "label": _("Assessment"),
+      "fields": ["assessment_date", "assessment_result"]  # After (two specific flat fields)
+    }
+    ```
+
+- [ ] **Verify:** Test form rendering in browser
+  - Confirm all fields appear in the expected group
+  - Confirm no "field not found" errors in browser console
+  - Test form submission works with new field structure
+
+**Why:** CKAN uses form templates to organize fields into logical groups for the UI. When a property's storage format changes (from single field to multiple fields or vice versa), the form template must be updated to reference the correct field names from the YAML schema.
+
+**Common issue:** If old field names appear in form templates after migration, Playwright E2E tests will fail with "Target page, context or browser has been closed" or "locator.fill: waiting for getByLabel(...)" timeout, because the fields don't exist on the page.
+
+---
+
+### 6. Search Indexing (`search.py`)
 
 **Location:** `ext/ckanext-digitraffic_core/ckanext/digitraffic_core/search/search.py`
 
@@ -323,7 +378,7 @@ See reference implementations:
 
 ---
 
-### 6. Database Migration
+### 7. Database Migration
 
 **Location:** `ext/ckanext-digitraffic_core/ckanext/digitraffic_core/migration/digitraffic_core/versions/`
 
@@ -394,7 +449,7 @@ See reference implementations:
 
 ---
 
-### 7. Testing & Validation
+### 8. Testing & Validation
 
 - [ ] **Unit tests:** Update or create tests for converter, model, search indexing
 - [ ] **Integration tests:** Test full pipeline (form → model → DB → RDF)
@@ -558,7 +613,7 @@ The same pattern applies to other repeating fields:
 
 ---
 
-### 8. Documentation & Communication
+### 9. Documentation & Communication
 
 - [ ] **Update inline code comments:** Explain cardinality and why (spec reference)
 - [ ] **Update docstrings:** Parameter and return type documentation
