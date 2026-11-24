@@ -2,6 +2,21 @@
 
 **TL;DR:** When changing property cardinalities, update **8 layers** in this order.
 
+---
+
+## 🔄 Database Migration Guarantee
+
+**All database migrations complete successfully before the application starts.**
+
+When implementing cardinality changes (or any schema migration):
+- Assume migration has already run before your code executes
+- Design for new format only—don't implement fallback logic
+- Migration is a prerequisite, not an option
+
+See: [SCHEMA_CHANGES_CHECKLIST.md § Database Migration Guarantee](./SCHEMA_CHANGES_CHECKLIST.md#-important-database-migration-guarantee)
+
+---
+
 ## The 8 Layers (in dependency order)
 
 | # | Layer | File(s) | For 0..1→0..n | For 0..n→0..1 |
@@ -167,20 +182,35 @@ DATASET_FIELDS_WITH_REPEATING_SUBFIELDS = [
 
 ---
 
-## Migration Example (0..n → 0..1)
+## Database Migration Pattern
+
+**Data transformation pattern (example: 0..n → 0..1):**
 
 ```python
-# Before: list of assessments
+# Before: list of assessments (database storage)
 assessment = [
     {"date": "2024-01-01", "result": "pass"},
     {"date": "2024-01-02", "result": "fail"},
 ]
 
-# After: single assessment (keep first, log warning if multiple)
+# After: single assessment (database storage, flat extras)
 assessment_date = "2024-01-01"
 assessment_result = "pass"
-# ^ Log warning: "Dropped 1 additional assessment records"
+# Note: If multiple exist, keep first. Log warning if records dropped.
 ```
+
+**Key points:**
+- Migration handles data transformation
+- Application code assumes new format always exists
+- No backward compatibility needed—migration is prerequisite
+
+**Design principle (applies to any database migration):**
+
+Migrations are GUARANTEED to complete successfully before the application starts.
+- Database is fully transformed before any application code runs
+- Design all application layers to handle the new format only
+- Never implement fallback logic for old formats
+- Assume migration is a successful prerequisite
 
 ---
 

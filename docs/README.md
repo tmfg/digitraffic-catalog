@@ -2,6 +2,20 @@
 
 This directory contains guides and documentation for maintaining and modifying the digitraffic catalog.
 
+## ⚠️ Database Migration Guarantee
+
+**All database migrations are GUARANTEED to complete successfully before the application starts.**
+
+This principle applies to ANY database migration:
+- Migrations run as part of container initialization (before app starts)
+- All data transformations must complete before application code executes
+- Application code should only handle the new format (no backward compatibility needed)
+- Assume migration has succeeded; design accordingly
+
+This simplifies application code—no fallback logic for old formats required.
+
+---
+
 ## Schema Changes
 
 **Start here if you're modifying the data model or property cardinalities:**

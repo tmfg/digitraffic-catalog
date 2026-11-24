@@ -2,6 +2,19 @@
 
 This document outlines all the components that must be updated when making schema changes, particularly cardinality modifications to dataset properties.
 
+## ⚠️ Important: Database Migration Guarantee
+
+**All database migrations are GUARANTEED to complete successfully before the application starts.**
+
+This principle applies to any migration (cardinality changes, data transformations, schema updates, etc.):
+
+- Migrations run as part of container initialization (Alembic upgrade)
+- All data transformations must complete before the app executes any code
+- Application code should **only handle the new format**
+- **No backward compatibility needed** in application layers (data converter, RDF export, etc.)
+
+**Design principle:** Assume the migration has already succeeded. Don't implement fallback logic for old formats.
+
 ## Overview
 
 The catalog uses a **multi-layer architecture** where schema changes must propagate through several independent systems:
@@ -449,19 +462,19 @@ def test_georeferencing_method_validator(self):
 Explicitly test the `value_to_list` validator behavior:
 
 ```python
-def test_georeferencing_method_validator_scalar_normalization(self):
-    """Test that scalar georeferencing_method is normalized to list by value_to_list validator"""
+def test_georeferencing_method_validator_list_format(self):
+    """Test that georeferencing_method is properly stored and retrieved as list"""
     organization = factories.Organization()
     dataset = create_dataset(organization)
     
     # Get a valid georeferencing method IRI
     geo_iri = list(GeoreferencingMethod.get_iris())[0]
     
-    # Submit as scalar (backward compatibility scenario)
-    dataset["georeferencing_method"] = geo_iri
+    # Submit as list (new format after cardinality change)
+    dataset["georeferencing_method"] = [geo_iri]
     helpers.call_action("package_update", **dataset)
     
-    # Verify it's normalized to a list by value_to_list validator
+    # Verify storage and retrieval
     updated = helpers.call_action("package_show", id=dataset["id"])
     assert updated["georeferencing_method"] == [geo_iri]  # Value check
     assert isinstance(updated["georeferencing_method"], list)  # Type check
@@ -469,15 +482,15 @@ def test_georeferencing_method_validator_scalar_normalization(self):
 
 **Why these changes:**
 
-1. **Existing test update:** The `value_to_list` validator normalizes all values to lists, so tests must expect list format
-2. **New normalization test:** Verifies backward compatibility (scalar submissions still work) and type consistency (output is always list)
-3. **Validation chain verification:** Ensures `value_to_list` → `vocabulary_validator` chain works correctly
+1. **List format verification:** After cardinality change, all data uses list format
+2. **Storage integrity test:** Verifies data persists correctly in new format
+3. **Type consistency check:** Ensures validators maintain list format throughout
 
 **Reference implementations:**
 
 - `test_transport_mode_validator`: [test_dataset_validators.py:113](../ext/ckanext-digitraffic_core/ckanext/digitraffic_core/tests/validators/test_dataset_validators.py#L113)
 - `test_location_validator`: [test_dataset_validators.py:106](../ext/ckanext-digitraffic_core/ckanext/digitraffic_core/tests/validators/test_dataset_validators.py#L106)
-- `test_georeferencing_method_validator_scalar_normalization`: [test_dataset_validators.py:136](../ext/ckanext-digitraffic_core/ckanext/digitraffic_core/tests/validators/test_dataset_validators.py#L136)
+- `test_georeferencing_method_validator`: [test_dataset_validators.py:136](../ext/ckanext-digitraffic_core/ckanext/digitraffic_core/tests/validators/test_dataset_validators.py#L136)
 
 **⚠️ Special Note: E2E Test Consumer Updates for Repeating Properties**
 

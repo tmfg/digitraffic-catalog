@@ -3,15 +3,26 @@
 Migrate mobilitydcatap:assessmentResult from repeating property (array) to 
 single optional property per mobilityDCAT-AP v3.0.0 specification.
 
-The new schema reads assessment data from separate flat extras:
-  - assessment_date: The date of the latest assessment
-  - assessment_result: URL for the results of the assessment
+Storage format change:
+  OLD: Single 'assessment' extra containing JSON with nested date and result
+       "assessment": [{"assessment_date": "...", "assessment_result": "..."}]
+  
+  NEW: Separate flat extras for each field
+       "assessment_date": "2026-01-15"
+       "assessment_result": "http://example.com/ok"
+
+Data flow after migration:
+  Database (flat extras) → Schema converter → MobilityData → RDF export
   
 Migration strategy:
-  1. Find all packages with 'assessment' extra field (old format)
+  1. Find all packages with 'assessment' extra field (old format, all states)
   2. Extract first assessment if array, or use single object as-is
   3. Write assessment_date and assessment_result to separate flat extras
   4. Delete the old 'assessment' extra (retire legacy format)
+  5. Preserve row state through transformation
+
+The migration is ALWAYS expected to complete successfully. No backward
+compatibility with old format is needed in application code.
 
 Revision ID: 20261123_assessment
 Revises: 5d2b8e7c4a19
@@ -44,21 +55,24 @@ def get_bind():
 
 def upgrade():
     """
-    Migrate assessment data from old format to new flat extras format.
+    Transform assessment data to new flat extras format.
     
-    Old format: Single 'assessment' extra with JSON object
-        {"assessment_date": "2026-01-01", "assessment_result": "https://..."}
+    Old format (nested in single extra):
+      "assessment": [{"assessment_date": "2026-01-01", "assessment_result": "uri"}]
     
-    New format: Separate flat extras
-        assessment_date: "2026-01-01"
-        assessment_result: "https://..."
+    New format (separate flat extras):
+      "assessment_date": "2026-01-01"
+      "assessment_result": "uri"
     
-    Changes:
-    1. Find all packages with 'assessment' extra field
-    2. Extract assessment_date and assessment_result from the JSON object
-    3. Create new flat extras for each field
-    4. Delete the old 'assessment' extra
-    5. If multiple assessments in array, keep first (oldest/most authoritative)
+    Transformation steps:
+    1. Find all assessment extras (all states: active, deleted)
+    2. Extract assessment_date and assessment_result from JSON
+    3. Create new flat extras with preserved state
+    4. Delete old assessment extra
+    5. If multiple assessments in array, keep first
+    
+    Migration is guaranteed to complete successfully. No application code
+    needs to handle the old format.
     """
     bind = get_bind()
     
@@ -195,16 +209,22 @@ def create_flat_extra(bind, package_id: str, key: str, value: str, state: str = 
 
 def downgrade():
     """
-    Reverse the migration: reconstruct legacy 'assessment' extra from flat fields.
+    Reverse migration: reconstruct old nested format from flat extras.
     
-    This downgrade:
-    1. Finds all packages with separate assessment_date and/or assessment_result extras
-    2. Combines them into a single assessment object (old format)
-    3. Creates a new 'assessment' extra with the combined object
-    4. Deletes the flat assessment_date and assessment_result extras
-    5. Wraps single assessments in an array (legacy format required arrays)
+    Reverses the upgrade transformation, converting data back to the
+    original storage format for rollback scenarios.
     
-    Note: This reverses the upgrade migration's data transformation.
+    This should only be used during active migration period. After migration
+    is confirmed successful, downgrade capability can be removed.
+    
+    Changes:
+    1. Find all packages with flat assessment extras
+    2. Reconstruct nested assessment object
+    3. Create legacy 'assessment' extra with preserved state
+    4. Delete flat extras
+    5. Wrap in array (original format required arrays)
+    
+    Note: This is primarily for rollback safety during the transition period.
     """
     bind = get_bind()
     

@@ -108,26 +108,7 @@ class MobilityData:
             else {}
         )
 
-        assessment = (
-            {
-                "assessment": Assessment(
-                    None,
-                    {
-                        "assessment_date": self._optional_literal(
-                            dataset_dict["assessment"][0].get("assessment_date"),
-                            datatype=XSD.date,
-                        ),
-                        "assessment_result": (
-                            URIRef(dataset_dict["assessment"][0].get("assessment_result"))
-                            if dataset_dict["assessment"][0].get("assessment_result")
-                            else None
-                        ),
-                    },
-                )
-            }
-            if dataset_dict.get("assessment") and len(dataset_dict["assessment"]) > 0
-            else {}
-        )
+        assessment = self._build_assessment(dataset_dict)
 
         quality_annotation = (
             {
@@ -530,6 +511,44 @@ class MobilityData:
     def _optional_literal(self, value: Any, datatype: str = None) -> Optional[Literal]:
         return Literal(value, datatype=datatype) if value else None
 
+    def _build_assessment(self, dataset_dict: dict[str, Any]) -> dict:
+        """
+        Build Assessment from flat extras format.
+        
+        Migration transforms assessment storage from nested list to flat extras:
+          Before: "assessment": [{"assessment_date": "2026-01-15", "assessment_result": "uri"}]
+          After:  "assessment_date": "2026-01-15"
+                  "assessment_result": "uri"
+        
+        The migration is guaranteed to complete successfully, so only the new
+        flat extras format is supported. No backward compatibility needed.
+        
+        Returns dict with 'assessment' key containing Assessment object, or empty dict.
+        """
+        assessment_date = dataset_dict.get("assessment_date")
+        assessment_result = dataset_dict.get("assessment_result")
+        
+        # Both fields are optional; return empty dict if neither present
+        if not assessment_date and not assessment_result:
+            return {}
+        
+        return {
+            "assessment": Assessment(
+                None,
+                {
+                    "assessment_date": self._optional_literal(
+                        assessment_date,
+                        datatype=XSD.date,
+                    ),
+                    "assessment_result": (
+                        URIRef(assessment_result)
+                        if assessment_result
+                        else None
+                    ),
+                },
+            )
+        }
+
     def _optional_resource(self, resource_constructor, values_dict: dict[str, Any]):
         is_values_given = any(values_dict.values())
         return (
@@ -554,4 +573,5 @@ class MobilityData:
     def _phonenumber_to_uri(self, phone: str) -> URIRef:
         if phone.startswith("tel:"):
             return URIRef(phone)
-        return URIRef(f"tel:{phone.replace(" ", "")}")
+        normalized_phone = phone.replace(" ", "")
+        return URIRef(f"tel:{normalized_phone}")
