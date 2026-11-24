@@ -330,59 +330,67 @@ See reference implementations:
 **Changes required:**
 
 - [ ] **Create new migration file:** `<YYYYMMDD>_<description>.py`
-  - Use instructions in here to create migration file https://docs.ckan.org/en/2.12/contributing/database-migrations.html
-  - Follow best practices in here https://docs.ckan.org/en/2.12/extensions/best-practices.html
+  - Use CKAN 2.12+ Alembic migration approach: https://docs.ckan.org/en/2.12/contributing/database-migrations.html
   - Follow Alembic naming convention: 14-digit timestamp + snake_case description
   
+- [ ] **CKAN 2.12+ Database Structure:**
+  > CKAN 2.12 migrated from `package_extra` table to JSONB `extras` column on `package` table
+  - Extras are now stored as flat JSON: `package.extras = {"key": "value", ...}`
+  - Use PostgreSQL JSONB operators: `->`, `->>`, `jsonb_build_object()`, etc.
+  - See: https://github.com/ckan/ckan/blob/master/ckan/migration/versions/106_12d64978ab44_faster_extras.py
+
 - [ ] **For `0..1 → 0..n` (single to repeating):**
-  - Transform single string value → list of dicts
-  - Handle NULL/empty values (delete from JSON)
+  - Transform flat extras → list structure via UPDATE SQL query
+  - Use JSONB operators to build arrays, e.g., `jsonb_build_array(jsonb_build_object(...))`
+  - Handle NULL/missing values (don't include in transformed data)
   - Preserve data integrity (no data loss)
   
-  Example:
+  Example (SQL-based):
   ```python
   def upgrade():
       bind = op.get_bind()
-      for pkg in bind.execute(text("SELECT id, extras FROM package")):
-          extras = json.loads(pkg.extras or '{}')
-          if 'quality_description' in extras:
-              value = extras['quality_description']
-              extras['quality_description'] = [{"quality_url": value}]
-              bind.execute(
-                  text("UPDATE package SET extras = :extras WHERE id = :id"),
-                  {"extras": json.dumps(extras), "id": pkg.id}
+      query = text("""
+          UPDATE package
+          SET extras = extras || jsonb_build_object(
+              'quality_description_list',
+              jsonb_build_array(
+                  jsonb_build_object('quality_url', extras->>'quality_description')
               )
+          ) - 'quality_description'
+          WHERE extras->>'quality_description' IS NOT NULL
+      """)
+      bind.execute(query)
   ```
 
 - [ ] **For `0..n → 0..1` (repeating to single):**
-  - Transform list of dicts → single dict or value
-  - Keep first element if multiple exist (log warning)
-  - Handle empty list (delete from JSON)
+  - Transform array structure → flat extras via UPDATE SQL query
+  - Extract first element if multiple exist (log warning)
+  - Use JSONB operators: `->'array'->0->>'key'` for first element access
+  - Handle missing/NULL values (delete from JSON with `-` operator)
   
-  Example:
+  Example (SQL-based):
   ```python
   def upgrade():
       bind = op.get_bind()
-      for pkg in bind.execute(text("SELECT id, extras FROM package")):
-          extras = json.loads(pkg.extras or '{}')
-          if 'assessment' in extras:
-              assessments = extras['assessment']
-              if assessments:
-                  extras['assessment_date'] = assessments[0].get('assessment_date')
-                  extras['assessment_result'] = assessments[0].get('assessment_result')
-              del extras['assessment']
-              bind.execute(
-                  text("UPDATE package SET extras = :extras WHERE id = :id"),
-                  {"extras": json.dumps(extras), "id": pkg.id}
-              )
+      query = text("""
+          UPDATE package
+          SET extras = (
+              extras || jsonb_build_object(
+                  'assessment_date', (extras->'assessment'->0->>'assessment_date'),
+                  'assessment_result', (extras->'assessment'->0->>'assessment_result')
+              ) - 'assessment'
+          )
+          WHERE extras->>'assessment' IS NOT NULL
+      """)
+      bind.execute(query)
   ```
 
-- [ ] **Write downgrade function:** Reverse transformation (if possible)
-- [ ] **Add logging:** Log data transformations and warnings
-- [ ] **Handle all supported DBs:** PostgreSQL, SQLite, MySQL (use `op.get_bind()`)
-- [ ] **Verify:** Test migration on staging database
+- [ ] **Write downgrade function:** Reverse transformation (SQL-based)
+- [ ] **Add logging:** Log transformation counts and any warnings
+- [ ] **Test on PostgreSQL:** Database is PostgreSQL 12+, migration uses PostgreSQL JSONB features
+- [ ] **Verify:** Test migration on staging database before prod deployment
 
-**Why:** Database stores dataset metadata as JSON in `package.extras`. Must transform existing data before code changes apply.
+**Why:** Database stores dataset metadata as JSONB in `package.extras` column. Must transform existing data format before application code accesses new structure.
 
 ---
 

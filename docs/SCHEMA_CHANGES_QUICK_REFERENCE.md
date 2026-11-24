@@ -4,6 +4,22 @@
 
 ---
 
+## 📌 CKAN 2.12+ Database Structure
+
+**Extras are now stored in JSONB column, not separate table:**
+
+- **Old (CKAN <2.12):** `package_extra` table with id, package_id, key, value, state columns
+- **New (CKAN 2.12+):** `package.extras` JSONB column with flat `{"key": "value"}` structure
+
+**Migration implications:**
+- Use PostgreSQL JSONB operators: `->`, `->>`, `jsonb_build_object()`, `jsonb_build_array()`
+- Write SQL-based migrations, not Python loops
+- Example: https://github.com/ckan/ckan/blob/master/ckan/migration/versions/106_12d64978ab44_faster_extras.py
+
+See: [SCHEMA_CHANGES_CHECKLIST.md § Layer 6: Database Migration](./SCHEMA_CHANGES_CHECKLIST.md#6-database-migration)
+
+---
+
 ## 🔄 Database Migration Guarantee
 
 **All database migrations complete successfully before the application starts.**
