@@ -19,16 +19,18 @@ See: [SCHEMA_CHANGES_CHECKLIST.md § Database Migration Guarantee](./SCHEMA_CHAN
 
 ## The 8 Layers (in dependency order)
 
-| # | Layer | File(s) | For 0..1→0..n | For 0..n→0..1 |
-|---|-------|---------|--------------|--------------|
-| 1 | **Schema Generator** | `dcat_schema_transpiler/.../classes/<name>.py` | Modify `get_schema()`: add `repeating_subfields` | Modify `get_aggregate_schema()`: return `None` |
-| 2 | **YAML Schema** | `mobility_dcat.yaml` | Add `repeating_subfields`, `form_blanks: 0` | Remove `repeating_subfields`, create flat fields |
-| 3 | **Python Model** | `dataset.py` | Change `Type` to `List[Type]` | Change `List[Type]` to `Type` |
-| 4 | **RDF Triples** | `dataset.py` `to_rdf_triples()` | Use list comprehension | Use conditional |
-| 5 | **Data Converter** | `mobility_data.py` | Iterate over list, build objects | Access single dict, extract fields |
-| 6 | **Search Index** | `search.py` | Add to `DATASET_FIELDS_WITH_REPEATING_SUBFIELDS` | Remove from `DATASET_FIELDS_WITH_REPEATING_SUBFIELDS` |
-| 7 | **DB Migration** | `migration/.../versions/<date>_<desc>.py` | Transform single → list | Transform list → single |
-| 8 | **Tests** | Test files | Update assertions, add tests for multiple values | Update assertions, verify single value only |
+| # | Layer | File(s) | Action |
+|---|-------|---------|--------|
+| 1 | **Schema Generator** | `dcat_schema_transpiler/.../classes/<name>.py` | ✏️ **EDIT**: Modify `get_schema()` or `get_aggregate_schema()` |
+| 2 | **YAML Schema** | `mobility_dcat.yaml` | 🔄 **AUTO-GENERATED**: No changes needed (transpiler generates) |
+| 3 | **Python Model** | `dataset.py` | ✏️ **EDIT**: Update type definitions |
+| 4 | **RDF Triples** | `dataset.py` `to_rdf_triples()` | ✏️ **EDIT**: Use list comprehension or conditional |
+| 5 | **Data Converter** | `mobility_data.py` | ✏️ **EDIT**: Iterate or access as needed |
+| 6 | **Search Index** | `search.py` | ✏️ **EDIT**: Add/remove from repeating fields list |
+| 7 | **DB Migration** | `migration/.../versions/<date>_<desc>.py` | ✏️ **EDIT**: Transform data between formats |
+| 8 | **Tests** | Test files | ✏️ **EDIT**: Update assertions |
+
+**Key:** ✏️ = Manual edits required | 🔄 = Auto-generated (don't edit directly)
 
 ---
 
