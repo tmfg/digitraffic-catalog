@@ -12,7 +12,9 @@
     'license_id',
     'owner_org',
     'related_resource',
-    'is_referenced_by'
+    'is_referenced_by',
+    'assessment_date',
+    'assessment_result'
     ] -%}
 
 {% block package_additional_info %}
@@ -74,6 +76,28 @@
             {{ h.url_from_dataset_id(dataset_id) if h.is_dataset_public(dataset_id) }}{% if not loop.last %}<br>{% endif %}
           {% endfor %}
       </td>
+        </tr>
+    {%- endif -%}
+    {%- if pkg_dict.get('assessment_date') or pkg_dict.get('assessment_result') -%}
+        {# Render assessment as a grouped object (panel) #}
+        {% set assessment_date = pkg_dict.get('assessment_date', '') %}
+        {% set assessment_result = pkg_dict.get('assessment_result', '') %}
+        <tr>
+        <th scope="row" class="dataset-label">{{ _('Assessment') }}</th>
+        <td class="dataset-details">
+            <div class="panel">
+                <dl>
+                    {% if assessment_date %}
+                        <dt>Arvion päivämäärä</dt>
+                        <dd>{{ assessment_date }}</dd>
+                    {% endif %}
+                    {% if assessment_result %}
+                        <dt>Arvion tulos</dt>
+                        <dd>{{ assessment_result }}</dd>
+                    {% endif %}
+                </dl>
+            </div>
+        </td>
         </tr>
     {%- endif -%}
     {%- if field.field_name not in exclude_fields

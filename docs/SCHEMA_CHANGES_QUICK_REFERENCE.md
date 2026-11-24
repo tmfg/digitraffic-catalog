@@ -33,7 +33,7 @@ See: [SCHEMA_CHANGES_CHECKLIST.md § Database Migration Guarantee](./SCHEMA_CHAN
 
 ---
 
-## The 9 Layers (in dependency order)
+## The 10 Layers (in dependency order)
 
 | # | Layer | File(s) | Action |
 |---|-------|---------|--------|
@@ -43,9 +43,10 @@ See: [SCHEMA_CHANGES_CHECKLIST.md § Database Migration Guarantee](./SCHEMA_CHAN
 | 4 | **RDF Triples** | `dataset.py` `to_rdf_triples()` | ✏️ **EDIT**: Use list comprehension or conditional |
 | 5 | **Data Converter** | `mobility_data.py` | ✏️ **EDIT**: Iterate or access as needed |
 | 6 | **Form Templates** | `templates/.../package_form.html`, `field_groups.html` | ✏️ **EDIT**: Update field list in group definitions |
-| 7 | **Search Index** | `search.py` | ✏️ **EDIT**: Add/remove from repeating fields list |
-| 8 | **DB Migration** | `migration/.../versions/<date>_<desc>.py` | ✏️ **EDIT**: Transform data between formats |
-| 9 | **Tests** | Test files | ✏️ **EDIT**: Update assertions |
+| 7 | **Display Templates** | `templates/.../additional_info.html`, `resource_read.html` | ✏️ **EDIT**: Update display snippets for grouped fields |
+| 8 | **Search Index** | `search.py` | ✏️ **EDIT**: Add/remove from repeating fields list |
+| 9 | **DB Migration** | `migration/.../versions/<date>_<desc>.py` | ✏️ **EDIT**: Transform data between formats |
+| 10 | **Tests** | Test files | ✏️ **EDIT**: Update assertions |
 
 **Key:** ✏️ = Manual edits required | 🔄 = Auto-generated (don't edit directly)
 

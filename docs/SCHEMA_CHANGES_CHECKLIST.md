@@ -341,7 +341,95 @@ See reference implementations:
 
 ---
 
-### 6. Search Indexing (`search.py`)
+### 6. Display Templates (Dataset View/Read Pages)
+
+**Location:**
+- `ext/ckanext-digitraffic_core/ckanext/digitraffic_core/templates/scheming/package/snippets/additional_info.html`
+- `ext/ckanext-digitraffic_core/ckanext/digitraffic_core/templates/scheming/package/resource_read.html`
+
+**Purpose:** Control how fields are displayed when viewing/reading a dataset. This includes how grouped fields are rendered in the HTML table structure.
+
+**Changes required:**
+
+- [ ] **For `0..1 → 0..n` (single to repeating):**
+  - If the property was previously displayed as a single grouped object, update to show each repetition
+  - Add new field names to `exclude_fields` list to prevent duplicate/individual rendering
+  - Create a custom display block to iterate and render each repeated value
+  - Ensure the HTML structure matches what E2E tests expect (`.panel` divs for grouped objects, `<dl>` for fields)
+  
+  Example:
+  ```jinja2
+  {%- set exclude_fields = [..., 'my_field_date', 'my_field_url'] -%}
+  
+  {%- if pkg_dict.get('my_field') -%}
+    {# Render as array of grouped objects #}
+    {% for item in pkg_dict.get('my_field', []) %}
+      <tr>
+        <td>
+          <div class="panel">
+            <dl>
+              <dt>Field 1</dt>
+              <dd>{{ item.field1 }}</dd>
+              <dt>Field 2</dt>
+              <dd>{{ item.field2 }}</dd>
+            </dl>
+          </div>
+        </td>
+      </tr>
+    {% endfor %}
+  {%- endif -%}
+  ```
+
+- [ ] **For `0..n → 0..1` (repeating to single):**
+  - If the property was previously displayed as an array of objects, update to show single grouped object
+  - Add old field names to `exclude_fields` list to prevent individual rendering
+  - Create a custom display block to render the single grouped object structure
+  - Maintain the same HTML structure so E2E tests can read it
+  
+  Example (assessment data stored as flat fields `assessment_date`, `assessment_result`):
+  ```jinja2
+  {%- set exclude_fields = [..., 'assessment_date', 'assessment_result'] -%}
+  
+  {%- if pkg_dict.get('assessment_date') or pkg_dict.get('assessment_result') -%}
+    {# Render as grouped object (panel) #}
+    {% set assessment_date = pkg_dict.get('assessment_date', '') %}
+    {% set assessment_result = pkg_dict.get('assessment_result', '') %}
+    <tr>
+      <th scope="row" class="dataset-label">{{ _('Assessment') }}</th>
+      <td class="dataset-details">
+        <div class="panel">
+          <dl>
+            {% if assessment_date %}
+              <dt>Arvion päivämäärä</dt>
+              <dd>{{ assessment_date }}</dd>
+            {% endif %}
+            {% if assessment_result %}
+              <dt>Arvion tulos</dt>
+              <dd>{{ assessment_result }}</dd>
+            {% endif %}
+          </dl>
+        </div>
+      </td>
+    </tr>
+  {%- endif -%}
+  ```
+
+- [ ] **Verify:** Test dataset view in browser
+  - Confirm all data displays correctly
+  - For repeating properties: each value renders in correct structure
+  - For single properties: single value renders in grouped object panel (if applicable)
+  - No rendering errors in browser console
+
+**Why:** When cardinality changes, how the data is displayed to users must also change. If display templates aren't updated:
+  - Single repeating values won't show up on the view page
+  - E2E tests fail when trying to read back grouped objects with wrong HTML structure
+  - Users see incomplete or incorrectly formatted data
+
+**Common issue:** E2E tests look for `.panel` divs containing `<dl>` elements with `<dt>` and `<dd>` pairs. If the display template doesn't render this structure, test assertions like `getObjectsContent()` will fail to find the data.
+
+---
+
+### 7. Search Indexing (`search.py`)
 
 **Location:** `ext/ckanext-digitraffic_core/ckanext/digitraffic_core/search/search.py`
 
@@ -378,7 +466,7 @@ See reference implementations:
 
 ---
 
-### 7. Database Migration
+### 8. Database Migration
 
 **Location:** `ext/ckanext-digitraffic_core/ckanext/digitraffic_core/migration/digitraffic_core/versions/`
 
@@ -449,7 +537,7 @@ See reference implementations:
 
 ---
 
-### 8. Testing & Validation
+### 9. Testing & Validation
 
 - [ ] **Unit tests:** Update or create tests for converter, model, search indexing
 - [ ] **Integration tests:** Test full pipeline (form → model → DB → RDF)
@@ -613,7 +701,7 @@ The same pattern applies to other repeating fields:
 
 ---
 
-### 9. Documentation & Communication
+### 10. Documentation & Communication
 
 - [ ] **Update inline code comments:** Explain cardinality and why (spec reference)
 - [ ] **Update docstrings:** Parameter and return type documentation
