@@ -48,7 +48,7 @@ def upgrade():
     bind = get_bind()
     
     # Check if package_extra table exists (may not on first CKAN init)
-    inspector = op.get_context().bind.inspector
+    inspector = inspect(bind)
     if not inspector.has_table('package_extra'):
         log.info("package_extra table does not exist yet. Skipping assessment migration.")
         log.info("This is normal on first database initialization. Migration will apply after CKAN init.")
