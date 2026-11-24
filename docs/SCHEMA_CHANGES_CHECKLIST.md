@@ -347,6 +347,8 @@ See reference implementations:
 **Changes required:**
 
 - [ ] **Create new migration file:** `<YYYYMMDD>_<description>.py`
+  - Use instructions in here to create migration file https://docs.ckan.org/en/2.12/contributing/database-migrations.html
+  - Follow best practices in here https://docs.ckan.org/en/2.12/extensions/best-practices.html
   - Follow Alembic naming convention: 14-digit timestamp + snake_case description
   
 - [ ] **For `0..1 → 0..n` (single to repeating):**
