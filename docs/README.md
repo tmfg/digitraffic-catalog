@@ -16,6 +16,20 @@ This simplifies application code—no fallback logic for old formats required.
 
 ---
 
+## Schema Configuration & Field Types
+
+**Reference guide for CKAN schema field configuration:**
+
+### 📖 [SCHEMA_CONFIGURATION.md](./SCHEMA_CONFIGURATION.md)
+Comprehensive guide to `preset` and `form_snippet` properties. Best for:
+- Understanding field validation vs. form widget rendering
+- Choosing the right form_snippet for your field type
+- Troubleshooting form fields that don't appear or display incorrectly
+- Common configuration patterns and examples
+- Learning why `preset` and `form_snippet` serve different purposes
+
+---
+
 ## Schema Changes
 
 **Start here if you're modifying the data model or property cardinalities:**
@@ -34,6 +48,8 @@ Comprehensive step-by-step guide. Best for:
 - Code examples for each layer
 - Common pitfalls and how to avoid them
 - Complete example walkthrough
+- **How to run the transpiler** to regenerate the schema
+- Testing and verification after changes
 
 ---
 

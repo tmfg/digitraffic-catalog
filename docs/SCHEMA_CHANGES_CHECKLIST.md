@@ -53,6 +53,8 @@ Use this checklist when you change a property's cardinality (e.g., from 0..1 to 
 
 **Files to modify:** Converter class for the affected property (e.g., `quality_annotation.py`, `assessment.py`)
 
+⚠️ **Important:** When adding new field types or changing presets, always include `form_snippet` to specify the form input widget. See [SCHEMA_CONFIGURATION.md](./SCHEMA_CONFIGURATION.md) for details on preset vs form_snippet and available templates.
+
 **Changes required:**
 
 - [ ] **For `0..1 → 0..n` (single to repeating):**
@@ -62,6 +64,7 @@ Use this checklist when you change a property's cardinality (e.g., from 0..1 to 
   - Move validation/metadata to subfield level
   - Extract `label` and `help_text` individually if needed
   - Move `preset` to subfield definition
+  - Add `form_snippet` to match the preset (see [SCHEMA_CONFIGURATION.md](./SCHEMA_CONFIGURATION.md) for available snippets)
   
   Example:
   ```python
@@ -74,6 +77,7 @@ Use this checklist when you change a property's cardinality (e.g., from 0..1 to 
               "field_name": "my_subfield",
               "label": {...},
               "preset": "url",
+              "form_snippet": "url_input.html",  # Add form_snippet to match preset
           }
       ],
   }
@@ -1137,6 +1141,116 @@ assessment_result:
 | Repeating section (0..n) | AggregateRangeValueConverter | Dict with repeating_subfields | Wraps fields in repeating section |
 | Flat fields (0..1) | AggregateRangeValueConverter | List[Dict] from __aggregate_schemas | Appends each field separately |
 | Single field | Non-aggregate converter | Single Dict | Appends one field |
+
+---
+
+## Regenerating the Schema
+
+After updating the Schema Generator files (Step 1), you must regenerate `mobility_dcat.yaml` to reflect your changes.
+
+### Prerequisites
+
+- Poetry installed
+- Changes committed to the transpiler (Step 1 items above)
+
+### Step-by-Step Guide
+
+#### 1. Install Transpiler Dependencies
+
+```bash
+cd dcat_schema_transpiler
+poetry install
+```
+
+This installs Python dependencies like `rdflib`, `pyyaml`, and `httpx`.
+
+#### 2. Run the Transpiler
+
+```bash
+poetry run python dcat_schema_transpiler/transpiler.py
+```
+
+**What it does:**
+- Reads RDF definitions from `mobility_dcat_ap/dataset.py`
+- Calls all schema converter classes (e.g., your updated `assessment.py`)
+- Generates a new schema file at `dcat_schema_transpiler/output/schema.yaml`
+
+**Output:**
+```
+Creating file <repo>/dcat_schema_transpiler/output/schema.yaml
+```
+
+#### 3. Verify Generated Schema
+
+```bash
+# View the generated schema (optional)
+cat output/schema.yaml | head -100
+
+# Verify your changes are present (example for assessment fields)
+grep -A 3 "assessment_date\|assessment_result" output/schema.yaml
+```
+
+Expected output for assessment fields:
+```yaml
+- field_name: assessment_date
+  preset: date
+  form_snippet: date.html  # ← Verify this was added
+  ...
+- field_name: assessment_result
+  preset: url
+  form_snippet: url_input.html  # ← Verify this was added
+  ...
+```
+
+#### 4. Copy to CKAN Extension
+
+```bash
+cp output/schema.yaml ../ext/ckanext-digitraffic_core/ckanext/digitraffic_core/schemas/mobility_dcat.yaml
+```
+
+**Important:** Always use `cp`, never manually edit the destination YAML file. It's auto-generated and manual edits will be lost on next regeneration.
+
+#### 5. Reload CKAN
+
+```bash
+cd ../local-env
+./dev.sh reload
+```
+
+This restarts the CKAN application with the new schema.
+
+#### 6. Test the Changes
+
+1. **Create a new dataset** in the CKAN web UI
+2. **Navigate to relevant section** (e.g., Assessment for assessment fields)
+3. **Verify UI changes:**
+   - Form fields appear (not hidden)
+   - Proper widgets are used (date picker for dates, URL input for URLs, etc.)
+   - Field labels and help text are correct
+
+### Troubleshooting
+
+| Problem | Cause | Solution |
+|---------|-------|----------|
+| `poetry: command not found` | Poetry not installed | Install Poetry from https://python-poetry.org |
+| `ModuleNotFoundError: rdflib` | Dependencies not installed | Run `poetry install` |
+| `schema.yaml` not generated | Transpiler error | Check output for error messages; verify Python files have no syntax errors |
+| Changes not appearing in UI | CKAN not reloaded | Run `./dev.sh reload` and clear browser cache (Ctrl+Shift+Delete) |
+| Wrong field types showing | Old schema cached | Clear CKAN cache: `./dev.sh reload` or restart container |
+
+### Common Mistakes
+
+❌ **Don't do this:**
+- Manually edit `mobility_dcat.yaml` directly (edits will be overwritten)
+- Forget to run `poetry install` before running transpiler
+- Skip the reload step (changes won't be visible in UI)
+- Copy schema from wrong path
+
+✅ **Do this:**
+- Always modify the source (transpiler classes, not YAML)
+- Run full workflow: modify → regenerate → copy → reload → test
+- Verify changes in generated YAML before copying
+- Test in CKAN UI after reloading
 
 ---
 

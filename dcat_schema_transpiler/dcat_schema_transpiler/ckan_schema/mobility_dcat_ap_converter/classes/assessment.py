@@ -43,7 +43,7 @@ class Assessment(RangeValueConverter):
                     super().get_schema(ds, clazz_p, is_required)
                     | super().get_property_label_with_help_text(clazz_p.iri)
                     | super().get_necessity_mapping(clazz_p.iri)
-                    | {"preset": "date"}
+                    | {"preset": "date", "form_snippet": "date.html"}
                 )
 
             if clazz_p.is_iri(OA.hasBody):
@@ -53,6 +53,7 @@ class Assessment(RangeValueConverter):
                     **super().get_necessity_mapping(clazz_p.iri),
                     "required": is_required,
                     "preset": "url",
+                    "form_snippet": "url_input.html",
                 }
         return None
 
