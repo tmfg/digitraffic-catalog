@@ -81,6 +81,16 @@ def upgrade():
     """
     bind = op.get_bind()
     
+    # IMPORTANT: Capture package IDs BEFORE the UPDATE, since the WHERE clause
+    # filters on keys that the UPDATE will remove. Query runs first, UPDATE runs second.
+    get_package_ids_query = text("""
+        SELECT id
+        FROM package
+        WHERE extras->>'assessment' IS NOT NULL
+        AND jsonb_array_length(((extras->>'assessment')::jsonb)) > 0
+        AND state = 'active';
+    """)
+    
     # PostgreSQL query to find packages with assessment and transform them
     # Assessment is stored as JSON-encoded string in JSONB extras (Scheming format)
     # Extract as text with ->>, cast to JSONB, then access array elements
@@ -99,16 +109,11 @@ def upgrade():
         AND jsonb_array_length(((extras->>'assessment')::jsonb)) > 0;
     """)
     
-    # Query to get package IDs for search index rebuild
-    get_package_ids_query = text("""
-        SELECT id
-        FROM package
-        WHERE extras->>'assessment' IS NOT NULL
-        AND jsonb_array_length(((extras->>'assessment')::jsonb)) > 0
-        AND state = 'active';
-    """)
-    
     try:
+        # Capture IDs before UPDATE removes the keys
+        id_result = bind.execute(get_package_ids_query)
+        package_ids = [row[0] for row in id_result.fetchall()]
+        
         result = bind.execute(transform_query)
         updated_count = result.rowcount
         
@@ -119,20 +124,16 @@ def upgrade():
         
         # Rebuild search index for affected packages
         # This ensures package_search returns the new format
-        if rebuild:
-            id_result = bind.execute(get_package_ids_query)
-            package_ids = [row[0] for row in id_result.fetchall()]
+        if rebuild and package_ids:
+            for package_id in package_ids:
+                try:
+                    rebuild(package_id=package_id)
+                except Exception as e:
+                    log.warning(
+                        f"Failed to rebuild search index for package {package_id}: {e}"
+                    )
             
-            if package_ids:
-                for package_id in package_ids:
-                    try:
-                        rebuild(package_id=package_id)
-                    except Exception as e:
-                        log.warning(
-                            f"Failed to rebuild search index for package {package_id}: {e}"
-                        )
-                
-                log.info(f"Rebuilt search index for {len(package_ids)} packages")
+            log.info(f"Rebuilt search index for {len(package_ids)} packages")
         
     except DatabaseError as e:
         log.error(f"Database error during migration: {e}")
@@ -170,6 +171,16 @@ def downgrade():
     """
     bind = op.get_bind()
     
+    # IMPORTANT: Capture package IDs BEFORE the UPDATE, since the WHERE clause
+    # filters on keys that the UPDATE will remove. Query runs first, UPDATE runs second.
+    get_package_ids_query = text("""
+        SELECT id
+        FROM package
+        WHERE (extras->>'assessment_date' IS NOT NULL 
+           OR extras->>'assessment_result' IS NOT NULL)
+        AND state = 'active';
+    """)
+    
     # PostgreSQL query to find packages with flat assessment fields and reconstruct
     # Creates array and casts to TEXT to restore original Scheming storage format
     # (repeating fields are stored as JSON-encoded strings, not native JSONB arrays)
@@ -193,16 +204,11 @@ def downgrade():
            OR extras->>'assessment_result' IS NOT NULL;
     """)
     
-    # Query to get package IDs for search index rebuild
-    get_package_ids_query = text("""
-        SELECT id
-        FROM package
-        WHERE (extras->>'assessment_date' IS NOT NULL 
-           OR extras->>'assessment_result' IS NOT NULL)
-        AND state = 'active';
-    """)
-    
     try:
+        # Capture IDs before UPDATE removes the keys
+        id_result = bind.execute(get_package_ids_query)
+        package_ids = [row[0] for row in id_result.fetchall()]
+        
         result = bind.execute(downgrade_query)
         downgraded_count = result.rowcount
         
@@ -213,20 +219,16 @@ def downgrade():
         
         # Rebuild search index for affected packages
         # This ensures package_search returns the old format after rollback
-        if rebuild:
-            id_result = bind.execute(get_package_ids_query)
-            package_ids = [row[0] for row in id_result.fetchall()]
+        if rebuild and package_ids:
+            for package_id in package_ids:
+                try:
+                    rebuild(package_id=package_id)
+                except Exception as e:
+                    log.warning(
+                        f"Failed to rebuild search index for package {package_id}: {e}"
+                    )
             
-            if package_ids:
-                for package_id in package_ids:
-                    try:
-                        rebuild(package_id=package_id)
-                    except Exception as e:
-                        log.warning(
-                            f"Failed to rebuild search index for package {package_id}: {e}"
-                        )
-                
-                log.info(f"Rebuilt search index for {len(package_ids)} packages")
+            log.info(f"Rebuilt search index for {len(package_ids)} packages")
         
     except DatabaseError as e:
         log.error(f"Database error during downgrade: {e}")

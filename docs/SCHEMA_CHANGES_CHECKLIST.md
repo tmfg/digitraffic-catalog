@@ -624,27 +624,35 @@ See reference implementations:
   
   > **⚠️ CRITICAL:** Raw SQL UPDATE queries update the database but don't trigger Solr reindex. This creates data inconsistency: `package_search` API returns stale data until manually reindexed. The migration must rebuild the search index for all affected packages.
   
-  Add after the upgrade transaction commits:
+  > **⚠️ ORDERING MATTERS:** Capture package IDs BEFORE running the UPDATE, since the UPDATE removes the keys used in the WHERE clause. Query first, UPDATE second, rebuild after.
+  
+  Add to upgrade() and downgrade():
   ```python
   from ckan.lib.search import rebuild
   
-  # In upgrade() after transform_query executes:
+  # Step 1: Capture IDs BEFORE the UPDATE (must run first!)
   get_package_ids_query = text("""
       SELECT id FROM package
       WHERE extras->>'<old_field>' IS NOT NULL
       AND state = 'active'
   """)
   
+  # Step 2: Run query to capture IDs
   id_result = bind.execute(get_package_ids_query)
   package_ids = [row[0] for row in id_result.fetchall()]
   
-  for package_id in package_ids:
-      try:
-          rebuild(package_id=package_id)
-      except Exception as e:
-          log.warning(f"Failed to rebuild search index for {package_id}: {e}")
+  # Step 3: Run the UPDATE
+  result = bind.execute(transform_query)
   
-  log.info(f"Rebuilt search index for {len(package_ids)} packages")
+  # Step 4: Rebuild search index for the captured IDs
+  if rebuild and package_ids:
+      for package_id in package_ids:
+          try:
+              rebuild(package_id=package_id)
+          except Exception as e:
+              log.warning(f"Failed to rebuild search index for {package_id}: {e}")
+      
+      log.info(f"Rebuilt search index for {len(package_ids)} packages")
   ```
   
   Add the same pattern to `downgrade()` to ensure rollback also rebuilds the index.
