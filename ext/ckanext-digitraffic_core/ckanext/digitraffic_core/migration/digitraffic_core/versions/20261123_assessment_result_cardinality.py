@@ -76,13 +76,16 @@ def upgrade():
     # PostgreSQL query to find packages with assessment and transform them
     # Assessment is stored as JSON-encoded string in JSONB extras (Scheming format)
     # Extract as text with ->>, cast to JSONB, then access array elements
+    # 
+    # NOTE: Operator precedence: - (delete) > || (concatenate)
+    # So we must use (extras - 'assessment') to remove the key BEFORE concatenating
     transform_query = text("""
         UPDATE package
         SET extras = (
-            extras || jsonb_build_object(
+            (extras - 'assessment') || jsonb_build_object(
                 'assessment_date', (((extras->>'assessment')::jsonb)->0->>'assessment_date'),
                 'assessment_result', (((extras->>'assessment')::jsonb)->0->>'assessment_result')
-            ) - 'assessment'
+            )
         )
         WHERE extras->>'assessment' IS NOT NULL
         AND jsonb_array_length(((extras->>'assessment')::jsonb)) > 0;
@@ -135,10 +138,13 @@ def downgrade():
     # PostgreSQL query to find packages with flat assessment fields and reconstruct
     # Creates array and casts to TEXT to restore original Scheming storage format
     # (repeating fields are stored as JSON-encoded strings, not native JSONB arrays)
+    # 
+    # NOTE: Operator precedence: - (delete) > || (concatenate)
+    # So we must use (extras - 'assessment_date' - 'assessment_result') to remove the keys BEFORE concatenating
     downgrade_query = text("""
         UPDATE package
         SET extras = (
-            extras || jsonb_build_object(
+            (extras - 'assessment_date' - 'assessment_result') || jsonb_build_object(
                 'assessment',
                 jsonb_build_array(
                     jsonb_build_object(
@@ -146,7 +152,7 @@ def downgrade():
                         'assessment_result', extras->>'assessment_result'
                     )
                 )::text
-            ) - 'assessment_date' - 'assessment_result'
+            )
         )
         WHERE extras->>'assessment_date' IS NOT NULL 
            OR extras->>'assessment_result' IS NOT NULL;

@@ -565,10 +565,10 @@ See reference implementations:
       query = text("""
           UPDATE package
           SET extras = (
-              extras || jsonb_build_object(
+              (extras - 'assessment') || jsonb_build_object(
                   'assessment_date', (((extras->>'assessment')::jsonb)->0->>'assessment_date'),
                   'assessment_result', (((extras->>'assessment')::jsonb)->0->>'assessment_result')
-              ) - 'assessment'
+              )
           )
           WHERE extras->>'assessment' IS NOT NULL
           AND jsonb_array_length(((extras->>'assessment')::jsonb)) > 0
@@ -601,7 +601,7 @@ See reference implementations:
       query = text("""
           UPDATE package
           SET extras = (
-              extras || jsonb_build_object(
+              (extras - 'assessment_date' - 'assessment_result') || jsonb_build_object(
                   'assessment',
                   jsonb_build_array(
                       jsonb_build_object(
@@ -609,7 +609,7 @@ See reference implementations:
                           'assessment_result', extras->>'assessment_result'
                       )
                   )::text  -- ← CAST TO TEXT - this is critical!
-              ) - 'assessment_date' - 'assessment_result'
+              )
           )
           WHERE extras->>'assessment_date' IS NOT NULL 
              OR extras->>'assessment_result' IS NOT NULL
