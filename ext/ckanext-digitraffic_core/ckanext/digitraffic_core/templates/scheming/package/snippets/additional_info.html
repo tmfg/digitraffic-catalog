@@ -84,7 +84,7 @@
         {% set assessment_result_value = pkg_dict.get('assessment_result', '') %}
         {% set assessment_result_field = schema.dataset_fields | selectattr('field_name', 'equalto', 'assessment_result') | first %}
         <tr>
-        <th scope="row" class="dataset-label">{{ h.scheming_language_text(field.label) }}</th>
+        <th scope="row" class="dataset-label">{{ _('Assessment') }}</th>
         <td class="dataset-details">
             <div class="panel">
                 <dl>
