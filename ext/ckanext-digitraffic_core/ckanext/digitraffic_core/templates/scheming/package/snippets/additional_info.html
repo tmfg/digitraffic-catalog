@@ -94,7 +94,7 @@
                     {% endif %}
                     {% if assessment_result_value %}
                         <dt>{{ h.scheming_language_text(assessment_result_field.label) }}</dt>
-                        <dd>{{ assessment_result_value }}</dd>
+                        <dd>{%- snippet 'scheming/snippets/display_field.html', field=assessment_result_field, data=pkg_dict, schema=schema -%}</dd>
                     {% endif %}
                 </dl>
             </div>
