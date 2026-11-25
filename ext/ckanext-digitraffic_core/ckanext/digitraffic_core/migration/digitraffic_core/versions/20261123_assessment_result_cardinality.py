@@ -23,6 +23,7 @@ Migration strategy:
   3. Update package.extras to add assessment_date and assessment_result
   4. Remove the old 'assessment' key from package.extras (retire legacy format)
   5. Update all affected packages
+  6. Rebuild search index for affected packages
 
 The migration is ALWAYS expected to complete successfully. No backward
 compatibility with old format is needed in application code.
@@ -36,8 +37,14 @@ Create Date: 2026-11-23 16:00:00.000000
 import logging
 
 from alembic import op
-from sqlalchemy import text
+from sqlalchemy import text, select
 from sqlalchemy.exc import DatabaseError
+
+try:
+    from ckan.lib.search import rebuild
+except ImportError:
+    # Fallback if search module not available (shouldn't happen in running app)
+    rebuild = None
 
 # revision identifiers, used by Alembic.
 revision = "20261123_assessment"
@@ -67,6 +74,7 @@ def upgrade():
     3. Update package.extras to add new flat keys
     4. Remove old 'assessment' key
     5. Update all affected packages in one go
+    6. Rebuild search index for affected packages
     
     Migration is guaranteed to complete successfully. No application code
     needs to handle the old format.
@@ -91,6 +99,15 @@ def upgrade():
         AND jsonb_array_length(((extras->>'assessment')::jsonb)) > 0;
     """)
     
+    # Query to get package IDs for search index rebuild
+    get_package_ids_query = text("""
+        SELECT id
+        FROM package
+        WHERE extras->>'assessment' IS NOT NULL
+        AND jsonb_array_length(((extras->>'assessment')::jsonb)) > 0
+        AND state = 'active';
+    """)
+    
     try:
         result = bind.execute(transform_query)
         updated_count = result.rowcount
@@ -99,6 +116,23 @@ def upgrade():
             f"Assessment migration complete: "
             f"Updated {updated_count} packages with assessment data"
         )
+        
+        # Rebuild search index for affected packages
+        # This ensures package_search returns the new format
+        if rebuild:
+            id_result = bind.execute(get_package_ids_query)
+            package_ids = [row[0] for row in id_result.fetchall()]
+            
+            if package_ids:
+                for package_id in package_ids:
+                    try:
+                        rebuild(package_id=package_id)
+                    except Exception as e:
+                        log.warning(
+                            f"Failed to rebuild search index for package {package_id}: {e}"
+                        )
+                
+                log.info(f"Rebuilt search index for {len(package_ids)} packages")
         
     except DatabaseError as e:
         log.error(f"Database error during migration: {e}")
@@ -130,6 +164,7 @@ def downgrade():
     3. Convert to JSON-encoded string (cast to text for Scheming compatibility)
     4. Update package.extras with legacy 'assessment' key containing string
     5. Remove flat assessment_date and assessment_result keys
+    6. Rebuild search index for affected packages
     
     Note: This is primarily for rollback safety during the transition period.
     """
@@ -158,6 +193,15 @@ def downgrade():
            OR extras->>'assessment_result' IS NOT NULL;
     """)
     
+    # Query to get package IDs for search index rebuild
+    get_package_ids_query = text("""
+        SELECT id
+        FROM package
+        WHERE (extras->>'assessment_date' IS NOT NULL 
+           OR extras->>'assessment_result' IS NOT NULL)
+        AND state = 'active';
+    """)
+    
     try:
         result = bind.execute(downgrade_query)
         downgraded_count = result.rowcount
@@ -166,6 +210,23 @@ def downgrade():
             f"Assessment downgrade complete: "
             f"Reverted {downgraded_count} packages to legacy format"
         )
+        
+        # Rebuild search index for affected packages
+        # This ensures package_search returns the old format after rollback
+        if rebuild:
+            id_result = bind.execute(get_package_ids_query)
+            package_ids = [row[0] for row in id_result.fetchall()]
+            
+            if package_ids:
+                for package_id in package_ids:
+                    try:
+                        rebuild(package_id=package_id)
+                    except Exception as e:
+                        log.warning(
+                            f"Failed to rebuild search index for package {package_id}: {e}"
+                        )
+                
+                log.info(f"Rebuilt search index for {len(package_ids)} packages")
         
     except DatabaseError as e:
         log.error(f"Database error during downgrade: {e}")

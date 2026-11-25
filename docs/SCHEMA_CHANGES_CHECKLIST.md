@@ -620,10 +620,39 @@ See reference implementations:
   **Why:** Scheming stores repeating fields as JSON-encoded STRINGS in JSONB. After rollback, the old Scheming schema will try to `json.loads()` the value. If it receives a native JSONB array instead, the conversion fails.
 
 - [ ] **Add logging:** Log transformation counts and any warnings
+- [ ] **Rebuild search index:** Trigger search index rebuild for affected packages after migration
+  
+  > **⚠️ CRITICAL:** Raw SQL UPDATE queries update the database but don't trigger Solr reindex. This creates data inconsistency: `package_search` API returns stale data until manually reindexed. The migration must rebuild the search index for all affected packages.
+  
+  Add after the upgrade transaction commits:
+  ```python
+  from ckan.lib.search import rebuild
+  
+  # In upgrade() after transform_query executes:
+  get_package_ids_query = text("""
+      SELECT id FROM package
+      WHERE extras->>'<old_field>' IS NOT NULL
+      AND state = 'active'
+  """)
+  
+  id_result = bind.execute(get_package_ids_query)
+  package_ids = [row[0] for row in id_result.fetchall()]
+  
+  for package_id in package_ids:
+      try:
+          rebuild(package_id=package_id)
+      except Exception as e:
+          log.warning(f"Failed to rebuild search index for {package_id}: {e}")
+  
+  log.info(f"Rebuilt search index for {len(package_ids)} packages")
+  ```
+  
+  Add the same pattern to `downgrade()` to ensure rollback also rebuilds the index.
+
 - [ ] **Test on PostgreSQL:** Database is PostgreSQL 12+, migration uses PostgreSQL JSONB features
 - [ ] **Verify:** Test migration on staging database before prod deployment
 
-**Why:** Database stores dataset metadata as JSONB in `package.extras` column. Must transform existing data format before application code accesses new structure.
+**Why:** Database stores dataset metadata as JSONB in `package.extras` column. Must transform existing data format before application code accesses new structure. Must also rebuild search index to keep Solr and database in sync.
 
 ---
 
