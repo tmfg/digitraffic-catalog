@@ -33,20 +33,15 @@
 - Write SQL-based migrations, not Python loops
 - Example: https://github.com/ckan/ckan/blob/master/ckan/migration/versions/106_12d64978ab44_faster_extras.py
 
-See: [SCHEMA_CHANGES_CHECKLIST.md § Layer 6: Database Migration](./SCHEMA_CHANGES_CHECKLIST.md#6-database-migration)
+**⚠️ CRITICAL: Repeating fields are stored as JSON-encoded STRINGS:**
+- Repeating properties (0..n cardinality) are NOT stored as native JSONB arrays
+- They are stored as text strings containing JSON: `"[{...}]"`
+- **Must use `::jsonb` cast** before accessing array: `((extras->>'field')::jsonb)->`
+- This is the most common database migration bug
+
+See: [SCHEMA_CHANGES_CHECKLIST.md § CRITICAL: Scheming stores repeating fields as JSON-encoded STRINGS](./SCHEMA_CHANGES_CHECKLIST.md#-critical-scheming-stores-repeating-fields-as-json-encoded-strings)
 
 ---
-
-## 🔄 Database Migration Guarantee
-
-**All database migrations complete successfully before the application starts.**
-
-When implementing cardinality changes (or any schema migration):
-- Assume migration has already run before your code executes
-- Design for new format only—don't implement fallback logic
-- Migration is a prerequisite, not an option
-
-See: [SCHEMA_CHANGES_CHECKLIST.md § Database Migration Guarantee](./SCHEMA_CHANGES_CHECKLIST.md#-important-database-migration-guarantee)
 
 ---
 

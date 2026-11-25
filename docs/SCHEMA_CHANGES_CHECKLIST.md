@@ -482,6 +482,52 @@ See reference implementations:
   - Use PostgreSQL JSONB operators: `->`, `->>`, `jsonb_build_object()`, etc.
   - See: https://github.com/ckan/ckan/blob/master/ckan/migration/versions/106_12d64978ab44_faster_extras.py
 
+- [ ] **⚠️ CRITICAL: Scheming stores repeating fields as JSON-encoded STRINGS:**
+  > **Repeating fields (0..n cardinality) are stored as JSON-encoded strings, not native JSONB arrays.**
+  > When accessing them in SQL, you MUST extract as text (`->>`) and cast to JSONB (`::jsonb`).
+  > **This is the most common migration bug.**
+  
+  Example data:
+  ```json
+  // ✓ Repeating field (0..n) - stored as TEXT string
+  package.extras = {
+    "assessment": "[{\"date\": \"2026-01-01\", \"result\": \"pass\"}]"
+    // ^ This is a string, not a JSONB array!
+  }
+  
+  // ✓ Flat field (0..1) - stored as native JSONB
+  package.extras = {
+    "assessment_date": "2026-01-01"  // Native JSONB value
+  }
+  ```
+  
+  **Wrong SQL (will fail):**
+  ```sql
+  -- ✗ Treats string like array - causes error
+  jsonb_array_length(extras->'assessment')
+  extras->'assessment'->0->>'date'
+  ```
+  
+  **Correct SQL:**
+  ```sql
+  -- ✓ Extract text, cast to JSONB, then access
+  jsonb_array_length(((extras->>'assessment')::jsonb))
+  (((extras->>'assessment')::jsonb)->0->>'date')
+  
+  -- Breakdown:
+  -- extras->>'assessment'    = Extract as text
+  -- ::jsonb                  = Cast text to JSONB array
+  -- ->0                      = Access first element
+  -- ->>'date'                = Extract text field
+  ```
+  
+  **Python equivalent (for reference):**
+  ```python
+  # This is why Python code uses json.loads():
+  assessments = json.loads(package.extras.get("assessment") or "[]")
+  # SQL must do the same with ::jsonb cast
+  ```
+
 - [ ] **For `0..1 → 0..n` (single to repeating):**
   - Transform flat extras → list structure via UPDATE SQL query
   - Use JSONB operators to build arrays, e.g., `jsonb_build_array(jsonb_build_object(...))`
@@ -508,10 +554,11 @@ See reference implementations:
 - [ ] **For `0..n → 0..1` (repeating to single):**
   - Transform array structure → flat extras via UPDATE SQL query
   - Extract first element if multiple exist (log warning)
-  - Use JSONB operators: `->'array'->0->>'key'` for first element access
+  - **REMEMBER: Repeating fields are JSON-encoded STRINGS - use `::jsonb` cast!**
+  - Use JSONB operators: `(((extras->>'array')::jsonb)->0->>'key')` for first element access
   - Handle missing/NULL values (delete from JSON with `-` operator)
   
-  Example (SQL-based):
+  Example (SQL-based, CORRECT with cast):
   ```python
   def upgrade():
       bind = op.get_bind()
@@ -519,16 +566,59 @@ See reference implementations:
           UPDATE package
           SET extras = (
               extras || jsonb_build_object(
-                  'assessment_date', (extras->'assessment'->0->>'assessment_date'),
-                  'assessment_result', (extras->'assessment'->0->>'assessment_result')
+                  'assessment_date', (((extras->>'assessment')::jsonb)->0->>'assessment_date'),
+                  'assessment_result', (((extras->>'assessment')::jsonb)->0->>'assessment_result')
               ) - 'assessment'
           )
           WHERE extras->>'assessment' IS NOT NULL
+          AND jsonb_array_length(((extras->>'assessment')::jsonb)) > 0
       """)
       bind.execute(query)
   ```
+  
+  **Note the differences from the wrong example:**
+  - ❌ Wrong: `extras->'assessment'->0` (treats string as JSONB array)
+  - ✅ Correct: `((extras->>'assessment')::jsonb)->0` (extracts text, casts to JSONB, then accesses)
 
 - [ ] **Write downgrade function:** Reverse transformation (SQL-based)
+  
+  ⚠️ **CRITICAL FOR REPEATING FIELDS:** When downgrading from 0..1 → 0..n, cast the constructed array to TEXT to restore the original Scheming storage format. Without this cast, the old schema will receive native JSONB arrays instead of the expected JSON-encoded strings, breaking the data converter (which calls `json.loads()` on the value).
+  
+  Example (WRONG - will break old converter):
+  ```python
+  # ✗ WRONG - stores native JSONB array
+  jsonb_build_object(
+      'assessment',
+      jsonb_build_array(jsonb_build_object(...))  # Still JSONB array
+  )
+  ```
+  
+  Example (CORRECT - restores original format):
+  ```python
+  # ✓ CORRECT - casts array to text string (Scheming format)
+  def downgrade():
+      bind = op.get_bind()
+      query = text("""
+          UPDATE package
+          SET extras = (
+              extras || jsonb_build_object(
+                  'assessment',
+                  jsonb_build_array(
+                      jsonb_build_object(
+                          'assessment_date', extras->>'assessment_date',
+                          'assessment_result', extras->>'assessment_result'
+                      )
+                  )::text  -- ← CAST TO TEXT - this is critical!
+              ) - 'assessment_date' - 'assessment_result'
+          )
+          WHERE extras->>'assessment_date' IS NOT NULL 
+             OR extras->>'assessment_result' IS NOT NULL
+      """)
+      bind.execute(query)
+  ```
+  
+  **Why:** Scheming stores repeating fields as JSON-encoded STRINGS in JSONB. After rollback, the old Scheming schema will try to `json.loads()` the value. If it receives a native JSONB array instead, the conversion fails.
+
 - [ ] **Add logging:** Log transformation counts and any warnings
 - [ ] **Test on PostgreSQL:** Database is PostgreSQL 12+, migration uses PostgreSQL JSONB features
 - [ ] **Verify:** Test migration on staging database before prod deployment

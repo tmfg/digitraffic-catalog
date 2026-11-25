@@ -6,10 +6,11 @@ single optional property per mobilityDCAT-AP v3.0.0 specification.
 CKAN 2.12+ uses JSONB `extras` column on package table instead of package_extra table.
 
 Storage format change:
-  OLD: Single 'assessment' extra containing JSON with nested date and result
-       package.extras["assessment"] = [{"assessment_date": "...", "assessment_result": "..."}]
+  OLD: Single 'assessment' extra containing JSON-encoded string (Scheming repeating field format)
+       package.extras["assessment"] = '[{"assessment_date": "...", "assessment_result": "..."}]'
+       Note: Stored as TEXT/string in JSONB, not native JSONB array
   
-  NEW: Separate flat extras for each field
+  NEW: Separate flat extras for each field (native JSONB values)
        package.extras["assessment_date"] = "2026-01-15"
        package.extras["assessment_result"] = "http://example.com/ok"
 
@@ -17,8 +18,8 @@ Data flow after migration:
   Database (JSONB extras) → Schema converter → MobilityData → RDF export
   
 Migration strategy:
-  1. Find all packages with 'assessment' in extras JSON (old format)
-  2. Extract first assessment if array, or use single object as-is
+  1. Find all packages with 'assessment' in extras JSON (old format, JSON-encoded string)
+  2. Extract first assessment from JSON array string (use ->> to get text, cast to JSONB)
   3. Update package.extras to add assessment_date and assessment_result
   4. Remove the old 'assessment' key from package.extras (retire legacy format)
   5. Update all affected packages
@@ -73,18 +74,18 @@ def upgrade():
     bind = op.get_bind()
     
     # PostgreSQL query to find packages with assessment and transform them
-    # Assessment is always stored as array in JSONB extras
-    # Extract first element, convert to flat extras format
+    # Assessment is stored as JSON-encoded string in JSONB extras (Scheming format)
+    # Extract as text with ->>, cast to JSONB, then access array elements
     transform_query = text("""
         UPDATE package
         SET extras = (
             extras || jsonb_build_object(
-                'assessment_date', (extras->'assessment'->0->>'assessment_date'),
-                'assessment_result', (extras->'assessment'->0->>'assessment_result')
+                'assessment_date', (((extras->>'assessment')::jsonb)->0->>'assessment_date'),
+                'assessment_result', (((extras->>'assessment')::jsonb)->0->>'assessment_result')
             ) - 'assessment'
         )
         WHERE extras->>'assessment' IS NOT NULL
-        AND jsonb_array_length(extras->'assessment') > 0;
+        AND jsonb_array_length(((extras->>'assessment')::jsonb)) > 0;
     """)
     
     try:
@@ -111,21 +112,29 @@ def downgrade():
     Reverses the upgrade transformation, converting data back to the
     original storage format for rollback scenarios.
     
+    ⚠️ CRITICAL: Scheming expects repeating fields stored as JSON-encoded STRINGS.
+    The constructed JSONB array MUST be cast to text (::text) before storing
+    in the 'assessment' extra key. Without this cast, the old Scheming schema
+    will receive native JSONB arrays instead of text strings, breaking the
+    data converter which calls json.loads() on the value.
+    
     This should only be used during active migration period. After migration
     is confirmed successful, downgrade capability can be removed.
     
     Changes:
     1. Find all packages with flat assessment_date or assessment_result extras
     2. Reconstruct nested assessment object from flat fields
-    3. Update package.extras with legacy 'assessment' key containing array
-    4. Remove flat assessment_date and assessment_result keys
+    3. Convert to JSON-encoded string (cast to text for Scheming compatibility)
+    4. Update package.extras with legacy 'assessment' key containing string
+    5. Remove flat assessment_date and assessment_result keys
     
     Note: This is primarily for rollback safety during the transition period.
     """
     bind = op.get_bind()
     
     # PostgreSQL query to find packages with flat assessment fields and reconstruct
-    # Wraps fields back into array format for legacy compatibility
+    # Creates array and casts to TEXT to restore original Scheming storage format
+    # (repeating fields are stored as JSON-encoded strings, not native JSONB arrays)
     downgrade_query = text("""
         UPDATE package
         SET extras = (
@@ -136,7 +145,7 @@ def downgrade():
                         'assessment_date', extras->>'assessment_date',
                         'assessment_result', extras->>'assessment_result'
                     )
-                )
+                )::text
             ) - 'assessment_date' - 'assessment_result'
         )
         WHERE extras->>'assessment_date' IS NOT NULL 
