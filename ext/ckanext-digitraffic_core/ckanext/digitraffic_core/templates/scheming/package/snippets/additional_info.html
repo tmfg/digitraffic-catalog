@@ -78,22 +78,23 @@
       </td>
         </tr>
     {%- endif -%}
-    {%- if pkg_dict.get('assessment_date') or pkg_dict.get('assessment_result') -%}
+    {%- if field.field_name == 'assessment_date' and (pkg_dict.get('assessment_date') or pkg_dict.get('assessment_result')) -%}
         {# Render assessment as a grouped object (panel) #}
-        {% set assessment_date = pkg_dict.get('assessment_date', '') %}
-        {% set assessment_result = pkg_dict.get('assessment_result', '') %}
+        {% set assessment_date_value = pkg_dict.get('assessment_date', '') %}
+        {% set assessment_result_value = pkg_dict.get('assessment_result', '') %}
+        {% set assessment_result_field = schema.dataset_fields | selectattr('field_name', 'equalto', 'assessment_result') | first %}
         <tr>
-        <th scope="row" class="dataset-label">{{ _('Assessment') }}</th>
+        <th scope="row" class="dataset-label">{{ h.scheming_language_text(field.label) }}</th>
         <td class="dataset-details">
             <div class="panel">
                 <dl>
-                    {% if assessment_date %}
-                        <dt>Arvion päivämäärä</dt>
-                        <dd>{{ assessment_date }}</dd>
+                    {% if assessment_date_value %}
+                        <dt>{{ h.scheming_language_text(field.label) }}</dt>
+                        <dd>{{ assessment_date_value }}</dd>
                     {% endif %}
-                    {% if assessment_result %}
-                        <dt>Arvion tulos</dt>
-                        <dd>{{ assessment_result }}</dd>
+                    {% if assessment_result_value %}
+                        <dt>{{ h.scheming_language_text(assessment_result_field.label) }}</dt>
+                        <dd>{{ assessment_result_value }}</dd>
                     {% endif %}
                 </dl>
             </div>
