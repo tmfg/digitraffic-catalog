@@ -16,14 +16,32 @@ Storage format change:
 
 Data flow after migration:
   Database (JSONB extras) → Schema converter → MobilityData → RDF export
+
+⚠️ SEARCH INDEX CACHE NOTE
+  This migration transforms the data format, which makes the Solr search index
+  cache stale. However, Solr cache clearing is NOT done in migrations because:
   
+  1. Alembic migrations run in database-only context (CKAN app not fully loaded)
+  2. The rebuild() function requires full CKAN context and silently fails
+  3. Post-deployment, Solr is manually refreshed when needed
+  
+  POST-DEPLOYMENT STEP (if seeing old data format in API):
+  
+    ckan search-index clear
+    ckan search-index rebuild
+  
+  Or faster:
+  
+    ckan search-index rebuild-fast
+  
+  See /docs/README.md "Common Issues & Troubleshooting" for details.
+
 Migration strategy:
-  1. Find all packages with 'assessment' in extras JSON (old format, JSON-encoded string)
-  2. Extract first assessment from JSON array string (use ->> to get text, cast to JSONB)
+  1. Find all packages with 'assessment' in extras JSON (old format)
+  2. Extract first assessment from JSON array string
   3. Update package.extras to add assessment_date and assessment_result
-  4. Remove the old 'assessment' key from package.extras (retire legacy format)
+  4. Remove the old 'assessment' key from package.extras
   5. Update all affected packages
-  6. Rebuild search index for affected packages
 
 The migration is ALWAYS expected to complete successfully. No backward
 compatibility with old format is needed in application code.
@@ -37,14 +55,8 @@ Create Date: 2026-11-23 16:00:00.000000
 import logging
 
 from alembic import op
-from sqlalchemy import text, select
+from sqlalchemy import text
 from sqlalchemy.exc import DatabaseError
-
-try:
-    from ckan.lib.search import rebuild
-except ImportError:
-    # Fallback if search module not available (shouldn't happen in running app)
-    rebuild = None
 
 # revision identifiers, used by Alembic.
 revision = "20261123_assessment"
@@ -74,10 +86,13 @@ def upgrade():
     3. Update package.extras to add new flat keys
     4. Remove old 'assessment' key
     5. Update all affected packages in one go
-    6. Rebuild search index for affected packages
     
     Migration is guaranteed to complete successfully. No application code
     needs to handle the old format.
+    
+    NOTE: Solr search index cache is NOT cleared here (see module docstring).
+    If old data format appears in API responses after deployment, run:
+      ckan search-index rebuild
     """
     bind = op.get_bind()
     
@@ -122,18 +137,11 @@ def upgrade():
             f"Updated {updated_count} packages with assessment data"
         )
         
-        # Rebuild search index for affected packages
-        # This ensures package_search returns the new format
-        if rebuild and package_ids:
-            for package_id in package_ids:
-                try:
-                    rebuild(package_id=package_id)
-                except Exception as e:
-                    log.warning(
-                        f"Failed to rebuild search index for package {package_id}: {e}"
-                    )
-            
-            log.info(f"Rebuilt search index for {len(package_ids)} packages")
+        if package_ids:
+            log.info(
+                f"Note: Solr search index cache is not automatically cleared. "
+                f"If API responses show old format, run: ckan search-index rebuild"
+            )
         
     except DatabaseError as e:
         log.error(f"Database error during migration: {e}")
@@ -141,6 +149,7 @@ def upgrade():
     except Exception as e:
         log.error(f"Unexpected error during migration: {e}")
         raise
+
 
 
 def downgrade():
