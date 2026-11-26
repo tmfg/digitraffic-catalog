@@ -36,7 +36,8 @@ export class NewDatasetPage extends BasePage implements JSLoadedInterface<NewDat
   readonly addContactPointButton: Locator
   readonly versionField: Locator
   readonly versionNotesField: Locator
-  readonly addAssessmentButton: Locator
+  readonly assessmentDateField: Locator
+  readonly assessmentResultField: Locator
   readonly languageField: Locator
   readonly georeferencingMethodField: Locator
   readonly networkCoverageField: Locator
@@ -46,7 +47,6 @@ export class NewDatasetPage extends BasePage implements JSLoadedInterface<NewDat
   readonly relatedDatasetField: Locator
   readonly addRightsHolderButton: Locator
   readonly contactPointGroup: Locator;
-  readonly assessmentGroup: Locator;
   readonly rightsHolderGroup: Locator;
 
   constructor(page: Page) {
@@ -79,11 +79,8 @@ export class NewDatasetPage extends BasePage implements JSLoadedInterface<NewDat
     this.addContactPointButton = this.contactPointGroup.getByRole('link', { name: 'Lisää' });
     this.versionField = page.getByLabel('Tietoaineiston versio');
     this.versionNotesField = page.getByLabel('Version tiedot englanniksi');
-    this.assessmentGroup = page.locator(
-      '.field-group',
-      { has: page.getByRole('heading', { name: 'Arvio' }) })
-    this.addAssessmentButton = this.assessmentGroup
-      .getByRole('link', { name: 'Lisää' });
+    this.assessmentDateField = page.getByLabel('Arvion päivämäärä');
+    this.assessmentResultField = page.getByLabel('Arvion tulos');
     this.languageField = page.getByLabel('Kieli');
     this.georeferencingMethodField = page.getByLabel('Georeferointitapa');
     this.networkCoverageField = page.getByLabel('Liikenneverkko');
@@ -175,10 +172,8 @@ export class NewDatasetPage extends BasePage implements JSLoadedInterface<NewDat
     if (datasetInfo.optionalValues?.versionNotes) {
       await this.versionNotesField.fill(datasetInfo.optionalValues.versionNotes);
     }
-    if (datasetInfo.optionalValues?.assessments) {
-      for (const assessment of datasetInfo.optionalValues.assessments) {
-        await this.addAssessment(assessment);
-      }
+    if (datasetInfo.optionalValues?.assessment) {
+      await this.fillAssessment(datasetInfo.optionalValues.assessment);
     }
     if (datasetInfo.optionalValues?.language) {
       await this.languageField.selectOption(datasetInfo.optionalValues.language);
@@ -246,15 +241,13 @@ export class NewDatasetPage extends BasePage implements JSLoadedInterface<NewDat
     }
   }
 
-  async addAssessment(assessment: Assessment): Promise<void> {
-    await this.addAssessmentButton.click();
-    const newAssessmentIndex = await getNewestRepeatingFieldGroupIndex(this.assessmentGroup);
+  async fillAssessment(assessment: Assessment): Promise<void> {
     if (assessment.date) {
       const { date } = dateToDateAndTimeString(assessment.date);
-      await (await getRepeatingFieldGropField(this.assessmentGroup, newAssessmentIndex, 'Arvion päivämäärä')).fill(date);
+      await this.assessmentDateField.fill(date);
     }
     if (assessment.urlToResult) {
-      await (await getRepeatingFieldGropField(this.assessmentGroup, newAssessmentIndex, 'Arvion tulos')).fill(assessment.urlToResult);
+      await this.assessmentResultField.fill(assessment.urlToResult);
     }
   }
 

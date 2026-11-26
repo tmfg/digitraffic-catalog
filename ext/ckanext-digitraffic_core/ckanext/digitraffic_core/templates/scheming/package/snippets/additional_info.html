@@ -12,7 +12,9 @@
     'license_id',
     'owner_org',
     'related_resource',
-    'is_referenced_by'
+    'is_referenced_by',
+    'assessment_date',
+    'assessment_result'
     ] -%}
 
 {% block package_additional_info %}
@@ -74,6 +76,29 @@
             {{ h.url_from_dataset_id(dataset_id) if h.is_dataset_public(dataset_id) }}{% if not loop.last %}<br>{% endif %}
           {% endfor %}
       </td>
+        </tr>
+    {%- endif -%}
+    {%- if field.field_name == 'assessment_date' and (pkg_dict.get('assessment_date') or pkg_dict.get('assessment_result')) -%}
+        {# Render assessment as a grouped object (panel) #}
+        {% set assessment_date_value = pkg_dict.get('assessment_date', '') %}
+        {% set assessment_result_value = pkg_dict.get('assessment_result', '') %}
+        {% set assessment_result_field = schema.dataset_fields | selectattr('field_name', 'equalto', 'assessment_result') | first %}
+        <tr>
+        <th scope="row" class="dataset-label">{{ _('Assessment') }}</th>
+        <td class="dataset-details">
+            <div class="panel">
+                <dl>
+                    {% if assessment_date_value %}
+                        <dt>{{ h.scheming_language_text(field.label) }}</dt>
+                        <dd>{{ assessment_date_value }}</dd>
+                    {% endif %}
+                    {% if assessment_result_value %}
+                        <dt>{{ h.scheming_language_text(assessment_result_field.label) }}</dt>
+                        <dd>{%- snippet 'scheming/snippets/display_field.html', field=assessment_result_field, data=pkg_dict, schema=schema -%}</dd>
+                    {% endif %}
+                </dl>
+            </div>
+        </td>
         </tr>
     {%- endif -%}
     {%- if field.field_name not in exclude_fields

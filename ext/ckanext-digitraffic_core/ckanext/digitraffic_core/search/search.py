@@ -4,7 +4,6 @@ import json
 
 DATASET_FIELDS_WITH_REPEATING_SUBFIELDS = [
     "contact_point",
-    "assessment",
     "rights_holder",
 ]
 DATASET_FIELDS_WITH_INDEXABLE_LABELS = [

@@ -36,6 +36,9 @@
 !/.github/dependabot.yml
 !.github/trufflehog-exclude.txt
 
+!docs/
+!docs/**/*.md
+
 docker/ckan/ckanext
 local-env/.env
 local-env/.env.local

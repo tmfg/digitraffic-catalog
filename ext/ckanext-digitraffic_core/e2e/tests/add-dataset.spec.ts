@@ -170,12 +170,10 @@ test.describe.serial('Add new dataset', () => {
         ],
         version: '1.0.0',
         versionNotes: 'Initial version.',
-        assessments: [
-          {
-            date: new Date('2023-06-01'),
-            urlToResult: 'https://example.com/assessment-result'
-          }
-        ],
+        assessment: {
+          date: new Date('2023-06-01'),
+          urlToResult: 'https://example.com/assessment-result'
+        },
         language: Language.ENG,
         georeferencingMethod: GeoreferencingMethod.OTHER,
         networkCoverage: NetworkCoverage.MOTORWAYS,

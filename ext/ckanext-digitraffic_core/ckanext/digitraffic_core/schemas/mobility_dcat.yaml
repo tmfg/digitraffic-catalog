@@ -3449,33 +3449,30 @@ dataset_fields:
       innehåll.
   required: false
   preset: url
-- field_name: assessment
-  form_blanks: 0
+- field_name: assessment_date
   label:
-    en: Assessment
-    fi: Arvio
-    sv: Bedömning
-  repeating_subfields:
-  - field_name: assessment_date
-    label:
-      en: Assessment date
-      fi: Arvion päivämäärä
-      sv: Datum för bedömning
-    required: false
-    necessity: optional
-    preset: date
-  - field_name: assessment_result
-    label:
-      en: Assessment result
-      fi: Arvion tulos
-      sv: Resultat av bedömningen
-    help_text:
-      en: URL for the results of an assessment process by some organisation.
-      fi: Kolmannen osapuolen aineistolle tekemään arvioon viittaava URL.
-      sv: URL för resultatet av en utvärderingsprocess av en tredje part.
-    necessity: optional
-    required: false
-    preset: url
+    en: Assessment date
+    fi: Arvion päivämäärä
+    sv: Datum för bedömning
+  help_text:
+    en: The date of the latest assessment procedure.
+    fi: Viimeisimmän arviointimenetelmän päivämäärä.
+    sv: Datumet för den senaste bedömningsproceduren.
+  required: false
+  necessity: optional
+  preset: date
+- field_name: assessment_result
+  label:
+    en: Assessment result
+    fi: Arvion tulos
+    sv: Resultat av bedömningen
+  help_text:
+    en: URL for the results of an assessment process by some organisation.
+    fi: Kolmannen osapuolen aineistolle tekemään arvioon viittaava URL.
+    sv: URL för resultatet av en utvärderingsprocess av en tredje part.
+  necessity: optional
+  required: false
+  preset: url
 - field_name: related_resource
   label:
     en: Related dataset
