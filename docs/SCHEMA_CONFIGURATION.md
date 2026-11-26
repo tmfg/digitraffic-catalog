@@ -1,6 +1,6 @@
 # Schema Configuration Guide
 
-This document explains the key properties used in CKAN dataset schema files (like `mobility_dcat.yaml`).
+This document explains the key properties used in CKAN dataset schema files (like `mobility_dcat.yaml`). The schema format is provided by ckanext-scheming; see its [README](https://github.com/ckan/ckanext-scheming/blob/master/README.md) for the full reference of schema, field and preset options.
 
 ## Field Properties
 
@@ -211,5 +211,5 @@ display_snippet: custom_display.html
 
 ## References
 
-- [CKAN Scheming Documentation](https://github.com/ckan/ckanext-scheming)
+- [ckanext-scheming README](https://github.com/ckan/ckanext-scheming/blob/master/README.md)
 - [CKAN Form Field Snippets](https://github.com/ckan/ckanext-scheming/tree/master/ckanext/scheming/templates/scheming/form_snippets)
