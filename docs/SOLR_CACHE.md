@@ -110,11 +110,12 @@ Alembic migrations have no access to CKAN's plugin system or application context
 
 ### ✅ DO
 
-- ✅ Run `ckan search-index rebuild` after format-changing migrations
+- ✅ **Always run `ckan search-index rebuild` after format-changing migrations** (required, not optional)
 - ✅ Verify cache is fresh by comparing database vs API (see above)
 - ✅ Document in migration when Solr rebuild is needed
 - ✅ Test migrations on staging before production
 - ✅ Add log messages in migrations telling deployers what to do
+- ✅ For large datasets, rebuild specific packages instead of entire index (faster)
 
 ### ❌ DON'T
 
@@ -122,6 +123,7 @@ Alembic migrations have no access to CKAN's plugin system or application context
 - ❌ Assume cache auto-updates when you change database directly
 - ❌ Deploy format-changing migrations without post-deployment plan
 - ❌ Ignore warnings about stale cache (users will see inconsistent data)
+- ❌ Wait for cache to auto-expire (Solr records don't auto-refresh from PostgreSQL)
 
 ---
 
@@ -148,21 +150,19 @@ curl http://localhost:5000/api/3/action/package_show?id=...
 
 ### "search-index rebuild is slow"
 
-If rebuilding entire index is too slow:
+If rebuilding entire index takes too long, rebuild only affected packages:
 
 ```bash
-# Option 1: Rebuild only affected packages (faster)
+# Rebuild only the packages affected by the migration (faster)
 for id in <id1> <id2> <id3>; do
     ckan search-index rebuild "$id"
 done
 
-# Option 2: Run rebuild in background
+# Run rebuild in background while continuing other work
 nohup ckan search-index rebuild > rebuild.log 2>&1 &
-
-# Option 3: Wait for cache expiration (slow but free)
-# Solr will eventually expire stale entries
-# Default TTL depends on configuration
 ```
+
+**Important:** Stale Solr records do not auto-refresh from PostgreSQL. Waiting for cache expiration will NOT fix the stale data—you must run an explicit rebuild.
 
 ---
 
