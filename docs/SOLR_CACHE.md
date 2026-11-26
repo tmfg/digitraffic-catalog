@@ -1,6 +1,6 @@
 # Solr Cache Quick Reference
 
-**TL;DR:** If API shows old data format after deployment, run:
+**TL;DR:** If the API shows data in an old format when running locally (e.g. after running a data migration, or switching to a branch that changes how a field is stored), run:
 
 ```bash
 ckan search-index rebuild
@@ -30,10 +30,10 @@ Cache becomes stale after:
 
 | Scenario | Cause | Solution |
 |----------|-------|----------|
-| **Data format changes** | Migration transforms field structure | `ckan search-index rebuild` |
+| **Stored data format changes** | A data migration converts stored field structure (e.g. repeating → flat) with SQL while indexed datasets keep the old structure | `ckan search-index rebuild` |
 | **Field cardinality changes** | 0..n → 0..1 or vice versa | `ckan search-index rebuild` |
 | **Field type changes** | Single URL → list of URLs | `ckan search-index rebuild` |
-| **Raw database UPDATE** | Direct SQL without Solr notification | `ckan search-index rebuild` |
+| **Data changed outside CKAN** | Direct SQL without Solr notification | `ckan search-index rebuild` |
 
 ---
 
@@ -46,7 +46,7 @@ Cache becomes stale after:
 ckan search-index rebuild
 
 # This takes time but is guaranteed to work
-# Run after any deployment with format-changing migrations
+# Only needed in local environments
 ```
 
 ### Faster: Rebuild Specific Packages
@@ -68,41 +68,33 @@ done
 
 ## How to Detect Stale Cache
 
-Compare database with API response:
+The API (`package_show`) serves datasets from the Solr index. If it returns a field in an old
+structure that the current code no longer produces (e.g. a nested `assessment` list instead of flat
+`assessment_date` / `assessment_result`), the index is stale:
 
 ```bash
-# 1. Check database
-ckan-db query "SELECT extras FROM package WHERE id='<id>' LIMIT 1"
-# Output: {"assessment_date": "2026-01-01", ...}  (new format)
-
-# 2. Check API
 curl http://localhost:5000/api/3/action/package_show?id=<id>
-# Output: {"assessment_date": "2026-01-01", ...}  (should match above)
-
-# 3. If formats differ:
-#    - Database has: "assessment_date": "2026-01-01"  (new ✅)
-#    - API shows:   "assessment": "[{...}]"  (old ❌)
-# → Solr cache is stale!
+# Shows the old structure? → the Solr index is stale
 # → Run: ckan search-index rebuild
+# → Call the API again: it should now show the new structure
 ```
 
 ---
 
-## Why Migrations Don't Auto-Clear Cache
+## Why Migrations Don't Reindex
 
-**Q: Why doesn't the migration automatically rebuild Solr?**
-
-**A:** Because migrations run in database-only mode:
+A data migration updates rows in CKAN's tables with SQL (see [DATABASE_MIGRATIONS.md](./DATABASE_MIGRATIONS.md)),
+which doesn't notify Solr, so indexed datasets keep their old structure. The migration can't reindex
+by itself either: calling CKAN's `rebuild()` from a migration doesn't work, because the CKAN app
+isn't loaded in the Alembic context:
 
 ```python
 # ✗ This doesn't work in migrations:
 from ckan.lib.search import rebuild  # Import succeeds
-rebuild()  # Calling fails silently (CKAN app not initialized)
+rebuild()  # Calling fails (CKAN app not initialized)
 ```
 
-Alembic migrations have no access to CKAN's plugin system or application context, so API functions don't work.
-
-**Better approach:** Manual post-deployment step (guaranteed to work, clearer to understand).
+Reindex manually with the CLI when running locally.
 
 ---
 
@@ -110,19 +102,13 @@ Alembic migrations have no access to CKAN's plugin system or application context
 
 ### ✅ DO
 
-- ✅ **Always run `ckan search-index rebuild` after format-changing migrations** (required, not optional)
-- ✅ Verify cache is fresh by comparing database vs API (see above)
-- ✅ Document in migration when Solr rebuild is needed
-- ✅ Test migrations on staging before production
-- ✅ Add log messages in migrations telling deployers what to do
-- ✅ For large datasets, rebuild specific packages instead of entire index (faster)
+- ✅ **Run `ckan search-index rebuild` locally when the API shows data in an old structure** (not needed in deployed environments)
+- ✅ For large datasets, rebuild specific packages instead of the entire index (faster)
 
 ### ❌ DON'T
 
 - ❌ Try to call `rebuild()` from migration code (it won't work)
-- ❌ Assume cache auto-updates when you change database directly
-- ❌ Deploy format-changing migrations without post-deployment plan
-- ❌ Ignore warnings about stale cache (users will see inconsistent data)
+- ❌ Assume the index updates when data changes outside CKAN
 - ❌ Wait for cache to auto-expire (Solr records don't auto-refresh from PostgreSQL)
 
 ---
@@ -132,20 +118,16 @@ Alembic migrations have no access to CKAN's plugin system or application context
 ### "API still shows old data"
 
 ```bash
-# 1. Verify cache is stale
-ckan-db query "SELECT extras FROM package WHERE id='...' LIMIT 1"
-# Shows new format? Good.
-
-# 2. Check API
+# 1. Check API
 curl http://localhost:5000/api/3/action/package_show?id=...
-# Shows old format? Cache is stale.
+# Shows old structure? Index is stale.
 
-# 3. Fix it
+# 2. Fix it
 ckan search-index rebuild
 
-# 4. Verify fix
+# 3. Verify fix
 curl http://localhost:5000/api/3/action/package_show?id=...
-# Should now show new format
+# Should now show new structure
 ```
 
 ### "search-index rebuild is slow"

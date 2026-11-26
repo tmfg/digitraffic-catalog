@@ -147,6 +147,8 @@ class TestProfile:
             "mobility_theme": dataset_mobility_theme,
             "mobility_theme_sub": dataset_mobility_theme_sub,
             "spatial": dataset_spatial,
+            "title_translated": {"en": "English title"},
+            "notes_translated": {"en": "English description"},
             "resources": [
                 {
                     "url": "http://localhost:8080/foo",
@@ -175,7 +177,7 @@ class TestProfile:
         
         # No assessment triples should exist
         assessment_triples = list(
-            g.triples((dataset_ref, MOBILITYDCATAP.assessment, None))
+            g.triples((dataset_ref, MOBILITYDCATAP.assessmentResult, None))
         )
         assert len(assessment_triples) == 0
 
@@ -193,7 +195,7 @@ class TestProfile:
         
         # Assessment should exist with one triple (date + type)
         assessment_refs = list(
-            g.objects(dataset_ref, MOBILITYDCATAP.assessment)
+            g.objects(dataset_ref, MOBILITYDCATAP.assessmentResult)
         )
         assert len(assessment_refs) == 1
         
@@ -226,7 +228,7 @@ class TestProfile:
         
         # Assessment should exist
         assessment_refs = list(
-            g.objects(dataset_ref, MOBILITYDCATAP.assessment)
+            g.objects(dataset_ref, MOBILITYDCATAP.assessmentResult)
         )
         assert len(assessment_refs) == 1
         
@@ -261,7 +263,7 @@ class TestProfile:
         
         # Assessment should exist as single instance (0..1 cardinality)
         assessment_refs = list(
-            g.objects(dataset_ref, MOBILITYDCATAP.assessment)
+            g.objects(dataset_ref, MOBILITYDCATAP.assessmentResult)
         )
         assert len(assessment_refs) == 1, "Assessment cardinality must be 0..1 (single instance)"
         

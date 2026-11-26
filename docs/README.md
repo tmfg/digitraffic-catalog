@@ -73,34 +73,30 @@ Bookmark [SCHEMA_CHANGES_QUICK_REFERENCE.md](./SCHEMA_CHANGES_QUICK_REFERENCE.md
 
 ## Common Issues & Troubleshooting
 
-### API Returns Old Data Format After Migration
+### API Returns Old Data Format After Migration (local environment)
 
-**Symptom:** After deploying a schema change that transforms data format, API responses show the old format while the database contains the new format.
+**Symptom:** When running locally after a data migration, API responses show a field in an old structure while the database contains the new one.
 
-**Example:** Migration transforms `assessment` from nested repeating field to flat fields (`assessment_date`, `assessment_result`), but `package_show()` API still returns nested format.
+**Example:** A migration transforms `assessment` from a nested repeating field to flat fields (`assessment_date`, `assessment_result`), but `package_show()` API still returns the nested format for datasets indexed earlier.
 
-**Root Cause:** Solr search index cache wasn't updated. API uses Solr cache by default for performance; when data format changes but cache isn't cleared, API returns stale cached data.
+**Root Cause:** The Solr search index is stale. The migration updates the database with SQL, but the API serves datasets from the Solr index by default for performance, and the index isn't updated by the migration.
 
-**Solution:**
+**Solution (local environments only):**
 
 ```bash
-# After deployment, if you see old data format in API:
 ckan search-index rebuild
 
-# This rebuilds the Solr cache from the updated database
-# API will then return new format
+# This rebuilds the Solr index from the database
+# API will then return the new format
 ```
 
 **How to verify the issue:**
 
 ```bash
-# 1. Check database (should show new format)
-ckan-db query "SELECT extras FROM package WHERE id='<dataset-id>' LIMIT 1"
-
-# 2. Check API (may show old format if cache stale)
+# 1. Check API: does it show the old structure?
 curl http://localhost:5000/api/3/action/package_show?id=<dataset-id>
 
-# 3. If formats differ, rebuild cache
+# 2. If so, rebuild the index and check again
 ckan search-index rebuild
 ```
 
@@ -126,20 +122,20 @@ ckan search-index rebuild
 
 ### 📚 [DATABASE_MIGRATIONS.md](./DATABASE_MIGRATIONS.md)
 
-Comprehensive guide to database migrations. Best for:
-- Creating new migrations
-- Understanding Solr cache issues
+Guide to database migrations. Best for:
+- Creating new migrations with `ckan generate migration`
+- Knowing what migrations may touch: data changes in CKAN tables are fine, DDL on CKAN tables never
+- Using Alembic DDL operations for the extension's own tables
+- Converting stored dataset data (JSONB `package.extras`)
 - Troubleshooting migration failures
-- Testing migrations on staging
-- Post-deployment procedures for format-changing migrations
+- Testing migrations locally
 
 ### ⚡ [SOLR_CACHE.md](./SOLR_CACHE.md)
 
 Quick reference for Solr search index cache. Best for:
 - Quick fix when API shows old data: `ckan search-index rebuild`
 - Understanding why cache becomes stale
-- Detecting stale cache in production
-- Verifying cache is fresh after migrations
+- Detecting stale cache in a local environment
 
 ---
 

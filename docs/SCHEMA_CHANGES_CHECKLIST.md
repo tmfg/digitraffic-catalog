@@ -476,10 +476,19 @@ See reference implementations:
 
 **Changes required:**
 
-- [ ] **Create new migration file:** `<YYYYMMDD>_<description>.py`
+- [ ] **Create new migration file with the CKAN CLI** (don't create it by hand):
+  ```bash
+  ckan generate migration -p digitraffic_core -m 'short description'
+  ```
+  - Generates `versions/<revision-id>_<slug>.py` with `revision`/`down_revision` filled in
   - Use CKAN 2.12+ Alembic migration approach: https://docs.ckan.org/en/2.12/contributing/database-migrations.html
-  - Follow Alembic naming convention: 14-digit timestamp + snake_case description
-  
+  - See [DATABASE_MIGRATIONS.md](./DATABASE_MIGRATIONS.md) for the full migration guide
+
+- [ ] **⚠️ DDL vs. data changes:**
+  - **Never do DDL on CKAN tables** (`package`, `package_extra`, `resource`, ...): no added/altered/dropped columns, indexes, constraints or foreign keys
+  - **Data changes in CKAN tables are allowed** (`UPDATE` etc.): this is how existing datasets are converted when a stored format changes (the rest of this layer)
+  - Use Alembic's `op.*` DDL operations only for the extension's own tables
+
 - [ ] **CKAN 2.12+ Database Structure:**
   > CKAN 2.12 migrated from `package_extra` table to JSONB `extras` column on `package` table
   - Extras are now stored as flat JSON: `package.extras = {"key": "value", ...}`
@@ -490,7 +499,7 @@ See reference implementations:
   > **Repeating fields (0..n cardinality) are stored as JSON-encoded strings, not native JSONB arrays.**
   > When accessing them in SQL, you MUST extract as text (`->>`) and cast to JSONB (`::jsonb`).
   > **This is the most common migration bug.**
-  
+
   Example data:
   ```json
   // ✓ Repeating field (0..n) - stored as TEXT string
@@ -498,33 +507,33 @@ See reference implementations:
     "assessment": "[{\"date\": \"2026-01-01\", \"result\": \"pass\"}]"
     // ^ This is a string, not a JSONB array!
   }
-  
+
   // ✓ Flat field (0..1) - stored as native JSONB
   package.extras = {
     "assessment_date": "2026-01-01"  // Native JSONB value
   }
   ```
-  
+
   **Wrong SQL (will fail):**
   ```sql
   -- ✗ Treats string like array - causes error
   jsonb_array_length(extras->'assessment')
   extras->'assessment'->0->>'date'
   ```
-  
+
   **Correct SQL:**
   ```sql
   -- ✓ Extract text, cast to JSONB, then access
   jsonb_array_length(((extras->>'assessment')::jsonb))
   (((extras->>'assessment')::jsonb)->0->>'date')
-  
+
   -- Breakdown:
   -- extras->>'assessment'    = Extract as text
   -- ::jsonb                  = Cast text to JSONB array
   -- ->0                      = Access first element
   -- ->>'date'                = Extract text field
   ```
-  
+
   **Python equivalent (for reference):**
   ```python
   # This is why Python code uses json.loads():
@@ -532,75 +541,12 @@ See reference implementations:
   # SQL must do the same with ::jsonb cast
   ```
 
----
-
-#### Special Case: Format-Changing Migrations
-
-When your migration **transforms the data format** (e.g., 0..n → 0..1 cardinality change, or restructuring how data is stored), you MUST handle Solr cache separately from the database UPDATE:
-
-**Why separate Solr handling:**
-
-1. **Raw SQL doesn't trigger Solr rebuild:** Database UPDATE runs in migration context (Alembic), which doesn't have full CKAN app initialized. Solr cache remains stale until manually rebuilt.
-
-2. **Don't call CKAN functions from migrations:** Functions like `rebuild(package_id)` from `ckan.lib.search` require full CKAN context (plugin system, model session, config) that Alembic doesn't provide. Calling them will fail silently (exception caught, logged as warning).
-
-3. **API data inconsistency:** If Solr cache isn't cleared, `package_show()` API returns old cached format while database contains new format. This confuses users.
-
-**Solution: Post-deployment manual step**
-
-Add a clear log message in your migration docstring and upgrade() function telling deployers to rebuild the search index after deployment:
-
-```python
-"""Migration: Transform assessment format from repeating to flat
-
-This migration transforms assessment from:
-  "assessment": "[{"date": "...", "result": "..."}]"
-To:
-  "assessment_date": "..."
-  "assessment_result": "..."
-
-NOTE: Solr search index must be manually rebuilt after deployment to update
-cached data. Run this after deployment completes:
-
-    ckan search-index rebuild
-
-If you see old data format in API responses after deployment, that's a stale
-Solr cache - run the command above to fix it.
-"""
-
-def upgrade():
-    bind = op.get_bind()
-    
-    # ... your database transformation SQL ...
-    
-    result = bind.execute(transform_query)
-    updated_count = result.rowcount
-    
-    log.info(f"Transformed assessment format for {updated_count} packages")
-    
-    if updated_count > 0:
-        log.info("""
-        Migration complete. If API responses show old format, run:
-            ckan search-index rebuild
-        """)
-```
-
-**Why this approach:**
-
-- ✅ Simple and reliable (manual step is guaranteed to work)
-- ✅ No complex CKAN API calls in Alembic context
-- ✅ Clear communication to deployers
-- ✅ Can be retried if needed (idempotent)
-- ✅ Works with existing deployment procedures
-
----
-
-**Migration for 0..1 → 0..n (single to repeating):**
+- [ ] **For `0..1 → 0..n` (single to repeating):**
   - Transform flat extras → list structure via UPDATE SQL query
   - Use JSONB operators to build arrays, e.g., `jsonb_build_array(jsonb_build_object(...))`
   - Handle NULL/missing values (don't include in transformed data)
   - Preserve data integrity (no data loss)
-  
+
   Example (SQL-based):
   ```python
   def upgrade():
@@ -618,13 +564,13 @@ def upgrade():
       bind.execute(query)
   ```
 
-**Migration for 0..n → 0..1 (repeating to single):**
+- [ ] **For `0..n → 0..1` (repeating to single):**
   - Transform array structure → flat extras via UPDATE SQL query
   - Extract first element if multiple exist (log warning)
   - **REMEMBER: Repeating fields are JSON-encoded STRINGS - use `::jsonb` cast!**
   - Use JSONB operators: `(((extras->>'array')::jsonb)->0->>'key')` for first element access
   - Handle missing/NULL values (delete from JSON with `-` operator)
-  
+
   Example (SQL-based, CORRECT with cast):
   ```python
   def upgrade():
@@ -642,15 +588,15 @@ def upgrade():
       """)
       bind.execute(query)
   ```
-  
+
   **Note the differences from the wrong example:**
   - ❌ Wrong: `extras->'assessment'->0` (treats string as JSONB array)
   - ✅ Correct: `((extras->>'assessment')::jsonb)->0` (extracts text, casts to JSONB, then accesses)
 
 - [ ] **Write downgrade function:** Reverse transformation (SQL-based)
-  
+
   ⚠️ **CRITICAL FOR REPEATING FIELDS:** When downgrading from 0..1 → 0..n, cast the constructed array to TEXT to restore the original Scheming storage format. Without this cast, the old schema will receive native JSONB arrays instead of the expected JSON-encoded strings, breaking the data converter (which calls `json.loads()` on the value).
-  
+
   Example (WRONG - will break old converter):
   ```python
   # ✗ WRONG - stores native JSONB array
@@ -659,7 +605,7 @@ def upgrade():
       jsonb_build_array(jsonb_build_object(...))  # Still JSONB array
   )
   ```
-  
+
   Example (CORRECT - restores original format):
   ```python
   # ✓ CORRECT - casts array to text string (Scheming format)
@@ -678,19 +624,20 @@ def upgrade():
                   )::text  -- ← CAST TO TEXT - this is critical!
               )
           )
-          WHERE extras->>'assessment_date' IS NOT NULL 
+          WHERE extras->>'assessment_date' IS NOT NULL
              OR extras->>'assessment_result' IS NOT NULL
       """)
       bind.execute(query)
   ```
-  
+
   **Why:** Scheming stores repeating fields as JSON-encoded STRINGS in JSONB. After rollback, the old Scheming schema will try to `json.loads()` the value. If it receives a native JSONB array instead, the conversion fails.
 
 - [ ] **Add logging:** Log transformation counts and any warnings
+- [ ] **Search index (local environments only):** raw SQL updates don't update Solr, so the API keeps returning the old structure until reindexed. Locally run `ckan search-index rebuild` after the migration (deployed environments don't need this manual step). Don't call `ckan.lib.search.rebuild()` from the migration: the CKAN app isn't loaded in the Alembic context. See [SOLR_CACHE.md](./SOLR_CACHE.md)
 - [ ] **Test on PostgreSQL:** Database is PostgreSQL 12+, migration uses PostgreSQL JSONB features
 - [ ] **Verify:** Test migration on staging database before prod deployment
 
-**Why:** Database stores dataset metadata as JSONB in `package.extras` column. Must transform existing data format before application code accesses new structure. Must also ensure Solr cache stays in sync after format-changing migrations.
+**Why:** Database stores dataset metadata as JSONB in `package.extras` column. Must transform existing data format before application code accesses new structure.
 
 ---
 

@@ -23,9 +23,9 @@ Data flow after migration:
   
   1. Alembic migrations run in database-only context (CKAN app not fully loaded)
   2. The rebuild() function requires full CKAN context and silently fails
-  3. Post-deployment, Solr is manually refreshed when needed
+  3. Deployed environments don't need a manual reindex
   
-  POST-DEPLOYMENT STEP (if seeing old data format in API):
+  LOCAL ENVIRONMENTS ONLY (if seeing old data format in API):
   
     ckan search-index clear
     ckan search-index rebuild
@@ -91,7 +91,7 @@ def upgrade():
     needs to handle the old format.
     
     NOTE: Solr search index cache is NOT cleared here (see module docstring).
-    If old data format appears in API responses after deployment, run:
+    If old data format appears in API responses when running locally, run:
       ckan search-index rebuild
     """
     bind = op.get_bind()
@@ -140,7 +140,7 @@ def upgrade():
         if package_ids:
             log.info(
                 f"Note: Solr search index cache is not automatically cleared. "
-                f"If API responses show old format, run: ckan search-index rebuild"
+                f"If running locally and API responses show old format, run: ckan search-index rebuild"
             )
         
     except DatabaseError as e:
@@ -174,7 +174,7 @@ def downgrade():
     3. Convert to JSON-encoded string (cast to text for Scheming compatibility)
     4. Update package.extras with legacy 'assessment' key containing string
     5. Remove flat assessment_date and assessment_result keys
-    6. Rebuild search index for affected packages
+    6. Log that the search index must be rebuilt manually (see module docstring)
     
     Note: This is primarily for rollback safety during the transition period.
     """
@@ -226,18 +226,11 @@ def downgrade():
             f"Reverted {downgraded_count} packages to legacy format"
         )
         
-        # Rebuild search index for affected packages
-        # This ensures package_search returns the old format after rollback
-        if rebuild and package_ids:
-            for package_id in package_ids:
-                try:
-                    rebuild(package_id=package_id)
-                except Exception as e:
-                    log.warning(
-                        f"Failed to rebuild search index for package {package_id}: {e}"
-                    )
-            
-            log.info(f"Rebuilt search index for {len(package_ids)} packages")
+        if package_ids:
+            log.info(
+                "Note: Solr search index cache is not automatically cleared. "
+                "After rollback, when running locally, reindex with: ckan search-index rebuild"
+            )
         
     except DatabaseError as e:
         log.error(f"Database error during downgrade: {e}")

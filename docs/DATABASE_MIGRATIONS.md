@@ -5,10 +5,10 @@ This guide covers best practices for creating and deploying database migrations 
 ## Table of Contents
 
 - [Quick Start](#quick-start)
+- [What Migrations May Touch](#what-migrations-may-touch)
 - [The Database Migration Guarantee](#the-database-migration-guarantee)
 - [Migration Basics](#migration-basics)
-- [Format-Changing Migrations](#format-changing-migrations)
-- [Solr Cache Management](#solr-cache-management)
+- [Data Migrations on CKAN Tables](#data-migrations-on-ckan-tables)
 - [Testing Migrations](#testing-migrations)
 - [Troubleshooting](#troubleshooting)
 
@@ -18,14 +18,30 @@ This guide covers best practices for creating and deploying database migrations 
 
 **To create a migration:**
 
-1. Create file: `migration/digitraffic_core/versions/<14-digit-timestamp>_<description>.py`
-2. Use Alembic format: https://docs.ckan.org/en/2.12/contributing/database-migrations.html
-3. If changing data format → add post-deployment notes (see [Format-Changing Migrations](#format-changing-migrations))
+1. Generate the migration file with the CKAN CLI (do **not** create it by hand):
+
+   ```bash
+   ckan generate migration -p digitraffic_core -m 'short description of the change'
+   ```
+
+   Use the plugin name (`digitraffic_core`), not the extension name. The file is created in
+   `ext/ckanext-digitraffic_core/ckanext/digitraffic_core/migration/digitraffic_core/versions/`
+   with a generated revision ID, and contains empty `upgrade()` and `downgrade()` functions.
+   See [CKAN best practices](https://docs.ckan.org/en/2.12/extensions/best-practices.html#use-migrations-when-introducing-new-models).
+2. Implement `upgrade()` and `downgrade()` in the generated file (see [Migration Basics](#migration-basics); Alembic format: https://docs.ckan.org/en/2.12/contributing/database-migrations.html)
+   - DDL (schema changes): Alembic `op.*` operations, only on the extension's own tables
+   - Data changes in CKAN tables (e.g. converting stored dataset data): SQL `UPDATE`s, see [Data Migrations on CKAN Tables](#data-migrations-on-ckan-tables)
+3. **Never do DDL on CKAN tables** (see [What Migrations May Touch](#what-migrations-may-touch))
 4. Test on staging database before prod deployment
 
-**To run migrations:**
+**To run migrations manually (e.g. locally):**
 
-Migrations run automatically during container initialization (before app starts).
+```bash
+ckan db upgrade -p digitraffic_core     # apply pending migrations (idempotent)
+ckan db downgrade -p digitraffic_core   # revert the plugin's latest migration
+```
+
+In deployed environments migrations run automatically during container initialization (before app starts).
 
 **If migrations fail:**
 
@@ -35,13 +51,34 @@ Migrations run automatically during container initialization (before app starts)
 
 ---
 
+## What Migrations May Touch
+
+**DDL (schema changes) and data changes are treated differently:**
+
+| | Extension's own tables (`digitraffic_user_info`, `vaco_entry`, ...) | CKAN tables (`package`, `package_extra`, `resource`, `user`, `group`, ...) |
+|---|---|---|
+| **DDL** (create/alter/drop tables, columns, indexes, constraints, foreign keys) | ✅ Yes, with Alembic's `op.*` operations | ❌ **NEVER** |
+| **Data changes** (`UPDATE`/`INSERT`/`DELETE` rows) | ✅ Yes | ✅ Yes, when stored data needs converting (e.g. rewriting `package.extras`), see [Data Migrations on CKAN Tables](#data-migrations-on-ckan-tables) |
+
+- ✅ **DO** use Alembic's DDL operations (`op.create_table`, `op.add_column`, `op.create_index`, `op.drop_table`, ...) for the extension's own tables instead of hand-written SQL
+- ❌ **NEVER** add/alter/drop columns, indexes, constraints or foreign keys on CKAN tables, and never create foreign keys from your tables to CKAN tables
+
+When an extension table needs to refer to a CKAN entity, store its id as a plain column without a
+foreign key (see `digitraffic_user_info.user` in the `f1fe0e480f69_user_fields.py` migration).
+
+This follows CKAN's own guidance: an extension should not add columns to core tables or use foreign
+keys against core tables
+([best practices](https://docs.ckan.org/en/2.12/extensions/best-practices.html#don-t-edit-ckan-s-database-tables)).
+
+---
+
 ## The Database Migration Guarantee
 
 **All database migrations are GUARANTEED to complete successfully before the application starts.**
 
 This principle is fundamental:
 
-- Migrations run during container initialization as part of `Alembic upgrade`
+- Migrations run during container initialization as part of the Alembic upgrade
 - All data transformations must complete before any application code executes
 - Application code should **only handle the new format** (no backward compatibility needed)
 - Assume migration has succeeded; design application code accordingly
@@ -68,213 +105,168 @@ Application code can be simple because the migration guarantees all data is in n
 
 ### File Structure
 
-**Naming convention:** `<14-digit-timestamp>_<description>.py`
-
-Timestamps are created automatically by Alembic:
+**Always generate migrations with the CKAN CLI:**
 
 ```bash
-# This command creates migration file with current timestamp
-# (not applicable in our setup - manually create with ISO format)
-
-# Manual creation example:
-# 20261126_assessment_result_cardinality.py
-#     ↑         ↑
-#  date     snake_case description
+ckan generate migration -p digitraffic_core -m 'assessment result cardinality'
 ```
+
+The command creates `versions/<revision-id>_<slug>.py` (e.g. `5d2b8e7c4a19_vaco_entry.py`),
+where `<revision-id>` is a generated hex ID and `<slug>` is derived from the `-m` message.
+It also fills in `revision` and `down_revision`, chaining the new migration to the current head.
+Don't invent revision IDs or filenames by hand — a wrong `down_revision` breaks the migration chain.
 
 ### Template Migration
 
+Edit the generated file: replace the docstring description and fill in `upgrade()`/`downgrade()`.
+Keep the generated `revision`/`down_revision` values untouched.
+
 ```python
-"""Migration: Short description of change
+"""Short description of change
 
-Detailed description explaining:
-1. What data is being transformed
-2. Why (e.g., schema change, bug fix, optimization)
-3. Impact on application code
+Revision ID: <generated>
+Revises: <generated>
+Create Date: <generated>
 
-For format-changing migrations, add post-deployment steps here.
 """
 
-import logging
+import sqlalchemy as sa
 from alembic import op
-from sqlalchemy import text
 
-log = logging.getLogger(__name__)
+# revision identifiers, used by Alembic.
+revision = "<generated>"
+down_revision = "<generated>"
+branch_labels = None
+depends_on = None
+
+MY_TABLE = "my_table"
 
 
 def upgrade():
-    """Apply the migration."""
-    bind = op.get_bind()
-    
-    # Your SQL transformation here
-    result = bind.execute(text("""
-        UPDATE package
-        SET extras = ...
-        WHERE ...
-    """))
-    
-    log.info(f"Migration applied: {result.rowcount} packages updated")
+    op.create_table(
+        MY_TABLE,
+        sa.Column("id", sa.Integer, primary_key=True),
+        # ids of CKAN entities are plain columns: no foreign keys to CKAN tables
+        sa.Column("package_id", sa.Text, nullable=False),
+        sa.Column("status", sa.Text),
+        sa.Column("created_at", sa.DateTime(timezone=True), nullable=False),
+    )
+    op.create_index("idx_my_table_package_id", MY_TABLE, ["package_id"])
 
 
 def downgrade():
-    """Reverse the migration (if needed for rollback)."""
-    bind = op.get_bind()
-    
-    # Reverse transformation
-    bind.execute(text("""
-        UPDATE package
-        SET extras = ...
-        WHERE ...
-    """))
-    
-    log.info("Migration reversed")
+    op.drop_table(MY_TABLE)
 ```
+
+Common Alembic DDL operations (all on the extension's own tables):
+
+| Need | Operation |
+|------|-----------|
+| New table | `op.create_table(name, *columns)` |
+| New column | `op.add_column(table, sa.Column(...))` |
+| Change column | `op.alter_column(table, column, ...)` |
+| Remove column | `op.drop_column(table, column)` |
+| Index | `op.create_index(name, table, [columns])` / `op.drop_index(name, table_name=table)` |
+| Remove table | `op.drop_table(name)` |
+
+Always make `downgrade()` the exact reverse of `upgrade()`. See the existing migrations in
+`versions/` (`f1fe0e480f69_user_fields.py`, `5d2b8e7c4a19_vaco_entry.py`) as references.
 
 ### Key Imports
 
 ```python
+import sqlalchemy as sa
 from alembic import op
-from sqlalchemy import text
-import logging
-
-log = logging.getLogger(__name__)
+from sqlalchemy import text  # only for data migrations (SQL UPDATEs)
 ```
 
-Do NOT import CKAN functions at module level (they won't be available during migration).
+Do NOT import CKAN functions in migrations (the CKAN app isn't loaded in the Alembic context, so
+calls such as `ckan.lib.search.rebuild()` fail).
 
 ---
 
-## Format-Changing Migrations
+## Data Migrations on CKAN Tables
 
-Format-changing migrations transform how data is stored (e.g., changing cardinality from 0..n → 0..1).
+When the way dataset data is stored changes (e.g. a field's cardinality changes from 0..n to 0..1),
+existing rows in CKAN tables must be converted. A migration may do this with SQL data changes
+(`UPDATE` etc.) — but **never with DDL** on CKAN tables.
 
-### Why Solr Cache Becomes Stale
+### CKAN 2.12+ storage
 
-CKAN API has two data sources:
+- Extras live in the JSONB `package.extras` column (the old `package_extra` table is no longer used): `{"key": "value", ...}`
+- Use PostgreSQL JSONB operators: `->`, `->>`, `jsonb_build_object()`, `jsonb_build_array()`, `-` (delete key)
+- Write SQL-based transformations, not Python loops over rows
 
-```
-API Request
-  ↓
-Try Solr cache first (fast)
-  ↓ [cache hit]
-Return cached data
-  
-  ↓ [cache miss/stale]
-Fall back to database
-  ↓
-Return database data
-```
+**⚠️ Scheming stores repeating fields (0..n) as JSON-encoded STRINGS, not native JSONB arrays.**
+In SQL, extract as text (`->>`) and cast to JSONB (`::jsonb`) before accessing array elements.
+This is the most common migration bug.
 
-When migration changes data format:
+```sql
+-- ✗ Wrong: treats the string like an array
+extras->'assessment'->0->>'date'
 
-1. **Database updated** ✅ - Migration runs, data transforms immediately
-2. **Solr cache unchanged** ❌ - Cache not auto-updated, retains old format
-3. **API returns stale data** ❌ - Solr cache hit returns old format
-
-**Example:**
-
-```
-Migration transforms assessment from repeating to flat:
-
-BEFORE migration:
-  Database: "assessment": "[{...}]"  (repeating)
-  Solr cache: "assessment": "[{...}]" (repeating)
-
-AFTER migration:
-  Database: "assessment_date": "...", "assessment_result": "..."  ✅
-  Solr cache: "assessment": "[{...}]"  ❌ STALE
-
-API calls `package_show()`:
-  → Checks Solr cache (hit!) → Returns old format "assessment": "[{...}]"
-  → Users see old format even though database has new format!
+-- ✓ Correct: extract text, cast to JSONB, then access
+(((extras->>'assessment')::jsonb)->0->>'date')
 ```
 
-### Solution: Post-Deployment Manual Step
-
-Add clear instructions in migration docstring and code:
+### Example: 0..n → 0..1 (repeating to flat fields)
 
 ```python
-"""Migration: Transform assessment format from repeating to flat
-
-This migration transforms the assessment field from a repeating field:
-  "assessment": "[{"assessment_date": "2026-01-01", "assessment_result": "..."}]"
-To flat fields:
-  "assessment_date": "2026-01-01"
-  "assessment_result": "..."
-
-NOTE: Solr search index must be manually rebuilt after deployment to sync
-cached data with the new database format.
-
-POST-DEPLOYMENT STEP (REQUIRED):
-
-After this migration is deployed and the application starts, run:
-
-    ckan search-index rebuild
-
-This rebuilds the Solr cache from the updated database. If you skip this step,
-the API will return old format until the cache is manually rebuilt.
-
-TROUBLESHOOTING: If API responses show old format after deployment:
-
-    ckan search-index rebuild
-"""
-
 def upgrade():
     bind = op.get_bind()
-    
-    # ... transformation SQL ...
-    
-    result = bind.execute(transform_query)
-    updated_count = result.rowcount
-    
-    if updated_count > 0:
-        log.info("""
-        Migration complete: Assessment format transformed for %d packages
-        
-        POST-DEPLOYMENT: Rebuild search index to update Solr cache:
-            ckan search-index rebuild
-        
-        If you see old format in API after deployment, run the command above.
-        """, updated_count)
+    bind.execute(text("""
+        UPDATE package
+        SET extras = (
+            (extras - 'assessment') || jsonb_build_object(
+                'assessment_date', (((extras->>'assessment')::jsonb)->0->>'assessment_date'),
+                'assessment_result', (((extras->>'assessment')::jsonb)->0->>'assessment_result')
+            )
+        )
+        WHERE extras->>'assessment' IS NOT NULL
+        AND jsonb_array_length(((extras->>'assessment')::jsonb)) > 0;
+    """))
 ```
 
-### Why Not Auto-Rebuild in Migration?
+Notes:
+- Operator precedence: `-` (delete key) binds tighter than `||`, so write `(extras - 'key') || ...`
+- Keep the first element if several exist (and log a warning); skip NULL/missing values
+- See `20261123_assessment_result_cardinality.py` for a complete example (counts logged, error handling)
 
-You might wonder: why not call `ckan search-index rebuild` from the migration?
+### Example: 0..1 → 0..n in `downgrade()` (flat fields to repeating)
 
-**Answer: Because it won't work.**
-
-The CKAN `rebuild()` function requires:
-- Full CKAN plugin system initialized
-- Model session loaded
-- Configuration available
-- Application context active
-
-Alembic migrations run in **database-only mode**:
-- No CKAN app context
-- No plugin system
-- No model session
-- `rebuild()` import succeeds but calling it fails silently
-
-If you try:
+When restoring a repeating field, cast the constructed array to **TEXT** to restore the Scheming
+storage format. Without the cast the old schema receives a native JSONB array instead of a JSON
+string, and the data converter's `json.loads()` fails.
 
 ```python
-# ✗ THIS DOESN'T WORK
-from ckan.lib.search import rebuild  # ✅ Import works
-
-def upgrade():
+def downgrade():
     bind = op.get_bind()
-    # ... run transformation ...
-    
-    # ❌ This fails silently (exception caught, appears successful)
-    rebuild()
+    bind.execute(text("""
+        UPDATE package
+        SET extras = (
+            (extras - 'assessment_date' - 'assessment_result') || jsonb_build_object(
+                'assessment',
+                jsonb_build_array(
+                    jsonb_build_object(
+                        'assessment_date', extras->>'assessment_date',
+                        'assessment_result', extras->>'assessment_result'
+                    )
+                )::text  -- CAST TO TEXT: critical
+            )
+        )
+        WHERE extras->>'assessment_date' IS NOT NULL
+           OR extras->>'assessment_result' IS NOT NULL;
+    """))
 ```
 
-The exception is caught and logged as a warning, making it appear like it succeeded when it actually failed.
+### Search index after a data migration
 
-**Better approach:** Manual post-deployment step (guaranteed to work, clearer to understand).
+Raw SQL updates the database but not the Solr index, so the API (which serves datasets from Solr)
+keeps returning the old structure until the datasets are reindexed.
 
----
+- **Local environments only:** run `ckan search-index rebuild` after running the migration (deployed environments don't need this manual step). See [SOLR_CACHE.md](./SOLR_CACHE.md)
+- Don't try to rebuild from inside the migration: the CKAN app isn't loaded in the Alembic context, so `ckan.lib.search.rebuild()` fails
+- Mention the local reindex in the migration docstring/log so local developers know about it:
 
 ## Solr Cache Management
 
@@ -344,6 +336,7 @@ curl http://localhost:5000/api/3/action/package_show?id=<id>
 
 # 3. If formats differ, Solr cache is stale
 # → Run: ckan search-index rebuild
+
 ```
 
 ---
@@ -352,138 +345,54 @@ curl http://localhost:5000/api/3/action/package_show?id=<id>
 
 ### Pre-Deployment Testing
 
-**On staging environment:**
+**On a local or staging database:**
 
-1. Create test data with old format
-2. Apply migration
-3. Verify data transformed correctly
-4. Test application code with new format
-5. Verify API responses show new format
-6. Run full test suite
-
-### Manual Testing
-
-```bash
-# 1. Check record before migration
-ckan-db query "SELECT id, extras FROM package WHERE ..." 
-
-# 2. Apply migration
-# (happens automatically on deployment)
-
-# 3. Check record after migration
-ckan-db query "SELECT id, extras FROM package WHERE ..."
-
-# 4. Verify new format is correct
-# 5. Run ckan search-index rebuild
-# 6. Check API response
-curl http://localhost:5000/api/3/action/package_show?id=...
-```
-
-### Unit Tests
-
-Add tests to verify migration works:
-
-```python
-# tests/migration/test_assessment_cardinality.py
-
-def test_assessment_format_transformed():
-    """Test that assessment is transformed from repeating to flat"""
-    # Setup: Create package with old format
-    old_assessment = json.dumps([
-        {"assessment_date": "2001-01-01", "assessment_result": "https://..."}
-    ])
-    
-    # Insert package with old format
-    db.execute(text("""
-        INSERT INTO package (id, name, extras, state, type)
-        VALUES (
-            'test-id',
-            'test-pkg',
-            jsonb_build_object('assessment', :assessment),
-            'active',
-            'dataset'
-        )
-    """), {"assessment": old_assessment})
-    
-    # Apply migration (this would run automatically)
-    # test_migration.upgrade()
-    
-    # Verify transformation
-    result = db.execute(text("""
-        SELECT extras FROM package WHERE id = 'test-id'
-    """)).fetchone()
-    
-    extras = result[0]
-    assert extras['assessment_date'] == '2001-01-01'
-    assert extras['assessment_result'] == 'https://...'
-    assert 'assessment' not in extras  # Old field removed
-```
+1. For data migrations, create a few datasets in the old format first (and note a few values to compare)
+2. Apply the migration: `ckan db upgrade -p digitraffic_core`
+3. Verify: for DDL on your own tables, check with `psql` (e.g. `\d my_table`); for data migrations, check the converted rows (e.g. `SELECT id, extras FROM package WHERE ...`)
+4. Revert it: `ckan db downgrade -p digitraffic_core`, and verify the change is fully undone (data back in the old format, schema changes removed)
+5. Apply it again to confirm `upgrade()` works after a `downgrade()`
+6. For data migrations, rebuild the search index locally (`ckan search-index rebuild`) and check that the API returns the new format
+7. Run the full test suite
 
 ---
 
 ## Troubleshooting
 
-### "API still shows old data format"
-
-**Problem:** After migration deployed, API responses still show old format while database has new format.
-
-**Solution:** Solr cache is stale. Rebuild it:
-
-```bash
-ckan search-index rebuild
-```
-
-**Verify before rebuilding:**
-
-```bash
-# Check database
-ckan-db query "SELECT extras FROM package WHERE id='...' LIMIT 1"
-
-# Check API
-curl http://localhost:5000/api/3/action/package_show?id=...
-
-# If formats differ → rebuild cache
-```
-
 ### "Migration failed" or "Invalid SQL syntax"
 
 **Common issues:**
 
-1. **Missing `::jsonb` cast for repeating fields**
+1. **Wrong plugin name:** `-p` takes the plugin name (`digitraffic_core`), not the extension name
+2. **Broken revision chain:** a hand-written `revision`/`down_revision` doesn't match the current head. Generate the file with `ckan generate migration` and don't edit the revision identifiers
+3. **Missing `::jsonb` cast for repeating fields**
    - ❌ `extras->'field'->'subfield'`
    - ✅ `((extras->>'field')::jsonb)->0->>'subfield'`
+4. **Wrong JSONB operators:** `->` returns JSONB (use for objects), `->>` returns text (use for strings); in SQL use `extras->'field'->>'subfield'`, not Python dict syntax
+5. **Using CKAN functions in migration** (e.g. `ckan.lib.search.rebuild()`): the CKAN app isn't loaded in the Alembic context. Use only Alembic/SQLAlchemy operations and plain SQL
+6. **DDL on CKAN tables:** not allowed (see [What Migrations May Touch](#what-migrations-may-touch)); only data changes are
+7. **`downgrade()` isn't the exact reverse of `upgrade()`:** `ckan db downgrade -p digitraffic_core` then fails or leaves leftovers
+8. **Missing `::text` cast in `downgrade()`** when restoring a repeating field (see [Data Migrations on CKAN Tables](#data-migrations-on-ckan-tables))
 
-2. **Using CKAN functions in migration**
-   - ❌ `rebuild()` or other CKAN API calls
-   - ✅ Plain SQL only
+### "API shows old data format"
 
-3. **Wrong JSONB operators**
-   - ❌ `->` extracts JSONB (use for objects)
-   - ✅ `->>` extracts text (use for strings)
+After a data migration, this is a stale Solr search index, not a migration problem. Locally, run
+`ckan search-index rebuild`. See [SOLR_CACHE.md](./SOLR_CACHE.md).
 
-4. **Accessing nested fields wrong way**
-   - ❌ `extras['field']['subfield']` (Python dict syntax)
-   - ✅ `extras->'field'->>'subfield'` (PostgreSQL JSONB syntax)
-
-**Fix:** Review migration file against examples in [SCHEMA_CHANGES_CHECKLIST.md](./SCHEMA_CHANGES_CHECKLIST.md#8-database-migration).
-
-### "Field 'xyz' not found in schema" after migration
-
-**Problem:** Migration ran but application code can't find the field.
+### "Field 'xyz' not found in schema" after a schema change
 
 **Possible causes:**
 
-1. All 8 layers not updated (see [README.md](./README.md#the-8-layers-tldv))
+1. All 8 layers not updated (see [README.md](./README.md#the-8-layers-tldr))
 2. Schema generator not re-run → YAML not updated
-3. Data converter not updated to match new format
-4. Field name mismatch between migration and schema
+3. Data converter not updated to match the new schema
+4. Field name mismatch between the schema and the code
 
 **Solution:**
 
 1. Run through [SCHEMA_CHANGES_QUICK_REFERENCE.md](./SCHEMA_CHANGES_QUICK_REFERENCE.md) checklist
 2. Verify all 8 layers updated
-3. Regenerate YAML schema: See [SCHEMA_CHANGES_CHECKLIST.md](./SCHEMA_CHANGES_CHECKLIST.md#8-database-migration)
-4. Test application code with new format
+3. Regenerate the YAML schema (see [SCHEMA_CHANGES_CHECKLIST.md](./SCHEMA_CHANGES_CHECKLIST.md))
 
 ### "Exception during migration but app still started"
 
@@ -504,30 +413,33 @@ curl http://localhost:5000/api/3/action/package_show?id=...
 
 ### ✅ DO
 
-- ✅ Add clear docstring explaining what changes and why
-- ✅ Add logging for how many records affected
-- ✅ Test on staging before production
-- ✅ Add post-deployment notes if Solr cache affected
-- ✅ Handle NULL/missing values gracefully
-- ✅ Preserve data integrity (no data loss)
-- ✅ Use descriptive migration file names
-- ✅ Include both upgrade() and downgrade()
+- ✅ Generate migrations with `ckan generate migration -p digitraffic_core -m '...'`
+- ✅ Use Alembic's `op.*` DDL operations on the extension's own tables
+- ✅ Store ids of CKAN entities as plain columns (no foreign keys to CKAN tables)
+- ✅ Convert stored dataset data in CKAN tables with SQL data changes, and provide a matching `downgrade()`
+- ✅ Handle NULL/missing values gracefully and avoid data loss
+- ✅ Log how many rows were affected
+- ✅ Note the local `ckan search-index rebuild` in the migration docstring/log for data migrations
+- ✅ Test `upgrade()` and `downgrade()` locally with `ckan db upgrade/downgrade -p digitraffic_core`
+- ✅ Keep each migration focused on one change
 
 ### ❌ DON'T
 
-- ❌ Import CKAN functions at module level (use plain SQL instead)
-- ❌ Call CKAN API functions from migration (they won't work)
-- ❌ Forget `::jsonb` cast when accessing repeating fields
-- ❌ Mix Python and SQL transformations (stick to SQL)
-- ❌ Change multiple unrelated things in one migration (keep focused)
-- ❌ Assume downgrade() isn't needed (always provide reversal)
+- ❌ **NEVER do DDL on CKAN tables** (`package`, `package_extra`, `resource`, `user`, ...): no new/changed/dropped columns, indexes, constraints or foreign keys
+- ❌ Import or call CKAN functions in migrations (they won't work)
+- ❌ Forget the `::jsonb` cast when reading repeating fields, or the `::text` cast when restoring them in `downgrade()`
+- ❌ Hand-write migration filenames or revision IDs
+- ❌ Change multiple unrelated things in one migration
+- ❌ Skip `downgrade()`: always provide an exact reversal
 
 ---
 
 ## References
 
 - [CKAN Migration Guide](https://docs.ckan.org/en/2.12/contributing/database-migrations.html)
-- [PostgreSQL JSONB Operators](https://www.postgresql.org/docs/13/functions-json.html)
+- [CKAN extension best practices: migrations](https://docs.ckan.org/en/2.12/extensions/best-practices.html#use-migrations-when-introducing-new-models)
+- [Alembic operations reference](https://alembic.sqlalchemy.org/en/latest/ops.html)
+- [PostgreSQL JSON functions and operators](https://www.postgresql.org/docs/13/functions-json.html)
 - [Schema Changes Checklist](./SCHEMA_CHANGES_CHECKLIST.md)
 - [Schema Configuration Guide](./SCHEMA_CONFIGURATION.md)
 

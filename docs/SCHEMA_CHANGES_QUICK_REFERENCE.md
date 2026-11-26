@@ -30,7 +30,9 @@
 
 **Migration implications:**
 - Use PostgreSQL JSONB operators: `->`, `->>`, `jsonb_build_object()`, `jsonb_build_array()`
-- Write SQL-based migrations, not Python loops
+- Write SQL-based data migrations, not Python loops
+- **Data changes in CKAN tables are allowed; DDL on CKAN tables is NEVER allowed** (no new/altered/dropped columns, indexes, constraints, foreign keys on `package`, `package_extra`, ...)
+- Use Alembic's `op.*` DDL operations only for the extension's own tables
 - Example: https://github.com/ckan/ckan/blob/master/ckan/migration/versions/106_12d64978ab44_faster_extras.py
 
 **⚠️ CRITICAL: Repeating fields are stored as JSON-encoded STRINGS:**
@@ -57,7 +59,7 @@ See: [SCHEMA_CHANGES_CHECKLIST.md § CRITICAL: Scheming stores repeating fields 
 | 6 | **Form Templates** | `templates/.../package_form.html`, `field_groups.html` | ✏️ **EDIT**: Update field list in group definitions |
 | 7 | **Display Templates** | `templates/.../additional_info.html`, `resource_read.html` | ✏️ **EDIT**: Update display snippets for grouped fields |
 | 8 | **Search Index** | `search.py` | ✏️ **EDIT**: Add/remove from repeating fields list |
-| 9 | **DB Migration** | `migration/.../versions/<date>_<desc>.py` | ✏️ **EDIT**: Transform data between formats |
+| 9 | **DB Migration** | `migration/.../versions/<revision>_<slug>.py` (generate with `ckan generate migration -p digitraffic_core -m '...'`) | ✏️ **EDIT**: Transform existing data between formats (SQL data changes). **Never DDL on CKAN tables** |
 | 10 | **Tests** | Test files | ✏️ **EDIT**: Update assertions |
 
 **Key:** ✏️ = Manual edits required | 🔄 = Auto-generated (don't edit directly)
@@ -209,6 +211,7 @@ DATASET_FIELDS_WITH_REPEATING_SUBFIELDS = [
 | Field name mismatch | Data doesn't flow between layers | Use same name in YAML, Python, and converter |
 | Missing search config | Search returns incomplete results | Add/remove from `DATASET_FIELDS_WITH_REPEATING_SUBFIELDS` |
 | No DB migration | Old data incompatible with new code | Write migration script with upgrade/downgrade |
+| DDL on CKAN tables in a migration | Breaks CKAN's rules for extensions | Data changes in CKAN tables are fine; never add/alter/drop columns, indexes, constraints or foreign keys on them |
 | Wrong RDF pattern | Export generates invalid triples | List comprehension (0..n) vs conditional (0..1) |
 | Validator mismatch | Form accepts/rejects wrong data | Update validators for new cardinality |
 
@@ -232,9 +235,11 @@ assessment_result = "pass"
 ```
 
 **Key points:**
-- Migration handles data transformation
+- Migration handles data transformation (SQL data changes on CKAN tables are fine)
+- **Never DDL on CKAN tables**; use Alembic `op.*` DDL only for the extension's own tables
 - Application code assumes new format always exists
 - No backward compatibility needed—migration is prerequisite
+- Local environments only: run `ckan search-index rebuild` afterwards (see [SOLR_CACHE.md](./SOLR_CACHE.md))
 
 **Design principle (applies to any database migration):**
 
@@ -243,6 +248,8 @@ Migrations are GUARANTEED to complete successfully before the application starts
 - Design all application layers to handle the new format only
 - Never implement fallback logic for old formats
 - Assume migration is a successful prerequisite
+
+See [DATABASE_MIGRATIONS.md](./DATABASE_MIGRATIONS.md) for details.
 
 ---
 
@@ -256,7 +263,7 @@ Before deploying:
 - [ ] Types consistent: Same name across model, converter, YAML
 - [ ] RDF correct: Validate generated triples match spec
 - [ ] Search works: Index dataset, find by field value
-- [ ] DB migration tested: Run on staging, verify data integrity
+- [ ] DB migration tested: `ckan db upgrade/downgrade -p digitraffic_core` locally, verify data integrity
 - [ ] No data loss: Compare pre/post migration counts
 
 ---
