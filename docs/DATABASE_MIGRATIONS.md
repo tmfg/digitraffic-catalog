@@ -268,76 +268,14 @@ keeps returning the old structure until the datasets are reindexed.
 - Don't try to rebuild from inside the migration: the CKAN app isn't loaded in the Alembic context, so `ckan.lib.search.rebuild()` fails
 - Mention the local reindex in the migration docstring/log so local developers know about it:
 
-## Solr Cache Management
-
-### Understanding Solr Cache
-
-Solr stores indexed packages as JSON documents. When a package is indexed:
-
-1. Package data converted to dict
-2. Schema validated
-3. Resulting dict cached in Solr
-
-API calls check Solr cache first for performance.
-
-### When Cache Becomes Stale
-
-Cache becomes stale when:
-
-1. **Data format changes** (migration transforms how data is stored)
-2. **Field cardinality changes** (single → repeating or vice versa)
-3. **Field types change** (URL → list of URLs, etc.)
-4. **Raw database UPDATE** (migration UPDATEs database without notifying Solr)
-
-Solr doesn't know about these changes until cache is manually cleared.
-
-### How to Clear Cache
-
-**Recommended: Post-deployment CLI command**
-
-```bash
-# After deployment completes:
-ckan search-index rebuild
-
-# This rebuilds entire Solr index from database
-# Takes time but guaranteed to work
+```python
+log.info(
+    "Transformed %d packages. When running locally, reindex with: ckan search-index rebuild",
+    updated_count,
+)
 ```
 
-**Faster: Rebuild specific packages**
-
-If only a few packages affected:
-
-```bash
-# Rebuild specific package by ID
-ckan search-index rebuild <package-id>
-
-# Rebuild multiple packages
-for id in d5492f5a-9d50-4286-9374-4225cb0fe3d2 ...; do
-    ckan search-index rebuild "$id"
-done
-```
-
-**If the CKAN CLI is unavailable**
-
-Arrange for an operator with access to the CKAN environment to run `ckan search-index rebuild <package-id>`. Do not delete Solr documents as a cache-refresh substitute: deleted datasets remain absent from search until CKAN reindexes them.
-
-### Verifying Cache Is Fresh
-
-Compare database with API response:
-
-```bash
-# 1. Check database directly
-ckan-db query "SELECT extras FROM package WHERE id='<id>' LIMIT 1"
-# Shows: {"assessment_date": "2026-01-01", ...}  (new format)
-
-# 2. Check API response
-curl http://localhost:5000/api/3/action/package_show?id=<id>
-# Shows: {"assessment_date": "2026-01-01", ...}  (should match database)
-
-# 3. If formats differ, Solr cache is stale
-# → Run: ckan search-index rebuild
-
-```
+For how the Solr index works, how to detect a stale index and how to reindex, see [SOLR_CACHE.md](./SOLR_CACHE.md).
 
 ---
 

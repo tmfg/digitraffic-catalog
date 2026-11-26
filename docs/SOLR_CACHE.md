@@ -10,7 +10,11 @@ ckan search-index rebuild
 
 ## What is Solr Cache?
 
-Solr is CKAN's search engine. It caches indexed packages as JSON for fast API responses.
+Solr is CKAN's search engine. It caches indexed packages as JSON for fast API responses. When a package is indexed:
+
+1. Package data is converted to a dict
+2. The dict is validated against the schema
+3. The resulting dict is cached in Solr
 
 ```
 API request for package data
@@ -20,7 +24,7 @@ Check Solr cache (fast)
   ↓ [cache miss] → query database
 ```
 
-**Problem:** When database changes but cache doesn't, API returns stale data.
+**Problem:** When database changes but cache doesn't, API returns stale data. Solr doesn't know about changes made to the database until the packages are reindexed.
 
 ---
 
@@ -63,6 +67,10 @@ for id in <id1> <id2> <id3>; do
     ckan search-index rebuild "$id"
 done
 ```
+
+### If the CKAN CLI is unavailable
+
+Arrange for an operator with access to the CKAN environment to run `ckan search-index rebuild <package-id>`. Do not delete Solr documents as a cache-refresh substitute: deleted datasets remain absent from search until CKAN reindexes them.
 
 ---
 
