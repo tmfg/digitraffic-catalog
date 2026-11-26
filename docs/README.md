@@ -71,6 +71,78 @@ Bookmark [SCHEMA_CHANGES_QUICK_REFERENCE.md](./SCHEMA_CHANGES_QUICK_REFERENCE.md
 
 ---
 
+## Common Issues & Troubleshooting
+
+### API Returns Old Data Format After Migration
+
+**Symptom:** After deploying a schema change that transforms data format, API responses show the old format while the database contains the new format.
+
+**Example:** Migration transforms `assessment` from nested repeating field to flat fields (`assessment_date`, `assessment_result`), but `package_show()` API still returns nested format.
+
+**Root Cause:** Solr search index cache wasn't updated. API uses Solr cache by default for performance; when data format changes but cache isn't cleared, API returns stale cached data.
+
+**Solution:**
+
+```bash
+# After deployment, if you see old data format in API:
+ckan search-index rebuild
+
+# This rebuilds the Solr cache from the updated database
+# API will then return new format
+```
+
+**How to verify the issue:**
+
+```bash
+# 1. Check database (should show new format)
+ckan-db query "SELECT extras FROM package WHERE id='<dataset-id>' LIMIT 1"
+
+# 2. Check API (may show old format if cache stale)
+curl http://localhost:5000/api/3/action/package_show?id=<dataset-id>
+
+# 3. If formats differ, rebuild cache
+ckan search-index rebuild
+```
+
+**Learn more:** See [SOLR_CACHE.md](./SOLR_CACHE.md) for detailed troubleshooting and cache management.
+
+---
+
+### "Field not found" Errors in Forms After Migration
+
+**Symptom:** After deploying schema changes, form submission fails with validation errors about missing fields.
+
+**Root Cause:** Form template, schema definition, or data model layers got out of sync. All 8 layers (see below) must be aligned.
+
+**Solution:**
+
+1. Check [SCHEMA_CHANGES_QUICK_REFERENCE.md](./SCHEMA_CHANGES_QUICK_REFERENCE.md) - run through checklist
+2. Verify all 8 layers updated (see "The 8 Layers" section below)
+3. Run tests to catch mismatches: `pytest -v`
+
+---
+
+## Migration Guides
+
+### 📚 [DATABASE_MIGRATIONS.md](./DATABASE_MIGRATIONS.md)
+
+Comprehensive guide to database migrations. Best for:
+- Creating new migrations
+- Understanding Solr cache issues
+- Troubleshooting migration failures
+- Testing migrations on staging
+- Post-deployment procedures for format-changing migrations
+
+### ⚡ [SOLR_CACHE.md](./SOLR_CACHE.md)
+
+Quick reference for Solr search index cache. Best for:
+- Quick fix when API shows old data: `ckan search-index rebuild`
+- Understanding why cache becomes stale
+- Detecting stale cache in production
+- Verifying cache is fresh after migrations
+
+---
+
 ## The 8 Layers (TL;DR)
 
 When changing property cardinalities, you must update these **in order**:

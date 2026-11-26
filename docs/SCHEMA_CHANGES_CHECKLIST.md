@@ -532,7 +532,70 @@ See reference implementations:
   # SQL must do the same with ::jsonb cast
   ```
 
-- [ ] **For `0..1 → 0..n` (single to repeating):**
+---
+
+#### Special Case: Format-Changing Migrations
+
+When your migration **transforms the data format** (e.g., 0..n → 0..1 cardinality change, or restructuring how data is stored), you MUST handle Solr cache separately from the database UPDATE:
+
+**Why separate Solr handling:**
+
+1. **Raw SQL doesn't trigger Solr rebuild:** Database UPDATE runs in migration context (Alembic), which doesn't have full CKAN app initialized. Solr cache remains stale until manually rebuilt.
+
+2. **Don't call CKAN functions from migrations:** Functions like `rebuild(package_id)` from `ckan.lib.search` require full CKAN context (plugin system, model session, config) that Alembic doesn't provide. Calling them will fail silently (exception caught, logged as warning).
+
+3. **API data inconsistency:** If Solr cache isn't cleared, `package_show()` API returns old cached format while database contains new format. This confuses users.
+
+**Solution: Post-deployment manual step**
+
+Add a clear log message in your migration docstring and upgrade() function telling deployers to rebuild the search index after deployment:
+
+```python
+"""Migration: Transform assessment format from repeating to flat
+
+This migration transforms assessment from:
+  "assessment": "[{"date": "...", "result": "..."}]"
+To:
+  "assessment_date": "..."
+  "assessment_result": "..."
+
+NOTE: Solr search index must be manually rebuilt after deployment to update
+cached data. Run this after deployment completes:
+
+    ckan search-index rebuild
+
+If you see old data format in API responses after deployment, that's a stale
+Solr cache - run the command above to fix it.
+"""
+
+def upgrade():
+    bind = op.get_bind()
+    
+    # ... your database transformation SQL ...
+    
+    result = bind.execute(transform_query)
+    updated_count = result.rowcount
+    
+    log.info(f"Transformed assessment format for {updated_count} packages")
+    
+    if updated_count > 0:
+        log.info("""
+        Migration complete. If API responses show old format, run:
+            ckan search-index rebuild
+        """)
+```
+
+**Why this approach:**
+
+- ✅ Simple and reliable (manual step is guaranteed to work)
+- ✅ No complex CKAN API calls in Alembic context
+- ✅ Clear communication to deployers
+- ✅ Can be retried if needed (idempotent)
+- ✅ Works with existing deployment procedures
+
+---
+
+**Migration for 0..1 → 0..n (single to repeating):**
   - Transform flat extras → list structure via UPDATE SQL query
   - Use JSONB operators to build arrays, e.g., `jsonb_build_array(jsonb_build_object(...))`
   - Handle NULL/missing values (don't include in transformed data)
@@ -555,7 +618,7 @@ See reference implementations:
       bind.execute(query)
   ```
 
-- [ ] **For `0..n → 0..1` (repeating to single):**
+**Migration for 0..n → 0..1 (repeating to single):**
   - Transform array structure → flat extras via UPDATE SQL query
   - Extract first element if multiple exist (log warning)
   - **REMEMBER: Repeating fields are JSON-encoded STRINGS - use `::jsonb` cast!**
@@ -624,47 +687,10 @@ See reference implementations:
   **Why:** Scheming stores repeating fields as JSON-encoded STRINGS in JSONB. After rollback, the old Scheming schema will try to `json.loads()` the value. If it receives a native JSONB array instead, the conversion fails.
 
 - [ ] **Add logging:** Log transformation counts and any warnings
-- [ ] **Rebuild search index:** Trigger search index rebuild for affected packages after migration
-  
-  > **⚠️ CRITICAL:** Raw SQL UPDATE queries update the database but don't trigger Solr reindex. This creates data inconsistency: `package_search` API returns stale data until manually reindexed. The migration must rebuild the search index for all affected packages.
-  
-  > **⚠️ ORDERING MATTERS:** Capture package IDs BEFORE running the UPDATE, since the UPDATE removes the keys used in the WHERE clause. Query first, UPDATE second, rebuild after.
-  
-  Add to upgrade() and downgrade():
-  ```python
-  from ckan.lib.search import rebuild
-  
-  # Step 1: Capture IDs BEFORE the UPDATE (must run first!)
-  get_package_ids_query = text("""
-      SELECT id FROM package
-      WHERE extras->>'<old_field>' IS NOT NULL
-      AND state = 'active'
-  """)
-  
-  # Step 2: Run query to capture IDs
-  id_result = bind.execute(get_package_ids_query)
-  package_ids = [row[0] for row in id_result.fetchall()]
-  
-  # Step 3: Run the UPDATE
-  result = bind.execute(transform_query)
-  
-  # Step 4: Rebuild search index for the captured IDs
-  if rebuild and package_ids:
-      for package_id in package_ids:
-          try:
-              rebuild(package_id=package_id)
-          except Exception as e:
-              log.warning(f"Failed to rebuild search index for {package_id}: {e}")
-      
-      log.info(f"Rebuilt search index for {len(package_ids)} packages")
-  ```
-  
-  Add the same pattern to `downgrade()` to ensure rollback also rebuilds the index.
-
 - [ ] **Test on PostgreSQL:** Database is PostgreSQL 12+, migration uses PostgreSQL JSONB features
 - [ ] **Verify:** Test migration on staging database before prod deployment
 
-**Why:** Database stores dataset metadata as JSONB in `package.extras` column. Must transform existing data format before application code accesses new structure. Must also rebuild search index to keep Solr and database in sync.
+**Why:** Database stores dataset metadata as JSONB in `package.extras` column. Must transform existing data format before application code accesses new structure. Must also ensure Solr cache stays in sync after format-changing migrations.
 
 ---
 
