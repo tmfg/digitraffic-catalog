@@ -325,21 +325,9 @@ for id in d5492f5a-9d50-4286-9374-4225cb0fe3d2 ...; do
 done
 ```
 
-**Manual: Clear via Solr API**
+**If the CKAN CLI is unavailable**
 
-If CLI not available (requires Solr connection access):
-
-```bash
-# Clear specific package from Solr
-curl -X POST -H "Content-Type: text/xml" \
-  --data '<delete><id>d5492f5a-9d50-4286-9374-4225cb0fe3d2</id></delete>' \
-  http://localhost:8983/solr/ckan/update
-
-# Commit changes
-curl -X POST -H "Content-Type: text/xml" \
-  --data '<commit/>' \
-  http://localhost:8983/solr/ckan/update
-```
+Arrange for an operator with access to the CKAN environment to run `ckan search-index rebuild <package-id>`. Do not delete Solr documents as a cache-refresh substitute: deleted datasets remain absent from search until CKAN reindexes them.
 
 ### Verifying Cache Is Fresh
 
